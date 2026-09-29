@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>前往深蓝岛（列车与萨伊尔海岸） · 单元卡 · 维度之下</title><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local')</script><style>
+:root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
+  --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+:root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
+  background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
+:root[data-theme="light"] body { background:var(--paper); }
+a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
+
+/* nav: the rail */
+.rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
+.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; }
+.brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
+.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.2em; margin-left:8px; }
+.rail nav { display:flex; gap:14px; flex-wrap:wrap; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:2px 0; border-bottom:2px solid transparent; }
+.rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
+.rail .toggle-label { margin-left:auto; }
+.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+
+/* sources switch */
+.toggle { position:absolute; opacity:0; pointer-events:none; }
+.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:0 8px; cursor:pointer; user-select:none; }
+#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.ch, sup.cite, details.src, .src-only { display:none; }
+#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main sup.cite { display:inline; }
+#show-src:checked ~ main details.src { display:inline; }
+#show-src:checked ~ main .src-only { display:block; }
+#show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
+sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
+details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
+
+/* headings and text */
+h1, h2, h3, h4 { font-family:var(--serif); }
+h2.sign { display:inline-block; font-size:20px; margin:34px 0 10px; padding:4px 14px; background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-bottom:2px solid var(--signal); border-radius:4px; letter-spacing:.12em; }
+h3 { font-size:19px; margin:26px 0 8px; padding-left:12px; border-left:4px solid var(--signal); }
+h4 { font-size:15px; margin:16px 0 4px; color:var(--brass); letter-spacing:.06em; }
+.note { color:var(--muted); font-size:14px; margin:4px 0; }
+.meta { color:var(--muted); font-size:13px; }
+ul { margin:0; padding-left:20px; } li { margin:6px 0; }
+.chipline { display:flex; flex-wrap:wrap; gap:6px 8px; margin:8px 0; }
+.chipline a, .chip { background:var(--chip); color:var(--ink); border-radius:3px; padding:1px 9px; font-size:13px; white-space:nowrap; }
+
+/* the ticket (page header of a unit card, index entries) */
+.ticket { display:flex; background:linear-gradient(135deg, var(--card-2), var(--card)); border:1px solid var(--line); border-radius:10px; margin:18px 0 8px; position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.ticket-main { flex:1; padding:18px 22px 16px; min-width:0; position:relative; }
+.ticket-stub { width:170px; padding:16px 18px; border-left:2px dashed var(--line); position:relative; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.ticket-stub::before, .ticket-stub::after { content:""; position:absolute; left:-11px; width:20px; height:20px; border-radius:50%; background:var(--paper); border:1px solid var(--line); }
+.ticket-stub::before { top:-11px; } .ticket-stub::after { bottom:-11px; }
+.kicker { font-size:12px; letter-spacing:.3em; color:var(--signal); }
+.ticket h1 { font-size:34px; margin:2px 0 4px; letter-spacing:.06em; }
+.route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
+.stub-row { font:12px var(--mono); color:var(--muted); }
+.stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+.stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
+  display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
+.stamp small { font-size:10px; margin-left:1px; }
+
+/* the dark system panel for text the game shows */
+.sys { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px; padding:10px 14px; margin:8px 0; font:14px/1.75 var(--serif); }
+.sys::before { content:"【系统】"; color:var(--brass); margin-right:4px; font-family:var(--sans); font-size:12px; letter-spacing:.1em; }
+.sys b { color:var(--brass); font:600 12px var(--sans); margin-right:6px; }
+
+/* grade badge */
+.grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
+  color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
+.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+
+footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
+@media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+
+.layer { margin:6px 0 18px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary::-webkit-details-marker { display:none; }
+.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
+.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer:not([open]) > summary::after { content:"展开"; }
+section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
+ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
+ul.people li:last-child { border-bottom:none; }
+.thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
+details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); }
+svg { width:100%; height:auto; display:block; }
+svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
+svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
+svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
+details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+.links { margin:8px 0; } .links b { display:inline-block; width:3em; color:var(--brass); font-weight:600; }
+.links a { margin-right:12px; white-space:nowrap; }
+.hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
+nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
+nav.arcs a:hover { color:var(--signal); }
+h4[id] { scroll-margin-top:16px; }
+</style></head>
+<body><input type="checkbox" id="show-src" class="toggle"><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
+<h1>前往深蓝岛（列车与萨伊尔海岸）</h1><div class="route">第 414 章 ──── 第 418 章</div><p class="hint">没读过前文？先看<a href="../world.html">世界观</a>，这里不重复解释游戏设定。</p></div>
+<div class="ticket-stub"><div class="stub-row"><b>单元</b>u0023</div><div class="stub-row"><b>句数</b>45</div>
+<div class="stub-row"><b>引用</b>29 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<p class="meta">撰写：claude-opus-5-5 (claude-code session)，读第 414–418 章正文后撰写。每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p>
+<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。</span></summary><section id="overview"><h3>一句话</h3>
+<ul class="items"><li><span class="text">徐获戴着“演员的面具”坐上去萨伊尔海岸的列车，一上车就被楚源的道具“七天民政局”拴在了一起，七天里一人受伤两人都疼。海岸由伯伦家族说了算，玩家来这里多半是为了到海岛副本里挖矿；两人登记去深蓝实验室，徐获顺势提议合作，第二天和苗羽、何春升等几十号人同船驶向深蓝岛。</span><span class="ch">第 414、416–418 章</span></li><li><span class="text">主线段，第 414–418 章：章首还在 011 区（白蔻找冬先生讨范肖的尸身），随后是两天的列车和萨伊尔海岸的一天；下一段是 D 级副本“天黑不开门”（第 419 章起）。</span><span class="ch">第 414、418 章</span></li></ul>
+</section>
+<section id="cast"><h3>登场人物</h3>
+<p class="note">按出场先后。车上多数人没有报名字，按外貌称呼。</p>
+<ul class="people"><li><b class="subject"><a href="../people.html#person-%E8%9D%B4%E8%9D%B6%E5%A4%AB%E4%BA%BA">白蔻</a>、<a href="../people.html#person-%E5%86%AC%E5%85%88%E7%94%9F">冬先生</a></b><span class="text">章首的月季花古堡：白蔻（蝴蝶夫人）逼管家冬先生交出范肖叔叔的尸身。</span><span class="ch">第 414 章</span></li><li><b class="subject"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a></b><span class="text">用“演员的面具”换了张老实巴交的脸，登记时报的名字是“徐知”，要去深蓝实验室做一个 D 级副本。</span><span class="ch">第 414–415、417 章</span></li><li><b class="subject">楚源</b><span class="text">车上炫耀道具时把徐获套进了“七天民政局”；嘴硬，自称独狼，脸上戴着长满尖刺的面具。</span><span class="ch">第 414、418 章</span></li><li><b class="subject">舌钉女孩</b><span class="text">拿出鉴谎道具“真理之口”起哄的女玩家，给徐获讲伯伦家族和萨伊尔海岸。</span><span class="ch">第 414–416 章</span></li><li><b class="subject">魁梧的纹身玩家</b><span class="text">拿萨伊尔海岸的规矩摁住想动手的楚源。</span><span class="ch">第 414–415 章</span></li><li><b class="subject">口罩玩家（毛威）</b><span class="text">佝偻着背、头发遮眼，在洗手间外两次说能帮他们解开绳子；登记时也去深蓝实验室。</span><span class="ch">第 415、417 章</span></li><li><b class="subject">黑泳裙女人</b><span class="text">按摩店的店员，替徐获代买登岛用品。</span><span class="ch">第 417–418 章</span></li><li><b class="subject">苗羽</b><span class="text">高挑的女玩家，把闹事的何春升扔出饭店，和楚源一见如故，也去深蓝实验室。</span><span class="ch">第 418 章</span></li><li><b class="subject">何春升</b><span class="text">被苗羽扔出饭店时短刀划破了楚源的道具外套，第二天同船去深蓝实验室。</span><span class="ch">第 418 章</span></li><li><b class="subject">邓博士</b><span class="text">同船的中年男人，对深蓝岛了解不少。</span><span class="ch">第 418 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
+<h4 id="story-1">一、一根红绳（第 414–415 章）</h4>
+<p class="prose">章首接上一段：月季花古堡里，白蔻逼冬先生说出范肖叔叔的尸身在哪，说他不过是一件勉强有了人的思维的特殊道具，拆了皮就只能变回玩具蜘蛛。冬先生脸色阴郁，身后的黑暗从古堡角落里爬了出来。<sup class="cite" title="第414章：黑暗从古堡的角落里快速爬出">414</sup>去深蓝实验室站点的列车上，徐获一被传送到座位上，就踩进了邻座楚源向女玩家炫耀的道具：脚下的红光缩成一条红索，把两人的手腕连在一起。<sup class="cite" title="第414章：红光就快速缩到他右腕变成了一条红索">414</sup>楚源说这件道具叫七天民政局，套上就进入“婚姻关系”，七天后才自动解除；期间一方受伤，另一方也感同身受。舌钉女孩掏出会咬断说谎者手的“真理之口”，整车人起哄下注，徐获借来一只假手递给楚源。<sup class="cite" title="第414章：要七天后才会自动解除；第414章：赌楚源会不会被切掉手">414</sup>楚源想动手，被魁梧的纹身玩家摁住：这车直达萨伊尔海岸，中途不停，不守玩家的规矩，到了海岸会怎样他心里有数。徐获试探一句“男人和男人真的能结婚？”，楚源心虚地变了脸色。<sup class="cite" title="第414章：这辆车直达萨伊尔海岸，这之后没有下车的地方；第414章：楚源却心虚地变了变脸色">414</sup>这趟车上的玩家大多皮肤黝黑、一身热带打扮，闹起来毫不认生，和以往的列车完全不同。午饭只有面包和煎深蓝鱼，老玩家力荐萨伊尔海岸的生鱼片；后面车厢有人跟乘务员耍横，被扔出了列车。<sup class="cite" title="第414章：和以往的列车氛围完全不同；第415章：紧接着一个人飞出了列车">414–415</sup>楚源上洗手间时，一个戴口罩的玩家两次提出帮他们解开绳子。徐获一扯绳子打断了谈话，回头反问楚源：“你碰到过这么好心的人吗？”<sup class="cite" title="第415章：你碰到过这么好心的人吗？">415</sup>熄灯后整列车死一般安静。第二天一早列车通知：头等座两名玩家失去了萨伊尔海岸的招待资格，到了海岸没有船会载他们。舌钉女孩说，萨伊尔海岸是伯伦家族说了算。<sup class="cite" title="第415章：头等座车厢内两名玩家失去了萨伊尔海岸招待资格；第415章：海岸上的事当然是他们说了算">415</sup></p><details class="src block"><summary>本段原文 11 处</summary><blockquote>黑暗从古堡的角落里快速爬出<cite>第 414 章 · p0003</cite></blockquote><blockquote>红光就快速缩到他右腕变成了一条红索<cite>第 414 章 · p0007</cite></blockquote><blockquote>要七天后才会自动解除<cite>第 414 章 · p0012</cite></blockquote><blockquote>赌楚源会不会被切掉手<cite>第 414 章 · p0021</cite></blockquote><blockquote>这辆车直达萨伊尔海岸，这之后没有下车的地方<cite>第 414 章 · p0033</cite></blockquote><blockquote>楚源却心虚地变了变脸色<cite>第 414 章 · p0040</cite></blockquote><blockquote>和以往的列车氛围完全不同<cite>第 414 章 · p0022</cite></blockquote><blockquote>紧接着一个人飞出了列车<cite>第 415 章 · p0015</cite></blockquote><blockquote>你碰到过这么好心的人吗？<cite>第 415 章 · p0032</cite></blockquote><blockquote>头等座车厢内两名玩家失去了萨伊尔海岸招待资格<cite>第 415 章 · p0039</cite></blockquote><blockquote>海岸上的事当然是他们说了算<cite>第 415 章 · p0044</cite></blockquote></details>
+<h4 id="story-2">二、黄金海岸（第 416–417 章）</h4>
+<p class="prose">老玩家给新人“科普”：萨伊尔海岸周围矿产丰富，伯伦家族每年往这里送大量玩家，登记了副本就集中派船、食宿便宜，代价是带出的珍贵矿石至少卖给他们三分之一。还有传说，附近的洋流跨越多个空间，海上漂着一座全是矿石的矿石岛。<sup class="cite" title="第416章：至少要卖三分之一给伯伦家族；第416章：还有一个全部是矿石的矿石岛">416</sup>车站建在海上，通往海岸的路两边全是酒吧和商店，二十块广告屏循环播着欢迎玩家的广告。下车后徐获没收到副本提示，判断深蓝实验室只是个地名；楚源也要去那里。<sup class="cite" title="第416章：通向萨伊尔海岸的路上，这样的广告屏竟然多达二十个；第416章：所以深蓝实验室应该就是一个地名">416</sup>登记时，口罩玩家也站到了他们身后，报名毛威，同样去深蓝实验室；徐获报的名字是“徐知”。老头给了登岸卡和免费住伊丽丝酒店的名片：明天正好有船，下一趟要等多久说不准。<sup class="cite" title="第417章：这是口罩玩家的名字；第417章：恰好明天就有船去深蓝实验室">417</sup>包一条能在萨伊尔海上安全走的船，少说十万白钞起步，徐获说没钱包船，两人只能明天就走。他拿着老头送的优惠券进了按摩店，让店里代买登岛用品，自己一边做机器人按摩一边看采购视频。<sup class="cite" title="第417章：能够安全在萨伊尔海上行走的船只少说十万白钞起步">417</sup>楚源买了潜水套装、矿石检测器和抗辐射药；徐获另买了收缩皮艇、防护服、防辐射睡袋和变异物种的体液，挖矿的工具一样没买。他不是冲着矿石来的，头疼的是还要和楚源绑四天。<sup class="cite" title="第417章：他不是冲着矿石来的；第417章：还要绑上四天，进了副本会很不方便">417</sup></p><details class="src block"><summary>本段原文 9 处</summary><blockquote>至少要卖三分之一给伯伦家族<cite>第 416 章 · p0007</cite></blockquote><blockquote>还有一个全部是矿石的矿石岛<cite>第 416 章 · p0023</cite></blockquote><blockquote>通向萨伊尔海岸的路上，这样的广告屏竟然多达二十个<cite>第 416 章 · p0038</cite></blockquote><blockquote>所以深蓝实验室应该就是一个地名<cite>第 416 章 · p0041</cite></blockquote><blockquote>这是口罩玩家的名字<cite>第 417 章 · p0005</cite></blockquote><blockquote>恰好明天就有船去深蓝实验室<cite>第 417 章 · p0006</cite></blockquote><blockquote>能够安全在萨伊尔海上行走的船只少说十万白钞起步<cite>第 417 章 · p0014</cite></blockquote><blockquote>他不是冲着矿石来的<cite>第 417 章 · p0049</cite></blockquote><blockquote>还要绑上四天，进了副本会很不方便<cite>第 417 章 · p0049</cite></blockquote></details>
+<h4 id="story-3">三、驶向深蓝岛（第 418 章）</h4>
+<p class="prose">徐获问哪里能买枪，店员说萨伊尔海岸没人买卖枪支，何况枪一般也带不进副本。去酒店的路上，楚源提出进副本前说好不能内讧，徐获顺势提议合作；楚源说自己一向是独狼。<sup class="cite" title="第418章：反正已经绑在一起，不如我们合作？；第418章：独狼一匹！”楚源很是自得地道">418</sup>一个玩家砸碎玻璃从饭店里飞出来，短刀划破了楚源的道具外套。楚源被绳子拖着，一拳没打实，对方反手扇他一巴掌，倒被他脸上长满尖刺的面具扎得惨叫，捂着满手血跑了。<sup class="cite" title="第418章：对方手里的短刀瞬间划破他的袖子；第418章：楚源一摸脸上长满尖刺的面具">418</sup>把人扔出来的高挑女玩家苗羽和楚源一见如故，也住伊丽丝酒店；楚源介绍徐获是自己的“小弟”。苗羽说只听过时空系道具互相排斥会失效，拿她的 B 级弧刀也切不断那根绳子。<sup class="cite" title="第418章：这是我小弟。”楚源拍拍徐获的肩膀；第418章：B级道具都无可奈何">418</sup>第二天一早，他们搭快船去深蓝实验室：深蓝岛岛心一处废弃的实验地点，平时只有玩家登岛。同船的有苗羽，还有昨天划破楚源外套的何春升。<sup class="cite" title="第418章：这个男人就是昨天和楚源起冲突的那个，名字叫何春升">418</sup>何春升问深蓝岛是不是又叫魔鬼岛。邓博士说，雷雨天的骷髅云只是强风从骷髅形的地缝吹出来的，嘶吼声是风声和动物叫声，真正要当心的是岛上野生动物带的细菌和毒素。徐获告诉楚源，网上有传闻说深蓝岛闹鬼。<sup class="cite" title="第418章：我听说深蓝岛又被叫做魔鬼岛是不是；第418章：有传闻说深蓝岛闹鬼">418</sup></p><details class="src block"><summary>本段原文 9 处</summary><blockquote>反正已经绑在一起，不如我们合作？<cite>第 418 章 · p0009</cite></blockquote><blockquote>独狼一匹！”楚源很是自得地道<cite>第 418 章 · p0010</cite></blockquote><blockquote>对方手里的短刀瞬间划破他的袖子<cite>第 418 章 · p0013</cite></blockquote><blockquote>楚源一摸脸上长满尖刺的面具<cite>第 418 章 · p0016</cite></blockquote><blockquote>这是我小弟。”楚源拍拍徐获的肩膀<cite>第 418 章 · p0023</cite></blockquote><blockquote>B级道具都无可奈何<cite>第 418 章 · p0029</cite></blockquote><blockquote>这个男人就是昨天和楚源起冲突的那个，名字叫何春升<cite>第 418 章 · p0039</cite></blockquote><blockquote>我听说深蓝岛又被叫做魔鬼岛是不是<cite>第 418 章 · p0038</cite></blockquote><blockquote>有传闻说深蓝岛闹鬼<cite>第 418 章 · p0045</cite></blockquote></details>
+</section>
+<section id="callbacks"><h3>承接前文</h3>
+<p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
+<ul class="items"><li><a class="thread-no" href="../threads.html#thread-120" title="伏笔总表">#120</a><span class="text">白蔻和冬先生：上一段末尾揭开何普就是 V·范肖、蝴蝶夫人真名白蔻，冬先生说不知道何普的尸身在哪；白蔻不信，认定尸身就在古堡。</span><span class="ch">第 414 章</span></li><li><span class="text">“演员的面具”是徐获杀死木剑玩家后收到的特殊道具，这次用来换一张老实巴交的脸。</span><span class="ch">第 414 章</span></li><li><span class="text">解绳子时，徐获在车上试过鲜红的剑和从 011 区带出来的袖珍切割器，都没用。</span><span class="ch">第 418 章</span></li><li><span class="text">乘务员能驱逐玩家，是初审列车上提示过的规则；之后的列车不再提示，但照样有效。以往列车的后厨由永星餐厅承包，这趟换成了萨伊尔海岸。</span><span class="ch">第 415 章</span></li></ul>
+</section>
+<section id="relations"><h3>关键关系</h3>
+<p class="note">一对人物只画一条线：绿色是同伴，橙色是冲突，红色箭头是杀死，灰色是其他往来；虚线表示某人的说法或推断。</p>
+<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+</defs>
+<g class="edge"><title>徐获 — 红绳相连，合作 — 楚源（第 414、418 章）</title><path d="M461.1,106.6 Q476.6,187.4 489.9,256.3" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>白蔻 — 逼问范肖尸身 — 冬先生（第 414 章）</title><path d="M75.4,200.4 Q97.2,138.7 114.9,88.2" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>毛威 — 说能解绳子 — 楚源（第 415 章）</title><path d="M641.2,219.1 Q566.7,243.6 503.6,264.4" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>楚源 — 外套被划破 — 何春升（第 418 章）</title><path d="M492.2,268.1 Q490.4,344.1 489.0,408.0" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>苗羽 — 扔出饭店 — 何春升（第 418 章）</title><path d="M379.2,376.2 Q433.9,398.1 477.6,415.5" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>苗羽 — 一见如故 — 楚源（第 418 章）</title><path d="M379.2,376.2 Q435.7,322.1 483.5,276.4" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<text x="476.7" y="191.4" class="elabel" style="fill:#4fbf7f">红绳相连，合作</text>
+<text x="97.2" y="142.7" class="elabel" style="fill:#f0904f">逼问范肖尸身</text>
+<text x="566.7" y="247.6" class="elabel" style="fill:#8d95a3">说能解绳子</text>
+<text x="490.4" y="348.1" class="elabel" style="fill:#f0904f">外套被划破</text>
+<text x="433.9" y="402.1" class="elabel" style="fill:#f0904f">扔出饭店</text>
+<text x="435.7" y="326.1" class="elabel" style="fill:#8d95a3">一见如故</text>
+<g class="node"><circle cx="492.2" cy="268.1" r="12.0"/><text x="492.2" y="250.1" class="name">楚源</text></g>
+<g class="node"><circle cx="488.7" cy="420" r="10.8"/><text x="488.7" y="403.2" class="name">何春升</text></g>
+<g class="node"><circle cx="379.2" cy="376.2" r="10.8"/><text x="379.2" y="359.4" class="name">苗羽</text></g>
+<g class="node"><circle cx="461.1" cy="106.6" r="10.0"/><text x="461.1" y="90.6" class="name">徐获</text></g>
+<g class="node"><circle cx="75.4" cy="200.4" r="10.0"/><text x="75.4" y="184.4" class="name">白蔻</text></g>
+<g class="node"><circle cx="118.9" cy="76.9" r="10.0"/><text x="118.9" y="60.9" class="name">冬先生</text></g>
+<g class="node"><circle cx="641.2" cy="219.1" r="10.0"/><text x="641.2" y="203.1" class="name">毛威</text></g>
+</svg></div>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text">徐获 — 红绳相连，合作 — 楚源</span><span class="ch">第 414、418 章</span></li><li><span class="text">白蔻 — 逼问范肖尸身 — 冬先生</span><span class="ch">第 414 章</span></li><li><span class="text">毛威 — 说能解绳子 — 楚源</span><span class="ch">第 415 章</span></li><li><span class="text">楚源 — 外套被划破 — 何春升</span><span class="ch">第 418 章</span></li><li><span class="text">苗羽 — 扔出饭店 — 何春升</span><span class="ch">第 418 章</span></li><li><span class="text">苗羽 — 一见如故 — 楚源</span><span class="ch">第 418 章</span></li></ul></details>
+</section>
+<section id="threads"><h3>伏笔与未解</h3>
+<p class="note">截至第 418 章还没有交代的事。</p>
+<ul class="items"><li><a class="thread-no" href="../threads.html#thread-120" title="伏笔总表">#120</a><span class="text">冬先生身后爬出的黑暗；范肖的尸身到底在不在古堡。</span><span class="ch">第 414 章</span></li><li><a class="thread-no" href="../threads.html#thread-123" title="伏笔总表">#123</a><span class="text">楚源对七天民政局没说全：被问两个男人能不能结婚时，他心虚了。</span><span class="ch">第 414 章</span></li><li><a class="thread-no" href="../threads.html#thread-124" title="伏笔总表">#124</a><span class="text">口罩玩家毛威为什么主动要帮人解绳子，又和他们去了同一个地方。</span><span class="ch">第 415、417 章</span></li><li><a class="thread-no" href="../threads.html#thread-126" title="伏笔总表">#126</a><span class="text">徐获说自己不是冲着矿石来的，他去深蓝实验室要做什么；买收缩皮艇、变异物种的体液又是为了什么。</span><span class="ch">第 417 章</span></li><li><a class="thread-no" href="../threads.html#thread-125" title="伏笔总表">#125</a><span class="text">伯伦家族的身份认证据说和特性挂钩，换了脸也躲不过。</span><span class="ch">第 416 章</span></li><li><a class="thread-no" href="../threads.html#thread-127" title="伏笔总表">#127</a><span class="text">深蓝实验室为什么被废弃，深蓝岛闹鬼的传闻。</span><span class="ch">第 418 章</span></li></ul>
+</section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E8%BD%A6%E7%A5%A8%E4%B8%8E%E5%89%AF%E6%9C%AC">车票与副本</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%8E%88%E6%9D%83%E4%B9%A6">副本授权书与副本 BOSS</a><a href="../world.html#world-%E5%88%97%E8%BD%A6%E8%A7%84%E5%88%99">列车与乘务员</a><a href="../world.html#world-%E9%81%93%E5%85%B7">道具</a><a href="../world.html#world-%E8%90%A8%E4%BC%8A%E5%B0%94%E6%B5%B7%E5%B2%B8">萨伊尔海岸</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a><a href="../items.html#item-%E9%B2%9C%E7%BA%A2%E7%9A%84%E5%89%91">鲜红的剑</a><a href="../items.html#item-%E6%BC%94%E5%91%98%E7%9A%84%E9%9D%A2%E5%85%B7">演员的面具</a><a href="../items.html#item-%E4%B8%83%E5%A4%A9%E6%B0%91%E6%94%BF%E5%B1%80">七天民政局</a><a href="../items.html#item-%E7%9C%9F%E7%90%86%E4%B9%8B%E5%8F%A3">真理之口</a></p></section></details>
+
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由整理者撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。</footer>
+</main></body></html>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>五维车站（初审后） · 单元卡 · 维度之下</title><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local')</script><style>
+:root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
+  --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+:root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
+  background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
+:root[data-theme="light"] body { background:var(--paper); }
+a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
+
+/* nav: the rail */
+.rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
+.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; }
+.brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
+.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.2em; margin-left:8px; }
+.rail nav { display:flex; gap:14px; flex-wrap:wrap; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:2px 0; border-bottom:2px solid transparent; }
+.rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
+.rail .toggle-label { margin-left:auto; }
+.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+
+/* sources switch */
+.toggle { position:absolute; opacity:0; pointer-events:none; }
+.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:0 8px; cursor:pointer; user-select:none; }
+#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.ch, sup.cite, details.src, .src-only { display:none; }
+#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main sup.cite { display:inline; }
+#show-src:checked ~ main details.src { display:inline; }
+#show-src:checked ~ main .src-only { display:block; }
+#show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
+sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
+details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
+
+/* headings and text */
+h1, h2, h3, h4 { font-family:var(--serif); }
+h2.sign { display:inline-block; font-size:20px; margin:34px 0 10px; padding:4px 14px; background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-bottom:2px solid var(--signal); border-radius:4px; letter-spacing:.12em; }
+h3 { font-size:19px; margin:26px 0 8px; padding-left:12px; border-left:4px solid var(--signal); }
+h4 { font-size:15px; margin:16px 0 4px; color:var(--brass); letter-spacing:.06em; }
+.note { color:var(--muted); font-size:14px; margin:4px 0; }
+.meta { color:var(--muted); font-size:13px; }
+ul { margin:0; padding-left:20px; } li { margin:6px 0; }
+.chipline { display:flex; flex-wrap:wrap; gap:6px 8px; margin:8px 0; }
+.chipline a, .chip { background:var(--chip); color:var(--ink); border-radius:3px; padding:1px 9px; font-size:13px; white-space:nowrap; }
+
+/* the ticket (page header of a unit card, index entries) */
+.ticket { display:flex; background:linear-gradient(135deg, var(--card-2), var(--card)); border:1px solid var(--line); border-radius:10px; margin:18px 0 8px; position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.ticket-main { flex:1; padding:18px 22px 16px; min-width:0; position:relative; }
+.ticket-stub { width:170px; padding:16px 18px; border-left:2px dashed var(--line); position:relative; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.ticket-stub::before, .ticket-stub::after { content:""; position:absolute; left:-11px; width:20px; height:20px; border-radius:50%; background:var(--paper); border:1px solid var(--line); }
+.ticket-stub::before { top:-11px; } .ticket-stub::after { bottom:-11px; }
+.kicker { font-size:12px; letter-spacing:.3em; color:var(--signal); }
+.ticket h1 { font-size:34px; margin:2px 0 4px; letter-spacing:.06em; }
+.route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
+.stub-row { font:12px var(--mono); color:var(--muted); }
+.stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+.stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
+  display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
+.stamp small { font-size:10px; margin-left:1px; }
+
+/* the dark system panel for text the game shows */
+.sys { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px; padding:10px 14px; margin:8px 0; font:14px/1.75 var(--serif); }
+.sys::before { content:"【系统】"; color:var(--brass); margin-right:4px; font-family:var(--sans); font-size:12px; letter-spacing:.1em; }
+.sys b { color:var(--brass); font:600 12px var(--sans); margin-right:6px; }
+
+/* grade badge */
+.grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
+  color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
+.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+
+footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
+@media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+
+.layer { margin:6px 0 18px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary::-webkit-details-marker { display:none; }
+.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
+.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer:not([open]) > summary::after { content:"展开"; }
+section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
+ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
+ul.people li:last-child { border-bottom:none; }
+.thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
+details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); }
+svg { width:100%; height:auto; display:block; }
+svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
+svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
+svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
+details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+.links { margin:8px 0; } .links b { display:inline-block; width:3em; color:var(--brass); font-weight:600; }
+.links a { margin-right:12px; white-space:nowrap; }
+.hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
+nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
+nav.arcs a:hover { color:var(--signal); }
+h4[id] { scroll-margin-top:16px; }
+</style></head>
+<body><input type="checkbox" id="show-src" class="toggle"><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
+<h1>五维车站（初审后）</h1><div class="route">第 17 章 ──── 第 17 章</div><p class="hint">没读过前文？先看<a href="../world.html">世界观</a>，这里不重复解释游戏设定。</p></div>
+<div class="ticket-stub"><div class="stub-row"><b>单元</b>u0003</div><div class="stub-row"><b>句数</b>19</div>
+<div class="stub-row"><b>引用</b>11 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<p class="meta">撰写：claude-opus-5-5 (claude-code session)，读第 17 章正文后撰写。每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p>
+<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。</span></summary><section id="overview"><h3>一句话</h3>
+<ul class="items"><li><span class="text">熬过初审列车的徐获清点奖励：玩家编号、特性、道具、药剂和三张车票。他挑了最近一趟车传送到车站，迎面就是两个冒充站务员、想骗他车票的玩家。</span><span class="ch">第 17 章</span></li><li><span class="text">主线段，只有第 17 章；第 18 章起是 E 级副本“砍头魔”，车站里的冲突在那一章收尾。</span><span class="ch">第 17 章</span></li></ul>
+</section>
+<section id="cast"><h3>登场人物</h3>
+<p class="note">按出场先后。车站里的人都没有报名字。</p>
+<ul class="people"><li><b class="subject"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">刚熬过初审列车，成了正式玩家。</span><span class="ch">第 17 章</span></li><li><b class="subject">冒充站务员的两人</b><span class="text">一个瘦高个、一个矮个子，穿着西装，自称站务员要查票；其实自己没有车票。</span><span class="ch">第 17 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
+<h4 id="story-1">清点与出发（第 17 章）</h4>
+<p class="prose">初审的奖励加起来：正式的玩家编号，一个特性，两个道具，四种药剂，一个礼包，三张车票，外加两千奖金。<sup class="cite" title="第17章：多了一个特性，两个道具，四种药剂，一个礼包和三张车票">17</sup>他肩后多了一串和快递女类似的编号，只是颜色数字不同。徐获推测过了初审的正式玩家都有，红色玩家是红色，杀人玩家是黑色。（徐获的推断）<sup class="cite" title="第17章：红色玩家是红色，杀人玩家是黑色">17</sup>他试了新道具“超级跑鞋”和“纵火犯的工具”，选了特性“知情者视角”。和“不会疲劳的双腿”一样，这些都是身体上的进化，只是跟职业挂了钩；徐获由此推断，职业角色完成得越好，开发出的特性可能越多。<sup class="cite" title="第17章：玩家能开发出的特性多多少少都和职业挂钩">17</sup>三瓶草莓味的进化剂下去，进化度到了 10%，游戏提醒此后 P0 药剂的效用越来越低，要去找 P1。他想，药剂越往后越有限，关键还是特性的增长。<sup class="cite" title="第17章：请努力寻找P1药剂吧，也许它就藏在游戏中；第17章：所以关键还是特性的增长">17</sup>自愈剂几乎没用；清洁剂一抹，衣服上的血迹就没了，难怪列车上的红色玩家身上干干净净。他觉得这游戏对普通玩家并不友好。<sup class="cite" title="第17章：难怪在列车上，红色玩家身上一点痕迹都没有；第17章：看起来游戏对普通玩家并不友好">17</sup>车票是一块玻璃片，正面是车站名，背面是车次时间。最近一趟 134 次二十九分钟后发车，他点了传送，落在一座悬在半空的玻璃房车站里。<sup class="cite" title="第17章：玩家选中134次列车，该车次将在二十九分钟后启程；第17章：空荡荡的玻璃房像是漂浮在半空">17</sup>车站里有五个人，两个穿西装的自称站务员要查票。徐获看到悬浮屏上只有一个车次，明白持票的玩家到了才显示车次，他们都没票；他反过来吓唬两人：没票的玩家会被困在车站、饿死，或者被清理掉、扔进高危副本。<sup class="cite" title="第17章：我们是车站的站务员，要检查你的车票；第17章：原来持有车票的玩家到了才会显示车次">17</sup></p><details class="src block"><summary>本段原文 11 处</summary><blockquote>多了一个特性，两个道具，四种药剂，一个礼包和三张车票<cite>第 17 章 · p0001</cite></blockquote><blockquote>红色玩家是红色，杀人玩家是黑色<cite>第 17 章 · p0002</cite></blockquote><blockquote>玩家能开发出的特性多多少少都和职业挂钩<cite>第 17 章 · p0012</cite></blockquote><blockquote>请努力寻找P1药剂吧，也许它就藏在游戏中<cite>第 17 章 · p0019</cite></blockquote><blockquote>所以关键还是特性的增长<cite>第 17 章 · p0022</cite></blockquote><blockquote>难怪在列车上，红色玩家身上一点痕迹都没有<cite>第 17 章 · p0029</cite></blockquote><blockquote>看起来游戏对普通玩家并不友好<cite>第 17 章 · p0030</cite></blockquote><blockquote>玩家选中134次列车，该车次将在二十九分钟后启程<cite>第 17 章 · p0026</cite></blockquote><blockquote>空荡荡的玻璃房像是漂浮在半空<cite>第 17 章 · p0033</cite></blockquote><blockquote>我们是车站的站务员，要检查你的车票<cite>第 17 章 · p0035</cite></blockquote><blockquote>原来持有车票的玩家到了才会显示车次<cite>第 17 章 · p0042</cite></blockquote></details>
+</section>
+<section id="callbacks"><h3>承接前文</h3>
+<p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
+<ul class="items"><li><a class="thread-no" href="../threads.html#thread-003" title="伏笔总表">#003</a><span class="text">快递女肩后的红色编号：过了初审，徐获肩后也有了一串。</span><span class="ch">第 17 章</span></li><li><span class="text">入局时选职业“路人甲”得到的特性“不会疲劳的双腿”，和新特性“知情者视角”一样，都是身体上的进化。</span><span class="ch">第 17 章</span></li><li><span class="text">快递女强大的自愈力、初审列车一等座那名玩家的装死，徐获都归为红色玩家的生命力。</span><span class="ch">第 17 章</span></li><li><span class="text">清洁剂解释了初审列车上的红色玩家为什么身上一点血迹都没有。</span><span class="ch">第 17 章</span></li></ul>
+</section>
+<section id="relations"><h3>关键关系</h3>
+<p class="note">一对人物只画一条线：绿色是同伴，橙色是冲突，红色箭头是杀死，灰色是其他往来；虚线表示某人的说法或推断。</p>
+<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+</defs>
+<g class="edge"><title>冒充站务员的两人 — 想骗车票 — 徐获（第 17 章）</title><path d="M485.1,240.0 Q380.0,240.0 286.9,240.0" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<text x="380.0" y="244.0" class="elabel" style="fill:#f0904f">想骗车票</text>
+<g class="node"><circle cx="485.1" cy="240.0" r="10.0"/><text x="485.1" y="224.0" class="name">冒充站务员的两人</text></g>
+<g class="node"><circle cx="274.9" cy="240.0" r="10.0"/><text x="274.9" y="224.0" class="name">徐获</text></g>
+</svg></div>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text">冒充站务员的两人 — 想骗车票 — 徐获</span><span class="ch">第 17 章</span></li></ul></details>
+</section>
+<section id="threads"><h3>伏笔与未解</h3>
+<p class="note">截至第 17 章还没有交代的事。</p>
+<ul class="items"><li><a class="thread-no" href="../threads.html#thread-011" title="伏笔总表">#011</a><span class="text">肩后的编号纹身能不能破坏或修改。</span><span class="ch">第 17 章</span></li><li><a class="thread-no" href="../threads.html#thread-012" title="伏笔总表">#012</a><span class="text">P1 药剂藏在游戏里的什么地方。</span><span class="ch">第 17 章</span></li><li><a class="thread-no" href="../threads.html#thread-013" title="伏笔总表">#013</a><span class="text">没有车票的玩家留在车站会怎样，游戏没说。</span><span class="ch">第 17 章</span></li></ul>
+</section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E8%BD%A6%E7%A5%A8%E4%B8%8E%E5%89%AF%E6%9C%AC">车票与副本</a><a href="../world.html#world-%E8%BD%A6%E7%AB%99">车站</a><a href="../world.html#world-%E8%81%8C%E4%B8%9A">职业</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E5%89%82">进化剂</a><a href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B">红、黑、白玩家与编号</a><a href="../world.html#world-%E8%8D%AF%E5%89%82">药剂</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E6%AF%9B%E5%8F%91%E7%94%9F%E9%95%BF%E5%89%82">毛发生长剂</a><a href="../items.html#item-%E6%B8%85%E6%B4%81%E5%89%82">清洁剂</a><a href="../items.html#item-%E7%BA%B5%E7%81%AB%E7%8A%AF%E7%9A%84%E5%B7%A5%E5%85%B7">纵火犯的工具</a><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a><a href="../items.html#item-%E8%B6%85%E7%BA%A7%E8%B7%91%E9%9E%8B">超级跑鞋</a></p></section></details>
+
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由整理者撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。</footer>
+</main></body></html>
