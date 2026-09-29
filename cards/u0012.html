@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>小花红红大楼 · 单元卡 · 维度之下</title><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local')</script><style>
+:root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
+  --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+:root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
+  background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
+:root[data-theme="light"] body { background:var(--paper); }
+a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
+
+/* nav: the rail */
+.rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
+.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; }
+.brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
+.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.2em; margin-left:8px; }
+.rail nav { display:flex; gap:14px; flex-wrap:wrap; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:2px 0; border-bottom:2px solid transparent; }
+.rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
+.rail .toggle-label { margin-left:auto; }
+.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+
+/* sources switch */
+.toggle { position:absolute; opacity:0; pointer-events:none; }
+.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:0 8px; cursor:pointer; user-select:none; }
+#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.ch, sup.cite, details.src, .src-only { display:none; }
+#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main sup.cite { display:inline; }
+#show-src:checked ~ main details.src { display:inline; }
+#show-src:checked ~ main .src-only { display:block; }
+#show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
+sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
+details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
+
+/* headings and text */
+h1, h2, h3, h4 { font-family:var(--serif); }
+h2.sign { display:inline-block; font-size:20px; margin:34px 0 10px; padding:4px 14px; background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-bottom:2px solid var(--signal); border-radius:4px; letter-spacing:.12em; }
+h3 { font-size:19px; margin:26px 0 8px; padding-left:12px; border-left:4px solid var(--signal); }
+h4 { font-size:15px; margin:16px 0 4px; color:var(--brass); letter-spacing:.06em; }
+.note { color:var(--muted); font-size:14px; margin:4px 0; }
+.meta { color:var(--muted); font-size:13px; }
+ul { margin:0; padding-left:20px; } li { margin:6px 0; }
+.chipline { display:flex; flex-wrap:wrap; gap:6px 8px; margin:8px 0; }
+.chipline a, .chip { background:var(--chip); color:var(--ink); border-radius:3px; padding:1px 9px; font-size:13px; white-space:nowrap; }
+
+/* the ticket (page header of a unit card, index entries) */
+.ticket { display:flex; background:linear-gradient(135deg, var(--card-2), var(--card)); border:1px solid var(--line); border-radius:10px; margin:18px 0 8px; position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.ticket-main { flex:1; padding:18px 22px 16px; min-width:0; position:relative; }
+.ticket-stub { width:170px; padding:16px 18px; border-left:2px dashed var(--line); position:relative; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.ticket-stub::before, .ticket-stub::after { content:""; position:absolute; left:-11px; width:20px; height:20px; border-radius:50%; background:var(--paper); border:1px solid var(--line); }
+.ticket-stub::before { top:-11px; } .ticket-stub::after { bottom:-11px; }
+.kicker { font-size:12px; letter-spacing:.3em; color:var(--signal); }
+.ticket h1 { font-size:34px; margin:2px 0 4px; letter-spacing:.06em; }
+.route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
+.stub-row { font:12px var(--mono); color:var(--muted); }
+.stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+.stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
+  display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
+.stamp small { font-size:10px; margin-left:1px; }
+
+/* the dark system panel for text the game shows */
+.sys { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px; padding:10px 14px; margin:8px 0; font:14px/1.75 var(--serif); }
+.sys::before { content:"【系统】"; color:var(--brass); margin-right:4px; font-family:var(--sans); font-size:12px; letter-spacing:.1em; }
+.sys b { color:var(--brass); font:600 12px var(--sans); margin-right:6px; }
+
+/* grade badge */
+.grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
+  color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
+.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+
+footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
+@media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+
+.layer { margin:6px 0 18px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary::-webkit-details-marker { display:none; }
+.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
+.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer:not([open]) > summary::after { content:"展开"; }
+section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
+ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
+ul.people li:last-child { border-bottom:none; }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
+details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); }
+svg { width:100%; height:auto; display:block; }
+svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
+svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
+svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
+details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+.links { margin:8px 0; } .links b { display:inline-block; width:3em; color:var(--brass); font-weight:600; }
+.links a { margin-right:12px; white-space:nowrap; }
+.hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
+nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
+nav.arcs a:hover { color:var(--signal); }
+h4[id] { scroll-margin-top:16px; }
+</style></head>
+<body><input type="checkbox" id="show-src" class="toggle"><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<div class="ticket"><div class="ticket-main"><div class="stamp">D<small>级</small></div><div class="kicker">副本 · D 级</div>
+<h1>小花红红大楼</h1><div class="route">第 185 章 ──── 第 219 章</div><p class="hint">没读过前文？先看<a href="../world.html">世界观</a>，这里不重复解释游戏设定。</p></div>
+<div class="ticket-stub"><div class="stub-row"><b>单元</b>u0012</div><div class="stub-row"><b>句数</b>93</div>
+<div class="stub-row"><b>引用</b>70 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<p class="meta">撰写：claude-opus-5-5 (claude-code session)，读第 185–219 章正文后撰写。每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p>
+<details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。</span></summary><section id="overview"><h3>一句话</h3>
+<ul class="items"><li><span class="text">一百九十五个人被大雾吸进一栋废弃的十五层科研大楼，每六小时必须坐电梯下一层；电梯里、楼层里、楼外都有变异动植物，最要命的规则藏在电梯本身。</span><span class="ch">第 185、191、198 章</span></li><li><span class="text">D 级随机副本。第 185 章雨夜追逐中被吸入，任务是在大楼里待满九十小时；第 219 章通关，随机副本不参与评级。</span><span class="ch">第 185、219 章</span><details class="src"><summary>原文</summary><blockquote>玩家路人甲已进入“小花红红大楼”，默认参与该D级随机副本<cite>第 185 章 · p0035</cite></blockquote><blockquote>恭喜玩家路人甲成功通关“小花红红大楼”副本<cite>第 219 章 · p0010</cite></blockquote></details></li></ul>
+</section>
+<section id="setup"><h3>背景与规则</h3>
+<ul class="items"><li><span class="text">系统给的背景：小花红红科研基地运行十五年，培育出至少十五株变种植物和十五只变种动物；因经营不善被迫关闭，创始人郝教授宣称掌握了进化的最大秘密，要去拉恒星医药研究集团的投资，此后五年再没露面。</span><span class="ch">第 185 章</span><details class="src"><summary>原文</summary><blockquote>至少培育出了十五株变种植物和十五只变种动物<cite>第 185 章 · p0037</cite></blockquote><blockquote>在绝境中宣称自己掌握了进化的最大秘密<cite>第 185 章 · p0038</cite></blockquote></details></li><li><span class="text">任务只有一条：在小花红红大楼待满九十小时。</span><span class="ch">第 185 章</span><details class="src"><summary>原文</summary><blockquote>副本任务：在小花红红大楼待满九十小时<cite>第 185 章 · p0040</cite></blockquote></details></li><li><span class="text">众人落在十五楼。楼里没有楼梯，十五部电梯都停在“15”；窗玻璃全都向屋里碎开，窗外是看不透的大雾。</span><span class="ch">第 185–186 章</span></li><li><span class="text">每过六小时，十五部电梯同时开门，广播要求所有人坐电梯去下一层。每部电梯核载十三人，十五部正好一百九十五人。</span><span class="ch">第 188–189、191 章</span><details class="src"><summary>原文</summary><blockquote>小花红红大楼十五楼即将关闭，请所有人员进入电梯前往十四楼<cite>第 189 章 · p0050</cite></blockquote></details></li><li><span class="text">被卷进来的有十多名自由玩家组织的玩家（谷雨、郑良等人追徐获时一起被吸入）、蒋艺华和大治，其余一百多人是普通人，其中还藏着两名没亮身份的玩家。</span><span class="ch">第 186、200 章</span></li></ul>
+</section>
+<section id="cast"><h3>登场人物</h3>
+<p class="note">按出场先后。</p>
+<ul class="people"><li><b class="subject">徐获（路人甲）</b><span class="text">带着一队追兵绕圈时被吸进副本，一进来就被旧邻居郑良一伙围住。</span><span class="ch">第 185–186 章</span></li><li><b class="subject">郑良、谷雨</b><span class="text">郑良悬赏追徐获，谷雨开车追在后面，都被卷了进来；郑良能短距离瞬移。</span><span class="ch">第 185–186、190 章</span></li><li><b class="subject">铁哥、张彪</b><span class="text">谷雨组织里的胡茬玩家和嘴角带痣的玩家，一路和徐获作对。</span><span class="ch">第 186、188 章</span></li><li><b class="subject">小八、魏彬</b><span class="text">穿骷髅头短袖的小八（白色玩家）和眼镜玩家魏彬，谷雨一派；魏彬对毒气有耐受力。</span><span class="ch">第 188、200、204 章</span></li><li><b class="subject">戴文谦</b><span class="text">组织里较年长的眼镜玩家，冷静狠辣，身边跟着吴昆、孙茂等同伴，玻璃瓶里的药剂能让变异动物迟钝。</span><span class="ch">第 190–191、198 章</span></li><li><b class="subject">蒋艺华、大治</b><span class="text">设伏徐获的卖花姑娘和她的外国壮汉同伴。她能看见能量值、用“买朵花”让对方愣住；他的纸牌能变出猛兽，用多了就虚弱。</span><span class="ch">第 192、195、215 章</span></li><li><b class="subject">康弘</b><span class="text">背着背包、带着普通人归拢食物的中年人，其实是隐藏的黑色玩家。</span><span class="ch">第 189、200 章</span></li><li><b class="subject">陈书</b><span class="text">自称登山运动员的高挑女子，其实是隐藏的 E 级白色玩家。</span><span class="ch">第 189、200 章</span><details class="src"><summary>原文</summary><blockquote>我叫陈书，E级玩家<cite>第 200 章 · p0022</cite></blockquote></details></li><li><b class="subject">有钱小姑娘</b><span class="text">一开始就说要花一两千万请徐获保她出去的普通人，活到了最后。</span><span class="ch">第 187、218 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、人物结局、关键关系、伏笔与未解。含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
+<nav class="arcs"><a href="#story-1">一、十五楼（第 185–189 章）</a><a href="#story-2">二、一层一层往下（第 190–196 章）</a><a href="#story-3">三、电梯游戏（第 196–204 章）</a><a href="#story-4">四、巨型食人花（第 205–210 章）</a><a href="#story-5">五、十三楼（第 211–215 章）</a><a href="#story-6">六、最后一夜（第 216–219 章）</a></nav>
+<h4 id="story-1">一、十五楼（第 185–189 章）</h4>
+<p class="prose">郑良悬赏两万白钞追徐获，一行人在雨后的马路上撞进一片大雾，连人带车被吸进了随机副本。<sup class="cite" title="第185章：谁追上他我给两万白钞">185</sup>郑良一伙在十五楼围住徐获，徐获隔空点燃一张桌子震住了他们。铁哥强行扒开电梯门，一朵肉色的食人花从电梯井里扑出来咬住了他的头。<sup class="cite" title="第186章：张裂开抓住铁哥的脑袋">186–187</sup>徐获查看十五楼：办公室被清空了，洗手间很干净，说明以前的人没在这层待多久。他主张封窗不封电梯：十五部电梯、每部核载十三人、将近两百人，不会是巧合。<sup class="cite" title="第188章：每部电梯的核载人数正常是十三人，这里加上玩家有将近两百人">188–189</sup>六小时一到，十五部电梯同时开门，广播让所有人去十四楼。<sup class="cite" title="第189章：小花红红大楼十五楼即将关闭，请所有人员进入电梯前往十四楼">189</sup></p><details class="src block"><summary>本段原文 4 处</summary><blockquote>谁追上他我给两万白钞<cite>第 185 章 · p0010</cite></blockquote><blockquote>张裂开抓住铁哥的脑袋<cite>第 186 章 · p0052</cite></blockquote><blockquote>每部电梯的核载人数正常是十三人，这里加上玩家有将近两百人<cite>第 188 章 · p0033</cite></blockquote><blockquote>小花红红大楼十五楼即将关闭，请所有人员进入电梯前往十四楼<cite>第 189 章 · p0050</cite></blockquote></details>
+<h4 id="story-2">二、一层一层往下（第 190–196 章）</h4>
+<p class="prose">十四楼是蛛卵培养室，天花板上爬满半米长的吸血蜘蛛，灯光一亮就扑下来。靠徐获放火和大治的纸牌老虎才清掉，四十七人被吸干，其中有三名玩家。<sup class="cite" title="第190章：上面爬满了巨型黑色蜘蛛；第191章：整个十四楼被蜘蛛杀死的人数达到了四十七个">190–191</sup>徐获清点人数，发现少了十五个：有一部电梯的人根本没下到十四楼。<sup class="cite" title="第191章：从十五楼下来的人共计是一百九十五个">191</sup>卖花姑娘为伏击的事送来三颗能量胶囊赔罪。戴文谦的同伴吴昆拿手机拍电梯井，被一道影子削掉了半个脑袋，玩家就此分成要不要下楼的两派。<sup class="cite" title="第193章：杀死吴昆的变异动物不可能只待在电梯井里">192–193</sup>十三楼是封闭的植物培养室，一盆绿植的毒粉当场毒死一人。徐获装了一推车变异植物；戴文谦约他：到十楼人数还不变，就合作。<sup class="cite" title="第194章：如果到了十楼这里的人数不变，我们不妨合作">193–194</sup>十二楼满地被砍碎的尸体。有人想从窗户爬下去，戴文谦当众割了他的喉管。<sup class="cite" title="第194章：当着众人的面割了他的喉管">194</sup>十一楼的地板是菌丝结成的，蘑菇长在一层溶解尸体的“果冻”上。徐获从尸体旁捞出一本笔记和一支刻着“郝”字的笔：笔记写小丑城的地下世界是菌类的天堂，只要拿到恒星医药集团的资助就能改写进化植物的历史。<sup class="cite" title="第196章：小丑城的地下世界对人类来说是禁地；第196章：这不会就是游戏介绍中提到的郝教授吧">195–196</sup></p><details class="src block"><summary>本段原文 8 处</summary><blockquote>上面爬满了巨型黑色蜘蛛<cite>第 190 章 · p0041</cite></blockquote><blockquote>整个十四楼被蜘蛛杀死的人数达到了四十七个<cite>第 191 章 · p0016</cite></blockquote><blockquote>从十五楼下来的人共计是一百九十五个<cite>第 191 章 · p0041</cite></blockquote><blockquote>杀死吴昆的变异动物不可能只待在电梯井里<cite>第 193 章 · p0007</cite></blockquote><blockquote>如果到了十楼这里的人数不变，我们不妨合作<cite>第 194 章 · p0022</cite></blockquote><blockquote>当着众人的面割了他的喉管<cite>第 194 章 · p0045</cite></blockquote><blockquote>小丑城的地下世界对人类来说是禁地<cite>第 196 章 · p0016</cite></blockquote><blockquote>这不会就是游戏介绍中提到的郝教授吧<cite>第 196 章 · p0027</cite></blockquote></details>
+<h4 id="story-3">三、电梯游戏（第 196–204 章）</h4>
+<p class="prose">徐获带蒋艺华、大治钻进电梯井回到十二楼，遇上一只镰足像刀的大螳螂，他把蒋艺华从镰刀下救出来，拆下螳螂的镰足当武器。<sup class="cite" title="第197章：徐获出现在了蒋艺华身侧，长剑一挥，便将大螳螂拦腰斩断">196–197</sup>他向两人点破：这是个电梯游戏，真正的危险在电梯里；从十五楼到十四楼失踪的十五个人，是被选中的一部电梯。他又把螳螂尸体丢进十三楼，看那里会不会引来变异动物。<sup class="cite" title="第198章：这个副本是个电梯游戏">198</sup>十楼，铁哥提议抽签派人下楼探路，徐获不参与，转而和戴文谦打赌：看哪部电梯被挑中，赢的人拿下一层的电梯分配权。他顺手点破康弘和陈书是隐藏的玩家。<sup class="cite" title="第200章：“赌谁的运气好。”徐获道；第200章：康弘跟着也亮了编号，他是黑色编号">199–200</sup>这次分坐十二部电梯。徐获那部被猛地拉回十五楼，厢顶打开，管道里有东西爬到跟前又退了回去；另有两部电梯的人整个消失，其中有玩家汪成。戴文谦认输。<sup class="cite" title="第201章：电梯不是朝下，而是猛一个提速快速上升；第201章：戴文谦正色打量了一下徐获，“这把你赢了">201</sup>九楼的铁皮箱里泡着人造的“美人鱼”异种。众人得出规律：与楼层数对应的电梯安全，多出来的随机遇袭，徐获的电梯没事，唯一的差别是他带着的变异植物。<sup class="cite" title="第202章：戴文谦指了指美人鱼腰部的缝合痕迹，“人造美人鱼；第203章：与楼层对应的电梯数不会遭到袭击，多出的电梯则不分人数多少随机遇袭">202–203</sup>戴文谦说最简单的办法是每层留下或杀掉十三个人。徐获选了另一条路：故意让一部电梯超载当靶子，由他、戴文谦二人、蒋艺华、郑良、魏彬和志愿者一起进去。<sup class="cite" title="第203章：每一层留下十三个人，或者杀掉十三个人；第203章：反正你和你的朋友进去就行了">203–204</sup>他回十三楼取出一盆没有名字、没有分类的紫色小花，游戏说明写的是“不明植物”。铁哥几人跟着上去搬花，被十三楼突然喷出的金色毒粉呛了下来。<sup class="cite" title="第204章：不明植物：没有名字，没有分类">204–205</sup></p><details class="src block"><summary>本段原文 11 处</summary><blockquote>徐获出现在了蒋艺华身侧，长剑一挥，便将大螳螂拦腰斩断<cite>第 197 章 · p0029</cite></blockquote><blockquote>这个副本是个电梯游戏<cite>第 198 章 · p0002</cite></blockquote><blockquote>“赌谁的运气好。”徐获道<cite>第 200 章 · p0005</cite></blockquote><blockquote>康弘跟着也亮了编号，他是黑色编号<cite>第 200 章 · p0029</cite></blockquote><blockquote>电梯不是朝下，而是猛一个提速快速上升<cite>第 201 章 · p0016</cite></blockquote><blockquote>戴文谦正色打量了一下徐获，“这把你赢了<cite>第 201 章 · p0028</cite></blockquote><blockquote>戴文谦指了指美人鱼腰部的缝合痕迹，“人造美人鱼<cite>第 202 章 · p0044</cite></blockquote><blockquote>与楼层对应的电梯数不会遭到袭击，多出的电梯则不分人数多少随机遇袭<cite>第 203 章 · p0014</cite></blockquote><blockquote>每一层留下十三个人，或者杀掉十三个人<cite>第 203 章 · p0043</cite></blockquote><blockquote>反正你和你的朋友进去就行了<cite>第 203 章 · p0056</cite></blockquote><blockquote>不明植物：没有名字，没有分类<cite>第 204 章 · p0042</cite></blockquote></details>
+<h4 id="story-4">四、巨型食人花（第 205–210 章）</h4>
+<p class="prose">超载电梯被拉上十五楼，透明黏液灌满电梯，把人裹成茧拖进管道。徐获含着砍头魔斧头的碎片破茧而出，落在一间巨大的玻璃花房里。<sup class="cite" title="第205章：水一样的透明黏液">205–206</sup>花房中央是一株比电梯井里大十几倍的食人花，叶片上挂满人茧。徐获救出戴文谦，两人再救郑良、蒋艺华；十七个人里死了六个。<sup class="cite" title="第206章：徐获用剑破开外面的膜壳，弯折的枝叶抬高时戴文谦从里面滑了出来">206</sup>密丛里全是变异动物，一行人逃进郝教授的“假日小屋”，打开高亮灯才逼退它们，剩下七人。小屋暗格里升起一柜三四十支药剂，徐获多拿了三支植物营养剂，又把分到的那支解毒剂打给了受伤的普通人。<sup class="cite" title="第207章：旁边有个“假日小屋”的挂牌；第208章：柜子里摆满了颜色不一的少说三四十支药剂">207–208</sup>郝教授的培育日记说，这种食人花的根受电击才会喷毒粉。徐获推断整栋大楼都被这株食人花包裹着，楼外也有食人花在活动。<sup class="cite" title="第208章：那种食人花的根只有在受到电击的情况下才会喷出毒粉">208</sup>楼里剩下的人分成两派：铁哥一派要每层让老弱先死，还一脚踢死一个出主意的中年人；谷雨、康弘、陈书、小八、大治护着普通人。大治把台灯扔出窗外，楼下毫无动静。<sup class="cite" title="第209章：铁哥抬脚将他踢飞出去；第209章：却见他抄起手边矮柜上的台灯朝窗外扔去">209</sup>七楼他们捡到死去玩家的无主道具。花房里的巨型食人花突然朝大楼涌去，徐获一行趁乱冲到楼下，面前一红一绿两扇门，徐获选红门，戴文谦选绿门。<sup class="cite" title="第210章：一个选的是绿色门，一个选的是红色门">210</sup></p><details class="src block"><summary>本段原文 8 处</summary><blockquote>水一样的透明黏液<cite>第 205 章 · p0045</cite></blockquote><blockquote>徐获用剑破开外面的膜壳，弯折的枝叶抬高时戴文谦从里面滑了出来<cite>第 206 章 · p0014</cite></blockquote><blockquote>旁边有个“假日小屋”的挂牌<cite>第 207 章 · p0011</cite></blockquote><blockquote>柜子里摆满了颜色不一的少说三四十支药剂<cite>第 208 章 · p0002</cite></blockquote><blockquote>那种食人花的根只有在受到电击的情况下才会喷出毒粉<cite>第 208 章 · p0035</cite></blockquote><blockquote>铁哥抬脚将他踢飞出去<cite>第 209 章 · p0023</cite></blockquote><blockquote>却见他抄起手边矮柜上的台灯朝窗外扔去<cite>第 209 章 · p0047</cite></blockquote><blockquote>一个选的是绿色门，一个选的是红色门<cite>第 210 章 · p0048</cite></blockquote></details>
+<h4 id="story-5">五、十三楼（第 211–215 章）</h4>
+<p class="prose">红门通向一楼大厅，徐获斩杀堵门的饿狼，顺着电梯井把众人送上十三楼。谷雨带着一批人从电梯井爬上来：铁哥逼人从七楼窗外探路，食人花随即破窗而入。<sup class="cite" title="第211章：突然有食人花破窗而入，一口气拖走了七八个人">211</sup>戴文谦从绿门进了郝教授的卧室，魏彬重伤，他丢了一件道具。铁哥爬上来后，他先把人按在地上砸，最后拧断了铁哥的脖子。活下来的不足五十人。<sup class="cite" title="第212章：戴文谦拧断了铁哥的脖子">211–212</sup>徐获回放手机录像：除了晚上十点到凌晨四点，十三楼都是安全的。<sup class="cite" title="第212章：除了晚上十点到第二天凌晨四点这段时间，其他时间十三楼应该是安全的">212</sup>七楼花藤上的脓包里爬出肉虫，钻进电梯井底的通道。徐获和戴文谦决定“送那株食人花一份大礼”：接电线、磨利风扇叶片，拴在肉虫身上放进通道。<sup class="cite" title="第213章：“电梯井下有通道。”徐获和戴文谦几乎同时说道；第214章：送那株食人花一份大礼">213–214、216</sup>夜里徐获独自下楼查看，在二楼碰上戴文谦。戴文谦说同是 014 区的玩家不必自相残杀，打算带着好条件加入国家队；徐获答应不在官方面前乱说。<sup class="cite" title="第215章：在没有任何一个人成为高级玩家的情况下，加入国家队是最明智的选择">214–215</sup>张彪带着十来人溜出楼外，找回一包包保质期十年的零食。徐获和戴文谦都没吃。<sup class="cite" title="第215章：这是我们在楼外发现的">214–215</sup></p><details class="src block"><summary>本段原文 7 处</summary><blockquote>突然有食人花破窗而入，一口气拖走了七八个人<cite>第 211 章 · p0037</cite></blockquote><blockquote>戴文谦拧断了铁哥的脖子<cite>第 212 章 · p0018</cite></blockquote><blockquote>除了晚上十点到第二天凌晨四点这段时间，其他时间十三楼应该是安全的<cite>第 212 章 · p0028</cite></blockquote><blockquote>“电梯井下有通道。”徐获和戴文谦几乎同时说道<cite>第 213 章 · p0050</cite></blockquote><blockquote>送那株食人花一份大礼<cite>第 214 章 · p0005</cite></blockquote><blockquote>在没有任何一个人成为高级玩家的情况下，加入国家队是最明智的选择<cite>第 215 章 · p0009</cite></blockquote><blockquote>这是我们在楼外发现的<cite>第 215 章 · p0036</cite></blockquote></details>
+<h4 id="story-6">六、最后一夜（第 216–219 章）</h4>
+<p class="prose">黄昏时张彪又带人出了楼，随后一群比楼里凶猛得多的异种追着电梯冲上十三楼，张彪被咬住肩膀滚了出来。徐获拉下电闸，众人把事先准备的水泼进电梯井，接连电下电梯，再合力杀光冲出来的异种。<sup class="cite" title="第216章：电梯门打开，率先滚出来的便是被咬住肩膀的张彪；第216章：徐获已经上前一步拉下了电线总开关">216</sup>康弘被多头异种咬烂了双腿。十三楼的通风口开始颤动：不是异种，是食人花。众人从卡在两层之间的电梯爬上十五楼，吊在后面的一串人连累大治差点被拖下去，蒋艺华用“买束花”让他们松了手。<sup class="cite" title="第217章：而受伤最严重的则是康弘；第217章：不是异种，是食人花">217–218</sup>深夜康弘死了。将近两百人，只剩二十多个。<sup class="cite" title="第218章：康弘死了。”深夜，守在他身边的陈书忽然道；第218章：从十三楼逃出来的加上玩家只剩二十多个人">218</sup>凌晨四点前，徐获回满地毒粉的十三楼取回那盆紫色小花，随即收到通关通知：新特性“五五开”、道具“营养小红盆”、药剂六份。<sup class="cite" title="第219章：恭喜玩家路人甲成功通关“小花红红大楼”副本；第219章：您将获得新特性“五五开”">219</sup>回到雾里的马路，画女在等他，告诉他唐广博在车那边；他避开所有人回了家，把紫色小花种进营养小红盆。吴组长打来电话：本该出来的玩家少了两个。<sup class="cite" title="第219章：很快打好了一行字：“你后爸在车那边；第219章：这次本来应该出来的玩家少了两个">219</sup></p><details class="src block"><summary>本段原文 10 处</summary><blockquote>电梯门打开，率先滚出来的便是被咬住肩膀的张彪<cite>第 216 章 · p0039</cite></blockquote><blockquote>徐获已经上前一步拉下了电线总开关<cite>第 216 章 · p0033</cite></blockquote><blockquote>而受伤最严重的则是康弘<cite>第 217 章 · p0023</cite></blockquote><blockquote>不是异种，是食人花<cite>第 217 章 · p0037</cite></blockquote><blockquote>康弘死了。”深夜，守在他身边的陈书忽然道<cite>第 218 章 · p0038</cite></blockquote><blockquote>从十三楼逃出来的加上玩家只剩二十多个人<cite>第 218 章 · p0039</cite></blockquote><blockquote>恭喜玩家路人甲成功通关“小花红红大楼”副本<cite>第 219 章 · p0010</cite></blockquote><blockquote>您将获得新特性“五五开”<cite>第 219 章 · p0010</cite></blockquote><blockquote>很快打好了一行字：“你后爸在车那边<cite>第 219 章 · p0017</cite></blockquote><blockquote>这次本来应该出来的玩家少了两个<cite>第 219 章 · p0058</cite></blockquote></details>
+</section>
+<section id="puzzle"><h3>解谜结构</h3>
+<p class="note">表面上是一层层往下打怪、熬满九十小时，真正决定生死的是电梯的规则，和包裹整栋大楼的那株巨型食人花。</p>
+<h4 id="puzzle-1">规则</h4>
+<ul class="items"><li><span class="text">待满九十小时；十五层楼，每层六小时，电梯每六小时开一次，只能往下一层走。</span><span class="ch">第 185、191 章</span></li><li><span class="text">十五部电梯，每部核载十三人，总人数一百九十五。</span><span class="ch">第 188、191 章</span></li></ul>
+<h4 id="puzzle-2">线索</h4>
+<ul class="items"><li><span class="text">十五楼电梯门上的血手印有从外拍的、也有从里扒的，整栋楼数十五楼最多；窗玻璃都向屋内碎开。</span><span class="ch">第 186、189、218 章</span><details class="src"><summary>原文</summary><blockquote>整栋大楼只有十五楼的电梯门上血手印最多<cite>第 218 章 · p0041</cite></blockquote></details></li><li><span class="text">从十五楼下到十四楼，少了一部电梯的十五个人，其中那部是超载的。</span><span class="ch">第 191、198 章</span><details class="src"><summary>原文</summary><blockquote>从十五楼到十四楼的时候，失踪了十五个人<cite>第 198 章 · p0002</cite></blockquote></details></li><li><span class="text">十三楼干干净净，没有变异动物活动过的痕迹；带着十三楼植物的电梯被拉上去也没遇袭。</span><span class="ch">第 194、203 章</span><details class="src"><summary>原文</summary><blockquote>其他都一样，除了我从十三楼带下来的变异植物<cite>第 203 章 · p0019</cite></blockquote></details></li><li><span class="text">十三楼只在晚上十点到凌晨四点喷毒粉；日记写食人花的根受电击才喷毒粉。</span><span class="ch">第 208、212 章</span></li><li><span class="text">“小花红红”开出的花不是红色；那株紫色不明植物的根是红的，出了副本后红色还在消退。（徐获的推断）</span><span class="ch">第 185、219 章</span><details class="src"><summary>原文</summary><blockquote>花根上的红色部分比在副本中减少了一截<cite>第 219 章 · p0048</cite></blockquote></details></li></ul>
+<h4 id="puzzle-3">误导</h4>
+<ul class="items"><li><span class="text">越高越安全、待在十五楼就没事。</span><span class="ch">第 189、193 章</span></li><li><span class="text">大治扔出的台灯落地毫无动静，让人以为能从窗外下楼；结果引来了楼外的食人花。</span><span class="ch">第 209、211 章</span></li><li><span class="text">戴文谦以为红绿两扇门里有一扇是陷阱，其实两扇门只是通向不同地方。</span><span class="ch">第 211–212 章</span><details class="src"><summary>原文</summary><blockquote>那两扇门不是陷阱<cite>第 212 章 · p0001</cite></blockquote></details></li><li><span class="text">以为熬到一楼就安全；徐获推测不管多少人到一楼，最后都要面对异种。（徐获的推断）</span><span class="ch">第 218 章</span></li></ul>
+<h4 id="puzzle-4">真相</h4>
+<ul class="items"><li><span class="text">与楼层数对应的电梯是安全的，多出来的、超载的电梯会被拉回十五楼，里面的人被管道里的巨型食人花裹走；楼层和电梯里应该有感应人数的设备。（徐获的推断）</span><span class="ch">第 203、206 章</span><details class="src"><summary>原文</summary><blockquote>楼层和电梯里应该都有感应设备，以此来判断人数<cite>第 206 章 · p0029</cite></blockquote></details></li><li><span class="text">“小花红红”指的是一株养在玻璃花房里的巨型食人花，它的根茎钻进通风管道，花藤裹住了整栋大楼。</span><span class="ch">第 206–208 章</span><details class="src"><summary>原文</summary><blockquote>大楼的外面应该也有食人花在活动<cite>第 208 章 · p0049</cite></blockquote></details></li><li><span class="text">徐获后来又推测，“小花红红”的名字其实来自那株根是红色、花是紫色的不明植物。（徐获的推断）</span><span class="ch">第 219 章</span><details class="src"><summary>原文</summary><blockquote>这符合小花红红大楼的命名来源<cite>第 219 章 · p0049</cite></blockquote></details></li></ul>
+<h4 id="puzzle-5">解法</h4>
+<ul class="items"><li><span class="text">每层只坐和楼层数一样多的电梯；实在多出人来，就故意让一部电梯超载当靶子，由玩家同行。</span><span class="ch">第 203–204 章</span></li><li><span class="text">白天躲在十三楼，晚上十点到凌晨四点转移到别的楼层；最后一夜退到十五楼、切断花藤、电死爬上来的异种。</span><span class="ch">第 212、214、217 章</span></li></ul>
+</section>
+<section id="fates"><h3>人物结局</h3>
+<ul class="people"><li><b class="subject">徐获（路人甲）</b><span class="text">通关，随机副本不评级；得到延伸特性“五五开”、道具“营养小红盆”和药剂，带出了那盆紫色不明植物。</span><span class="ch">第 219 章</span><details class="src"><summary>原文</summary><blockquote>恭喜玩家路人甲成功通关“小花红红大楼”副本<cite>第 219 章 · p0010</cite></blockquote></details></li><li><b class="subject">谷雨、郑良、小八、魏彬、陈书、蒋艺华、大治、戴文谦、张彪</b><span class="text">都撑到了最后一夜；吴组长说本该出来的玩家少了两个，原文还没交代是谁。</span><span class="ch">第 217–219 章</span></li><li><b class="subject">康弘</b><span class="text">双腿被异种咬烂，两瓶解毒剂都无效，死在十五楼。</span><span class="ch">第 217–218 章</span></li><li><b class="subject">铁哥</b><span class="text">逼人探路引来食人花，被戴文谦拧断脖子。</span><span class="ch">第 211–212 章</span></li><li><b class="subject">吴昆</b><span class="text">拍电梯井时被一道影子削掉半个脑袋。</span><span class="ch">第 193 章</span></li><li><b class="subject">汪成</b><span class="text">所在的电梯被拉回十五楼，人没了，只留下打斗痕迹和血。</span><span class="ch">第 201 章</span></li><li><b class="subject">郝教授</b><span class="text">十一楼菌丝下那具刻着“郝”字笔的尸体，蒋艺华猜就是他。（蒋艺华的推断）</span><span class="ch">第 196 章</span></li><li><b class="subject">普通人</b><span class="text">将近两百人，到最后一夜只剩二十多个；有钱小姑娘活了下来，还说出去后想当玩家。</span><span class="ch">第 218 章</span></li></ul>
+</section>
+<section id="relations"><h3>关键关系</h3>
+<p class="note">一对人物只画一条线：绿色是同伴，橙色是冲突，红色箭头是杀死，灰色是其他；虚线表示某人的说法或推断。</p>
+<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+</defs>
+<g class="edge"><title>徐获 — 打赌·互相牵制 — 戴文谦（第 200、206、215 章）</title><path d="M368.2,335.3 Q305.4,282.1 251.8,236.6" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>戴文谦 → 拧断脖子 → 铁哥（第 212 章）</title><path d="M242.7,228.8 Q280.7,177.9 311.5,136.5" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge"><title>戴文谦 — 同伴 — 孙茂（第 198 章）</title><path d="M242.7,228.8 Q173.8,210.4 116.6,195.2" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>蒋艺华 — 同伙 — 大治（第 195、218 章）</title><path d="M245.9,420 Q183.8,420.0 133.7,420.0" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 化敌为友 — 蒋艺华（第 192、197 章）</title><path d="M368.2,335.3 Q307.1,377.6 255.8,413.2" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>郑良 — 旧仇·并肩 — 徐获（第 185、217 章）</title><path d="M493.9,297.4 Q431.0,316.4 379.7,331.8" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>谷雨 — 合作 — 徐获（第 195、214 章）</title><path d="M418.2,218.5 Q393.2,276.9 372.9,324.3" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>铁哥 — 一伙 — 张彪（第 199、203 章）</title><path d="M318.7,126.9 Q275.6,93.5 242.1,67.4" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>铁哥 — 两派 — 谷雨（第 209 章）</title><path d="M318.7,126.9 Q368.4,172.7 409.4,210.4" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>陈书 → 救命 → 康弘（第 217–218 章）</title><path d="M700,60 Q662.3,60.0 636.6,60.0" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge"><title>郑良 → 救命 → 谷雨（第 190 章）</title><path d="M493.9,297.4 Q456.0,257.9 426.5,227.2" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge"><title>魏彬 — 试毒 — 徐获（第 204 章）</title><path d="M477.6,420 Q422.9,377.6 377.7,342.6" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<text x="305.4" y="286.1" class="elabel" style="fill:#8d95a3">打赌·互相牵制</text>
+<text x="280.7" y="181.8" class="elabel" style="fill:#ef5a4f">拧断脖子</text>
+<text x="173.8" y="214.5" class="elabel" style="fill:#4fbf7f">同伴</text>
+<text x="183.8" y="424.0" class="elabel" style="fill:#4fbf7f">同伙</text>
+<text x="307.1" y="381.6" class="elabel" style="fill:#4fbf7f">化敌为友</text>
+<text x="431.1" y="320.4" class="elabel" style="fill:#8d95a3">旧仇·并肩</text>
+<text x="393.2" y="280.9" class="elabel" style="fill:#4fbf7f">合作</text>
+<text x="275.6" y="97.5" class="elabel" style="fill:#4fbf7f">一伙</text>
+<text x="368.4" y="176.7" class="elabel" style="fill:#f0904f">两派</text>
+<text x="662.3" y="64.0" class="elabel" style="fill:#4fbf7f">救命</text>
+<text x="456.1" y="261.9" class="elabel" style="fill:#4fbf7f">救命</text>
+<text x="422.9" y="381.6" class="elabel" style="fill:#4fbf7f">试毒</text>
+<g class="node"><circle cx="368.2" cy="335.3" r="12.5"/><text x="368.2" y="316.8" class="name">徐获</text></g>
+<g class="node"><circle cx="242.7" cy="228.8" r="11.5"/><text x="242.7" y="211.3" class="name">戴文谦</text></g>
+<g class="node"><circle cx="318.7" cy="126.9" r="11.5"/><text x="318.7" y="109.4" class="name">铁哥</text></g>
+<g class="node"><circle cx="418.2" cy="218.5" r="11.5"/><text x="418.2" y="201.0" class="name">谷雨</text></g>
+<g class="node"><circle cx="245.9" cy="420" r="10.8"/><text x="245.9" y="403.2" class="name">蒋艺华</text></g>
+<g class="node"><circle cx="493.9" cy="297.4" r="10.8"/><text x="493.9" y="280.6" class="name">郑良</text></g>
+<g class="node"><circle cx="105.0" cy="192.1" r="10.0"/><text x="105.0" y="176.1" class="name">孙茂</text></g>
+<g class="node"><circle cx="121.7" cy="420" r="10.0"/><text x="121.7" y="404.0" class="name">大治</text></g>
+<g class="node"><circle cx="232.6" cy="60" r="10.0"/><text x="232.6" y="44.0" class="name">张彪</text></g>
+<g class="node"><circle cx="700" cy="60" r="10.0"/><text x="700" y="44.0" class="name">陈书</text></g>
+<g class="node"><circle cx="624.6" cy="60" r="10.0"/><text x="624.6" y="44.0" class="name">康弘</text></g>
+<g class="node"><circle cx="477.6" cy="420" r="10.0"/><text x="477.6" y="404.0" class="name">魏彬</text></g>
+</svg></div>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text">徐获 — 打赌·互相牵制 — 戴文谦</span><span class="ch">第 200、206、215 章</span></li><li><span class="text">戴文谦 → 拧断脖子 → 铁哥</span><span class="ch">第 212 章</span></li><li><span class="text">戴文谦 — 同伴 — 孙茂</span><span class="ch">第 198 章</span></li><li><span class="text">蒋艺华 — 同伙 — 大治</span><span class="ch">第 195、218 章</span></li><li><span class="text">徐获 — 化敌为友 — 蒋艺华</span><span class="ch">第 192、197 章</span></li><li><span class="text">郑良 — 旧仇·并肩 — 徐获</span><span class="ch">第 185、217 章</span></li><li><span class="text">谷雨 — 合作 — 徐获</span><span class="ch">第 195、214 章</span></li><li><span class="text">铁哥 — 一伙 — 张彪</span><span class="ch">第 199、203 章</span></li><li><span class="text">铁哥 — 两派 — 谷雨</span><span class="ch">第 209 章</span></li><li><span class="text">陈书 → 救命 → 康弘</span><span class="ch">第 217–218 章</span></li><li><span class="text">郑良 → 救命 → 谷雨</span><span class="ch">第 190 章</span></li><li><span class="text">魏彬 — 试毒 — 徐获</span><span class="ch">第 204 章</span></li></ul></details>
+</section>
+<section id="threads"><h3>伏笔与未解</h3>
+<p class="note">截至第 219 章还没有交代的事。</p>
+<ul class="items"><li><span class="text">本该从副本出来的玩家少了两个，吴组长来问徐获。</span><span class="ch">第 219 章</span><details class="src"><summary>原文</summary><blockquote>这次本来应该出来的玩家少了两个<cite>第 219 章 · p0058</cite></blockquote></details></li><li><span class="text">那盆紫色不明植物：根是红的、花是紫的，出副本后红色还在消退；画女见过叶子全红的同种花，却想不起在哪。</span><span class="ch">第 204、219 章</span><details class="src"><summary>原文</summary><blockquote>不过我见过一样的，但是别人的花叶子都是红色的<cite>第 219 章 · p0023</cite></blockquote></details></li><li><span class="text">郝教授说的“进化的最大秘密”没有揭开，徐获直觉和完美进化药剂有关；恒星医药集团又一次出现。（徐获的推断）</span><span class="ch">第 185、196 章</span><details class="src"><summary>原文</summary><blockquote>徐获直觉与完美进化药剂有关<cite>第 196 章 · p0038</cite></blockquote></details></li><li><span class="text">笔记里的小丑城地下世界，据说藏着能防御利器的菌丝；徐获票夹里正好有一张小丑城站的车票。</span><span class="ch">第 37、196 章</span><details class="src"><summary>原文</summary><blockquote>小丑城的地下世界对人类来说是禁地<cite>第 196 章 · p0016</cite></blockquote></details></li><li><span class="text">戴文谦打算带着好条件加入国家队，徐获答应不在官方面前乱说。</span><span class="ch">第 215 章</span><details class="src"><summary>原文</summary><blockquote>在没有任何一个人成为高级玩家的情况下，加入国家队是最明智的选择<cite>第 215 章 · p0009</cite></blockquote></details></li><li><span class="text">自由玩家组织的老大乔哥，据张彪说是 D 级玩家；谷雨对组织的信念已经动摇。（张彪的说法）</span><span class="ch">第 212、216 章</span><details class="src"><summary>原文</summary><blockquote>就是我们自由玩家组织的老大<cite>第 216 章 · p0008</cite></blockquote></details></li><li><span class="text">徐获出副本时，唐广博就在副本入口的车旁。</span><span class="ch">第 219 章</span></li></ul>
+</section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC">随机副本</a><a href="../world.html#world-%E7%89%B9%E6%80%A7">特性</a><a href="../world.html#world-%E9%81%93%E5%85%B7">道具</a><a href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C">游戏世界与虫洞点</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9">进化的动植物</a><a href="../world.html#world-%E5%AE%98%E6%96%B9">官方的应对</a><a href="../world.html#world-%E7%8E%A9%E5%AE%B6%E4%BA%92%E5%8A%A9">玩家的互助组织</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E6%B8%85%E6%B4%81%E5%89%82">清洁剂</a><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a><a href="../items.html#item-%E8%B6%85%E7%BA%A7%E8%B7%91%E9%9E%8B">超级跑鞋</a><a href="../items.html#item-%E6%97%A0%E5%A4%84%E4%B8%8D%E5%9C%A8%E7%9A%84%E7%90%B4%E5%BC%A6">无处不在的琴弦</a><a href="../items.html#item-%E7%A0%8D%E5%A4%B4%E9%AD%94%E6%96%A7%E5%A4%B4%E7%9A%84%E7%A2%8E%E7%89%87">砍头魔斧头的碎片</a><a href="../items.html#item-%E8%A7%A3%E6%AF%92%E5%89%82">解毒剂</a><a href="../items.html#item-%E7%89%9B%E7%9B%BE">牛盾</a><a href="../items.html#item-%E9%B2%9C%E7%BA%A2%E7%9A%84%E5%89%91">鲜红的剑</a><a href="../items.html#item-%E8%83%BD%E9%87%8F%E8%83%B6%E5%9B%8A">能量胶囊</a><a href="../items.html#item-%E4%B8%8D%E6%98%8E%E6%A4%8D%E7%89%A9">不明植物</a><a href="../items.html#item-%E6%A4%8D%E7%89%A9%E8%90%A5%E5%85%BB%E5%89%82">植物营养剂</a><a href="../items.html#item-%E8%90%A5%E5%85%BB%E5%B0%8F%E7%BA%A2%E7%9B%86">营养小红盆</a></p></section></details>
+
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由整理者撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。</footer>
+</main></body></html>

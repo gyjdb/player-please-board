@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>三十天 · 单元卡 · 维度之下</title><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local')</script><style>
+:root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
+  --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+:root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
+  background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
+:root[data-theme="light"] body { background:var(--paper); }
+a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
+
+/* nav: the rail */
+.rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
+.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; }
+.brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
+.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.2em; margin-left:8px; }
+.rail nav { display:flex; gap:14px; flex-wrap:wrap; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:2px 0; border-bottom:2px solid transparent; }
+.rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
+.rail .toggle-label { margin-left:auto; }
+.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+
+/* sources switch */
+.toggle { position:absolute; opacity:0; pointer-events:none; }
+.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:0 8px; cursor:pointer; user-select:none; }
+#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.ch, sup.cite, details.src, .src-only { display:none; }
+#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main sup.cite { display:inline; }
+#show-src:checked ~ main details.src { display:inline; }
+#show-src:checked ~ main .src-only { display:block; }
+#show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
+sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
+details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
+
+/* headings and text */
+h1, h2, h3, h4 { font-family:var(--serif); }
+h2.sign { display:inline-block; font-size:20px; margin:34px 0 10px; padding:4px 14px; background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-bottom:2px solid var(--signal); border-radius:4px; letter-spacing:.12em; }
+h3 { font-size:19px; margin:26px 0 8px; padding-left:12px; border-left:4px solid var(--signal); }
+h4 { font-size:15px; margin:16px 0 4px; color:var(--brass); letter-spacing:.06em; }
+.note { color:var(--muted); font-size:14px; margin:4px 0; }
+.meta { color:var(--muted); font-size:13px; }
+ul { margin:0; padding-left:20px; } li { margin:6px 0; }
+.chipline { display:flex; flex-wrap:wrap; gap:6px 8px; margin:8px 0; }
+.chipline a, .chip { background:var(--chip); color:var(--ink); border-radius:3px; padding:1px 9px; font-size:13px; white-space:nowrap; }
+
+/* the ticket (page header of a unit card, index entries) */
+.ticket { display:flex; background:linear-gradient(135deg, var(--card-2), var(--card)); border:1px solid var(--line); border-radius:10px; margin:18px 0 8px; position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.ticket-main { flex:1; padding:18px 22px 16px; min-width:0; position:relative; }
+.ticket-stub { width:170px; padding:16px 18px; border-left:2px dashed var(--line); position:relative; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.ticket-stub::before, .ticket-stub::after { content:""; position:absolute; left:-11px; width:20px; height:20px; border-radius:50%; background:var(--paper); border:1px solid var(--line); }
+.ticket-stub::before { top:-11px; } .ticket-stub::after { bottom:-11px; }
+.kicker { font-size:12px; letter-spacing:.3em; color:var(--signal); }
+.ticket h1 { font-size:34px; margin:2px 0 4px; letter-spacing:.06em; }
+.route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
+.stub-row { font:12px var(--mono); color:var(--muted); }
+.stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+.stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
+  display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
+.stamp small { font-size:10px; margin-left:1px; }
+
+/* the dark system panel for text the game shows */
+.sys { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px; padding:10px 14px; margin:8px 0; font:14px/1.75 var(--serif); }
+.sys::before { content:"【系统】"; color:var(--brass); margin-right:4px; font-family:var(--sans); font-size:12px; letter-spacing:.1em; }
+.sys b { color:var(--brass); font:600 12px var(--sans); margin-right:6px; }
+
+/* grade badge */
+.grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
+  color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
+.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+
+footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
+@media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+
+.layer { margin:6px 0 18px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary::-webkit-details-marker { display:none; }
+.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
+.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer:not([open]) > summary::after { content:"展开"; }
+section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
+ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
+ul.people li:last-child { border-bottom:none; }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
+details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); }
+svg { width:100%; height:auto; display:block; }
+svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
+svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
+svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
+details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+.links { margin:8px 0; } .links b { display:inline-block; width:3em; color:var(--brass); font-weight:600; }
+.links a { margin-right:12px; white-space:nowrap; }
+.hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
+nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
+nav.arcs a:hover { color:var(--signal); }
+h4[id] { scroll-margin-top:16px; }
+</style></head>
+<body><input type="checkbox" id="show-src" class="toggle"><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<div class="ticket"><div class="ticket-main"><div class="stamp">E<small>级</small></div><div class="kicker">副本 · E 级</div>
+<h1>三十天</h1><div class="route">第 222 章 ──── 第 240 章</div><p class="hint">没读过前文？先看<a href="../world.html">世界观</a>，这里不重复解释游戏设定。</p></div>
+<div class="ticket-stub"><div class="stub-row"><b>单元</b>u0014</div><div class="stub-row"><b>句数</b>88</div>
+<div class="stub-row"><b>引用</b>50 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<p class="meta">撰写：claude-opus-5-5 (claude-code session)，读第 222–240 章正文后撰写。每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p>
+<details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。</span></summary><section id="overview"><h3>一句话</h3>
+<ul class="items"><li><span class="text">十二名玩家被请进一座宫殿般的美术馆鉴定真伪，要在七天里找出赝品。可画会吃人，熄灯后有雕像拄着手杖在展厅里游荡，玩家们互相猜忌，最后都把彼此当成了造赝品的材料。</span><span class="ch">第 222、229、235、237 章</span></li><li><span class="text">E 级副本。第 222 章进入百人美术馆，第 240 章用回程票离开：徐获完成全部三个任务，还让副本场地升为 D 级，拿到 S 级评级，升为 D 级玩家。</span><span class="ch">第 222、240 章</span><details class="src"><summary>原文</summary><blockquote>玩家路人甲已进入百人美术馆地界，默认参与E级副本“三十天”<cite>第 222 章 · p0044</cite></blockquote><blockquote>并促使副本场地升级为D级副本，获得S超级评级<cite>第 240 章 · p0019</cite></blockquote></details></li></ul>
+</section>
+<section id="setup"><h3>背景与规则</h3>
+<ul class="items"><li><span class="text">系统给的背景：百人美术馆提供食宿，一次最多招待十二人；外界传出工作人员监守自盗，有客人发现了赝品，可馆长保证每月闭馆前亲自检查过每一幅画，于是请十二位美术从业者来鉴定七天。</span><span class="ch">第 222 章</span><details class="src"><summary>原文</summary><blockquote>每月月底之前他都亲自检查过每一幅画<cite>第 222 章 · p0046</cite></blockquote><blockquote>于是邀请了十二位美术从业者来鉴定画作真伪，为期七天<cite>第 222 章 · p0047</cite></blockquote></details></li><li><span class="text">任务一：找出一幅赝品；任务二、任务三隐藏，完成前一个才解锁。副本时间七天。</span><span class="ch">第 222、230 章</span></li><li><span class="text">美术馆晚上九点熄灯，熄灯后请勿随意乱走。</span><span class="ch">第 222 章</span><details class="src"><summary>原文</summary><blockquote>在熄灯以后请勿随意乱走<cite>第 222 章 · p0048</cite></blockquote></details></li><li><span class="text">展厅有八十二个画框：六十一幅有内容的画，风格各异，每幅下面都有倒计时（两百到五百小时不等）；另有二十一个只放着白纸的空画框，没有倒计时。</span><span class="ch">第 224 章</span><details class="src"><summary>原文</summary><blockquote>每一幅画下面都有电子计时器<cite>第 224 章 · p0012</cite></blockquote><blockquote>还有二十一个空白画框<cite>第 224 章 · p0013</cite></blockquote></details></li><li><span class="text">展厅中央立着一座拿书、身披石膏布的男性雕像；十二个客房排在展厅尽头的大壁画两侧。</span><span class="ch">第 225–226 章</span></li></ul>
+</section>
+<section id="cast"><h3>登场人物</h3>
+<p class="note">按出场先后。</p>
+<ul class="people"><li><b class="subject">徐获（路人甲，化名徐三）</b><span class="text">这次拿到 B 级以上就能升 D 级；把变回画纸的画女藏在外套里带了进来。</span><span class="ch">第 222、226 章</span><details class="src"><summary>原文</summary><blockquote>如果这次E级副本获得B级评定，等出来的时候他就能顺利升级为D级玩家<cite>第 222 章 · p0034</cite></blockquote></details></li><li><b class="subject">范时机</b><span class="text">在车站结识的憨厚脸男人，自称做过七个副本；第一天就摔了一幅画。</span><span class="ch">第 222–223 章</span></li><li><b class="subject">潘思明</b><span class="text">做过四个 E 级副本的白色玩家，张罗大家互相照应。</span><span class="ch">第 223 章</span></li><li><b class="subject">邓宇</b><span class="text">黑色玩家，自称第三个副本。</span><span class="ch">第 223 章</span></li><li><b class="subject">谢曼</b><span class="text">短发的靓丽女子，嘴不饶人。</span><span class="ch">第 223 章</span></li><li><b class="subject">高钧</b><span class="text">沉默寡言，住在徐获隔壁。</span><span class="ch">第 223、230 章</span></li><li><b class="subject">倪甜</b><span class="text">主动要和徐获同住的娇俏女子，其实是用纹身盖住编号的吃人玩家。</span><span class="ch">第 225、227 章</span><details class="src"><summary>原文</summary><blockquote>小哥哥，我跟你住行不行呀<cite>第 225 章 · p0015</cite></blockquote></details></li><li><b class="subject">章鱼卡熊（大熊）</b><span class="text">蒙头巾的年轻人，第二个副本，唯一用游戏昵称的人。</span><span class="ch">第 223 章</span></li><li><b class="subject">卫达</b><span class="text">下巴有个肉坑、说话刻薄的阴郁男人，直到第 237 章才报出名字；道具是一把扇风的折扇。</span><span class="ch">第 223、230、237 章</span></li><li><b class="subject">黎蔚然</b><span class="text">穿皮衣、嚼泡泡糖的女人，职业理发师，能操控头发，武器是一把巨型剪刀。</span><span class="ch">第 224、227、234 章</span></li><li><b class="subject">尤欢欢、鲁刚</b><span class="text">穿女仆装的小姑娘和没有舌头的高壮男人。她说他在以前的副本被人割了舌头，还救过她。</span><span class="ch">第 223–224 章</span><details class="src"><summary>原文</summary><blockquote>他好像在以前的副本被人割了舌头<cite>第 224 章 · p0046</cite></blockquote></details></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、人物结局、关键关系、伏笔与未解。含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
+<nav class="arcs"><a href="#story-1">一、进馆（第 222–225 章）</a><a href="#story-2">二、敲门的怪物（第 226–229 章）</a><a href="#story-3">三、谁杀了潘思明（第 230–234 章）</a><a href="#story-4">四、第三夜（第 235–236 章）</a><a href="#story-5">五、画与馆长（第 237–240 章）</a></nav>
+<h4 id="story-1">一、进馆（第 222–225 章）</h4>
+<p class="prose">出发前，刘佳传来韩教授过世的消息。徐获算了算：韩教授中间隔着两次副本，不可能活过两次副本再回医院死去，这个人可能没死。<sup class="cite" title="第222章：他绝不可能成功活过两次副本又回到医院死亡">222</sup>徐获带着画女进站，化名徐三，和车站结识的范时机一起进了百人美术馆。<sup class="cite" title="本句未附原文">222</sup>十二人碰面，潘思明张罗合作，阴郁男人冷嘲热讽。范时机取下门口的《静止的时间》时手滑摔在地上，徐获替他挂回去，看见画里的男人眨了眨眼。<sup class="cite" title="第223章：他看到画里的男人眨了眨眼">223</sup>白天看遍了画、取下了不少，都没有触发提示。鲁刚突然发狂掐住尤欢欢，被众人拉开。<sup class="cite" title="本句未附原文">224</sup>分房时倪甜挑中徐获同住。熄灯后徐获先擒住她亮了刀，她挣脱反扑，张口咬向他的脖子。<sup class="cite" title="第225章：小哥哥，我跟你住行不行呀">225</sup></p><details class="src block"><summary>本段原文 3 处</summary><blockquote>他绝不可能成功活过两次副本又回到医院死亡<cite>第 222 章 · p0023</cite></blockquote><blockquote>他看到画里的男人眨了眨眼<cite>第 223 章 · p0047</cite></blockquote><blockquote>小哥哥，我跟你住行不行呀<cite>第 225 章 · p0015</cite></blockquote></details>
+<h4 id="story-2">二、敲门的怪物（第 226–229 章）</h4>
+<p class="prose">徐获用琴弦勒住倪甜的嘴制服了她。半夜有东西拖着硬物走进走廊，在左侧第一间敲了一下就撞门而入：邓宇失踪，大熊昏迷；随后又在两处门口分别敲了两下、三下。<sup class="cite" title="第226章：仅仅一声，房间门轰声撞墙；第226章：第一次敲一下，第二次敲两下，三次是三下">226</sup>众人推断怪物找的是损坏过画的人：摔过画的范时机，蹭掉过素描铅粉的皮衣女黎蔚然。大熊说是邓宇撕破了一幅老妇肖像。<sup class="cite" title="第227章：但我拿到的是一张素描，摸画的时候蹭了一些铅粉下来">226–227</sup>徐获用清洁剂洗掉倪甜盖住编号的纹身，逼她交出道具和药剂，从此让她替自己跑腿。<sup class="cite" title="本句未附原文">227</sup>第二夜怪物径直去敲大熊的门：撕画的是他自己。大熊撞穿墙，拖着隔壁的潘思明一起逃。<sup class="cite" title="第228章：他也立刻意识到章鱼卡熊撒了谎">228</sup>大熊逃进展厅去拿他撕破的那幅画，游戏却宣布另一个昵称“隐匿者”的玩家完成了第一个任务。<sup class="cite" title="第229章：恭喜玩家隐匿者找到一幅赝品，完成本副本第一个任务">229</sup>徐获吊在高处，看清怪物是展厅中央那座雕像：五六米高，手脚细长，拄着手杖。他取下老妇肖像，画里多出了大熊的脸：碰活画的人会被吸进画里，这幅画就成了赝品。<sup class="cite" title="第229章：夜晚在美术馆内活动的怪物竟然是一个雕像吗；第229章：所以邓宇并不是失踪了，而是被吸入了画里">229</sup></p><details class="src block"><summary>本段原文 7 处</summary><blockquote>仅仅一声，房间门轰声撞墙<cite>第 226 章 · p0020</cite></blockquote><blockquote>第一次敲一下，第二次敲两下，三次是三下<cite>第 226 章 · p0052</cite></blockquote><blockquote>但我拿到的是一张素描，摸画的时候蹭了一些铅粉下来<cite>第 227 章 · p0015</cite></blockquote><blockquote>他也立刻意识到章鱼卡熊撒了谎<cite>第 228 章 · p0047</cite></blockquote><blockquote>恭喜玩家隐匿者找到一幅赝品，完成本副本第一个任务<cite>第 229 章 · p0007</cite></blockquote><blockquote>夜晚在美术馆内活动的怪物竟然是一个雕像吗<cite>第 229 章 · p0017</cite></blockquote><blockquote>所以邓宇并不是失踪了，而是被吸入了画里<cite>第 229 章 · p0032</cite></blockquote></details>
+<h4 id="story-3">三、谁杀了潘思明（第 230–234 章）</h4>
+<p class="prose">徐获交出赝品，完成第一个任务，第二个任务解锁：还原一幅赝品，使其成为真品。<sup class="cite" title="第230章：还原一幅赝品使其成为真品">230</sup>画女藏在一幅风景画里，告诉徐获尸体在吊灯上。潘思明的尸体掉下来，半张脸被咬烂，血也被喝光了：玩家里有人吃人。<sup class="cite" title="第231章：潘思明死相太惨了，半张脸都被咬烂了">231</sup>嫌疑落到左侧走廊，鲁刚一拳打倒卫达，众人围攻。尤欢欢露出红色玩家的真面目，一跃三倍身高，喝令鲁刚杀光众人，鲁刚反手一刀捅穿了她。<sup class="cite" title="第232章：突然出现在鲁刚手里的刀就捅穿了她的腹部">232</sup>尤欢欢被众人合力杀死。鲁刚打字说，是她割了他的舌头、逼他跟着进副本；可潘思明不是她杀的，他有视频为证。<sup class="cite" title="第233章：尤欢欢割了我的舌头，控制我参与副本；第233章：潘思明不是尤欢欢杀的，昨天晚上她没有开过房门">233</sup>黎蔚然用系在门上的头发证明高钧夜里开过门；徐获心里确定高钧就是“隐匿者”。众人暂且休战，各自找画。<sup class="cite" title="第234章：昨天回房间之前我在你的门上系了一根头发；第234章：高钧就是玩家“隐匿者”">234</sup></p><details class="src block"><summary>本段原文 7 处</summary><blockquote>还原一幅赝品使其成为真品<cite>第 230 章 · p0006</cite></blockquote><blockquote>潘思明死相太惨了，半张脸都被咬烂了<cite>第 231 章 · p0047</cite></blockquote><blockquote>突然出现在鲁刚手里的刀就捅穿了她的腹部<cite>第 232 章 · p0049</cite></blockquote><blockquote>尤欢欢割了我的舌头，控制我参与副本<cite>第 233 章 · p0022</cite></blockquote><blockquote>潘思明不是尤欢欢杀的，昨天晚上她没有开过房门<cite>第 233 章 · p0024</cite></blockquote><blockquote>昨天回房间之前我在你的门上系了一根头发<cite>第 234 章 · p0012</cite></blockquote><blockquote>高钧就是玩家“隐匿者”<cite>第 234 章 · p0015</cite></blockquote></details>
+<h4 id="story-4">四、第三夜（第 235–236 章）</h4>
+<p class="prose">熄灯后一排灯接连爆开，黎蔚然被她碰过的素描吸了进去。徐获取下画，让画女进画换出她，用琴弦把她拉出来，完成第二个任务，又把画丢到范时机脚边。<sup class="cite" title="第235章：恭喜玩家路人甲完成本副本第二个任务">235</sup>黎蔚然认定是范时机坑了她、也是杀潘思明的凶手；范时机用钢丝吊上吊灯逃开，更坐实了嫌疑。他转而指认徐获，却被卫达一脚踢得撞坏《沉默的雨伞》，雕像再次苏醒。<sup class="cite" title="第235章：以吊灯的高度，我们要上去都难更别说把尸体放上去，杀潘思明的就是他；第236章：阴郁男人突然发难一脚将他向后踢去">235–236</sup>第三个任务是“创造一幅藏品”。黎蔚然追上范时机，把他塞进那幅素描，以昵称“坟场蹦迪”完成了第一个任务。<sup class="cite" title="第236章：第三关【创造一幅藏品】他暂时没有头绪；第236章：恭喜玩家坟场蹦迪找到一幅赝品，完成副本的第一个任务">236</sup></p><details class="src block"><summary>本段原文 5 处</summary><blockquote>恭喜玩家路人甲完成本副本第二个任务<cite>第 235 章 · p0016</cite></blockquote><blockquote>以吊灯的高度，我们要上去都难更别说把尸体放上去，杀潘思明的就是他<cite>第 235 章 · p0030</cite></blockquote><blockquote>阴郁男人突然发难一脚将他向后踢去<cite>第 236 章 · p0015</cite></blockquote><blockquote>第三关【创造一幅藏品】他暂时没有头绪<cite>第 236 章 · p0023</cite></blockquote><blockquote>恭喜玩家坟场蹦迪找到一幅赝品，完成副本的第一个任务<cite>第 236 章 · p0031</cite></blockquote></details>
+<h4 id="story-5">五、画与馆长（第 237–240 章）</h4>
+<p class="prose">剩下七人在房间里混战。徐获把高钧摁向空白画框，画框不吞人；黎蔚然从背后偷袭，被他一剑斩成两截；倪甜跑来求救，被他顺手塞进一幅活画。高钧趁乱消失了。<sup class="cite" title="第237章：举着剪刀的黎蔚然头颅一歪，上半身斜滑落地；第237章：徐获就顺手把她塞进身边的活画里">237</sup>卫达和鲁刚夹击谢曼，她爬上柱子，被雕像一挥手杖变成了一幅新画；去拿画的鲁刚也被吸了进去。<sup class="cite" title="第237章：她便被一股无形的力量牵引着飞向斜前方的柱子">237</sup>卫达交出全部家当换一条命。徐获用他的鉴定叉扎自己，结果说他“有长期服药史”，可他记不得长期吃过药；画女说，世上有专门偷记忆的小偷。<sup class="cite" title="第238章：有长期服药史，食用无害；第238章：还有专门偷记忆的小偷">237–238</sup>白天他点火烧《静止的时间》逼问，油画人说要向馆长请求一幅新画；徐获发现《沉默的雨伞》的伞会随真话假话左右转，判定油画人在撒谎，又推断“三十天”是限期：进了画的人只能在一定时间内出来。<sup class="cite" title="第239章：看起来这把不会说话的伞要比油画人诚实的多；第239章：进了画不是不能出来，而是只能在一定时间里出来才行">238–239</sup>他和卫达在假花里找到铅笔。卫达画的房子被雕像看了半天后踩烂；谢曼被放出来去求馆长，又被变成了画。<sup class="cite" title="本句未附原文">239–240</sup>徐获看出馆长视力不好，飞快画了一副眼镜的素描挂上柱子，把装着倪甜的画踢给卫达让他走，自己也离开了。雕像把素描眼镜变成真眼镜戴上，整座美术馆随即扩建翻新，谢曼和鲁刚被画吐了出来。<sup class="cite" title="第240章：馆长视力不好，要凑近了看才能看清楚；第240章：画里的素描眼镜变成了一副真实的眼镜出现在它手里">240</sup>结算：完成三个任务并让副本场地升为 D 级，S 级评级；徐获升为 D 级玩家。<sup class="cite" title="第240章：并促使副本场地升级为D级副本，获得S超级评级；第240章：恭喜您成功升级为D级玩家，游戏将为您开通D级权限">240</sup></p><details class="src block"><summary>本段原文 11 处</summary><blockquote>举着剪刀的黎蔚然头颅一歪，上半身斜滑落地<cite>第 237 章 · p0007</cite></blockquote><blockquote>徐获就顺手把她塞进身边的活画里<cite>第 237 章 · p0011</cite></blockquote><blockquote>她便被一股无形的力量牵引着飞向斜前方的柱子<cite>第 237 章 · p0017</cite></blockquote><blockquote>有长期服药史，食用无害<cite>第 238 章 · p0012</cite></blockquote><blockquote>还有专门偷记忆的小偷<cite>第 238 章 · p0020</cite></blockquote><blockquote>看起来这把不会说话的伞要比油画人诚实的多<cite>第 239 章 · p0018</cite></blockquote><blockquote>进了画不是不能出来，而是只能在一定时间里出来才行<cite>第 239 章 · p0022</cite></blockquote><blockquote>馆长视力不好，要凑近了看才能看清楚<cite>第 240 章 · p0012</cite></blockquote><blockquote>画里的素描眼镜变成了一副真实的眼镜出现在它手里<cite>第 240 章 · p0015</cite></blockquote><blockquote>并促使副本场地升级为D级副本，获得S超级评级<cite>第 240 章 · p0019</cite></blockquote><blockquote>恭喜您成功升级为D级玩家，游戏将为您开通D级权限<cite>第 240 章 · p0026</cite></blockquote></details>
+</section>
+<section id="puzzle"><h3>解谜结构</h3>
+<p class="note">“找赝品、还原真品、创造藏品”三个任务，分别对应画吃人、把人拉出画、让馆长认可一幅新画；副本名“三十天”就是进画的人还能出来的期限。</p>
+<h4 id="puzzle-1">规则</h4>
+<ul class="items"><li><span class="text">任务逐个解锁，七天为限；九点熄灯后别乱走。</span><span class="ch">第 222、230 章</span></li><li><span class="text">白天损坏过画（哪怕只是蹭掉铅粉）的人，夜里会被怪物敲门追杀；敲门的次数对应先后。</span><span class="ch">第 226–227 章</span></li></ul>
+<h4 id="puzzle-2">线索</h4>
+<ul class="items"><li><span class="text">《静止的时间》里的人会眨眼；《沉默的雨伞》的伞影会左右转动。</span><span class="ch">第 223、239 章</span></li><li><span class="text">有内容的画下面都有倒计时，最长的也没超过三十天；空白画框没有倒计时。</span><span class="ch">第 224、239 章</span></li><li><span class="text">白天取下画都没有反应。</span><span class="ch">第 224 章</span></li><li><span class="text">展厅中央的雕像夜里只剩一块披布。</span><span class="ch">第 229 章</span></li></ul>
+<h4 id="puzzle-3">误导</h4>
+<ul class="items"><li><span class="text">以为赝品是某一类画（照片、素描），或者撕破的画晚上就会变成赝品。</span><span class="ch">第 224、234 章</span></li><li><span class="text">以为怪物随机杀人，或者只认房间。</span><span class="ch">第 226、228 章</span></li><li><span class="text">油画人说要“向馆长请求一幅新画”，实际去请求的人会被变成画。</span><span class="ch">第 239–240 章</span><details class="src"><summary>原文</summary><blockquote>你们要向馆长提出请求！请求馆长给你们一幅新画<cite>第 239 章 · p0025</cite></blockquote></details></li><li><span class="text">编号颜色靠不住：倪甜遮住了红色编号，尤欢欢装成柔弱的白色玩家。</span><span class="ch">第 227、232 章</span></li></ul>
+<h4 id="puzzle-4">真相</h4>
+<ul class="items"><li><span class="text">开馆时没有赝品；夜里去碰活画的玩家会被吸进画里，这幅画就成了赝品。（徐获的推断）</span><span class="ch">第 229 章</span></li><li><span class="text">在期限内把画里的人拉出来，赝品就还原成了真品。（徐获的推断）</span><span class="ch">第 235、239 章</span></li><li><span class="text">夜里游荡的是雕像馆长：它视力不好，会凑近细看画；碰上活人就用手杖把人变成新画。</span><span class="ch">第 229、240 章</span></li><li><span class="text">“隐匿者”是高钧，“坟场蹦迪”是黎蔚然。</span><span class="ch">第 234、236 章</span></li></ul>
+<h4 id="puzzle-5">解法</h4>
+<ul class="items"><li><span class="text">任务一：熄灯后取下吸了人的活画。</span><span class="ch">第 229 章</span></li><li><span class="text">任务二：让画女进画把人换出来，再用琴弦拉出画框。</span><span class="ch">第 235 章</span></li><li><span class="text">任务三：亲手画一幅画挂上去，得到馆长的认可；徐获画的眼镜正合近视的馆长心意，还让副本场地升了级。</span><span class="ch">第 240 章</span></li></ul>
+</section>
+<section id="fates"><h3>人物结局</h3>
+<ul class="people"><li><b class="subject">徐获（路人甲）</b><span class="text">通关，S 级，升为 D 级玩家；除副本奖励外还有馆长的馈赠和一件特殊道具，卫达的饥饿的餐巾和鉴定叉也归了他。</span><span class="ch">第 238、240 章</span><details class="src"><summary>原文</summary><blockquote>卫达看他把自己攒的家当全部拿走不是不心疼<cite>第 238 章 · p0010</cite></blockquote></details></li><li><b class="subject">卫达</b><span class="text">抱着装有倪甜的那幅赝品离开了副本。</span><span class="ch">第 240 章</span><details class="src"><summary>原文</summary><blockquote>卫达扑过来抱住画，下一秒便从原地消失<cite>第 240 章 · p0014</cite></blockquote></details></li><li><b class="subject">谢曼、鲁刚</b><span class="text">被变成了画；美术馆升级时被画吐出来，随即脱离副本。</span><span class="ch">第 237、240 章</span><details class="src"><summary>原文</summary><blockquote>谢曼和鲁刚两人被画吐了出来<cite>第 240 章 · p0017</cite></blockquote></details></li><li><b class="subject">高钧（隐匿者）</b><span class="text">据卫达推断，他是拿邓宇那幅画完成的第一个任务；混战中不知去向。</span><span class="ch">第 229、237–238 章</span><details class="src"><summary>原文</summary><blockquote>掉过头来时高钧已经消失了<cite>第 237 章 · p0008</cite></blockquote></details></li><li><b class="subject">黎蔚然（坟场蹦迪）</b><span class="text">完成第一个任务后偷袭徐获，被一剑斩成两截。</span><span class="ch">第 236–237 章</span></li><li><b class="subject">倪甜</b><span class="text">被徐获塞进活画，最后连画一起被卫达带走当了赝品。</span><span class="ch">第 237、240 章</span></li><li><b class="subject">尤欢欢</b><span class="text">隐藏的红色玩家，被众人围攻，死在鲁刚刀下。</span><span class="ch">第 232–233 章</span></li><li><b class="subject">潘思明</b><span class="text">被活活咬死，尸体藏在吊灯上；众人最后认定凶手是能用钢丝上吊灯的范时机，原文没有坐实。</span><span class="ch">第 231、235 章</span></li><li><b class="subject">范时机</b><span class="text">被黎蔚然塞进素描画，成了她的赝品。</span><span class="ch">第 236 章</span></li><li><b class="subject">邓宇、章鱼卡熊（大熊）</b><span class="text">夜里碰画被吸进画里，大熊那幅被徐获交掉；邓宇那幅卫达推断是被高钧拿去交了任务。</span><span class="ch">第 229、238 章</span></li></ul>
+</section>
+<section id="relations"><h3>关键关系</h3>
+<p class="note">一对人物只画一条线：绿色是同伴，橙色是冲突，红色箭头是杀死，灰色是其他；虚线表示某人的说法或推断。</p>
+<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+</defs>
+<g class="edge"><title>徐获 — 搭档 — 画女（第 226、235 章）</title><path d="M528.6,237.5 Q472.8,184.8 425.6,140.2" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 要挟·出卖 — 倪甜（第 225、227、237 章）</title><path d="M528.6,237.5 Q539.3,158.2 548.4,90.8" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 → 斩杀 → 黎蔚然（第 237 章）</title><path d="M528.6,237.5 Q568.9,300.6 602.6,353.5" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge"><title>徐获 — 交易保命 — 卫达（第 238、240 章）</title><path d="M528.6,237.5 Q598.7,211.9 657.5,190.5" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>黎蔚然 — 误认仇人 — 范时机（第 235–236 章）</title><path d="M609.1,363.6 Q559.5,373.9 521.6,381.7" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 结伴·嫁祸 — 范时机（第 222、235 章）</title><path d="M528.6,237.5 Q519.2,310.8 511.3,372.2" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 互相提防 — 高钧（第 230、237 章）</title><path d="M528.6,237.5 Q474.1,289.4 428.3,332.9" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>鲁刚 → 捅死 → 尤欢欢（第 232–233 章）</title><path d="M60,283.8 Q60.0,223.6 60.0,175.4" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge"><title>鲁刚 — 夹击 — 谢曼（第 237 章）</title><path d="M60,283.8 Q98.0,252.9 126.8,229.7" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>谢曼 → 解围 → 尤欢欢（第 224 章）</title><path d="M136.1,222.1 Q98.0,192.8 69.5,170.7" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge"><title>范时机 → 飞刀解围 → 高钧（第 233 章）</title><path d="M509.8,384.1 Q464.7,362.6 430.4,346.4" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<text x="472.8" y="188.8" class="elabel" style="fill:#4fbf7f">搭档</text>
+<text x="539.3" y="162.2" class="elabel" style="fill:#f0904f">要挟·出卖</text>
+<text x="568.9" y="304.6" class="elabel" style="fill:#ef5a4f">斩杀</text>
+<text x="598.7" y="215.9" class="elabel" style="fill:#8d95a3">交易保命</text>
+<text x="559.5" y="377.9" class="elabel" style="fill:#f0904f">误认仇人</text>
+<text x="519.2" y="314.8" class="elabel" style="fill:#8d95a3">结伴·嫁祸</text>
+<text x="474.1" y="293.4" class="elabel" style="fill:#f0904f">互相提防</text>
+<text x="60.0" y="227.6" class="elabel" style="fill:#ef5a4f">捅死</text>
+<text x="98.1" y="257.0" class="elabel" style="fill:#f0904f">夹击</text>
+<text x="98.0" y="196.8" class="elabel" style="fill:#4fbf7f">解围</text>
+<text x="464.7" y="366.7" class="elabel" style="fill:#4fbf7f">飞刀解围</text>
+<g class="node"><circle cx="528.6" cy="237.5" r="12.9"/><text x="528.6" y="218.6" class="name">徐获</text></g>
+<g class="node"><circle cx="509.8" cy="384.1" r="11.5"/><text x="509.8" y="366.6" class="name">范时机</text></g>
+<g class="node"><circle cx="609.1" cy="363.6" r="10.8"/><text x="609.1" y="346.8" class="name">黎蔚然</text></g>
+<g class="node"><circle cx="419.6" cy="341.2" r="10.8"/><text x="419.6" y="324.4" class="name">高钧</text></g>
+<g class="node"><circle cx="60" cy="283.8" r="10.8"/><text x="60" y="267.0" class="name">鲁刚</text></g>
+<g class="node"><circle cx="60" cy="163.4" r="10.8"/><text x="60" y="146.6" class="name">尤欢欢</text></g>
+<g class="node"><circle cx="136.1" cy="222.1" r="10.8"/><text x="136.1" y="205.3" class="name">谢曼</text></g>
+<g class="node"><circle cx="416.9" cy="132.0" r="10.0"/><text x="416.9" y="116.0" class="name">画女</text></g>
+<g class="node"><circle cx="550.0" cy="78.9" r="10.0"/><text x="550.0" y="62.9" class="name">倪甜</text></g>
+<g class="node"><circle cx="668.8" cy="186.4" r="10.0"/><text x="668.8" y="170.4" class="name">卫达</text></g>
+</svg></div>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text">徐获 — 搭档 — 画女</span><span class="ch">第 226、235 章</span></li><li><span class="text">徐获 — 要挟·出卖 — 倪甜</span><span class="ch">第 225、227、237 章</span></li><li><span class="text">徐获 → 斩杀 → 黎蔚然</span><span class="ch">第 237 章</span></li><li><span class="text">徐获 — 交易保命 — 卫达</span><span class="ch">第 238、240 章</span></li><li><span class="text">黎蔚然 — 误认仇人 — 范时机</span><span class="ch">第 235–236 章</span></li><li><span class="text">徐获 — 结伴·嫁祸 — 范时机</span><span class="ch">第 222、235 章</span></li><li><span class="text">徐获 — 互相提防 — 高钧</span><span class="ch">第 230、237 章</span></li><li><span class="text">鲁刚 → 捅死 → 尤欢欢</span><span class="ch">第 232–233 章</span></li><li><span class="text">鲁刚 — 夹击 — 谢曼</span><span class="ch">第 237 章</span></li><li><span class="text">谢曼 → 解围 → 尤欢欢</span><span class="ch">第 224 章</span></li><li><span class="text">范时机 → 飞刀解围 → 高钧</span><span class="ch">第 233 章</span></li></ul></details>
+</section>
+<section id="threads"><h3>伏笔与未解</h3>
+<p class="note">截至第 240 章还没有交代的事。</p>
+<ul class="items"><li><span class="text">鉴定叉说徐获“有长期服药史”，可他不记得长期吃过药；画女说有专门偷记忆的小偷。</span><span class="ch">第 238 章</span><details class="src"><summary>原文</summary><blockquote>有长期服药史，食用无害<cite>第 238 章 · p0012</cite></blockquote></details></li><li><span class="text">韩教授的死讯：徐获怀疑他没死，若真活着，说明国家在解毒剂上有了突破。</span><span class="ch">第 222 章</span><details class="src"><summary>原文</summary><blockquote>刚拿起手机就收到了刘佳发来的信息：韩教授过世了<cite>第 222 章 · p0020</cite></blockquote></details></li><li><span class="text">馆长的馈赠、游戏额外赠送的特殊道具和升级礼包是什么，这一章还没打开。</span><span class="ch">第 240 章</span></li><li><span class="text">升为 D 级后的五项权限刚开通；跨区悬赏上挂着七十二张 014 区的 D 级车票。</span><span class="ch">第 240 章</span></li><li><span class="text">高钧（隐匿者）混战中消失后的去向。</span><span class="ch">第 237 章</span></li><li><span class="text">潘思明究竟是谁杀的，原文没有坐实。</span><span class="ch">第 233、235 章</span></li></ul>
+</section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E8%BD%A6%E7%A5%A8%E4%B8%8E%E5%89%AF%E6%9C%AC">车票与副本</a><a href="../world.html#world-%E9%80%9A%E5%85%B3%E4%B8%8E%E8%AF%84%E7%BA%A7">通关与评级</a><a href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B">红、黑、白玩家与编号</a><a href="../world.html#world-D%E7%BA%A7%E6%9D%83%E9%99%90">升级与 D 级权限</a><a href="../world.html#world-%E9%81%93%E5%85%B7">道具</a><a href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C">游戏世界与虫洞点</a><a href="../world.html#world-%E6%B0%B8%E6%98%9F">永星</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E6%B8%85%E6%B4%81%E5%89%82">清洁剂</a><a href="../items.html#item-%E7%BA%B5%E7%81%AB%E7%8A%AF%E7%9A%84%E5%B7%A5%E5%85%B7">纵火犯的工具</a><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a><a href="../items.html#item-%E6%97%A0%E5%A4%84%E4%B8%8D%E5%9C%A8%E7%9A%84%E7%90%B4%E5%BC%A6">无处不在的琴弦</a><a href="../items.html#item-%E7%BA%A2%E5%AE%9D%E7%9F%B3%E9%95%BF%E5%89%91">红宝石长剑</a><a href="../items.html#item-%E5%B0%8F%E6%B0%94%E7%9A%84%E7%9A%AE%E7%AE%B1">小气的皮箱</a><a href="../items.html#item-%E6%97%A0%E7%95%8F%E9%A3%8E%E9%9B%AA%E7%9A%84%E7%81%AB%E6%8A%8A">无畏风雪的火把</a><a href="../items.html#item-V%C2%B7%E8%8C%83%E8%82%96%E7%9A%84%E4%BD%9C%E6%A1%88%E5%B7%A5%E5%85%B7">V·范肖的作案工具</a><a href="../items.html#item-%E9%B2%9C%E7%BA%A2%E7%9A%84%E5%89%91">鲜红的剑</a><a href="../items.html#item-%E6%88%90%E4%BA%BA%E7%AB%A5%E8%AF%9D%E4%B9%A6">成人童话书</a><a href="../items.html#item-%E9%89%B4%E5%AE%9A%E5%8F%89">鉴定叉</a><a href="../items.html#item-%E9%A5%A5%E9%A5%BF%E7%9A%84%E9%A4%90%E5%B7%BE">饥饿的餐巾</a></p></section></details>
+
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由整理者撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。</footer>
+</main></body></html>

@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>汀城（砍头魔之后） · 单元卡 · 维度之下</title><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local')</script><style>
+:root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
+  --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+:root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
+  background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
+:root[data-theme="light"] body { background:var(--paper); }
+a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
+
+/* nav: the rail */
+.rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
+.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; }
+.brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
+.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.2em; margin-left:8px; }
+.rail nav { display:flex; gap:14px; flex-wrap:wrap; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:2px 0; border-bottom:2px solid transparent; }
+.rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
+.rail .toggle-label { margin-left:auto; }
+.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+
+/* sources switch */
+.toggle { position:absolute; opacity:0; pointer-events:none; }
+.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:0 8px; cursor:pointer; user-select:none; }
+#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.ch, sup.cite, details.src, .src-only { display:none; }
+#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main sup.cite { display:inline; }
+#show-src:checked ~ main details.src { display:inline; }
+#show-src:checked ~ main .src-only { display:block; }
+#show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
+sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
+details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
+
+/* headings and text */
+h1, h2, h3, h4 { font-family:var(--serif); }
+h2.sign { display:inline-block; font-size:20px; margin:34px 0 10px; padding:4px 14px; background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-bottom:2px solid var(--signal); border-radius:4px; letter-spacing:.12em; }
+h3 { font-size:19px; margin:26px 0 8px; padding-left:12px; border-left:4px solid var(--signal); }
+h4 { font-size:15px; margin:16px 0 4px; color:var(--brass); letter-spacing:.06em; }
+.note { color:var(--muted); font-size:14px; margin:4px 0; }
+.meta { color:var(--muted); font-size:13px; }
+ul { margin:0; padding-left:20px; } li { margin:6px 0; }
+.chipline { display:flex; flex-wrap:wrap; gap:6px 8px; margin:8px 0; }
+.chipline a, .chip { background:var(--chip); color:var(--ink); border-radius:3px; padding:1px 9px; font-size:13px; white-space:nowrap; }
+
+/* the ticket (page header of a unit card, index entries) */
+.ticket { display:flex; background:linear-gradient(135deg, var(--card-2), var(--card)); border:1px solid var(--line); border-radius:10px; margin:18px 0 8px; position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.ticket-main { flex:1; padding:18px 22px 16px; min-width:0; position:relative; }
+.ticket-stub { width:170px; padding:16px 18px; border-left:2px dashed var(--line); position:relative; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.ticket-stub::before, .ticket-stub::after { content:""; position:absolute; left:-11px; width:20px; height:20px; border-radius:50%; background:var(--paper); border:1px solid var(--line); }
+.ticket-stub::before { top:-11px; } .ticket-stub::after { bottom:-11px; }
+.kicker { font-size:12px; letter-spacing:.3em; color:var(--signal); }
+.ticket h1 { font-size:34px; margin:2px 0 4px; letter-spacing:.06em; }
+.route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
+.stub-row { font:12px var(--mono); color:var(--muted); }
+.stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+.stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
+  display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
+.stamp small { font-size:10px; margin-left:1px; }
+
+/* the dark system panel for text the game shows */
+.sys { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px; padding:10px 14px; margin:8px 0; font:14px/1.75 var(--serif); }
+.sys::before { content:"【系统】"; color:var(--brass); margin-right:4px; font-family:var(--sans); font-size:12px; letter-spacing:.1em; }
+.sys b { color:var(--brass); font:600 12px var(--sans); margin-right:6px; }
+
+/* grade badge */
+.grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
+  color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
+.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+
+footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
+@media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+
+.layer { margin:6px 0 18px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary::-webkit-details-marker { display:none; }
+.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
+.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer:not([open]) > summary::after { content:"展开"; }
+section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
+ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
+ul.people li:last-child { border-bottom:none; }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
+details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); }
+svg { width:100%; height:auto; display:block; }
+svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
+svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
+svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
+details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+.links { margin:8px 0; } .links b { display:inline-block; width:3em; color:var(--brass); font-weight:600; }
+.links a { margin-right:12px; white-space:nowrap; }
+.hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
+nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
+nav.arcs a:hover { color:var(--signal); }
+h4[id] { scroll-margin-top:16px; }
+</style></head>
+<body><input type="checkbox" id="show-src" class="toggle"><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
+<h1>汀城（砍头魔之后）</h1><div class="route">第 37 章 ──── 第 40 章</div><p class="hint">没读过前文？先看<a href="../world.html">世界观</a>，这里不重复解释游戏设定。</p></div>
+<div class="ticket-stub"><div class="stub-row"><b>单元</b>u0005</div><div class="stub-row"><b>句数</b>65</div>
+<div class="stub-row"><b>引用</b>58 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<p class="meta">撰写：claude-opus-5-5 (claude-code session)，读第 37–40 章正文后撰写。每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p>
+<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。</span></summary><section id="overview"><h3>一句话</h3>
+<ul class="items"><li><span class="text">砍头魔之后，徐获回到现实里的汀城过了几天：清点奖励、试新道具，和政府的人聂玄做了一笔交易又坑了他一把，替名义上的表妹俞晴晴出头，还在官方论坛上摸清了外面的局势。</span><span class="ch">第 37–40 章</span></li><li><span class="text">主线段，第 37–40 章，地点汀城。从坐上初审列车到砍头魔结束，一共才三天。</span><span class="ch">第 37–38 章</span><details class="src"><summary>原文</summary><blockquote>从初审列车到徐获第一次副本结束，不过短短三天时间<cite>第 38 章 · p0040</cite></blockquote></details></li></ul>
+</section>
+<section id="cast"><h3>登场人物</h3>
+<p class="note">按出场先后。刘圆圆、韩教授只在对话和短信里被提到。</p>
+<ul class="people"><li><b class="subject">徐获（路人甲）</b><span class="text">主角，E 级黑色玩家，在汀城做临时演员。刚通关砍头魔，暂住酒店。</span><span class="ch">第 2、37–38 章</span><details class="src"><summary>原文</summary><blockquote>你在汀城做过两年武替，四年临时演员<cite>第 2 章 · p0023</cite></blockquote></details></li><li><b class="subject">聂玄</b><span class="text">汀城第一研究所的人，初审列车上和徐获交换过情报；现在替政府招揽玩家。</span><span class="ch">第 2、6、9、37 章</span><details class="src"><summary>原文</summary><blockquote>汀城第一研究所，聂玄。<cite>第 2 章 · p0038</cite></blockquote></details></li><li><b class="subject">刘圆圆</b><span class="text">砍头魔里伪装成普通玩家的红色玩家。</span><span class="ch">第 33、37–38 章</span></li><li><b class="subject">刘佳</b><span class="text">初审列车上的乘客，和韩教授都是邻市人；下车后加入了本地的政府机构。</span><span class="ch">第 38 章</span><details class="src"><summary>原文</summary><blockquote>而她本人也加入了本地的政府机构<cite>第 38 章 · p0041</cite></blockquote></details></li><li><b class="subject">韩教授</b><span class="text">初审列车上的乘客，下车后病倒。</span><span class="ch">第 38 章</span></li><li><b class="subject">俞晴晴</b><span class="text">徐获继母的侄女，名义上的表妹，没有血缘；从高中起就爱缠着他，大学读到一半休学跑来汀城当演员。</span><span class="ch">第 40 章</span><details class="src"><summary>原文</summary><blockquote>俞晴晴是他继母的侄女，名义上他们是表兄妹<cite>第 40 章 · p0009</cite></blockquote><blockquote>这丫头大学读到一半就休学过来当演员<cite>第 40 章 · p0009</cite></blockquote></details></li><li><b class="subject">朱总</b><span class="text">看上俞晴晴、逼经纪人带她来陪客的老板。</span><span class="ch">第 39 章</span></li><li><b class="subject">金乌</b><span class="text">官方玩家排名第一的玩家，官方人员。</span><span class="ch">第 40 章</span><details class="src"><summary>原文</summary><blockquote>最高的是一名昵称“金乌”的玩家，官方人员<cite>第 40 章 · p0028</cite></blockquote></details></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
+<nav class="arcs"><a href="#story-1">一、结算（第 37 章）</a><a href="#story-2">二、聂玄上门（第 37–38 章）</a><a href="#story-3">三、表妹（第 38–40 章）</a><a href="#story-4">四、先锋玩家（第 40 章）</a></nav>
+<h4 id="story-1">一、结算（第 37 章）</h4>
+<p class="prose">砍头魔结束后，徐获回到汀城，在酒店房间里清点这一趟的收获。<sup class="cite" title="本句未附原文">37–38</sup>他选了“特性开发权限”，按职业得到新特性“一件悲伤的事”：人们总会很快忘掉他的长相。<sup class="cite" title="第37章：本次您将获得新特性“一件悲伤的事”；第37章：人们总是会很快遗忘他的长相">37</sup>副本里来往的多是陌生玩家，不容易被记住，对他来说既方便又安全。<sup class="cite" title="第37章：不容易被人记住长相便利又安全">37</sup>原有的“知情者视角”还长出了延伸特性“超级记忆力”；游戏另外奖励了一件道具、9 瓶药剂，和 E 级、D 级车票各一张。<sup class="cite" title="第37章：知情者视角（延伸特性：超级记忆力）；第37章：一张E级副本车票，一张D级副本车票">37</sup>他试了两件道具：从王伟手里得来的“无处不在的琴弦”能挂在任何地方，隔着床单就能把他整个人吊起来；“双色魔方”每次打开有一成机会掉出眼下缺的东西，第一次就开出一把开瓶器。<sup class="cite" title="第37章：琴弦果然顺利将他拉起；第37章：第一次打开出现了一把开瓶器">36–37</sup>第四次开魔方前，他往一杯水里兑了一瓶盖谎话剂（喝下的人三十分钟内只能说谎），魔方一开，就有人敲门。<sup class="cite" title="第37章：加了一盖谎话剂进去">37</sup></p><details class="src block"><summary>本段原文 8 处</summary><blockquote>本次您将获得新特性“一件悲伤的事”<cite>第 37 章 · p0002</cite></blockquote><blockquote>人们总是会很快遗忘他的长相<cite>第 37 章 · p0013</cite></blockquote><blockquote>不容易被人记住长相便利又安全<cite>第 37 章 · p0027</cite></blockquote><blockquote>知情者视角（延伸特性：超级记忆力）<cite>第 37 章 · p0012</cite></blockquote><blockquote>一张E级副本车票，一张D级副本车票<cite>第 37 章 · p0025</cite></blockquote><blockquote>琴弦果然顺利将他拉起<cite>第 37 章 · p0033</cite></blockquote><blockquote>第一次打开出现了一把开瓶器<cite>第 37 章 · p0039</cite></blockquote><blockquote>加了一盖谎话剂进去<cite>第 37 章 · p0039</cite></blockquote></details>
+<h4 id="story-2">二、聂玄上门（第 37–38 章）</h4>
+<p class="prose">来的是聂玄：徐获失踪后，他的案子转到了聂玄手上。<sup class="cite" title="第37章：你失踪后案子转到了我这里">37</sup>聂玄代表政府来拉拢他：政府搭了一个网络平台，合作的玩家可以在上面交易情报、道具和药剂。<sup class="cite" title="第37章：政府已经搭建好了一个网络平台">37</sup>徐获看得明白，这个平台更要紧的用处是掌握玩家的信息，尤其是红色玩家。<sup class="cite" title="第37章：更重要的是掌握玩家信息">37</sup>他拿砍头魔里那个红色玩家刘圆圆的样貌和口音，换了聂玄一瓶 P1 进化剂。<sup class="cite" title="第38章：药剂，不过我要P1进化剂">37–38</sup>聂玄顺势邀他加入刚成立的特事局，他只说考虑一下。<sup class="cite" title="第38章：现在特事局刚刚成立，政府正在征召人手">38</sup>徐获接着问官方对游戏知道多少，聂玄喝了口桌上那杯水，答得很痛快：掌握的信息不少，进化者的食欲很快就能压住，长期不喝进化剂也没有后遗症。<sup class="cite" title="第38章：很快就能抑制进化者的进食欲望">38</sup>话没说完，他就闭紧了嘴，盯住那杯水——水里兑了谎话剂，徐获坦白只是想试试药效。<sup class="cite" title="第38章：先看了徐获一眼，而后视线再落到那杯水上；第38章：我只是想试试药剂的作用，正好你送上门">38</sup>所以他那几句都当不得真：停用进化剂的危害，聂玄其实心里有数。<sup class="cite" title="第40章：这个聂玄明显是知道的">38、40</sup>聂玄冷笑着走了，下楼后只能举着一只会说话的凯蒂猫手偶跟秘书交流。<sup class="cite" title="第38章：手掌上多了一个凯蒂猫的手偶">38</sup>吃了亏，他却不打算抓人：徐获不是红色玩家，又聪明有潜力，正是国家缺的人。（聂玄的推断）<sup class="cite" title="第38章：他不是红色玩家，而且这个人很聪明">38</sup>原来他上门时还布置了狙击手；现在狙击手和特事人员都撤了，只在徐获租的房子附近留一个监视点。<sup class="cite" title="第38章：狙击手和特事人员都撤走">38</sup>他派秘书送来 P1 进化剂和证件，想顺手取走那杯水的样本，杯子却早被洗干净了，徐获还托话说要搬家，安顿好了请他吃搬家饭。<sup class="cite" title="第38章：我去的时候杯子都洗干净了">38</sup>徐获收下 P1，却不打算马上喝：在他看来，进化剂是颗定时炸弹，玩家对它的依赖和后遗症都太强。<sup class="cite" title="第38章：玩家对进化剂的依赖性和后遗症太强">38</sup>听说初审列车上的韩教授下车后长出了脓包，症状和砍头魔里那个滞留的劈柴人差不多，徐获猜：进化者体内也许有某种毒素或病菌，进化剂能压住它，停得久了就会反噬身体。（徐获的推断）<sup class="cite" title="第38章：这是不是代表进化者体内都有一种不知名的毒素或病菌">38</sup></p><details class="src block"><summary>本段原文 15 处</summary><blockquote>你失踪后案子转到了我这里<cite>第 37 章 · p0047</cite></blockquote><blockquote>政府已经搭建好了一个网络平台<cite>第 37 章 · p0053</cite></blockquote><blockquote>更重要的是掌握玩家信息<cite>第 37 章 · p0056</cite></blockquote><blockquote>药剂，不过我要P1进化剂<cite>第 38 章 · p0002</cite></blockquote><blockquote>现在特事局刚刚成立，政府正在征召人手<cite>第 38 章 · p0009</cite></blockquote><blockquote>很快就能抑制进化者的进食欲望<cite>第 38 章 · p0016</cite></blockquote><blockquote>先看了徐获一眼，而后视线再落到那杯水上<cite>第 38 章 · p0018</cite></blockquote><blockquote>我只是想试试药剂的作用，正好你送上门<cite>第 38 章 · p0019</cite></blockquote><blockquote>这个聂玄明显是知道的<cite>第 40 章 · p0016</cite></blockquote><blockquote>手掌上多了一个凯蒂猫的手偶<cite>第 38 章 · p0023</cite></blockquote><blockquote>他不是红色玩家，而且这个人很聪明<cite>第 38 章 · p0026</cite></blockquote><blockquote>狙击手和特事人员都撤走<cite>第 38 章 · p0029</cite></blockquote><blockquote>我去的时候杯子都洗干净了<cite>第 38 章 · p0033</cite></blockquote><blockquote>玩家对进化剂的依赖性和后遗症太强<cite>第 38 章 · p0036</cite></blockquote><blockquote>这是不是代表进化者体内都有一种不知名的毒素或病菌<cite>第 38 章 · p0048</cite></blockquote></details>
+<h4 id="story-3">三、表妹（第 38–40 章）</h4>
+<p class="prose">这时俞晴晴打来电话：经纪人骗她陪客户，她被人欺负了。<sup class="cite" title="第39章：我被人欺负了，经纪人骗我陪客户">38–39</sup>她就在徐获住的瑞喜酒店，徐获上了两层楼就找到了她。<sup class="cite" title="本句未附原文">39</sup>看上她的朱总带着经纪人和两个保镖追上来，徐获一巴掌扇得朱总抱着手惨叫，两个保镖也被他轻松撂倒。<sup class="cite" title="第39章：徐获反手将他扇开，随着“咔嚓”一声，朱总抱着手惨叫起来">39</sup>他点上烟，慢悠悠地讲起会吃人的进化者，几个人立刻认定他就是进化者，吓得腿软。<sup class="cite" title="第39章：几个人顿时觉得双腿发软">39</sup>朱总趁乱想溜，却被看不见的东西勒住脖子拖回墙边吊了起来，只好求饶。<sup class="cite" title="第39章：像是被什么东西吊着一样拖到了墙边">39</sup>看情形，用的是徐获刚摸清用法的琴弦。（推断）<sup class="cite" title="本句未附原文">37、39</sup>经纪人当场答应第二天就让俞晴晴解约，还会说服公司不要违约金。<sup class="cite" title="第39章：没问题，我立刻去准备合同，说服公司不要违约金">39</sup>回到房间，俞晴晴说要留下来照顾他，他饿了她就出去“钓坏人”给他吃。<sup class="cite" title="第39章：你要是肚子饿了我就出去钓坏人给你吃">39</sup>徐获脸色一变，扒开她的衣领查看，肩后没有玩家编号；他又当面划破手心挤出血，见她只是吃惊，才松了口气。<sup class="cite" title="第40章：徐获检查她的双肩，没有编号；第40章：他用小刀划破手心，当着她的面挤出一串鲜血">39–40</sup>俞晴晴却满不在乎：只要自己没事，别人死不死跟她没关系；父母为此让她看过心理医生。<sup class="cite" title="第40章：别人死不死跟我有什么关系；第40章：我搞不懂爸妈怎么想，非要让我去看医生">40</sup>徐获逼她回家读书，她又气又可怜的表情一下子收了，冷冷地盯了他几秒，才蒙上被子咒他两年找不到女朋友。<sup class="cite" title="第40章：双瞳冷漠地盯了他几秒">40</sup>第二天，助理收拾她的脏衣服时被刀片割破了手指：她的裙子领口和边角缝着三枚刮胡刀片。<sup class="cite" title="第40章：把缝在裙子领子和边角上的三枚刀片全部摘下来丢进垃圾桶">40</sup>徐获把刀片全摘下扔掉，亲眼看她上了飞机，才回城去她的娱乐公司。<sup class="cite" title="第40章：亲眼看她上了飞机他才回到城里">40</sup></p><details class="src block"><summary>本段原文 13 处</summary><blockquote>我被人欺负了，经纪人骗我陪客户<cite>第 39 章 · p0007</cite></blockquote><blockquote>徐获反手将他扇开，随着“咔嚓”一声，朱总抱着手惨叫起来<cite>第 39 章 · p0021</cite></blockquote><blockquote>几个人顿时觉得双腿发软<cite>第 39 章 · p0033</cite></blockquote><blockquote>像是被什么东西吊着一样拖到了墙边<cite>第 39 章 · p0039</cite></blockquote><blockquote>没问题，我立刻去准备合同，说服公司不要违约金<cite>第 39 章 · p0044</cite></blockquote><blockquote>你要是肚子饿了我就出去钓坏人给你吃<cite>第 39 章 · p0054</cite></blockquote><blockquote>徐获检查她的双肩，没有编号<cite>第 40 章 · p0002</cite></blockquote><blockquote>他用小刀划破手心，当着她的面挤出一串鲜血<cite>第 40 章 · p0003</cite></blockquote><blockquote>别人死不死跟我有什么关系<cite>第 40 章 · p0007</cite></blockquote><blockquote>我搞不懂爸妈怎么想，非要让我去看医生<cite>第 40 章 · p0011</cite></blockquote><blockquote>双瞳冷漠地盯了他几秒<cite>第 40 章 · p0044</cite></blockquote><blockquote>把缝在裙子领子和边角上的三枚刀片全部摘下来丢进垃圾桶<cite>第 40 章 · p0047</cite></blockquote><blockquote>亲眼看她上了飞机他才回到城里<cite>第 40 章 · p0048</cite></blockquote></details>
+<h4 id="story-4">四、先锋玩家（第 40 章）</h4>
+<p class="prose">前一晚，徐获登录了聂玄给的网址，是一个叫“先锋玩家”的论坛。<sup class="cite" title="第40章：是一个论坛，名为“先锋玩家”">40</sup>论坛上的科普和他知道的差不多，唯独没提停用进化剂的危害。<sup class="cite" title="第40章：不过停用进化剂的危害官方没有公布出来">40</sup>他猜官方是怕进化剂继车票之后，成为玩家疯抢的资源。（徐获的推断）<sup class="cite" title="第40章：担心进化剂继车票成为下一个玩家疯狂抢夺的资源">40</sup>还有一条他不确定官方知不知道：缺席一次副本，三个月后就会被扔进 B 级起步的随机副本。<sup class="cite" title="第40章：只要缺席一个副本，游戏就会通知玩家准备三个月后的随机副本">40</sup>论坛公布了官方的玩家排名：第一次副本评级最高的是官方人员“金乌”，他把八名玩家安全带出游戏，拿到 B 级。<sup class="cite" title="第40章：他将八名玩家安全带出游戏，得到了B级评定">40</sup>官方承诺入编的玩家干得好就有资源和钱，死了家人也有赔偿；这批玩家有了共同的代号“先锋玩家”，帖子一片沸腾，把买卖车票和道具的帖子全压了下去。<sup class="cite" title="第40章：入编官方后，只要干得好，国家会给资源给钱">40</sup></p><details class="src block"><summary>本段原文 6 处</summary><blockquote>是一个论坛，名为“先锋玩家”<cite>第 40 章 · p0015</cite></blockquote><blockquote>不过停用进化剂的危害官方没有公布出来<cite>第 40 章 · p0016</cite></blockquote><blockquote>担心进化剂继车票成为下一个玩家疯狂抢夺的资源<cite>第 40 章 · p0017</cite></blockquote><blockquote>只要缺席一个副本，游戏就会通知玩家准备三个月后的随机副本<cite>第 40 章 · p0024</cite></blockquote><blockquote>他将八名玩家安全带出游戏，得到了B级评定<cite>第 40 章 · p0028</cite></blockquote><blockquote>入编官方后，只要干得好，国家会给资源给钱<cite>第 40 章 · p0031</cite></blockquote></details>
+</section>
+<section id="callbacks"><h3>承接前文</h3>
+<p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
+<ul class="items"><li><span class="text">初审列车上的韩教授下车后病情加重，长出绿色脓包，住院后被“专业人士”接走；同车的刘佳加入了本地政府机构，两人都没有供出同车厢的其他玩家。（刘佳的说法）</span><span class="ch">第 38 章</span><details class="src"><summary>原文</summary><blockquote>身体出现绿色脓包<cite>第 38 章 · p0041</cite></blockquote><blockquote>不过她和韩教授隐瞒了同车厢其他玩家的身份<cite>第 38 章 · p0042</cite></blockquote></details></li><li><span class="text">砍头魔里的红色玩家刘圆圆被徐获卖给了官方，聂玄已经让技术组去找她。</span><span class="ch">第 38 章</span><details class="src"><summary>原文</summary><blockquote>把这个交给技术组，让他们找到这个人<cite>第 38 章 · p0027</cite></blockquote></details></li><li><span class="text">俞晴晴在徐获兜里翻出一块银色小碎片，是砍头魔的斧头崩下来的：游戏收走了斧头，碎片却没有消失。</span><span class="ch">第 40 章</span><details class="src"><summary>原文</summary><blockquote>那是从砍头魔斧头上崩下来的碎片<cite>第 40 章 · p0038</cite></blockquote></details></li><li><span class="text">应该就是第 35 章徐获在角落里捡走的那块反光碎片。（推断）</span><span class="ch">第 35、40 章</span><details class="src"><summary>原文</summary><blockquote>终于在角落里找到一个反光的碎片<cite>第 35 章 · p0047</cite></blockquote></details></li><li><span class="text">初审奖励过毛发生长剂，徐获在砍头魔里顶着一头及腰长发；这回游戏“考虑到玩家的需要”，特别送了一瓶除毛剂。</span><span class="ch">第 16、18、37 章</span><details class="src"><summary>原文</summary><blockquote>考虑到玩家的需要，游戏特别赠送<cite>第 37 章 · p0020</cite></blockquote></details></li></ul>
+</section>
+<section id="relations"><h3>关键关系</h3>
+<p class="note">一对人物只画一条线：绿色是亲友或同伴，橙色是冲突，灰色是其他往来；虚线表示某人的说法或推断。</p>
+<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+</defs>
+<g class="edge"><title>徐获 — 交易，又用谎话剂坑了他 — 聂玄（第 37–38 章）</title><path d="M418.3,221.9 Q486.6,268.3 545.0,308.0" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 → 卖出她的身份信息 → 刘圆圆（第 37–38 章）</title><path d="M418.3,221.9 Q438.6,302.6 456.1,371.8" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge"><title>聂玄 → 下令追查 → 刘圆圆（第 38 章）</title><path d="M554.9,314.7 Q506.9,349.0 468.8,376.4" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge"><title>俞晴晴 — 名义上的表兄妹 — 徐获（第 40 章）</title><path d="M339.9,66.9 Q379.1,144.4 412.9,211.2" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 冲突 — 朱总（第 39 章）</title><path d="M418.3,221.9 Q477.2,159.3 527.9,105.5" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>刘佳 — 发短信报信 — 徐获（第 38 章）</title><path d="M243.0,276.8 Q330.6,249.4 406.8,225.5" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>刘佳 — 一起瞒下同车厢玩家的身份 — 韩教授（刘佳的说法）（第 38 章）</title><path d="M243.0,276.8 Q173.9,300.5 116.3,320.2" fill="none" stroke="#4fbf7f" stroke-width="2.2" stroke-dasharray="6 4"/></g>
+<text x="486.6" y="272.3" class="elabel" style="fill:#8d95a3">交易，又用谎话剂坑了他</text>
+<text x="438.6" y="306.6" class="elabel" style="fill:#f0904f">卖出她的身份信息</text>
+<text x="506.9" y="353.0" class="elabel" style="fill:#f0904f">下令追查</text>
+<text x="379.1" y="148.4" class="elabel" style="fill:#4fbf7f">名义上的表兄妹</text>
+<text x="477.2" y="163.3" class="elabel" style="fill:#f0904f">冲突</text>
+<text x="330.6" y="253.3" class="elabel" style="fill:#8d95a3">发短信报信</text>
+<text x="173.9" y="304.5" class="elabel" style="fill:#4fbf7f">一起瞒下同车厢玩家的身份</text>
+<g class="node"><circle cx="418.3" cy="221.9" r="12.5"/><text x="418.3" y="203.4" class="name">徐获</text></g>
+<g class="node"><circle cx="554.9" cy="314.7" r="10.8"/><text x="554.9" y="297.9" class="name">聂玄</text></g>
+<g class="node"><circle cx="459.0" cy="383.4" r="10.8"/><text x="459.0" y="366.6" class="name">刘圆圆</text></g>
+<g class="node"><circle cx="243.0" cy="276.8" r="10.8"/><text x="243.0" y="260.0" class="name">刘佳</text></g>
+<g class="node"><circle cx="339.9" cy="66.9" r="10.0"/><text x="339.9" y="50.9" class="name">俞晴晴</text></g>
+<g class="node"><circle cx="536.1" cy="96.8" r="10.0"/><text x="536.1" y="80.8" class="name">朱总</text></g>
+<g class="node"><circle cx="104.9" cy="324.1" r="10.0"/><text x="104.9" y="308.1" class="name">韩教授</text></g>
+</svg></div>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text">徐获 — 交易，又用谎话剂坑了他 — 聂玄</span><span class="ch">第 37–38 章</span><details class="src"><summary>原文</summary><blockquote>药剂，不过我要P1进化剂<cite>第 38 章 · p0002</cite></blockquote></details></li><li><span class="text">徐获 → 卖出她的身份信息 → 刘圆圆</span><span class="ch">第 37–38 章</span></li><li><span class="text">聂玄 → 下令追查 → 刘圆圆</span><span class="ch">第 38 章</span></li><li><span class="text">俞晴晴 — 名义上的表兄妹 — 徐获</span><span class="ch">第 40 章</span></li><li><span class="text">徐获 — 冲突 — 朱总</span><span class="ch">第 39 章</span></li><li><span class="text">刘佳 — 发短信报信 — 徐获</span><span class="ch">第 38 章</span></li><li><span class="text">刘佳 — 一起瞒下同车厢玩家的身份 — 韩教授（刘佳的说法）</span><span class="ch">第 38 章</span></li></ul></details>
+</section>
+<section id="threads"><h3>伏笔与未解</h3>
+<p class="note">截至第 40 章还没有交代的事。</p>
+<ul class="items"><li><span class="text">聂玄怀疑全国各地最近的集体失踪、集体碎尸案和副本有关，汀城也有两起。（聂玄的推断）</span><span class="ch">第 38 章</span><details class="src"><summary>原文</summary><blockquote>最近全国各地出现集体失踪和集体碎尸案<cite>第 38 章 · p0030</cite></blockquote></details></li><li><span class="text">俞晴晴为什么在衣服里缝刀片、对别人的生死满不在乎，没有交代。</span><span class="ch">第 40 章</span></li><li><span class="text">聂玄那只能替他说话的凯蒂猫手偶是什么来历，没有交代。</span><span class="ch">第 38 章</span></li><li><span class="text">徐获票夹里的四张车票都还没用：积木童话城站、小丑城站（E 级），花园城堡站、深蓝实验室（D 级）。</span><span class="ch">第 37 章</span><details class="src"><summary>原文</summary><blockquote>积木童话城站（E）小丑城站（E）<cite>第 37 章 · p0022</cite></blockquote></details></li></ul>
+</section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E7%BB%B4%E5%BA%A6%E8%A3%82%E7%BC%9D">维度裂缝</a><a href="../world.html#world-%E8%BD%A6%E7%A5%A8%E4%B8%8E%E5%89%AF%E6%9C%AC">车票与副本</a><a href="../world.html#world-%E7%BC%BA%E5%B8%AD%E5%89%AF%E6%9C%AC">每月必须下副本</a><a href="../world.html#world-%E9%80%9A%E5%85%B3%E4%B8%8E%E8%AF%84%E7%BA%A7">通关与评级</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E4%B8%8D%E5%AE%8C%E5%85%A8%E5%B0%81%E9%97%AD">副本并不完全封闭</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E8%80%85">进化者、进化率与等级</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E5%89%82">进化剂</a><a href="../world.html#world-%E7%89%B9%E6%80%A7">特性</a><a href="../world.html#world-%E8%8D%AF%E5%89%82">药剂</a><a href="../world.html#world-%E5%AE%98%E6%96%B9">官方的应对</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E6%AF%9B%E5%8F%91%E7%94%9F%E9%95%BF%E5%89%82">毛发生长剂</a><a href="../items.html#item-%E7%BA%B5%E7%81%AB%E7%8A%AF%E7%9A%84%E5%B7%A5%E5%85%B7">纵火犯的工具</a><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a><a href="../items.html#item-%E8%B6%85%E7%BA%A7%E8%B7%91%E9%9E%8B">超级跑鞋</a><a href="../items.html#item-%E6%82%AC%E6%B5%AE%E6%B0%94%E7%90%83">悬浮气球</a><a href="../items.html#item-%E6%99%B4%E9%9B%A8%E7%9A%AE%E5%B8%A6">晴雨皮带</a><a href="../items.html#item-%E6%97%A0%E5%A4%84%E4%B8%8D%E5%9C%A8%E7%9A%84%E7%90%B4%E5%BC%A6">无处不在的琴弦</a><a href="../items.html#item-%E5%8F%8C%E8%89%B2%E9%AD%94%E6%96%B9">双色魔方</a><a href="../items.html#item-%E8%B0%8E%E8%AF%9D%E5%89%82">谎话剂</a><a href="../items.html#item-%E9%99%A4%E6%AF%9B%E5%89%82">除毛剂</a></p></section></details>
+
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由整理者撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。</footer>
+</main></body></html>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>超级道具通告与 014 区风波 · 单元卡 · 维度之下</title><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local')</script><style>
+:root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
+  --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+:root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
+  background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
+:root[data-theme="light"] body { background:var(--paper); }
+a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
+
+/* nav: the rail */
+.rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
+.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; }
+.brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
+.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.2em; margin-left:8px; }
+.rail nav { display:flex; gap:14px; flex-wrap:wrap; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:2px 0; border-bottom:2px solid transparent; }
+.rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
+.rail .toggle-label { margin-left:auto; }
+.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+
+/* sources switch */
+.toggle { position:absolute; opacity:0; pointer-events:none; }
+.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:0 8px; cursor:pointer; user-select:none; }
+#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.ch, sup.cite, details.src, .src-only { display:none; }
+#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main sup.cite { display:inline; }
+#show-src:checked ~ main details.src { display:inline; }
+#show-src:checked ~ main .src-only { display:block; }
+#show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
+sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
+details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
+
+/* headings and text */
+h1, h2, h3, h4 { font-family:var(--serif); }
+h2.sign { display:inline-block; font-size:20px; margin:34px 0 10px; padding:4px 14px; background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-bottom:2px solid var(--signal); border-radius:4px; letter-spacing:.12em; }
+h3 { font-size:19px; margin:26px 0 8px; padding-left:12px; border-left:4px solid var(--signal); }
+h4 { font-size:15px; margin:16px 0 4px; color:var(--brass); letter-spacing:.06em; }
+.note { color:var(--muted); font-size:14px; margin:4px 0; }
+.meta { color:var(--muted); font-size:13px; }
+ul { margin:0; padding-left:20px; } li { margin:6px 0; }
+.chipline { display:flex; flex-wrap:wrap; gap:6px 8px; margin:8px 0; }
+.chipline a, .chip { background:var(--chip); color:var(--ink); border-radius:3px; padding:1px 9px; font-size:13px; white-space:nowrap; }
+
+/* the ticket (page header of a unit card, index entries) */
+.ticket { display:flex; background:linear-gradient(135deg, var(--card-2), var(--card)); border:1px solid var(--line); border-radius:10px; margin:18px 0 8px; position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.ticket-main { flex:1; padding:18px 22px 16px; min-width:0; position:relative; }
+.ticket-stub { width:170px; padding:16px 18px; border-left:2px dashed var(--line); position:relative; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.ticket-stub::before, .ticket-stub::after { content:""; position:absolute; left:-11px; width:20px; height:20px; border-radius:50%; background:var(--paper); border:1px solid var(--line); }
+.ticket-stub::before { top:-11px; } .ticket-stub::after { bottom:-11px; }
+.kicker { font-size:12px; letter-spacing:.3em; color:var(--signal); }
+.ticket h1 { font-size:34px; margin:2px 0 4px; letter-spacing:.06em; }
+.route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
+.stub-row { font:12px var(--mono); color:var(--muted); }
+.stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+.stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
+  display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
+.stamp small { font-size:10px; margin-left:1px; }
+
+/* the dark system panel for text the game shows */
+.sys { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px; padding:10px 14px; margin:8px 0; font:14px/1.75 var(--serif); }
+.sys::before { content:"【系统】"; color:var(--brass); margin-right:4px; font-family:var(--sans); font-size:12px; letter-spacing:.1em; }
+.sys b { color:var(--brass); font:600 12px var(--sans); margin-right:6px; }
+
+/* grade badge */
+.grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
+  color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
+.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+
+footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
+@media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+
+.layer { margin:6px 0 18px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary::-webkit-details-marker { display:none; }
+.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
+.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer:not([open]) > summary::after { content:"展开"; }
+section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
+ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
+ul.people li:last-child { border-bottom:none; }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
+details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); }
+svg { width:100%; height:auto; display:block; }
+svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
+svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
+svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
+details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+.links { margin:8px 0; } .links b { display:inline-block; width:3em; color:var(--brass); font-weight:600; }
+.links a { margin-right:12px; white-space:nowrap; }
+.hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
+nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
+nav.arcs a:hover { color:var(--signal); }
+h4[id] { scroll-margin-top:16px; }
+</style></head>
+<body><input type="checkbox" id="show-src" class="toggle"><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
+<h1>超级道具通告与 014 区风波</h1><div class="route">第 119 章 ──── 第 145 章</div><p class="hint">没读过前文？先看<a href="../world.html">世界观</a>，这里不重复解释游戏设定。</p></div>
+<div class="ticket-stub"><div class="stub-row"><b>单元</b>u0009</div><div class="stub-row"><b>句数</b>58</div>
+<div class="stub-row"><b>引用</b>36 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<p class="meta">撰写：claude-opus-5-5 (claude-code session)，读第 119–145 章正文后撰写。每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p>
+<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。</span></summary><section id="overview"><h3>一句话</h3>
+<ul class="items"><li><span class="text">徐获在分贝小镇拿到的超级道具触发了全虫洞点通告，外区的高级玩家涌进 014 区抢宝，世界陷入混乱；他在海市一边破解诡音骑士团的黑白生死局，一边借画女演了一出“超级道具易主”的戏，把外区玩家的视线引走。</span><span class="ch">第 119、125、137、145 章</span></li><li><span class="text">主线段，第 119–145 章，地点汀城和海市；第 126–138 章的黑白转盘生死局是道具造成的，不算副本。</span><span class="ch">第 119、126、138 章</span><details class="src"><summary>原文</summary><blockquote>由于该超级道具是E27虫洞点014区第一件超级道具<cite>第 119 章 · p0001</cite></blockquote></details></li></ul>
+</section>
+<section id="cast"><h3>登场人物</h3>
+<p class="note">按出场先后。</p>
+<ul class="people"><li><b class="subject">徐获（路人甲）</b><span class="text">超级道具“人生的三秒”的主人，对谁都不说；当局后来查到他幼年就被诊断出反社会型人格障碍，兄长十七岁那年被枪杀。</span><span class="ch">第 119、139 章</span><details class="src"><summary>原文</summary><blockquote>徐获幼年时期就被诊断出反社会型人格障碍<cite>第 139 章 · p0016</cite></blockquote></details></li><li><b class="subject">袁耀、黄俊杰</b><span class="text">徐获的队友；通告后袁耀带父母回老家躲避，黄俊杰把脸上脱下的白痂留给徐获当样本后离开。</span><span class="ch">第 119–120 章</span></li><li><b class="subject">聂玄</b><span class="text">先锋玩家汀城分支负责人，被调往京市保护起来；他不甘心，带人假扮超级道具持有者去引开外区玩家。</span><span class="ch">第 120、141 章</span><details class="src"><summary>原文</summary><blockquote>先锋玩家汀城分支负责人聂玄申请C级特殊道具<cite>第 120 章 · p0016</cite></blockquote></details></li><li><b class="subject">俞晴晴</b><span class="text">徐获名义上的表妹，又回来了，被画女捆在床脚，还拿菜刀砍徐获。</span><span class="ch">第 120–122 章</span></li><li><b class="subject">画女（立春）</b><span class="text">有智慧的超级道具，一直跟着徐获；海市的土地过户到她名下后，她能操纵全城的纸。</span><span class="ch">第 119、143 章</span></li><li><b class="subject">王超清</b><span class="text">被徐获带去海市当跑腿，能顺着网线电线去各处探查。</span><span class="ch">第 123、128、133 章</span></li><li><b class="subject">周凝一伙</b><span class="text">徐获送来八瓶进化剂当“提前投资”，还在他们那儿抽了一个少年进化者的血。</span><span class="ch">第 121–122 章</span></li><li><b class="subject">诡音骑士团</b><span class="text">外区的高级玩家团伙：力力在电视上发话，A 级成员送葬师的道具布下了海市的黑白生死局，窦胜男能用怀表催眠人。</span><span class="ch">第 125、131、144 章</span></li><li><b class="subject">峰哥、齐山、石头</b><span class="text">困在生死局里的三名外区玩家，把一商场的人聚起来，想拿别人的命换生存机会。</span><span class="ch">第 130–131、134 章</span></li><li><b class="subject">劳伦斯·李</b><span class="text">坐轮椅的 S 级玩家，和诡音骑士团打了起来。</span><span class="ch">第 125、141、145 章</span><details class="src"><summary>原文</summary><blockquote>劳伦斯·李可是S级玩家<cite>第 145 章 · p0016</cite></blockquote></details></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
+<nav class="arcs"><a href="#story-1">一、全区通告（第 119–123 章）</a><a href="#story-2">二、海市（第 124–128 章）</a><a href="#story-3">三、生死局（第 129–137 章）</a><a href="#story-4">四、画女的城（第 138–145 章）</a></nav>
+<h4 id="story-1">一、全区通告（第 119–123 章）</h4>
+<p class="prose">游戏通告：E27 虫洞点 014 区出现了第一件超级道具。通告隐去了持有者的身份，徐获不动声色，黄俊杰却看出了他的异样。<sup class="cite" title="第119章：恭喜玩家路人甲获得了一件超级道具">119</sup>各国首脑紧急发起军事行动；聂玄被调往京市保护起来，他临走前叫司马小二进游戏躲着。<sup class="cite" title="第119章：把我调到京市？为什么；第120章：明天一早去后勤部领一张车票进游戏">119–120</sup>徐获把分贝小镇带出的样本和一支 P0T 针剂交给聂玄，却仍拒绝加入先锋小队；聂玄临走试探：超级道具在你手里。<sup class="cite" title="第121章：箱子里是一点特产；第121章：超级道具在你手里">121</sup>他给周凝一伙送去进化剂当“提前投资”，花十万块抽了一个没吃过人的少年进化者的血。<sup class="cite" title="第122章：就当我是提前投资吧">122</sup>纵火犯的工具和火把合并升级成 D 级的“V·范肖的作案工具”；徐获把俞晴晴打发回老家，带着画女和王超清开车去海市。<sup class="cite" title="第123章：恭喜玩家路人甲获得D级道具“V·范肖的作案工具”">123</sup>与此同时，一伙外区高级玩家打开传送门，到了 014 区。<sup class="cite" title="第123章：走吧，去和014区的新朋友打声招呼">123</sup></p><details class="src block"><summary>本段原文 8 处</summary><blockquote>恭喜玩家路人甲获得了一件超级道具<cite>第 119 章 · p0001</cite></blockquote><blockquote>把我调到京市？为什么<cite>第 119 章 · p0052</cite></blockquote><blockquote>明天一早去后勤部领一张车票进游戏<cite>第 120 章 · p0014</cite></blockquote><blockquote>箱子里是一点特产<cite>第 121 章 · p0050</cite></blockquote><blockquote>超级道具在你手里<cite>第 121 章 · p0054</cite></blockquote><blockquote>就当我是提前投资吧<cite>第 122 章 · p0004</cite></blockquote><blockquote>恭喜玩家路人甲获得D级道具“V·范肖的作案工具”<cite>第 123 章 · p0010</cite></blockquote><blockquote>走吧，去和014区的新朋友打声招呼<cite>第 123 章 · p0048</cite></blockquote></details>
+<h4 id="story-2">二、海市（第 124–128 章）</h4>
+<p class="prose">全世界陷入暴乱；京市特事局的精英玩家被外区玩家按名单一个个杀死，一小时死了五十人。<sup class="cite" title="第124章：不到一个小时，已经死了五十名玩家了">124</sup>诡音骑士团的力力在全国电视上发话：三天内把超级道具交到海市，否则随机引爆武器基地，说完就炸了两个秘密基地。<sup class="cite" title="第125章：因此在三天内，我们希望超级道具或者道具持有者出现在海市范围内">125</sup>海市中心随即铺开一个巨大的黑白转盘，人一走出范围就爆成血沫；屏幕上的人宣布了黑白生死局的规则：两次生存机会才能脱离。<sup class="cite" title="第126章：第五，至少累积两次生存机会才能脱离游戏">125–126</sup>店里的人一个接一个被拉进生死局、爆开；徐获让王超清顺着网线去摩天大厦探路，换一张车票。<sup class="cite" title="本句未附原文">127–128</sup></p><details class="src block"><summary>本段原文 3 处</summary><blockquote>不到一个小时，已经死了五十名玩家了<cite>第 124 章 · p0034</cite></blockquote><blockquote>因此在三天内，我们希望超级道具或者道具持有者出现在海市范围内<cite>第 125 章 · p0023</cite></blockquote><blockquote>第五，至少累积两次生存机会才能脱离游戏<cite>第 126 章 · p0050</cite></blockquote></details>
+<h4 id="story-3">三、生死局（第 129–137 章）</h4>
+<p class="prose">徐获第一次被拉进生死局，发现它并不强制人转指针，他借双色魔方转到了白格。<sup class="cite" title="第129章：这个生死局不是强制性的">129</sup>三名外区玩家峰哥、齐山、石头占了商场，把人按组分开；进入多人生死局后，每局都要有人进去转指针。<sup class="cite" title="第131章：半个小时后，大转盘里剩下的人只要超过一百就会自动进入第二轮多人生死局">130–131</sup>一位当过兵的老先生替抱孩子的母亲进了生死局，看淡生死，反而转到了白格。徐获由此提出第二个选项：不转指针。<sup class="cite" title="第132章：老头我年轻的时候也当过兵，怕死扛不了枪；第132章：既然如此，不妨试一试第二个选项——不转动指针">132</sup>徐获让画女把荧光笔画的白线变成假的“生存白杠”贴在手上，骗峰哥一伙；齐山用幸运沙漏拿两个人的命去赌，还是转到了黑格，石头也炸死了。<sup class="cite" title="第134章：女玩家和老先生突然气息全无地倒在了地上；第135章：八分钟后，那个大块头炸成了满地血肉">134–135</sup>趁峰哥进局，徐获动手；画女把齐山抱出转盘边界，让规则杀了他。峰哥扔出带异种毒的炸弹，又挟持画女，被她一手扎进肚子，只好用车票逃走。<sup class="cite" title="第135章：现在画女把人引到转盘外利用规则杀死正合他意；第136章：峰哥怨恨地看了两人一眼，随后从转盘里消失">135–136</sup>徐获猜想：连续不转指针，多人生死局也许就会判参与者胜利。<sup class="cite" title="第137章：那如果连续不动指针，这个多人生死局会不会判定游戏参与者胜利">137</sup></p><details class="src block"><summary>本段原文 9 处</summary><blockquote>这个生死局不是强制性的<cite>第 129 章 · p0016</cite></blockquote><blockquote>半个小时后，大转盘里剩下的人只要超过一百就会自动进入第二轮多人生死局<cite>第 131 章 · p0018</cite></blockquote><blockquote>老头我年轻的时候也当过兵，怕死扛不了枪<cite>第 132 章 · p0034</cite></blockquote><blockquote>既然如此，不妨试一试第二个选项——不转动指针<cite>第 132 章 · p0053</cite></blockquote><blockquote>女玩家和老先生突然气息全无地倒在了地上<cite>第 134 章 · p0030</cite></blockquote><blockquote>八分钟后，那个大块头炸成了满地血肉<cite>第 135 章 · p0015</cite></blockquote><blockquote>现在画女把人引到转盘外利用规则杀死正合他意<cite>第 135 章 · p0036</cite></blockquote><blockquote>峰哥怨恨地看了两人一眼，随后从转盘里消失<cite>第 136 章 · p0046</cite></blockquote><blockquote>那如果连续不动指针，这个多人生死局会不会判定游戏参与者胜利<cite>第 137 章 · p0060</cite></blockquote></details>
+<h4 id="story-4">四、画女的城（第 138–145 章）</h4>
+<p class="prose">商场的转盘消失了。王超清向指挥部转达：连续十二局不转指针就能破局；当局也查清了徐获的底细。<sup class="cite" title="第138章：多人生死局的破解方法就是连续十二局不转指针">138–139</sup>徐获用变声器打给指挥部，自称超级道具持有者，要求把转盘里的房产土地全部过户给“画女”，往楼里投放纸张。<sup class="cite" title="第139章：我就是那个拿到超级道具的玩家；第140章：将黑白转盘内的所有房产，最好包括土地、地皮全部更名为‘画女’">139–140</sup>聂玄带人假扮持有者引敌，同伴半小时内死了十五个；画女用满天纸片救下他，一个坐轮椅的 S 级玩家随后和诡音骑士团打了起来。<sup class="cite" title="第141章：在从开始实施计划的半个小时内就死了十五人；第143章：她见过聂玄，所以上前帮了忙">141–143</sup>画女装成被追杀的超级道具，把外区玩家一批批扔进生死局，把最强的几人引到明珠酒店；七点三十一分酒店被炸塌。<sup class="cite" title="第143章：这个原本用来给X国制造麻烦的黑白生死局，现在成了牵制外区玩家的利器">143–144</sup>画女“被杀”，一个戴黑面具的人站上纸柱，无视催眠，往劳伦斯·李那边“看”了一眼就消失了：众人以为超级道具易主。那人就是徐获，他直接进了车站。<sup class="cite" title="第145章：纸柱看似是在他的操控下行动，其实是装死的画女在远程协助">145</sup></p><details class="src block"><summary>本段原文 7 处</summary><blockquote>多人生死局的破解方法就是连续十二局不转指针<cite>第 138 章 · p0034</cite></blockquote><blockquote>我就是那个拿到超级道具的玩家<cite>第 139 章 · p0050</cite></blockquote><blockquote>将黑白转盘内的所有房产，最好包括土地、地皮全部更名为‘画女’<cite>第 140 章 · p0013</cite></blockquote><blockquote>在从开始实施计划的半个小时内就死了十五人<cite>第 141 章 · p0017</cite></blockquote><blockquote>她见过聂玄，所以上前帮了忙<cite>第 143 章 · p0017</cite></blockquote><blockquote>这个原本用来给X国制造麻烦的黑白生死局，现在成了牵制外区玩家的利器<cite>第 143 章 · p0040</cite></blockquote><blockquote>纸柱看似是在他的操控下行动，其实是装死的画女在远程协助<cite>第 145 章 · p0035</cite></blockquote></details>
+</section>
+<section id="callbacks"><h3>承接前文</h3>
+<p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
+<ul class="items"><li><span class="text">徐获在分贝小镇拿到的超级道具“人生的三秒”，正是这次全区通告的起因。</span><span class="ch">第 119 章</span><details class="src"><summary>原文</summary><blockquote>恭喜玩家路人甲获得了一件超级道具<cite>第 119 章 · p0001</cite></blockquote></details></li><li><span class="text">聂玄第二次邀请徐获加入先锋小队，又被拒；这次徐获送了他分贝小镇的样本和 P0T 针剂。</span><span class="ch">第 121 章</span></li><li><span class="text">黄俊杰脸上被曹艳毒液腐蚀后结的白痂，被徐获收起来当样本。</span><span class="ch">第 120 章</span></li><li><span class="text">圣剑会一役的周凝一伙拿到了徐获的“投资”；周凝的职业就是美杜莎。</span><span class="ch">第 122 章</span></li><li><span class="text">俞晴晴又回来了：娱乐公司的郑总登门道歉，高价和她续约。</span><span class="ch">第 121 章</span></li><li><span class="text">徐获说过“过两天会有人来找”的王超清，被他带到海市当跑腿。</span><span class="ch">第 123、128 章</span></li><li><span class="text">光明绅士勋章最后成了画女帮忙的报酬。</span><span class="ch">第 139、143 章</span><details class="src"><summary>原文</summary><blockquote>取出光明绅士勋章挂在她脖子上<cite>第 143 章 · p0012</cite></blockquote></details></li><li><span class="text">徐获打过 P0S 后，异种毒素似乎伤不了他。（徐获的推断）</span><span class="ch">第 137 章</span></li></ul>
+</section>
+<section id="relations"><h3>关键关系</h3>
+<p class="note">一对人物只画一条线：绿色是同伴，橙色是冲突，红色箭头是杀死，灰色是其他往来；虚线表示某人的说法或推断。</p>
+<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+</defs>
+<g class="edge"><title>徐获 — 搭档 — 画女（第 129、143、145 章）</title><path d="M477.0,203.5 Q393.5,247.1 320.6,285.1" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 跑腿 — 王超清（第 128、133、138 章）</title><path d="M477.0,203.5 Q500.3,131.8 519.9,71.4" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 送样本 — 聂玄（第 121 章）</title><path d="M477.0,203.5 Q404.2,177.0 342.7,154.6" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>画女 → 救下 → 聂玄（第 141、143 章）</title><path d="M310.0,290.7 Q320.7,220.6 329.6,162.4" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge"><title>聂玄 → 上级 → 司马小二（第 120 章）</title><path d="M331.4,150.5 Q278.2,105.2 234.2,67.8" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge"><title>峰哥 → 头领 → 齐山（第 134 章）</title><path d="M340.6,420 Q291.6,420.0 254.6,420.0" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge"><title>画女 → 引出转盘 → 齐山（第 135 章）</title><path d="M310.0,290.7 Q276.3,355.4 248.1,409.4" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge"><title>峰哥 — 挟持 — 画女（第 136 章）</title><path d="M340.6,420 Q325.3,355.4 312.8,302.4" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>窦胜男 — 催眠 — 画女（第 145 章）</title><path d="M151.5,282.0 Q230.8,286.4 298.0,290.0" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>俞晴晴 — 名义表妹 — 徐获（第 120、122 章）</title><path d="M628.9,173.6 Q553.0,188.6 488.8,201.2" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 送药 — 周凝（第 122 章）</title><path d="M477.0,203.5 Q528.6,262.4 572.3,312.4" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<text x="393.5" y="251.1" class="elabel" style="fill:#4fbf7f">搭档</text>
+<text x="500.3" y="135.8" class="elabel" style="fill:#4fbf7f">跑腿</text>
+<text x="404.2" y="181.0" class="elabel" style="fill:#8d95a3">送样本</text>
+<text x="320.7" y="224.6" class="elabel" style="fill:#4fbf7f">救下</text>
+<text x="278.2" y="109.2" class="elabel" style="fill:#8d95a3">上级</text>
+<text x="291.6" y="424.0" class="elabel" style="fill:#8d95a3">头领</text>
+<text x="276.3" y="359.4" class="elabel" style="fill:#ef5a4f">引出转盘</text>
+<text x="325.3" y="359.4" class="elabel" style="fill:#f0904f">挟持</text>
+<text x="230.8" y="290.4" class="elabel" style="fill:#f0904f">催眠</text>
+<text x="553.0" y="192.6" class="elabel" style="fill:#8d95a3">名义表妹</text>
+<text x="528.6" y="266.4" class="elabel" style="fill:#4fbf7f">送药</text>
+<g class="node"><circle cx="477.0" cy="203.5" r="12.5"/><text x="477.0" y="185.0" class="name">徐获</text></g>
+<g class="node"><circle cx="310.0" cy="290.7" r="12.5"/><text x="310.0" y="272.2" class="name">画女</text></g>
+<g class="node"><circle cx="331.4" cy="150.5" r="11.5"/><text x="331.4" y="133.0" class="name">聂玄</text></g>
+<g class="node"><circle cx="340.6" cy="420" r="10.8"/><text x="340.6" y="403.2" class="name">峰哥</text></g>
+<g class="node"><circle cx="242.6" cy="420" r="10.8"/><text x="242.6" y="403.2" class="name">齐山</text></g>
+<g class="node"><circle cx="523.6" cy="60" r="10.0"/><text x="523.6" y="44.0" class="name">王超清</text></g>
+<g class="node"><circle cx="225.1" cy="60" r="10.0"/><text x="225.1" y="44.0" class="name">司马小二</text></g>
+<g class="node"><circle cx="151.5" cy="282.0" r="10.0"/><text x="151.5" y="266.0" class="name">窦胜男</text></g>
+<g class="node"><circle cx="628.9" cy="173.6" r="10.0"/><text x="628.9" y="157.6" class="name">俞晴晴</text></g>
+<g class="node"><circle cx="580.2" cy="321.4" r="10.0"/><text x="580.2" y="305.4" class="name">周凝</text></g>
+</svg></div>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text">徐获 — 搭档 — 画女</span><span class="ch">第 129、143、145 章</span></li><li><span class="text">徐获 — 跑腿 — 王超清</span><span class="ch">第 128、133、138 章</span></li><li><span class="text">徐获 — 送样本 — 聂玄</span><span class="ch">第 121 章</span></li><li><span class="text">画女 → 救下 → 聂玄</span><span class="ch">第 141、143 章</span></li><li><span class="text">聂玄 → 上级 → 司马小二</span><span class="ch">第 120 章</span></li><li><span class="text">峰哥 → 头领 → 齐山</span><span class="ch">第 134 章</span></li><li><span class="text">画女 → 引出转盘 → 齐山</span><span class="ch">第 135 章</span></li><li><span class="text">峰哥 — 挟持 — 画女</span><span class="ch">第 136 章</span></li><li><span class="text">窦胜男 — 催眠 — 画女</span><span class="ch">第 145 章</span></li><li><span class="text">俞晴晴 — 名义表妹 — 徐获</span><span class="ch">第 120、122 章</span></li><li><span class="text">徐获 — 送药 — 周凝</span><span class="ch">第 122 章</span></li></ul></details>
+</section>
+<section id="threads"><h3>伏笔与未解</h3>
+<p class="note">截至第 145 章还没有交代的事。</p>
+<ul class="items"><li><span class="text">徐获的过去：幼年被诊断出反社会型人格障碍，十七岁前嗜赌，比他大一岁的哥哥被枪杀。</span><span class="ch">第 139 章</span><details class="src"><summary>原文</summary><blockquote>直到他十七岁时大他一岁的兄长被枪杀才沉寂下来<cite>第 139 章 · p0016</cite></blockquote></details></li><li><span class="text">画女留在海市，给徐获发短信说等他回来。</span><span class="ch">第 145 章</span><details class="src"><summary>原文</summary><blockquote>一边吃零食一边给徐获发短信，“我等你回来呀<cite>第 145 章 · p0029</cite></blockquote></details></li><li><span class="text">劳伦斯·李和诡音骑士团的仗还在打，胜负未明。</span><span class="ch">第 142、145 章</span></li><li><span class="text">诡音骑士团的送葬师说，有潜力的分区常常沦为其他虫洞点的培育基地。（送葬师的说法）</span><span class="ch">第 140 章</span><details class="src"><summary>原文</summary><blockquote>因为有潜力沦为其他虫洞点培育基地的例子还少吗<cite>第 140 章 · p0048</cite></blockquote></details></li><li><span class="text">峰哥带着伤逃进了游戏。</span><span class="ch">第 136 章</span></li><li><span class="text">车站里，几个饿了两三天的玩家围上来想抢徐获的车票。</span><span class="ch">第 145 章</span></li></ul>
+</section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E8%80%85">进化者、进化率与等级</a><a href="../world.html#world-%E5%BC%82%E7%A7%8D%E5%8C%96">异种与异种化</a><a href="../world.html#world-%E7%89%B9%E6%80%A7">特性</a><a href="../world.html#world-%E9%81%93%E5%85%B7">道具</a><a href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C">游戏世界与虫洞点</a><a href="../world.html#world-%E5%9C%A3%E5%89%91%E4%BC%9A">圣剑会</a><a href="../world.html#world-%E8%AF%A1%E9%9F%B3%E9%AA%91%E5%A3%AB%E5%9B%A2">诡音骑士团</a><a href="../world.html#world-%E5%AE%98%E6%96%B9">官方的应对</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E7%BA%B5%E7%81%AB%E7%8A%AF%E7%9A%84%E5%B7%A5%E5%85%B7">纵火犯的工具</a><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a><a href="../items.html#item-%E5%8F%8C%E8%89%B2%E9%AD%94%E6%96%B9">双色魔方</a><a href="../items.html#item-%E6%89%AD%E6%9B%B2%E9%9D%A2%E5%85%B7">扭曲面具</a><a href="../items.html#item-%E8%A7%A3%E6%AF%92%E5%89%82">解毒剂</a><a href="../items.html#item-%E7%89%9B%E7%9B%BE">牛盾</a><a href="../items.html#item-%E4%BA%BA%E7%94%9F%E7%9A%84%E4%B8%89%E7%A7%92">人生的三秒</a><a href="../items.html#item-%E5%B0%8F%E6%B0%94%E7%9A%84%E7%9A%AE%E7%AE%B1">小气的皮箱</a><a href="../items.html#item-%E6%9D%80%E4%BA%BA%E9%AD%94%E6%8C%87%E5%A5%97">杀人魔指套</a><a href="../items.html#item-V%C2%B7%E8%8C%83%E8%82%96%E7%9A%84%E4%BD%9C%E6%A1%88%E5%B7%A5%E5%85%B7">V·范肖的作案工具</a><a href="../items.html#item-%E6%B1%82%E7%94%9F%E4%B8%8D%E5%A6%82%E6%B1%82%E6%AD%BB">求生不如求死</a><a href="../items.html#item-%E5%B9%B8%E8%BF%90%E6%B2%99%E6%BC%8F">幸运沙漏</a><a href="../items.html#item-%E5%BC%95%E5%8A%9B%E5%8E%8B%E7%BC%A9%E4%B9%9D%E8%BF%9E%E5%BC%B9">引力压缩九连弹</a></p></section></details>
+
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由整理者撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。</footer>
+</main></body></html>
