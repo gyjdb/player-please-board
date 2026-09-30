@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>荣欣集团的邮轮 · 单元卡 · 维度之下</title><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local')</script><style>
+:root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
+  --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+:root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
+  background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
+:root[data-theme="light"] body { background:var(--paper); }
+a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
+
+/* nav: the rail */
+.rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
+.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; }
+.brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
+.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.2em; margin-left:8px; }
+.rail nav { display:flex; gap:14px; flex-wrap:wrap; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:2px 0; border-bottom:2px solid transparent; }
+.rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
+.rail .toggle-label { margin-left:auto; }
+.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+
+/* sources switch */
+.toggle { position:absolute; opacity:0; pointer-events:none; }
+.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:0 8px; cursor:pointer; user-select:none; }
+#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.ch, sup.cite, details.src, .src-only { display:none; }
+#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main sup.cite { display:inline; }
+#show-src:checked ~ main details.src { display:inline; }
+#show-src:checked ~ main .src-only { display:block; }
+#show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
+sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
+details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
+
+/* headings and text */
+h1, h2, h3, h4 { font-family:var(--serif); }
+h2.sign { display:inline-block; font-size:20px; margin:34px 0 10px; padding:4px 14px; background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-bottom:2px solid var(--signal); border-radius:4px; letter-spacing:.12em; }
+h3 { font-size:19px; margin:26px 0 8px; padding-left:12px; border-left:4px solid var(--signal); }
+h4 { font-size:15px; margin:16px 0 4px; color:var(--brass); letter-spacing:.06em; }
+.note { color:var(--muted); font-size:14px; margin:4px 0; }
+.meta { color:var(--muted); font-size:13px; }
+ul { margin:0; padding-left:20px; } li { margin:6px 0; }
+.chipline { display:flex; flex-wrap:wrap; gap:6px 8px; margin:8px 0; }
+.chipline a, .chip { background:var(--chip); color:var(--ink); border-radius:3px; padding:1px 9px; font-size:13px; white-space:nowrap; }
+
+/* the ticket (page header of a unit card, index entries) */
+.ticket { display:flex; background:linear-gradient(135deg, var(--card-2), var(--card)); border:1px solid var(--line); border-radius:10px; margin:18px 0 8px; position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.ticket-main { flex:1; padding:18px 22px 16px; min-width:0; position:relative; }
+.ticket-stub { width:170px; padding:16px 18px; border-left:2px dashed var(--line); position:relative; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.ticket-stub::before, .ticket-stub::after { content:""; position:absolute; left:-11px; width:20px; height:20px; border-radius:50%; background:var(--paper); border:1px solid var(--line); }
+.ticket-stub::before { top:-11px; } .ticket-stub::after { bottom:-11px; }
+.kicker { font-size:12px; letter-spacing:.3em; color:var(--signal); }
+.ticket h1 { font-size:34px; margin:2px 0 4px; letter-spacing:.06em; }
+.route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
+.stub-row { font:12px var(--mono); color:var(--muted); }
+.stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+.stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
+  display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
+.stamp small { font-size:10px; margin-left:1px; }
+
+/* the dark system panel for text the game shows */
+.sys { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px; padding:10px 14px; margin:8px 0; font:14px/1.75 var(--serif); }
+.sys::before { content:"【系统】"; color:var(--brass); margin-right:4px; font-family:var(--sans); font-size:12px; letter-spacing:.1em; }
+.sys b { color:var(--brass); font:600 12px var(--sans); margin-right:6px; }
+
+/* grade badge */
+.grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
+  color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
+.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+
+footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
+@media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+
+.layer { margin:6px 0 18px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary::-webkit-details-marker { display:none; }
+.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
+.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer:not([open]) > summary::after { content:"展开"; }
+section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
+ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
+ul.people li:last-child { border-bottom:none; }
+.thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
+details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); }
+svg { width:100%; height:auto; display:block; }
+svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
+svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
+svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
+details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+.links { margin:8px 0; } .links b { display:inline-block; width:3em; color:var(--brass); font-weight:600; }
+.links a { margin-right:12px; white-space:nowrap; }
+.hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
+nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
+nav.arcs a:hover { color:var(--signal); }
+h4[id] { scroll-margin-top:16px; }
+</style></head>
+<body><input type="checkbox" id="show-src" class="toggle"><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
+<h1>荣欣集团的邮轮</h1><div class="route">第 486 章 ──── 第 505 章</div><p class="hint">没读过前文？先看<a href="../world.html">世界观</a>，这里不重复解释游戏设定。</p></div>
+<div class="ticket-stub"><div class="stub-row"><b>单元</b>u0027</div><div class="stub-row"><b>句数</b>48</div>
+<div class="stub-row"><b>引用</b>26 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<p class="meta">撰写：claude-opus-5-5 (claude-code session)，读第 486–505 章正文后撰写。每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p>
+<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。</span></summary><section id="overview"><h3>一句话</h3>
+<ul class="items"><li><span class="text">荣欣集团一年一度的邮轮之旅：船驶进车票用不了的海域，船长马特宣布“狂欢夜”，黑手环的贵族和红手环的吃人玩家猎杀白手环。徐获一路反杀，杀了 609 房里吃人的贵族和黑手环贵族蒋奉；白蔻为诡音骑士团而来，和雨果大打出手，搅进了荣欣的军火交易。船变成长满海草的道具、四周是变异巨型章，脱身无门时，徐获在副本授权书上写下“第十七医院”，成了这个随机副本的持有人。</span><span class="ch">第 486、489、496、501–502、505 章</span></li></ul>
+</section>
+<section id="cast"><h3>登场人物</h3>
+<p class="note">按出场先后。</p>
+<ul class="people"><li><b class="subject"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲，化名徐知）</b><span class="text">作为冉英的同伴上船，拿的是最低等的白手环。</span><span class="ch">第 486 章</span></li><li><b class="subject"><a href="../people.html#person-%E5%86%89%E8%8B%B1">冉英</a></b><span class="text">黑肩章分队长，拉徐获上船，自己拿黑手环。</span><span class="ch">第 486 章</span></li><li><b class="subject">塞林</b><span class="text">来自 009 区、穿黑袍的金发男人，自称追随宗教，一路收“信徒”，逼问对手是否悔过再捏断脖子。</span><span class="ch">第 486、493 章</span></li><li><b class="subject">劳拉</b><span class="text">普通进化人，和戴红手环的未婚夫同来，还盼着旅行后成婚。</span><span class="ch">第 487 章</span></li><li><b class="subject">陆云</b><span class="text">在花瓶里藏摄像仪的黑手环玩家，事先调查过这艘船，杀了不少红手环。</span><span class="ch">第 487、498、503 章</span></li><li><b class="subject">马特船长</b><span class="text">舰船的主人，传说是退休的 B 级玩家、舰船公司老板，在 011 区政坛有分量。</span><span class="ch">第 488 章</span></li><li><b class="subject">帕拉达</b><span class="text">在 A1 时间俱乐部见过的贵族青年，这次在 609 房里和同伴吃人。</span><span class="ch">第 488 章</span></li><li><b class="subject"><a href="../people.html#person-%E7%99%BD%E8%94%BB">白蔻</a>（蝴蝶夫人）</b><span class="text">被塔尔公爵接上船，混在九楼的贵族里。</span><span class="ch">第 489 章</span></li><li><b class="subject">蒋奉</b><span class="text">泳池边的黑手环贵族，特性“雨滴石穿”，还能控物、隔空切割；妹妹是个能用声音操控海草的小姑娘。</span><span class="ch">第 491、494、498 章</span></li><li><b class="subject">雨果</b><span class="text">诡音骑士团成员，穿花衬衣沙滩裤，碰到的东西会迅速腐朽粉碎。</span><span class="ch">第 501–502 章</span></li><li><b class="subject">维森·梅尼、阿希斯·维尔纳</b><span class="text">荣欣集团的交易方，和八楼上的贵族高级玩家。</span><span class="ch">第 502、505 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
+<nav class="arcs"><a href="#story-1">一、手环（第 486–488 章）</a><a href="#story-2">二、狂欢夜（第 489–495 章）</a><a href="#story-3">三、蒋奉（第 496–501 章）</a><a href="#story-4">四、军火交易（第 502–505 章）</a></nav>
+<h4 id="story-1">一、手环（第 486–488 章）</h4>
+<p class="prose">这是一艘十层的巨型舰船，前三层在水下，四层往上能绕中心主轴旋转。上船按身份发手环，徐获作为冉英带来的同伴拿白手环，冉英拿黑手环。墙上刻满一种叫“海魔”的海草花纹，塞林在墙里钉了三根银钉，说嗅到了不幸的征兆。<sup class="cite" title="第486章：登船的时候服务生给了他一个白色的手环，而冉英拿的是黑色的；第486章：是一种叫海魔的海草">486</sup>餐厅里，劳拉被 011 区出身的白手环玩家挤兑，一个黑手环男人替她出头，听说她未婚夫戴红手环便匆匆走开；徐获找到他藏在花瓶里的摄像仪，想通了三种手环的意思——劳拉的未婚夫戴红手环，是吃人玩家。<sup class="cite" title="第487章：我见到了刚才那个女人的未婚夫，戴着红手环，这么巧，还是个吃人玩家">487</sup>船长马特在九楼窗前举杯，人们传说他是退休的 B 级玩家；可船上的服务生全是今年新来的。冉英回信要他上七楼，自己却没按说的来找他。徐获扮成服务生去 609 房送酒，帕拉达几个贵族吸着嗨剂，床上是被吃掉一半的女人；劳拉的未婚夫要拧他脖子，反被他拧断，又被他切死一人，帕拉达破窗逃走。<sup class="cite" title="第488章：马特船长退休前是B级玩家；第488章：发现他们全都是第一次上船；第488章：床上的女人已经死了">488–489</sup></p><details class="src block"><summary>本段原文 6 处</summary><blockquote>登船的时候服务生给了他一个白色的手环，而冉英拿的是黑色的<cite>第 486 章 · p0005</cite></blockquote><blockquote>是一种叫海魔的海草<cite>第 486 章 · p0032</cite></blockquote><blockquote>我见到了刚才那个女人的未婚夫，戴着红手环，这么巧，还是个吃人玩家<cite>第 487 章 · p0043</cite></blockquote><blockquote>马特船长退休前是B级玩家<cite>第 488 章 · p0011</cite></blockquote><blockquote>发现他们全都是第一次上船<cite>第 488 章 · p0019</cite></blockquote><blockquote>床上的女人已经死了<cite>第 488 章 · p0034</cite></blockquote></details>
+<h4 id="story-2">二、狂欢夜（第 489–495 章）</h4>
+<p class="prose">九楼上，马特宣布他特意搜罗了一些玩家上船供大家狩猎，扮成蝴蝶夫人的白蔻嫌时间太短，他便定为三小时；舰船停下、灯熄灭。帕拉达逃到九楼告状没人理，下楼时被白蔻割破喉管，撞上换了脸的徐获，最后在他眼前断了气。<sup class="cite" title="第489章：我特意搜寻了一些玩家上船，请大家狩猎的时候也要小心别被猎物抓伤；第489章：各位，狂欢夜开始了">489–490</sup>全船成了屠场，死得最多的是服务生。徐获在升降梯里设绳杀了偷袭的红手环，摘下他的红手环冒充吃人玩家；四楼泳池边，一个黑手环贵族逼玩家憋气、谁先出水就爆头，徐获突然出手偷袭他，引走他身边的三个红手环，泳池里的人趁乱逃走。<sup class="cite" title="第490章：一眼看去，死的最多的就是服务生；第491章：时间还没到谁从水下出来就是输了，输的人就去死">490–491</sup>他在餐厅用束星之球的幻觉杀了一个红手环；塞林逼问红手环悔不悔过，再一个个捏断脖子。升降梯卡住后，整艘船长满海草，变得像泡了多年的沉船，窗外的海草能把人拖出去砸碎头——船本身是一件道具。<sup class="cite" title="第493章：很遗憾，你不是诚心悔过；第493章：湿淋淋的海草爬满了整艘舰船">492–493</sup>一个小姑娘假装求救，引来两个红手环，徐获和塞林各杀一个；她的声音能操控海草，塞林让她暂时发不出声。泳池边的黑手环贵族赶来，满身钻石像子弹一样射出，徐获跳窗躲进 101 号紧急避难，又放出只剩一次机会的拟人娃娃引开他。<sup class="cite" title="第494章：她的声音可以控制海草">494–495</sup></p><details class="src block"><summary>本段原文 7 处</summary><blockquote>我特意搜寻了一些玩家上船，请大家狩猎的时候也要小心别被猎物抓伤<cite>第 489 章 · p0009</cite></blockquote><blockquote>各位，狂欢夜开始了<cite>第 489 章 · p0019</cite></blockquote><blockquote>一眼看去，死的最多的就是服务生<cite>第 490 章 · p0020</cite></blockquote><blockquote>时间还没到谁从水下出来就是输了，输的人就去死<cite>第 491 章 · p0018</cite></blockquote><blockquote>很遗憾，你不是诚心悔过<cite>第 493 章 · p0008</cite></blockquote><blockquote>湿淋淋的海草爬满了整艘舰船<cite>第 493 章 · p0023</cite></blockquote><blockquote>她的声音可以控制海草<cite>第 494 章 · p0039</cite></blockquote></details>
+<h4 id="story-3">三、蒋奉（第 496–501 章）</h4>
+<p class="prose">九楼爆炸后火焰原路倒退、一切复原。徐获判断没下楼的人才是军火交易的核心；船越驶越远，车票用不了，每年都有这种航行，说明往年没人活着回去。<sup class="cite" title="第496章：下一秒，它又按照喷发的轨迹原路倒退回去；第496章：既然每年都有这种航行，那就代表往年没有活口出去">496</sup>他借监控看黑手环贵族怎么对付拟人娃娃，摸清了他的特性和道具，布下数数格子。黑手环贵族蒋奉用粉末追查到避难所，跟着同来的红手环绕到避难所门前，两人一起被困进格子；徐获穿过雨幕、用刃绳切碎他的屏障，再用束星之球把他和红手环拉进自己精神世界的迷门。<sup class="cite" title="第498章：蒋先生，这里有门">497–499</sup>红手环困死在书房迷宫里，被徐获杀了；蒋奉按下胸口的电击装置醒来，放出能量龙卷风，徐获用刚从红手环身上得来的恩断义绝门和削弱橡皮挡住，带着他跳出窗外。空中缠斗，避难所压着两人坠落，七楼突然转出来接住；七楼随即粉化翻转，一根金属条削掉蒋奉的左肩，徐获用刃绳割下了他的头。<sup class="cite" title="第501章：蒋奉的人头飞了出去">500–501</sup>那个小姑娘正是蒋奉的妹妹，她控制船内外的海草疯狂报复。六楼上，白蔻和诡音骑士团的雨果对峙。<sup class="cite" title="第501章：蒋奉的妹妹，那个小姑娘出现在六楼上">501</sup></p><details class="src block"><summary>本段原文 5 处</summary><blockquote>下一秒，它又按照喷发的轨迹原路倒退回去<cite>第 496 章 · p0012</cite></blockquote><blockquote>既然每年都有这种航行，那就代表往年没有活口出去<cite>第 496 章 · p0023</cite></blockquote><blockquote>蒋先生，这里有门<cite>第 498 章 · p0028</cite></blockquote><blockquote>蒋奉的人头飞了出去<cite>第 501 章 · p0027</cite></blockquote><blockquote>蒋奉的妹妹，那个小姑娘出现在六楼上<cite>第 501 章 · p0028</cite></blockquote></details>
+<h4 id="story-4">四、军火交易（第 502–505 章）</h4>
+<p class="prose">八楼上是交易的几方：负责转运军火的马特、交易方维森·梅尼、代表合作方的冉英，还有三名贵族高级玩家。雨果用手术刀切开了蒋奉妹妹的喉管；徐获认为削掉蒋奉肩膀的那根金属条是白蔻帮了自己一把。<sup class="cite" title="第502章：用一把小巧的手术刀直接切开了她的喉管">502</sup>船复原又变形，海水变成能融化道具的黑水，交配期的变异巨型章把船团团围住。白蔻那边的冲击把人掀出窗外，徐获用刃绳救下那个黑手环，他叫陆云；陆云说原航线半小时后有一片不稳定空间，也许能用车票，可船已经偏航。<sup class="cite" title="第503章：我叫陆云。”黑手环和他握手">502–503</sup>白蔻一滴白色药剂杀死了整层的海草，扛着能源炮轰雨果，又轰向舰船主轴，被一个纹身壮汉拍到海里炸开。陆云等人在主控室改航线失败；徐获主张打开楼层的展开模式，一名女玩家按了下去，引来更多巨型章。<sup class="cite" title="第504章：一滴白色的药剂滴在脚边的海草手臂上">504–505</sup>马特放出闪电水母毒死了围来的巨型章。八楼上，贵族阿希斯·维尔纳看出“蝴蝶夫人”是 A 级玩家，不是冲着诡音骑士团交付的这批军火来的，怀疑她是白金之眼的人，说不能让她活着离开；马特说船上带了时空缝隙干扰器。<sup class="cite" title="第505章：我们购买的军火是白金之眼去年更新的版本；第505章：如果是白金之眼的人，那就不能让她活着离开">505</sup>徐获走到无人的走廊，拿出在花城得到的副本授权书，写下副本名“第十七医院”和三个任务：至少接受一次心理治疗、杀死一名医生、找到医院的大门，署上“路人甲”和编号——游戏审核通过，他成了这个随机副本的持有人。<sup class="cite" title="第505章：将半截烟踩灭后拿出了在花城得到的副本授权书；第505章：恭喜玩家路人甲成为‘第十七医院’随机副本持有人，您的副本名称和任务已通过游戏审核">505</sup></p><details class="src block"><summary>本段原文 7 处</summary><blockquote>用一把小巧的手术刀直接切开了她的喉管<cite>第 502 章 · p0008</cite></blockquote><blockquote>我叫陆云。”黑手环和他握手<cite>第 503 章 · p0023</cite></blockquote><blockquote>一滴白色的药剂滴在脚边的海草手臂上<cite>第 504 章 · p0022</cite></blockquote><blockquote>我们购买的军火是白金之眼去年更新的版本<cite>第 505 章 · p0026</cite></blockquote><blockquote>如果是白金之眼的人，那就不能让她活着离开<cite>第 505 章 · p0029</cite></blockquote><blockquote>将半截烟踩灭后拿出了在花城得到的副本授权书<cite>第 505 章 · p0038</cite></blockquote><blockquote>恭喜玩家路人甲成为‘第十七医院’随机副本持有人，您的副本名称和任务已通过游戏审核<cite>第 505 章 · p0045</cite></blockquote></details>
+</section>
+<section id="callbacks"><h3>承接前文</h3>
+<p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
+<ul class="items"><li><a class="thread-no" href="../threads.html#thread-118" title="伏笔总表">#118</a><span class="text">荣欣的军火交易就在这艘船上：马特转运，维森·梅尼是交易方，冉英代表合作方；买的是白金之眼去年更新的一批军火，由诡音骑士团交付。</span><span class="ch">第 502、505 章</span><details class="src"><summary>原文</summary><blockquote>我们购买的军火是白金之眼去年更新的版本<cite>第 505 章 · p0026</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-092" title="伏笔总表">#092</a><span class="text">副本授权书：徐获终于签了，副本名“第十七医院”，三个任务都写在上面，游戏审核通过。</span><span class="ch">第 505 章</span></li><li><a class="thread-no" href="../threads.html#thread-137" title="伏笔总表">#137</a><span class="text">白蔻：贵族们看出她是 A 级玩家、不是吃人玩家，“蝴蝶夫人”的身份可疑，疑心她是白金之眼的人；她一个人对上了诡音骑士团的雨果。（阿希斯·维尔纳的推断）</span><span class="ch">第 501、505 章</span></li><li><span class="text">帕拉达就是 A1 时间俱乐部里挤兑徐获的那个贵族青年，这次死在船上。</span><span class="ch">第 488、490 章</span></li></ul>
+</section>
+<section id="relations"><h3>关键关系</h3>
+<p class="note">一对人物只画一条线：绿色是同伴，橙色是冲突，红色箭头是杀死，灰色是其他往来；虚线表示某人的说法或推断。</p>
+<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+</defs>
+<g class="edge"><title>徐获 → 杀死 → 蒋奉（第 501 章）</title><path d="M465.2,202.9 Q395.1,250.4 334.9,291.3" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge"><title>白蔻 — 割喉 — 帕拉达（第 489–490 章）</title><path d="M491.0,352.1 Q534.9,325.5 568.5,305.0" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 看着他断气 — 帕拉达（第 488、490 章）</title><path d="M465.2,202.9 Q522.0,250.9 569.6,291.1" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>雨果 → 杀死 → 蒋奉的妹妹（第 502 章）</title><path d="M382.8,420 Q323.8,420.0 276.7,420.0" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge"><title>蒋奉 — 兄妹 — 蒋奉的妹妹（第 501 章）</title><path d="M325.0,298.0 Q294.9,359.0 270.0,409.2" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>白蔻 — 交手 — 雨果（第 501、504 章）</title><path d="M491.0,352.1 Q436.9,386.1 393.0,413.6" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>白蔻 — 合作 — 徐获（第 492、503 章）</title><path d="M491.0,352.1 Q478.1,277.5 467.2,214.7" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 救下、结伴 — 陆云（第 503 章）</title><path d="M465.2,202.9 Q482.4,131.4 496.8,71.7" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 并肩杀红手环 — 塞林（第 493–494 章）</title><path d="M465.2,202.9 Q538.1,173.2 600.0,148.1" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>马特船长 — 军火转运与交易 — 维森·梅尼（第 502 章）</title><path d="M60,60 Q120.1,60.0 168.2,60.0" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>维森·梅尼 — 交易与合作方 — 冉英（第 502 章）</title><path d="M180.2,60 Q249.5,81.0 307.3,98.5" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>冉英 — 带他上船 — 徐获（第 486、488 章）</title><path d="M318.8,102.0 Q392.0,152.4 455.3,196.1" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<text x="395.1" y="254.4" class="elabel" style="fill:#ef5a4f">杀死</text>
+<text x="534.9" y="329.5" class="elabel" style="fill:#f0904f">割喉</text>
+<text x="522.0" y="254.9" class="elabel" style="fill:#f0904f">看着他断气</text>
+<text x="323.8" y="424.0" class="elabel" style="fill:#ef5a4f">杀死</text>
+<text x="294.9" y="363.0" class="elabel" style="fill:#4fbf7f">兄妹</text>
+<text x="436.9" y="390.1" class="elabel" style="fill:#f0904f">交手</text>
+<text x="478.1" y="281.5" class="elabel" style="fill:#4fbf7f">合作</text>
+<text x="482.4" y="135.4" class="elabel" style="fill:#4fbf7f">救下、结伴</text>
+<text x="538.1" y="177.2" class="elabel" style="fill:#4fbf7f">并肩杀红手环</text>
+<text x="120.1" y="64.0" class="elabel" style="fill:#4fbf7f">军火转运与交易</text>
+<text x="249.5" y="85.0" class="elabel" style="fill:#4fbf7f">交易与合作方</text>
+<text x="392.0" y="156.4" class="elabel" style="fill:#8d95a3">带他上船</text>
+<g class="node"><circle cx="465.2" cy="202.9" r="12.9"/><text x="465.2" y="184.0" class="name">徐获</text></g>
+<g class="node"><circle cx="491.0" cy="352.1" r="11.5"/><text x="491.0" y="334.6" class="name">白蔻</text></g>
+<g class="node"><circle cx="325.0" cy="298.0" r="10.8"/><text x="325.0" y="281.2" class="name">蒋奉</text></g>
+<g class="node"><circle cx="578.8" cy="298.8" r="10.8"/><text x="578.8" y="282.0" class="name">帕拉达</text></g>
+<g class="node"><circle cx="382.8" cy="420" r="10.8"/><text x="382.8" y="403.2" class="name">雨果</text></g>
+<g class="node"><circle cx="264.7" cy="420" r="10.8"/><text x="264.7" y="403.2" class="name">蒋奉的妹妹</text></g>
+<g class="node"><circle cx="180.2" cy="60" r="10.8"/><text x="180.2" y="43.2" class="name">维森·梅尼</text></g>
+<g class="node"><circle cx="318.8" cy="102.0" r="10.8"/><text x="318.8" y="85.2" class="name">冉英</text></g>
+<g class="node"><circle cx="499.6" cy="60" r="10.0"/><text x="499.6" y="44.0" class="name">陆云</text></g>
+<g class="node"><circle cx="611.1" cy="143.6" r="10.0"/><text x="611.1" y="127.6" class="name">塞林</text></g>
+<g class="node"><circle cx="60" cy="60" r="10.0"/><text x="60" y="44.0" class="name">马特船长</text></g>
+</svg></div>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text">徐获 → 杀死 → 蒋奉</span><span class="ch">第 501 章</span></li><li><span class="text">白蔻 — 割喉 — 帕拉达</span><span class="ch">第 489–490 章</span></li><li><span class="text">徐获 — 看着他断气 — 帕拉达</span><span class="ch">第 488、490 章</span></li><li><span class="text">雨果 → 杀死 → 蒋奉的妹妹</span><span class="ch">第 502 章</span></li><li><span class="text">蒋奉 — 兄妹 — 蒋奉的妹妹</span><span class="ch">第 501 章</span></li><li><span class="text">白蔻 — 交手 — 雨果</span><span class="ch">第 501、504 章</span></li><li><span class="text">白蔻 — 合作 — 徐获</span><span class="ch">第 492、503 章</span></li><li><span class="text">徐获 — 救下、结伴 — 陆云</span><span class="ch">第 503 章</span></li><li><span class="text">徐获 — 并肩杀红手环 — 塞林</span><span class="ch">第 493–494 章</span></li><li><span class="text">马特船长 — 军火转运与交易 — 维森·梅尼</span><span class="ch">第 502 章</span></li><li><span class="text">维森·梅尼 — 交易与合作方 — 冉英</span><span class="ch">第 502 章</span></li><li><span class="text">冉英 — 带他上船 — 徐获</span><span class="ch">第 486、488 章</span></li></ul></details>
+</section>
+<section id="threads"><h3>伏笔与未解</h3>
+<p class="note">截至第 505 章还没有交代的事。</p>
+<ul class="items"><li><a class="thread-no" href="../threads.html#thread-139" title="伏笔总表">#139</a><span class="text">这艘船是件什么道具：能让时间倒流、长满海草、楼层粉化又复原，真正的掌控权在马特手里；船上的服务生全是新人，往年的人去了哪里。</span><span class="ch">第 488、493、496、503 章</span></li><li><a class="thread-no" href="../threads.html#thread-140" title="伏笔总表">#140</a><span class="text">徐获为什么偏偏在困在船上时签下副本授权书。</span><span class="ch">第 505 章</span></li><li><a class="thread-no" href="../threads.html#thread-141" title="伏笔总表">#141</a><span class="text">塞林是什么人：自称顶替朋友上船、来收信徒，钉在墙里的银钉是做什么的。</span><span class="ch">第 486、494 章</span></li><li><a class="thread-no" href="../threads.html#thread-142" title="伏笔总表">#142</a><span class="text">陆云有备而来：带着燃料、事先调查过船，原本的脱身计划是什么。</span><span class="ch">第 503 章</span></li></ul>
+</section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E8%BD%A6%E7%A5%A8%E4%B8%8E%E5%89%AF%E6%9C%AC">车票与副本</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%8E%88%E6%9D%83%E4%B9%A6">副本授权书与副本 BOSS</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96">超级进化</a><a href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96">精神进化与精神世界</a><a href="../world.html#world-%E9%81%93%E5%85%B7">道具</a><a href="../world.html#world-%E6%96%B0%E8%BD%AE%E6%95%99">新轮教</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9">进化的动植物</a><a href="../world.html#world-011%E5%8C%BA">011 区</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a><a href="../items.html#item-%E6%97%A0%E5%A4%84%E4%B8%8D%E5%9C%A8%E7%9A%84%E7%90%B4%E5%BC%A6">无处不在的琴弦</a><a href="../items.html#item-%E9%B2%9C%E7%BA%A2%E7%9A%84%E5%89%91">鲜红的剑</a><a href="../items.html#item-%E6%8B%9F%E4%BA%BA%E5%A8%83%E5%A8%83">拟人娃娃</a><a href="../items.html#item-%E4%BA%BA%E7%94%9F%E7%9A%84%E4%B8%89%E7%A7%92">人生的三秒</a><a href="../items.html#item-%E4%B8%8D%E4%BC%9A%E6%89%93%E7%BB%93%E7%9A%84%E7%BA%BF">不会打结的线</a><a href="../items.html#item-%E5%B0%8F%E7%BA%B8%E6%9D%A1%E5%8F%91%E5%B0%84%E5%99%A8">小纸条发射器</a><a href="../items.html#item-%E6%B2%99%E6%BC%A0%E9%A3%8E%E8%BD%A6">沙漠风车</a><a href="../items.html#item-%E6%B6%88%E5%A3%B0%E6%89%8B%E5%8A%9E">消声手办</a><a href="../items.html#item-%E7%82%AB%E5%85%89%E8%88%9E%E7%90%83">炫光舞球</a><a href="../items.html#item-%E6%AD%A3%E4%B9%89%E4%B9%8B%E4%BC%9E">正义之伞</a><a href="../items.html#item-%E5%85%AC%E5%B9%B3%E9%92%B1%E5%8C%85">公平钱包</a><a href="../items.html#item-%E6%9C%89%E6%B0%A7%E4%BE%9B%E7%BB%99">有氧供给</a><a href="../items.html#item-%E6%A4%8D%E7%89%A9%E7%9A%84%E6%82%B2%E9%B8%A3">植物的悲鸣</a><a href="../items.html#item-%E7%9C%9F%E5%AE%9E%E7%9A%84%E6%9C%A8%E5%A4%B4%E4%BA%BA">真实的木头人</a><a href="../items.html#item-%E8%AF%B7%E5%8B%BF%E6%89%93%E6%89%B0">请勿打扰</a><a href="../items.html#item-%E6%9D%9F%E6%98%9F%E4%B9%8B%E7%90%83">束星之球</a><a href="../items.html#item-%E9%A3%8E%E7%AD%9D%E7%BA%BF">风筝线</a><a href="../items.html#item-%E5%AF%BC%E6%BC%94%E7%9A%84%E6%9D%83%E5%88%A9">导演的权利</a><a href="../items.html#item-%E4%B8%A4%E5%88%86%E9%AD%94%E6%9C%AF">两分魔术</a><a href="../items.html#item-%E6%95%B0%E6%95%B0%E6%A0%BC%E5%AD%90">数数格子</a><a href="../items.html#item-%E6%97%A0%E8%B4%9F%E6%8B%85%E6%9D%80%E9%9D%92">无负担杀青</a><a href="../items.html#item-%E6%AD%A3%E9%9D%A2%E6%9C%9D%E4%B8%8A%E7%9A%84%E6%A4%85%E5%AD%90">正面朝上的椅子</a><a href="../items.html#item-%E7%A7%BB%E5%8A%A8%E7%9A%84%E9%87%91%E5%B1%9E">移动的金属</a><a href="../items.html#item-%E7%BB%9D%E5%AF%B9%E5%AE%89%E5%85%A8%E8%B7%9D%E7%A6%BB">绝对安全距离</a><a href="../items.html#item-%E8%AE%A9%E4%BA%BA%E7%A5%9E%E9%AD%82%E9%A2%A0%E5%80%92%E7%9A%84%E5%A5%BD%E4%B8%9C%E8%A5%BF">让人神魂颠倒的好东西</a><a href="../items.html#item-101%E5%8F%B7%E7%B4%A7%E6%80%A5%E9%81%BF%E9%9A%BE">101号紧急避难</a><a href="../items.html#item-%E4%BC%A4%E4%BA%BA%E4%B8%8D%E4%BC%A4%E5%B7%B1">伤人不伤己</a><a href="../items.html#item-%E6%B0%B4%E5%88%80%E6%9E%AA">水刀枪</a><a href="../items.html#item-%E9%92%BB%E7%9F%B3%E6%89%8B%E5%A5%97">钻石手套</a><a href="../items.html#item-%E6%97%A0%E7%9B%AE%E6%A0%87%E7%9A%84%E7%A4%BC%E8%8A%B1%E7%AD%92">无目标的礼花筒</a><a href="../items.html#item-%E5%89%8A%E5%BC%B1%E6%A9%A1%E7%9A%AE">削弱橡皮</a><a href="../items.html#item-%E6%81%A9%E6%96%AD%E4%B9%89%E7%BB%9D%E9%97%A8">恩断义绝门</a></p></section></details>
+
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。</footer>
+</main></body></html>

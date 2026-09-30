@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>011 区（贵族与军火） · 单元卡 · 维度之下</title><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local')</script><style>
+:root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
+  --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+:root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
+  background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
+:root[data-theme="light"] body { background:var(--paper); }
+a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
+
+/* nav: the rail */
+.rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
+.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; }
+.brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
+.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.2em; margin-left:8px; }
+.rail nav { display:flex; gap:14px; flex-wrap:wrap; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:2px 0; border-bottom:2px solid transparent; }
+.rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
+.rail .toggle-label { margin-left:auto; }
+.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+
+/* sources switch */
+.toggle { position:absolute; opacity:0; pointer-events:none; }
+.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:0 8px; cursor:pointer; user-select:none; }
+#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.ch, sup.cite, details.src, .src-only { display:none; }
+#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main sup.cite { display:inline; }
+#show-src:checked ~ main details.src { display:inline; }
+#show-src:checked ~ main .src-only { display:block; }
+#show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
+sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
+details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
+
+/* headings and text */
+h1, h2, h3, h4 { font-family:var(--serif); }
+h2.sign { display:inline-block; font-size:20px; margin:34px 0 10px; padding:4px 14px; background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-bottom:2px solid var(--signal); border-radius:4px; letter-spacing:.12em; }
+h3 { font-size:19px; margin:26px 0 8px; padding-left:12px; border-left:4px solid var(--signal); }
+h4 { font-size:15px; margin:16px 0 4px; color:var(--brass); letter-spacing:.06em; }
+.note { color:var(--muted); font-size:14px; margin:4px 0; }
+.meta { color:var(--muted); font-size:13px; }
+ul { margin:0; padding-left:20px; } li { margin:6px 0; }
+.chipline { display:flex; flex-wrap:wrap; gap:6px 8px; margin:8px 0; }
+.chipline a, .chip { background:var(--chip); color:var(--ink); border-radius:3px; padding:1px 9px; font-size:13px; white-space:nowrap; }
+
+/* the ticket (page header of a unit card, index entries) */
+.ticket { display:flex; background:linear-gradient(135deg, var(--card-2), var(--card)); border:1px solid var(--line); border-radius:10px; margin:18px 0 8px; position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.ticket-main { flex:1; padding:18px 22px 16px; min-width:0; position:relative; }
+.ticket-stub { width:170px; padding:16px 18px; border-left:2px dashed var(--line); position:relative; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.ticket-stub::before, .ticket-stub::after { content:""; position:absolute; left:-11px; width:20px; height:20px; border-radius:50%; background:var(--paper); border:1px solid var(--line); }
+.ticket-stub::before { top:-11px; } .ticket-stub::after { bottom:-11px; }
+.kicker { font-size:12px; letter-spacing:.3em; color:var(--signal); }
+.ticket h1 { font-size:34px; margin:2px 0 4px; letter-spacing:.06em; }
+.route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
+.stub-row { font:12px var(--mono); color:var(--muted); }
+.stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+.stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
+  display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
+.stamp small { font-size:10px; margin-left:1px; }
+
+/* the dark system panel for text the game shows */
+.sys { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px; padding:10px 14px; margin:8px 0; font:14px/1.75 var(--serif); }
+.sys::before { content:"【系统】"; color:var(--brass); margin-right:4px; font-family:var(--sans); font-size:12px; letter-spacing:.1em; }
+.sys b { color:var(--brass); font:600 12px var(--sans); margin-right:6px; }
+
+/* grade badge */
+.grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
+  color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
+.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+
+footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
+@media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+
+.layer { margin:6px 0 18px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary::-webkit-details-marker { display:none; }
+.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
+.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer:not([open]) > summary::after { content:"展开"; }
+section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
+ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
+ul.people li:last-child { border-bottom:none; }
+.thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
+details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); }
+svg { width:100%; height:auto; display:block; }
+svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
+svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
+svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
+details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+.links { margin:8px 0; } .links b { display:inline-block; width:3em; color:var(--brass); font-weight:600; }
+.links a { margin-right:12px; white-space:nowrap; }
+.hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
+nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
+nav.arcs a:hover { color:var(--signal); }
+h4[id] { scroll-margin-top:16px; }
+</style></head>
+<body><input type="checkbox" id="show-src" class="toggle"><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
+<h1>011 区（贵族与军火）</h1><div class="route">第 475 章 ──── 第 485 章</div><p class="hint">没读过前文？先看<a href="../world.html">世界观</a>，这里不重复解释游戏设定。</p></div>
+<div class="ticket-stub"><div class="stub-row"><b>单元</b>u0026</div><div class="stub-row"><b>句数</b>48</div>
+<div class="stub-row"><b>引用</b>28 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<p class="meta">撰写：claude-opus-5-5 (claude-code session)，读第 475–485 章正文后撰写。每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p>
+<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。</span></summary><section id="overview"><h3>一句话</h3>
+<ul class="items"><li><span class="text">回到 011 区的十来天：徐获在基地添置了防御道具，把深蓝实验室带回的鬼影关进古堡，从白蔻口中得知何普选他当继承人的缘由和“蝴蝶夫人”这个名号的真相；他陪白蔻赴贵族聚会，看不下去俱乐部拿玩家喂异种的“节目”，放臭气、放人、放火把 A1 时间俱乐部烧了；最后看出白蔻是冲着劫走白金之眼军火的诡音骑士团来的，决定帮她，登上了荣欣集团驶往无人海域的邮轮。</span><span class="ch">第 475、477–478、482–483、485 章</span></li></ul>
+</section>
+<section id="cast"><h3>登场人物</h3>
+<p class="note">按出场先后。</p>
+<ul class="people"><li><b class="subject"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">名义上继承了月季花古堡，实际做主的还是冬先生。</span><span class="ch">第 475、483 章</span></li><li><b class="subject"><a href="../people.html#person-%E5%86%AC%E5%85%88%E7%94%9F">冬先生</a></b><span class="text">古堡的管家，一件有自主意识的特殊道具，和白蔻处处较劲。</span><span class="ch">第 475、483 章</span></li><li><b class="subject"><a href="../people.html#person-%E7%99%BD%E8%94%BB">白蔻</a>（蝴蝶夫人）</b><span class="text">赖在古堡不走，昼伏夜出，精通武器；外人仍当她是蝴蝶夫人。</span><span class="ch">第 475、477、484 章</span></li><li><b class="subject"><a href="../people.html#person-%E7%9F%B3%E6%9C%89%E8%87%B3">石有至</a>、三羊</b><span class="text">游戏政府基地的人，徐获在基地挂着职。</span><span class="ch">第 475–476 章</span></li><li><b class="subject">邓博士（邓先）</b><span class="text">在荣欣集团最大的药剂分公司找到了包吃住、能进实验室的工作。</span><span class="ch">第 477、484 章</span></li><li><b class="subject">杨清、吕思浩</b><span class="text">福利院里叫徐获“小丑叔叔”的两个孩子，是他之前送进去的。</span><span class="ch">第 478 章</span></li><li><b class="subject">塔尔公爵</b><span class="text">给徐获发聚会请帖、挑了一身通红礼服的贵族，一门心思围着白蔻转。</span><span class="ch">第 474、478–479 章</span></li><li><b class="subject">公爵夫人</b><span class="text">塔尔公爵的妻子，娘家出了好几个精英玩家，比丈夫有权；讨厌丈夫那伙人，同情孤儿。</span><span class="ch">第 478、481 章</span></li><li><b class="subject">帕拉达、埃里森</b><span class="text">A1 时间俱乐部里的贵族青年，冷落、嘲讽徐获。</span><span class="ch">第 479–480 章</span></li><li><b class="subject"><a href="../people.html#person-%E5%86%89%E8%8B%B1">冉英</a>、维森·梅尼</b><span class="text">黑肩章分队长和荣欣集团的人，都在贵族聚会上。</span><span class="ch">第 479、481 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
+<h4 id="story-1">一、古堡与基地（第 475–478 章）</h4>
+<p class="prose">徐获和冬先生把被铲平的花园重新种上月季。白蔻说劳伦斯·李算超级玩家里比较正常的，唯一的爱好是做人体实验，还说要陪他去五天后的聚会。<sup class="cite" title="第475章：劳伦斯·李算是超级玩家中比较正常的人，唯一的爱好大概就是做点人体实验">475</sup>基地的石有至说，最近几处车站被毁和荣欣集团一批枪械交接出问题有关，基地不打算管。徐获在基地内部系统里用员工和勋章折扣买下 B 级的“101号紧急避难”、C 级的“伤人不伤己”和水刀枪、钻石手套，一共二百四十万白钞；三羊说基地有一批物品要转移。<sup class="cite" title="第475章：有些小道消息流传着荣欣集团的一批枪械武器的交接出现了问题；第476章：是基地有一批物品要转移">475–476</sup>他在后台悬赏 E27-001 区的车票，又看到新闻：超级玩家纸役师和提箱人交战，据说毁了一个游戏分区。提箱人排在全游戏通缉榜第三，徐获认出他就是在积木童话城擦肩而过的皮箱男人。白金之眼的军火被劫，新闻推测是诡音骑士团干的。<sup class="cite" title="第476章：才在游戏后台上购买E27-001区的车票；第476章：徐获基本能把“提箱人”和他在积木童话城见过的皮箱玩家">476</sup>白蔻借口看看他的精神世界有没有长进，闯了进来；徐获把真正的图书馆和具化物藏起来，她用齿轮一层层拆穿，才在图书馆底部见到他。<sup class="cite" title="第476章：我看你进化率增长不少，想看看你的精神世界有没有长进；第476章：徐获把真正的图书馆以及具化物都藏了起来">476–477</sup>白蔻说，何普有一件预测道具，来 011 区就是为了等一个合适的继承人，而只有徐获拿着他的打火机；她小时候被范肖养过一阵，跟着他到处放火；真正的蝴蝶夫人是个臭名昭著的吃人玩家，她只是借这个名号，“白蔻”这名字也是编的。当晚她就走了。（白蔻的说法）<sup class="cite" title="第477章：但只有你拿着他的打火机；第477章：一个臭名昭著的吃人玩家；第477章：当然不是，名字都是我编出来骗他的">477</sup>徐获读苗羽给的武博士资料，想到范肖留在 001 区的东西会不会是药剂；冬先生说何普找过完美药剂，没找到。邓博士来信说在荣欣集团最大的药剂分公司找到了工作。<sup class="cite" title="第477章：何普先生曾经找寻过，不过没有找到；第477章：徐获看了眼地址，正是荣欣集团旗下最大的药剂分公司">477</sup>他把深蓝实验室带回的鬼影放进冬先生准备的封闭房间，鬼影只躲不攻，好像离了实验室就没了本事，冬先生把它关了起来。<sup class="cite" title="第478章：留意到它以闪避为主，没有主动发起攻击的意图">478</sup></p><details class="src block"><summary>本段原文 13 处</summary><blockquote>劳伦斯·李算是超级玩家中比较正常的人，唯一的爱好大概就是做点人体实验<cite>第 475 章 · p0017</cite></blockquote><blockquote>有些小道消息流传着荣欣集团的一批枪械武器的交接出现了问题<cite>第 475 章 · p0028</cite></blockquote><blockquote>是基地有一批物品要转移<cite>第 476 章 · p0003</cite></blockquote><blockquote>才在游戏后台上购买E27-001区的车票<cite>第 476 章 · p0005</cite></blockquote><blockquote>徐获基本能把“提箱人”和他在积木童话城见过的皮箱玩家<cite>第 476 章 · p0014</cite></blockquote><blockquote>我看你进化率增长不少，想看看你的精神世界有没有长进<cite>第 476 章 · p0024</cite></blockquote><blockquote>徐获把真正的图书馆以及具化物都藏了起来<cite>第 476 章 · p0031</cite></blockquote><blockquote>但只有你拿着他的打火机<cite>第 477 章 · p0012</cite></blockquote><blockquote>一个臭名昭著的吃人玩家<cite>第 477 章 · p0020</cite></blockquote><blockquote>当然不是，名字都是我编出来骗他的<cite>第 477 章 · p0024</cite></blockquote><blockquote>何普先生曾经找寻过，不过没有找到<cite>第 477 章 · p0044</cite></blockquote><blockquote>徐获看了眼地址，正是荣欣集团旗下最大的药剂分公司<cite>第 477 章 · p0050</cite></blockquote><blockquote>留意到它以闪避为主，没有主动发起攻击的意图<cite>第 478 章 · p0010</cite></blockquote></details>
+<h4 id="story-2">二、A1 时间（第 478–483 章）</h4>
+<p class="prose">徐获去福利院看他送进去的两个孩子，正碰上塔尔公爵的夫人来视察；孩子们在做手工换钱，他当面建议换掉院长，公爵夫人当场照办，还让秘书递给他一张名片。<sup class="cite" title="第479章：转告公爵，再找一位可靠的人来担任院长">478–479</sup>聚会在 011 区最有名的私人俱乐部 A1 时间：塔尔公爵只围着白蔻转，帕拉达、埃里森几个贵族青年冷落、挤兑徐获，冉英、维森·梅尼也在。“节目”是把一名暂停了身份的 C 级玩家和饿了三天的变异黑豹关在一起，贵族们下注看她被咬死。<sup class="cite" title="第479章：我们已经暂停了她的玩家身份，她现在只是一名身体强化过的进化人">479–480</sup>徐获离席去吸烟室，冉英跟来说起贵族家族怎么挑玩家；随后进来的公爵夫人厌恶丈夫那伙人，对他想做慈善很赞许。他送她“贵妇人的折扇”，面板显示她是真心收下的；她说何普的爵位也该由他继承。<sup class="cite" title="第481章：何普去世后他的爵位也应该由你继承">480–481</sup>他用遥控车把恶臭药剂塞进俱乐部的送风管道，贵族们以为是恐怖袭击纷纷撤离；他换了脸混回去，进控制室打开关押玩家的仓门、放出两头异种、切断电源，和俱乐部的黑衣玩家交手后破窗脱身，最后坐在白蔻开的车里点着了大楼。<sup class="cite" title="第482章：把所有玩家的仓门打开，十几秒后，他又开了门放了两头异种出来；第483章：徐获打开车窗，对着俱乐部大楼点亮打火机">482–483</sup></p><details class="src block"><summary>本段原文 5 处</summary><blockquote>转告公爵，再找一位可靠的人来担任院长<cite>第 479 章 · p0001</cite></blockquote><blockquote>我们已经暂停了她的玩家身份，她现在只是一名身体强化过的进化人<cite>第 479 章 · p0044</cite></blockquote><blockquote>何普去世后他的爵位也应该由你继承<cite>第 481 章 · p0039</cite></blockquote><blockquote>把所有玩家的仓门打开，十几秒后，他又开了门放了两头异种出来<cite>第 482 章 · p0030</cite></blockquote><blockquote>徐获打开车窗，对着俱乐部大楼点亮打火机<cite>第 483 章 · p0003</cite></blockquote></details>
+<h4 id="story-3">三、白蔻的来意（第 483–485 章）</h4>
+<p class="prose">冬先生说白蔻和白金之眼有关系，当着他的面用白金之眼的重型炮把古堡轰了一遍；徐获猜她来 011 区是在等送货的人。<sup class="cite" title="第483章：她在我面前没有掩饰这一点，用白金之眼的重型炮把古堡轰炸了一遍">483</sup>俱乐部的表演视频流出，011 区爆发机械游行；荣欣集团被扒出是俱乐部的合伙人，被实名举报残杀曾是玩家的员工，邓博士正好被堵在荣欣总部。<sup class="cite" title="第484章：还没到早上就有人实名举报荣欣集团残杀曾是玩家的员工">483–484</sup>白蔻在书房组装从军械储备所“借”来的 B 级能源炮，讲能源石、制器师，承认何普留给徐获的石头是制作道具的原料。徐获说自己的职业就是“路人甲”，游戏给的另外两个选项没说。<sup class="cite" title="第484章：那块石头的确是制作道具的原材料之一；第484章：路人甲。”徐获抬抬下巴，“你看看我的职业有没有前途">484</sup>徐获点破她是冲着诡音骑士团来的，说范肖把她当女儿，自己不能白拿他的东西、看着她去冒险，主动要一把武器；白蔻教他用改造过的新能源枪械。<sup class="cite" title="第485章：他把你当做女儿，我不能白拿他的东西">485</sup>冉英邀他同去荣欣集团的邮轮，白蔻也受邀；她说军火交易多半就在船上，邮轮要去的独立海域没纳入游戏，车票在那里用不了。三天后，白蔻被塔尔公爵接走，徐获被冉英接上车，一同去了码头。<sup class="cite" title="第485章：荣欣集团的军火交易可能在船上进行；第485章：准备三天，白蔻带着几大箱行李被塔尔公爵接走">485</sup></p><details class="src block"><summary>本段原文 7 处</summary><blockquote>她在我面前没有掩饰这一点，用白金之眼的重型炮把古堡轰炸了一遍<cite>第 483 章 · p0037</cite></blockquote><blockquote>还没到早上就有人实名举报荣欣集团残杀曾是玩家的员工<cite>第 484 章 · p0008</cite></blockquote><blockquote>那块石头的确是制作道具的原材料之一<cite>第 484 章 · p0040</cite></blockquote><blockquote>路人甲。”徐获抬抬下巴，“你看看我的职业有没有前途<cite>第 484 章 · p0043</cite></blockquote><blockquote>他把你当做女儿，我不能白拿他的东西<cite>第 485 章 · p0005</cite></blockquote><blockquote>荣欣集团的军火交易可能在船上进行<cite>第 485 章 · p0046</cite></blockquote><blockquote>准备三天，白蔻带着几大箱行李被塔尔公爵接走<cite>第 485 章 · p0053</cite></blockquote></details>
+</section>
+<section id="callbacks"><h3>承接前文</h3>
+<p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
+<ul class="items"><li><a class="thread-no" href="../threads.html#thread-116" title="伏笔总表">#116</a><span class="text">冬先生、白蔻和何普：白蔻说何普靠预测道具等继承人，只有徐获拿着他的打火机；她小时候被范肖养过一阵，叫他叔叔。（白蔻的说法）</span><span class="ch">第 477 章</span><details class="src"><summary>原文</summary><blockquote>他养了我一阵。”蝴蝶夫人露出笑意<cite>第 477 章 · p0016</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-117" title="伏笔总表">#117</a><span class="text">何普留下的东西：黑色石头是制作道具的原材料之一（据白蔻）；徐获悬赏去 E27-001 区的车票，猜范肖留在 001 区的也许是药剂。</span><span class="ch">第 476–477、484 章</span></li><li><a class="thread-no" href="../threads.html#thread-118" title="伏笔总表">#118</a><span class="text">荣欣的军火交易：白蔻认为交易会在荣欣集团驶往无人海域的邮轮上进行，徐获答应一起去。</span><span class="ch">第 485 章</span></li><li><a class="thread-no" href="../threads.html#thread-135" title="伏笔总表">#135</a><span class="text">塔尔公爵的聚会在 A1 时间俱乐部举行；公爵夫人说何普的爵位该由徐获继承。</span><span class="ch">第 479、481 章</span></li><li><a class="thread-no" href="../threads.html#thread-128" title="伏笔总表">#128</a><span class="text">鬼影离开深蓝实验室后只躲不攻，被冬先生关在古堡的房间里。</span><span class="ch">第 478 章</span></li><li><a class="thread-no" href="../threads.html#thread-051" title="伏笔总表">#051</a><span class="text">提箱人：新闻里的超级玩家，全游戏通缉榜第三，徐获认出他就是积木童话城那个提皮箱的男人、画女说的木偶的主人。（徐获的推断）</span><span class="ch">第 476 章</span></li><li><a class="thread-no" href="../threads.html#thread-132" title="伏笔总表">#132</a><span class="text">邓博士进了荣欣集团的药剂分公司，还被游行堵在了荣欣总部。</span><span class="ch">第 477、484 章</span></li><li><a class="thread-no" href="../threads.html#thread-036" title="伏笔总表">#036</a><span class="text">武博士的资料：三分之二的身份是冒充有家人的人，多在药剂公司和私人实验室任职；加密文件里最重要的一条是他可能有个女儿，已经死了。</span><span class="ch">第 477 章</span></li><li><span class="text">叫他“小丑叔叔”的两个孩子杨清、吕思浩，是他之前送进福利院的。</span><span class="ch">第 478 章</span><details class="src"><summary>原文</summary><blockquote>先发现他的是较小那个，他惊喜地喊道：“小丑叔叔！”<cite>第 478 章 · p0034</cite></blockquote></details></li></ul>
+</section>
+<section id="relations"><h3>关键关系</h3>
+<p class="note">一对人物只画一条线：绿色是同伴，橙色是冲突，红色箭头是杀死，灰色是其他往来；虚线表示某人的说法或推断。</p>
+<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+</defs>
+<g class="edge"><title>徐获 — 种花、关鬼影 — 冬先生（第 475、478 章）</title><path d="M356.2,313.9 Q344.5,246.7 334.9,191.3" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 赴会、要一把枪 — 白蔻（第 479、485 章）</title><path d="M356.2,313.9 Q288.3,265.2 230.2,223.6" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>冬先生 — 处处较劲 — 白蔻（第 475、483 章）</title><path d="M332.8,179.5 Q276.6,198.1 231.8,212.8" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>白蔻 — 被他养过 — 范肖（白蔻的说法）（第 477 章）</title><path d="M220.4,216.6 Q181.9,152.8 149.6,99.4" fill="none" stroke="#4fbf7f" stroke-width="2.2" stroke-dasharray="6 4"/></g>
+<g class="edge"><title>塔尔公爵 — 献殷勤 — 白蔻（第 479–480 章）</title><path d="M141.6,335.6 Q181.0,276.1 213.8,226.6" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>塔尔公爵 — 夫妻 — 公爵夫人（第 479、481 章）</title><path d="M141.6,335.6 Q191.1,374.1 231.1,405.1" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>公爵夫人 — 收下折扇 — 徐获（第 479、481 章）</title><path d="M240.6,412.5 Q298.4,363.2 347.1,321.7" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>帕拉达 — 冷落挤兑 — 徐获（第 479–480 章）</title><path d="M508.7,306.3 Q432.4,310.1 368.2,313.3" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>冉英 — 邀他上邮轮 — 徐获（第 481、485 章）</title><path d="M450.7,420 Q403.4,366.9 364.2,322.9" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>纸役师 — 交战 — 提箱人（第 476 章）</title><path d="M606.9,60 Q653.5,60.0 688.0,60.0" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<text x="344.5" y="250.7" class="elabel" style="fill:#4fbf7f">种花、关鬼影</text>
+<text x="288.3" y="269.2" class="elabel" style="fill:#4fbf7f">赴会、要一把枪</text>
+<text x="276.6" y="202.1" class="elabel" style="fill:#f0904f">处处较劲</text>
+<text x="181.9" y="156.8" class="elabel" style="fill:#4fbf7f">被他养过</text>
+<text x="181.0" y="280.1" class="elabel" style="fill:#8d95a3">献殷勤</text>
+<text x="191.1" y="378.1" class="elabel" style="fill:#8d95a3">夫妻</text>
+<text x="298.4" y="367.2" class="elabel" style="fill:#8d95a3">收下折扇</text>
+<text x="432.4" y="314.1" class="elabel" style="fill:#f0904f">冷落挤兑</text>
+<text x="403.4" y="371.0" class="elabel" style="fill:#8d95a3">邀他上邮轮</text>
+<text x="653.5" y="64.0" class="elabel" style="fill:#f0904f">交战</text>
+<g class="node"><circle cx="356.2" cy="313.9" r="12.5"/><text x="356.2" y="295.4" class="name">徐获</text></g>
+<g class="node"><circle cx="220.4" cy="216.6" r="12.0"/><text x="220.4" y="198.6" class="name">白蔻</text></g>
+<g class="node"><circle cx="332.8" cy="179.5" r="10.8"/><text x="332.8" y="162.7" class="name">冬先生</text></g>
+<g class="node"><circle cx="141.6" cy="335.6" r="10.8"/><text x="141.6" y="318.8" class="name">塔尔公爵</text></g>
+<g class="node"><circle cx="240.6" cy="412.5" r="10.8"/><text x="240.6" y="395.7" class="name">公爵夫人</text></g>
+<g class="node"><circle cx="143.4" cy="89.1" r="10.0"/><text x="143.4" y="73.1" class="name">范肖</text></g>
+<g class="node"><circle cx="508.7" cy="306.3" r="10.0"/><text x="508.7" y="290.3" class="name">帕拉达</text></g>
+<g class="node"><circle cx="450.7" cy="420" r="10.0"/><text x="450.7" y="404.0" class="name">冉英</text></g>
+<g class="node"><circle cx="606.9" cy="60" r="10.0"/><text x="606.9" y="44.0" class="name">纸役师</text></g>
+<g class="node"><circle cx="700" cy="60" r="10.0"/><text x="700" y="44.0" class="name">提箱人</text></g>
+</svg></div>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text">徐获 — 种花、关鬼影 — 冬先生</span><span class="ch">第 475、478 章</span></li><li><span class="text">徐获 — 赴会、要一把枪 — 白蔻</span><span class="ch">第 479、485 章</span></li><li><span class="text">冬先生 — 处处较劲 — 白蔻</span><span class="ch">第 475、483 章</span></li><li><span class="text">白蔻 — 被他养过 — 范肖（白蔻的说法）</span><span class="ch">第 477 章</span></li><li><span class="text">塔尔公爵 — 献殷勤 — 白蔻</span><span class="ch">第 479–480 章</span></li><li><span class="text">塔尔公爵 — 夫妻 — 公爵夫人</span><span class="ch">第 479、481 章</span></li><li><span class="text">公爵夫人 — 收下折扇 — 徐获</span><span class="ch">第 479、481 章</span></li><li><span class="text">帕拉达 — 冷落挤兑 — 徐获</span><span class="ch">第 479–480 章</span></li><li><span class="text">冉英 — 邀他上邮轮 — 徐获</span><span class="ch">第 481、485 章</span></li><li><span class="text">纸役师 — 交战 — 提箱人</span><span class="ch">第 476 章</span></li></ul></details>
+</section>
+<section id="threads"><h3>伏笔与未解</h3>
+<p class="note">截至第 485 章还没有交代的事。</p>
+<ul class="items"><li><a class="thread-no" href="../threads.html#thread-137" title="伏笔总表">#137</a><span class="text">白蔻到底是谁：连“白蔻”都是编的名字，她和白金之眼有关系，冲着诡音骑士团来 011 区。</span><span class="ch">第 477、483、485 章</span></li><li><a class="thread-no" href="../threads.html#thread-138" title="伏笔总表">#138</a><span class="text">徐获的职业是“路人甲”，游戏给他的另外两个选项是什么。</span><span class="ch">第 484 章</span><details class="src"><summary>原文</summary><blockquote>徐获没说出游戏给的其他选项<cite>第 484 章 · p0046</cite></blockquote></details></li></ul>
+</section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E8%BD%A6%E7%A5%A8%E4%B8%8E%E5%89%AF%E6%9C%AC">车票与副本</a><a href="../world.html#world-%E6%97%B6%E5%B7%AE">游戏里的时间</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E5%89%82">进化剂</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E9%81%93%E5%85%B7">超级道具</a><a href="../world.html#world-%E8%83%BD%E6%BA%90%E7%9F%B3">能源石与新能源武器</a><a href="../world.html#world-%E8%AF%A1%E9%9F%B3%E9%AA%91%E5%A3%AB%E5%9B%A2">诡音骑士团</a><a href="../world.html#world-011%E5%8C%BA">011 区</a><a href="../world.html#world-%E9%80%9A%E7%BC%89%E7%8A%AF">通缉犯</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E9%B2%9C%E7%BA%A2%E7%9A%84%E5%89%91">鲜红的剑</a><a href="../items.html#item-%E8%B4%B5%E5%A6%87%E4%BA%BA%E7%9A%84%E6%8A%98%E6%89%87">贵妇人的折扇</a><a href="../items.html#item-%E8%8F%B2%E5%B0%94%E5%BE%B7%E6%88%98%E6%96%97%E5%A4%A9%E4%BD%BF">菲尔德战斗天使</a><a href="../items.html#item-%E6%9C%89%E6%B0%A7%E4%BE%9B%E7%BB%99">有氧供给</a><a href="../items.html#item-%E8%AE%A9%E4%BA%BA%E7%A5%9E%E9%AD%82%E9%A2%A0%E5%80%92%E7%9A%84%E5%A5%BD%E4%B8%9C%E8%A5%BF">让人神魂颠倒的好东西</a><a href="../items.html#item-101%E5%8F%B7%E7%B4%A7%E6%80%A5%E9%81%BF%E9%9A%BE">101号紧急避难</a><a href="../items.html#item-%E4%BC%A4%E4%BA%BA%E4%B8%8D%E4%BC%A4%E5%B7%B1">伤人不伤己</a><a href="../items.html#item-%E6%B0%B4%E5%88%80%E6%9E%AA">水刀枪</a><a href="../items.html#item-%E9%92%BB%E7%9F%B3%E6%89%8B%E5%A5%97">钻石手套</a><a href="../items.html#item-%E9%A2%A0%E5%80%92%E7%A9%BA%E9%97%B4">颠倒空间</a></p></section></details>
+
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。</footer>
+</main></body></html>
