@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>011 区（男爵与古堡宴会） · 单元卡 · 维度之下</title><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local')</script><style>
+:root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
+  --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+:root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
+  background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
+:root[data-theme="light"] body { background:var(--paper); }
+a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
+
+/* nav: the rail */
+.rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
+.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; }
+.brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
+.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.2em; margin-left:8px; }
+.rail nav { display:flex; gap:14px; flex-wrap:wrap; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:2px 0; border-bottom:2px solid transparent; }
+.rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
+.rail .toggle-label { margin-left:auto; }
+.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+
+/* sources switch */
+.toggle { position:absolute; opacity:0; pointer-events:none; }
+.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:0 8px; cursor:pointer; user-select:none; }
+#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.ch, sup.cite, details.src, .src-only { display:none; }
+#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main sup.cite { display:inline; }
+#show-src:checked ~ main details.src { display:inline; }
+#show-src:checked ~ main .src-only { display:block; }
+#show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
+sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
+details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
+
+/* headings and text */
+h1, h2, h3, h4 { font-family:var(--serif); }
+h2.sign { display:inline-block; font-size:20px; margin:34px 0 10px; padding:4px 14px; background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-bottom:2px solid var(--signal); border-radius:4px; letter-spacing:.12em; }
+h3 { font-size:19px; margin:26px 0 8px; padding-left:12px; border-left:4px solid var(--signal); }
+h4 { font-size:15px; margin:16px 0 4px; color:var(--brass); letter-spacing:.06em; }
+.note { color:var(--muted); font-size:14px; margin:4px 0; }
+.meta { color:var(--muted); font-size:13px; }
+ul { margin:0; padding-left:20px; } li { margin:6px 0; }
+.chipline { display:flex; flex-wrap:wrap; gap:6px 8px; margin:8px 0; }
+.chipline a, .chip { background:var(--chip); color:var(--ink); border-radius:3px; padding:1px 9px; font-size:13px; white-space:nowrap; }
+
+/* the ticket (page header of a unit card, index entries) */
+.ticket { display:flex; background:linear-gradient(135deg, var(--card-2), var(--card)); border:1px solid var(--line); border-radius:10px; margin:18px 0 8px; position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.ticket-main { flex:1; padding:18px 22px 16px; min-width:0; position:relative; }
+.ticket-stub { width:170px; padding:16px 18px; border-left:2px dashed var(--line); position:relative; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.ticket-stub::before, .ticket-stub::after { content:""; position:absolute; left:-11px; width:20px; height:20px; border-radius:50%; background:var(--paper); border:1px solid var(--line); }
+.ticket-stub::before { top:-11px; } .ticket-stub::after { bottom:-11px; }
+.kicker { font-size:12px; letter-spacing:.3em; color:var(--signal); }
+.ticket h1 { font-size:34px; margin:2px 0 4px; letter-spacing:.06em; }
+.route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
+.stub-row { font:12px var(--mono); color:var(--muted); }
+.stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+.stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
+  display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
+.stamp small { font-size:10px; margin-left:1px; }
+
+/* the dark system panel for text the game shows */
+.sys { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px; padding:10px 14px; margin:8px 0; font:14px/1.75 var(--serif); }
+.sys::before { content:"【系统】"; color:var(--brass); margin-right:4px; font-family:var(--sans); font-size:12px; letter-spacing:.1em; }
+.sys b { color:var(--brass); font:600 12px var(--sans); margin-right:6px; }
+
+/* grade badge */
+.grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
+  color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
+.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+
+footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
+@media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+
+.layer { margin:6px 0 18px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary::-webkit-details-marker { display:none; }
+.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
+.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer:not([open]) > summary::after { content:"展开"; }
+section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
+ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
+ul.people li:last-child { border-bottom:none; }
+.thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
+details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); }
+svg { width:100%; height:auto; display:block; }
+svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
+svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
+svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
+details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+.links { margin:8px 0; } .links b { display:inline-block; width:3em; color:var(--brass); font-weight:600; }
+.links a { margin-right:12px; white-space:nowrap; }
+.hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
+nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
+nav.arcs a:hover { color:var(--signal); }
+h4[id] { scroll-margin-top:16px; }
+</style></head>
+<body><input type="checkbox" id="show-src" class="toggle"><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
+<h1>011 区（男爵与古堡宴会）</h1><div class="route">第 699 章 ──── 第 710 章</div><p class="hint">没读过前文？先看<a href="../world.html">世界观</a>，这里不重复解释游戏设定。</p></div>
+<div class="ticket-stub"><div class="stub-row"><b>单元</b>u0035</div><div class="stub-row"><b>句数</b>41</div>
+<div class="stub-row"><b>引用</b>46 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<p class="meta">撰写：claude-opus-5-5 (claude-code session)，读第 699–710 章正文后撰写。每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p>
+<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。</span></summary><section id="overview"><h3>一句话</h3>
+<ul class="items"><li><span class="text">共眼通关后，提箱人循着纸飞机来到四方宫，和一个驾着纸鹤的中年男人交上了手。徐获回到 011 区的月季花古堡，男爵封号已经批下来；他给画女办了“徐春”的身份，把从深蓝实验室带回的“鬼影”收成特殊道具“痛改前非的海报”，在游戏基地拿提箱人的行踪换来购买资格，买下“浓缩空气”“亡者之眼”。邓博士说武博士在即将融合进游戏的 009 区出现过，他没答应同去；古堡宴会上，他用南瓜头套吓退来踩点的舞伴，推开塞林和公爵夫人的拉拢，公爵夫人最后提出替他安排 009 区的副本，换副本收获的分成。</span><span class="ch">第 699–700、704、706–707、709–710 章</span></li><li><span class="text">主线段，第 699–710 章，主要在 011 区。第 711 章起是 D 级副本“史芬克斯之谜”。</span><span class="ch">第 699、710 章</span></li></ul>
+</section>
+<section id="cast"><h3>登场人物</h3>
+<p class="note">按出场先后。</p>
+<ul class="people"><li><b class="subject"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">月季花古堡的主人，刚被封为男爵；也是游戏基地轨道补给部的编外人员。</span><span class="ch">第 700、706 章</span></li><li><b class="subject"><a href="../people.html#person-%E7%94%BB%E5%A5%B3">画女</a>（徐春）</b><span class="text">在古堡住下，身份证明上的名字是徐春；答应不随便变成别人的样子、不乱跑、不乱杀人。</span><span class="ch">第 700 章</span></li><li><b class="subject"><a href="../people.html#person-%E5%86%AC%E5%85%88%E7%94%9F">冬先生</a></b><span class="text">古堡的管家，打点男爵的一切事务。</span><span class="ch">第 700、705 章</span></li><li><b class="subject"><a href="../people.html#person-%E6%8F%90%E7%AE%B1%E4%BA%BA">提箱人</a></b><span class="text">超级玩家，提着黑皮箱来到共眼副本的四方宫。</span><span class="ch">第 699 章</span></li><li><b class="subject"><a href="../people.html#person-%E5%85%AC%E7%88%B5%E5%A4%AB%E4%BA%BA">公爵夫人</a></b><span class="text">塔尔公爵的遗孀，塔尔公爵死在了那艘猎杀玩家的轮船上。</span><span class="ch">第 700–701、710 章</span></li><li><b class="subject"><a href="../people.html#person-%E5%A1%9E%E6%9E%97">塞林</a></b><span class="text">轮船上见过的传教士玩家，一身黑袍，和公爵夫人举止暧昧，逢人就劝人信教。</span><span class="ch">第 701、710 章</span></li><li><b class="subject"><a href="../people.html#person-%E7%9F%B3%E6%9C%89%E8%87%B3">石有至</a>、万庭芳、蔡香香、佘平、艾家</b><span class="text">轨道补给部石有至小队的成员；三羊主任管着基地的道具配额。</span><span class="ch">第 702–703、706 章</span></li><li><b class="subject"><a href="../people.html#person-%E9%82%93%E5%8D%9A%E5%A3%AB">邓博士</a></b><span class="text">徐获从深蓝实验室带出的医药专家，到 011 区后进了荣欣集团，一心追查武博士。</span><span class="ch">第 703–704 章</span></li><li><b class="subject">安琪儿</b><span class="text">家道中落的贵族小姐，徐获请来的宴会舞伴。</span><span class="ch">第 708–709 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
+<nav class="arcs"><a href="#story-1">一、回到 011 区（第 699–700 章）</a><a href="#story-2">二、贵族与基地（第 701–703 章）</a><a href="#story-3">三、新道具（第 704–707 章）</a><a href="#story-4">四、宴会（第 708–710 章）</a></nav>
+<h4 id="story-1">一、回到 011 区（第 699–700 章）</h4>
+<p class="prose">通关半天后，提箱人走进四方宫，看到柱子上那行字，纸飞机飞到他脚下；他转身闪到宫门前，和一个站在纸鹤上、穿旧皮大衣的中年男人照了面，皮箱里胀出的玩偶头颅一口咬断纸鹤，四方宫连同整座城被铺成了彩色的游乐街道。<sup class="cite" title="第699章：提箱人踏上二楼，很快看到了柱子上写的“你猜我是谁到此一游”；第699章：不过这时候房间内却飞出一只纸飞机；第699章：一只巨大的玩偶头颅膨胀出来，张开满口金属牙齿，一口咬断了纸鹤">699</sup>011 区正过“丰收节”：政府玩家团队从别的分区带回大量物资。轮船上的猎杀游戏在新闻里只剩一场意外，黑肩章的冉英又升了职；白蔻传来消息，诡音骑士团的鲸鱼盯上了他。<sup class="cite" title="第699章：丰收节则是011区派遣的政府玩家团队带着大量物资从别的分区回来了；第699章：黑肩章的队长冉英再次升职；第699章：好消息，鲸鱼盯上你了">699</sup>男爵封号已经获批，塔尔公爵死在了船上。画女在古堡住下，身份上叫徐春。共眼的评级是 A，奖励里有一件 C 级道具“有规范失重”。他又翻出范肖留下的黑色矿石和一把钻石钥匙，钥匙底部刻着 E27-001-01。<sup class="cite" title="第700章：您的男爵封号已经得到政府承认；第700章：画女也有了个新名字：徐春；第700章：“共眼”副本的最后评级是A；第700章：摩挲了一下底部的数字，E27-001-01">700</sup></p><details class="src block"><summary>本段原文 10 处</summary><blockquote>提箱人踏上二楼，很快看到了柱子上写的“你猜我是谁到此一游”<cite>第 699 章 · p0004</cite></blockquote><blockquote>不过这时候房间内却飞出一只纸飞机<cite>第 699 章 · p0005</cite></blockquote><blockquote>一只巨大的玩偶头颅膨胀出来，张开满口金属牙齿，一口咬断了纸鹤<cite>第 699 章 · p0008</cite></blockquote><blockquote>丰收节则是011区派遣的政府玩家团队带着大量物资从别的分区回来了<cite>第 699 章 · p0019</cite></blockquote><blockquote>黑肩章的队长冉英再次升职<cite>第 699 章 · p0023</cite></blockquote><blockquote>好消息，鲸鱼盯上你了<cite>第 699 章 · p0025</cite></blockquote><blockquote>您的男爵封号已经得到政府承认<cite>第 700 章 · p0002</cite></blockquote><blockquote>画女也有了个新名字：徐春<cite>第 700 章 · p0022</cite></blockquote><blockquote>“共眼”副本的最后评级是A<cite>第 700 章 · p0028</cite></blockquote><blockquote>摩挲了一下底部的数字，E27-001-01<cite>第 700 章 · p0041</cite></blockquote></details>
+<h4 id="story-2">二、贵族与基地（第 701–703 章）</h4>
+<p class="prose">在交易场所碰上公爵夫人和塞林；徐获给小粉红帽买了约好的两套道具裙子。公爵夫人透露有新分区即将融合进游戏：009 区，新生的副本里可能有无主的高级道具，她手里还有几张车票。<sup class="cite" title="第701章：付款为小粉红帽买了两套道具裙子——这是之前约好的；第701章：有新的游戏分区即将融合进游戏">701</sup>徐获看出 011 区内部矛盾不少，正把注意力引向对外掠夺。在游戏基地，他帮石有至的小队分拣一车走私矿石：维度列车竟然超重了，矿石里还混着可能干扰轨道的放射矿石。<sup class="cite" title="第702章：011区可以凭借超前的武器和雄厚的玩家实力去掠夺资源；第702章：才发现是维度列车超重了；第702章：可能是因为这些矿石中混入了一些会对轨道造成干扰的放射矿石">702</sup>聊起进化剂的耐药性，徐获提醒万庭芳，停用进化剂一段时间身体会衰败；石有至不喝药剂加工的酒。回到古堡，邓博士已经在等他——他到 011 区就进了荣欣。<sup class="cite" title="第703章：玩家停用进化剂一段时间后身体会出现衰败症状；第703章：石有至似乎不太喜欢药剂加工过的酒；第703章：到011区，邓博士火速入职荣欣">703</sup></p><details class="src block"><summary>本段原文 8 处</summary><blockquote>付款为小粉红帽买了两套道具裙子——这是之前约好的<cite>第 701 章 · p0027</cite></blockquote><blockquote>有新的游戏分区即将融合进游戏<cite>第 701 章 · p0032</cite></blockquote><blockquote>011区可以凭借超前的武器和雄厚的玩家实力去掠夺资源<cite>第 702 章 · p0009</cite></blockquote><blockquote>才发现是维度列车超重了<cite>第 702 章 · p0024</cite></blockquote><blockquote>可能是因为这些矿石中混入了一些会对轨道造成干扰的放射矿石<cite>第 702 章 · p0027</cite></blockquote><blockquote>玩家停用进化剂一段时间后身体会出现衰败症状<cite>第 703 章 · p0036</cite></blockquote><blockquote>石有至似乎不太喜欢药剂加工过的酒<cite>第 703 章 · p0025</cite></blockquote><blockquote>到011区，邓博士火速入职荣欣<cite>第 703 章 · p0045</cite></blockquote></details>
+<h4 id="story-3">三、新道具（第 704–707 章）</h4>
+<p class="prose">邓博士说武博士在 009 区出现过，想拉徐获同去；徐获不信有这么巧，怀疑是有人钓鱼，没答应。画女制服了关在古堡里的“鬼影”，收进道具栏后，系统说它是一件特殊道具。<sup class="cite" title="第704章：武博士在009区出现过；第704章：游戏融合会有多少玩家过去？我更倾向于有人钓鱼；第704章：恭喜玩家路人甲获得一件特殊道具">704</sup>“痛改前非的海报”擅长追踪，但会伺机杀死目标，徐获还是花钱雇人去盯邓博士。他改造古堡内部：加门、加画、在迷宫里添台阶，别馆外墙画上超大的蜘蛛。<sup class="cite" title="第705章：“痛改前非的海报”最大的作用就是追踪；第705章：花了点钱找人去跟踪邓博士；第705章：别馆外墙的图案徐获定的蜘蛛，还是超大3D款">705</sup>贵族间流行领养孤儿，孩子多被带去 011 区的下属分区；冬先生说，以前那批被领养的孩子都没再回来。在基地，徐获花二十万白钞买下万庭芳的购买名额；时空类道具“浓缩空气”还要求提供一条游戏认可的有价值信息。<sup class="cite" title="第706章：后来那些孩子基本全都离开了011区，没有再回来；第706章：“一口价，二十万白钞。”徐获道；第706章：要提供一条游戏认可的有价值信息">706</sup>他把提箱人的行踪填了进去，半小时后通过，买下“浓缩空气”“亡者之眼”和“南瓜头套”。跟踪的人拍到邓博士去见了荣欣集团的高层。<sup class="cite" title="第707章：措辞之后，他将提箱人的行踪填入进去；第707章：三件道具很快兑现，他就在政府基地实际操作了一下；第707章：文件中还有他去见荣欣集团高层的画面">707</sup></p><details class="src block"><summary>本段原文 12 处</summary><blockquote>武博士在009区出现过<cite>第 704 章 · p0004</cite></blockquote><blockquote>游戏融合会有多少玩家过去？我更倾向于有人钓鱼<cite>第 704 章 · p0015</cite></blockquote><blockquote>恭喜玩家路人甲获得一件特殊道具<cite>第 704 章 · p0047</cite></blockquote><blockquote>“痛改前非的海报”最大的作用就是追踪<cite>第 705 章 · p0003</cite></blockquote><blockquote>花了点钱找人去跟踪邓博士<cite>第 705 章 · p0021</cite></blockquote><blockquote>别馆外墙的图案徐获定的蜘蛛，还是超大3D款<cite>第 705 章 · p0038</cite></blockquote><blockquote>后来那些孩子基本全都离开了011区，没有再回来<cite>第 706 章 · p0006</cite></blockquote><blockquote>“一口价，二十万白钞。”徐获道<cite>第 706 章 · p0020</cite></blockquote><blockquote>要提供一条游戏认可的有价值信息<cite>第 706 章 · p0032</cite></blockquote><blockquote>措辞之后，他将提箱人的行踪填入进去<cite>第 707 章 · p0014</cite></blockquote><blockquote>三件道具很快兑现，他就在政府基地实际操作了一下<cite>第 707 章 · p0018</cite></blockquote><blockquote>文件中还有他去见荣欣集团高层的画面<cite>第 707 章 · p0041</cite></blockquote></details>
+<h4 id="story-4">四、宴会（第 708–710 章）</h4>
+<p class="prose">舞伴安琪儿提前住进古堡，半夜出来踩点，被变幻的走廊、画框里的丑脸、迷宫和戴南瓜头套的徐获吓晕。她家境窘迫，为了找婚嫁对象，还是留下当完了舞伴。<sup class="cite" title="第709章：徐获摘掉南瓜头套，示意冬先生把她扔回房间里；第709章：跑到这里来偷东西，胆子还挺大的；第709章：如果不能趁这个机会找一个合适的婚嫁对象">708–709</sup>宴会上塞林一再劝他入教，被徐获驳了回去；画女问要不要替他杀了塞林。醉酒的公爵夫人示好，徐获把她送进客房。<sup class="cite" title="第710章：要不要我去帮你杀了他；第710章：一个男人认识一个女人不应该从床开始">710</sup>第二天早上，公爵夫人说黑肩章已经公布进 009 区的名单；她可以走关系送他进 C 级副本，条件是把副本里得到的东西按比例分给她。<sup class="cite" title="第710章：黑肩章刚刚发布了进入009区的名单；第710章：只要你将从副本中得到的东西按一定比例支付给我就行">710</sup></p><details class="src block"><summary>本段原文 7 处</summary><blockquote>徐获摘掉南瓜头套，示意冬先生把她扔回房间里<cite>第 709 章 · p0025</cite></blockquote><blockquote>跑到这里来偷东西，胆子还挺大的<cite>第 709 章 · p0025</cite></blockquote><blockquote>如果不能趁这个机会找一个合适的婚嫁对象<cite>第 709 章 · p0033</cite></blockquote><blockquote>要不要我去帮你杀了他<cite>第 710 章 · p0026</cite></blockquote><blockquote>一个男人认识一个女人不应该从床开始<cite>第 710 章 · p0041</cite></blockquote><blockquote>黑肩章刚刚发布了进入009区的名单<cite>第 710 章 · p0044</cite></blockquote><blockquote>只要你将从副本中得到的东西按一定比例支付给我就行<cite>第 710 章 · p0052</cite></blockquote></details>
+</section>
+<section id="callbacks"><h3>承接前文</h3>
+<p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
+<ul class="items"><li><a class="thread-no" href="../threads.html#thread-167" title="伏笔总表">#167</a><span class="text">留在四方宫的纸飞机：提箱人捡到纸飞机，随即和一个驾纸鹤的中年男人在四方宫前交手。</span><span class="ch">第 699 章</span><details class="src"><summary>原文</summary><blockquote>不过这时候房间内却飞出一只纸飞机<cite>第 699 章 · p0005</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-168" title="伏笔总表">#168</a><span class="text">四方宫的副本 boss：提箱人走进四方宫时，黑甲人像短路一样抖动、低头站定；交手后，四方宫连同整座城被推开，铺成彩色街道。</span><span class="ch">第 699 章</span><details class="src"><summary>原文</summary><blockquote>正在忙碌中的黑甲人像是短路一样抖动起来<cite>第 699 章 · p0003</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-146" title="伏笔总表">#146</a><span class="text">诡音骑士团会不会追查徐获：白蔻传信说鲸鱼盯上了他；诡音骑士团和 011 区有合作，由黑肩章代为清查登船人员。（白蔻的说法）</span><span class="ch">第 699 章</span><details class="src"><summary>原文</summary><blockquote>好消息，鲸鱼盯上你了<cite>第 699 章 · p0025</cite></blockquote></details></li><li><span class="text">从深蓝实验室带回的“鬼脸”道具一直关在古堡里，这回成了“痛改前非的海报”。</span><span class="ch">第 704 章</span><details class="src"><summary>原文</summary><blockquote>他说的是从深蓝实验室带回来的“鬼脸”道具<cite>第 704 章 · p0025</cite></blockquote></details></li><li><span class="text">邓博士是徐获从深蓝实验室副本带出来的医药专家，崇拜研究出完美进化剂的武博士。</span><span class="ch">第 703 章</span><details class="src"><summary>原文</summary><blockquote>邓博士是徐获从深蓝实验室副本中带出的一名医药专家<cite>第 703 章 · p0043</cite></blockquote></details></li></ul>
+</section>
+<section id="relations"><h3>关键关系</h3>
+<p class="note">一对人物只画一条线：绿色是同伴，橙色是冲突，红色箭头是杀死，灰色是其他往来；虚线表示某人的说法或推断。</p>
+<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+</defs>
+<g class="edge"><title>徐获 — 同住古堡 — 画女（第 700、704 章）</title><path d="M378.5,239.4 Q370.1,328.1 362.7,404.9" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>冬先生 — 管家 — 徐获（第 700、705 章）</title><path d="M240.9,349.9 Q309.7,294.6 369.1,246.9" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 买名额 — 万庭芳（第 702、706 章）</title><path d="M378.5,239.4 Q291.1,228.9 215.5,219.9" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>安琪儿 — 被吓退 — 徐获（第 708–709 章）</title><path d="M270.3,99.3 Q324.4,169.3 371.2,229.9" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>塞林 — 劝他入教 — 徐获（第 701、710 章）</title><path d="M545.9,278.5 Q462.2,258.9 390.2,242.1" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>塞林 — 暧昧 — 公爵夫人（第 701 章）</title><path d="M545.9,278.5 Q522.0,320.3 504.1,351.7" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>公爵夫人 — 拉拢 — 徐获（第 701、710 章）</title><path d="M498.2,362.1 Q438.4,300.8 386.9,248.0" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>邓博士 — 邀他去009区 — 徐获（第 704 章）</title><path d="M402.5,64.1 Q390.5,151.8 380.1,227.5" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>鲸鱼 — 盯上 — 徐获（白蔻的说法）（第 699 章）</title><path d="M522.3,133.0 Q450.4,186.2 388.1,232.3" fill="none" stroke="#f0904f" stroke-width="2.2" stroke-dasharray="6 4"/></g>
+<text x="370.0" y="332.1" class="elabel" style="fill:#4fbf7f">同住古堡</text>
+<text x="309.7" y="298.6" class="elabel" style="fill:#4fbf7f">管家</text>
+<text x="291.1" y="232.9" class="elabel" style="fill:#8d95a3">买名额</text>
+<text x="324.4" y="173.3" class="elabel" style="fill:#f0904f">被吓退</text>
+<text x="462.2" y="262.9" class="elabel" style="fill:#8d95a3">劝他入教</text>
+<text x="522.0" y="324.3" class="elabel" style="fill:#4fbf7f">暧昧</text>
+<text x="438.4" y="304.8" class="elabel" style="fill:#8d95a3">拉拢</text>
+<text x="390.5" y="155.8" class="elabel" style="fill:#8d95a3">邀他去009区</text>
+<text x="450.4" y="190.2" class="elabel" style="fill:#f0904f">盯上</text>
+<g class="node"><circle cx="378.5" cy="239.4" r="13.7"/><text x="378.5" y="219.7" class="name">徐获</text></g>
+<g class="node"><circle cx="545.9" cy="278.5" r="10.8"/><text x="545.9" y="261.7" class="name">塞林</text></g>
+<g class="node"><circle cx="498.2" cy="362.1" r="10.8"/><text x="498.2" y="345.3" class="name">公爵夫人</text></g>
+<g class="node"><circle cx="361.6" cy="416.8" r="10.0"/><text x="361.6" y="400.8" class="name">画女</text></g>
+<g class="node"><circle cx="240.9" cy="349.9" r="10.0"/><text x="240.9" y="333.9" class="name">冬先生</text></g>
+<g class="node"><circle cx="203.6" cy="218.5" r="10.0"/><text x="203.6" y="202.5" class="name">万庭芳</text></g>
+<g class="node"><circle cx="270.3" cy="99.3" r="10.0"/><text x="270.3" y="83.3" class="name">安琪儿</text></g>
+<g class="node"><circle cx="402.5" cy="64.1" r="10.0"/><text x="402.5" y="48.1" class="name">邓博士</text></g>
+<g class="node"><circle cx="522.3" cy="133.0" r="10.0"/><text x="522.3" y="117.0" class="name">鲸鱼</text></g>
+</svg></div>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text">徐获 — 同住古堡 — 画女</span><span class="ch">第 700、704 章</span></li><li><span class="text">冬先生 — 管家 — 徐获</span><span class="ch">第 700、705 章</span></li><li><span class="text">徐获 — 买名额 — 万庭芳</span><span class="ch">第 702、706 章</span></li><li><span class="text">安琪儿 — 被吓退 — 徐获</span><span class="ch">第 708–709 章</span></li><li><span class="text">塞林 — 劝他入教 — 徐获</span><span class="ch">第 701、710 章</span></li><li><span class="text">塞林 — 暧昧 — 公爵夫人</span><span class="ch">第 701 章</span></li><li><span class="text">公爵夫人 — 拉拢 — 徐获</span><span class="ch">第 701、710 章</span></li><li><span class="text">邓博士 — 邀他去009区 — 徐获</span><span class="ch">第 704 章</span></li><li><span class="text">鲸鱼 — 盯上 — 徐获（白蔻的说法）</span><span class="ch">第 699 章</span></li></ul></details>
+</section>
+<section id="threads"><h3>伏笔与未解</h3>
+<p class="note">截至第 710 章还没有交代的事。</p>
+<ul class="items"><li><a class="thread-no" href="../threads.html#thread-169" title="伏笔总表">#169</a><span class="text">009 区与武博士：邓博士说武博士在 009 区出现过，徐获怀疑有人钓鱼；邓博士随后四处找同伴，还去见了荣欣集团的高层。</span><span class="ch">第 704、707 章</span><details class="src"><summary>原文</summary><blockquote>武博士在009区出现过<cite>第 704 章 · p0004</cite></blockquote><blockquote>文件中还有他去见荣欣集团高层的画面<cite>第 707 章 · p0041</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-170" title="伏笔总表">#170</a><span class="text">被领养的孤儿：011 区的贵族成批领养孤儿，带去下属分区；以前那批孩子都没再回来（冬先生的说法）。（冬先生的说法）</span><span class="ch">第 705–706 章</span><details class="src"><summary>原文</summary><blockquote>后来那些孩子基本全都离开了011区，没有再回来<cite>第 706 章 · p0006</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-171" title="伏笔总表">#171</a><span class="text">范肖的钻石钥匙与黑色矿石：钥匙底部刻着 E27-001-01，指向 001 区的 01 地区；徐获怀疑那块矿石像女娲石一样能影响生物特性。</span><span class="ch">第 700 章</span><details class="src"><summary>原文</summary><blockquote>摩挲了一下底部的数字，E27-001-01<cite>第 700 章 · p0041</cite></blockquote></details></li></ul>
+</section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E5%88%97%E8%BD%A6%E8%A7%84%E5%88%99">列车与乘务员</a><a href="../world.html#world-%E9%9D%9E%E7%8E%A9%E5%AE%B6%E5%88%97%E8%BD%A6">非玩家的列车与暂停玩家身份</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E5%89%82">进化剂</a><a href="../world.html#world-%E9%81%93%E5%85%B7">道具</a><a href="../world.html#world-%E8%83%BD%E6%BA%90%E7%9F%B3">能源石、矿石与制器师</a><a href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C">游戏世界与虫洞点</a><a href="../world.html#world-%E6%B8%B8%E6%88%8F%E6%94%BF%E5%BA%9C">游戏政府与灰色玩家</a><a href="../world.html#world-011%E5%8C%BA">011 区</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E6%82%AC%E6%B5%AE%E6%B0%94%E7%90%83">悬浮气球</a><a href="../items.html#item-%E9%B2%9C%E7%BA%A2%E7%9A%84%E5%89%91">鲜红的剑</a><a href="../items.html#item-%E8%B4%B5%E5%A6%87%E4%BA%BA%E7%9A%84%E6%8A%98%E6%89%87">贵妇人的折扇</a><a href="../items.html#item-%E7%A5%9E%E5%87%BA%E9%AC%BC%E6%B2%A1%E7%9A%84%E5%B0%96%E5%8F%AB%E9%B8%A1">神出鬼没的尖叫鸡</a><a href="../items.html#item-%E5%AF%BC%E6%BC%94%E7%9A%84%E6%9D%83%E5%88%A9">导演的权利</a><a href="../items.html#item-%E9%A2%A0%E5%80%92%E7%A9%BA%E9%97%B4">颠倒空间</a><a href="../items.html#item-%E7%94%9F%E5%91%BD%E6%A0%B8%E5%BF%83">生命核心</a><a href="../items.html#item-%E5%91%93%E8%AF%AD%E4%B9%8B%E7%90%83">呓语之球</a><a href="../items.html#item-%E6%9C%89%E8%A7%84%E8%8C%83%E5%A4%B1%E9%87%8D">有规范失重</a><a href="../items.html#item-%E9%92%A5%E5%8C%99">钥匙</a><a href="../items.html#item-%E9%94%81">锁</a><a href="../items.html#item-%E7%97%9B%E6%94%B9%E5%89%8D%E9%9D%9E%E7%9A%84%E6%B5%B7%E6%8A%A5">痛改前非的海报</a><a href="../items.html#item-%E4%BA%A1%E8%80%85%E4%B9%8B%E7%9C%BC">亡者之眼</a><a href="../items.html#item-%E6%9A%B4%E9%A3%8E%E4%B9%8B%E5%88%83">暴风之刃</a><a href="../items.html#item-%E6%B5%93%E7%BC%A9%E7%A9%BA%E6%B0%94">浓缩空气</a><a href="../items.html#item-%E5%8D%97%E7%93%9C%E5%A4%B4%E5%A5%97">南瓜头套</a></p></section></details>
+
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。</footer>
+</main></body></html>
