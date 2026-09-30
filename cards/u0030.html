@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>014 区（异种毒与双蛇集会） · 单元卡 · 维度之下</title><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local')</script><style>
+:root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
+  --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+:root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
+  background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
+:root[data-theme="light"] body { background:var(--paper); }
+a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
+
+/* nav: the rail */
+.rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
+.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; }
+.brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
+.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.2em; margin-left:8px; }
+.rail nav { display:flex; gap:14px; flex-wrap:wrap; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:2px 0; border-bottom:2px solid transparent; }
+.rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
+.rail .toggle-label { margin-left:auto; }
+.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+
+/* sources switch */
+.toggle { position:absolute; opacity:0; pointer-events:none; }
+.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:0 8px; cursor:pointer; user-select:none; }
+#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.ch, sup.cite, details.src, .src-only { display:none; }
+#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main sup.cite { display:inline; }
+#show-src:checked ~ main details.src { display:inline; }
+#show-src:checked ~ main .src-only { display:block; }
+#show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
+sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
+details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
+
+/* headings and text */
+h1, h2, h3, h4 { font-family:var(--serif); }
+h2.sign { display:inline-block; font-size:20px; margin:34px 0 10px; padding:4px 14px; background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-bottom:2px solid var(--signal); border-radius:4px; letter-spacing:.12em; }
+h3 { font-size:19px; margin:26px 0 8px; padding-left:12px; border-left:4px solid var(--signal); }
+h4 { font-size:15px; margin:16px 0 4px; color:var(--brass); letter-spacing:.06em; }
+.note { color:var(--muted); font-size:14px; margin:4px 0; }
+.meta { color:var(--muted); font-size:13px; }
+ul { margin:0; padding-left:20px; } li { margin:6px 0; }
+.chipline { display:flex; flex-wrap:wrap; gap:6px 8px; margin:8px 0; }
+.chipline a, .chip { background:var(--chip); color:var(--ink); border-radius:3px; padding:1px 9px; font-size:13px; white-space:nowrap; }
+
+/* the ticket (page header of a unit card, index entries) */
+.ticket { display:flex; background:linear-gradient(135deg, var(--card-2), var(--card)); border:1px solid var(--line); border-radius:10px; margin:18px 0 8px; position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.ticket-main { flex:1; padding:18px 22px 16px; min-width:0; position:relative; }
+.ticket-stub { width:170px; padding:16px 18px; border-left:2px dashed var(--line); position:relative; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.ticket-stub::before, .ticket-stub::after { content:""; position:absolute; left:-11px; width:20px; height:20px; border-radius:50%; background:var(--paper); border:1px solid var(--line); }
+.ticket-stub::before { top:-11px; } .ticket-stub::after { bottom:-11px; }
+.kicker { font-size:12px; letter-spacing:.3em; color:var(--signal); }
+.ticket h1 { font-size:34px; margin:2px 0 4px; letter-spacing:.06em; }
+.route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
+.stub-row { font:12px var(--mono); color:var(--muted); }
+.stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+.stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
+  display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
+.stamp small { font-size:10px; margin-left:1px; }
+
+/* the dark system panel for text the game shows */
+.sys { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px; padding:10px 14px; margin:8px 0; font:14px/1.75 var(--serif); }
+.sys::before { content:"【系统】"; color:var(--brass); margin-right:4px; font-family:var(--sans); font-size:12px; letter-spacing:.1em; }
+.sys b { color:var(--brass); font:600 12px var(--sans); margin-right:6px; }
+
+/* grade badge */
+.grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
+  color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
+.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+
+footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
+@media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+
+.layer { margin:6px 0 18px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary::-webkit-details-marker { display:none; }
+.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
+.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer:not([open]) > summary::after { content:"展开"; }
+section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
+ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
+ul.people li:last-child { border-bottom:none; }
+.thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
+details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); }
+svg { width:100%; height:auto; display:block; }
+svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
+svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
+svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
+details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+.links { margin:8px 0; } .links b { display:inline-block; width:3em; color:var(--brass); font-weight:600; }
+.links a { margin-right:12px; white-space:nowrap; }
+.hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
+nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
+nav.arcs a:hover { color:var(--signal); }
+h4[id] { scroll-margin-top:16px; }
+</style></head>
+<body><input type="checkbox" id="show-src" class="toggle"><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
+<h1>014 区（异种毒与双蛇集会）</h1><div class="route">第 574 章 ──── 第 616 章</div><p class="hint">没读过前文？先看<a href="../world.html">世界观</a>，这里不重复解释游戏设定。</p></div>
+<div class="ticket-stub"><div class="stub-row"><b>单元</b>u0030</div><div class="stub-row"><b>句数</b>72</div>
+<div class="stub-row"><b>引用</b>61 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<p class="meta">撰写：claude-opus-5-5 (claude-code session)，读第 574–616 章正文后撰写。每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p>
+<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。</span></summary><section id="overview"><h3>一句话</h3>
+<ul class="items"><li><span class="text">徐获回到战火和异种毒里的 014 区，把王菌交给特防部；在阳市，他杀了第一协会作恶的包家立，追着一张双蛇请帖混进水城度假村的集会，查出双蛇是给红色玩家筛选“食物”的组织，和梁哥一伙、第一协会端了桃乐会所，当着特防部杀了邱公子，又对镜头宣布“接下来十天，我会拜访特防部总部”。特防部如临大敌，他却坐民航到了京市。</span><span class="ch">第 574、578、591、601–602、610 章</span></li><li><span class="text">主线段，第 574–616 章：汀城、阳市、水城度假村，最后是京市。第十七医院在第 617 章降临，写在下一张卡里。</span><span class="ch">第 574、616 章</span></li></ul>
+</section>
+<section id="cast"><h3>登场人物</h3>
+<p class="note">按出场先后。</p>
+<ul class="people"><li><b class="subject"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">带着王菌和女娲石回来；一路换脸，在双蛇集会上戴白面具。</span><span class="ch">第 574、587 章</span></li><li><b class="subject"><a href="../people.html#person-%E5%90%B4%E7%BB%84%E9%95%BF">吴组长</a>、姜翘</b><span class="text">特防部的组长。姜翘连夜把王菌样本送去京市研究基地。</span><span class="ch">第 574–575 章</span></li><li><b class="subject"><a href="../people.html#person-%E5%AE%8B%E7%BB%84%E9%95%BF">宋组长</a>、<a href="../people.html#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a></b><span class="text">宋组长和吴组长交恶，戴文谦常跟着宋组长；双蛇事件后宋组长在家“休养”，据说被撤职。</span><span class="ch">第 575、610、612 章</span></li><li><b class="subject"><a href="../people.html#person-%E5%8F%B8%E9%A9%AC%E5%B0%8F%E4%BA%8C">司马小二</a></b><span class="text">汀城特防部的玩家，吴组长派来给徐获跑腿；在双蛇集会上被水晶球选成“白使者”，聂玄说他是卧底。</span><span class="ch">第 574、591、602 章</span></li><li><b class="subject">谈阳、<a href="../people.html#person-%E9%BB%84%E4%BF%8A%E6%9D%B0">黄俊杰</a>、蒲康</b><span class="text">第一协会的会长、军师和副会长；三人都去了双蛇集会，谈阳和蒲康被抓。</span><span class="ch">第 578、581、589 章</span></li><li><b class="subject">包家立、王孟</b><span class="text">第一协会的玩家；包家立的车后座锁着一个被他折磨的女孩。</span><span class="ch">第 577–578 章</span></li><li><b class="subject">梁哥</b><span class="text">一伙民间玩家的头，凭直觉认定双蛇害了失踪的玩家，一直在跟踪送信人；同伙有小张、关祖弘、李群、金勇。</span><span class="ch">第 583–584 章</span></li><li><b class="subject"><a href="../people.html#person-%E5%91%A8%E5%87%9D">周凝</a>、<a href="../people.html#person-%E8%83%A1%E6%96%87%E8%99%8E">胡文虎</a></b><span class="text">胡文虎中了异种毒，周凝带他来找徐获；周凝在集会上装死被运到双蛇的仓库。</span><span class="ch">第 584、593 章</span></li><li><b class="subject">管升、钱旭文</b><span class="text">吴组长挑来配合徐获的特防部玩家，一个是搏斗教练，一个是能过目不忘的记录员。</span><span class="ch">第 584 章</span></li><li><b class="subject"><a href="../people.html#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a></b><span class="text">在随机副本里抓了只会发光的怪鸟；在集会上和徐获换了面具，之后失踪。</span><span class="ch">第 585、592 章</span></li><li><b class="subject">丁先生、邱公子</b><span class="text">双蛇的人：丁先生是主持祷告的灰袍人；邱公子是桃乐会所红色玩家宴会的主人。</span><span class="ch">第 588、597 章</span></li><li><b class="subject"><a href="../people.html#person-%E7%94%BB%E5%A5%B3">画女</a>（立春）</b><span class="text">贴在徐获衣服里跟去集会；在仓库替下周凝，又在酒店里杀了一屋子吃人的双蛇成员。</span><span class="ch">第 593、595 章</span></li><li><b class="subject">亚伯</b><span class="text">砍头魔副本的旧识，戴佛珠、十字架的外国玩家，也被选成白面具。</span><span class="ch">第 590、594 章</span></li><li><b class="subject"><a href="../people.html#person-%E8%81%82%E7%8E%84">聂玄</a></b><span class="text">从边境回来接手阳市的事，后来升任组长；一直在查立春的来历。</span><span class="ch">第 602、613、615 章</span></li><li><b class="subject">樊部长、常组长、吕组长</b><span class="text">特防部总部的部长和新组长；常组长本身是玩家。</span><span class="ch">第 574、604 章</span></li><li><b class="subject"><a href="../people.html#person-%E7%8E%8B%E5%B0%8F%E6%85%A7">王小慧</a>、卫芒</b><span class="text">王小慧是初审列车上违规进二等座的残疾玩家，如今掌了家业；卫芒是送她进二等座的三等座玩家，身中异种毒。</span><span class="ch">第 607–608 章</span></li><li><b class="subject"><a href="../people.html#person-%E8%B0%B7%E9%9B%A8">谷雨</a>、<a href="../people.html#person-%E9%83%91%E8%89%AF">郑良</a>、文雪琳</b><span class="text">春雨协会的人；文雪琳是能把人化成另一个人的化妆师。</span><span class="ch">第 611 章</span></li><li><b class="subject"><a href="../people.html#person-%E5%94%90%E5%B9%BF%E5%8D%9A">唐广博</a></b><span class="text">徐获的继父、特防部的顾问教授，给玩家做心理评估。</span><span class="ch">第 603、610–611 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
+<nav class="arcs"><a href="#story-1">一、回到汀城（第 574–576 章）</a><a href="#story-2">二、阳市：第一协会与制器师（第 577–582 章）</a><a href="#story-3">三、双蛇的请帖（第 584–587 章）</a><a href="#story-4">四、度假村里的分流（第 588–594 章）</a><a href="#story-5">五、桃乐会所（第 595–602 章）</a><a href="#story-6">六、十日之期（第 603–616 章）</a></nav>
+<h4 id="story-1">一、回到汀城（第 574–576 章）</h4>
+<p class="prose">徐获把王菌样本交给连夜赶来的姜翘；研究基地里，截一段菌丝就能杀灭异种毒，樊部长让吴组长“他要什么都尽量给”。宋组长一边质疑一边想抢功，他和吴组长早已撕破脸。<sup class="cite" title="第574章：徐获这次回来主要目的也是将王菌样本交给特防部；第575章：真的有效！而且效果实在是太好了">574–575</sup>戴文谦打电话来要买解毒菌，徐获直接挂断。司马小二说，大城市冒出一批拿失踪人口身份证买房开店的人，开的多是维修店和玩具店。<sup class="cite" title="第576章：你手里应该还有备用的吧，卖给我，条件你可以开；第576章：他们拿的是失踪人口的身份证">576</sup></p><details class="src block"><summary>本段原文 4 处</summary><blockquote>徐获这次回来主要目的也是将王菌样本交给特防部<cite>第 574 章 · p0002</cite></blockquote><blockquote>真的有效！而且效果实在是太好了<cite>第 575 章 · p0018</cite></blockquote><blockquote>你手里应该还有备用的吧，卖给我，条件你可以开<cite>第 576 章 · p0003</cite></blockquote><blockquote>他们拿的是失踪人口的身份证<cite>第 576 章 · p0037</cite></blockquote></details>
+<h4 id="story-2">二、阳市：第一协会与制器师（第 577–582 章）</h4>
+<p class="prose">去阳市的路上，第一协会的王孟开车挑衅，徐获一闪身坐进了他的跑车；包家立带人追到服务区，徐获当着电话里谈阳的面数落第一协会。临走看见包家立车里锁着一个被折磨的女孩，他砍了包家立的头，杀了同伙，只留王孟把女孩送医。<sup class="cite" title="第577章：已经坐在跑车男旁边的徐获伸手拍拍他的肩；第578章：却突然见到一片剑光闪过，跟着包家立的脑袋就飞起来了">577–578</sup>那家“老师傅手工店”是制器师开的：店里的道具只收矿石，徐获用小丑城带回的一块 A 级矿石换了“同性相斥”。他盯了两天，确定这些制器师只想要矿石。<sup class="cite" title="第579章：不错，A级矿石，我这里要收；第580章：最后他选了一件名为“同性相斥”的D级别针道具；第581章：这样看起来制器师的目的就很明确了，他们只想要矿石">579–581</sup>他房里多了一封双蛇请帖；虫洞花的红色又多了一点。当晚八个人盯着他，他打断第一协会跟踪者的腿，又在公园里用“束星之球”困住梁哥一伙——他们是来跟踪双蛇送信人的。<sup class="cite" title="第581章：“双蛇请帖？”徐获看着书桌上不过出去几分钟就多出来的黑色硬壳信封；第582章：一共八个人，从不同的地方盯着他；第583章：我们是跟踪双蛇的成员到了这里">581–583</sup></p><details class="src block"><summary>本段原文 8 处</summary><blockquote>已经坐在跑车男旁边的徐获伸手拍拍他的肩<cite>第 577 章 · p0023</cite></blockquote><blockquote>却突然见到一片剑光闪过，跟着包家立的脑袋就飞起来了<cite>第 578 章 · p0027</cite></blockquote><blockquote>不错，A级矿石，我这里要收<cite>第 579 章 · p0029</cite></blockquote><blockquote>最后他选了一件名为“同性相斥”的D级别针道具<cite>第 580 章 · p0016</cite></blockquote><blockquote>这样看起来制器师的目的就很明确了，他们只想要矿石<cite>第 581 章 · p0039</cite></blockquote><blockquote>“双蛇请帖？”徐获看着书桌上不过出去几分钟就多出来的黑色硬壳信封<cite>第 581 章 · p0015</cite></blockquote><blockquote>一共八个人，从不同的地方盯着他<cite>第 582 章 · p0023</cite></blockquote><blockquote>我们是跟踪双蛇的成员到了这里<cite>第 583 章 · p0014</cite></blockquote></details>
+<h4 id="story-3">三、双蛇的请帖（第 584–587 章）</h4>
+<p class="prose">梁哥说参加集会的玩家确有失踪的；徐获和他交换了联系方式。周凝带着中了异种毒的胡文虎赶来，徐获备好的针剂一打，胡文虎肉眼可见地好转；她送了徐获一双“密度提取手套”，徐获回赠幸运手链。<sup class="cite" title="第584章：参加集会的玩家失踪确有其事，不光是我认识的两个；第584章：周凝立刻给胡文虎注射了">584</sup>徐获带着吴组长派来的管升、钱旭文，严嘉鱼、周凝、司马小二跟着梁哥那边的请帖，分头去了水城的集会：验过请帖每人领一瓶进化剂，再被车送到一个还没开业的度假村。<sup class="cite" title="第586章：黑袍玩家检查了请帖后，给了他们三人一人一瓶进化剂；第586章：才发现车子把他们送到了一个还没投入使用的度假村里">586</sup>徐获看出在场玩家有一部分是双蛇的人，请帖、面具、腕带都是分流的记号；他和严嘉鱼换了面具和腕带。<sup class="cite" title="第587章：今天晚上到这里的玩家有一部分是双蛇组织的人；第592章：参观雕像的时候徐获就和严嘉鱼换了面具和腕带">587、592</sup></p><details class="src block"><summary>本段原文 6 处</summary><blockquote>参加集会的玩家失踪确有其事，不光是我认识的两个<cite>第 584 章 · p0005</cite></blockquote><blockquote>周凝立刻给胡文虎注射了<cite>第 584 章 · p0035</cite></blockquote><blockquote>黑袍玩家检查了请帖后，给了他们三人一人一瓶进化剂<cite>第 586 章 · p0024</cite></blockquote><blockquote>才发现车子把他们送到了一个还没投入使用的度假村里<cite>第 586 章 · p0049</cite></blockquote><blockquote>今天晚上到这里的玩家有一部分是双蛇组织的人<cite>第 587 章 · p0017</cite></blockquote><blockquote>参观雕像的时候徐获就和严嘉鱼换了面具和腕带<cite>第 592 章 · p0018</cite></blockquote></details>
+<h4 id="story-4">四、度假村里的分流（第 588–594 章）</h4>
+<p class="prose">祷告、自由交易之后，一批批玩家被悄悄带走：腕带数字“四”的那批在楼下活动室被杀，尸体推进暗门；代替徐获去单独交易的严嘉鱼不见了，徐获推测她进了随机副本。<sup class="cite" title="第588章：将一具具尸体从房间内拖出来推进旁边的隐形门板内；第592章：有一种可能性就是她进了随机副本">588、592</sup>八个白面具被请进餐厅，灰袍人说会长预测 014 区将有灭顶之灾，用水晶球找“救世主”，司马小二被选成“白使者”。楼上一声爆炸，双蛇带着他们从暗道撤离；谈阳和蒲康拒绝入伙、打伤了人，被打断手脚抓走。<sup class="cite" title="第591章：他预测不久的将来我们014区肯定会有一场灭顶之灾；第591章：从今天开始，你就是双蛇的白使者了；第597章：谈阳和蒲康都被打断了手脚">590–591、597</sup>在小镇上，画女溜进仓库，看见双蛇把尸体洗净装殓运走，还把装死的周凝换了出来，自己躺进玻璃棺跟车走了。天亮前的“入会仪式”把十个人放倒，装进玻璃柜，分送阳市的惠美养生馆和桃乐会所；亚伯认出了徐获。<sup class="cite" title="第593章：用卡车拉过来的尸体逐一被平铺放在中间的大桌上；第593章：画女笑眯眯地朝她“嘘”了一声，跟着就朝她伸出手；第594章：这五个送到阳市惠美养生馆，另外五个送到桃乐会所">593–594</sup></p><details class="src block"><summary>本段原文 8 处</summary><blockquote>将一具具尸体从房间内拖出来推进旁边的隐形门板内<cite>第 588 章 · p0030</cite></blockquote><blockquote>有一种可能性就是她进了随机副本<cite>第 592 章 · p0019</cite></blockquote><blockquote>他预测不久的将来我们014区肯定会有一场灭顶之灾<cite>第 591 章 · p0001</cite></blockquote><blockquote>从今天开始，你就是双蛇的白使者了<cite>第 591 章 · p0029</cite></blockquote><blockquote>谈阳和蒲康都被打断了手脚<cite>第 597 章 · p0001</cite></blockquote><blockquote>用卡车拉过来的尸体逐一被平铺放在中间的大桌上<cite>第 593 章 · p0027</cite></blockquote><blockquote>画女笑眯眯地朝她“嘘”了一声，跟着就朝她伸出手<cite>第 593 章 · p0036</cite></blockquote><blockquote>这五个送到阳市惠美养生馆，另外五个送到桃乐会所<cite>第 594 章 · p0036</cite></blockquote></details>
+<h4 id="story-5">五、桃乐会所（第 595–602 章）</h4>
+<p class="prose">徐获在半路从玻璃柜里坐起来，夺了车，转向桃乐会所；画女那边已经杀光了想吃她的人。梁哥的同伴和第一协会的人赶来，徐获、亚伯、小张先清了后厨——那里在剁人肉。<sup class="cite" title="第595章：这帮人好坏，竟然想吃我；第596章：举枪射穿了手持屠刀正在剁骨的厨师">595–596</sup>湖心会所里，邱公子办的是红色玩家的宴会，逼谈阳在镜头前“吃桌上的菜，或者变成桌上的菜”。双蛇火力压住湖岸，直升机也来了。<sup class="cite" title="第597章：这房间全都是红色玩家，今天的聚会就是给红色玩家准备的；第597章：吃桌上的菜，或者变成桌上的菜，你自己选">597–598</sup>徐获冲上会所：沙暴卷翻直升机，他手一碰，弹药箱和直升机机头都化成了灰，雨果那只断手让灰袍人中毒。邱公子张口就说能给一株解毒菌，徐获由此断定特防部内部被渗透。<sup class="cite" title="第599章：东歪西倒的直升机坚持了没几秒就被绞入湖中；第600章：只要你放我走，我可以给你一株；第600章：看来被渗透的不止特防部">599–600</sup>宋组长带兵赶到，要所有人收起道具接受调查；徐获当面砍了邱公子的头，放出毒真菌逼特防部收枪，对着镜头自报姓名，宣布十天内拜访特防部总部。聂玄带人赶到，以“汀城的玩家由汀城接手”要走了人，说司马小二是卧底。<sup class="cite" title="第601章：一道巴掌宽的半透明的光幕就从他后颈穿过；第602章：欢迎各位双蛇成员来找我报仇，接下来十天，我会拜访特防部总部；第602章：徐获和第一协会等人全是汀城玩家，接下来的事由我接手">601–602</sup></p><details class="src block"><summary>本段原文 10 处</summary><blockquote>这帮人好坏，竟然想吃我<cite>第 595 章 · p0022</cite></blockquote><blockquote>举枪射穿了手持屠刀正在剁骨的厨师<cite>第 596 章 · p0024</cite></blockquote><blockquote>这房间全都是红色玩家，今天的聚会就是给红色玩家准备的<cite>第 597 章 · p0028</cite></blockquote><blockquote>吃桌上的菜，或者变成桌上的菜，你自己选<cite>第 597 章 · p0030</cite></blockquote><blockquote>东歪西倒的直升机坚持了没几秒就被绞入湖中<cite>第 599 章 · p0004</cite></blockquote><blockquote>只要你放我走，我可以给你一株<cite>第 600 章 · p0017</cite></blockquote><blockquote>看来被渗透的不止特防部<cite>第 600 章 · p0020</cite></blockquote><blockquote>一道巴掌宽的半透明的光幕就从他后颈穿过<cite>第 601 章 · p0025</cite></blockquote><blockquote>欢迎各位双蛇成员来找我报仇，接下来十天，我会拜访特防部总部<cite>第 602 章 · p0012</cite></blockquote><blockquote>徐获和第一协会等人全是汀城玩家，接下来的事由我接手<cite>第 602 章 · p0019</cite></blockquote></details>
+<h4 id="story-6">六、十日之期（第 603–616 章）</h4>
+<p class="prose">阳市附近出现没人失踪的大雾区，唐广博说可能是固定副本诞生的先兆。特防部总部开会：樊部长先问徐获的精神状态还稳不稳定，随后启动最高级别应急预案、疏散总部周围的群众。<sup class="cite" title="第604章：他目前的精神状态还稳定吗；第605章：启动最高级别应急预案，提前疏散特防部周围的群众">603–605</sup>徐获和聂玄吃火锅，说他怀疑能源矿石和游戏的本源有关，换了一件 C 级道具，随即合成 B 级的“呓语之球”；聂玄说亚伯被困在会所的道具里，罚款就放。<sup class="cite" title="第605章：我怀疑能源矿石和维度裂缝游戏的本源有关；第606章：恭喜玩家路人甲获得B级道具呓语之球">605–606</sup>王小慧坐直升机找上门，求一株解毒菌救卫芒；徐获看出她的特性在影响别人的情绪，没答应。他拿“呓语之球”试手，在幻觉里看见童年的医生夸他分离出了“兄弟人格”，最后第一次用精神力量影响了现实。<sup class="cite" title="第608章：我知道你有办法治疗异种毒，所以想请你救救卫芒；第609章：你做的很好，在这么短的时间内分离出了自己的兄弟人格；第609章：这就证明他初步成功地用精神力量影响了现实">607–609</sup>他在机场买票，坐民航去了京市。戴文谦发现唐广博借心理评估给玩家洗脑，找谷雨买凶；谷雨转头告诉了徐获。春雨协会、梁哥一伙答应帮他把聚来的玩家分散引开。<sup class="cite" title="第610章：在机场现买了两张飞京市的票——没错，就是走公共交通；第611章：套了点评估内容之后才察觉他在这个过程中给玩家洗了脑；第612章：他想让我去杀唐广博，或者自己趁乱动手">610–612</sup>特防部从酒店监控推断立春就是海市事件里的画女，列为 S 级机密，樊部长转而想拉拢；聂玄电话里说特防部自己引开吃人玩家，徐获不露面就行。<sup class="cite" title="第613章：所以跟在徐获身边的这个立春有可能就是当初拿到超级道具的画女；第613章：将画女的身份列为S级机密">613–614</sup>特防部监狱里，亚伯替外国来的黑衣人偷出一名玩家的头发，被烫伤后背；聂玄借乱下令一号监狱就地击杀，他已被吕组长推成新组长。总部周围爆炸、枪战，徐获让梁哥、郑良等人扮成他分六组引人，自己去了约好的地方。<sup class="cite" title="第615章：国家不会忘记你的付出；第615章：这也是我力荐你成为新组长的原因；第616章：梁哥现在已经化妆成徐获的样子">615–616</sup></p><details class="src block"><summary>本段原文 15 处</summary><blockquote>他目前的精神状态还稳定吗<cite>第 604 章 · p0038</cite></blockquote><blockquote>启动最高级别应急预案，提前疏散特防部周围的群众<cite>第 605 章 · p0016</cite></blockquote><blockquote>我怀疑能源矿石和维度裂缝游戏的本源有关<cite>第 605 章 · p0042</cite></blockquote><blockquote>恭喜玩家路人甲获得B级道具呓语之球<cite>第 606 章 · p0021</cite></blockquote><blockquote>我知道你有办法治疗异种毒，所以想请你救救卫芒<cite>第 608 章 · p0013</cite></blockquote><blockquote>你做的很好，在这么短的时间内分离出了自己的兄弟人格<cite>第 609 章 · p0008</cite></blockquote><blockquote>这就证明他初步成功地用精神力量影响了现实<cite>第 609 章 · p0036</cite></blockquote><blockquote>在机场现买了两张飞京市的票——没错，就是走公共交通<cite>第 610 章 · p0011</cite></blockquote><blockquote>套了点评估内容之后才察觉他在这个过程中给玩家洗了脑<cite>第 611 章 · p0011</cite></blockquote><blockquote>他想让我去杀唐广博，或者自己趁乱动手<cite>第 612 章 · p0026</cite></blockquote><blockquote>所以跟在徐获身边的这个立春有可能就是当初拿到超级道具的画女<cite>第 613 章 · p0036</cite></blockquote><blockquote>将画女的身份列为S级机密<cite>第 613 章 · p0041</cite></blockquote><blockquote>国家不会忘记你的付出<cite>第 615 章 · p0021</cite></blockquote><blockquote>这也是我力荐你成为新组长的原因<cite>第 615 章 · p0038</cite></blockquote><blockquote>梁哥现在已经化妆成徐获的样子<cite>第 616 章 · p0016</cite></blockquote></details>
+</section>
+<section id="callbacks"><h3>承接前文</h3>
+<p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
+<ul class="items"><li><a class="thread-no" href="../threads.html#thread-150" title="伏笔总表">#150</a><span class="text">徐获把王菌交给特防部，研究人员证实截一段菌丝就能杀灭异种毒，但只有五株，量产还要培育。</span><span class="ch">第 574–575 章</span><details class="src"><summary>原文</summary><blockquote>真的有效！而且效果实在是太好了<cite>第 575 章 · p0018</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-147" title="伏笔总表">#147</a><span class="text">王菌离开人体没有根、不能分裂，连上女娲石才长出根茎似的细丝。</span><span class="ch">第 574 章</span></li><li><a class="thread-no" href="../threads.html#thread-151" title="伏笔总表">#151</a><span class="text">胡文虎打了徐获给的针剂，异种毒明显好转；立春住在徐家，和俞晴晴在一起。</span><span class="ch">第 582、584 章</span><details class="src"><summary>原文</summary><blockquote>周凝立刻给胡文虎注射了<cite>第 584 章 · p0035</cite></blockquote><blockquote>“我们住在一起！”俞晴晴在后面说道<cite>第 582 章 · p0008</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-100" title="伏笔总表">#100</a><span class="text">谈阳的玩家协会得到官方认可，成了“第一协会”，谈阳做了会长；但几百号玩家各有小团体，约束不住。</span><span class="ch">第 578、598 章</span></li><li><a class="thread-no" href="../threads.html#thread-076" title="伏笔总表">#076</a><span class="text">宋组长和吴组长彻底翻脸；双蛇事件后宋组长被撤职，戴文谦转而靠上了常组长（谷雨的说法）。（谷雨的说法）</span><span class="ch">第 575、610、612 章</span></li><li><a class="thread-no" href="../threads.html#thread-055" title="伏笔总表">#055</a><span class="text">戴文谦察觉唐广博借心理评估给玩家洗脑，想借春雨协会的手除掉他；徐获评估唐广博八成也是玩家，可能是灰色玩家。（戴文谦、徐获的推断）</span><span class="ch">第 611 章</span><details class="src"><summary>原文</summary><blockquote>按照徐获对唐广博的评估，这个人八成也是玩家<cite>第 611 章 · p0028</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-091" title="伏笔总表">#091</a><span class="text">“呓语之球”的幻觉里，童年那位医生夸徐获分离出了“兄弟人格”，让它替他承担恶。</span><span class="ch">第 609 章</span><details class="src"><summary>原文</summary><blockquote>你做的很好，在这么短的时间内分离出了自己的兄弟人格<cite>第 609 章 · p0008</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-029" title="伏笔总表">#029</a><span class="text">徐获说画女不是他的道具，留在他身边只因为她愿意；特防部推断立春就是画女。</span><span class="ch">第 613–614 章</span><details class="src"><summary>原文</summary><blockquote>她留在014区，留在他身边也单纯是因为她愿意<cite>第 614 章 · p0011</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-067" title="伏笔总表">#067</a><span class="text">徐获回复刘佳：找到韩教授就带来，他能解异种毒。</span><span class="ch">第 574 章</span><details class="src"><summary>原文</summary><blockquote>挑出了刘佳的信息回复她，如果找到韩教授可以来找他，他可以解除异种毒<cite>第 574 章 · p0004</cite></blockquote></details></li></ul>
+</section>
+<section id="relations"><h3>关键关系</h3>
+<p class="note">一对人物只画一条线：绿色是同伴，橙色是冲突，红色箭头是杀死，灰色是其他往来；虚线表示某人的说法或推断。</p>
+<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+</defs>
+<g class="edge"><title>邱公子 — 逼他吃人 — 谈阳（第 597 章）</title><path d="M351.8,378.8 Q299.6,399.4 258.6,415.6" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>司马小二 — 卧底 — 聂玄（第 602 章）</title><path d="M700,420 Q656.4,403.6 624.0,391.3" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 杀死 — 包家立（第 578 章）</title><path d="M485.3,301.8 Q433.6,284.1 393.3,270.3" fill="none" stroke="#ef5a4f" stroke-width="2.2"/></g>
+<g class="edge"><title>严嘉鱼 — 换面具 — 徐获（第 586、592 章）</title><path d="M445.8,420 Q465.6,360.9 481.5,313.2" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>亚伯 — 救下 — 小张（第 596 章）</title><path d="M60,420 Q60.0,378.6 60.0,349.1" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>谈阳 — 第一协会 — 黄俊杰（第 578、589 章）</title><path d="M247.4,420 Q204.6,420.0 173.7,420.0" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>戴文谦 — 想除掉他 — 唐广博（第 611 章）</title><path d="M344.0,60 Q372.4,108.2 394.8,146.1" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>聂玄 — 接手 — 徐获（第 602、614 章）</title><path d="M612.8,387.1 Q549.0,344.5 495.3,308.5" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 送王菌 — 吴组长（第 574 章）</title><path d="M485.3,301.8 Q488.9,241.9 491.8,194.1" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 对峙 — 宋组长（第 601–602 章）</title><path d="M485.3,301.8 Q546.4,297.2 595.5,293.6" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>卫芒 — 相救 — 王小慧（第 608 章）</title><path d="M115.7,60 Q87.8,60.0 72.0,60.0" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>唐广博 — 继父 — 徐获（郑良的说法）（第 611 章）</title><path d="M400.9,156.4 Q443.1,229.1 479.3,291.4" fill="none" stroke="#8d95a3" stroke-width="2.2" stroke-dasharray="6 4"/></g>
+<g class="edge"><title>画女 — 救出 — 周凝（第 593 章）</title><path d="M648.1,60 Q674.0,60.0 688.0,60.0" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 联手 — 梁哥（第 586、613、616 章）</title><path d="M485.3,301.8 Q504.7,360.9 520.4,408.6" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>谷雨 — 帮忙 — 徐获（第 611、616 章）</title><path d="M574.0,215.1 Q529.6,258.4 493.9,293.4" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 杀死 — 邱公子（第 601 章）</title><path d="M485.3,301.8 Q418.6,340.3 362.2,372.8" fill="none" stroke="#ef5a4f" stroke-width="2.2"/></g>
+<text x="299.6" y="403.4" class="elabel" style="fill:#f0904f">逼他吃人</text>
+<text x="656.4" y="407.5" class="elabel" style="fill:#4fbf7f">卧底</text>
+<text x="433.6" y="288.1" class="elabel" style="fill:#ef5a4f">杀死</text>
+<text x="465.6" y="364.9" class="elabel" style="fill:#4fbf7f">换面具</text>
+<text x="60.0" y="382.5" class="elabel" style="fill:#4fbf7f">救下</text>
+<text x="204.6" y="424.0" class="elabel" style="fill:#4fbf7f">第一协会</text>
+<text x="372.5" y="112.2" class="elabel" style="fill:#f0904f">想除掉他</text>
+<text x="549.0" y="348.4" class="elabel" style="fill:#4fbf7f">接手</text>
+<text x="488.9" y="246.0" class="elabel" style="fill:#4fbf7f">送王菌</text>
+<text x="546.4" y="301.2" class="elabel" style="fill:#f0904f">对峙</text>
+<text x="87.8" y="64.0" class="elabel" style="fill:#4fbf7f">相救</text>
+<text x="443.1" y="233.1" class="elabel" style="fill:#8d95a3">继父</text>
+<text x="674.0" y="64.0" class="elabel" style="fill:#4fbf7f">救出</text>
+<text x="504.7" y="364.9" class="elabel" style="fill:#4fbf7f">联手</text>
+<text x="529.6" y="262.4" class="elabel" style="fill:#4fbf7f">帮忙</text>
+<text x="418.6" y="344.3" class="elabel" style="fill:#ef5a4f">杀死</text>
+<g class="node"><circle cx="485.3" cy="301.8" r="14.0"/><text x="485.3" y="281.8" class="name">徐获</text></g>
+<g class="node"><circle cx="351.8" cy="378.8" r="10.8"/><text x="351.8" y="362.0" class="name">邱公子</text></g>
+<g class="node"><circle cx="247.4" cy="420" r="10.8"/><text x="247.4" y="403.2" class="name">谈阳</text></g>
+<g class="node"><circle cx="612.8" cy="387.1" r="10.8"/><text x="612.8" y="370.3" class="name">聂玄</text></g>
+<g class="node"><circle cx="400.9" cy="156.4" r="10.8"/><text x="400.9" y="139.6" class="name">唐广博</text></g>
+<g class="node"><circle cx="700" cy="420" r="10.0"/><text x="700" y="404.0" class="name">司马小二</text></g>
+<g class="node"><circle cx="381.9" cy="266.4" r="10.0"/><text x="381.9" y="250.4" class="name">包家立</text></g>
+<g class="node"><circle cx="445.8" cy="420" r="10.0"/><text x="445.8" y="404.0" class="name">严嘉鱼</text></g>
+<g class="node"><circle cx="60" cy="420" r="10.0"/><text x="60" y="404.0" class="name">亚伯</text></g>
+<g class="node"><circle cx="60" cy="337.1" r="10.0"/><text x="60" y="321.1" class="name">小张</text></g>
+<g class="node"><circle cx="161.7" cy="420" r="10.0"/><text x="161.7" y="404.0" class="name">黄俊杰</text></g>
+<g class="node"><circle cx="344.0" cy="60" r="10.0"/><text x="344.0" y="44.0" class="name">戴文谦</text></g>
+<g class="node"><circle cx="492.5" cy="182.1" r="10.0"/><text x="492.5" y="166.1" class="name">吴组长</text></g>
+<g class="node"><circle cx="607.5" cy="292.7" r="10.0"/><text x="607.5" y="276.7" class="name">宋组长</text></g>
+<g class="node"><circle cx="115.7" cy="60" r="10.0"/><text x="115.7" y="44.0" class="name">卫芒</text></g>
+<g class="node"><circle cx="60" cy="60" r="10.0"/><text x="60" y="44.0" class="name">王小慧</text></g>
+<g class="node"><circle cx="648.1" cy="60" r="10.0"/><text x="648.1" y="44.0" class="name">画女</text></g>
+<g class="node"><circle cx="700" cy="60" r="10.0"/><text x="700" y="44.0" class="name">周凝</text></g>
+<g class="node"><circle cx="524.1" cy="420" r="10.0"/><text x="524.1" y="404.0" class="name">梁哥</text></g>
+<g class="node"><circle cx="574.0" cy="215.1" r="10.0"/><text x="574.0" y="199.1" class="name">谷雨</text></g>
+</svg></div>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text">邱公子 — 逼他吃人 — 谈阳</span><span class="ch">第 597 章</span></li><li><span class="text">司马小二 — 卧底 — 聂玄</span><span class="ch">第 602 章</span></li><li><span class="text">徐获 — 杀死 — 包家立</span><span class="ch">第 578 章</span></li><li><span class="text">严嘉鱼 — 换面具 — 徐获</span><span class="ch">第 586、592 章</span></li><li><span class="text">亚伯 — 救下 — 小张</span><span class="ch">第 596 章</span></li><li><span class="text">谈阳 — 第一协会 — 黄俊杰</span><span class="ch">第 578、589 章</span></li><li><span class="text">戴文谦 — 想除掉他 — 唐广博</span><span class="ch">第 611 章</span></li><li><span class="text">聂玄 — 接手 — 徐获</span><span class="ch">第 602、614 章</span></li><li><span class="text">徐获 — 送王菌 — 吴组长</span><span class="ch">第 574 章</span></li><li><span class="text">徐获 — 对峙 — 宋组长</span><span class="ch">第 601–602 章</span></li><li><span class="text">卫芒 — 相救 — 王小慧</span><span class="ch">第 608 章</span></li><li><span class="text">唐广博 — 继父 — 徐获（郑良的说法）</span><span class="ch">第 611 章</span></li><li><span class="text">画女 — 救出 — 周凝</span><span class="ch">第 593 章</span></li><li><span class="text">徐获 — 联手 — 梁哥</span><span class="ch">第 586、613、616 章</span></li><li><span class="text">谷雨 — 帮忙 — 徐获</span><span class="ch">第 611、616 章</span></li><li><span class="text">徐获 — 杀死 — 邱公子</span><span class="ch">第 601 章</span></li></ul></details>
+</section>
+<section id="threads"><h3>伏笔与未解</h3>
+<p class="note">截至第 616 章还没有交代的事。</p>
+<ul class="items"><li><a class="thread-no" href="../threads.html#thread-152" title="伏笔总表">#152</a><span class="text">“十日之期”怎么收场：徐获要在特防部总部附近对付聚来的吃人玩家。</span><span class="ch">第 602、616 章</span><details class="src"><summary>原文</summary><blockquote>欢迎各位双蛇成员来找我报仇，接下来十天，我会拜访特防部总部<cite>第 602 章 · p0012</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-153" title="伏笔总表">#153</a><span class="text">双蛇的会长和背后的靠山：邱公子知道特防部的解毒菌，灰袍人多是军队出身，特防部内部被渗透到什么程度。</span><span class="ch">第 599–600 章</span></li><li><a class="thread-no" href="../threads.html#thread-154" title="伏笔总表">#154</a><span class="text">亚伯替哪个国家做事：他从特防部监狱偷出一名玩家的头发交给黑衣人，那人为什么要这名玩家。</span><span class="ch">第 615 章</span><details class="src"><summary>原文</summary><blockquote>我花了点功夫才去他房间找到的<cite>第 615 章 · p0020</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-155" title="伏笔总表">#155</a><span class="text">严嘉鱼在度假村进了随机副本，周凝和胡文虎在附近等她。</span><span class="ch">第 592、606 章</span></li><li><a class="thread-no" href="../threads.html#thread-156" title="伏笔总表">#156</a><span class="text">王小慧找上门的真实用意，以及她和卫芒以后会不会再来。</span><span class="ch">第 607–608 章</span></li><li><a class="thread-no" href="../threads.html#thread-157" title="伏笔总表">#157</a><span class="text">制器师为什么只要矿石：徐获怀疑能源矿石和游戏的本源有关，014 区是不是也会长出这种矿。</span><span class="ch">第 581、605 章</span><details class="src"><summary>原文</summary><blockquote>我怀疑能源矿石和维度裂缝游戏的本源有关<cite>第 605 章 · p0042</cite></blockquote></details></li></ul>
+</section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E8%BD%A6%E7%A5%A8%E4%B8%8E%E5%89%AF%E6%9C%AC">车票与副本</a><a href="../world.html#world-%E7%BC%BA%E5%B8%AD%E5%89%AF%E6%9C%AC">每月必须下副本</a><a href="../world.html#world-%E9%9D%9E%E7%8E%A9%E5%AE%B6%E5%88%97%E8%BD%A6">非玩家的列车与暂停玩家身份</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E9%81%93%E5%85%B7">超级道具</a><a href="../world.html#world-%E8%8D%AF%E5%89%82">药剂</a><a href="../world.html#world-%E8%83%BD%E6%BA%90%E7%9F%B3">能源石与新能源武器</a><a href="../world.html#world-%E5%B0%8F%E4%B8%91%E5%9F%8E">小丑城</a><a href="../world.html#world-014%E5%8C%BA%E5%89%8D%E9%80%94">014 区的前途</a><a href="../world.html#world-%E7%89%B9%E9%98%B2%E9%83%A8">特防部</a><a href="../world.html#world-%E7%8E%A9%E5%AE%B6%E4%BA%92%E5%8A%A9">玩家的互助组织</a><a href="../world.html#world-%E5%8F%8C%E8%9B%87">双蛇</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E6%AF%9B%E5%8F%91%E7%94%9F%E9%95%BF%E5%89%82">毛发生长剂</a><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a><a href="../items.html#item-%E6%97%A0%E5%A4%84%E4%B8%8D%E5%9C%A8%E7%9A%84%E7%90%B4%E5%BC%A6">无处不在的琴弦</a><a href="../items.html#item-%E8%A7%A3%E6%AF%92%E5%89%82">解毒剂</a><a href="../items.html#item-%E9%B2%9C%E7%BA%A2%E7%9A%84%E5%89%91">鲜红的剑</a><a href="../items.html#item-%E5%8F%98%E8%B4%A8%E6%89%8B%E5%A5%97">变质手套</a><a href="../items.html#item-%E6%B2%99%E6%BC%A0%E9%A3%8E%E8%BD%A6">沙漠风车</a><a href="../items.html#item-%E6%B6%88%E5%A3%B0%E6%89%8B%E5%8A%9E">消声手办</a><a href="../items.html#item-%E5%94%A4%E9%86%92%E4%BA%BA%E5%81%B6">唤醒人偶</a><a href="../items.html#item-%E6%AD%A3%E4%B9%89%E4%B9%8B%E4%BC%9E">正义之伞</a><a href="../items.html#item-%E6%9C%89%E6%B0%A7%E4%BE%9B%E7%BB%99">有氧供给</a><a href="../items.html#item-%E6%A4%8D%E7%89%A9%E7%9A%84%E6%82%B2%E9%B8%A3">植物的悲鸣</a><a href="../items.html#item-%E6%9D%9F%E6%98%9F%E4%B9%8B%E7%90%83">束星之球</a><a href="../items.html#item-%E5%8F%A3%E9%A6%99%E7%B3%96">口香糖</a><a href="../items.html#item-%E9%A3%8E%E7%AD%9D%E7%BA%BF">风筝线</a><a href="../items.html#item-%E6%97%A0%E7%9B%AE%E6%A0%87%E7%A4%BC%E8%8A%B1%E7%AD%92">无目标礼花筒</a><a href="../items.html#item-%E8%81%9A%E5%85%89%E9%9D%9E%E9%87%8D%E8%A6%81%E5%9C%B0%E7%82%B9">聚光非重要地点</a><a href="../items.html#item-%E4%BC%A4%E4%BA%BA%E4%B8%8D%E4%BC%A4%E5%B7%B1">伤人不伤己</a><a href="../items.html#item-%E6%B0%B4%E5%88%80%E6%9E%AA">水刀枪</a><a href="../items.html#item-%E9%92%BB%E7%9F%B3%E6%89%8B%E5%A5%97">钻石手套</a><a href="../items.html#item-%E6%81%A9%E6%96%AD%E4%B9%89%E7%BB%9D%E9%97%A8">恩断义绝门</a><a href="../items.html#item-%E4%B8%87%E8%83%BD%E6%B6%A6%E6%BB%91">万能润滑</a><a href="../items.html#item-%E5%A5%B3%E5%A8%B2%E7%9F%B3">女娲石</a><a href="../items.html#item-%E5%B9%B8%E8%BF%90%E6%89%8B%E9%93%BE">幸运手链</a><a href="../items.html#item-%E5%90%8C%E6%80%A7%E7%9B%B8%E6%96%A5">同性相斥</a><a href="../items.html#item-%E5%AF%86%E5%BA%A6%E6%8F%90%E5%8F%96%E6%89%8B%E5%A5%97">密度提取手套</a><a href="../items.html#item-%E4%B8%AD%E5%BF%83%E6%8E%A7%E5%9C%BA">中心控场</a><a href="../items.html#item-%E5%91%93%E8%AF%AD%E4%B9%8B%E7%90%83">呓语之球</a><a href="../items.html#item-%E6%91%94%E9%9B%B7">摔雷</a><a href="../items.html#item-%E6%98%8E%E6%98%8E%E5%BE%88%E5%BC%80%E5%BF%83">明明很开心</a></p></section></details>
+
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。</footer>
+</main></body></html>
