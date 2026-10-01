@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>去 002 区（只夜城） · 单元卡 · 维度之下</title><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local')</script><style>
+<title>去 002 区（只夜城） · 单元卡 · 维度之下</title><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
   --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
@@ -21,15 +21,15 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 .rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; }
 .brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
 .brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.2em; margin-left:8px; }
-.rail nav { display:flex; gap:14px; flex-wrap:wrap; }
-.rail nav a { color:var(--rail-muted); font-size:14px; padding:2px 0; border-bottom:2px solid transparent; }
+.rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
 .rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
 .rail .toggle-label { margin-left:auto; }
 .rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
 
 /* sources switch */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
-.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:0 8px; cursor:pointer; user-select:none; }
+.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
 #show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
 .ch, sup.cite, details.src, .src-only { display:none; }
 #show-src:checked ~ main .ch { display:inline-block; }
@@ -37,6 +37,8 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 #show-src:checked ~ main details.src { display:inline; }
 #show-src:checked ~ main .src-only { display:block; }
 #show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ticket-stub.src-only { display:none; }
+#show-src:checked ~ main .ticket-stub.src-only { display:flex; }
 .ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
 sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
 details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
@@ -99,7 +101,12 @@ ul.people li:last-child { border-bottom:none; }
 .subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
 details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
-.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
+@media (max-width:640px) { .graph svg { min-width:720px; } }
+.legend { display:flex; flex-wrap:wrap; gap:4px 14px; margin:6px 0 2px; font-size:13px; color:var(--muted); }
+.legend span { display:inline-flex; align-items:center; gap:6px; }
+.legend i { display:inline-block; width:22px; height:0; border-top:3px solid; }
+.legend i.dash { border-top-style:dashed; border-color:var(--muted); }
 svg { width:100%; height:auto; display:block; }
 svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
 svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
@@ -113,19 +120,19 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body><input type="checkbox" id="show-src" class="toggle"><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<body><input type="checkbox" id="show-src" class="toggle"><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{b.checked=localStorage.getItem('show-src')==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
 <div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
-<h1>去 002 区（只夜城）</h1><div class="route">第 984 章 ──── 第 990 章</div><p class="hint">没读过前文？先看<a href="../world.html">世界观</a>，这里不重复解释游戏设定。</p></div>
-<div class="ticket-stub"><div class="stub-row"><b>单元</b>u0046</div><div class="stub-row"><b>句数</b>29</div>
+<h1>去 002 区（只夜城）</h1><div class="route">第 984 章 ──── 第 990 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。</p></div>
+<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0046</div><div class="stub-row"><b>句数</b>29</div>
 <div class="stub-row"><b>引用</b>37 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">撰写：claude-opus-5-5 (claude-code session)，读第 984–990 章正文后撰写。每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p>
-<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。</span></summary><section id="overview"><h3>一句话</h3>
-<ul class="items"><li><span class="text">通关“加密信息”后，徐获坐上去 E20 虫洞点的列车，去 002 区——章医生的落脚点和上官曦名片上的地方都在那里，他说这次不是为了副本。车上连着三天穿过没有黑夜的白昼区，车厢里玩家互相厮杀，他杀了围攻梁怡的四个“穷鬼”，又包下贵宾室睡了个好觉。到站的 002 区是没有白天的“只夜城”：人力发电、黑势力和政府共治、人口买卖盛行。他要去首都雪城，第 990 章找上了本地龙头荣哥的赌场。</span><span class="ch">第 984–985、987–990 章</span><details class="src"><summary>原文</summary><blockquote>不过他这次不是为了副本来的<cite>第 988 章 · p0001</cite></blockquote><blockquote>大名鼎鼎的只夜城<cite>第 989 章 · p0009</cite></blockquote><blockquote>有没有固定去首都雪城的列车？<cite>第 990 章 · p0005</cite></blockquote></details></li><li><span class="text">主线，第 984–990 章。第 990 章是目前校对范围的最后一章，这一段在只夜城还没有结束。</span><span class="ch">第 984、990 章</span></li></ul>
+<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 984–990 章正文后撰写。</p>
+<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。写到第 990 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
+<ul class="items"><li><span class="text">徐获坐车去 E20 虫洞点的 002 区（这次不是为了副本），车上杀了围攻梁怡的“穷鬼”；到了只夜城，他想去首都雪城，第 990 章找上了荣哥的赌场。</span><span class="ch">第 984–985、987–990 章</span><details class="src"><summary>原文</summary><blockquote>不过他这次不是为了副本来的<cite>第 988 章 · p0001</cite></blockquote><blockquote>大名鼎鼎的只夜城<cite>第 989 章 · p0009</cite></blockquote><blockquote>有没有固定去首都雪城的列车？<cite>第 990 章 · p0005</cite></blockquote></details></li><li><span class="text">主线，第 984–990 章。本站整理到第 990 章为止，这一段在只夜城还没有结束。</span><span class="ch">第 984、990 章</span></li></ul>
 </section>
 <section id="cast"><h3>登场人物</h3>
 <p class="note">按出场先后。胡茬男、持红剑的女玩家等没报名字，按原文的叫法写在梗概里。</p>
 <ul class="people"><li><b class="subject">梁怡</b><span class="text">在车站被人围攻的女玩家，上车后又被同车厢的人砍断右手，逃到徐获门口借他脱身；也去 002 区，提醒徐获别信董玉。</span><span class="ch">第 984、988–989 章</span><details class="src"><summary>原文</summary><blockquote>右手便被齐腕切断<cite>第 984 章 · p0025</cite></blockquote><blockquote>你千万别相信那个董玉<cite>第 989 章 · p0002</cite></blockquote></details></li><li><b class="subject">叶开华</b><span class="text">车站里向梁怡示好的斯文男人，梁怡在车上向他求救时，他犹豫着没有出手。</span><span class="ch">第 984–985 章</span></li><li><b class="subject">董玉</b><span class="text">回 002 区的兄妹，皮肤雪白。妹妹董玉健谈，把 002 区的选美夸上了天；哥哥董廷一言不发，只转手里的魔方。</span><span class="ch">第 985–986 章</span><details class="src"><summary>原文</summary><blockquote>女玩家叫董玉，她哥哥叫董廷<cite>第 986 章 · p0026</cite></blockquote></details></li><li><b class="subject">董廷</b><span class="text">董玉的哥哥。</span><span class="ch">第 986 章</span></li><li><b class="subject">荣哥</b><span class="text">只夜城一座偏远城市的黑势力龙头，开赌场、贩卖人口，两个兄弟是玩家。</span><span class="ch">第 990 章</span><details class="src"><summary>原文</summary><blockquote>他是我们这里的龙头，政府都管不了他的事<cite>第 990 章 · p0004</cite></blockquote></details></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。写到第 990 章，含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
 <p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
 <h4 id="story-1">一、C 级车站与白昼区的列车（第 984–987 章）</h4>
 <p class="prose">车站里梁怡被人围攻，胡茬男和斯文男人叶开华差点打起来，徐获一站起来就压住了场面。三人和他上了同一节去 E20 虫洞点的车厢。<sup class="cite" title="第984章：前往E20虫洞点的维度列车才到">984</sup>同车厢打牌的四个人当场围攻重伤的梁怡、砍断她右手；她逃到徐获门口，徐获展开“不可侵犯领地”，把四人全杀了，只丢下一句“四个穷鬼”。<sup class="cite" title="第984章：“不可侵犯领地”已经生效，空间屏障完全隔绝了对方的攻击；第984章：他冷冷道：“四个穷鬼。”">984–985</sup>列车广播说接下来三天都在白昼区，没有黑夜，也就不会有异种爬车；可车上照样天天厮杀。第二天早上，一个持红剑的女玩家追杀别人闯进车厢，和董姓兄妹打成一团。<sup class="cite" title="第985章：接下来的三天都将高速穿过一片白昼区；第986章：还有一名持红色长剑的女玩家追着两人">985–986</sup>徐获让到过渡车厢，花三十万白钞起包了一间贵宾室——有遮光、有乘务员伺候，也有安全。<sup class="cite" title="第987章：最低消费额为三十万白钞">987</sup></p><details class="src block"><summary>本段原文 6 处</summary><blockquote>前往E20虫洞点的维度列车才到<cite>第 984 章 · p0015</cite></blockquote><blockquote>“不可侵犯领地”已经生效，空间屏障完全隔绝了对方的攻击<cite>第 984 章 · p0029</cite></blockquote><blockquote>他冷冷道：“四个穷鬼。”<cite>第 984 章 · p0040</cite></blockquote><blockquote>接下来的三天都将高速穿过一片白昼区<cite>第 985 章 · p0011</cite></blockquote><blockquote>还有一名持红色长剑的女玩家追着两人<cite>第 986 章 · p0041</cite></blockquote><blockquote>最低消费额为三十万白钞<cite>第 987 章 · p0015</cite></blockquote></details>
@@ -136,26 +143,26 @@ h4[id] { scroll-margin-top:16px; }
 </section>
 <section id="callbacks"><h3>承接前文</h3>
 <p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html#thread-201" title="伏笔总表">#201</a><span class="text">章医生与上官曦的名片：徐获要去的正是 E20-002 区，他说这次不是为了副本来的。</span><span class="ch">第 985、988 章</span><details class="src"><summary>原文</summary><blockquote>不过他这次不是为了副本来的<cite>第 988 章 · p0001</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-023" title="伏笔总表">#023</a><span class="text">菲尔德家族：凯罗尔·菲尔德是 E27 游戏政府的领头人，这次又和恒星医药集团签了入驻 001 区的协议；徐获想，001 区迟早要去一趟。</span><span class="ch">第 988 章</span><details class="src"><summary>原文</summary><blockquote>一条菲尔德家族和恒星医药集团签署入驻协议的公告吸引了他的注意<cite>第 988 章 · p0003</cite></blockquote><blockquote>001区，迟早要走一趟。<cite>第 988 章 · p0006</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-034" title="伏笔总表">#034</a><span class="text">恒星公司：徐获去过的分区都没有恒星入驻，他认为恒星很可能是维度裂缝这个游戏的实际运营者。（徐获的推断）</span><span class="ch">第 988 章</span><details class="src"><summary>原文</summary><blockquote>恒星公司极有可能是维度裂缝这个游戏的实际运营者<cite>第 988 章 · p0004</cite></blockquote></details></li><li><span class="text">严嘉鱼和大毛：严嘉鱼也升到了 C 级，又拿到一枚光明绅士勋章；徐获让她代问大毛好。</span><span class="ch">第 988 章</span><details class="src"><summary>原文</summary><blockquote>代我向大毛问好。<cite>第 988 章 · p0029</cite></blockquote></details></li></ul>
+<ul class="items"><li><a class="thread-no" href="../threads.html?upto=990#thread-201" title="伏笔总表">#201</a><span class="text">章医生与上官曦的名片：徐获要去的正是 E20-002 区，他说这次不是为了副本来的。</span><span class="ch">第 985、988 章</span><details class="src"><summary>原文</summary><blockquote>不过他这次不是为了副本来的<cite>第 988 章 · p0001</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=990#thread-023" title="伏笔总表">#023</a><span class="text">菲尔德家族：凯罗尔·菲尔德是 E27 游戏政府的领头人，这次又和恒星医药集团签了入驻 001 区的协议；徐获想，001 区迟早要去一趟。</span><span class="ch">第 988 章</span><details class="src"><summary>原文</summary><blockquote>一条菲尔德家族和恒星医药集团签署入驻协议的公告吸引了他的注意<cite>第 988 章 · p0003</cite></blockquote><blockquote>001区，迟早要走一趟。<cite>第 988 章 · p0006</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=990#thread-034" title="伏笔总表">#034</a><span class="text">恒星公司：徐获去过的分区都没有恒星入驻，他认为恒星很可能是维度裂缝这个游戏的实际运营者。（徐获的推断）</span><span class="ch">第 988 章</span><details class="src"><summary>原文</summary><blockquote>恒星公司极有可能是维度裂缝这个游戏的实际运营者<cite>第 988 章 · p0004</cite></blockquote></details></li><li><span class="text">严嘉鱼和大毛：严嘉鱼也升到了 C 级，又拿到一枚光明绅士勋章；徐获让她代问大毛好。</span><span class="ch">第 988 章</span><details class="src"><summary>原文</summary><blockquote>代我向大毛问好。<cite>第 988 章 · p0029</cite></blockquote></details></li></ul>
 </section>
 <section id="relations"><h3>关键关系</h3>
-<p class="note">一对人物只画一条线：绿色是同伴，橙色是冲突，红色箭头是杀死，灰色是其他往来；虚线表示某人的说法或推断。</p>
+<p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
 <div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
 <marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
 <marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
 </defs>
-<g class="edge"><title>徐获 — 出手解围 — 梁怡（第 984、989 章）</title><path d="M521.4,180.4 Q504.4,257.4 489.9,322.7" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge"><title>梁怡 — 求救不应 — 叶开华（第 984–985 章）</title><path d="M487.3,334.4 Q437.1,377.2 395.9,412.2" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 → 出手解围 → 梁怡（第 984、989 章）</title><path d="M521.4,180.4 Q504.4,257.4 489.9,322.7" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge"><title>梁怡 → 求救不应 → 叶开华（第 984–985 章）</title><path d="M487.3,334.4 Q437.1,377.2 395.9,412.2" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
 <g class="edge"><title>董玉 — 兄妹 — 董廷（第 986 章）</title><path d="M80.4,293.6 Q84.5,229.2 87.7,176.8" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge"><title>徐获 — 线上相助 — 严嘉鱼（第 988 章）</title><path d="M521.4,180.4 Q476.3,120.2 438.4,69.6" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge"><title>荣哥 — 下令杀他 — 徐获（第 990 章）</title><path d="M662.0,147.7 Q591.7,164.1 533.1,177.7" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 → 线上相助 → 严嘉鱼（第 988 章）</title><path d="M521.4,180.4 Q476.3,120.2 438.4,69.6" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge"><title>荣哥 → 下令追杀 → 徐获（第 990 章）</title><path d="M662.0,147.7 Q591.7,164.1 533.1,177.7" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
 <text x="504.3" y="261.4" class="elabel" style="fill:#4fbf7f">出手解围</text>
 <text x="437.1" y="381.2" class="elabel" style="fill:#8d95a3">求救不应</text>
 <text x="84.5" y="233.2" class="elabel" style="fill:#4fbf7f">兄妹</text>
 <text x="476.3" y="124.2" class="elabel" style="fill:#4fbf7f">线上相助</text>
-<text x="591.7" y="168.1" class="elabel" style="fill:#f0904f">下令杀他</text>
+<text x="591.7" y="168.1" class="elabel" style="fill:#f0904f">下令追杀</text>
 <g class="node"><circle cx="521.4" cy="180.4" r="11.5"/><text x="521.4" y="162.9" class="name">徐获</text></g>
 <g class="node"><circle cx="487.3" cy="334.4" r="10.8"/><text x="487.3" y="317.6" class="name">梁怡</text></g>
 <g class="node"><circle cx="386.8" cy="420" r="10.0"/><text x="386.8" y="404.0" class="name">叶开华</text></g>
@@ -164,12 +171,12 @@ h4[id] { scroll-margin-top:16px; }
 <g class="node"><circle cx="431.2" cy="60" r="10.0"/><text x="431.2" y="44.0" class="name">严嘉鱼</text></g>
 <g class="node"><circle cx="662.0" cy="147.7" r="10.0"/><text x="662.0" y="131.7" class="name">荣哥</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text">徐获 — 出手解围 — 梁怡</span><span class="ch">第 984、989 章</span></li><li><span class="text">梁怡 — 求救不应 — 叶开华</span><span class="ch">第 984–985 章</span></li><li><span class="text">董玉 — 兄妹 — 董廷</span><span class="ch">第 986 章</span></li><li><span class="text">徐获 — 线上相助 — 严嘉鱼</span><span class="ch">第 988 章</span></li><li><span class="text">荣哥 — 下令杀他 — 徐获</span><span class="ch">第 990 章</span></li></ul></details>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a> → 出手解围 → 梁怡</span><span class="ch">第 984、989 章</span></li><li><span class="text">梁怡 → 求救不应 → 叶开华</span><span class="ch">第 984–985 章</span></li><li><span class="text">董玉 — 兄妹 — 董廷</span><span class="ch">第 986 章</span></li><li><span class="text"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a> → 线上相助 → <a href="../people.html#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a></span><span class="ch">第 988 章</span></li><li><span class="text">荣哥 → 下令追杀 → <a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 990 章</span></li></ul></details>
 </section>
 <section id="threads"><h3>伏笔与未解</h3>
 <p class="note">截至第 990 章还没有交代的事。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html#thread-204" title="伏笔总表">#204</a><span class="text">徐获在 002 区要办的事：他买了恒星医药认证的心理治疗师证、贴上假脸，要去首都雪城。</span><span class="ch">第 988、990 章</span><details class="src"><summary>原文</summary><blockquote>又买了一张得到恒星医药集团认证过的心理治疗师证<cite>第 988 章 · p0029</cite></blockquote><blockquote>有没有固定去首都雪城的列车？<cite>第 990 章 · p0005</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-205" title="伏笔总表">#205</a><span class="text">持红剑的女玩家：列车上追杀别人闯进车厢，到只夜城又先徐获一步杀进荣哥的赌场。</span><span class="ch">第 986、990 章</span><details class="src"><summary>原文</summary><blockquote>还有一名持红色长剑的女玩家追着两人<cite>第 986 章 · p0041</cite></blockquote><blockquote>而后拔出红剑直接冲了出去<cite>第 990 章 · p0040</cite></blockquote></details></li></ul>
+<ul class="items"><li><a class="thread-no" href="../threads.html?upto=990#thread-204" title="伏笔总表">#204</a><span class="text">徐获在 002 区要办的事：他买了恒星医药认证的心理治疗师证、贴上假脸，要去首都雪城。</span><span class="ch">第 988、990 章</span><details class="src"><summary>原文</summary><blockquote>又买了一张得到恒星医药集团认证过的心理治疗师证<cite>第 988 章 · p0029</cite></blockquote><blockquote>有没有固定去首都雪城的列车？<cite>第 990 章 · p0005</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=990#thread-205" title="伏笔总表">#205</a><span class="text">持红剑的女玩家：列车上追杀别人闯进车厢，到只夜城又先徐获一步杀进荣哥的赌场。</span><span class="ch">第 986、990 章</span><details class="src"><summary>原文</summary><blockquote>还有一名持红色长剑的女玩家追着两人<cite>第 986 章 · p0041</cite></blockquote><blockquote>而后拔出红剑直接冲了出去<cite>第 990 章 · p0040</cite></blockquote></details></li></ul>
 </section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E8%BD%A6%E7%A5%A8%E4%B8%8E%E5%89%AF%E6%9C%AC">车票与回程票</a><a href="../world.html#world-%E5%88%97%E8%BD%A6%E8%A7%84%E5%88%99">列车与乘务员</a><a href="../world.html#world-%E8%8F%B2%E5%B0%94%E5%BE%B7%E5%AE%B6%E6%97%8F">菲尔德家族</a><a href="../world.html#world-002%E5%8C%BA">E20-002 区（只夜城）</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E6%97%A0%E5%A4%84%E4%B8%8D%E5%9C%A8%E7%9A%84%E7%90%B4%E5%BC%A6">无处不在的琴弦</a><a href="../items.html#item-%E8%8F%B2%E5%B0%94%E5%BE%B7%E6%88%98%E6%96%97%E5%A4%A9%E4%BD%BF">菲尔德战斗天使</a><a href="../items.html#item-101%E5%8F%B7%E7%B4%A7%E6%80%A5%E9%81%BF%E9%9A%BE">101号紧急避难</a><a href="../items.html#item-%E4%B8%A4%E7%82%B9%E9%97%B4%E7%9B%B4%E7%BA%BF%E6%AE%B5%E6%9C%80%E7%9F%AD">两点间直线段最短</a><a href="../items.html#item-%E4%BA%A1%E8%80%85%E4%B9%8B%E7%9C%BC">亡者之眼</a><a href="../items.html#item-%E5%A4%A7%E6%AF%9B">大毛</a><a href="../items.html#item-%E4%B8%89%E7%99%BE%E5%85%AD%E5%8D%81%E6%AC%A1%E9%98%B2%E5%BE%A1">三百六十次防御</a><a href="../items.html#item-%E4%B8%8D%E5%8F%AF%E4%BE%B5%E7%8A%AF%E9%A2%86%E5%9C%B0">不可侵犯领地</a></p></section></details>
 
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。</footer>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。这个选择浏览器会记住。</footer>
 </main></body></html>

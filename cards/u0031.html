@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>第十七医院 · 单元卡 · 维度之下</title><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local')</script><style>
+<title>第十七医院 · 单元卡 · 维度之下</title><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
   --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
@@ -21,15 +21,15 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 .rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; }
 .brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
 .brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.2em; margin-left:8px; }
-.rail nav { display:flex; gap:14px; flex-wrap:wrap; }
-.rail nav a { color:var(--rail-muted); font-size:14px; padding:2px 0; border-bottom:2px solid transparent; }
+.rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
 .rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
 .rail .toggle-label { margin-left:auto; }
 .rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
 
 /* sources switch */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
-.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:0 8px; cursor:pointer; user-select:none; }
+.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
 #show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
 .ch, sup.cite, details.src, .src-only { display:none; }
 #show-src:checked ~ main .ch { display:inline-block; }
@@ -37,6 +37,8 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 #show-src:checked ~ main details.src { display:inline; }
 #show-src:checked ~ main .src-only { display:block; }
 #show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ticket-stub.src-only { display:none; }
+#show-src:checked ~ main .ticket-stub.src-only { display:flex; }
 .ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
 sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
 details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
@@ -99,7 +101,12 @@ ul.people li:last-child { border-bottom:none; }
 .subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
 details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
-.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
+@media (max-width:640px) { .graph svg { min-width:720px; } }
+.legend { display:flex; flex-wrap:wrap; gap:4px 14px; margin:6px 0 2px; font-size:13px; color:var(--muted); }
+.legend span { display:inline-flex; align-items:center; gap:6px; }
+.legend i { display:inline-block; width:22px; height:0; border-top:3px solid; }
+.legend i.dash { border-top-style:dashed; border-color:var(--muted); }
 svg { width:100%; height:auto; display:block; }
 svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
 svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
@@ -113,14 +120,14 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body><input type="checkbox" id="show-src" class="toggle"><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<body><input type="checkbox" id="show-src" class="toggle"><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{b.checked=localStorage.getItem('show-src')==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
 <div class="ticket"><div class="ticket-main"><div class="stamp">D<small>级</small></div><div class="kicker">副本 · D 级</div>
-<h1>第十七医院</h1><div class="route">第 617 章 ──── 第 631 章</div><p class="hint">没读过前文？先看<a href="../world.html">世界观</a>，这里不重复解释游戏设定。</p></div>
-<div class="ticket-stub"><div class="stub-row"><b>单元</b>u0031</div><div class="stub-row"><b>句数</b>56</div>
+<h1>第十七医院</h1><div class="route">第 617 章 ──── 第 631 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观写到第 990 章，含本卡之后的剧情。</p></div>
+<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0031</div><div class="stub-row"><b>句数</b>56</div>
 <div class="stub-row"><b>引用</b>47 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">撰写：claude-opus-5-5 (claude-code session)，读第 617–631 章正文后撰写。每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p>
-<details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。</span></summary><section id="overview"><h3>一句话</h3>
-<ul class="items"><li><span class="text">“十日之期”那晚，徐获在京市特防部总部附近放出自己的随机副本第十七医院，医院当场升为 D 级，把追着“徐获”来的吃人玩家、一队外国间谍和帮他引人的春雨协会、梁哥一伙一起吞了进去。玩家们在精神类副本里打不开面板、分不清真假；他以医生和院长的身份放走自己人、审问间谍问出超级矿石，再把剩下的吃人玩家收拾干净，结束了副本。</span><span class="ch">第 617–618、622、630–631 章</span></li></ul>
+<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 617–631 章正文后撰写。</p>
+<details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。写到第 631 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
+<ul class="items"><li><span class="text">“十日之期”那晚，徐获在京市放出第十七医院，副本当场升为 D 级，吞进吃人玩家和外国间谍；他放走自己人、审出超级矿石，收拾干净后结束了副本。</span><span class="ch">第 617–618、622、630–631 章</span></li></ul>
 </section>
 <section id="setup"><h3>背景与规则</h3>
 <ul class="items"><li><span class="text">D 级随机副本，持有人是徐获。他在总部附近放出医院时它开始升级：一栋门诊大楼变成三栋楼，副本升为 D 级，可容纳玩家人数不限。</span><span class="ch">第 617–618 章</span><details class="src"><summary>原文</summary><blockquote>出去是不可能的，因为第十七医院这个副本正在升级<cite>第 617 章 · p0040</cite></blockquote><blockquote>副本成功升级为D级<cite>第 618 章 · p0020</cite></blockquote><blockquote>您已进入“第十七医院”，默认参与该D级随机副本<cite>第 618 章 · p0027</cite></blockquote></details></li><li><span class="text">三栋楼：一栋是门诊和病房，三到六楼普通病房，七到九楼加锁单间；二栋是病理室、观察楼层和病菌样品库；三栋是加了金属电网的传染病隔离楼，雨果留下的病菌被转到了这里。</span><span class="ch">第 618 章</span><details class="src"><summary>原文</summary><blockquote>三楼到六楼是普通病房，七、八、九楼是加锁病房<cite>第 618 章 · p0009</cite></blockquote><blockquote>第三栋楼整栋楼的外面都加固了金属电网<cite>第 618 章 · p0012</cite></blockquote></details></li><li><span class="text">背景沿用上一版，并加了传染病研究：病人感染了不知名的强传染病菌，只能就地隔离。“今天有一批新的病人被家属送到了第十七医院。”</span><span class="ch">第 618 章</span></li><li><span class="text">三个任务：至少接受一次心理治疗；窃取重要的病菌样本；清扫医院大门。任一完成即可脱离，副本时间不限；提示：医院内不欢迎想象力丰富的病人。</span><span class="ch">第 618 章</span><details class="src"><summary>原文</summary><blockquote>副本任务：①至少接受一次心理治疗<cite>第 618 章 · p0033</cite></blockquote><blockquote>【②窃取重要的病菌样本。】<cite>第 618 章 · p0034</cite></blockquote><blockquote>玩家任一完成一项任务即可脱离副本<cite>第 618 章 · p0036</cite></blockquote><blockquote>请注意，医院内不欢迎想象力丰富的病人<cite>第 618 章 · p0038</cite></blockquote></details></li></ul>
@@ -128,7 +135,7 @@ h4[id] { scroll-margin-top:16px; }
 <section id="cast"><h3>登场人物</h3>
 <p class="note">按出场先后。</p>
 <ul class="people"><li><b class="subject"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">副本持有人；在医院里是换了脸的“医生”，护士们管他叫院长。</span><span class="ch">第 617、624、626 章</span></li><li><b class="subject">本特利·阿贝</b><span class="text">一队十名外国玩家的领头人，在京市潜伏多年，进医院前正要刺杀特防部高层。</span><span class="ch">第 617、630 章</span></li><li><b class="subject">戴维·皮尔斯</b><span class="text">本特利手下最年轻的棕发玩家。</span><span class="ch">第 629–630 章</span></li><li><b class="subject"><a href="../people.html#person-%E8%B0%B7%E9%9B%A8">谷雨</a>、<a href="../people.html#person-%E9%83%91%E8%89%AF">郑良</a>、文雪琳</b><span class="text">春雨协会的人，扮成徐获引人时被扩大的副本吞了进来。</span><span class="ch">第 618–619 章</span></li><li><b class="subject"><a href="../people.html#person-%E6%A2%81%E5%93%A5">梁哥</a>、关祖弘</b><span class="text">梁哥一伙，和春雨协会的人一起进了医院。</span><span class="ch">第 619 章</span></li><li><b class="subject">阿益（神风）、阿颖</b><span class="text">兄妹俩，合伙开“神风快递”专给玩家运东西；阿益懂一点精神类副本的门道。</span><span class="ch">第 625–626 章</span></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、人物结局、承接前文、关键关系、伏笔与未解。含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、人物结局、承接前文、关键关系、伏笔与未解。写到第 631 章，含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
 <p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
 <nav class="arcs"><a href="#story-1">一、放出医院（第 617–618 章）</a><a href="#story-2">二、病人（第 619–622 章）</a><a href="#story-3">三、治疗室（第 623–624 章）</a><a href="#story-4">四、样品库（第 625–626 章）</a><a href="#story-5">五、大门（第 627–629 章）</a><a href="#story-6">六、隔离楼里的外国人（第 629–631 章）</a></nav>
 <h4 id="story-1">一、放出医院（第 617–618 章）</h4>
@@ -157,24 +164,24 @@ h4[id] { scroll-margin-top:16px; }
 </section>
 <section id="callbacks"><h3>承接前文</h3>
 <p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html#thread-152" title="伏笔总表">#152</a><span class="text">“十日之期”的那晚，徐获没有去总部，而是在附近放出第十七医院，把追来的吃人玩家和外国间谍都困在里面收拾掉。</span><span class="ch">第 617、631 章</span><details class="src"><summary>原文</summary><blockquote>从现在开始，徐获开始收割那些吃人玩家了<cite>第 631 章 · p0013</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-157" title="伏笔总表">#157</a><span class="text">Y 国在新资源区发现大量矿藏，已经拿去和制器师交易；间谍还提到一种含放射元素的“超级矿石”。（戴维·皮尔斯、本特利·阿贝的说法）</span><span class="ch">第 630 章</span></li><li><a class="thread-no" href="../threads.html#thread-150" title="伏笔总表">#150</a><span class="text">外国间谍冲着解毒菌来，特防部早把解毒菌转移走，被炸的实验室只是空壳（间谍头目的说法）。（本特利·阿贝的说法）</span><span class="ch">第 617 章</span></li><li><span class="text">第十七医院上次在邮轮上是 E 级，徐获写的任务是“心理治疗、杀死一名医生、找到大门”；这次升为 D 级，徐获在医院里收拢了当时邮轮玩家留下的道具。</span><span class="ch">第 618、631 章</span></li></ul>
+<ul class="items"><li><a class="thread-no" href="../threads.html?upto=631#thread-152" title="伏笔总表">#152</a><span class="text">“十日之期”的那晚，徐获没有去总部，而是在附近放出第十七医院，把追来的吃人玩家和外国间谍都困在里面收拾掉。</span><span class="ch">第 617、631 章</span><details class="src"><summary>原文</summary><blockquote>从现在开始，徐获开始收割那些吃人玩家了<cite>第 631 章 · p0013</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=631#thread-157" title="伏笔总表">#157</a><span class="text">Y 国在新资源区发现大量矿藏，已经拿去和制器师交易；间谍还提到一种含放射元素的“超级矿石”。（戴维·皮尔斯、本特利·阿贝的说法）</span><span class="ch">第 630 章</span></li><li><a class="thread-no" href="../threads.html?upto=631#thread-150" title="伏笔总表">#150</a><span class="text">外国间谍冲着解毒菌来，特防部早把解毒菌转移走，被炸的实验室只是空壳（间谍头目的说法）。（本特利·阿贝的说法）</span><span class="ch">第 617 章</span></li><li><span class="text">第十七医院上次在邮轮上是 E 级，徐获写的任务是“心理治疗、杀死一名医生、找到大门”；这次升为 D 级，徐获在医院里收拢了当时邮轮玩家留下的道具。</span><span class="ch">第 618、631 章</span></li></ul>
 </section>
 <section id="relations"><h3>关键关系</h3>
-<p class="note">一对人物只画一条线：绿色是同伴，橙色是冲突，红色箭头是杀死，灰色是其他往来；虚线表示某人的说法或推断。</p>
+<p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
 <div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
 <marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
 <marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
 </defs>
-<g class="edge"><title>徐获 — 装成玩家帮忙 — 阿益（第 625–626 章）</title><path d="M489.9,297.8 Q552.7,251.8 605.8,212.9" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
-<g class="edge"><title>徐获 — 提醒 — 谷雨（第 621 章）</title><path d="M489.9,297.8 Q421.2,249.7 362.4,208.5" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 → 装成玩家帮忙 → 阿益（第 625–626 章）</title><path d="M489.9,297.8 Q552.7,251.8 605.8,212.9" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge"><title>徐获 → 提醒 → 谷雨（第 621 章）</title><path d="M489.9,297.8 Q421.2,249.7 362.4,208.5" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
 <g class="edge"><title>本特利·阿贝 — 头领与手下 — 戴维·皮尔斯（第 630 章）</title><path d="M444.5,420 Q494.9,420.0 533.3,420.0" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge"><title>徐获 — 杀死 — 本特利·阿贝（第 630 章）</title><path d="M489.9,297.8 Q467.2,358.9 448.7,408.8" fill="none" stroke="#ef5a4f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 → 杀死 → 本特利·阿贝（第 630 章）</title><path d="M489.9,297.8 Q467.2,358.9 448.7,408.8" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
 <g class="edge"><title>文雪琳 — 同伴 — 谷雨（第 620、629 章）</title><path d="M359.4,60 Q356.0,130.8 353.2,189.6" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
 <g class="edge"><title>阿益 — 兄妹 — 阿颖（第 625 章）</title><path d="M615.5,205.8 Q657.8,158.9 692.0,120.9" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
 <g class="edge"><title>郑良 — 联手 — 梁哥（第 619 章）</title><path d="M208.9,243.7 Q145.8,228.4 94.4,216.0" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge"><title>徐获 — 审问后放走 — 戴维·皮尔斯（第 629、631 章）</title><path d="M489.9,297.8 Q517.6,358.9 540.3,409.1" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 → 审问后放走 → 戴维·皮尔斯（第 629、631 章）</title><path d="M489.9,297.8 Q517.6,358.9 540.3,409.1" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
 <g class="edge"><title>谷雨 — 同伴 — 郑良（第 619、628 章）</title><path d="M352.6,201.6 Q280.8,222.6 220.4,240.3" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
 <g class="edge"><title>梁哥 — 同伴 — 关祖弘（第 619 章）</title><path d="M82.7,213.2 Q71.3,154.2 62.3,107.0" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
 <text x="552.7" y="255.8" class="elabel" style="fill:#8d95a3">装成玩家帮忙</text>
@@ -198,12 +205,12 @@ h4[id] { scroll-margin-top:16px; }
 <g class="node"><circle cx="700" cy="112.0" r="10.0"/><text x="700" y="96.0" class="name">阿颖</text></g>
 <g class="node"><circle cx="60" cy="95.2" r="10.0"/><text x="60" y="79.2" class="name">关祖弘</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text">徐获 — 装成玩家帮忙 — 阿益</span><span class="ch">第 625–626 章</span></li><li><span class="text">徐获 — 提醒 — 谷雨</span><span class="ch">第 621 章</span></li><li><span class="text">本特利·阿贝 — 头领与手下 — 戴维·皮尔斯</span><span class="ch">第 630 章</span></li><li><span class="text">徐获 — 杀死 — 本特利·阿贝</span><span class="ch">第 630 章</span></li><li><span class="text">文雪琳 — 同伴 — 谷雨</span><span class="ch">第 620、629 章</span></li><li><span class="text">阿益 — 兄妹 — 阿颖</span><span class="ch">第 625 章</span></li><li><span class="text">郑良 — 联手 — 梁哥</span><span class="ch">第 619 章</span></li><li><span class="text">徐获 — 审问后放走 — 戴维·皮尔斯</span><span class="ch">第 629、631 章</span></li><li><span class="text">谷雨 — 同伴 — 郑良</span><span class="ch">第 619、628 章</span></li><li><span class="text">梁哥 — 同伴 — 关祖弘</span><span class="ch">第 619 章</span></li></ul></details>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a> → 装成玩家帮忙 → 阿益</span><span class="ch">第 625–626 章</span></li><li><span class="text"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a> → 提醒 → <a href="../people.html#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span><span class="ch">第 621 章</span></li><li><span class="text">本特利·阿贝 — 头领与手下 — 戴维·皮尔斯</span><span class="ch">第 630 章</span></li><li><span class="text"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 本特利·阿贝</span><span class="ch">第 630 章</span></li><li><span class="text">文雪琳 — 同伴 — <a href="../people.html#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span><span class="ch">第 620、629 章</span></li><li><span class="text">阿益 — 兄妹 — 阿颖</span><span class="ch">第 625 章</span></li><li><span class="text"><a href="../people.html#person-%E9%83%91%E8%89%AF">郑良</a> — 联手 — <a href="../people.html#person-%E6%A2%81%E5%93%A5">梁哥</a></span><span class="ch">第 619 章</span></li><li><span class="text"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a> → 审问后放走 → 戴维·皮尔斯</span><span class="ch">第 629、631 章</span></li><li><span class="text"><a href="../people.html#person-%E8%B0%B7%E9%9B%A8">谷雨</a> — 同伴 — <a href="../people.html#person-%E9%83%91%E8%89%AF">郑良</a></span><span class="ch">第 619、628 章</span></li><li><span class="text"><a href="../people.html#person-%E6%A2%81%E5%93%A5">梁哥</a> — 同伴 — 关祖弘</span><span class="ch">第 619 章</span></li></ul></details>
 </section>
 <section id="threads"><h3>伏笔与未解</h3>
 <p class="note">截至第 631 章还没有交代的事。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html#thread-158" title="伏笔总表">#158</a><span class="text">超级矿石的矿藏：本特利报的是假地址，徐获从另外八人那里问出了几处标记。</span><span class="ch">第 630–631 章</span><details class="src"><summary>原文</summary><blockquote>本特利没有说出真实的矿藏地址，不过没关系，还有八个人<cite>第 631 章 · p0001</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-159" title="伏笔总表">#159</a><span class="text">被带进京市的高级道具：徐获怀疑这次动乱有人用高级道具，皮尔斯被放出去后应该落到了特防部手里。</span><span class="ch">第 631 章</span><details class="src"><summary>原文</summary><blockquote>可能是高级道具被人带进来了<cite>第 631 章 · p0004</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-160" title="伏笔总表">#160</a><span class="text">京市下起的黑雨：雨珠带油污和脏虹色，徐获对着雨珠放出王菌试探。</span><span class="ch">第 631 章</span><details class="src"><summary>原文</summary><blockquote>在掌心划了个口子，他对着雨珠放出几根王菌菌丝<cite>第 631 章 · p0041</cite></blockquote></details></li></ul>
+<ul class="items"><li><a class="thread-no" href="../threads.html?upto=631#thread-158" title="伏笔总表">#158</a><span class="text">超级矿石的矿藏：本特利报的是假地址，徐获从另外八人那里问出了几处标记。</span><span class="ch">第 630–631 章</span><details class="src"><summary>原文</summary><blockquote>本特利没有说出真实的矿藏地址，不过没关系，还有八个人<cite>第 631 章 · p0001</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=631#thread-159" title="伏笔总表">#159</a><span class="text">被带进京市的高级道具：徐获怀疑这次动乱有人用高级道具，皮尔斯被放出去后应该落到了特防部手里。</span><span class="ch">第 631 章</span><details class="src"><summary>原文</summary><blockquote>可能是高级道具被人带进来了<cite>第 631 章 · p0004</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=631#thread-160" title="伏笔总表">#160</a><span class="text">京市下起的黑雨：雨珠带油污和脏虹色，徐获对着雨珠放出王菌试探。</span><span class="ch">第 631 章</span><details class="src"><summary>原文</summary><blockquote>在掌心划了个口子，他对着雨珠放出几根王菌菌丝<cite>第 631 章 · p0041</cite></blockquote></details></li></ul>
 </section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC%E5%85%A5%E5%8F%A3">随机副本的入口与大雾</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%8E%88%E6%9D%83%E4%B9%A6">副本授权书与持有者</a><a href="../world.html#world-%E7%B2%BE%E7%A5%9E%E7%B1%BB%E5%89%AF%E6%9C%AC">精神类副本</a><a href="../world.html#world-%E6%97%B6%E5%B7%AE">游戏里的时间</a><a href="../world.html#world-%E8%83%BD%E6%BA%90%E7%9F%B3">能源石、矿石与制器师</a><a href="../world.html#world-014%E5%8C%BA%E5%90%84%E5%9B%BD">014 区的各国</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E6%B8%85%E6%B4%81%E5%89%82">清洁剂</a><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a><a href="../items.html#item-%E7%94%B5%E6%A3%8D">电棍</a><a href="../items.html#item-%E9%B2%9C%E7%BA%A2%E7%9A%84%E5%89%91">鲜红的剑</a><a href="../items.html#item-%E6%B6%88%E5%A3%B0%E6%89%8B%E5%8A%9E">消声手办</a><a href="../items.html#item-%E5%91%93%E8%AF%AD%E4%B9%8B%E7%90%83">呓语之球</a><a href="../items.html#item-%E8%84%9A%E8%B8%8F%E5%AE%9E%E5%9C%B0">脚踏实地</a></p></section></details>
 
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。</footer>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。这个选择浏览器会记住。</footer>
 </main></body></html>

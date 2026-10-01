@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>只有一个主人的别墅 · 单元卡 · 维度之下</title><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local')</script><style>
+<title>只有一个主人的别墅 · 单元卡 · 维度之下</title><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
   --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
@@ -21,15 +21,15 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 .rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; }
 .brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
 .brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.2em; margin-left:8px; }
-.rail nav { display:flex; gap:14px; flex-wrap:wrap; }
-.rail nav a { color:var(--rail-muted); font-size:14px; padding:2px 0; border-bottom:2px solid transparent; }
+.rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
 .rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
 .rail .toggle-label { margin-left:auto; }
 .rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
 
 /* sources switch */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
-.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:0 8px; cursor:pointer; user-select:none; }
+.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
 #show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
 .ch, sup.cite, details.src, .src-only { display:none; }
 #show-src:checked ~ main .ch { display:inline-block; }
@@ -37,6 +37,8 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 #show-src:checked ~ main details.src { display:inline; }
 #show-src:checked ~ main .src-only { display:block; }
 #show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ticket-stub.src-only { display:none; }
+#show-src:checked ~ main .ticket-stub.src-only { display:flex; }
 .ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
 sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
 details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
@@ -99,7 +101,12 @@ ul.people li:last-child { border-bottom:none; }
 .subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
 details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
-.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
+@media (max-width:640px) { .graph svg { min-width:720px; } }
+.legend { display:flex; flex-wrap:wrap; gap:4px 14px; margin:6px 0 2px; font-size:13px; color:var(--muted); }
+.legend span { display:inline-flex; align-items:center; gap:6px; }
+.legend i { display:inline-block; width:22px; height:0; border-top:3px solid; }
+.legend i.dash { border-top-style:dashed; border-color:var(--muted); }
 svg { width:100%; height:auto; display:block; }
 svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
 svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
@@ -113,22 +120,22 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body><input type="checkbox" id="show-src" class="toggle"><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<body><input type="checkbox" id="show-src" class="toggle"><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{b.checked=localStorage.getItem('show-src')==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
 <div class="ticket"><div class="ticket-main"><div class="stamp">D<small>级</small></div><div class="kicker">副本 · D 级</div>
-<h1>只有一个主人的别墅</h1><div class="route">第 768 章 ──── 第 780 章</div><p class="hint">没读过前文？先看<a href="../world.html">世界观</a>，这里不重复解释游戏设定。</p></div>
-<div class="ticket-stub"><div class="stub-row"><b>单元</b>u0038</div><div class="stub-row"><b>句数</b>60</div>
+<h1>只有一个主人的别墅</h1><div class="route">第 768 章 ──── 第 780 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观写到第 990 章，含本卡之后的剧情。</p></div>
+<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0038</div><div class="stub-row"><b>句数</b>60</div>
 <div class="stub-row"><b>引用</b>48 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">撰写：claude-opus-5-5 (claude-code session)，读第 768–780 章正文后撰写。每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p>
-<details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。</span></summary><section id="overview"><h3>一句话</h3>
-<ul class="items"><li><span class="text">徐获在茂城移民局过夜时被卷进 D 级随机副本“只有一个主人的别墅”：二十二名玩家两人一间，困在暴雨中树林里的一栋旧别墅，每天随机有一人当一天不公开的“临时主人”，当称职了就能通关。前三个临时主人都失败了——有人杀了人不收拾，有人只巡了空房间，有人被暗中把尸体塞进床垫。徐获和梁冲、卢贞等人结盟，看出临时主人要打扫别墅、夜里巡查门窗和客房、确认床被；轮到他时，他让盟友把别墅里外打扫一新，夜里挨个房间敲门检查，悄无声息地毒死了捣乱的女玩家，天亮通关。奖励是特殊特性“请坐”和一次道具合并。</span><span class="ch">第 768–769、775–776、778–780 章</span></li><li><span class="text">D 级随机副本，第 768–780 章。第 779 章通关，第 780 章前半是结算，后半回到茂城的酒店。</span><span class="ch">第 768、779–780 章</span></li></ul>
+<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 768–780 章正文后撰写。</p>
+<details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。写到第 780 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
+<ul class="items"><li><span class="text">徐获被卷进 D 级随机副本“只有一个主人的别墅”，和盟友摸清“临时主人”的职责；轮到他时打扫别墅、夜查客房、毒死捣乱的人，天亮通关。</span><span class="ch">第 768–769、775–776、778–780 章</span></li><li><span class="text">D 级随机副本，第 768–780 章。第 779 章通关，第 780 章前半是结算，后半回到茂城的酒店。</span><span class="ch">第 768、779–780 章</span></li></ul>
 </section>
 <section id="setup"><h3>背景与规则</h3>
 <ul class="items"><li><span class="text">D 级随机副本，场地是雨夜树林里一栋三层旧别墅，门窗打不开也不能破坏。卢贞说，这个副本以一种昂贵的香木为媒介，香木到过的地方，人就可能被拉进去。（卢贞的说法）</span><span class="ch">第 768–769 章</span><details class="src"><summary>原文</summary><blockquote>是以一种昂贵的香木作为媒介<cite>第 769 章 · p0050</cite></blockquote></details></li><li><span class="text">客人规则：一间客房只住两人；选定房间不许换；晚上九点到次日八点不能出门、不能进别人的客房。受欢迎的客人每天有机会随机成为一天的不公开主人，可以出入任何房间、夜里外出、任意杀死一名玩家。</span><span class="ch">第 769 章</span></li><li><span class="text">主人规则：维护别墅整洁、不破坏原有建筑、不离开别墅；违反的人会变成不受欢迎的客人。通关任务是“成为一名合格的别墅主人”，时间不限。规则只在屏幕上放了一遍。</span><span class="ch">第 769 章</span><details class="src"><summary>原文</summary><blockquote>【通关任务：成为一名合格的别墅主人。】<cite>第 769 章 · p0015</cite></blockquote><blockquote>这个游戏介绍是一次性的<cite>第 769 章 · p0018</cite></blockquote></details></li><li><span class="text">二十二名玩家分十一个房间：二楼住了七间，其余八人上了三楼；主人房在三楼。</span><span class="ch">第 769、772 章</span><details class="src"><summary>原文</summary><blockquote>刚好二十二人，分配十一个房间<cite>第 769 章 · p0027</cite></blockquote></details></li></ul>
 </section>
 <section id="cast"><h3>登场人物</h3>
 <p class="note">按出场先后。没留下名字的几个人按原文的叫法。</p>
-<ul class="people"><li><b class="subject"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a></b><span class="text">被香木带进副本；和梁冲结盟，第四天当上临时主人并通关。</span><span class="ch">第 768、775、779 章</span></li><li><b class="subject">卢贞</b><span class="text">E 级玩家，职业是“幕后工作人员”，特性让自己存在感弱化，副作用是总迷路，还会把同路的人一起带偏；和徐获同住一间。</span><span class="ch">第 768–769、779 章</span><details class="src"><summary>原文</summary><blockquote>我的职业是幕后工作人员<cite>第 779 章 · p0017</cite></blockquote></details></li><li><b class="subject">董丘</b><span class="text">和卢贞一起在树林里迷路的同伴之一，说话不过脑子；徐获觉得他精神状态不稳，让卢贞提防。</span><span class="ch">第 771、779 章</span></li><li><b class="subject">梁冲</b><span class="text">住三楼、爱玩匕首的年轻玩家，主动找徐获结盟；成为进化者前是癌症晚期。</span><span class="ch">第 772–773、777 章</span><details class="src"><summary>原文</summary><blockquote>在成为进化者之前我已经是癌症晚期了<cite>第 777 章 · p0023</cite></blockquote></details></li><li><b class="subject">冯光</b><span class="text">梁冲的同屋，E 级玩家，第二晚的临时主人，没通关。</span><span class="ch">第 774–775 章</span></li><li><b class="subject">孟三</b><span class="text">被娃娃脸和雨衣男围攻时，徐获救了他。</span><span class="ch">第 773–774 章</span></li><li><b class="subject">赵晓静</b><span class="text">被两个男玩家追打欺负的女玩家，徐获出手救下。</span><span class="ch">第 772、774 章</span></li><li><b class="subject">雨衣男、娃娃脸</b><span class="text">雨衣男、娃娃脸一伙：雨衣男是这伙人的主力，娃娃脸下手阴狠；两人都没留下名字。</span><span class="ch">第 768、772–773 章</span></li><li><b class="subject">妩媚女玩家</b><span class="text">开门迎客的女玩家，第一晚的临时主人，会变魔术，处处阻挠别人通关；没留下名字。</span><span class="ch">第 768、776、778 章</span></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、人物结局、承接前文、关键关系、伏笔与未解。含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+<ul class="people"><li><b class="subject"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">被香木带进副本；和梁冲结盟，第四天当上临时主人并通关。</span><span class="ch">第 768、775、779 章</span></li><li><b class="subject">卢贞</b><span class="text">E 级玩家，职业是“幕后工作人员”，特性让自己存在感弱化，副作用是总迷路，还会把同路的人一起带偏；和徐获同住一间。</span><span class="ch">第 768–769、779 章</span><details class="src"><summary>原文</summary><blockquote>我的职业是幕后工作人员<cite>第 779 章 · p0017</cite></blockquote></details></li><li><b class="subject">董丘</b><span class="text">和卢贞一起在树林里迷路的同伴之一，说话不过脑子；徐获觉得他精神状态不稳，让卢贞提防。</span><span class="ch">第 771、779 章</span></li><li><b class="subject">梁冲</b><span class="text">住三楼、爱玩匕首的年轻玩家，主动找徐获结盟；成为进化者前是癌症晚期。</span><span class="ch">第 772–773、777 章</span><details class="src"><summary>原文</summary><blockquote>在成为进化者之前我已经是癌症晚期了<cite>第 777 章 · p0023</cite></blockquote></details></li><li><b class="subject">冯光</b><span class="text">梁冲的同屋，E 级玩家，第二晚的临时主人，没通关。</span><span class="ch">第 774–775 章</span></li><li><b class="subject">孟三</b><span class="text">被娃娃脸和雨衣男围攻时，徐获救了他。</span><span class="ch">第 773–774 章</span></li><li><b class="subject">赵晓静</b><span class="text">被两个男玩家追打欺负的女玩家，徐获出手救下。</span><span class="ch">第 772、774 章</span></li><li><b class="subject">雨衣男、娃娃脸</b><span class="text">雨衣男、娃娃脸一伙：雨衣男是这伙人的主力，娃娃脸下手阴狠；两人都没留下名字。</span><span class="ch">第 768、772–773 章</span></li><li><b class="subject">妩媚女玩家</b><span class="text">开门迎客的女玩家，第一晚的临时主人，会变魔术，处处阻挠别人通关；没留下名字。</span><span class="ch">第 768、776、778 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、人物结局、承接前文、关键关系、伏笔与未解。写到第 780 章，含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
 <p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
 <nav class="arcs"><a href="#story-1">一、雨夜的别墅（第 768–769 章）</a><a href="#story-2">二、第一夜（第 770–772 章）</a><a href="#story-3">三、结盟（第 773–775 章）</a><a href="#story-4">四、打扫别墅（第 776–777 章）</a><a href="#story-5">五、称职的主人（第 778–779 章）</a><a href="#story-6">六、结算（第 780 章）</a></nav>
 <h4 id="story-1">一、雨夜的别墅（第 768–769 章）</h4>
@@ -157,25 +164,25 @@ h4[id] { scroll-margin-top:16px; }
 </section>
 <section id="fates"><h3>人物结局</h3>
 <p class="note">截至第 780 章。</p>
-<ul class="people"><li><b class="subject"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a></b><span class="text">通关，得到特殊特性“请坐”，合并出“蚁穴标注”。</span><span class="ch">第 779–780 章</span></li><li><b class="subject">妩媚女玩家</b><span class="text">被徐获毒死在自己房里。</span><span class="ch">第 778 章</span><details class="src"><summary>原文</summary><blockquote>直到她吐出最后一口气<cite>第 778 章 · p0036</cite></blockquote></details></li><li><b class="subject">欺负赵晓静的两名玩家</b><span class="text">天亮前被徐获“处理”了。</span><span class="ch">第 779 章</span></li><li><b class="subject">卢贞</b><span class="text">拿到了通关方法，留在别墅里等轮到自己；徐获让她提防董丘。</span><span class="ch">第 779 章</span></li><li><b class="subject">梁冲、冯光、孟三、赵晓静、董丘、雨衣男、娃娃脸</b><span class="text">到徐获离开时都还在别墅里，结局没有交代。</span><span class="ch">第 779 章</span></li></ul>
+<ul class="people"><li><b class="subject"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">通关，得到特殊特性“请坐”，合并出“蚁穴标注”。</span><span class="ch">第 779–780 章</span></li><li><b class="subject">妩媚女玩家</b><span class="text">被徐获毒死在自己房里。</span><span class="ch">第 778 章</span><details class="src"><summary>原文</summary><blockquote>直到她吐出最后一口气<cite>第 778 章 · p0036</cite></blockquote></details></li><li><b class="subject">欺负赵晓静的两名玩家</b><span class="text">天亮前被徐获“处理”了。</span><span class="ch">第 779 章</span></li><li><b class="subject">卢贞</b><span class="text">拿到了通关方法，留在别墅里等轮到自己；徐获让她提防董丘。</span><span class="ch">第 779 章</span></li><li><b class="subject">梁冲、冯光、孟三、赵晓静、董丘、雨衣男、娃娃脸</b><span class="text">到徐获离开时都还在别墅里，结局没有交代。</span><span class="ch">第 779 章</span></li></ul>
 </section>
 <section id="callbacks"><h3>承接前文</h3>
 <p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html#thread-074" title="伏笔总表">#074</a><span class="text">第七个医生：徐获开始觉得，当年在第十七医院出现的那名医生不是独行者，可能有同伴，也在挖掘、培养继任者；商书铭已经是其中一员。（徐获的推断）</span><span class="ch">第 768 章</span><details class="src"><summary>原文</summary><blockquote>他开始觉得当初出现在第十七医院的那名医生并不是一个独行者<cite>第 768 章 · p0004</cite></blockquote><blockquote>商书铭已经成为这批人中的一份子<cite>第 768 章 · p0005</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-178" title="伏笔总表">#178</a><span class="text">被领养走的孩子：侦探查到，移民国外的男孩和养父母五年前被海啸卷走，尸体没找到，官方判定死亡。</span><span class="ch">第 780 章</span><details class="src"><summary>原文</summary><blockquote>移民国外的两个孩子中的男孩及其父母已经死亡<cite>第 780 章 · p0020</cite></blockquote><blockquote>五年前被海啸卷走，尸体也没找到<cite>第 780 章 · p0020</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-023" title="伏笔总表">#023</a><span class="text">菲尔德家族：别墅书房里的礼仪书写到，有贵族女子嫁进菲尔德家族，又把菲尔德家族的礼仪推广到游戏政府内部；徐获还从没在任何分区遇到过恒星集团。</span><span class="ch">第 771 章</span><details class="src"><summary>原文</summary><blockquote>菲尔德家族的礼仪能在游戏分区的政府内部推广<cite>第 771 章 · p0036</cite></blockquote><blockquote>徐获还没有在任何一个游戏分区里遇到恒星集团及其下属分公司<cite>第 771 章 · p0037</cite></blockquote></details></li></ul>
+<ul class="items"><li><a class="thread-no" href="../threads.html?upto=780#thread-074" title="伏笔总表">#074</a><span class="text">第七个医生：徐获开始觉得，当年在第十七医院出现的那名医生不是独行者，可能有同伴，也在挖掘、培养继任者；商书铭已经是其中一员。（徐获的推断）</span><span class="ch">第 768 章</span><details class="src"><summary>原文</summary><blockquote>他开始觉得当初出现在第十七医院的那名医生并不是一个独行者<cite>第 768 章 · p0004</cite></blockquote><blockquote>商书铭已经成为这批人中的一份子<cite>第 768 章 · p0005</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=780#thread-178" title="伏笔总表">#178</a><span class="text">被领养走的孩子：侦探查到，移民国外的男孩和养父母五年前被海啸卷走，尸体没找到，官方判定死亡。</span><span class="ch">第 780 章</span><details class="src"><summary>原文</summary><blockquote>移民国外的两个孩子中的男孩及其父母已经死亡<cite>第 780 章 · p0020</cite></blockquote><blockquote>五年前被海啸卷走，尸体也没找到<cite>第 780 章 · p0020</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=780#thread-023" title="伏笔总表">#023</a><span class="text">菲尔德家族：别墅书房里的礼仪书写到，有贵族女子嫁进菲尔德家族，又把菲尔德家族的礼仪推广到游戏政府内部；徐获还从没在任何分区遇到过恒星集团。</span><span class="ch">第 771 章</span><details class="src"><summary>原文</summary><blockquote>菲尔德家族的礼仪能在游戏分区的政府内部推广<cite>第 771 章 · p0036</cite></blockquote><blockquote>徐获还没有在任何一个游戏分区里遇到恒星集团及其下属分公司<cite>第 771 章 · p0037</cite></blockquote></details></li></ul>
 </section>
 <section id="relations"><h3>关键关系</h3>
-<p class="note">一对人物只画一条线：绿色是同伴，橙色是冲突，红色箭头是杀死，灰色是其他往来；虚线表示某人的说法或推断。</p>
+<p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
 <div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
 <marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
 <marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
 </defs>
-<g class="edge"><title>徐获 — 同屋、托付通关方法 — 卢贞（第 769、779 章）</title><path d="M382.4,182.0 Q447.3,241.1 503.4,292.1" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 → 同屋、托付通关方法 → 卢贞（第 769、779 章）</title><path d="M382.4,182.0 Q447.3,241.1 503.4,292.1" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
 <g class="edge"><title>徐获 — 结盟 — 梁冲（第 773 章）</title><path d="M382.4,182.0 Q315.9,238.7 258.4,287.6" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
 <g class="edge"><title>梁冲 — 同屋 — 冯光（第 774 章）</title><path d="M249.3,295.4 Q198.8,347.3 156.7,390.6" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge"><title>徐获 — 相救 — 孟三（第 773–774 章）</title><path d="M382.4,182.0 Q328.6,121.0 282.8,69.0" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge"><title>徐获 — 相救 — 赵晓静（第 772、774 章）</title><path d="M382.4,182.0 Q436.5,121.0 482.7,69.0" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 → 相救 → 孟三（第 773–774 章）</title><path d="M382.4,182.0 Q328.6,121.0 282.8,69.0" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge"><title>徐获 → 相救 → 赵晓静（第 772、774 章）</title><path d="M382.4,182.0 Q436.5,121.0 482.7,69.0" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
 <g class="edge"><title>卢贞 — 同路 — 董丘（第 771、779 章）</title><path d="M512.3,300.2 Q560.2,354.3 600.2,399.4" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
 <text x="447.3" y="245.1" class="elabel" style="fill:#4fbf7f">同屋、托付通关方法</text>
 <text x="315.9" y="242.7" class="elabel" style="fill:#4fbf7f">结盟</text>
@@ -191,12 +198,12 @@ h4[id] { scroll-margin-top:16px; }
 <g class="node"><circle cx="490.7" cy="60" r="10.0"/><text x="490.7" y="44.0" class="name">赵晓静</text></g>
 <g class="node"><circle cx="608.2" cy="408.4" r="10.0"/><text x="608.2" y="392.4" class="name">董丘</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text">徐获 — 同屋、托付通关方法 — 卢贞</span><span class="ch">第 769、779 章</span></li><li><span class="text">徐获 — 结盟 — 梁冲</span><span class="ch">第 773 章</span></li><li><span class="text">梁冲 — 同屋 — 冯光</span><span class="ch">第 774 章</span></li><li><span class="text">徐获 — 相救 — 孟三</span><span class="ch">第 773–774 章</span></li><li><span class="text">徐获 — 相救 — 赵晓静</span><span class="ch">第 772、774 章</span></li><li><span class="text">卢贞 — 同路 — 董丘</span><span class="ch">第 771、779 章</span></li></ul></details>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a> → 同屋、托付通关方法 → 卢贞</span><span class="ch">第 769、779 章</span></li><li><span class="text"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a> — 结盟 — 梁冲</span><span class="ch">第 773 章</span></li><li><span class="text">梁冲 — 同屋 — 冯光</span><span class="ch">第 774 章</span></li><li><span class="text"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a> → 相救 → 孟三</span><span class="ch">第 773–774 章</span></li><li><span class="text"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a> → 相救 → 赵晓静</span><span class="ch">第 772、774 章</span></li><li><span class="text">卢贞 — 同路 — 董丘</span><span class="ch">第 771、779 章</span></li></ul></details>
 </section>
 <section id="threads"><h3>伏笔与未解</h3>
 <p class="note">截至第 780 章还没有交代的事。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html#thread-179" title="伏笔总表">#179</a><span class="text">拿着香木到处跑的人：这个随机副本靠香木拉人，徐获正是因为有人把香木带进了移民局才被卷进来；妩媚女玩家也恨透了这种人。</span><span class="ch">第 769、776–777 章</span><details class="src"><summary>原文</summary><blockquote>是以一种昂贵的香木作为媒介<cite>第 769 章 · p0050</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-180" title="伏笔总表">#180</a><span class="text">别墅从哪来：书房里的书写着进化动植物之间的“礼仪”，徐获没在去过的分区见过，猜这个副本场地来自 E27 排序靠前的分区，或者别的虫洞点。（徐获的推断）</span><span class="ch">第 771 章</span><details class="src"><summary>原文</summary><blockquote>这个副本场地可能是来自于E27排序靠前的游戏分区<cite>第 771 章 · p0030</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-181" title="伏笔总表">#181</a><span class="text">卢贞的暗号：等她升到 D 级，在悬赏平台发“树林里五个迷路的小矮人”，就能联系上徐获。</span><span class="ch">第 779 章</span><details class="src"><summary>原文</summary><blockquote>不如标题就叫树林里五个迷路的小矮人怎么样<cite>第 779 章 · p0029</cite></blockquote></details></li></ul>
+<ul class="items"><li><a class="thread-no" href="../threads.html?upto=780#thread-179" title="伏笔总表">#179</a><span class="text">拿着香木到处跑的人：这个随机副本靠香木拉人，徐获正是因为有人把香木带进了移民局才被卷进来；妩媚女玩家也恨透了这种人。</span><span class="ch">第 769、776–777 章</span><details class="src"><summary>原文</summary><blockquote>是以一种昂贵的香木作为媒介<cite>第 769 章 · p0050</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=780#thread-180" title="伏笔总表">#180</a><span class="text">别墅从哪来：书房里的书写着进化动植物之间的“礼仪”，徐获没在去过的分区见过，猜这个副本场地来自 E27 排序靠前的分区，或者别的虫洞点。（徐获的推断）</span><span class="ch">第 771 章</span><details class="src"><summary>原文</summary><blockquote>这个副本场地可能是来自于E27排序靠前的游戏分区<cite>第 771 章 · p0030</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=780#thread-181" title="伏笔总表">#181</a><span class="text">卢贞的暗号：等她升到 D 级，在悬赏平台发“树林里五个迷路的小矮人”，就能联系上徐获。</span><span class="ch">第 779 章</span><details class="src"><summary>原文</summary><blockquote>不如标题就叫树林里五个迷路的小矮人怎么样<cite>第 779 章 · p0029</cite></blockquote></details></li></ul>
 </section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC">随机副本</a><a href="../world.html#world-%E7%89%B9%E6%80%A7">特性</a><a href="../world.html#world-%E9%81%93%E5%85%B7">道具</a><a href="../world.html#world-%E8%8F%B2%E5%B0%94%E5%BE%B7%E5%AE%B6%E6%97%8F">菲尔德家族</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9">进化的动植物</a><a href="../world.html#world-009%E5%8C%BA">009 区</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E6%97%A0%E5%A4%84%E4%B8%8D%E5%9C%A8%E7%9A%84%E7%90%B4%E5%BC%A6">无处不在的琴弦</a><a href="../items.html#item-%E9%B2%9C%E7%BA%A2%E7%9A%84%E5%89%91">鲜红的剑</a><a href="../items.html#item-%E9%89%B4%E5%AE%9A%E5%8F%89">鉴定叉</a><a href="../items.html#item-%E6%B6%88%E5%A3%B0%E6%89%8B%E5%8A%9E">消声手办</a><a href="../items.html#item-%E6%AD%A3%E4%B9%89%E4%B9%8B%E4%BC%9E">正义之伞</a><a href="../items.html#item-%E6%AD%BB%E9%87%8C%E9%80%83%E7%94%9F%E5%87%A0%E7%8E%87">死里逃生几率</a><a href="../items.html#item-%E7%9E%84%E5%87%86%E5%99%A8">瞄准器</a><a href="../items.html#item-%E4%B8%B0%E7%9B%9B%E7%9A%84%E6%B0%B4%E8%8D%89">丰盛的水草</a><a href="../items.html#item-%E4%B8%8D%E8%83%BD%E5%91%BC%E5%90%B8%E7%9A%84%E9%9D%A2%E7%BD%A9">不能呼吸的面罩</a><a href="../items.html#item-%E8%B4%B4%E7%BA%B8">贴纸</a><a href="../items.html#item-%E8%A1%A8%E6%BC%94%E8%80%85%E5%B0%B1%E4%BD%8D">表演者就位</a><a href="../items.html#item-%E8%BF%91%E6%99%AF%E9%AD%94%E6%9C%AF">近景魔术</a><a href="../items.html#item-%E8%9A%81%E7%A9%B4%E6%A0%87%E6%B3%A8">蚁穴标注</a></p></section></details>
 
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。</footer>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。这个选择浏览器会记住。</footer>
 </main></body></html>

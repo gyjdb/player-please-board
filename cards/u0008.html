@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>分贝小镇 · 单元卡 · 维度之下</title><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local')</script><style>
+<title>分贝小镇 · 单元卡 · 维度之下</title><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
   --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
@@ -21,15 +21,15 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 .rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; }
 .brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
 .brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.2em; margin-left:8px; }
-.rail nav { display:flex; gap:14px; flex-wrap:wrap; }
-.rail nav a { color:var(--rail-muted); font-size:14px; padding:2px 0; border-bottom:2px solid transparent; }
+.rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
 .rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
 .rail .toggle-label { margin-left:auto; }
 .rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
 
 /* sources switch */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
-.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:0 8px; cursor:pointer; user-select:none; }
+.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
 #show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
 .ch, sup.cite, details.src, .src-only { display:none; }
 #show-src:checked ~ main .ch { display:inline-block; }
@@ -37,6 +37,8 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 #show-src:checked ~ main details.src { display:inline; }
 #show-src:checked ~ main .src-only { display:block; }
 #show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ticket-stub.src-only { display:none; }
+#show-src:checked ~ main .ticket-stub.src-only { display:flex; }
 .ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
 sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
 details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
@@ -99,7 +101,12 @@ ul.people li:last-child { border-bottom:none; }
 .subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
 details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
-.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
+@media (max-width:640px) { .graph svg { min-width:720px; } }
+.legend { display:flex; flex-wrap:wrap; gap:4px 14px; margin:6px 0 2px; font-size:13px; color:var(--muted); }
+.legend span { display:inline-flex; align-items:center; gap:6px; }
+.legend i { display:inline-block; width:22px; height:0; border-top:3px solid; }
+.legend i.dash { border-top-style:dashed; border-color:var(--muted); }
 svg { width:100%; height:auto; display:block; }
 svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
 svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
@@ -113,13 +120,13 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body><input type="checkbox" id="show-src" class="toggle"><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<body><input type="checkbox" id="show-src" class="toggle"><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{b.checked=localStorage.getItem('show-src')==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
 <div class="ticket"><div class="ticket-main"><div class="stamp">E<small>级</small></div><div class="kicker">副本 · E 级</div>
-<h1>分贝小镇</h1><div class="route">第 81 章 ──── 第 118 章</div><p class="hint">没读过前文？先看<a href="../world.html">世界观</a>，这里不重复解释游戏设定。</p></div>
-<div class="ticket-stub"><div class="stub-row"><b>单元</b>u0008</div><div class="stub-row"><b>句数</b>93</div>
+<h1>分贝小镇</h1><div class="route">第 81 章 ──── 第 118 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观写到第 990 章，含本卡之后的剧情。</p></div>
+<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0008</div><div class="stub-row"><b>句数</b>93</div>
 <div class="stub-row"><b>引用</b>53 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">撰写：claude-opus-5-5 (claude-code session)，读第 81–118 章正文后撰写。每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p>
-<details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。</span></summary><section id="overview"><h3>一句话</h3>
+<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 81–118 章正文后撰写。</p>
+<details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。写到第 118 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
 <ul class="items"><li><span class="text">一座被高墙围住的废弃小镇：满地会尖叫的洋娃娃，声音一大、人一多，看不见的“保安”就会扑出来吃人；没有食物，任务只有一句“离开”。</span><span class="ch">第 81–82 章</span></li><li><span class="text">E 级随机副本，入口是汀城那栋会吞人的凶宅。第 81 章徐获被卷入，第 107 章东门打开，第 117 章从西门走出围墙完成任务，第 118 章结算。</span><span class="ch">第 81、107、117–118 章</span><details class="src"><summary>原文</summary><blockquote>玩家路人甲已进入“分贝小镇”，默认参与该E级随机副本<cite>第 81 章 · p0001</cite></blockquote><blockquote>恭喜玩家路人甲成功通关“分贝小镇”<cite>第 118 章 · p0019</cite></blockquote></details></li></ul>
 </section>
 <section id="setup"><h3>背景与规则</h3>
@@ -128,7 +135,7 @@ h4[id] { scroll-margin-top:16px; }
 <section id="cast"><h3>登场人物</h3>
 <p class="note">按出场先后。</p>
 <ul class="people"><li><b class="subject"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">反跟踪到凶宅时被卷进来的随机玩家，当时进化率 10%。</span><span class="ch">第 81、92 章</span></li><li><b class="subject"><a href="../people.html#person-%E7%8E%8B%E8%B6%85%E6%B8%85">王超清</a>、年鸿安</b><span class="text">在凶宅外钓玩家的两个人，也被一起卷了进来：王超清能分出黑影、顺着网线电线爬，年鸿安见过一面的人都能记住。</span><span class="ch">第 81、97 章</span></li><li><b class="subject">林培</b><span class="text">最早一批进来的玩家之一，看上去是车上的领头人，自称擅长追踪。</span><span class="ch">第 81、97 章</span></li><li><b class="subject">柯良</b><span class="text">刀疤脸，特性和弹跳有关，能跳十二米高；第一个被凶宅的帖子骗进来。</span><span class="ch">第 81、83、97 章</span><details class="src"><summary>原文</summary><blockquote>我的特性跟弹跳力有关，最高纪录是十二米<cite>第 97 章 · p0021</cite></blockquote></details></li><li><b class="subject">吴秋意</b><span class="text">为找男友进了凶宅，男友却在她眼前被异种吃掉；能学各种鸟叫。</span><span class="ch">第 81、83、97 章</span></li><li><b class="subject"><a href="../people.html#person-%E8%B0%B7%E9%9B%A8">谷雨</a></b><span class="text">京市来的大明星，精通枪术，道具是一把能打出各色子弹的 D 级彩虹枪；京市玩家互助会的核心成员。</span><span class="ch">第 81、92、95 章</span><details class="src"><summary>原文</summary><blockquote>你的剑竟然比我的D级彩虹枪还要厉害<cite>第 95 章 · p0002</cite></blockquote></details></li><li><b class="subject">沈毅、<a href="../people.html#person-%E6%B2%88%E6%96%B0">沈新</a></b><span class="text">一对兄妹，以前是动物园饲养员（哥哥养猴子，妹妹养熊猫）；沈毅开公交车、会用弹绳，沈新有特性“熊猫撞击”。</span><span class="ch">第 81、97、101 章</span><details class="src"><summary>原文</summary><blockquote>我和我哥都是，他养猴子，我养熊猫<cite>第 101 章 · p0033</cite></blockquote></details></li><li><b class="subject"><a href="../people.html#person-%E5%B0%BC%E5%A1%9E">尼塞</a></b><span class="text">钟表大师，小镇的镇长，晚年沉迷编谜题；儿子儿媳死在“车祸”，孙女异种化。</span><span class="ch">第 81、87 章</span></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、人物结局、关键关系、伏笔与未解。含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、人物结局、关键关系、伏笔与未解。写到第 118 章，含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
 <p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
 <nav class="arcs"><a href="#story-1">一、困在小镇（第 81–84 章）</a><a href="#story-2">二、尼塞的秘密（第 85–88 章）</a><a href="#story-3">三、封地笼（第 89–97 章）</a><a href="#story-4">四、东门之战（第 98–104 章）</a><a href="#story-5">五、东门是陷阱（第 105–111 章）</a><a href="#story-6">六、西门（第 111–118 章）</a></nav>
 <h4 id="story-1">一、困在小镇（第 81–84 章）</h4>
@@ -161,7 +168,7 @@ h4[id] { scroll-margin-top:16px; }
 <ul class="people"><li><b class="subject"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">通关。打了 P0S 转入完美进化，进化率 20%；得到超级道具“人生的三秒”、小气的皮箱和林培的弓箭。</span><span class="ch">第 113–114、118 章</span><details class="src"><summary>原文</summary><blockquote>恭喜玩家路人甲成功通关“分贝小镇”<cite>第 118 章 · p0019</cite></blockquote></details></li><li><b class="subject"><a href="../people.html#person-%E8%B0%B7%E9%9B%A8">谷雨</a></b><span class="text">通关，断了一只手、一只脚受伤，被异种咬伤后用解毒剂救回；临走说会给徐获打电话。</span><span class="ch">第 112、117 章</span></li><li><b class="subject">柯良</b><span class="text">通关，大腿被飞箭射穿；海市人，说欠徐获一条命。</span><span class="ch">第 112、117 章</span><details class="src"><summary>原文</summary><blockquote>不光是人情，还有救命之恩<cite>第 117 章 · p0032</cite></blockquote></details></li><li><b class="subject"><a href="../people.html#person-%E6%B2%88%E6%96%B0">沈新</a></b><span class="text">通关，哥哥死了；徐获把哥哥的弹绳留给她，她打算跟谷雨去京市。</span><span class="ch">第 117 章</span><details class="src"><summary>原文</summary><blockquote>徐获道具栏里的弹绳取出来递给沈新<cite>第 117 章 · p0028</cite></blockquote></details></li><li><b class="subject">沈毅</b><span class="text">被徐获从异种堆里救上吊桥，随即被林培一箭射穿太阳穴。</span><span class="ch">第 109 章</span></li><li><b class="subject">吴秋意</b><span class="text">被逃出地笼的异种掏穿腹部，死在分贝小镇。</span><span class="ch">第 101–102 章</span></li><li><b class="subject">年鸿安</b><span class="text">留在车上时被东门的异种撕碎。</span><span class="ch">第 99 章</span></li><li><b class="subject">林培</b><span class="text">被自己放出来的异种撕咬，最后被徐获隔空斩杀；系统报他是黑色玩家。</span><span class="ch">第 116 章</span><details class="src"><summary>原文</summary><blockquote>恭喜玩家路人甲杀死一名黑色玩家<cite>第 116 章 · p0031</cite></blockquote></details></li><li><b class="subject"><a href="../people.html#person-%E7%8E%8B%E8%B6%85%E6%B8%85">王超清</a></b><span class="text">一出围墙就抢先脱离；回到凶宅被袁耀、黄俊杰抓住，徐获放了他。</span><span class="ch">第 117 章</span></li><li><b class="subject">小恒、刘大哥和吴秋意的男友</b><span class="text">徐获进来之前就死了：一个饿死，一个撞门被异种分尸，一个误碰铃铛被异种吃掉。（吴秋意的说法）</span><span class="ch">第 83 章</span></li></ul>
 </section>
 <section id="relations"><h3>关键关系</h3>
-<p class="note">一对人物只画一条线：绿色是同伴，橙色是冲突，红色箭头是杀死，灰色是其他；虚线表示某人的说法或推断。</p>
+<p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
 <div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
 <marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
@@ -176,8 +183,8 @@ h4[id] { scroll-margin-top:16px; }
 <g class="edge"><title>徐获 → 隔空斩杀 → 林培（第 116 章）</title><path d="M359.4,222.4 Q393.6,292.9 422.7,352.7" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
 <g class="edge"><title>徐获 → 解毒相救 → 沈新（第 117 章）</title><path d="M359.4,222.4 Q298.9,272.6 247.7,315.0" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
 <g class="edge"><title>王超清 — 合伙 — 年鸿安（第 81 章）</title><path d="M527.3,183.7 Q574.2,128.8 613.4,83.1" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge"><title>吴秋意 — 痛打 — 王超清（第 83 章）</title><path d="M563.3,322.6 Q545.3,253.2 530.3,195.3" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
-<g class="edge"><title>徐获 — 被他坑进来 — 王超清（第 81、104 章）</title><path d="M359.4,222.4 Q443.3,203.1 515.6,186.4" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<g class="edge"><title>吴秋意 → 痛打 → 王超清（第 83 章）</title><path d="M563.3,322.6 Q545.3,253.2 530.3,195.3" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge"><title>王超清 → 坑进副本 → 徐获（第 81、104 章）</title><path d="M527.3,183.7 Q443.3,203.1 371.1,219.7" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
 <text x="303.1" y="165.8" class="elabel" style="fill:#4fbf7f">盟友</text>
 <text x="270.3" y="375.4" class="elabel" style="fill:#4fbf7f">兄妹</text>
 <text x="495.6" y="347.0" class="elabel" style="fill:#4fbf7f">同伴</text>
@@ -187,7 +194,7 @@ h4[id] { scroll-margin-top:16px; }
 <text x="298.9" y="276.6" class="elabel" style="fill:#4fbf7f">解毒相救</text>
 <text x="574.2" y="132.8" class="elabel" style="fill:#4fbf7f">合伙</text>
 <text x="545.3" y="257.2" class="elabel" style="fill:#f0904f">痛打</text>
-<text x="443.3" y="207.1" class="elabel" style="fill:#8d95a3">被他坑进来</text>
+<text x="443.4" y="207.0" class="elabel" style="fill:#8d95a3">坑进副本</text>
 <g class="node"><circle cx="359.4" cy="222.4" r="12.0"/><text x="359.4" y="204.4" class="name">徐获</text></g>
 <g class="node"><circle cx="427.9" cy="363.5" r="11.5"/><text x="427.9" y="346.0" class="name">林培</text></g>
 <g class="node"><circle cx="527.3" cy="183.7" r="11.5"/><text x="527.3" y="166.2" class="name">王超清</text></g>
@@ -198,12 +205,12 @@ h4[id] { scroll-margin-top:16px; }
 <g class="node"><circle cx="122.4" cy="60" r="10.0"/><text x="122.4" y="44.0" class="name">柯良</text></g>
 <g class="node"><circle cx="621.2" cy="74.0" r="10.0"/><text x="621.2" y="58.0" class="name">年鸿安</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text">徐获 — 盟友 — 谷雨</span><span class="ch">第 95、97、102 章</span></li><li><span class="text">沈毅 — 兄妹 — 沈新</span><span class="ch">第 81 章</span></li><li><span class="text">林培 — 同伴 — 吴秋意</span><span class="ch">第 81、90 章</span></li><li><span class="text">柯良 — 并肩 — 谷雨</span><span class="ch">第 110、112 章</span></li><li><span class="text">林培 → 一箭射杀 → 沈毅</span><span class="ch">第 109 章</span></li><li><span class="text">徐获 → 隔空斩杀 → 林培</span><span class="ch">第 116 章</span></li><li><span class="text">徐获 → 解毒相救 → 沈新</span><span class="ch">第 117 章</span></li><li><span class="text">王超清 — 合伙 — 年鸿安</span><span class="ch">第 81 章</span></li><li><span class="text">吴秋意 — 痛打 — 王超清</span><span class="ch">第 83 章</span></li><li><span class="text">徐获 — 被他坑进来 — 王超清</span><span class="ch">第 81、104 章</span></li></ul></details>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a> — 盟友 — <a href="../people.html#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span><span class="ch">第 95、97、102 章</span></li><li><span class="text">沈毅 — 兄妹 — <a href="../people.html#person-%E6%B2%88%E6%96%B0">沈新</a></span><span class="ch">第 81 章</span></li><li><span class="text">林培 — 同伴 — 吴秋意</span><span class="ch">第 81、90 章</span></li><li><span class="text">柯良 — 并肩 — <a href="../people.html#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span><span class="ch">第 110、112 章</span></li><li><span class="text">林培 → 一箭射杀 → 沈毅</span><span class="ch">第 109 章</span></li><li><span class="text"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a> → 隔空斩杀 → 林培</span><span class="ch">第 116 章</span></li><li><span class="text"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a> → 解毒相救 → <a href="../people.html#person-%E6%B2%88%E6%96%B0">沈新</a></span><span class="ch">第 117 章</span></li><li><span class="text"><a href="../people.html#person-%E7%8E%8B%E8%B6%85%E6%B8%85">王超清</a> — 合伙 — 年鸿安</span><span class="ch">第 81 章</span></li><li><span class="text">吴秋意 → 痛打 → <a href="../people.html#person-%E7%8E%8B%E8%B6%85%E6%B8%85">王超清</a></span><span class="ch">第 83 章</span></li><li><span class="text"><a href="../people.html#person-%E7%8E%8B%E8%B6%85%E6%B8%85">王超清</a> → 坑进副本 → <a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 81、104 章</span></li></ul></details>
 </section>
 <section id="threads"><h3>伏笔与未解</h3>
 <p class="note">截至第 118 章还没有交代的事。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html#thread-036" title="伏笔总表">#036</a><span class="text">完美进化剂出自神秘的武博士，只偶尔出现在副本里；徐获已经走上完美进化，下一阶段要找 P1S。</span><span class="ch">第 114 章</span><details class="src"><summary>原文</summary><blockquote>S版进化剂会偶然地出现在游戏副本中<cite>第 114 章 · p0022</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-034" title="伏笔总表">#034</a><span class="text">恒星公司和它名下的恒星医药研究集团：尼塞的儿子儿媳死于“车祸”，尼塞恨不得杀了恒星公司的人；徐获怀疑恒星公司就是游戏的开发者。</span><span class="ch">第 87–88 章</span><details class="src"><summary>原文</summary><blockquote>我要杀了恒星公司那帮人<cite>第 88 章 · p0026</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-035" title="伏笔总表">#035</a><span class="text">尼塞的尸体被人带走了；他有没有在自己身上试过完美进化，没人知道。（徐获的推断）</span><span class="ch">第 110 章</span></li><li><a class="thread-no" href="../threads.html#thread-037" title="伏笔总表">#037</a><span class="text">皮箱里还有两支 P0T、两支 P1A 针剂，徐获不打算自己用，准备送人。</span><span class="ch">第 114、118 章</span></li><li><a class="thread-no" href="../threads.html#thread-039" title="伏笔总表">#039</a><span class="text">纵火犯的工具和无畏风雪的火把正在合并升级成一件 D 级道具。</span><span class="ch">第 118 章</span></li><li><a class="thread-no" href="../threads.html#thread-038" title="伏笔总表">#038</a><span class="text">徐获让王超清在家等着，说会有人去找他。</span><span class="ch">第 117 章</span></li><li><a class="thread-no" href="../threads.html#thread-010" title="伏笔总表">#010</a><span class="text">下一次游戏倒计时 25 天，徐获打算在积木童话城和小丑城里选一个。</span><span class="ch">第 118 章</span><details class="src"><summary>原文</summary><blockquote>下次游戏倒计时：25天<cite>第 118 章 · p0038</cite></blockquote></details></li></ul>
+<ul class="items"><li><a class="thread-no" href="../threads.html?upto=118#thread-036" title="伏笔总表">#036</a><span class="text">完美进化剂出自神秘的武博士，只偶尔出现在副本里；徐获已经走上完美进化，下一阶段要找 P1S。</span><span class="ch">第 114 章</span><details class="src"><summary>原文</summary><blockquote>S版进化剂会偶然地出现在游戏副本中<cite>第 114 章 · p0022</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=118#thread-034" title="伏笔总表">#034</a><span class="text">恒星公司和它名下的恒星医药研究集团：尼塞的儿子儿媳死于“车祸”，尼塞恨不得杀了恒星公司的人；徐获怀疑恒星公司就是游戏的开发者。</span><span class="ch">第 87–88 章</span><details class="src"><summary>原文</summary><blockquote>我要杀了恒星公司那帮人<cite>第 88 章 · p0026</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=118#thread-035" title="伏笔总表">#035</a><span class="text">尼塞的尸体被人带走了；他有没有在自己身上试过完美进化，没人知道。（徐获的推断）</span><span class="ch">第 110 章</span></li><li><a class="thread-no" href="../threads.html?upto=118#thread-037" title="伏笔总表">#037</a><span class="text">皮箱里还有两支 P0T、两支 P1A 针剂，徐获不打算自己用，准备送人。</span><span class="ch">第 114、118 章</span></li><li><a class="thread-no" href="../threads.html?upto=118#thread-039" title="伏笔总表">#039</a><span class="text">纵火犯的工具和无畏风雪的火把正在合并升级成一件 D 级道具。</span><span class="ch">第 118 章</span></li><li><a class="thread-no" href="../threads.html?upto=118#thread-038" title="伏笔总表">#038</a><span class="text">徐获让王超清在家等着，说会有人去找他。</span><span class="ch">第 117 章</span></li><li><a class="thread-no" href="../threads.html?upto=118#thread-010" title="伏笔总表">#010</a><span class="text">下一次游戏倒计时 25 天，徐获打算在积木童话城和小丑城里选一个。</span><span class="ch">第 118 章</span><details class="src"><summary>原文</summary><blockquote>下次游戏倒计时：25天<cite>第 118 章 · p0038</cite></blockquote></details></li></ul>
 </section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E7%BB%B4%E5%BA%A6%E8%A3%82%E7%BC%9D">维度裂缝</a><a href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC">随机副本</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%9D%A5%E6%BA%90">副本从哪来</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E5%89%82">进化剂</a><a href="../world.html#world-%E5%AE%8C%E7%BE%8E%E8%BF%9B%E5%8C%96%E5%89%82">完美进化剂与武博士</a><a href="../world.html#world-%E5%BC%82%E7%A7%8D%E5%8C%96">异种与异种化</a><a href="../world.html#world-%E7%89%B9%E6%80%A7">特性</a><a href="../world.html#world-%E9%81%93%E5%85%B7">道具</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E9%81%93%E5%85%B7">超级道具</a><a href="../world.html#world-%E5%AE%98%E6%96%B9">官方的应对：特事局与先锋玩家</a><a href="../world.html#world-%E7%8E%A9%E5%AE%B6%E4%BA%92%E5%8A%A9">玩家的互助组织</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E7%BA%B5%E7%81%AB%E7%8A%AF%E7%9A%84%E5%B7%A5%E5%85%B7">纵火犯的工具</a><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a><a href="../items.html#item-%E6%97%A0%E5%A4%84%E4%B8%8D%E5%9C%A8%E7%9A%84%E7%90%B4%E5%BC%A6">无处不在的琴弦</a><a href="../items.html#item-%E5%8F%8C%E8%89%B2%E9%AD%94%E6%96%B9">双色魔方</a><a href="../items.html#item-%E7%BA%B8%E6%89%8B%E6%9C%BA">纸手机</a><a href="../items.html#item-%E8%A7%A3%E6%AF%92%E5%89%82">解毒剂</a><a href="../items.html#item-%E7%89%9B%E7%9B%BE">牛盾</a><a href="../items.html#item-%E4%B8%83%E8%89%B2%E6%89%8B%E5%A5%97">七色手套</a><a href="../items.html#item-%E4%BA%BA%E7%94%9F%E7%9A%84%E4%B8%89%E7%A7%92">人生的三秒</a><a href="../items.html#item-%E5%8F%8C%E6%88%AA%E6%A3%8D">双截棍</a><a href="../items.html#item-%E6%8A%98%E5%8F%A0%E6%B0%B4%E6%9E%9C%E5%88%80">折叠水果刀</a><a href="../items.html#item-%E8%BF%B7%E4%BD%A0%E9%99%8D%E8%90%BD%E4%BC%9E">迷你降落伞</a><a href="../items.html#item-%E5%BD%A9%E8%99%B9%E6%9E%AA">彩虹枪</a><a href="../items.html#item-%E5%B0%8F%E6%B0%94%E7%9A%84%E7%9A%AE%E7%AE%B1">小气的皮箱</a><a href="../items.html#item-%E5%BC%B9%E7%BB%B3">弹绳</a><a href="../items.html#item-%E4%BA%92%E7%9B%B8%E8%AE%A8%E5%8E%8C%E7%9A%84%E5%BC%93%E4%B8%8E%E7%AE%AD">互相讨厌的弓与箭</a><a href="../items.html#item-%E5%AF%86%E5%B0%81%E7%9B%92%E5%AD%90">密封盒子</a><a href="../items.html#item-%E6%97%A0%E7%95%8F%E9%A3%8E%E9%9B%AA%E7%9A%84%E7%81%AB%E6%8A%8A">无畏风雪的火把</a><a href="../items.html#item-%E9%B1%BC%E7%9A%AE%E9%98%B2%E6%8A%A4%E8%A1%A3">鱼皮防护衣</a></p></section></details>
 
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。</footer>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。这个选择浏览器会记住。</footer>
 </main></body></html>
