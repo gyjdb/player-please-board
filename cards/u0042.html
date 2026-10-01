@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>去海上大世界的列车 · 单元卡 · 维度之下</title><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local')</script><style>
+:root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
+  --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+:root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
+  background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
+:root[data-theme="light"] body { background:var(--paper); }
+a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
+
+/* nav: the rail */
+.rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
+.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; }
+.brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
+.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.2em; margin-left:8px; }
+.rail nav { display:flex; gap:14px; flex-wrap:wrap; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:2px 0; border-bottom:2px solid transparent; }
+.rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
+.rail .toggle-label { margin-left:auto; }
+.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+
+/* sources switch */
+.toggle { position:absolute; opacity:0; pointer-events:none; }
+.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:0 8px; cursor:pointer; user-select:none; }
+#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.ch, sup.cite, details.src, .src-only { display:none; }
+#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main sup.cite { display:inline; }
+#show-src:checked ~ main details.src { display:inline; }
+#show-src:checked ~ main .src-only { display:block; }
+#show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
+sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
+details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
+
+/* headings and text */
+h1, h2, h3, h4 { font-family:var(--serif); }
+h2.sign { display:inline-block; font-size:20px; margin:34px 0 10px; padding:4px 14px; background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-bottom:2px solid var(--signal); border-radius:4px; letter-spacing:.12em; }
+h3 { font-size:19px; margin:26px 0 8px; padding-left:12px; border-left:4px solid var(--signal); }
+h4 { font-size:15px; margin:16px 0 4px; color:var(--brass); letter-spacing:.06em; }
+.note { color:var(--muted); font-size:14px; margin:4px 0; }
+.meta { color:var(--muted); font-size:13px; }
+ul { margin:0; padding-left:20px; } li { margin:6px 0; }
+.chipline { display:flex; flex-wrap:wrap; gap:6px 8px; margin:8px 0; }
+.chipline a, .chip { background:var(--chip); color:var(--ink); border-radius:3px; padding:1px 9px; font-size:13px; white-space:nowrap; }
+
+/* the ticket (page header of a unit card, index entries) */
+.ticket { display:flex; background:linear-gradient(135deg, var(--card-2), var(--card)); border:1px solid var(--line); border-radius:10px; margin:18px 0 8px; position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.ticket-main { flex:1; padding:18px 22px 16px; min-width:0; position:relative; }
+.ticket-stub { width:170px; padding:16px 18px; border-left:2px dashed var(--line); position:relative; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.ticket-stub::before, .ticket-stub::after { content:""; position:absolute; left:-11px; width:20px; height:20px; border-radius:50%; background:var(--paper); border:1px solid var(--line); }
+.ticket-stub::before { top:-11px; } .ticket-stub::after { bottom:-11px; }
+.kicker { font-size:12px; letter-spacing:.3em; color:var(--signal); }
+.ticket h1 { font-size:34px; margin:2px 0 4px; letter-spacing:.06em; }
+.route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
+.stub-row { font:12px var(--mono); color:var(--muted); }
+.stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+.stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
+  display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
+.stamp small { font-size:10px; margin-left:1px; }
+
+/* the dark system panel for text the game shows */
+.sys { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px; padding:10px 14px; margin:8px 0; font:14px/1.75 var(--serif); }
+.sys::before { content:"【系统】"; color:var(--brass); margin-right:4px; font-family:var(--sans); font-size:12px; letter-spacing:.1em; }
+.sys b { color:var(--brass); font:600 12px var(--sans); margin-right:6px; }
+
+/* grade badge */
+.grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
+  color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
+.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+
+footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
+@media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+
+.layer { margin:6px 0 18px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary::-webkit-details-marker { display:none; }
+.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
+.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer:not([open]) > summary::after { content:"展开"; }
+section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
+ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
+ul.people li:last-child { border-bottom:none; }
+.thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
+details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); }
+svg { width:100%; height:auto; display:block; }
+svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
+svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
+svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
+details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+.links { margin:8px 0; } .links b { display:inline-block; width:3em; color:var(--brass); font-weight:600; }
+.links a { margin-right:12px; white-space:nowrap; }
+.hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
+nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
+nav.arcs a:hover { color:var(--signal); }
+h4[id] { scroll-margin-top:16px; }
+</style></head>
+<body><input type="checkbox" id="show-src" class="toggle"><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
+<h1>去海上大世界的列车</h1><div class="route">第 855 章 ──── 第 861 章</div><p class="hint">没读过前文？先看<a href="../world.html">世界观</a>，这里不重复解释游戏设定。</p></div>
+<div class="ticket-stub"><div class="stub-row"><b>单元</b>u0042</div><div class="stub-row"><b>句数</b>26</div>
+<div class="stub-row"><b>引用</b>24 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<p class="meta">撰写：claude-opus-5-5 (claude-code session)，读第 855–861 章正文后撰写。每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p>
+<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。</span></summary><section id="overview"><h3>一句话</h3>
+<ul class="items"><li><span class="text">徐获离开 011 区：他从法庭带回的钻石手套被圣剑会玩家烙了记号，一拿出来就有人追到古堡，他只好直接去了车站，化名余丛登上去海上大世界的 792 次列车。车上第一晚，整节车厢的人莫名睡死，醒来时两名乘客已被斩首；第二晚，有人看到车外有人挥纸钱，前一节车厢的人在幻觉里互相残杀、活活撑死，全员死亡。同车厢那个断了两根手指的人，很可能就是徐获在法庭上递过车票的圣剑会玩家，头上的“好朋友来打分”已经跳到了 9。徐获怀疑，只有给厨师长送了礼的人才收到的布丁有问题。</span><span class="ch">第 855–857、859–861 章</span></li><li><span class="text">主线，第 855–861 章。第 862 章前半列车还在路上，同章进入副本“友谊天长地久”，写在下一张卡里。</span><span class="ch">第 855、861 章</span></li></ul>
+</section>
+<section id="cast"><h3>登场人物</h3>
+<p class="note">按出场先后。车上有几人没报名字，按原文的叫法。</p>
+<ul class="people"><li><b class="subject"><a href="../people.html#person-%E5%BE%90%E8%8E%B7">徐获</a></b><span class="text">在车上化名余丛。</span><span class="ch">第 857 章</span><details class="src"><summary>原文</summary><blockquote>“余丛。”徐获看向对面的背包玩家<cite>第 857 章 · p0007</cite></blockquote></details></li><li><b class="subject"><a href="../people.html#person-%E8%82%96%E5%90%91%E6%9E%97">肖向林</a></b><span class="text">在车站兜售药剂的玩家，嘴碎，也去海上大世界；送了徐获一瓶助眠药剂。</span><span class="ch">第 855、857、859 章</span><details class="src"><summary>原文</summary><blockquote>我叫肖向林，兄弟，交个朋友呗<cite>第 857 章 · p0006</cite></blockquote></details></li><li><b class="subject">许劲峰</b><span class="text">背着包的玩家，话少。</span><span class="ch">第 857–858 章</span><details class="src"><summary>原文</summary><blockquote>对方开口道：“许劲峰。”<cite>第 857 章 · p0007</cite></blockquote></details></li><li><b class="subject"><a href="../people.html#person-%E6%B8%B8%E5%9B%9B">游四</a></b><span class="text">烟不离手、正在戒酒的玩家，出手利落。</span><span class="ch">第 858、860 章</span><details class="src"><summary>原文</summary><blockquote>又自报了家门，“游四。”<cite>第 860 章 · p0008</cite></blockquote></details></li><li><b class="subject">断指玩家</b><span class="text">右手缺了食指中指、手上有电击刑讯痕迹的玩家；徐获认定他就是在法庭上拿走车票的圣剑会 C 级玩家。</span><span class="ch">第 855、858–859 章</span></li><li><b class="subject">女玩家</b><span class="text">容貌出色、处处挑事的女玩家；跟她出去的黑痣玩家再没回来。</span><span class="ch">第 855、857 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
+<nav class="arcs"><a href="#story-1">一、离开 011 区（第 855 章）</a><a href="#story-2">二、生日套餐（第 856–857 章）</a><a href="#story-3">三、断指玩家（第 858–859 章）</a><a href="#story-4">四、纸钱与撑死的人（第 860–861 章）</a></nav>
+<h4 id="story-1">一、离开 011 区（第 855 章）</h4>
+<p class="prose">徐获推断，那名被捕的圣剑会玩家拿车票不走，说明圣剑会在 011 区的目的还没达到，被捕和受审都掺了水分；这些圣剑会玩家比一般吃人玩家更有秩序，像一个有别样信仰的联盟。<sup class="cite" title="第855章：反而像是一个有别样信仰的联合">855</sup>他回到古堡，拿出被烧出剑形烙印的钻石手套，一只燃烧的手随即凭空伸出；他在白蔻出现的瞬间脱身到了车站。他又一次感到身体有种像后遗症的阻滞感。<sup class="cite" title="第855章：他拿出那只被烧出一个剑形图案的钻石手套；第855章：视野一转徐获出现在了车站">855</sup></p><details class="src block"><summary>本段原文 3 处</summary><blockquote>反而像是一个有别样信仰的联合<cite>第 855 章 · p0012</cite></blockquote><blockquote>他拿出那只被烧出一个剑形图案的钻石手套<cite>第 855 章 · p0018</cite></blockquote><blockquote>视野一转徐获出现在了车站<cite>第 855 章 · p0020</cite></blockquote></details>
+<h4 id="story-2">二、生日套餐（第 856–857 章）</h4>
+<p class="prose">792 次列车的规则：非游戏物品请勿带上车、必须消费、请勿开灯；今天厨师长过生日，鼓励每人至少消费五千白钞。徐获带头点了五千的套餐，还给厨师长包了礼，送了礼的人都多得了一份布丁。<sup class="cite" title="第856章：今天是本次列车厨师长的生日；第857章：包了礼的玩家又多送了一份布丁">856–857</sup>漂亮的女玩家跳舞喝酒后去了洗手间，跟出去的黑痣玩家再没回来，她说他“去了别的车厢”。熄灯后徐获在昏沉中看见一个举着斧头的影子，一剑挥去却是幻像；醒来时车厢里一半人睡死，黄发女玩家和老者已被斩首。<sup class="cite" title="第857章：睁开眼便看到一个宽大的影子站在自己面前，手里举着一把斧头；第857章：那名老者和黄发女玩家已经身首异处">857</sup></p><details class="src block"><summary>本段原文 4 处</summary><blockquote>今天是本次列车厨师长的生日<cite>第 856 章 · p0023</cite></blockquote><blockquote>包了礼的玩家又多送了一份布丁<cite>第 857 章 · p0012</cite></blockquote><blockquote>睁开眼便看到一个宽大的影子站在自己面前，手里举着一把斧头<cite>第 857 章 · p0035</cite></blockquote><blockquote>那名老者和黄发女玩家已经身首异处<cite>第 857 章 · p0037</cite></blockquote></details>
+<h4 id="story-3">三、断指玩家（第 858–859 章）</h4>
+<p class="prose">游四去看过，前后车厢也都死了人。众人互相猜忌，最后各顾各的；徐获和肖向林、许劲峰打牌熬夜。<sup class="cite" title="第858章：也死了几个，死状差不多">858</sup>天亮后断指玩家试探徐获：“我觉得你有点眼熟。”徐获用“好朋友来打分”看到他的数字跳到了 9。徐获认定他就是那名圣剑会玩家：在法庭上给他的道具烙了记号，追到古堡又被白蔻逼进了游戏，丢了两根手指。<sup class="cite" title="第859章：我觉得你有点眼熟，以前是不是见过？；第859章：徐获看着他头上的“好朋友来打分”数字跳到“9”又降回来">859</sup>白天补觉时徐获又感到身边有杀意，他疑心是完美药剂的后遗症，又怀疑是那道烙印留下的伏笔。（徐获的推断）<sup class="cite" title="第859章：难道是服用药剂的后遗症">859–860</sup></p><details class="src block"><summary>本段原文 4 处</summary><blockquote>也死了几个，死状差不多<cite>第 858 章 · p0011</cite></blockquote><blockquote>我觉得你有点眼熟，以前是不是见过？<cite>第 859 章 · p0026</cite></blockquote><blockquote>徐获看着他头上的“好朋友来打分”数字跳到“9”又降回来<cite>第 859 章 · p0033</cite></blockquote><blockquote>难道是服用药剂的后遗症<cite>第 859 章 · p0057</cite></blockquote></details>
+<h4 id="story-4">四、纸钱与撑死的人（第 860–861 章）</h4>
+<p class="prose">第二晚，女玩家放鬼故事，讲的是末班车上挥纸钱的鬼；许劲峰随即说看见车外有两个人拿着纸钱招手。前一节车厢有人拍门求救，下一秒被拖走，背上的皮整个没了。<sup class="cite" title="第860章：我刚才真的看到了，两个人，拿着纸钱">860</sup>天亮一看，前一节车厢全员死亡：有人失血而死，有人活活撑死，鉴定叉验不出毒和麻醉剂，像是陷在幻觉里互相残杀。<sup class="cite" title="第861章：这个玩家竟然是撑死的；第861章：徐获用鉴定叉在这名玩家身上试了试">861</sup>徐获想到，车上吃的东西大家都一样，只有给厨师长送了礼的人才收到布丁。他再找乘务员要“相似的推荐”，乘务员没收钱，说去问厨师长，此后再没下文。<sup class="cite" title="第861章：其实车上的玩家餐食最大的区别不是套餐，而是附赠来的那枚布丁">861</sup></p><details class="src block"><summary>本段原文 4 处</summary><blockquote>我刚才真的看到了，两个人，拿着纸钱<cite>第 860 章 · p0031</cite></blockquote><blockquote>这个玩家竟然是撑死的<cite>第 861 章 · p0006</cite></blockquote><blockquote>徐获用鉴定叉在这名玩家身上试了试<cite>第 861 章 · p0005</cite></blockquote><blockquote>其实车上的玩家餐食最大的区别不是套餐，而是附赠来的那枚布丁<cite>第 861 章 · p0035</cite></blockquote></details>
+</section>
+<section id="callbacks"><h3>承接前文</h3>
+<p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
+<ul class="items"><li><a class="thread-no" href="../threads.html#thread-183" title="伏笔总表">#183</a><span class="text">写名字就能杀人的纸：徐获带着“一次性道具”的判断离开 011 区；那名拿了他车票的圣剑会玩家，此时就坐在同一节车厢。（徐获的推断）</span><span class="ch">第 855、859 章</span><details class="src"><summary>原文</summary><blockquote>大概率就是那名被捕的圣剑会C级玩家<cite>第 859 章 · p0036</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-031" title="伏笔总表">#031</a><span class="text">圣剑会的来头：徐获觉得，圣剑会里的吃人玩家比别处更有秩序，行动都是有明确目的的团体行动，像一个有别样信仰的联合。（徐获的推断）</span><span class="ch">第 855 章</span><details class="src"><summary>原文</summary><blockquote>反而像是一个有别样信仰的联合<cite>第 855 章 · p0012</cite></blockquote></details></li></ul>
+</section>
+<section id="relations"><h3>关键关系</h3>
+<p class="note">一对人物只画一条线：绿色是同伴，橙色是冲突，红色箭头是杀死，灰色是其他往来；虚线表示某人的说法或推断。</p>
+<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+</defs>
+<g class="edge"><title>断指玩家 — 起了杀心 — 徐获（推断）（第 859 章）</title><path d="M463.6,402.2 Q421.4,320.3 384.7,249.1" fill="none" stroke="#f0904f" stroke-width="2.2" stroke-dasharray="6 4"/></g>
+<g class="edge"><title>徐获 — 同车厢 — 肖向林（第 858、860 章）</title><path d="M379.2,238.4 Q287.6,234.8 208.1,231.6" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge"><title>徐获 — 同车厢 — 许劲峰（第 858、860 章）</title><path d="M379.2,238.4 Q429.4,161.8 472.9,95.1" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<text x="421.4" y="324.3" class="elabel" style="fill:#f0904f">起了杀心</text>
+<text x="287.6" y="238.8" class="elabel" style="fill:#4fbf7f">同车厢</text>
+<text x="429.4" y="165.8" class="elabel" style="fill:#4fbf7f">同车厢</text>
+<g class="node"><circle cx="379.2" cy="238.4" r="11.5"/><text x="379.2" y="220.9" class="name">徐获</text></g>
+<g class="node"><circle cx="463.6" cy="402.2" r="10.0"/><text x="463.6" y="386.2" class="name">断指玩家</text></g>
+<g class="node"><circle cx="196.1" cy="231.1" r="10.0"/><text x="196.1" y="215.1" class="name">肖向林</text></g>
+<g class="node"><circle cx="479.5" cy="85.1" r="10.0"/><text x="479.5" y="69.1" class="name">许劲峰</text></g>
+</svg></div>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text">断指玩家 — 起了杀心 — 徐获（推断）</span><span class="ch">第 859 章</span></li><li><span class="text">徐获 — 同车厢 — 肖向林</span><span class="ch">第 858、860 章</span></li><li><span class="text">徐获 — 同车厢 — 许劲峰</span><span class="ch">第 858、860 章</span></li></ul></details>
+</section>
+<section id="threads"><h3>伏笔与未解</h3>
+<p class="note">截至第 861 章还没有交代的事。</p>
+<ul class="items"><li><a class="thread-no" href="../threads.html#thread-193" title="伏笔总表">#193</a><span class="text">792 次列车上的昏睡、斩首和幻觉：是车上有高级玩家在杀人，还是列车驶经了会引发幻觉的地方；只发给送礼者的布丁有没有问题。（徐获的推断）</span><span class="ch">第 857、861 章</span><details class="src"><summary>原文</summary><blockquote>其实车上的玩家餐食最大的区别不是套餐，而是附赠来的那枚布丁<cite>第 861 章 · p0035</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-194" title="伏笔总表">#194</a><span class="text">断指玩家：他认出了徐获，“好朋友来打分”跳到过 9，同样要去海上大世界。</span><span class="ch">第 859 章</span><details class="src"><summary>原文</summary><blockquote>徐获看着他头上的“好朋友来打分”数字跳到“9”又降回来<cite>第 859 章 · p0033</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html#thread-195" title="伏笔总表">#195</a><span class="text">徐获身上的阻滞感和影子：注射 P2S 后身体有阻滞感，车上又频频看见持斧的影子，是药剂的后遗症，还是圣剑会玩家的烙印在作怪。（徐获的推断）</span><span class="ch">第 855、859–860 章</span><details class="src"><summary>原文</summary><blockquote>不可能真的是武博士在药剂里做过别的手脚吧<cite>第 860 章 · p0001</cite></blockquote></details></li></ul>
+</section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E5%88%97%E8%BD%A6%E8%A7%84%E5%88%99">列车与乘务员</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E9%89%B4%E5%AE%9A%E5%8F%89">鉴定叉</a><a href="../items.html#item-%E7%A7%BB%E5%8A%A8%E7%9A%84%E9%87%91%E5%B1%9E">移动的金属</a><a href="../items.html#item-%E9%92%BB%E7%9F%B3%E6%89%8B%E5%A5%97">钻石手套</a><a href="../items.html#item-%E7%94%9F%E5%91%BD%E6%A0%B8%E5%BF%83">生命核心</a><a href="../items.html#item-%E5%90%8C%E6%80%A7%E7%9B%B8%E6%96%A5">同性相斥</a></p></section></details>
+
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。</footer>
+</main></body></html>
