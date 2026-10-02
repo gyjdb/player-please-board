@@ -24,8 +24,26 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
 .rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
 .rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
-.rail .toggle-label { margin-left:auto; }
-.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+/* reading progress: one value for the whole site, set in the rail (localStorage wdzx.upto) */
+.rail .progress { margin-left:auto; display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--rail-muted); white-space:nowrap; }
+.rail .progress input { width:5.4em; background:transparent; color:var(--rail-ink); border:1px solid var(--rail-muted); border-radius:3px; padding:5px 6px; font:13px var(--mono); }
+.rail .progress input:invalid { border-color:var(--signal); }
+.has-progress .rail .progress input { border-color:var(--brass); color:var(--brass); }
+.rail .progress button { background:none; border:none; color:var(--rail-muted); font-size:17px; line-height:1; cursor:pointer; padding:4px 6px; }
+.banner { background:var(--card-2); border-bottom:1px solid var(--brass); }
+.banner-inner { max-width:920px; margin:0 auto; padding:10px 16px; font-size:14px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; }
+.banner-inner b { color:var(--brass); }
+.banner button { font:13px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:7px 12px; cursor:pointer; }
+.banner button.primary { background:var(--brass); color:var(--rail); border-color:var(--brass); }
+.progress-status { font-size:13px; color:var(--brass); margin:0 0 6px; }
+.progress-note { font-size:14px; color:var(--muted); margin:0 0 8px; }
+details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+@media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
+  .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
+.beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
+details.fold[open] > summary { display:none; }
+[hidden] { display:none !important; }
+html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* sources switch */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
@@ -82,6 +100,22 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
 .tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+/* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
+.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
+.seal.wide { font-size:14px; }
+.seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
+.seal.mid { color:var(--ink); } .seal.low { color:var(--muted); }
+.seal.none { width:34px; height:26px; border:1px dashed var(--line); border-radius:4px; transform:none; color:var(--muted); font:13px var(--sans); }
+:root[data-theme="light"] .seal.top { color:#a07a10; }
+/* the player panel, in the book's 【key：value】 lines */
+.syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
+  padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
+.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+.tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 
 .hidden { display:none !important; }
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
@@ -102,6 +136,20 @@ ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px 
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
 .subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+ul.people li > :not(.subject) { grid-column:2; }
+@media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
+.harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
+.harvest .h-rating { display:flex; align-items:center; gap:12px; font-size:15.5px; } .harvest .h-line { margin:6px 0; font-size:15.5px; }
+.stamp-seal { position:absolute; top:12px; right:16px; transform:scale(1.5); transform-origin:top right; }
+small.diff { font-size:11px; color:var(--muted); margin-left:4px; letter-spacing:0; }
+nav.units-nav { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+nav.units-nav a { display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 14px; color:var(--ink); }
+nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
+nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
+nav.units-nav small.after { color:var(--signal); }
+.graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
+@media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
 details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
 .graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
@@ -123,15 +171,18 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body><input type="checkbox" id="show-src" class="toggle"><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{b.checked=localStorage.getItem('show-src')==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
-<div class="ticket"><div class="ticket-main"><div class="stamp">D<small>级</small></div><div class="kicker">副本 · D 级</div>
-<h1>好味道鲜肉供应厂</h1><div class="route">第 41 章 ──── 第 57 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观写到第 990 章，含本卡之后的剧情。</p></div>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="all">没看过，随便看看</button><button type="button" data-choice="all">已追平</button></div></div><main>
+<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
+<div class="ticket"><div class="ticket-main"><div class="stamp-seal"><span class="seal none" title="随机玩家">—</span></div><div class="kicker">副本 · <span class="grade" style="background:#1f7f86">D</span><small class="diff">副本难度</small></div>
+<h1>好味道鲜肉供应厂</h1><div class="route">第 41 章 ──── 第 57 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="41" hidden>这张卡从第 41 章开始，在你填的进度之后，整张都是剧透。</p></div>
 <div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0006</div><div class="stub-row"><b>句数</b>96</div>
 <div class="stub-row"><b>引用</b>85 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
 <p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 41–57 章正文后撰写。</p>
+<nav class="units-nav top"><a class="prev" href="u0005.html"><small>← 上一单元</small><b>汀城（砍头魔之后）</b><small>第 37–40 章</small></a><a class="next" href="u0007.html"><small>下一单元 →</small><b>汀城（鲜肉供应厂之后）</b><small>第 58–80 章</small><small class="after" data-beyond="58" hidden>在你的进度之后</small></a></nav>
 <details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。写到第 57 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
 <ul class="items"><li><span class="text">汀城一栋写字楼里的几十个人凭空消失，醒来时浑身裹着猪皮，被扔进一家屠宰场：猪舍里的“猪”全是人，剥皮匠要把他们宰了卖肉。</span><span class="ch">第 41–43 章</span></li><li><span class="text">D 级随机副本，地点是好味道鲜肉供应厂。第 41 章侵入现实，第 43 章徐获收到进入公告，第 54 章持票玩家通关，第 57 章副本崩溃、所有人被强制送回。</span><span class="ch">第 41、43、54、57 章</span><details class="src"><summary>原文</summary><blockquote>默认参与该D级随机副本<cite>第 43 章</cite></blockquote><blockquote>该副本中的玩家与非玩家将强制脱离副本<cite>第 57 章</cite></blockquote></details></li></ul>
 </section>
+<section id="harvest" class="harvest"><h3>徐获的收获</h3><div class="h-rating"><span class="seal none" title="不评级">—</span><span>评级：不参与评级（随机玩家）<span class="ch">第 54 章</span><details class="src"><summary>原文</summary><blockquote>由于玩家路人甲为本次副本随机玩家，不参与评级<cite>第 54 章</cite></blockquote></details></span></div><div class="h-line">游戏默认他完成三项任务，奖励两项延伸特性、一枚光明绅士勋章和特殊道具扭曲面具。<span class="ch">第 59–60 章</span></div><p class="links"><b>新特性</b><a href="../hero.html#trait-%E9%87%8E%E7%89%9B">狂奔的野牛</a><a href="../hero.html#trait-%E6%89%93%E5%88%86">好朋友来打分</a></p><p class="links"><b>拿到</b><a href="../items.html#item-%E7%BA%B8%E6%89%8B%E6%9C%BA">纸手机</a><a href="../items.html#item-%E6%89%AD%E6%9B%B2%E9%9D%A2%E5%85%B7">扭曲面具</a><a href="../items.html#item-%E7%BE%8E%E6%A2%A6%E6%88%90%E7%9C%9F%E5%89%82">美梦成真剂</a></p><p class="note">奖励写到第 60 章清点（下一段的开头）。</p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
 <section id="setup"><h3>背景与规则</h3>
 <ul class="items"><li><span class="text">系统给的背景：地下供肉厂为了货源充足，会随机出现在各个世界；工厂老板红鼻子卡尔从前是首屈一指的剥皮匠，生意越做越大，忙不过来，贴出了招聘广告。</span><span class="ch">第 43 章</span><details class="src"><summary>原文</summary><blockquote>这些供肉厂往往会随机出现在各个世界<cite>第 43 章</cite></blockquote><blockquote>据说他曾是首屈一指的剥皮匠<cite>第 43 章</cite></blockquote></details></li><li><span class="text">三项任务任选其一即可脱离：盗取剥皮匠卡尔一件珍宝；挽救三名以上孩童；完成工厂老板卡尔交付的任务。副本时间不限。</span><span class="ch">第 43 章</span><details class="src"><summary>原文</summary><blockquote>盗取剥皮匠卡尔一件珍宝<cite>第 43 章</cite></blockquote><blockquote>挽救三名以上孩童<cite>第 43 章</cite></blockquote><blockquote>玩家任意完成一项任务即可脱离副本<cite>第 43 章</cite></blockquote></details></li><li><span class="text">被卷进来的人都被缝进猪皮，眼和嘴要剥皮匠割开才能用，发出的也只有猪叫；缝线一旦和皮肉长死，猪皮就再也脱不下来，大猪告诉徐获大约要五个小时。</span><span class="ch">第 42–43 章</span><details class="src"><summary>原文</summary><blockquote>裹上一层猪皮就真的变成了猪<cite>第 42 章</cite></blockquote><blockquote>大猪选了五个小时<cite>第 43 章</cite></blockquote></details></li><li><span class="text">六名应聘者是拿车票来的持票玩家，事先商量好了对策；徐获是被卷进来的随机玩家，任务和他们一样，他们通关，他也能跟着脱离。</span><span class="ch">第 44、50 章</span><details class="src"><summary>原文</summary><blockquote>这几个应聘者和他不同，都是持票玩家<cite>第 44 章</cite></blockquote></details></li><li><span class="text">彭丰年花五万白钞买到一条消息：剥皮匠的剥皮刀白天不能用。</span><span class="ch">第 46 章</span><details class="src"><summary>原文</summary><blockquote>那就是剥皮匠的剥皮刀无法在白天使用<cite>第 46 章</cite></blockquote></details></li><li><span class="text">夜里黑暗会包围工厂，躲在外面的玩家也会被赶进来。</span><span class="ch">第 50–51 章</span><details class="src"><summary>原文</summary><blockquote>夜晚也一定会被驱赶到工厂里来<cite>第 51 章</cite></blockquote></details></li></ul>
 </section>
@@ -155,13 +206,13 @@ h4[id] { scroll-margin-top:16px; }
 <section id="puzzle"><h3>解谜结构</h3>
 <p class="note">三项任务各有各的难处：打工几乎不可能，救孩子要剥皮匠自己放人，最现实的是偷珍品，可珍品在哪、什么时候去偷才是关键。</p>
 <h4 id="puzzle-1">规则</h4>
-<ul class="items"><li><span class="text">三项任务任选其一就能脱离；持票玩家通关，随机玩家也能跟着脱离。（汤佩的说法）</span><span class="ch">第 43、50 章</span><details class="src"><summary>原文</summary><blockquote>只要持票玩家通关，同期的随机玩家也可以脱离副本<cite>第 50 章</cite></blockquote></details></li><li><span class="text">剥皮刀白天不能用，白天行动更安全。（彭丰年的说法）</span><span class="ch">第 46 章</span></li><li><span class="text">夜里躲在工厂外的人会被黑暗赶回来，钻规则空子的人会被剥皮匠第一个盯上。（彭丰年的推断）</span><span class="ch">第 51 章</span><details class="src"><summary>原文</summary><blockquote>违反游戏规则钻空子的下场就是副本反噬<cite>第 51 章</cite></blockquote></details></li></ul>
+<ul class="items"><li><span class="text"><span class="tier claim" title="汤佩的说法">汤佩说</span>三项任务任选其一就能脱离；持票玩家通关，随机玩家也能跟着脱离。</span><span class="ch">第 43、50 章</span><details class="src"><summary>原文</summary><blockquote>只要持票玩家通关，同期的随机玩家也可以脱离副本<cite>第 50 章</cite></blockquote></details></li><li><span class="text"><span class="tier claim" title="彭丰年的说法">彭丰年说</span>剥皮刀白天不能用，白天行动更安全。</span><span class="ch">第 46 章</span></li><li><span class="text"><span class="tier guess" title="彭丰年的推断">彭丰年推测</span>夜里躲在工厂外的人会被黑暗赶回来，钻规则空子的人会被剥皮匠第一个盯上。</span><span class="ch">第 51 章</span><details class="src"><summary>原文</summary><blockquote>违反游戏规则钻空子的下场就是副本反噬<cite>第 51 章</cite></blockquote></details></li></ul>
 <h4 id="puzzle-2">线索</h4>
-<ul class="items"><li><span class="text">办公室整洁规整，书架上是哲学和解剖学；卧室却脏乱不堪。这对上了系统说的“细腻内心”和粗俗外表。</span><span class="ch">第 45、53 章</span><details class="src"><summary>原文</summary><blockquote>这个办公室整洁又一丝不苟，充满了违和感<cite>第 45 章</cite></blockquote></details></li><li><span class="text">剥皮匠随口说皮毛间里“不是毛皮就是人皮”，可挂着的看上去全是兽皮。</span><span class="ch">第 49 章</span><details class="src"><summary>原文</summary><blockquote>不是毛皮就是人皮<cite>第 49 章</cite></blockquote></details></li><li><span class="text">系统介绍里既有剥皮匠，也有工厂老板：徐获据此判断第一项任务对应剥皮匠卡尔，第三项对应工厂老板卡尔。（徐获的推断）</span><span class="ch">第 50 章</span><details class="src"><summary>原文</summary><blockquote>工厂老板卡尔和剥皮匠卡尔是两个身份<cite>第 50 章</cite></blockquote></details></li><li><span class="text">账本上最早的一笔订单在三天后：六只活剥的小猪，孩子们等不了太久。</span><span class="ch">第 45、50 章</span><details class="src"><summary>原文</summary><blockquote>紫荆花餐厅要六只六个月大的小猪<cite>第 45 章</cite></blockquote></details></li></ul>
+<ul class="items"><li><span class="text">办公室整洁规整，书架上是哲学和解剖学；卧室却脏乱不堪。这对上了系统说的“细腻内心”和粗俗外表。</span><span class="ch">第 45、53 章</span><details class="src"><summary>原文</summary><blockquote>这个办公室整洁又一丝不苟，充满了违和感<cite>第 45 章</cite></blockquote></details></li><li><span class="text">剥皮匠随口说皮毛间里“不是毛皮就是人皮”，可挂着的看上去全是兽皮。</span><span class="ch">第 49 章</span><details class="src"><summary>原文</summary><blockquote>不是毛皮就是人皮<cite>第 49 章</cite></blockquote></details></li><li><span class="text"><span class="tier guess" title="徐获的推断">推测</span>系统介绍里既有剥皮匠，也有工厂老板：徐获据此判断第一项任务对应剥皮匠卡尔，第三项对应工厂老板卡尔。</span><span class="ch">第 50 章</span><details class="src"><summary>原文</summary><blockquote>工厂老板卡尔和剥皮匠卡尔是两个身份<cite>第 50 章</cite></blockquote></details></li><li><span class="text">账本上最早的一笔订单在三天后：六只活剥的小猪，孩子们等不了太久。</span><span class="ch">第 45、50 章</span><details class="src"><summary>原文</summary><blockquote>紫荆花餐厅要六只六个月大的小猪<cite>第 45 章</cite></blockquote></details></li></ul>
 <h4 id="puzzle-3">误导</h4>
 <ul class="items"><li><span class="text">密室里堆满道具、白钞和收藏，看上去珍品就该在里面，持票玩家原本的计划全押在打开密室上。</span><span class="ch">第 45、49 章</span></li><li><span class="text">徐获报了三张皮毛的位置，其实只有一张有夹层；邹伟昌偷拿的两张都不对，大家便以为人皮不是关键、徐获给了假消息。</span><span class="ch">第 52–54 章</span><details class="src"><summary>原文</summary><blockquote>只有一张有夹层，隐瞒两张不过是留个后手<cite>第 54 章</cite></blockquote></details></li></ul>
 <h4 id="puzzle-4">真相</h4>
-<ul class="items"><li><span class="text">红鼻子卡尔和剥皮匠是同一个身体里的两个人格：互相知道对方存在，却不共享所见；卡尔应付不了局面时，剥皮匠就会出来。（徐获的推断）</span><span class="ch">第 53、56 章</span><details class="src"><summary>原文</summary><blockquote>剥皮匠和红鼻子卡尔共用一个身体<cite>第 56 章</cite></blockquote></details></li><li><span class="text">剥皮匠的珍品就是夹层里的人皮，第三张皮一撕开，持票玩家就通关了。</span><span class="ch">第 54 章</span><details class="src"><summary>原文</summary><blockquote>夹层里露出一层薄薄的人皮<cite>第 54 章</cite></blockquote></details></li><li><span class="text">剥皮匠的特性：被他的皮裹住的人用不了特性和道具，还会对他产生无法反抗的恐惧。（秦安的说法）</span><span class="ch">第 51、57 章</span><details class="src"><summary>原文</summary><blockquote>一旦被皮裹住特性和道具都没法用<cite>第 57 章</cite></blockquote></details></li><li><span class="text">那张普通火点不着的狼皮里还藏着更要紧的东西，是副本的核心，毁掉它副本就崩溃。（徐获的推断）</span><span class="ch">第 57 章</span><details class="src"><summary>原文</summary><blockquote>没想到那张狼皮用普通火焰竟然点不着<cite>第 57 章</cite></blockquote><blockquote>损坏或者缺失，副本都将崩溃<cite>第 57 章</cite></blockquote></details></li></ul>
+<ul class="items"><li><span class="text"><span class="tier guess" title="徐获的推断">徐获推测</span>红鼻子卡尔和剥皮匠是同一个身体里的两个人格：互相知道对方存在，却不共享所见；卡尔应付不了局面时，剥皮匠就会出来。</span><span class="ch">第 53、56 章</span><details class="src"><summary>原文</summary><blockquote>剥皮匠和红鼻子卡尔共用一个身体<cite>第 56 章</cite></blockquote></details></li><li><span class="text">剥皮匠的珍品就是夹层里的人皮，第三张皮一撕开，持票玩家就通关了。</span><span class="ch">第 54 章</span><details class="src"><summary>原文</summary><blockquote>夹层里露出一层薄薄的人皮<cite>第 54 章</cite></blockquote></details></li><li><span class="text"><span class="tier claim" title="秦安的说法">秦安说</span>剥皮匠的特性：被他的皮裹住的人用不了特性和道具，还会对他产生无法反抗的恐惧。</span><span class="ch">第 51、57 章</span><details class="src"><summary>原文</summary><blockquote>一旦被皮裹住特性和道具都没法用<cite>第 57 章</cite></blockquote></details></li><li><span class="text"><span class="tier guess" title="徐获的推断">徐获推测</span>那张普通火点不着的狼皮里还藏着更要紧的东西，是副本的核心，毁掉它副本就崩溃。</span><span class="ch">第 57 章</span><details class="src"><summary>原文</summary><blockquote>没想到那张狼皮用普通火焰竟然点不着<cite>第 57 章</cite></blockquote><blockquote>损坏或者缺失，副本都将崩溃<cite>第 57 章</cite></blockquote></details></li></ul>
 <h4 id="puzzle-5">解法</h4>
 <ul class="items"><li><span class="text">徐获借收音机里的人事变动，冒充靠裙带关系调任来的官员，卡尔不敢动他，还领他进了密室。</span><span class="ch">第 48、50 章</span><details class="src"><summary>原文</summary><blockquote>我冒充靠裙带关系即将调任到此地的行政人员<cite>第 50 章</cite></blockquote></details></li><li><span class="text">白天趁卡尔去钓鱼，持票玩家取出夹层里的人皮通关。</span><span class="ch">第 54 章</span></li><li><span class="text">救孩子只能让剥皮匠自己放人，所以徐获让司马小二偷走卡尔最宝贝的画当人质。</span><span class="ch">第 44、54–55 章</span><details class="src"><summary>原文</summary><blockquote>除非剥皮匠主动放人<cite>第 44 章</cite></blockquote><blockquote>看到一个没见过的红发青年爬上壁炉摘上面的画<cite>第 54 章</cite></blockquote></details></li><li><span class="text">放人被剥皮匠人格打断后，徐获烧掉狼皮里的核心，副本崩溃，所有人被强制送了出去。</span><span class="ch">第 57 章</span></li></ul>
 </section>
@@ -170,7 +221,7 @@ h4[id] { scroll-margin-top:16px; }
 </section>
 <section id="relations"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
-<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
 <marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
@@ -215,8 +266,80 @@ h4[id] { scroll-margin-top:16px; }
 </section>
 <section id="threads"><h3>伏笔与未解</h3>
 <p class="note">截至第 57 章还没有交代的事。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html?upto=57#thread-023" title="伏笔总表">#023</a><span class="text">游戏世界按虫洞点划分，E27 虫洞点的最高行政长官刚换成菲尔德家族的人；徐获靠这层关系行骗，临走还拿菲尔德家族吓唬剥皮匠。</span><span class="ch">第 45、48、57 章</span><details class="src"><summary>原文</summary><blockquote>只要菲尔德家族在E27一天<cite>第 57 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=57#thread-024" title="伏笔总表">#024</a><span class="text">狼皮里那张人皮究竟是什么，剥皮匠为什么看得比珍品还重？崩溃的副本还能不能再开启？（徐获的推断）</span><span class="ch">第 57 章</span></li><li><a class="thread-no" href="../threads.html?upto=57#thread-025" title="伏笔总表">#025</a><span class="text">游戏额外奖励的那件特殊道具是什么，徐获还没打开看。</span><span class="ch">第 57 章</span></li><li><a class="thread-no" href="../threads.html?upto=57#thread-022" title="伏笔总表">#022</a><span class="text">研究所认为维度裂缝在进化者出现之前很久就存在了；聂玄还在争取徐获加入官方。</span><span class="ch">第 42 章</span></li><li><a class="thread-no" href="../threads.html?upto=57#thread-026" title="伏笔总表">#026</a><span class="text">徐获留在酒店的东西又被研究所收走了，他和官方的关系还没理清。</span><span class="ch">第 57 章</span><details class="src"><summary>原文</summary><blockquote>不用说之前留在酒店的东西又被研究所接手了<cite>第 57 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=57#thread-024" title="伏笔总表">#024</a><span class="text">徐获拿到纸手机后打给彭丰年，想问副本崩溃的内情。</span><span class="ch">第 57 章</span><details class="src"><summary>原文</summary><blockquote>也许彭丰年了解一些内情<cite>第 57 章</cite></blockquote></details></li></ul>
+<ul class="items"><li><a class="thread-no" href="../threads.html?upto=57#thread-023" title="伏笔总表">#023</a><span class="text">游戏世界按虫洞点划分，E27 虫洞点的最高行政长官刚换成菲尔德家族的人；徐获靠这层关系行骗，临走还拿菲尔德家族吓唬剥皮匠。</span><span class="ch">第 45、48、57 章</span><details class="src"><summary>原文</summary><blockquote>只要菲尔德家族在E27一天<cite>第 57 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=57#thread-024" title="伏笔总表">#024</a><span class="text"><span class="tier guess" title="徐获的推断">徐获推测</span>狼皮里那张人皮究竟是什么，剥皮匠为什么看得比珍品还重？崩溃的副本还能不能再开启？</span><span class="ch">第 57 章</span></li><li><a class="thread-no" href="../threads.html?upto=57#thread-025" title="伏笔总表">#025</a><span class="text">游戏额外奖励的那件特殊道具是什么，徐获还没打开看。</span><span class="ch">第 57 章</span></li><li><a class="thread-no" href="../threads.html?upto=57#thread-022" title="伏笔总表">#022</a><span class="text">研究所认为维度裂缝在进化者出现之前很久就存在了；聂玄还在争取徐获加入官方。</span><span class="ch">第 42 章</span></li><li><a class="thread-no" href="../threads.html?upto=57#thread-026" title="伏笔总表">#026</a><span class="text">徐获留在酒店的东西又被研究所收走了，他和官方的关系还没理清。</span><span class="ch">第 57 章</span><details class="src"><summary>原文</summary><blockquote>不用说之前留在酒店的东西又被研究所接手了<cite>第 57 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=57#thread-024" title="伏笔总表">#024</a><span class="text">徐获拿到纸手机后打给彭丰年，想问副本崩溃的内情。</span><span class="ch">第 57 章</span><details class="src"><summary>原文</summary><blockquote>也许彭丰年了解一些内情<cite>第 57 章</cite></blockquote></details></li></ul>
 </section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E7%BB%B4%E5%BA%A6%E8%A3%82%E7%BC%9D">维度裂缝</a><a href="../world.html#world-%E9%80%9A%E5%85%B3%E4%B8%8E%E8%AF%84%E7%BA%A7">通关与评级</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E4%B8%8D%E5%AE%8C%E5%85%A8%E5%B0%81%E9%97%AD">副本并不完全封闭</a><a href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC">随机副本</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E5%B4%A9%E6%BA%83">副本崩溃</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%9D%A5%E6%BA%90">副本从哪来</a><a href="../world.html#world-%E9%81%93%E5%85%B7">道具</a><a href="../world.html#world-%E7%99%BD%E9%92%9E">白钞</a><a href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C">游戏世界与虫洞点</a><a href="../world.html#world-%E8%8F%B2%E5%B0%94%E5%BE%B7%E5%AE%B6%E6%97%8F">菲尔德家族</a><a href="../world.html#world-%E5%AE%98%E6%96%B9">官方的应对：特事局与先锋玩家</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E6%97%A0%E5%A4%84%E4%B8%8D%E5%9C%A8%E7%9A%84%E7%90%B4%E5%BC%A6">无处不在的琴弦</a><a href="../items.html#item-%E7%BA%B8%E6%89%8B%E6%9C%BA">纸手机</a><a href="../items.html#item-%E5%89%A5%E7%9A%AE%E5%88%80">剥皮刀</a></p></section></details>
-
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。这个选择浏览器会记住。</footer>
-</main></body></html>
+<nav class="units-nav bottom"><a class="prev" href="u0005.html"><small>← 上一单元</small><b>汀城（砍头魔之后）</b><small>第 37–40 章</small></a><a class="next" href="u0007.html"><small>下一单元 →</small><b>汀城（鲜肉供应厂之后）</b><small>第 58–80 章</small><small class="after" data-beyond="58" hidden>在你的进度之后</small></a></nav>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+</main><script>
+(function () {
+  var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;
+  var box = doc.getElementById('wdzx-upto'), clear = doc.getElementById('wdzx-clear'), banner = doc.getElementById('wdzx-banner');
+  var status = doc.getElementById('wdzx-status'), note = doc.getElementById('wdzx-note');
+  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('max') || Infinity;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function valid(n) { return n >= 1 && n <= reach; }
+  if (root.classList.contains('local')) {   // the Datasette database exists only on this machine
+    var nav = doc.querySelector('.rail nav'), db = doc.createElement('a');
+    db.href = nav.dataset.db; db.textContent = '数据库'; nav.appendChild(db);
+  }
+  if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
+  var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
+  saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
+  if (Math.max(saved, query)) box.value = Math.max(saved, query);
+  function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function apply() {
+    var n = current(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', n < Infinity);
+    banner.hidden = chosen;
+    if (!off) {
+      doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
+      doc.querySelectorAll('[data-until]').forEach(function (el) {   // an earlier state: shown before that chapter only
+        el.classList.toggle('hidden', n >= +el.dataset.until || +(el.dataset.ch || 0) > n);
+      });
+      doc.querySelectorAll('[data-first]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.first > n); });
+      doc.querySelectorAll('.fgroup').forEach(function (g) { g.classList.toggle('hidden', !g.querySelector('[data-ch]:not(.hidden)')); });
+      doc.querySelectorAll('.fsection').forEach(function (s) {
+        s.classList.toggle('hidden', !!s.querySelector('[data-first]') && !s.querySelector('[data-first]:not(.hidden), article:not([data-first])'));
+      });
+      doc.querySelectorAll('.upto-full').forEach(function (el) {
+        var cut = n < +el.dataset.last; el.classList.toggle('hidden', cut); el.nextElementSibling.style.display = cut ? 'inline' : '';
+      });
+      doc.querySelectorAll('[data-asof]').forEach(function (el) { el.textContent = '截至第 ' + Math.min(n, +el.dataset.asof) + ' 章'; });
+    }
+    doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
+    doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
+    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
+      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
+    });
+    status.hidden = n === Infinity;
+    status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+  }
+  function changed() {
+    if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
+    var n = current();
+    put(KEY, n < Infinity ? String(n) : null);
+    if (n < Infinity) put(SEEN, '1');
+    if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
+    note.hidden = true; apply();
+  }
+  box.addEventListener('input', changed);
+  clear.addEventListener('click', function () { box.value = ''; changed(); });
+  banner.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.choice === 'fill') { box.focus(); return; }
+      put(SEEN, '1'); apply();
+    });
+  });
+  apply();
+  var hash = location.hash.slice(1);   // ids are percent-encoded names (person-%E7%94%B2), so try the hash as it is first
+  var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
+  if (target && !off && target.closest('.hidden')) {
+    var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
+    note.textContent = '你要看的“' + name + '”按你的进度（读到第 ' + current() + ' 章）还没出现；改大章号或清除进度就能看到。';
+    note.hidden = false; note.scrollIntoView();
+  } else if (target) { target.scrollIntoView(); }
+})();
+</script></body></html>

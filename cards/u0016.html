@@ -24,8 +24,26 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
 .rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
 .rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
-.rail .toggle-label { margin-left:auto; }
-.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+/* reading progress: one value for the whole site, set in the rail (localStorage wdzx.upto) */
+.rail .progress { margin-left:auto; display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--rail-muted); white-space:nowrap; }
+.rail .progress input { width:5.4em; background:transparent; color:var(--rail-ink); border:1px solid var(--rail-muted); border-radius:3px; padding:5px 6px; font:13px var(--mono); }
+.rail .progress input:invalid { border-color:var(--signal); }
+.has-progress .rail .progress input { border-color:var(--brass); color:var(--brass); }
+.rail .progress button { background:none; border:none; color:var(--rail-muted); font-size:17px; line-height:1; cursor:pointer; padding:4px 6px; }
+.banner { background:var(--card-2); border-bottom:1px solid var(--brass); }
+.banner-inner { max-width:920px; margin:0 auto; padding:10px 16px; font-size:14px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; }
+.banner-inner b { color:var(--brass); }
+.banner button { font:13px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:7px 12px; cursor:pointer; }
+.banner button.primary { background:var(--brass); color:var(--rail); border-color:var(--brass); }
+.progress-status { font-size:13px; color:var(--brass); margin:0 0 6px; }
+.progress-note { font-size:14px; color:var(--muted); margin:0 0 8px; }
+details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+@media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
+  .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
+.beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
+details.fold[open] > summary { display:none; }
+[hidden] { display:none !important; }
+html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* sources switch */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
@@ -82,6 +100,22 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
 .tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+/* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
+.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
+.seal.wide { font-size:14px; }
+.seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
+.seal.mid { color:var(--ink); } .seal.low { color:var(--muted); }
+.seal.none { width:34px; height:26px; border:1px dashed var(--line); border-radius:4px; transform:none; color:var(--muted); font:13px var(--sans); }
+:root[data-theme="light"] .seal.top { color:#a07a10; }
+/* the player panel, in the book's 【key：value】 lines */
+.syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
+  padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
+.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+.tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 
 .hidden { display:none !important; }
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
@@ -102,6 +136,20 @@ ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px 
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
 .subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+ul.people li > :not(.subject) { grid-column:2; }
+@media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
+.harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
+.harvest .h-rating { display:flex; align-items:center; gap:12px; font-size:15.5px; } .harvest .h-line { margin:6px 0; font-size:15.5px; }
+.stamp-seal { position:absolute; top:12px; right:16px; transform:scale(1.5); transform-origin:top right; }
+small.diff { font-size:11px; color:var(--muted); margin-left:4px; letter-spacing:0; }
+nav.units-nav { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+nav.units-nav a { display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 14px; color:var(--ink); }
+nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
+nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
+nav.units-nav small.after { color:var(--signal); }
+.graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
+@media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
 details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
 .graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
@@ -123,15 +171,18 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body><input type="checkbox" id="show-src" class="toggle"><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{b.checked=localStorage.getItem('show-src')==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
-<div class="ticket"><div class="ticket-main"><div class="stamp">D<small>级</small></div><div class="kicker">副本 · D 级</div>
-<h1>粉红帽的游乐园</h1><div class="route">第 257 章 ──── 第 287 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观写到第 990 章，含本卡之后的剧情。</p></div>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="all">没看过，随便看看</button><button type="button" data-choice="all">已追平</button></div></div><main>
+<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
+<div class="ticket"><div class="ticket-main"><div class="stamp-seal"><span class="seal none" title="随机副本">—</span></div><div class="kicker">副本 · <span class="grade" style="background:#1f7f86">D</span><small class="diff">副本难度</small></div>
+<h1>粉红帽的游乐园</h1><div class="route">第 257 章 ──── 第 287 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="257" hidden>这张卡从第 257 章开始，在你填的进度之后，整张都是剧透。</p></div>
 <div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0016</div><div class="stub-row"><b>句数</b>94</div>
 <div class="stub-row"><b>引用</b>80 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
 <p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 257–287 章正文后撰写。</p>
+<nav class="units-nav top"><a class="prev" href="u0015.html"><small>← 上一单元</small><b>升级 D 级之后、第十七医院初现</b><small>第 241–256 章</small></a><a class="next" href="u0017.html"><small>下一单元 →</small><b>超级进化与大雾</b><small>第 288–291 章</small><small class="after" data-beyond="288" hidden>在你的进度之后</small></a></nav>
 <details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。写到第 287 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
 <ul class="items"><li><span class="text">徐获和严嘉鱼摸了旧人偶，进了 D 级随机副本“粉红帽的游乐园”；他看穿游玩指南是 BOSS 的误导，找到第十个游戏点，用糖和 BOSS 谈成了通关。</span><span class="ch">第 257、261、274、286–287 章</span></li><li><span class="text">D 级随机副本，副本时间不限。第 257 章进入粉红帽的游乐园；第 287 章徐获、严嘉鱼、唐晓拿齐十个游戏点的小帽子通关（没有【】通关公告，原文直接写“顺利通关”），徐获与严嘉鱼脱离副本。</span><span class="ch">第 257、287 章</span><details class="src"><summary>原文</summary><blockquote>玩家路人甲与玩家方丈已经进入“粉红帽的游乐园”<cite>第 257 章</cite></blockquote><blockquote>拿齐十个小帽子后顺利通关<cite>第 287 章</cite></blockquote></details></li></ul>
 </section>
+<section id="harvest" class="harvest"><h3>徐获的收获</h3><div class="h-rating"><span class="seal none" title="不评级">—</span><span>评级：书里没写评级（随机副本）<span class="ch">第 287 章</span><details class="src"><summary>原文</summary><blockquote>拿齐十个小帽子后顺利通关<cite>第 287 章</cite></blockquote></details></span></div><div class="h-line">带走了几名死去玩家的遗物，答应每月给 BOSS 买糖。<span class="ch">第 287 章</span></div><p class="links"><b>拿到</b><a href="../items.html#item-%E4%B8%8D%E4%BC%9A%E6%89%93%E7%BB%93%E7%9A%84%E7%BA%BF">不会打结的线</a><a href="../items.html#item-%E5%A4%A7%E8%82%9A%E7%93%B6">大肚瓶</a><a href="../items.html#item-%E5%B0%8F%E7%BA%B8%E6%9D%A1%E5%8F%91%E5%B0%84%E5%99%A8">小纸条发射器</a><a href="../items.html#item-%E6%B2%99%E6%BC%A0%E9%A3%8E%E8%BD%A6">沙漠风车</a><a href="../items.html#item-%E7%94%9F%E9%95%BF%E7%9A%84%E5%B0%96%E5%88%BA">生长的尖刺</a><a href="../items.html#item-%E7%A3%81%E5%8A%9B%E9%AD%94%E6%96%B9">磁力魔方</a><a href="../items.html#item-%E4%BC%90%E6%9C%A8%E8%83%B6%E9%9E%8B">伐木胶鞋</a><a href="../items.html#item-%E5%86%B0%E5%86%B7%E7%9A%84%E6%9D%80%E7%8C%AA%E5%88%80">冰冷的杀猪刀</a><a href="../items.html#item-%E5%9D%9A%E5%BC%BA%E7%9A%84%E6%8A%A4%E8%86%9D">坚强的护膝</a><a href="../items.html#item-%E6%B6%88%E5%A3%B0%E6%89%8B%E5%8A%9E">消声手办</a><a href="../items.html#item-%E7%9B%AE%E6%A0%87%E6%98%8E%E7%A1%AE%E7%9A%84%E7%94%B5%E9%94%AF">目标明确的电锯</a><a href="../items.html#item-%E8%87%AA%E5%AD%A6%E9%95%9C%E5%AD%90">自学镜子</a><a href="../items.html#item-%E8%87%AA%E5%B8%A6%E6%BB%A4%E9%95%9C%E7%9A%84%E9%9D%A2%E5%85%B7">自带滤镜的面具</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
 <section id="setup"><h3>背景与规则</h3>
 <ul class="items"><li><span class="text">入口是花城一座老公园里的旧人偶：人偶眼睛发光、旋转木马自己转起来的时候摸到它，就能进去。附近有小孩失踪，人们说这里闹鬼。</span><span class="ch">第 256–257 章</span><details class="src"><summary>原文</summary><blockquote>周围的人说有小孩在这里失踪<cite>第 257 章</cite></blockquote></details></li><li><span class="text">进门先在售票区买票（一张一百白钞，双人票三百），再从兔熊欢乐园、海盗冒险园、独角兽马戏园里选一个园区。</span><span class="ch">第 257 章</span><details class="src"><summary>原文</summary><blockquote>一张票一百白钞，双人票三百白钞<cite>第 257 章</cite></blockquote></details></li><li><span class="text">游乐园规则：多人票不能分开进园区；一天不能玩两个园区，不能伤害工作人员，违者回售票区重新买票并受罚；工作人员会随机提问，答对有奖；不能破坏粉红帽。</span><span class="ch">第 257 章</span><details class="src"><summary>原文</summary><blockquote>任何一名游客不能在同一天游玩两个园区<cite>第 257 章</cite></blockquote><blockquote>⑤不能破坏粉红帽<cite>第 257 章</cite></blockquote></details></li><li><span class="text">副本任务：按游乐园提供的游玩路线，至少玩一个园区。副本时间：不限。</span><span class="ch">第 257 章</span><details class="src"><summary>原文</summary><blockquote>根据游乐园提供的游玩路线，至少游玩一个园区<cite>第 257 章</cite></blockquote></details></li><li><span class="text">买零食才送的游玩指南：五角星路线图上标了十个游戏点；每个游戏点每人每天玩一次，赢了拿一只小粉红帽，答对工作人员的提问也有机会拿；每人要集十五个。</span><span class="ch">第 258–259 章</span><details class="src"><summary>原文</summary><blockquote>每位游客要收集十五个小粉红帽<cite>第 259 章</cite></blockquote></details></li></ul>
 </section>
@@ -154,12 +205,12 @@ h4[id] { scroll-margin-top:16px; }
 <h4 id="story-6">六、断桥后面（第 282–284 章）</h4>
 <p class="prose">严嘉鱼被双胞胎之一追着跑，唐晓帮她脱了身，两人又遇上彭茹，一起找到徐获；靳朝走散了。徐获要去断桥后面那栋没人进过的古堡，四人一起过了桥。<sup class="cite" title="第282章：是他帮了我忙，不然的话我可能没这么快脱身">282</sup>灯塔上摔下一个抱洋娃娃的小女孩，裤子上一股臭味，偏要彭茹抱，还扯她的头发。后栋古堡中间有一道裂缝，徐获把孩子悬在裂缝上问她要帽子，她说带她进来的大姐姐说帽子全在后面。话音刚落，黑暗涌来，满地布偶像纸糊的一碰就破，四个人全被判违规，送回了售票区。<sup class="cite" title="第283章：带我进来的大姐姐说所有小帽子都在那边；第283章：玩家路人甲违反规则，即将返回售票区重新购票">282–283</sup>惩罚只在本次副本有效：徐获和彭茹失聪，徐获的鼻孔也被堵住；严嘉鱼左手右腿使不上力，唐晓正相反。帽子清零，彭茹先回了园里。<sup class="cite" title="第283章：该惩罚仅在本次副本中有效；第283章：你和她是失聪，我和唐晓一手一脚使不上力气">283–284</sup>徐获让严嘉鱼和唐晓重新买票，只按路线图走游戏点，别管问答，唐晓再找几个信得过的人帮忙；他自己回黑枫谷，用消声手办潜进古堡，拿不会打结的线套住浑身贴满帽子的侏儒，拖到窗外斩首，于老逃了。<sup class="cite" title="第284章：只去游戏点，别管问答游戏；第284章：悬在窗台外的头颅就被干脆利落地切掉">284</sup></p><details class="src block"><summary>本段原文 7 处</summary><blockquote>是他帮了我忙，不然的话我可能没这么快脱身<cite>第 282 章</cite></blockquote><blockquote>带我进来的大姐姐说所有小帽子都在那边<cite>第 283 章</cite></blockquote><blockquote>玩家路人甲违反规则，即将返回售票区重新购票<cite>第 283 章</cite></blockquote><blockquote>该惩罚仅在本次副本中有效<cite>第 283 章</cite></blockquote><blockquote>你和她是失聪，我和唐晓一手一脚使不上力气<cite>第 283 章</cite></blockquote><blockquote>只去游戏点，别管问答游戏<cite>第 284 章</cite></blockquote><blockquote>悬在窗台外的头颅就被干脆利落地切掉<cite>第 284 章</cite></blockquote></details>
 <h4 id="story-7">七、灯塔（第 285–287 章）</h4>
-<p class="prose">涂哥和于老认出了他。涂哥的玩具剑迎风就长，力气远在徐获之上；于老能在地砖下埋帽子当陷阱。徐获被打得节节后退，鲜红的剑也脱了手。<sup class="cite" title="第285章：长度不足一米的玩具剑迎风增长；第285章：鲜红的剑应声飞出">285</sup>他徒手攥住涂哥的匕首，涂哥一拳打进他胸前的白纸，整个人被吸进画里，徐获装上画框，收进道具栏。于老追着他跳过园区分界的裂缝，他半道拉琴弦折回，于老当场消失，被送回售票区。<sup class="cite" title="第286章：涂哥消失了，白纸上出现了一张抽象风格的面孔；第286章：回售票区去玩儿吧">285–286</sup>他爬进灯塔，这里才是被藏起来的第十个游戏点。他解释：上次他没踩到布偶也被罚，违反的只能是“一天不能游两个园区”，后栋古堡中间的裂缝就是园区分界；BOSS 把真游戏点放在园区边上，拿问答点和一碰就破的布偶打掩护，让人以为这里不是游戏点。<sup class="cite" title="第286章：建筑中间的裂缝是园区分界线；第286章：所以布偶指的游戏点不完全正确">286</sup>布偶变成那个小女孩，她就是副本 BOSS。徐获说同伴已经知道这是第十个游戏点，不让他过关，就把通关方法传出去——“你永远别想吃糖了”；又答应以后从别的副本世界给她买糖。她要他每个月都买，给了他一顶小帽子。<sup class="cite" title="第286章：你永远别想吃糖了；第287章：你答应每个月都要给我买糖才行">286–287</sup>她说被带进来的孩子都回家了；那个跟徐获同行、打小孩还掐她的女玩家已经受了罚。（小女孩（副本 BOSS）的说法）<sup class="cite" title="第287章：小朋友到别人家做客当然要在天黑前回去；第287章：因为她很坏，打小孩，还掐我">287</sup>徐获和严嘉鱼、唐晓一起走完剩下的游戏点，拿齐十个小帽子通关。唐晓讲了什么是“超级进化”；徐获象征性地收了他一点白钞，告诉他第十个游戏点的位置，然后和严嘉鱼脱离了副本。<sup class="cite" title="第287章：拿齐十个小帽子后顺利通关；第287章：徐获跟严嘉鱼脱离了副本">287</sup></p><details class="src block"><summary>本段原文 12 处</summary><blockquote>长度不足一米的玩具剑迎风增长<cite>第 285 章</cite></blockquote><blockquote>鲜红的剑应声飞出<cite>第 285 章</cite></blockquote><blockquote>涂哥消失了，白纸上出现了一张抽象风格的面孔<cite>第 286 章</cite></blockquote><blockquote>回售票区去玩儿吧<cite>第 286 章</cite></blockquote><blockquote>建筑中间的裂缝是园区分界线<cite>第 286 章</cite></blockquote><blockquote>所以布偶指的游戏点不完全正确<cite>第 286 章</cite></blockquote><blockquote>你永远别想吃糖了<cite>第 286 章</cite></blockquote><blockquote>你答应每个月都要给我买糖才行<cite>第 287 章</cite></blockquote><blockquote>小朋友到别人家做客当然要在天黑前回去<cite>第 287 章</cite></blockquote><blockquote>因为她很坏，打小孩，还掐我<cite>第 287 章</cite></blockquote><blockquote>拿齐十个小帽子后顺利通关<cite>第 287 章</cite></blockquote><blockquote>徐获跟严嘉鱼脱离了副本<cite>第 287 章</cite></blockquote></details>
+<p class="prose">涂哥和于老认出了他。涂哥的玩具剑迎风就长，力气远在徐获之上；于老能在地砖下埋帽子当陷阱。徐获被打得节节后退，鲜红的剑也脱了手。<sup class="cite" title="第285章：长度不足一米的玩具剑迎风增长；第285章：鲜红的剑应声飞出">285</sup>他徒手攥住涂哥的匕首，涂哥一拳打进他胸前的白纸，整个人被吸进画里，徐获装上画框，收进道具栏。于老追着他跳过园区分界的裂缝，他半道拉琴弦折回，于老当场消失，被送回售票区。<sup class="cite" title="第286章：涂哥消失了，白纸上出现了一张抽象风格的面孔；第286章：回售票区去玩儿吧">285–286</sup>他爬进灯塔，这里才是被藏起来的第十个游戏点。他解释：上次他没踩到布偶也被罚，违反的只能是“一天不能游两个园区”，后栋古堡中间的裂缝就是园区分界；BOSS 把真游戏点放在园区边上，拿问答点和一碰就破的布偶打掩护，让人以为这里不是游戏点。<sup class="cite" title="第286章：建筑中间的裂缝是园区分界线；第286章：所以布偶指的游戏点不完全正确">286</sup>布偶变成那个小女孩，她就是副本 BOSS。徐获说同伴已经知道这是第十个游戏点，不让他过关，就把通关方法传出去——“你永远别想吃糖了”；又答应以后从别的副本世界给她买糖。她要他每个月都买，给了他一顶小帽子。<sup class="cite" title="第286章：你永远别想吃糖了；第287章：你答应每个月都要给我买糖才行">286–287</sup><span class="tier claim" title="小女孩（副本 BOSS）的说法">说法</span>她说被带进来的孩子都回家了；那个跟徐获同行、打小孩还掐她的女玩家已经受了罚。<sup class="cite" title="第287章：小朋友到别人家做客当然要在天黑前回去；第287章：因为她很坏，打小孩，还掐我">287</sup>徐获和严嘉鱼、唐晓一起走完剩下的游戏点，拿齐十个小帽子通关。唐晓讲了什么是“超级进化”；徐获象征性地收了他一点白钞，告诉他第十个游戏点的位置，然后和严嘉鱼脱离了副本。<sup class="cite" title="第287章：拿齐十个小帽子后顺利通关；第287章：徐获跟严嘉鱼脱离了副本">287</sup></p><details class="src block"><summary>本段原文 12 处</summary><blockquote>长度不足一米的玩具剑迎风增长<cite>第 285 章</cite></blockquote><blockquote>鲜红的剑应声飞出<cite>第 285 章</cite></blockquote><blockquote>涂哥消失了，白纸上出现了一张抽象风格的面孔<cite>第 286 章</cite></blockquote><blockquote>回售票区去玩儿吧<cite>第 286 章</cite></blockquote><blockquote>建筑中间的裂缝是园区分界线<cite>第 286 章</cite></blockquote><blockquote>所以布偶指的游戏点不完全正确<cite>第 286 章</cite></blockquote><blockquote>你永远别想吃糖了<cite>第 286 章</cite></blockquote><blockquote>你答应每个月都要给我买糖才行<cite>第 287 章</cite></blockquote><blockquote>小朋友到别人家做客当然要在天黑前回去<cite>第 287 章</cite></blockquote><blockquote>因为她很坏，打小孩，还掐我<cite>第 287 章</cite></blockquote><blockquote>拿齐十个小帽子后顺利通关<cite>第 287 章</cite></blockquote><blockquote>徐获跟严嘉鱼脱离了副本<cite>第 287 章</cite></blockquote></details>
 </section>
 <section id="puzzle"><h3>解谜结构</h3>
 <p class="note">副本任务只要求按路线玩完一个园区，“集十五个帽子”是 BOSS 放出的烟雾；十个游戏点里有一个是假的，真的藏在黑枫谷的灯塔里。</p>
 <h4 id="puzzle-1">规则</h4>
-<ul class="items"><li><span class="text">按路线至少玩一个园区；帽子不能弄破，弄破的人死，故意让别人弄破的人继承死者的帽子。</span><span class="ch">第 257、261 章</span></li><li><span class="text">帽子只能自愿转移，硬塞不算；徐获推测“自愿”由布偶来判定。（徐获的推断）</span><span class="ch">第 262、274 章</span></li><li><span class="text">一天游两个园区或伤害工作人员，就回售票区重新买票，帽子清零，还要受罚。</span><span class="ch">第 257、284 章</span></li></ul>
+<ul class="items"><li><span class="text">按路线至少玩一个园区；帽子不能弄破，弄破的人死，故意让别人弄破的人继承死者的帽子。</span><span class="ch">第 257、261 章</span></li><li><span class="text"><span class="tier guess" title="徐获的推断">推测</span>帽子只能自愿转移，硬塞不算；徐获推测“自愿”由布偶来判定。</span><span class="ch">第 262、274 章</span></li><li><span class="text">一天游两个园区或伤害工作人员，就回售票区重新买票，帽子清零，还要受罚。</span><span class="ch">第 257、284 章</span></li></ul>
 <h4 id="puzzle-2">线索</h4>
 <ul class="items"><li><span class="text">路线图只标了十个游戏点，指南却要十五个帽子。</span><span class="ch">第 259 章</span></li><li><span class="text">各处布偶的小动作和习惯都很像，一只看见，别的都知道；爱吃糖、讲自愿、讨厌彭茹，像个小孩。</span><span class="ch">第 270、275 章</span></li><li><span class="text">近三十个人合作也找不到第五个问答点；布偶却轻易说出黑枫谷，又塞来一大堆帽子。</span><span class="ch">第 265、276、278 章</span></li><li><span class="text">徐获没踩到布偶，也被判违规送回售票区。</span><span class="ch">第 283、286 章</span></li></ul>
 <h4 id="puzzle-3">误导</h4>
@@ -170,11 +221,11 @@ h4[id] { scroll-margin-top:16px; }
 <ul class="items"><li><span class="text">只按路线图走完十个真正的游戏点、拿十个帽子，问答点不用管。</span><span class="ch">第 284、287 章</span></li><li><span class="text">在灯塔里用“把通关方法传出去”要挟 BOSS，再拿糖收买她。</span><span class="ch">第 286–287 章</span></li></ul>
 </section>
 <section id="fates"><h3>人物结局</h3>
-<ul class="people"><li><b class="subject"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">通关，原文没写评级；失聪只在灯塔里短暂恢复过。拿到学哥、一代妖后、哆啦A梦等人的遗物，涂哥也装在画里带走了；答应每月给 BOSS 买糖，出去后可以带走那只人偶。</span><span class="ch">第 281、286–287 章</span><details class="src"><summary>原文</summary><blockquote>徐获走出灯塔耳边又听不到声音了<cite>第 287 章</cite></blockquote><blockquote>出去后你可以把那只人偶拿走<cite>第 287 章</cite></blockquote></details></li><li><b class="subject"><a href="../people.html?upto=287#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a>（方丈）</b><span class="text">通关，和徐获一起脱离副本；换来的大剪刀拆开一半，在受罚时当了拐杖。</span><span class="ch">第 283、287 章</span></li><li><b class="subject">唐晓</b><span class="text">和徐获、严嘉鱼一起通关；向徐获买了第十个游戏点的位置，要去告诉困在园里的同伴。</span><span class="ch">第 287 章</span><details class="src"><summary>原文</summary><blockquote>唐晓难以置信地道：“就这么通关了？”<cite>第 287 章</cite></blockquote></details></li><li><b class="subject">学哥</b><span class="text">被留皮虫啃空大脑，徐获补剑杀死；他的女同伴死在严嘉鱼棍下。</span><span class="ch">第 267–268 章</span></li><li><b class="subject">靳朝</b><span class="text">躲猫猫时走散；最后和彭茹重新会合，觉得那个小孩说不定是关键，要回去再看看。</span><span class="ch">第 282、287 章</span><details class="src"><summary>原文</summary><blockquote>那个孩子说不定是关键<cite>第 287 章</cite></blockquote></details></li><li><b class="subject">彭茹</b><span class="text">失聪，截至第 287 章还在园里，结局未交代。BOSS 说受了罚的那个“打小孩、掐她”的女玩家，从抱孩子、被扯头发这些细节看，指的应当就是她。（推断）</span><span class="ch">第 283、287 章</span></li><li><b class="subject"><a href="../people.html?upto=287#person-%E6%B6%82%E5%93%A5">涂哥</a></b><span class="text">被吸进画里，收在徐获的道具栏；唐晓听了描述，推测他是超级进化。</span><span class="ch">第 286–287 章</span></li><li><b class="subject">于老</b><span class="text">被骗着跨过园区分界，送回售票区。</span><span class="ch">第 286 章</span></li><li><b class="subject">一代妖后</b><span class="text">被飞箭射穿喉咙；于老口中的“蔡芳”应当就是她。（推断）</span><span class="ch">第 281、285 章</span><details class="src"><summary>原文</summary><blockquote>双胞胎和蔡芳会不会已经死了<cite>第 285 章</cite></blockquote></details></li><li><b class="subject">哆啦A梦</b><span class="text">双胞胎的矮个，被剑气削掉脑袋；他哥哥（高个）先一步被斩首。</span><span class="ch">第 279、281 章</span></li></ul>
+<ul class="people"><li><b class="subject"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">通关，原文没写评级；失聪只在灯塔里短暂恢复过。拿到学哥、一代妖后、哆啦A梦等人的遗物，涂哥也装在画里带走了；答应每月给 BOSS 买糖，出去后可以带走那只人偶。</span><span class="ch">第 281、286–287 章</span><details class="src"><summary>原文</summary><blockquote>徐获走出灯塔耳边又听不到声音了<cite>第 287 章</cite></blockquote><blockquote>出去后你可以把那只人偶拿走<cite>第 287 章</cite></blockquote></details></li><li><b class="subject"><a href="../people.html?upto=287#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a>（方丈）</b><span class="text">通关，和徐获一起脱离副本；换来的大剪刀拆开一半，在受罚时当了拐杖。</span><span class="ch">第 283、287 章</span></li><li><b class="subject">唐晓</b><span class="text">和徐获、严嘉鱼一起通关；向徐获买了第十个游戏点的位置，要去告诉困在园里的同伴。</span><span class="ch">第 287 章</span><details class="src"><summary>原文</summary><blockquote>唐晓难以置信地道：“就这么通关了？”<cite>第 287 章</cite></blockquote></details></li><li><b class="subject">学哥</b><span class="text">被留皮虫啃空大脑，徐获补剑杀死；他的女同伴死在严嘉鱼棍下。</span><span class="ch">第 267–268 章</span></li><li><b class="subject">靳朝</b><span class="text">躲猫猫时走散；最后和彭茹重新会合，觉得那个小孩说不定是关键，要回去再看看。</span><span class="ch">第 282、287 章</span><details class="src"><summary>原文</summary><blockquote>那个孩子说不定是关键<cite>第 287 章</cite></blockquote></details></li><li><b class="subject">彭茹</b><span class="text"><span class="tier guess" title="推测">推测</span>失聪，截至第 287 章还在园里，结局未交代。BOSS 说受了罚的那个“打小孩、掐她”的女玩家，从抱孩子、被扯头发这些细节看，指的应当就是她。</span><span class="ch">第 283、287 章</span></li><li><b class="subject"><a href="../people.html?upto=287#person-%E6%B6%82%E5%93%A5">涂哥</a></b><span class="text">被吸进画里，收在徐获的道具栏；唐晓听了描述，推测他是超级进化。</span><span class="ch">第 286–287 章</span></li><li><b class="subject">于老</b><span class="text">被骗着跨过园区分界，送回售票区。</span><span class="ch">第 286 章</span></li><li><b class="subject">一代妖后</b><span class="text"><span class="tier guess" title="推测">推测</span>被飞箭射穿喉咙；于老口中的“蔡芳”应当就是她。</span><span class="ch">第 281、285 章</span><details class="src"><summary>原文</summary><blockquote>双胞胎和蔡芳会不会已经死了<cite>第 285 章</cite></blockquote></details></li><li><b class="subject">哆啦A梦</b><span class="text">双胞胎的矮个，被剑气削掉脑袋；他哥哥（高个）先一步被斩首。</span><span class="ch">第 279、281 章</span></li></ul>
 </section>
 <section id="relations"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span><span><i class="dash"></i>某人的说法或推断</span></p>
-<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
 <marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
@@ -220,12 +271,84 @@ h4[id] { scroll-margin-top:16px; }
 <g class="node"><circle cx="419.4" cy="82.9" r="10.0"/><text x="419.4" y="66.9" class="name">学哥</text></g>
 <g class="node"><circle cx="526.0" cy="129.5" r="10.0"/><text x="526.0" y="113.5" class="name">哆啦A梦</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> — 同伴 — <a href="../people.html?upto=287#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a></span><span class="ch">第 257、287 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> → 合作·卖位置 → 唐晓</span><span class="ch">第 264、284、287 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a> → 相助 → 唐晓</span><span class="ch">第 282、284 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> — 结伴 — 靳朝</span><span class="ch">第 274、279 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> → 斩杀 → 学哥</span><span class="ch">第 268 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> → 射杀 → 一代妖后</span><span class="ch">第 281 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> → 斩杀 → 哆啦A梦</span><span class="ch">第 281 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> → 关进画里 → <a href="../people.html?upto=287#person-%E6%B6%82%E5%93%A5">涂哥</a></span><span class="ch">第 277、285–286 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> → 骗回售票区 → 于老</span><span class="ch">第 285–286 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E6%B6%82%E5%93%A5">涂哥</a> — 同伙 — 于老</span><span class="ch">第 277、285 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E6%B6%82%E5%93%A5">涂哥</a> — 同伙 — 一代妖后</span><span class="ch">第 277、280 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> — 糖换通关 — 小女孩</span><span class="ch">第 286–287 章</span></li><li><span class="text">小女孩 → 讨厌·惩罚 → 彭茹（小女孩（副本 BOSS）的说法）</span><span class="ch">第 274、287 章</span></li><li><span class="text">靳朝 — 同伴 — 彭茹</span><span class="ch">第 274、287 章</span></li></ul></details>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> — 同伴 — <a href="../people.html?upto=287#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a></span><span class="ch">第 257、287 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> → 合作·卖位置 → 唐晓</span><span class="ch">第 264、284、287 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a> → 相助 → 唐晓</span><span class="ch">第 282、284 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> — 结伴 — 靳朝</span><span class="ch">第 274、279 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> → 斩杀 → 学哥</span><span class="ch">第 268 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> → 射杀 → 一代妖后</span><span class="ch">第 281 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> → 斩杀 → 哆啦A梦</span><span class="ch">第 281 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> → 关进画里 → <a href="../people.html?upto=287#person-%E6%B6%82%E5%93%A5">涂哥</a></span><span class="ch">第 277、285–286 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> → 骗回售票区 → 于老</span><span class="ch">第 285–286 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E6%B6%82%E5%93%A5">涂哥</a> — 同伙 — 于老</span><span class="ch">第 277、285 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E6%B6%82%E5%93%A5">涂哥</a> — 同伙 — 一代妖后</span><span class="ch">第 277、280 章</span></li><li><span class="text"><a href="../people.html?upto=287#person-%E5%BE%90%E8%8E%B7">徐获</a> — 糖换通关 — 小女孩</span><span class="ch">第 286–287 章</span></li><li><span class="text"><span class="tier claim" title="小女孩（副本 BOSS）的说法">小女孩（副本 BOSS）说</span>小女孩 → 讨厌·惩罚 → 彭茹</span><span class="ch">第 274、287 章</span></li><li><span class="text">靳朝 — 同伴 — 彭茹</span><span class="ch">第 274、287 章</span></li></ul></details>
 </section>
 <section id="threads"><h3>伏笔与未解</h3>
 <p class="note">截至第 287 章还没有交代的事。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html?upto=287#thread-081" title="伏笔总表">#081</a><span class="text">徐获答应每个月给 BOSS 买糖；出去后可以带走那只人偶，敲一敲就能叫她，只是别戳眼睛。</span><span class="ch">第 287 章</span><details class="src"><summary>原文</summary><blockquote>叫我的时候敲敲就行了，不要戳我眼睛<cite>第 287 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=287#thread-079" title="伏笔总表">#079</a><span class="text">涂哥被关在徐获道具栏里的画中，嘴还没停；他的力气来自超级进化，还是别的什么，没有交代。</span><span class="ch">第 286–287 章</span></li><li><a class="thread-no" href="../threads.html?upto=287#thread-082" title="伏笔总表">#082</a><span class="text">唐晓说的超级进化怎么才能得到，他也说不清；想知道可以去副本世界的信息机构买消息。（唐晓的说法）</span><span class="ch">第 287 章</span></li><li><a class="thread-no" href="../threads.html?upto=287#thread-083" title="伏笔总表">#083</a><span class="text">彭茹是幼师，BOSS 却说她打小孩、掐人；靳朝觉得那个孩子是关键，拉着她回去找。</span><span class="ch">第 287 章</span></li><li><a class="thread-no" href="../threads.html?upto=287#thread-084" title="伏笔总表">#084</a><span class="text">唐晓还有同伴困在园里；徐获提醒要尽快通关，游乐园可能会改游戏地点。</span><span class="ch">第 287 章</span><details class="src"><summary>原文</summary><blockquote>否则游乐园可能会改变游戏地点<cite>第 287 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=287#thread-080" title="伏笔总表">#080</a><span class="text">于老被送回售票区，按规则要重新买票、受罚，还困在副本里。</span><span class="ch">第 286 章</span></li></ul>
+<ul class="items"><li><a class="thread-no" href="../threads.html?upto=287#thread-081" title="伏笔总表">#081</a><span class="text">徐获答应每个月给 BOSS 买糖；出去后可以带走那只人偶，敲一敲就能叫她，只是别戳眼睛。</span><span class="ch">第 287 章</span><details class="src"><summary>原文</summary><blockquote>叫我的时候敲敲就行了，不要戳我眼睛<cite>第 287 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=287#thread-079" title="伏笔总表">#079</a><span class="text">涂哥被关在徐获道具栏里的画中，嘴还没停；他的力气来自超级进化，还是别的什么，没有交代。</span><span class="ch">第 286–287 章</span></li><li><a class="thread-no" href="../threads.html?upto=287#thread-082" title="伏笔总表">#082</a><span class="text"><span class="tier claim" title="唐晓的说法">说法</span>唐晓说的超级进化怎么才能得到，他也说不清；想知道可以去副本世界的信息机构买消息。</span><span class="ch">第 287 章</span></li><li><a class="thread-no" href="../threads.html?upto=287#thread-083" title="伏笔总表">#083</a><span class="text">彭茹是幼师，BOSS 却说她打小孩、掐人；靳朝觉得那个孩子是关键，拉着她回去找。</span><span class="ch">第 287 章</span></li><li><a class="thread-no" href="../threads.html?upto=287#thread-084" title="伏笔总表">#084</a><span class="text">唐晓还有同伴困在园里；徐获提醒要尽快通关，游乐园可能会改游戏地点。</span><span class="ch">第 287 章</span><details class="src"><summary>原文</summary><blockquote>否则游乐园可能会改变游戏地点<cite>第 287 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=287#thread-080" title="伏笔总表">#080</a><span class="text">于老被送回售票区，按规则要重新买票、受罚，还困在副本里。</span><span class="ch">第 286 章</span></li></ul>
 </section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E9%80%9A%E5%85%B3%E4%B8%8E%E8%AF%84%E7%BA%A7">通关与评级</a><a href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC%E5%85%A5%E5%8F%A3">随机副本的入口与大雾</a><a href="../world.html#world-%E6%97%B6%E5%B7%AE">游戏里的时间</a><a href="../world.html#world-%E8%81%8C%E4%B8%9A">职业</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E8%80%85">进化者、进化率与等级</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96">超级进化</a><a href="../world.html#world-%E5%AE%8C%E7%BE%8E%E8%BF%9B%E5%8C%96%E5%89%82">完美进化剂与武博士</a><a href="../world.html#world-%E7%89%B9%E6%80%A7">特性</a><a href="../world.html#world-%E9%81%93%E5%85%B7">道具</a><a href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C">游戏世界与虫洞点</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9">进化的动植物</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E6%B8%85%E6%B4%81%E5%89%82">清洁剂</a><a href="../items.html#item-%E6%97%A0%E5%A4%84%E4%B8%8D%E5%9C%A8%E7%9A%84%E7%90%B4%E5%BC%A6">无处不在的琴弦</a><a href="../items.html#item-%E9%B2%9C%E7%BA%A2%E7%9A%84%E5%89%91">鲜红的剑</a><a href="../items.html#item-%E5%B8%83%E5%81%B6%E5%8F%91%E5%A4%B9">布偶发夹</a><a href="../items.html#item-%E4%B8%8D%E4%BC%9A%E6%89%93%E7%BB%93%E7%9A%84%E7%BA%BF">不会打结的线</a><a href="../items.html#item-%E5%A4%A7%E8%82%9A%E7%93%B6">大肚瓶</a><a href="../items.html#item-%E6%B2%99%E6%BC%A0%E9%A3%8E%E8%BD%A6">沙漠风车</a><a href="../items.html#item-%E9%9D%A2%E5%8C%85%E5%A4%B9">面包夹</a><a href="../items.html#item-%E7%A3%81%E5%8A%9B%E9%AD%94%E6%96%B9">磁力魔方</a><a href="../items.html#item-%E6%B6%88%E5%A3%B0%E6%89%8B%E5%8A%9E">消声手办</a></p></section></details>
-
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。这个选择浏览器会记住。</footer>
-</main></body></html>
+<nav class="units-nav bottom"><a class="prev" href="u0015.html"><small>← 上一单元</small><b>升级 D 级之后、第十七医院初现</b><small>第 241–256 章</small></a><a class="next" href="u0017.html"><small>下一单元 →</small><b>超级进化与大雾</b><small>第 288–291 章</small><small class="after" data-beyond="288" hidden>在你的进度之后</small></a></nav>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+</main><script>
+(function () {
+  var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;
+  var box = doc.getElementById('wdzx-upto'), clear = doc.getElementById('wdzx-clear'), banner = doc.getElementById('wdzx-banner');
+  var status = doc.getElementById('wdzx-status'), note = doc.getElementById('wdzx-note');
+  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('max') || Infinity;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function valid(n) { return n >= 1 && n <= reach; }
+  if (root.classList.contains('local')) {   // the Datasette database exists only on this machine
+    var nav = doc.querySelector('.rail nav'), db = doc.createElement('a');
+    db.href = nav.dataset.db; db.textContent = '数据库'; nav.appendChild(db);
+  }
+  if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
+  var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
+  saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
+  if (Math.max(saved, query)) box.value = Math.max(saved, query);
+  function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function apply() {
+    var n = current(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', n < Infinity);
+    banner.hidden = chosen;
+    if (!off) {
+      doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
+      doc.querySelectorAll('[data-until]').forEach(function (el) {   // an earlier state: shown before that chapter only
+        el.classList.toggle('hidden', n >= +el.dataset.until || +(el.dataset.ch || 0) > n);
+      });
+      doc.querySelectorAll('[data-first]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.first > n); });
+      doc.querySelectorAll('.fgroup').forEach(function (g) { g.classList.toggle('hidden', !g.querySelector('[data-ch]:not(.hidden)')); });
+      doc.querySelectorAll('.fsection').forEach(function (s) {
+        s.classList.toggle('hidden', !!s.querySelector('[data-first]') && !s.querySelector('[data-first]:not(.hidden), article:not([data-first])'));
+      });
+      doc.querySelectorAll('.upto-full').forEach(function (el) {
+        var cut = n < +el.dataset.last; el.classList.toggle('hidden', cut); el.nextElementSibling.style.display = cut ? 'inline' : '';
+      });
+      doc.querySelectorAll('[data-asof]').forEach(function (el) { el.textContent = '截至第 ' + Math.min(n, +el.dataset.asof) + ' 章'; });
+    }
+    doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
+    doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
+    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
+      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
+    });
+    status.hidden = n === Infinity;
+    status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+  }
+  function changed() {
+    if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
+    var n = current();
+    put(KEY, n < Infinity ? String(n) : null);
+    if (n < Infinity) put(SEEN, '1');
+    if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
+    note.hidden = true; apply();
+  }
+  box.addEventListener('input', changed);
+  clear.addEventListener('click', function () { box.value = ''; changed(); });
+  banner.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.choice === 'fill') { box.focus(); return; }
+      put(SEEN, '1'); apply();
+    });
+  });
+  apply();
+  var hash = location.hash.slice(1);   // ids are percent-encoded names (person-%E7%94%B2), so try the hash as it is first
+  var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
+  if (target && !off && target.closest('.hidden')) {
+    var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
+    note.textContent = '你要看的“' + name + '”按你的进度（读到第 ' + current() + ' 章）还没出现；改大章号或清除进度就能看到。';
+    note.hidden = false; note.scrollIntoView();
+  } else if (target) { target.scrollIntoView(); }
+})();
+</script></body></html>

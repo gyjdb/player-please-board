@@ -24,8 +24,26 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
 .rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
 .rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
-.rail .toggle-label { margin-left:auto; }
-.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+/* reading progress: one value for the whole site, set in the rail (localStorage wdzx.upto) */
+.rail .progress { margin-left:auto; display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--rail-muted); white-space:nowrap; }
+.rail .progress input { width:5.4em; background:transparent; color:var(--rail-ink); border:1px solid var(--rail-muted); border-radius:3px; padding:5px 6px; font:13px var(--mono); }
+.rail .progress input:invalid { border-color:var(--signal); }
+.has-progress .rail .progress input { border-color:var(--brass); color:var(--brass); }
+.rail .progress button { background:none; border:none; color:var(--rail-muted); font-size:17px; line-height:1; cursor:pointer; padding:4px 6px; }
+.banner { background:var(--card-2); border-bottom:1px solid var(--brass); }
+.banner-inner { max-width:920px; margin:0 auto; padding:10px 16px; font-size:14px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; }
+.banner-inner b { color:var(--brass); }
+.banner button { font:13px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:7px 12px; cursor:pointer; }
+.banner button.primary { background:var(--brass); color:var(--rail); border-color:var(--brass); }
+.progress-status { font-size:13px; color:var(--brass); margin:0 0 6px; }
+.progress-note { font-size:14px; color:var(--muted); margin:0 0 8px; }
+details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+@media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
+  .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
+.beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
+details.fold[open] > summary { display:none; }
+[hidden] { display:none !important; }
+html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* sources switch */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
@@ -82,6 +100,22 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
 .tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+/* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
+.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
+.seal.wide { font-size:14px; }
+.seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
+.seal.mid { color:var(--ink); } .seal.low { color:var(--muted); }
+.seal.none { width:34px; height:26px; border:1px dashed var(--line); border-radius:4px; transform:none; color:var(--muted); font:13px var(--sans); }
+:root[data-theme="light"] .seal.top { color:#a07a10; }
+/* the player panel, in the book's 【key：value】 lines */
+.syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
+  padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
+.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+.tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 
 .hidden { display:none !important; }
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
@@ -102,6 +136,20 @@ ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px 
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
 .subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+ul.people li > :not(.subject) { grid-column:2; }
+@media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
+.harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
+.harvest .h-rating { display:flex; align-items:center; gap:12px; font-size:15.5px; } .harvest .h-line { margin:6px 0; font-size:15.5px; }
+.stamp-seal { position:absolute; top:12px; right:16px; transform:scale(1.5); transform-origin:top right; }
+small.diff { font-size:11px; color:var(--muted); margin-left:4px; letter-spacing:0; }
+nav.units-nav { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+nav.units-nav a { display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 14px; color:var(--ink); }
+nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
+nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
+nav.units-nav small.after { color:var(--signal); }
+.graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
+@media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
 details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
 .graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
@@ -123,15 +171,18 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body><input type="checkbox" id="show-src" class="toggle"><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{b.checked=localStorage.getItem('show-src')==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="all">没看过，随便看看</button><button type="button" data-choice="all">已追平</button></div></div><main>
+<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
-<h1>汀城（讲故事的女人之后）</h1><div class="route">第 177 章 ──── 第 184 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观写到第 990 章，含本卡之后的剧情。</p></div>
+<h1>汀城（讲故事的女人之后）</h1><div class="route">第 177 章 ──── 第 184 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="177" hidden>这张卡从第 177 章开始，在你填的进度之后，整张都是剧透。</p></div>
 <div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0011</div><div class="stub-row"><b>句数</b>58</div>
 <div class="stub-row"><b>引用</b>34 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
 <p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 177–184 章正文后撰写。</p>
+<nav class="units-nav top"><a class="prev" href="u0010.html"><small>← 上一单元</small><b>讲故事的女人</b><small>第 146–176 章</small></a><a class="next" href="u0012.html"><small>下一单元 →</small><b>小花红红大楼</b><small>第 185–219 章</small><small class="after" data-beyond="185" hidden>在你的进度之后</small></a></nav>
 <details class="layer" open><summary><b>概况</b><span>一句话、登场人物。写到第 184 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
 <ul class="items"><li><span class="text">海市之战后，徐获回到京市的家：国家公开了游戏、号召全民当玩家，他拒绝入编，却在母亲身边发现了一个像在观察实验动物的人；准备回汀城时，又被一个卖花姑娘困在了同一条路上。</span><span class="ch">第 177、183–184 章</span></li><li><span class="text">主线段，第 177–184 章，地点在京市（单元名沿用汀城主线的叫法）；最后一章的追逐一直延续到下一段。</span><span class="ch">第 177、184 章</span></li></ul>
 </section>
+<section id="harvest" class="harvest"><h3>徐获的收获</h3><p class="links"><b>拿到</b><a href="../items.html#item-%E6%88%90%E4%BA%BA%E7%AB%A5%E8%AF%9D%E4%B9%A6">成人童话书</a><a href="../items.html#item-%E5%81%A5%E5%BA%B7%E5%89%82">健康剂</a><a href="../items.html#item-%E6%AF%9B%E5%8F%91%E7%94%9F%E9%95%BF%E5%89%82">毛发生长剂</a><a href="../items.html#item-%E7%9A%AE%E8%82%A4%E7%BE%8E%E5%8C%96%E5%89%82">皮肤美化剂</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
 <section id="cast"><h3>登场人物</h3>
 <p class="note">按出场先后。</p>
 <ul class="people"><li><b class="subject"><a href="../people.html?upto=184#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">家境优渥，离家多年才回来；亲大哥徐知已经过世。</span><span class="ch">第 177、179 章</span></li><li><b class="subject"><a href="../people.html?upto=184#person-%E5%BE%90%E7%88%B6">徐父</a>、俞姨、<a href="../people.html?upto=184#person-%E7%AB%A5%E7%AB%A5">童童</a></b><span class="text">父亲、继母和继母生的弟弟，住在京市的别墅区，被国家派来的武装人员保护着。</span><span class="ch">第 177、181 章</span></li><li><b class="subject"><a href="../people.html?upto=184#person-%E4%BF%9E%E6%99%B4%E6%99%B4">俞晴晴</a></b><span class="text">继母的侄女，管徐获叫表哥，一心想插队当玩家。</span><span class="ch">第 177、179 章</span></li><li><b class="subject">祖父</b><span class="text">病了小半年，腿上没劲走不了路；隔着书房门不肯见徐获，只叫他去给哥哥扫墓。</span><span class="ch">第 178 章</span><details class="src"><summary>原文</summary><blockquote>病了小半年了，腿上没劲走不了路<cite>第 178 章</cite></blockquote></details></li><li><b class="subject"><a href="../people.html?upto=184#person-%E5%90%B4%E7%BB%84%E9%95%BF">吴组长</a></b><span class="text">老熟人，代表国家请徐获加入新成立的安全部门。</span><span class="ch">第 178 章</span></li><li><b class="subject"><a href="../people.html?upto=184#person-%E8%B0%B7%E9%9B%A8">谷雨</a>、<a href="../people.html?upto=184#person-%E9%83%91%E8%89%AF">郑良</a></b><span class="text">谷雨是分贝小镇的旧识，玩家小团体扩成了组织；她的同伴郑良是徐获的旧邻居，放话要报仇。</span><span class="ch">第 179、184 章</span></li><li><b class="subject"><a href="../people.html?upto=184#person-%E6%96%B9%E5%A5%B3%E5%A3%AB">方女士</a></b><span class="text">徐获的母亲，和徐父离了婚，对儿子不冷不热。</span><span class="ch">第 177、180 章</span></li><li><b class="subject"><a href="../people.html?upto=184#person-%E5%94%90%E5%B9%BF%E5%8D%9A">唐广博</a></b><span class="text">方女士的现任男友，自称 J 国国籍、双亲是 X 国人；有心理学、机械、经济三个博士学位，回国后成了国家安全局的特聘教授，给玩家做心理疏导。</span><span class="ch">第 180、182 章</span><details class="src"><summary>原文</summary><blockquote>他现在已经是国家安全局的特聘教授<cite>第 182 章</cite></blockquote></details></li><li><b class="subject"><a href="../people.html?upto=184#person-%E7%94%BB%E5%A5%B3">画女</a>（立春）</b><span class="text">离开海市来京市投奔徐获，被说成方女士那边的表妹。</span><span class="ch">第 180–181 章</span><details class="src"><summary>原文</summary><blockquote>她是方女士那边的父母姓名模糊的亲戚<cite>第 181 章</cite></blockquote></details></li><li><b class="subject">卖花姑娘和她的壮汉同伴</b><span class="text">来路不明的两名玩家：她的花会变蛇，他的纸牌会变成猛兽。</span><span class="ch">第 183–184 章</span></li></ul>
@@ -146,11 +197,11 @@ h4[id] { scroll-margin-top:16px; }
 </section>
 <section id="callbacks"><h3>承接前文</h3>
 <p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html?upto=184#thread-043" title="伏笔总表">#043</a><span class="text">海市那一仗：和诡音骑士团开战的是一个坐轮椅的男人，六小时后双方一起从战场消失，此后外区玩家逐渐减少。（武装人员的说法）</span><span class="ch">第 177 章</span><details class="src"><summary>原文</summary><blockquote>和诡音骑士团打架的是一个坐轮椅的男人<cite>第 177 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=184#thread-042" title="伏笔总表">#042</a><span class="text">白婆婆说维度裂缝只有三分之一处在光明中；徐获回来后推断，最大的可能是游戏向没有潜力的新区投放异种。（徐获的推断）</span><span class="ch">第 177 章</span><details class="src"><summary>原文</summary><blockquote>最大的可能性就是游戏向某个没有潜力的新区投放异种<cite>第 177 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=184#thread-048" title="伏笔总表">#048</a><span class="text">白婆婆送的牙齿只写着“零件中的零件”，失去了应有的能力；徐获把它收进了道具栏。</span><span class="ch">第 179 章</span></li><li><a class="thread-no" href="../threads.html?upto=184#thread-051" title="伏笔总表">#051</a><span class="text">微笑木偶“命途多舛”的来历：是画女从城堡里带走、后来弄丢的那一只。</span><span class="ch">第 180 章</span><details class="src"><summary>原文</summary><blockquote>徐获大概知道那只微笑木偶为什么被称为“命途多舛”了<cite>第 180 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=184#thread-047" title="伏笔总表">#047</a><span class="text">童话城里追踪徐获的无眉玩家“人舌头”，同伴有两个；徐获猜那个提人偶皮箱的男人已经把他们收拾了。（徐获的推断）</span><span class="ch">第 180 章</span></li><li><span class="text">谷雨：分贝小镇里被徐获救过，这次在墓园重逢，她所在的京市玩家小团体已经扩成了有总部的组织。</span><span class="ch">第 179、184 章</span></li><li><a class="thread-no" href="../threads.html?upto=184#thread-041" title="伏笔总表">#041</a><span class="text">徐获的过去：档案里十七岁那年被枪杀的兄长，这里第一次出现名字徐知；郑良说是徐获赌博害死了他。（郑良的说法）</span><span class="ch">第 179 章</span></li></ul>
+<ul class="items"><li><a class="thread-no" href="../threads.html?upto=184#thread-043" title="伏笔总表">#043</a><span class="text"><span class="tier claim" title="武装人员的说法">武装人员说</span>海市那一仗：和诡音骑士团开战的是一个坐轮椅的男人，六小时后双方一起从战场消失，此后外区玩家逐渐减少。</span><span class="ch">第 177 章</span><details class="src"><summary>原文</summary><blockquote>和诡音骑士团打架的是一个坐轮椅的男人<cite>第 177 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=184#thread-042" title="伏笔总表">#042</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>白婆婆说维度裂缝只有三分之一处在光明中；徐获回来后推断，最大的可能是游戏向没有潜力的新区投放异种。</span><span class="ch">第 177 章</span><details class="src"><summary>原文</summary><blockquote>最大的可能性就是游戏向某个没有潜力的新区投放异种<cite>第 177 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=184#thread-048" title="伏笔总表">#048</a><span class="text">白婆婆送的牙齿只写着“零件中的零件”，失去了应有的能力；徐获把它收进了道具栏。</span><span class="ch">第 179 章</span></li><li><a class="thread-no" href="../threads.html?upto=184#thread-051" title="伏笔总表">#051</a><span class="text">微笑木偶“命途多舛”的来历：是画女从城堡里带走、后来弄丢的那一只。</span><span class="ch">第 180 章</span><details class="src"><summary>原文</summary><blockquote>徐获大概知道那只微笑木偶为什么被称为“命途多舛”了<cite>第 180 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=184#thread-047" title="伏笔总表">#047</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>童话城里追踪徐获的无眉玩家“人舌头”，同伴有两个；徐获猜那个提人偶皮箱的男人已经把他们收拾了。</span><span class="ch">第 180 章</span></li><li><span class="text">谷雨：分贝小镇里被徐获救过，这次在墓园重逢，她所在的京市玩家小团体已经扩成了有总部的组织。</span><span class="ch">第 179、184 章</span></li><li><a class="thread-no" href="../threads.html?upto=184#thread-041" title="伏笔总表">#041</a><span class="text"><span class="tier claim" title="郑良的说法">说法</span>徐获的过去：档案里十七岁那年被枪杀的兄长，这里第一次出现名字徐知；郑良说是徐获赌博害死了他。</span><span class="ch">第 179 章</span></li></ul>
 </section>
 <section id="relations"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
-<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
 <marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
@@ -201,6 +252,78 @@ h4[id] { scroll-margin-top:16px; }
 <p class="note">截至第 184 章还没有交代的事。</p>
 <ul class="items"><li><a class="thread-no" href="../threads.html?upto=184#thread-055" title="伏笔总表">#055</a><span class="text">唐广博的真面目：病历本上的“S”是什么意思，他接近方女士、给玩家做心理疏导是为了什么。</span><span class="ch">第 183 章</span><details class="src"><summary>原文</summary><blockquote>他又在徐获的名字后面写下“S”记号<cite>第 183 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=184#thread-052" title="伏笔总表">#052</a><span class="text">徐获童年治疗过的那家精神病院，连同档案一起消失了；吴组长说会去查。</span><span class="ch">第 178 章</span><details class="src"><summary>原文</summary><blockquote>但那家医院不见了，没有任何建筑遗留<cite>第 178 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=184#thread-041" title="伏笔总表">#041</a><span class="text">徐知是怎么死的，郑良和徐获的旧仇是什么。</span><span class="ch">第 179 章</span></li><li><a class="thread-no" href="../threads.html?upto=184#thread-054" title="伏笔总表">#054</a><span class="text">卖花姑娘和壮汉是谁派来的；吴组长刚提醒过，最近有玩家被跟踪，Y 国不愿看到别国培养出优秀玩家。</span><span class="ch">第 182、184 章</span><details class="src"><summary>原文</summary><blockquote>这几天我收到了几起玩家被跟踪的汇报<cite>第 182 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=184#thread-053" title="伏笔总表">#053</a><span class="text">画女去过的那座满是玩偶的城堡，和城堡的主人。</span><span class="ch">第 180 章</span></li><li><a class="thread-no" href="../threads.html?upto=184#thread-010" title="伏笔总表">#010</a><span class="text">徐获多了一张 D 级车票，下次游戏倒计时 43 天；他原本打算过两天回汀城。</span><span class="ch">第 179、183 章</span><details class="src"><summary>原文</summary><blockquote>另外多了一张D级车票，下次游戏倒计时变为43天<cite>第 179 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=184#thread-056" title="伏笔总表">#056</a><span class="text">雨夜的追逐还没结束，延续到下一段。</span><span class="ch">第 184 章</span></li></ul>
 </section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E7%BA%A2%E8%89%B2%E7%8E%A9%E5%AE%B6">红色玩家的饥饿</a><a href="../world.html#world-%E5%BC%82%E7%A7%8D%E5%8C%96">异种与异种化</a><a href="../world.html#world-%E5%85%BB%E6%AE%96%E5%8C%BA">异种养殖区</a><a href="../world.html#world-014%E5%8C%BA%E5%89%8D%E9%80%94">014 区的前途</a><a href="../world.html#world-%E5%85%AC%E5%BC%80%E6%B8%B8%E6%88%8F">游戏公开与玩家部门</a><a href="../world.html#world-%E5%A4%96%E5%8C%BA%E5%85%A5%E4%BE%B5">外区的侵略</a><a href="../world.html#world-014%E5%8C%BA%E5%90%84%E5%9B%BD">014 区的各国</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E5%BE%AE%E7%AC%91%E6%9C%A8%E5%81%B6">微笑木偶</a><a href="../items.html#item-%E6%88%90%E4%BA%BA%E7%AB%A5%E8%AF%9D%E4%B9%A6">成人童话书</a></p></section></details>
-
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。这个选择浏览器会记住。</footer>
-</main></body></html>
+<nav class="units-nav bottom"><a class="prev" href="u0010.html"><small>← 上一单元</small><b>讲故事的女人</b><small>第 146–176 章</small></a><a class="next" href="u0012.html"><small>下一单元 →</small><b>小花红红大楼</b><small>第 185–219 章</small><small class="after" data-beyond="185" hidden>在你的进度之后</small></a></nav>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+</main><script>
+(function () {
+  var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;
+  var box = doc.getElementById('wdzx-upto'), clear = doc.getElementById('wdzx-clear'), banner = doc.getElementById('wdzx-banner');
+  var status = doc.getElementById('wdzx-status'), note = doc.getElementById('wdzx-note');
+  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('max') || Infinity;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function valid(n) { return n >= 1 && n <= reach; }
+  if (root.classList.contains('local')) {   // the Datasette database exists only on this machine
+    var nav = doc.querySelector('.rail nav'), db = doc.createElement('a');
+    db.href = nav.dataset.db; db.textContent = '数据库'; nav.appendChild(db);
+  }
+  if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
+  var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
+  saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
+  if (Math.max(saved, query)) box.value = Math.max(saved, query);
+  function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function apply() {
+    var n = current(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', n < Infinity);
+    banner.hidden = chosen;
+    if (!off) {
+      doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
+      doc.querySelectorAll('[data-until]').forEach(function (el) {   // an earlier state: shown before that chapter only
+        el.classList.toggle('hidden', n >= +el.dataset.until || +(el.dataset.ch || 0) > n);
+      });
+      doc.querySelectorAll('[data-first]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.first > n); });
+      doc.querySelectorAll('.fgroup').forEach(function (g) { g.classList.toggle('hidden', !g.querySelector('[data-ch]:not(.hidden)')); });
+      doc.querySelectorAll('.fsection').forEach(function (s) {
+        s.classList.toggle('hidden', !!s.querySelector('[data-first]') && !s.querySelector('[data-first]:not(.hidden), article:not([data-first])'));
+      });
+      doc.querySelectorAll('.upto-full').forEach(function (el) {
+        var cut = n < +el.dataset.last; el.classList.toggle('hidden', cut); el.nextElementSibling.style.display = cut ? 'inline' : '';
+      });
+      doc.querySelectorAll('[data-asof]').forEach(function (el) { el.textContent = '截至第 ' + Math.min(n, +el.dataset.asof) + ' 章'; });
+    }
+    doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
+    doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
+    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
+      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
+    });
+    status.hidden = n === Infinity;
+    status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+  }
+  function changed() {
+    if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
+    var n = current();
+    put(KEY, n < Infinity ? String(n) : null);
+    if (n < Infinity) put(SEEN, '1');
+    if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
+    note.hidden = true; apply();
+  }
+  box.addEventListener('input', changed);
+  clear.addEventListener('click', function () { box.value = ''; changed(); });
+  banner.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.choice === 'fill') { box.focus(); return; }
+      put(SEEN, '1'); apply();
+    });
+  });
+  apply();
+  var hash = location.hash.slice(1);   // ids are percent-encoded names (person-%E7%94%B2), so try the hash as it is first
+  var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
+  if (target && !off && target.closest('.hidden')) {
+    var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
+    note.textContent = '你要看的“' + name + '”按你的进度（读到第 ' + current() + ' 章）还没出现；改大章号或清除进度就能看到。';
+    note.hidden = false; note.scrollIntoView();
+  } else if (target) { target.scrollIntoView(); }
+})();
+</script></body></html>

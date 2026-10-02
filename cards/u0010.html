@@ -24,8 +24,26 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
 .rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
 .rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
-.rail .toggle-label { margin-left:auto; }
-.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+/* reading progress: one value for the whole site, set in the rail (localStorage wdzx.upto) */
+.rail .progress { margin-left:auto; display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--rail-muted); white-space:nowrap; }
+.rail .progress input { width:5.4em; background:transparent; color:var(--rail-ink); border:1px solid var(--rail-muted); border-radius:3px; padding:5px 6px; font:13px var(--mono); }
+.rail .progress input:invalid { border-color:var(--signal); }
+.has-progress .rail .progress input { border-color:var(--brass); color:var(--brass); }
+.rail .progress button { background:none; border:none; color:var(--rail-muted); font-size:17px; line-height:1; cursor:pointer; padding:4px 6px; }
+.banner { background:var(--card-2); border-bottom:1px solid var(--brass); }
+.banner-inner { max-width:920px; margin:0 auto; padding:10px 16px; font-size:14px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; }
+.banner-inner b { color:var(--brass); }
+.banner button { font:13px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:7px 12px; cursor:pointer; }
+.banner button.primary { background:var(--brass); color:var(--rail); border-color:var(--brass); }
+.progress-status { font-size:13px; color:var(--brass); margin:0 0 6px; }
+.progress-note { font-size:14px; color:var(--muted); margin:0 0 8px; }
+details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+@media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
+  .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
+.beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
+details.fold[open] > summary { display:none; }
+[hidden] { display:none !important; }
+html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* sources switch */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
@@ -82,6 +100,22 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
 .tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+/* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
+.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
+.seal.wide { font-size:14px; }
+.seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
+.seal.mid { color:var(--ink); } .seal.low { color:var(--muted); }
+.seal.none { width:34px; height:26px; border:1px dashed var(--line); border-radius:4px; transform:none; color:var(--muted); font:13px var(--sans); }
+:root[data-theme="light"] .seal.top { color:#a07a10; }
+/* the player panel, in the book's 【key：value】 lines */
+.syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
+  padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
+.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+.tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 
 .hidden { display:none !important; }
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
@@ -102,6 +136,20 @@ ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px 
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
 .subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+ul.people li > :not(.subject) { grid-column:2; }
+@media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
+.harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
+.harvest .h-rating { display:flex; align-items:center; gap:12px; font-size:15.5px; } .harvest .h-line { margin:6px 0; font-size:15.5px; }
+.stamp-seal { position:absolute; top:12px; right:16px; transform:scale(1.5); transform-origin:top right; }
+small.diff { font-size:11px; color:var(--muted); margin-left:4px; letter-spacing:0; }
+nav.units-nav { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+nav.units-nav a { display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 14px; color:var(--ink); }
+nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
+nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
+nav.units-nav small.after { color:var(--signal); }
+.graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
+@media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
 details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
 .graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
@@ -123,15 +171,18 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body><input type="checkbox" id="show-src" class="toggle"><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{b.checked=localStorage.getItem('show-src')==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
-<div class="ticket"><div class="ticket-main"><div class="stamp">E<small>级</small></div><div class="kicker">副本 · E 级</div>
-<h1>讲故事的女人</h1><div class="route">第 146 章 ──── 第 176 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观写到第 990 章，含本卡之后的剧情。</p></div>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="all">没看过，随便看看</button><button type="button" data-choice="all">已追平</button></div></div><main>
+<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
+<div class="ticket"><div class="ticket-main"><div class="stamp-seal"><span class="seal mid" title="评级 A">A</span></div><div class="kicker">副本 · <span class="grade" style="background:#6f675c">E</span><small class="diff">副本难度</small></div>
+<h1>讲故事的女人</h1><div class="route">第 146 章 ──── 第 176 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="146" hidden>这张卡从第 146 章开始，在你填的进度之后，整张都是剧透。</p></div>
 <div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0010</div><div class="stub-row"><b>句数</b>113</div>
 <div class="stub-row"><b>引用</b>59 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
 <p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 146–176 章正文后撰写。</p>
+<nav class="units-nav top"><a class="prev" href="u0009.html"><small>← 上一单元</small><b>超级道具通告与 014 区风波</b><small>第 119–145 章</small></a><a class="next" href="u0011.html"><small>下一单元 →</small><b>汀城（讲故事的女人之后）</b><small>第 177–184 章</small><small class="after" data-beyond="177" hidden>在你的进度之后</small></a></nav>
 <details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。写到第 176 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
 <ul class="items"><li><span class="text">一座只剩二十分之一的“童话城”：二十年前大半人口变成异种，如今异种被圈起来观赏、身上长的贝壳当美食卖；人人都爱讲故事，讲的却多是把外来玩家引进食人店的陷阱。</span><span class="ch">第 146–147、149 章</span></li><li><span class="text">E 级副本。第 146 章徐获进站，任务是找到讲正确故事的人、讲正确故事的女人，再为她找到牙齿；第 174 章提前完成三个任务通关，评 A 级，第 176 章用回程票离开。</span><span class="ch">第 146、174、176 章</span><details class="src"><summary>原文</summary><blockquote>玩家路人甲已进入积木童话城站，默认参与E级副本“讲故事的女人”<cite>第 146 章</cite></blockquote><blockquote>恭喜玩家路人甲顺利通关“讲故事的女人”副本<cite>第 174 章</cite></blockquote></details></li></ul>
 </section>
+<section id="harvest" class="harvest"><h3>徐获的收获</h3><div class="h-rating"><span class="seal mid" title="评级 A">A</span><span>评级：A 级<span class="ch">第 174 章</span><details class="src"><summary>原文</summary><blockquote>玩家路人甲：A级<cite>第 174 章</cite></blockquote></details></span></div><div class="h-line">得到白婆婆送的天使的牙齿。<span class="ch">第 174 章</span><details class="src"><summary>原文</summary><blockquote>恭喜玩家路人甲顺利通关“讲故事的女人”副本<cite>第 174 章</cite></blockquote></details></div><p class="links"><b>拿到</b><a href="../items.html#item-%E5%BE%AE%E7%AC%91%E6%9C%A8%E5%81%B6">微笑木偶</a><a href="../items.html#item-%E5%A4%A9%E4%BD%BF%E7%9A%84%E7%89%99%E9%BD%BF">天使的牙齿</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
 <section id="setup"><h3>背景与规则</h3>
 <ul class="items"><li><span class="text">系统给的背景：积木童话城二十年前是五千万人口的大都市，号称“孩童的天堂”；一场巨大变故后面积缩小为原来的二十分之一，再也听不到孩子的声音。外来人口定居下来，把它变成了旅游胜地。</span><span class="ch">第 146 章</span><details class="src"><summary>原文</summary><blockquote>积木童话城面积缩小为原来二十分之一<cite>第 146 章</cite></blockquote></details></li><li><span class="text">三个任务：①找到一个讲正确故事的人；②找到一个讲正确故事的女人；③为讲故事的女人找到牙齿。副本时间三天，玩家要在黄昏前进入积木童话旅游城，通关失败拿不到回程票。</span><span class="ch">第 146 章</span><details class="src"><summary>原文</summary><blockquote>为讲故事的女人找到牙齿<cite>第 146 章</cite></blockquote><blockquote>请玩家在黄昏前进入积木童话旅游城<cite>第 146 章</cite></blockquote></details></li><li><span class="text">旅游城外是异种的地盘：旅游车沿观览线穿过投喂区、玻璃隔断区和腐蚀海边的养殖区，藻贝寄生在异种身上长大，被割下来当美食。</span><span class="ch">第 147–148 章</span></li><li><span class="text">旅游城到黄昏就闭门，闭门后不能进出；夜里街上看不到人，流浪猫狗都吃人。</span><span class="ch">第 148、152 章</span><details class="src"><summary>原文</summary><blockquote>旅游城到黄昏就会闭门，闭门后不能进出<cite>第 148 章</cite></blockquote></details></li><li><span class="text">本地人都说二十年前有一场“大污染”：被污染区的动物抓伤就会被政府的佣兵抓走。政府厅建在污染区里，为它效力的是外来的佣兵。</span><span class="ch">第 149–150 章</span></li><li><span class="text">城里二十年没有孩子出生，外来游客也不许带小孩进城。</span><span class="ch">第 151 章</span><details class="src"><summary>原文</summary><blockquote>据说是二十年前的大污染后，这里的人就生不出孩子来了<cite>第 151 章</cite></blockquote></details></li></ul>
 </section>
@@ -157,22 +208,22 @@ h4[id] { scroll-margin-top:16px; }
 <section id="puzzle"><h3>解谜结构</h3>
 <p class="note">三个任务看上去层层递进、处处是陷阱，其实找到对的人就完成了大半；难的是在一城人讲的故事里分辨谁在引你去死。</p>
 <h4 id="puzzle-1">规则</h4>
-<ul class="items"><li><span class="text">找讲正确故事的人、讲正确故事的女人，为她找到牙齿；三天为限，黄昏闭城。</span><span class="ch">第 146 章</span></li><li><span class="text">白婆婆后来说，三个任务只要找到她就算通关。（白婆婆的说法）</span><span class="ch">第 170 章</span></li></ul>
+<ul class="items"><li><span class="text">找讲正确故事的人、讲正确故事的女人，为她找到牙齿；三天为限，黄昏闭城。</span><span class="ch">第 146 章</span></li><li><span class="text"><span class="tier claim" title="白婆婆的说法">说法</span>白婆婆后来说，三个任务只要找到她就算通关。</span><span class="ch">第 170 章</span></li></ul>
 <h4 id="puzzle-2">线索</h4>
-<ul class="items"><li><span class="text">城里没有孩子，二十年没有婴儿出生。</span><span class="ch">第 151 章</span></li><li><span class="text">真爱广场的爱情故事逻辑不通，换个主次，就是一个玩家异种化后自杀的故事。（徐获的推断）</span><span class="ch">第 151 章</span></li><li><span class="text">告示栏背后近百张寻人启事，失踪的都是住宿区附近的本地人。</span><span class="ch">第 154 章</span></li><li><span class="text">旅游车上的老太太和白裙讲解员都把他往熊爪餐厅引。</span><span class="ch">第 148、155、175 章</span><details class="src"><summary>原文</summary><blockquote>两人都提到了熊爪餐厅<cite>第 175 章</cite></blockquote></details></li><li><span class="text">向日葵院子里半满的猫粮盆，熊爪餐厅密室里的死猫。</span><span class="ch">第 161、163 章</span></li><li><span class="text">白婆婆的巨嘴缺了三颗牙。</span><span class="ch">第 170 章</span></li></ul>
+<ul class="items"><li><span class="text">城里没有孩子，二十年没有婴儿出生。</span><span class="ch">第 151 章</span></li><li><span class="text"><span class="tier guess" title="徐获的推断">徐获推测</span>真爱广场的爱情故事逻辑不通，换个主次，就是一个玩家异种化后自杀的故事。</span><span class="ch">第 151 章</span></li><li><span class="text">告示栏背后近百张寻人启事，失踪的都是住宿区附近的本地人。</span><span class="ch">第 154 章</span></li><li><span class="text">旅游车上的老太太和白裙讲解员都把他往熊爪餐厅引。</span><span class="ch">第 148、155、175 章</span><details class="src"><summary>原文</summary><blockquote>两人都提到了熊爪餐厅<cite>第 175 章</cite></blockquote></details></li><li><span class="text">向日葵院子里半满的猫粮盆，熊爪餐厅密室里的死猫。</span><span class="ch">第 161、163 章</span></li><li><span class="text">白婆婆的巨嘴缺了三颗牙。</span><span class="ch">第 170 章</span></li></ul>
 <h4 id="puzzle-3">误导</h4>
 <ul class="items"><li><span class="text">满城的“内幕消息”：人肉牛排、失踪的游客、被污染的动物。</span><span class="ch">第 149–150 章</span></li><li><span class="text">两个版本的二十年前：白爷爷说政府厅和 LT 害了玩家，肉肠店老太太说是红色玩家制造了异种；陶承欣的辨谎特性对两边都判定为真话。</span><span class="ch">第 160、164、167 章</span></li><li><span class="text">“牙齿”被说成门禁卡、被说成道具“天使的牙齿”；汤元一伙借着找牙齿混进白婆婆的地盘。</span><span class="ch">第 165、173 章</span></li><li><span class="text">白爷爷画的图像块玉牌，其实是十多年前淘汰的门禁卡。</span><span class="ch">第 161、164 章</span></li></ul>
 <h4 id="puzzle-4">真相</h4>
-<ul class="items"><li><span class="text">积木馍馍店、熊爪餐厅、鲜美肉肠店都是政府厅杀手玩家的据点，他们按名单猎杀童话城原来的玩家；白婆婆把外来玩家引过去，是想借刀杀人。（徐获的推断）</span><span class="ch">第 159、165、169 章</span></li><li><span class="text">旅游车上的老太太、白裙讲解员和白婆婆是同一个人：童话城仅存的原住玩家，也是这个副本的 BOSS。</span><span class="ch">第 168、170 章</span></li><li><span class="text">真正的牙齿藏在树林里那株小花的根茎里。</span><span class="ch">第 174 章</span></li><li><span class="text">这个副本原本是为童话城的玩家设的；城里二十年没人生育，徐获认为是对同胞绝望的白婆婆所为。（徐获的推断）</span><span class="ch">第 169、175 章</span><details class="src"><summary>原文</summary><blockquote>如果这是一个对同胞绝望的强者，要做到并不难<cite>第 175 章</cite></blockquote></details></li></ul>
+<ul class="items"><li><span class="text"><span class="tier guess" title="徐获的推断">推测</span>积木馍馍店、熊爪餐厅、鲜美肉肠店都是政府厅杀手玩家的据点，他们按名单猎杀童话城原来的玩家；白婆婆把外来玩家引过去，是想借刀杀人。</span><span class="ch">第 159、165、169 章</span></li><li><span class="text">旅游车上的老太太、白裙讲解员和白婆婆是同一个人：童话城仅存的原住玩家，也是这个副本的 BOSS。</span><span class="ch">第 168、170 章</span></li><li><span class="text">真正的牙齿藏在树林里那株小花的根茎里。</span><span class="ch">第 174 章</span></li><li><span class="text"><span class="tier guess" title="徐获的推断">推测</span>这个副本原本是为童话城的玩家设的；城里二十年没人生育，徐获认为是对同胞绝望的白婆婆所为。</span><span class="ch">第 169、175 章</span><details class="src"><summary>原文</summary><blockquote>如果这是一个对同胞绝望的强者，要做到并不难<cite>第 175 章</cite></blockquote></details></li></ul>
 <h4 id="puzzle-5">解法</h4>
 <ul class="items"><li><span class="text">找到白婆婆，听她讲二十年前的事，前两个任务就完成了。</span><span class="ch">第 169 章</span></li><li><span class="text">把真正的牙齿交回白婆婆，得到她的认可，拿到 A 级和额外奖励。</span><span class="ch">第 174 章</span></li></ul>
 </section>
 <section id="fates"><h3>人物结局</h3>
-<ul class="people"><li><b class="subject"><a href="../people.html?upto=176#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">通关，A 级；得到白婆婆送的天使的牙齿，甩掉追踪胚胎，用回程票回到海市。</span><span class="ch">第 174、176 章</span><details class="src"><summary>原文</summary><blockquote>恭喜玩家路人甲顺利通关“讲故事的女人”副本<cite>第 174 章</cite></blockquote></details></li><li><b class="subject">孙继柔</b><span class="text">通关，C 级；失去沈泰，和徐获约下一个人情后脱离副本。</span><span class="ch">第 174–176 章</span></li><li><b class="subject">陶承欣</b><span class="text">通关，C 级。</span><span class="ch">第 174 章</span></li><li><b class="subject">沈泰</b><span class="text">死在积木馍馍店的钢刺夹板里；孙继柔说他是为救她而死。（孙继柔的说法）</span><span class="ch">第 158–159 章</span></li><li><b class="subject">杨胜、汪桥、高白梅</b><span class="text">被白婆婆的巨嘴拦腰咬断。</span><span class="ch">第 170 章</span></li><li><b class="subject">汤元</b><span class="text">被根茎咬掉一只手，逃出花房时上半身消失。</span><span class="ch">第 173–174 章</span></li><li><b class="subject">两个壮硕玩家</b><span class="text">劫持徐获和汤元后，在美人香薰店失踪。</span><span class="ch">第 153 章</span></li><li><b class="subject">跟踪徐获的红色玩家</b><span class="text">在熊爪餐厅被徐获斩断脖子。</span><span class="ch">第 158 章</span></li><li><b class="subject"><a href="../people.html?upto=176#person-%E7%99%BD%E5%A9%86%E5%A9%86">白婆婆</a></b><span class="text">留在童话城；徐获离开时城市上空炸开红雾，她的下落不明。</span><span class="ch">第 176 章</span></li></ul>
+<ul class="people"><li><b class="subject"><a href="../people.html?upto=176#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">通关，A 级；得到白婆婆送的天使的牙齿，甩掉追踪胚胎，用回程票回到海市。</span><span class="ch">第 174、176 章</span><details class="src"><summary>原文</summary><blockquote>恭喜玩家路人甲顺利通关“讲故事的女人”副本<cite>第 174 章</cite></blockquote></details></li><li><b class="subject">孙继柔</b><span class="text">通关，C 级；失去沈泰，和徐获约下一个人情后脱离副本。</span><span class="ch">第 174–176 章</span></li><li><b class="subject">陶承欣</b><span class="text">通关，C 级。</span><span class="ch">第 174 章</span></li><li><b class="subject">沈泰</b><span class="text"><span class="tier claim" title="孙继柔的说法">说法</span>死在积木馍馍店的钢刺夹板里；孙继柔说他是为救她而死。</span><span class="ch">第 158–159 章</span></li><li><b class="subject">杨胜、汪桥、高白梅</b><span class="text">被白婆婆的巨嘴拦腰咬断。</span><span class="ch">第 170 章</span></li><li><b class="subject">汤元</b><span class="text">被根茎咬掉一只手，逃出花房时上半身消失。</span><span class="ch">第 173–174 章</span></li><li><b class="subject">两个壮硕玩家</b><span class="text">劫持徐获和汤元后，在美人香薰店失踪。</span><span class="ch">第 153 章</span></li><li><b class="subject">跟踪徐获的红色玩家</b><span class="text">在熊爪餐厅被徐获斩断脖子。</span><span class="ch">第 158 章</span></li><li><b class="subject"><a href="../people.html?upto=176#person-%E7%99%BD%E5%A9%86%E5%A9%86">白婆婆</a></b><span class="text">留在童话城；徐获离开时城市上空炸开红雾，她的下落不明。</span><span class="ch">第 176 章</span></li></ul>
 </section>
 <section id="relations"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span><span><i class="dash"></i>某人的说法或推断</span></p>
-<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
 <marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
@@ -216,12 +267,84 @@ h4[id] { scroll-margin-top:16px; }
 <g class="node"><circle cx="588.2" cy="170.8" r="10.0"/><text x="588.2" y="154.8" class="name">白爷爷</text></g>
 <g class="node"><circle cx="68.0" cy="252.6" r="10.0"/><text x="68.0" y="236.6" class="name">王程</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text">孙继柔 — 同伴 — 沈泰</span><span class="ch">第 146、153 章</span></li><li><span class="text">汪桥 — 结伴 — 高白梅</span><span class="ch">第 153 章</span></li><li><span class="text">汤元 — 一伙 — 杨胜</span><span class="ch">第 164、173 章</span></li><li><span class="text"><a href="../people.html?upto=176#person-%E5%BE%90%E8%8E%B7">徐获</a> — 盟友 — 陶承欣</span><span class="ch">第 156、158 章</span></li><li><span class="text"><a href="../people.html?upto=176#person-%E5%BE%90%E8%8E%B7">徐获</a> — 救命·反目 — 孙继柔</span><span class="ch">第 158、171、175 章</span></li><li><span class="text"><a href="../people.html?upto=176#person-%E5%BE%90%E8%8E%B7">徐获</a> → 识破 → 汤元</span><span class="ch">第 169、173 章</span></li><li><span class="text">汤元 → 下药 → <a href="../people.html?upto=176#person-%E7%99%BD%E5%A9%86%E5%A9%86">白婆婆</a></span><span class="ch">第 168 章</span></li><li><span class="text"><a href="../people.html?upto=176#person-%E7%99%BD%E5%A9%86%E5%A9%86">白婆婆</a> → 咬死 → 杨胜</span><span class="ch">第 170 章</span></li><li><span class="text"><a href="../people.html?upto=176#person-%E7%99%BD%E5%A9%86%E5%A9%86">白婆婆</a> → 咬死 → 汪桥</span><span class="ch">第 170 章</span></li><li><span class="text"><a href="../people.html?upto=176#person-%E7%99%BD%E5%A9%86%E5%A9%86">白婆婆</a> → 咬死 → 高白梅</span><span class="ch">第 170 章</span></li><li><span class="text"><a href="../people.html?upto=176#person-%E7%99%BD%E5%A9%86%E5%A9%86">白婆婆</a> → 认可·赠牙 → <a href="../people.html?upto=176#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 174 章</span></li><li><span class="text"><a href="../people.html?upto=176#person-%E7%99%BD%E5%A9%86%E5%A9%86">白婆婆</a> — 堂兄妹 — 白爷爷（白婆婆的说法）</span><span class="ch">第 168 章</span></li><li><span class="text">孙继柔 — 姐弟 — 王程（孙继柔的说法）</span><span class="ch">第 175 章</span></li></ul></details>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text">孙继柔 — 同伴 — 沈泰</span><span class="ch">第 146、153 章</span></li><li><span class="text">汪桥 — 结伴 — 高白梅</span><span class="ch">第 153 章</span></li><li><span class="text">汤元 — 一伙 — 杨胜</span><span class="ch">第 164、173 章</span></li><li><span class="text"><a href="../people.html?upto=176#person-%E5%BE%90%E8%8E%B7">徐获</a> — 盟友 — 陶承欣</span><span class="ch">第 156、158 章</span></li><li><span class="text"><a href="../people.html?upto=176#person-%E5%BE%90%E8%8E%B7">徐获</a> — 救命·反目 — 孙继柔</span><span class="ch">第 158、171、175 章</span></li><li><span class="text"><a href="../people.html?upto=176#person-%E5%BE%90%E8%8E%B7">徐获</a> → 识破 → 汤元</span><span class="ch">第 169、173 章</span></li><li><span class="text">汤元 → 下药 → <a href="../people.html?upto=176#person-%E7%99%BD%E5%A9%86%E5%A9%86">白婆婆</a></span><span class="ch">第 168 章</span></li><li><span class="text"><a href="../people.html?upto=176#person-%E7%99%BD%E5%A9%86%E5%A9%86">白婆婆</a> → 咬死 → 杨胜</span><span class="ch">第 170 章</span></li><li><span class="text"><a href="../people.html?upto=176#person-%E7%99%BD%E5%A9%86%E5%A9%86">白婆婆</a> → 咬死 → 汪桥</span><span class="ch">第 170 章</span></li><li><span class="text"><a href="../people.html?upto=176#person-%E7%99%BD%E5%A9%86%E5%A9%86">白婆婆</a> → 咬死 → 高白梅</span><span class="ch">第 170 章</span></li><li><span class="text"><a href="../people.html?upto=176#person-%E7%99%BD%E5%A9%86%E5%A9%86">白婆婆</a> → 认可·赠牙 → <a href="../people.html?upto=176#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 174 章</span></li><li><span class="text"><span class="tier claim" title="白婆婆的说法">白婆婆说</span><a href="../people.html?upto=176#person-%E7%99%BD%E5%A9%86%E5%A9%86">白婆婆</a> — 堂兄妹 — 白爷爷</span><span class="ch">第 168 章</span></li><li><span class="text"><span class="tier claim" title="孙继柔的说法">孙继柔说</span>孙继柔 — 姐弟 — 王程</span><span class="ch">第 175 章</span></li></ul></details>
 </section>
 <section id="threads"><h3>伏笔与未解</h3>
 <p class="note">截至第 176 章还没有交代的事。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html?upto=176#thread-047" title="伏笔总表">#047</a><span class="text">盯上徐获的人：一个无眉男人带着彩色蜥蜴追到积木童话城站，他曾参与围攻画女，是吃人玩家；徐获猜是海市那场较量里有高级玩家对他动了手脚。</span><span class="ch">第 174–176 章</span><details class="src"><summary>原文</summary><blockquote>徐获认出其中那个无眉男人是围攻画女的一名高级玩家<cite>第 176 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=176#thread-051" title="伏笔总表">#051</a><span class="text">提着人偶手柄皮箱、戴半边面具的男人，疑似微笑木偶的旧主，让徐获毛骨悚然；童话城上空的红色蘑菇云和白婆婆的结局都没有交代。</span><span class="ch">第 176 章</span><details class="src"><summary>原文</summary><blockquote>目光在对方皮箱的小人偶手柄上停留了一瞬<cite>第 176 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=176#thread-048" title="伏笔总表">#048</a><span class="text">天使的牙齿共十六颗，对应同一虫洞点下十六个独立的小空间；白婆婆只留了六颗在童话城，其余在 E27 别处。徐获手里这颗怎么用，她只说往后会用上的。</span><span class="ch">第 174 章</span><details class="src"><summary>原文</summary><blockquote>牙齿你留着吧，往后会用上的<cite>第 174 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=176#thread-050" title="伏笔总表">#050</a><span class="text">孙继柔的人情：她的弟弟王程，昵称“打我爹的脸”，父母离婚后跟母亲走了，也进了游戏。（孙继柔的说法）</span><span class="ch">第 175 章</span></li><li><a class="thread-no" href="../threads.html?upto=176#thread-049" title="伏笔总表">#049</a><span class="text">评级名单上另两名玩家的昵称是“优雅老去”和“钓青蛙的美男子”，书里没有点明谁是谁。</span><span class="ch">第 174 章</span></li><li><a class="thread-no" href="../threads.html?upto=176#thread-042" title="伏笔总表">#042</a><span class="text">014 区会不会变成下一个童话城：白婆婆说要看短时间内能不能出现大量玩家；徐获回到现实时，国家正准备公开游戏、号召全民成为玩家。</span><span class="ch">第 170、176 章</span></li><li><a class="thread-no" href="../threads.html?upto=176#thread-046" title="伏笔总表">#046</a><span class="text">第一批进化者从哪来、童话城为什么二十年没有新玩家：孙继柔说是虫洞带来的自然进化，徐获怀疑有人为控制。（徐获的推断）</span><span class="ch">第 170–171 章</span></li></ul>
+<ul class="items"><li><a class="thread-no" href="../threads.html?upto=176#thread-047" title="伏笔总表">#047</a><span class="text">盯上徐获的人：一个无眉男人带着彩色蜥蜴追到积木童话城站，他曾参与围攻画女，是吃人玩家；徐获猜是海市那场较量里有高级玩家对他动了手脚。</span><span class="ch">第 174–176 章</span><details class="src"><summary>原文</summary><blockquote>徐获认出其中那个无眉男人是围攻画女的一名高级玩家<cite>第 176 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=176#thread-051" title="伏笔总表">#051</a><span class="text">提着人偶手柄皮箱、戴半边面具的男人，疑似微笑木偶的旧主，让徐获毛骨悚然；童话城上空的红色蘑菇云和白婆婆的结局都没有交代。</span><span class="ch">第 176 章</span><details class="src"><summary>原文</summary><blockquote>目光在对方皮箱的小人偶手柄上停留了一瞬<cite>第 176 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=176#thread-048" title="伏笔总表">#048</a><span class="text">天使的牙齿共十六颗，对应同一虫洞点下十六个独立的小空间；白婆婆只留了六颗在童话城，其余在 E27 别处。徐获手里这颗怎么用，她只说往后会用上的。</span><span class="ch">第 174 章</span><details class="src"><summary>原文</summary><blockquote>牙齿你留着吧，往后会用上的<cite>第 174 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=176#thread-050" title="伏笔总表">#050</a><span class="text"><span class="tier claim" title="孙继柔的说法">说法</span>孙继柔的人情：她的弟弟王程，昵称“打我爹的脸”，父母离婚后跟母亲走了，也进了游戏。</span><span class="ch">第 175 章</span></li><li><a class="thread-no" href="../threads.html?upto=176#thread-049" title="伏笔总表">#049</a><span class="text">评级名单上另两名玩家的昵称是“优雅老去”和“钓青蛙的美男子”，书里没有点明谁是谁。</span><span class="ch">第 174 章</span></li><li><a class="thread-no" href="../threads.html?upto=176#thread-042" title="伏笔总表">#042</a><span class="text">014 区会不会变成下一个童话城：白婆婆说要看短时间内能不能出现大量玩家；徐获回到现实时，国家正准备公开游戏、号召全民成为玩家。</span><span class="ch">第 170、176 章</span></li><li><a class="thread-no" href="../threads.html?upto=176#thread-046" title="伏笔总表">#046</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>第一批进化者从哪来、童话城为什么二十年没有新玩家：孙继柔说是虫洞带来的自然进化，徐获怀疑有人为控制。</span><span class="ch">第 170–171 章</span></li></ul>
 </section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E8%BD%A6%E7%A5%A8%E4%B8%8E%E5%89%AF%E6%9C%AC">车票与回程票</a><a href="../world.html#world-%E7%BC%BA%E5%B8%AD%E5%89%AF%E6%9C%AC">每月必须下副本</a><a href="../world.html#world-%E9%80%9A%E5%85%B3%E4%B8%8E%E8%AF%84%E7%BA%A7">通关与评级</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E4%B8%8D%E5%AE%8C%E5%85%A8%E5%B0%81%E9%97%AD">副本并不完全封闭</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%9D%A5%E6%BA%90">副本从哪来</a><a href="../world.html#world-%E5%88%97%E8%BD%A6%E8%A7%84%E5%88%99">列车与乘务员</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E8%80%85">进化者、进化率与等级</a><a href="../world.html#world-%E5%BC%82%E7%A7%8D%E5%8C%96">异种与异种化</a><a href="../world.html#world-%E7%8E%A9%E5%AE%B6%E6%98%B5%E7%A7%B0">玩家昵称</a><a href="../world.html#world-%E9%81%93%E5%85%B7">道具</a><a href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C">游戏世界与虫洞点</a><a href="../world.html#world-%E5%85%BB%E6%AE%96%E5%8C%BA">异种养殖区</a><a href="../world.html#world-%E6%B0%B8%E6%98%9F">永星</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9">进化的动植物</a><a href="../world.html#world-%E5%85%AC%E5%BC%80%E6%B8%B8%E6%88%8F">游戏公开与玩家部门</a><a href="../world.html#world-%E5%A4%96%E5%8C%BA%E5%85%A5%E4%BE%B5">外区的侵略</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a><a href="../items.html#item-%E6%97%A0%E5%A4%84%E4%B8%8D%E5%9C%A8%E7%9A%84%E7%90%B4%E5%BC%A6">无处不在的琴弦</a><a href="../items.html#item-%E5%BE%AE%E7%AC%91%E6%9C%A8%E5%81%B6">微笑木偶</a><a href="../items.html#item-%E5%A4%A9%E4%BD%BF%E7%9A%84%E7%89%99%E9%BD%BF">天使的牙齿</a><a href="../items.html#item-%E5%82%AC%E7%9C%A0%E6%88%92%E6%8C%87">催眠戒指</a><a href="../items.html#item-%E6%8A%98%E5%8F%A0%E4%BC%9E">折叠伞</a><a href="../items.html#item-%E7%82%AB%E5%85%89%E5%BD%A9%E7%90%83">炫光彩球</a></p></section></details>
-
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。这个选择浏览器会记住。</footer>
-</main></body></html>
+<nav class="units-nav bottom"><a class="prev" href="u0009.html"><small>← 上一单元</small><b>超级道具通告与 014 区风波</b><small>第 119–145 章</small></a><a class="next" href="u0011.html"><small>下一单元 →</small><b>汀城（讲故事的女人之后）</b><small>第 177–184 章</small><small class="after" data-beyond="177" hidden>在你的进度之后</small></a></nav>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+</main><script>
+(function () {
+  var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;
+  var box = doc.getElementById('wdzx-upto'), clear = doc.getElementById('wdzx-clear'), banner = doc.getElementById('wdzx-banner');
+  var status = doc.getElementById('wdzx-status'), note = doc.getElementById('wdzx-note');
+  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('max') || Infinity;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function valid(n) { return n >= 1 && n <= reach; }
+  if (root.classList.contains('local')) {   // the Datasette database exists only on this machine
+    var nav = doc.querySelector('.rail nav'), db = doc.createElement('a');
+    db.href = nav.dataset.db; db.textContent = '数据库'; nav.appendChild(db);
+  }
+  if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
+  var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
+  saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
+  if (Math.max(saved, query)) box.value = Math.max(saved, query);
+  function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function apply() {
+    var n = current(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', n < Infinity);
+    banner.hidden = chosen;
+    if (!off) {
+      doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
+      doc.querySelectorAll('[data-until]').forEach(function (el) {   // an earlier state: shown before that chapter only
+        el.classList.toggle('hidden', n >= +el.dataset.until || +(el.dataset.ch || 0) > n);
+      });
+      doc.querySelectorAll('[data-first]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.first > n); });
+      doc.querySelectorAll('.fgroup').forEach(function (g) { g.classList.toggle('hidden', !g.querySelector('[data-ch]:not(.hidden)')); });
+      doc.querySelectorAll('.fsection').forEach(function (s) {
+        s.classList.toggle('hidden', !!s.querySelector('[data-first]') && !s.querySelector('[data-first]:not(.hidden), article:not([data-first])'));
+      });
+      doc.querySelectorAll('.upto-full').forEach(function (el) {
+        var cut = n < +el.dataset.last; el.classList.toggle('hidden', cut); el.nextElementSibling.style.display = cut ? 'inline' : '';
+      });
+      doc.querySelectorAll('[data-asof]').forEach(function (el) { el.textContent = '截至第 ' + Math.min(n, +el.dataset.asof) + ' 章'; });
+    }
+    doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
+    doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
+    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
+      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
+    });
+    status.hidden = n === Infinity;
+    status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+  }
+  function changed() {
+    if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
+    var n = current();
+    put(KEY, n < Infinity ? String(n) : null);
+    if (n < Infinity) put(SEEN, '1');
+    if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
+    note.hidden = true; apply();
+  }
+  box.addEventListener('input', changed);
+  clear.addEventListener('click', function () { box.value = ''; changed(); });
+  banner.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.choice === 'fill') { box.focus(); return; }
+      put(SEEN, '1'); apply();
+    });
+  });
+  apply();
+  var hash = location.hash.slice(1);   // ids are percent-encoded names (person-%E7%94%B2), so try the hash as it is first
+  var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
+  if (target && !off && target.closest('.hidden')) {
+    var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
+    note.textContent = '你要看的“' + name + '”按你的进度（读到第 ' + current() + ' 章）还没出现；改大章号或清除进度就能看到。';
+    note.hidden = false; note.scrollIntoView();
+  } else if (target) { target.scrollIntoView(); }
+})();
+</script></body></html>

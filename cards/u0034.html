@@ -24,8 +24,26 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
 .rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
 .rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
-.rail .toggle-label { margin-left:auto; }
-.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+/* reading progress: one value for the whole site, set in the rail (localStorage wdzx.upto) */
+.rail .progress { margin-left:auto; display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--rail-muted); white-space:nowrap; }
+.rail .progress input { width:5.4em; background:transparent; color:var(--rail-ink); border:1px solid var(--rail-muted); border-radius:3px; padding:5px 6px; font:13px var(--mono); }
+.rail .progress input:invalid { border-color:var(--signal); }
+.has-progress .rail .progress input { border-color:var(--brass); color:var(--brass); }
+.rail .progress button { background:none; border:none; color:var(--rail-muted); font-size:17px; line-height:1; cursor:pointer; padding:4px 6px; }
+.banner { background:var(--card-2); border-bottom:1px solid var(--brass); }
+.banner-inner { max-width:920px; margin:0 auto; padding:10px 16px; font-size:14px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; }
+.banner-inner b { color:var(--brass); }
+.banner button { font:13px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:7px 12px; cursor:pointer; }
+.banner button.primary { background:var(--brass); color:var(--rail); border-color:var(--brass); }
+.progress-status { font-size:13px; color:var(--brass); margin:0 0 6px; }
+.progress-note { font-size:14px; color:var(--muted); margin:0 0 8px; }
+details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+@media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
+  .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
+.beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
+details.fold[open] > summary { display:none; }
+[hidden] { display:none !important; }
+html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* sources switch */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
@@ -82,6 +100,22 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
 .tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+/* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
+.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
+.seal.wide { font-size:14px; }
+.seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
+.seal.mid { color:var(--ink); } .seal.low { color:var(--muted); }
+.seal.none { width:34px; height:26px; border:1px dashed var(--line); border-radius:4px; transform:none; color:var(--muted); font:13px var(--sans); }
+:root[data-theme="light"] .seal.top { color:#a07a10; }
+/* the player panel, in the book's 【key：value】 lines */
+.syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
+  padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
+.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+.tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 
 .hidden { display:none !important; }
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
@@ -102,6 +136,20 @@ ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px 
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
 .subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+ul.people li > :not(.subject) { grid-column:2; }
+@media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
+.harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
+.harvest .h-rating { display:flex; align-items:center; gap:12px; font-size:15.5px; } .harvest .h-line { margin:6px 0; font-size:15.5px; }
+.stamp-seal { position:absolute; top:12px; right:16px; transform:scale(1.5); transform-origin:top right; }
+small.diff { font-size:11px; color:var(--muted); margin-left:4px; letter-spacing:0; }
+nav.units-nav { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+nav.units-nav a { display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 14px; color:var(--ink); }
+nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
+nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
+nav.units-nav small.after { color:var(--signal); }
+.graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
+@media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
 details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
 .graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
@@ -123,15 +171,18 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body><input type="checkbox" id="show-src" class="toggle"><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{b.checked=localStorage.getItem('show-src')==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
-<div class="ticket"><div class="ticket-main"><div class="stamp">D<small>级</small></div><div class="kicker">副本 · D 级</div>
-<h1>共眼</h1><div class="route">第 668 章 ──── 第 698 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观写到第 990 章，含本卡之后的剧情。</p></div>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="all">没看过，随便看看</button><button type="button" data-choice="all">已追平</button></div></div><main>
+<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
+<div class="ticket"><div class="ticket-main"><div class="stamp-seal"><span class="seal mid" title="评级 A">A</span></div><div class="kicker">副本 · <span class="grade" style="background:#1f7f86">D</span><small class="diff">副本难度</small></div>
+<h1>共眼</h1><div class="route">第 668 章 ──── 第 698 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="668" hidden>这张卡从第 668 章开始，在你填的进度之后，整张都是剧透。</p></div>
 <div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0034</div><div class="stub-row"><b>句数</b>74</div>
 <div class="stub-row"><b>引用</b>91 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
 <p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 668–698 章正文后撰写。</p>
+<nav class="units-nav top"><a class="prev" href="u0033.html"><small>← 上一单元</small><b>Y 国之行</b><small>第 658–667 章</small></a><a class="next" href="u0035.html"><small>下一单元 →</small><b>011 区（男爵与古堡宴会）</b><small>第 699–710 章</small><small class="after" data-beyond="699" hidden>在你的进度之后</small></a></nav>
 <details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。写到第 698 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
 <ul class="items"><li><span class="text">徐获化名徐知，进了 D 级存活副本“共眼”，顺着“眼睛”的线索在供眼祭那晚找到水潭对岸的四方宫城，炸掉宫里一层后退出，活到第七天通关。</span><span class="ch">第 668、670、686、688–689、691、695、698 章</span></li></ul>
 </section>
+<section id="harvest" class="harvest"><h3>徐获的收获</h3><div class="h-rating"><span class="seal mid" title="评级 A">A</span><span>评级：A 级<span class="ch">第 700 章</span><details class="src"><summary>原文</summary><blockquote>“共眼”副本的最后评级是A<cite>第 700 章</cite></blockquote></details></span></div><div class="h-line">奖励里有 C 级道具“有规范失重”。<span class="ch">第 700 章</span></div><p class="links"><b>拿到</b><a href="../items.html#item-%E7%88%86%E7%A0%B4%E7%9A%84%E7%BE%8E%E6%84%9F">爆破的美感</a></p><p class="note">奖励写到第 700 章清点（下一段的开头）。</p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
 <section id="setup"><h3>背景与规则</h3>
 <ul class="items"><li><span class="text">D 级存活副本，为期七天，场地是四方宫地界；玩家要在午夜十二点前找到住处。</span><span class="ch">第 668 章</span><details class="src"><summary>原文</summary><blockquote>【您已进入四方宫地界，默认参与该D级副本“共眼”。】<cite>第 668 章</cite></blockquote><blockquote>此次副本为存活副本，为期七天<cite>第 668 章</cite></blockquote></details></li><li><span class="text">背景：四方宫城曾以宗教闻名，人口一再流失，如今不足一千人；家家户户供奉神明，待客时让出家里最好的房间。</span><span class="ch">第 668 章</span><details class="src"><summary>原文</summary><blockquote>四方宫城曾经是一个以宗教闻名的旅游城市<cite>第 668 章</cite></blockquote><blockquote>为客人让出家里最好的房间<cite>第 668 章</cite></blockquote></details></li><li><span class="text">玩家不是同一天进来的，几乎每天都有新人坐大巴到县城；民宿一户只接一位客人，酒店的登记册每到月底清空一次。</span><span class="ch">第 669、679 章</span><details class="src"><summary>原文</summary><blockquote>为什么做同一个副本，玩家却不是同一时间进来<cite>第 669 章</cite></blockquote><blockquote>一户只待一个客，这是咱们县城的规矩<cite>第 669 章</cite></blockquote><blockquote>酒店的登记册，每次月底会清空一次<cite>第 679 章</cite></blockquote></details></li></ul>
 </section>
@@ -159,11 +210,11 @@ h4[id] { scroll-margin-top:16px; }
 <section id="puzzle"><h3>解谜结构</h3>
 <p class="note">存活副本没有任务，玩家要自己摸清什么会让人失踪、神到底在哪。</p>
 <h4 id="puzzle-1">“看”是触发条件</h4>
-<ul class="items"><li><span class="text">中招的玩家都是看到了柜子里石眼的红光；酒店的猫眼、镜子、墙上的浮雕也都有问题（方鹏辉总结）。</span><span class="ch">第 680、683 章</span><details class="src"><summary>原文</summary><blockquote>看到了柜子里的石眼，石眼上红光一闪他们就失去了意识<cite>第 683 章</cite></blockquote><blockquote>晚上不能打开猫眼，关灯后如果镜子后有灯光闪烁，绝对不能去看<cite>第 680 章</cite></blockquote></details></li><li><span class="text">闭眼、回避视线也不保险：在副本里待得越久，受的精神影响越深，最后会被眼睛的注视逼疯。（徐获的推断）</span><span class="ch">第 683 章</span><details class="src"><summary>原文</summary><blockquote>进入副本时间越久，受到的精神影响越深<cite>第 683 章</cite></blockquote></details></li><li><span class="text">供眼祭结束后，所有人的眼睛都会被“神”共享——这就是“共眼”。（小云的哥哥的说法）</span><span class="ch">第 693 章</span><details class="src"><summary>原文</summary><blockquote>到明天早上祭祀结束，不管你们清醒还是不清醒，眼睛也会变成我们这样<cite>第 693 章</cite></blockquote></details></li></ul>
+<ul class="items"><li><span class="text">中招的玩家都是看到了柜子里石眼的红光；酒店的猫眼、镜子、墙上的浮雕也都有问题（方鹏辉总结）。</span><span class="ch">第 680、683 章</span><details class="src"><summary>原文</summary><blockquote>看到了柜子里的石眼，石眼上红光一闪他们就失去了意识<cite>第 683 章</cite></blockquote><blockquote>晚上不能打开猫眼，关灯后如果镜子后有灯光闪烁，绝对不能去看<cite>第 680 章</cite></blockquote></details></li><li><span class="text"><span class="tier guess" title="徐获的推断">徐获推测</span>闭眼、回避视线也不保险：在副本里待得越久，受的精神影响越深，最后会被眼睛的注视逼疯。</span><span class="ch">第 683 章</span><details class="src"><summary>原文</summary><blockquote>进入副本时间越久，受到的精神影响越深<cite>第 683 章</cite></blockquote></details></li><li><span class="text"><span class="tier claim" title="小云的哥哥的说法">小云的哥哥说</span>供眼祭结束后，所有人的眼睛都会被“神”共享——这就是“共眼”。</span><span class="ch">第 693 章</span><details class="src"><summary>原文</summary><blockquote>到明天早上祭祀结束，不管你们清醒还是不清醒，眼睛也会变成我们这样<cite>第 693 章</cite></blockquote></details></li></ul>
 <h4 id="puzzle-2">两座四方宫城</h4>
 <ul class="items"><li><span class="text">县城是新盖的，房子最多二十年；真正的四方宫城在水潭对岸，平时淹在水下的石路只在水闸放水时露出来。</span><span class="ch">第 681、688、697 章</span><details class="src"><summary>原文</summary><blockquote>看房屋材料的使用程度，最多也就二十年<cite>第 681 章</cite></blockquote><blockquote>水中间出现了一条直通对岸的石路<cite>第 688 章</cite></blockquote></details></li><li><span class="text">本地人死了沉到水潭里，被掏空的尸体在供眼祭那晚走回县城，被当成回家的亲人。</span><span class="ch">第 674、687 章</span><details class="src"><summary>原文</summary><blockquote>我们这里不土葬，谁家死人的话就沉到水潭下面<cite>第 674 章</cite></blockquote></details></li></ul>
 <h4 id="puzzle-3">黑甲人与提箱人</h4>
-<ul class="items"><li><span class="text">守城的黑甲人是披着人皮的机械人，一般道具和特性对它们无效，只有物理攻击和“生命核心”管用。</span><span class="ch">第 689、696 章</span><details class="src"><summary>原文</summary><blockquote>它们不过是穿着一张人皮的机械人<cite>第 689 章</cite></blockquote></details></li><li><span class="text">黑甲人头颅里刻着提箱人的箱子标记；徐获推测月底清洗玩家是向提箱人交货。（易佩、徐获的推断）</span><span class="ch">第 691 章</span><details class="src"><summary>原文</summary><blockquote>这是提箱人制作的道具<cite>第 691 章</cite></blockquote><blockquote>月底有可能是交货时间<cite>第 691 章</cite></blockquote></details></li><li><span class="text">副本 boss 不敢出四方宫，也不肯让副本升级，徐获猜它是怕升级后碰上高级玩家。（徐获的推断）</span><span class="ch">第 692、695 章</span><details class="src"><summary>原文</summary><blockquote>偷偷摸摸藏在四方宫里吃人，是不是担心升级后碰上高级玩家直接炸了你的老巢<cite>第 695 章</cite></blockquote></details></li></ul>
+<ul class="items"><li><span class="text">守城的黑甲人是披着人皮的机械人，一般道具和特性对它们无效，只有物理攻击和“生命核心”管用。</span><span class="ch">第 689、696 章</span><details class="src"><summary>原文</summary><blockquote>它们不过是穿着一张人皮的机械人<cite>第 689 章</cite></blockquote></details></li><li><span class="text"><span class="tier guess" title="易佩、徐获的推断">推测</span>黑甲人头颅里刻着提箱人的箱子标记；徐获推测月底清洗玩家是向提箱人交货。</span><span class="ch">第 691 章</span><details class="src"><summary>原文</summary><blockquote>这是提箱人制作的道具<cite>第 691 章</cite></blockquote><blockquote>月底有可能是交货时间<cite>第 691 章</cite></blockquote></details></li><li><span class="text"><span class="tier guess" title="徐获的推断">推测</span>副本 boss 不敢出四方宫，也不肯让副本升级，徐获猜它是怕升级后碰上高级玩家。</span><span class="ch">第 692、695 章</span><details class="src"><summary>原文</summary><blockquote>偷偷摸摸藏在四方宫里吃人，是不是担心升级后碰上高级玩家直接炸了你的老巢<cite>第 695 章</cite></blockquote></details></li></ul>
 </section>
 <section id="fates"><h3>人物结局</h3>
 <p class="note">截至第 698 章。</p>
@@ -171,11 +222,11 @@ h4[id] { scroll-margin-top:16px; }
 </section>
 <section id="callbacks"><h3>承接前文</h3>
 <p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
-<ul class="items"><li><span class="text">徐获从 Y 国带出的手臂伤，自愈剂、解毒剂和王菌都治不好，原来是肉眼看不见的腐骨虫，泡进药剂才被逼出来。</span><span class="ch">第 668、682、697 章</span><details class="src"><summary>原文</summary><blockquote>Y国一行他还是着了道，上了列车发现手臂受了伤<cite>第 668 章</cite></blockquote><blockquote>“是腐骨虫吧。”边进忽然道<cite>第 697 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=698#thread-051" title="伏笔总表">#051</a><span class="text">提着人偶皮箱的男人：黑甲人头颅里的箱子标记，说明四方宫的守卫是提箱人做的人偶（易佩的判断）。（易佩的说法）</span><span class="ch">第 691 章</span><details class="src"><summary>原文</summary><blockquote>这是提箱人制作的道具<cite>第 691 章</cite></blockquote></details></li><li><span class="text">“如胶似漆”“危险使人盲目”“爆破的美感”都是徐获从死去的玩家身上得来的：前两件出自京市的 Y 国玩家，后一件出自石哥。</span><span class="ch">第 672、683、689 章</span><details class="src"><summary>原文</summary><blockquote>道具“爆破的美感”是徐获从刚杀死的艺术风玩家身上得来的<cite>第 689 章</cite></blockquote></details></li></ul>
+<ul class="items"><li><span class="text">徐获从 Y 国带出的手臂伤，自愈剂、解毒剂和王菌都治不好，原来是肉眼看不见的腐骨虫，泡进药剂才被逼出来。</span><span class="ch">第 668、682、697 章</span><details class="src"><summary>原文</summary><blockquote>Y国一行他还是着了道，上了列车发现手臂受了伤<cite>第 668 章</cite></blockquote><blockquote>“是腐骨虫吧。”边进忽然道<cite>第 697 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=698#thread-051" title="伏笔总表">#051</a><span class="text"><span class="tier claim" title="易佩的说法">说法</span>提着人偶皮箱的男人：黑甲人头颅里的箱子标记，说明四方宫的守卫是提箱人做的人偶（易佩的判断）。</span><span class="ch">第 691 章</span><details class="src"><summary>原文</summary><blockquote>这是提箱人制作的道具<cite>第 691 章</cite></blockquote></details></li><li><span class="text">“如胶似漆”“危险使人盲目”“爆破的美感”都是徐获从死去的玩家身上得来的：前两件出自京市的 Y 国玩家，后一件出自石哥。</span><span class="ch">第 672、683、689 章</span><details class="src"><summary>原文</summary><blockquote>道具“爆破的美感”是徐获从刚杀死的艺术风玩家身上得来的<cite>第 689 章</cite></blockquote></details></li></ul>
 </section>
 <section id="relations"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
-<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
 <marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
@@ -218,6 +269,78 @@ h4[id] { scroll-margin-top:16px; }
 <p class="note">截至第 698 章还没有交代的事。</p>
 <ul class="items"><li><a class="thread-no" href="../threads.html?upto=698#thread-167" title="伏笔总表">#167</a><span class="text">纸役师的纸飞机：徐获用“真相超越一切”把它留在四方宫废墟里，盼着提箱人来收货时和纸役师碰上。</span><span class="ch">第 698 章</span><details class="src"><summary>原文</summary><blockquote>他还是用了“真相超越一切”去四方宫把纸飞机留下<cite>第 698 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=698#thread-168" title="伏笔总表">#168</a><span class="text">四方宫的副本 boss：满身眼睛的怪物躲在四方宫二楼以上，不敢出宫，也不让副本升级；徐获给它留了腐骨虫和“你猜我是谁到此一游”，小云的哥哥被卷进了宫里。</span><span class="ch">第 694、696、698 章</span><details class="src"><summary>原文</summary><blockquote>将培养出来的腐骨虫留下后又用笔在柱子上写下“你猜我是谁到此一游”<cite>第 698 章</cite></blockquote></details></li></ul>
 </section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E9%80%9A%E5%85%B3%E4%B8%8E%E8%AF%84%E7%BA%A7">通关与评级</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%8E%88%E6%9D%83%E4%B9%A6">副本授权书与持有者</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E8%80%85">进化者、进化率与等级</a><a href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C">游戏世界与虫洞点</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9">进化的动植物</a><a href="../world.html#world-%E9%80%9A%E7%BC%89%E7%8A%AF">通缉犯</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a><a href="../items.html#item-%E8%A7%A3%E6%AF%92%E5%89%82">解毒剂</a><a href="../items.html#item-%E7%A5%9E%E5%87%BA%E9%AC%BC%E6%B2%A1%E7%9A%84%E5%B0%96%E5%8F%AB%E9%B8%A1">神出鬼没的尖叫鸡</a><a href="../items.html#item-%E8%AF%B7%E5%8B%BF%E6%89%93%E6%89%B0">请勿打扰</a><a href="../items.html#item-%E7%94%9F%E5%91%BD%E6%A0%B8%E5%BF%83">生命核心</a><a href="../items.html#item-%E5%90%8C%E6%80%A7%E7%9B%B8%E6%96%A5">同性相斥</a><a href="../items.html#item-%E9%9B%A8%E7%87%95">雨燕</a><a href="../items.html#item-%E5%8D%B1%E9%99%A9%E4%BD%BF%E4%BA%BA%E7%9B%B2%E7%9B%AE">危险使人盲目</a><a href="../items.html#item-%E5%90%8C%E7%B1%BB%E6%A3%80%E7%B4%A2%E5%99%A8">同类检索器</a><a href="../items.html#item-%E5%A6%82%E8%83%B6%E4%BC%BC%E6%BC%86">如胶似漆</a><a href="../items.html#item-%E7%88%86%E7%A0%B4%E7%9A%84%E7%BE%8E%E6%84%9F">爆破的美感</a></p></section></details>
-
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。这个选择浏览器会记住。</footer>
-</main></body></html>
+<nav class="units-nav bottom"><a class="prev" href="u0033.html"><small>← 上一单元</small><b>Y 国之行</b><small>第 658–667 章</small></a><a class="next" href="u0035.html"><small>下一单元 →</small><b>011 区（男爵与古堡宴会）</b><small>第 699–710 章</small><small class="after" data-beyond="699" hidden>在你的进度之后</small></a></nav>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+</main><script>
+(function () {
+  var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;
+  var box = doc.getElementById('wdzx-upto'), clear = doc.getElementById('wdzx-clear'), banner = doc.getElementById('wdzx-banner');
+  var status = doc.getElementById('wdzx-status'), note = doc.getElementById('wdzx-note');
+  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('max') || Infinity;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function valid(n) { return n >= 1 && n <= reach; }
+  if (root.classList.contains('local')) {   // the Datasette database exists only on this machine
+    var nav = doc.querySelector('.rail nav'), db = doc.createElement('a');
+    db.href = nav.dataset.db; db.textContent = '数据库'; nav.appendChild(db);
+  }
+  if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
+  var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
+  saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
+  if (Math.max(saved, query)) box.value = Math.max(saved, query);
+  function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function apply() {
+    var n = current(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', n < Infinity);
+    banner.hidden = chosen;
+    if (!off) {
+      doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
+      doc.querySelectorAll('[data-until]').forEach(function (el) {   // an earlier state: shown before that chapter only
+        el.classList.toggle('hidden', n >= +el.dataset.until || +(el.dataset.ch || 0) > n);
+      });
+      doc.querySelectorAll('[data-first]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.first > n); });
+      doc.querySelectorAll('.fgroup').forEach(function (g) { g.classList.toggle('hidden', !g.querySelector('[data-ch]:not(.hidden)')); });
+      doc.querySelectorAll('.fsection').forEach(function (s) {
+        s.classList.toggle('hidden', !!s.querySelector('[data-first]') && !s.querySelector('[data-first]:not(.hidden), article:not([data-first])'));
+      });
+      doc.querySelectorAll('.upto-full').forEach(function (el) {
+        var cut = n < +el.dataset.last; el.classList.toggle('hidden', cut); el.nextElementSibling.style.display = cut ? 'inline' : '';
+      });
+      doc.querySelectorAll('[data-asof]').forEach(function (el) { el.textContent = '截至第 ' + Math.min(n, +el.dataset.asof) + ' 章'; });
+    }
+    doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
+    doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
+    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
+      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
+    });
+    status.hidden = n === Infinity;
+    status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+  }
+  function changed() {
+    if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
+    var n = current();
+    put(KEY, n < Infinity ? String(n) : null);
+    if (n < Infinity) put(SEEN, '1');
+    if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
+    note.hidden = true; apply();
+  }
+  box.addEventListener('input', changed);
+  clear.addEventListener('click', function () { box.value = ''; changed(); });
+  banner.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.choice === 'fill') { box.focus(); return; }
+      put(SEEN, '1'); apply();
+    });
+  });
+  apply();
+  var hash = location.hash.slice(1);   // ids are percent-encoded names (person-%E7%94%B2), so try the hash as it is first
+  var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
+  if (target && !off && target.closest('.hidden')) {
+    var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
+    note.textContent = '你要看的“' + name + '”按你的进度（读到第 ' + current() + ' 章）还没出现；改大章号或清除进度就能看到。';
+    note.hidden = false; note.scrollIntoView();
+  } else if (target) { target.scrollIntoView(); }
+})();
+</script></body></html>

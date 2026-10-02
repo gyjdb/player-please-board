@@ -24,8 +24,26 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
 .rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
 .rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
-.rail .toggle-label { margin-left:auto; }
-.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+/* reading progress: one value for the whole site, set in the rail (localStorage wdzx.upto) */
+.rail .progress { margin-left:auto; display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--rail-muted); white-space:nowrap; }
+.rail .progress input { width:5.4em; background:transparent; color:var(--rail-ink); border:1px solid var(--rail-muted); border-radius:3px; padding:5px 6px; font:13px var(--mono); }
+.rail .progress input:invalid { border-color:var(--signal); }
+.has-progress .rail .progress input { border-color:var(--brass); color:var(--brass); }
+.rail .progress button { background:none; border:none; color:var(--rail-muted); font-size:17px; line-height:1; cursor:pointer; padding:4px 6px; }
+.banner { background:var(--card-2); border-bottom:1px solid var(--brass); }
+.banner-inner { max-width:920px; margin:0 auto; padding:10px 16px; font-size:14px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; }
+.banner-inner b { color:var(--brass); }
+.banner button { font:13px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:7px 12px; cursor:pointer; }
+.banner button.primary { background:var(--brass); color:var(--rail); border-color:var(--brass); }
+.progress-status { font-size:13px; color:var(--brass); margin:0 0 6px; }
+.progress-note { font-size:14px; color:var(--muted); margin:0 0 8px; }
+details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+@media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
+  .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
+.beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
+details.fold[open] > summary { display:none; }
+[hidden] { display:none !important; }
+html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* sources switch */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
@@ -82,6 +100,22 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
 .tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+/* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
+.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
+.seal.wide { font-size:14px; }
+.seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
+.seal.mid { color:var(--ink); } .seal.low { color:var(--muted); }
+.seal.none { width:34px; height:26px; border:1px dashed var(--line); border-radius:4px; transform:none; color:var(--muted); font:13px var(--sans); }
+:root[data-theme="light"] .seal.top { color:#a07a10; }
+/* the player panel, in the book's 【key：value】 lines */
+.syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
+  padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
+.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+.tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 
 .hidden { display:none !important; }
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
@@ -102,6 +136,20 @@ ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px 
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
 .subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+ul.people li > :not(.subject) { grid-column:2; }
+@media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
+.harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
+.harvest .h-rating { display:flex; align-items:center; gap:12px; font-size:15.5px; } .harvest .h-line { margin:6px 0; font-size:15.5px; }
+.stamp-seal { position:absolute; top:12px; right:16px; transform:scale(1.5); transform-origin:top right; }
+small.diff { font-size:11px; color:var(--muted); margin-left:4px; letter-spacing:0; }
+nav.units-nav { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+nav.units-nav a { display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 14px; color:var(--ink); }
+nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
+nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
+nav.units-nav small.after { color:var(--signal); }
+.graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
+@media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
 details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
 .graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
@@ -123,15 +171,18 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body><input type="checkbox" id="show-src" class="toggle"><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{b.checked=localStorage.getItem('show-src')==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="all">没看过，随便看看</button><button type="button" data-choice="all">已追平</button></div></div><main>
+<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
-<h1>超级进化与大雾</h1><div class="route">第 288 章 ──── 第 291 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观写到第 990 章，含本卡之后的剧情。</p></div>
+<h1>超级进化与大雾</h1><div class="route">第 288 章 ──── 第 291 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="288" hidden>这张卡从第 288 章开始，在你填的进度之后，整张都是剧透。</p></div>
 <div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0017</div><div class="stub-row"><b>句数</b>46</div>
 <div class="stub-row"><b>引用</b>13 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
 <p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 288–291 章正文后撰写。</p>
+<nav class="units-nav top"><a class="prev" href="u0016.html"><small>← 上一单元</small><b>粉红帽的游乐园</b><small>第 257–287 章</small></a><a class="next" href="u0018.html"><small>下一单元 →</small><b>第十七医院（汀城大雾）</b><small>第 292–307 章</small><small class="after" data-beyond="292" hidden>在你的进度之后</small></a></nav>
 <details class="layer" open><summary><b>概况</b><span>一句话、登场人物。写到第 291 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
-<ul class="items"><li><span class="text">游乐园之后的两天：徐获在花城审问画里的涂哥、花钱打听“超级进化”、合成新鞋；与此同时汀城东城区被一道雾墙吞没，聂玄的小组进去就失联了；第二天花城也起了大雾，徐获和严嘉鱼追查福利院闹鬼时被卷了进去。</span><span class="ch">第 288–291 章</span></li><li><span class="text">主线段，第 288–291 章，地点在花城和汀城；291 章末跨过围墙被卷入，下一段是第十七医院。</span><span class="ch">第 288、291 章</span></li></ul>
+<ul class="items"><li><span class="text">游乐园之后的两天：徐获在花城审问画里的涂哥、花钱打听“超级进化”、合成新鞋；与此同时汀城东城区被一道雾墙吞没，聂玄的小组进去就失联了；第二天花城也起了大雾，徐获和严嘉鱼追查福利院闹鬼时被卷了进去。</span><span class="ch">第 288–291 章</span></li><li><span class="text">主线段，第 288–291 章，地点在花城和汀城；291 章末跨过围墙被卷入。</span><span class="ch">第 288、291 章</span></li></ul>
 </section>
+<section id="harvest" class="harvest"><h3>徐获的收获</h3><p class="links"><b>拿到</b><a href="../items.html#item-%E4%B8%83%E8%89%B2%E6%89%8B%E5%A5%97">七色手套</a><a href="../items.html#item-%E5%94%A4%E9%86%92%E4%BA%BA%E5%81%B6">唤醒人偶</a><a href="../items.html#item-%E5%B0%8F%E4%B8%91%E5%A5%97%E8%A3%85">小丑套装</a><a href="../items.html#item-%E6%97%A0%E5%A3%B0%E7%A1%AC%E5%B8%81">无声硬币</a><a href="../items.html#item-%E7%BE%8E%E5%AE%B9%E9%92%88">美容针</a><a href="../items.html#item-%E6%B2%89%E9%87%8D%E7%9A%84%E6%AD%A5%E4%BC%90">沉重的步伐</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
 <section id="cast"><h3>登场人物</h3>
 <p class="note">按出场先后。</p>
 <ul class="people"><li><b class="subject"><a href="../people.html?upto=291#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">刚从粉红帽的游乐园出来，在花城的小旅馆休整：清点收获、审涂哥、买超级进化的消息、第一次用道具兑换。</span><span class="ch">第 288–291 章</span></li><li><b class="subject"><a href="../people.html?upto=291#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a>（方丈）</b><span class="text">和徐获一起从游乐园出来；第二天给福利院的孩子送东西，追查“闹鬼”，钻进下水道找到了尸体。</span><span class="ch">第 288、290–291 章</span></li><li><b class="subject"><a href="../people.html?upto=291#person-%E6%B6%82%E5%93%A5">涂哥</a></b><span class="text">游乐园里被吸进“画中的世界”的玩家，双手超级进化；被徐获审问时不肯吐实话。</span><span class="ch">第 288–289 章</span></li><li><b class="subject"><a href="../people.html?upto=291#person-%E5%90%B4%E7%BB%84%E9%95%BF">吴组长</a></b><span class="text">汀城特防部的组长，在东城区雾墙外指挥。</span><span class="ch">第 290 章</span></li><li><b class="subject"><a href="../people.html?upto=291#person-%E8%81%82%E7%8E%84">聂玄</a></b><span class="text">伤还没好，坚持带小组进雾；不到三分钟就被从雾里抛了出来，生死不明。</span><span class="ch">第 290 章</span></li><li><b class="subject"><a href="../people.html?upto=291#person-%E5%8F%B8%E9%A9%AC%E5%B0%8F%E4%BA%8C">司马小二</a>（红毛）</b><span class="text">在雾墙外转达技术组的检测结果，要跟聂玄一起进去。</span><span class="ch">第 290 章</span></li><li><b class="subject"><a href="../people.html?upto=291#person-%E7%94%BB%E5%A5%B3">画女</a>（立春）</b><span class="text">没有出场；徐获发消息告诉她晚两天再回汀城。</span><span class="ch">第 291 章</span></li></ul>
@@ -150,7 +201,7 @@ h4[id] { scroll-margin-top:16px; }
 </section>
 <section id="relations"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
-<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
 <marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
@@ -178,8 +229,80 @@ h4[id] { scroll-margin-top:16px; }
 </section>
 <section id="threads"><h3>伏笔与未解</h3>
 <p class="note">截至第 291 章还没有交代的事。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html?upto=291#thread-086" title="伏笔总表">#086</a><span class="text">汀城东城区雾里那栋顶上两层拦着铁丝网、从哪个角度看都一样的大楼是什么；跟聂玄进去的队员去了哪里。</span><span class="ch">第 290 章</span></li><li><a class="thread-no" href="../threads.html?upto=291#thread-087" title="伏笔总表">#087</a><span class="text">聂玄被从雾里抛出来，生死不明。</span><span class="ch">第 290 章</span></li><li><a class="thread-no" href="../threads.html?upto=291#thread-088" title="伏笔总表">#088</a><span class="text">雾墙散后，巡逻车说东城区除了电话打不通一切正常，被雾包住的居民怎样了，没有交代。</span><span class="ch">第 290 章</span></li><li><a class="thread-no" href="../threads.html?upto=291#thread-089" title="伏笔总表">#089</a><span class="text">徐获和严嘉鱼跨过断墙时被冲击波卷走：没有游戏提示，他们是不是进了副本、进了哪里。</span><span class="ch">第 291 章</span></li><li><a class="thread-no" href="../threads.html?upto=291#thread-090" title="伏笔总表">#090</a><span class="text">福利院院长的死、下水道里的猫尸和大号老鼠屎：徐获猜是动物发生了异变，还没查清。（徐获的推断）</span><span class="ch">第 291 章</span></li><li><a class="thread-no" href="../threads.html?upto=291#thread-079" title="伏笔总表">#079</a><span class="text">涂哥没说实话；促成超级进化的条件，徐获打算回头再问他。（徐获的推断）</span><span class="ch">第 289–290 章</span></li><li><a class="thread-no" href="../threads.html?upto=291#thread-085" title="伏笔总表">#085</a><span class="text">游乐园 BOSS 爽快地给了唤醒人偶，严嘉鱼怀疑她打了别的主意。（严嘉鱼的说法）</span><span class="ch">第 288 章</span></li></ul>
+<ul class="items"><li><a class="thread-no" href="../threads.html?upto=291#thread-086" title="伏笔总表">#086</a><span class="text">汀城东城区雾里那栋顶上两层拦着铁丝网、从哪个角度看都一样的大楼是什么；跟聂玄进去的队员去了哪里。</span><span class="ch">第 290 章</span></li><li><a class="thread-no" href="../threads.html?upto=291#thread-087" title="伏笔总表">#087</a><span class="text">聂玄被从雾里抛出来，生死不明。</span><span class="ch">第 290 章</span></li><li><a class="thread-no" href="../threads.html?upto=291#thread-088" title="伏笔总表">#088</a><span class="text">雾墙散后，巡逻车说东城区除了电话打不通一切正常，被雾包住的居民怎样了，没有交代。</span><span class="ch">第 290 章</span></li><li><a class="thread-no" href="../threads.html?upto=291#thread-089" title="伏笔总表">#089</a><span class="text">徐获和严嘉鱼跨过断墙时被冲击波卷走：没有游戏提示，他们是不是进了副本、进了哪里。</span><span class="ch">第 291 章</span></li><li><a class="thread-no" href="../threads.html?upto=291#thread-090" title="伏笔总表">#090</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>福利院院长的死、下水道里的猫尸和大号老鼠屎：徐获猜是动物发生了异变，还没查清。</span><span class="ch">第 291 章</span></li><li><a class="thread-no" href="../threads.html?upto=291#thread-079" title="伏笔总表">#079</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>涂哥没说实话；促成超级进化的条件，徐获打算回头再问他。</span><span class="ch">第 289–290 章</span></li><li><a class="thread-no" href="../threads.html?upto=291#thread-085" title="伏笔总表">#085</a><span class="text"><span class="tier claim" title="严嘉鱼的说法">说法</span>游乐园 BOSS 爽快地给了唤醒人偶，严嘉鱼怀疑她打了别的主意。</span><span class="ch">第 288 章</span></li></ul>
 </section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC%E5%85%A5%E5%8F%A3">随机副本的入口与大雾</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96">超级进化</a><a href="../world.html#world-%E5%BC%82%E7%A7%8D%E5%8C%96">异种与异种化</a><a href="../world.html#world-D%E7%BA%A7%E6%9D%83%E9%99%90">升级与权限</a><a href="../world.html#world-%E8%8F%B2%E5%B0%94%E5%BE%B7%E5%AE%B6%E6%97%8F">菲尔德家族</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9">进化的动植物</a><a href="../world.html#world-%E7%89%B9%E9%98%B2%E9%83%A8">特防部</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E8%B6%85%E7%BA%A7%E8%B7%91%E9%9E%8B">超级跑鞋</a><a href="../items.html#item-%E4%BA%94%E4%BA%94%E5%BC%80%E6%B0%94%E7%AA%97">五五开气窗</a><a href="../items.html#item-%E7%94%BB%E4%B8%AD%E7%9A%84%E4%B8%96%E7%95%8C">画中的世界</a><a href="../items.html#item-%E4%BC%90%E6%9C%A8%E8%83%B6%E9%9E%8B">伐木胶鞋</a><a href="../items.html#item-%E5%9D%9A%E5%BC%BA%E7%9A%84%E6%8A%A4%E8%86%9D">坚强的护膝</a><a href="../items.html#item-%E7%9B%AE%E6%A0%87%E6%98%8E%E7%A1%AE%E7%9A%84%E7%94%B5%E9%94%AF">目标明确的电锯</a><a href="../items.html#item-%E5%94%A4%E9%86%92%E4%BA%BA%E5%81%B6">唤醒人偶</a><a href="../items.html#item-%E5%B0%8F%E4%B8%91%E5%A5%97%E8%A3%85">小丑套装</a><a href="../items.html#item-%E6%97%A0%E5%A3%B0%E7%A1%AC%E5%B8%81">无声硬币</a><a href="../items.html#item-%E6%B2%89%E9%87%8D%E7%9A%84%E6%AD%A5%E4%BC%90">沉重的步伐</a></p></section></details>
-
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。这个选择浏览器会记住。</footer>
-</main></body></html>
+<nav class="units-nav bottom"><a class="prev" href="u0016.html"><small>← 上一单元</small><b>粉红帽的游乐园</b><small>第 257–287 章</small></a><a class="next" href="u0018.html"><small>下一单元 →</small><b>第十七医院（汀城大雾）</b><small>第 292–307 章</small><small class="after" data-beyond="292" hidden>在你的进度之后</small></a></nav>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+</main><script>
+(function () {
+  var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;
+  var box = doc.getElementById('wdzx-upto'), clear = doc.getElementById('wdzx-clear'), banner = doc.getElementById('wdzx-banner');
+  var status = doc.getElementById('wdzx-status'), note = doc.getElementById('wdzx-note');
+  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('max') || Infinity;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function valid(n) { return n >= 1 && n <= reach; }
+  if (root.classList.contains('local')) {   // the Datasette database exists only on this machine
+    var nav = doc.querySelector('.rail nav'), db = doc.createElement('a');
+    db.href = nav.dataset.db; db.textContent = '数据库'; nav.appendChild(db);
+  }
+  if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
+  var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
+  saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
+  if (Math.max(saved, query)) box.value = Math.max(saved, query);
+  function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function apply() {
+    var n = current(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', n < Infinity);
+    banner.hidden = chosen;
+    if (!off) {
+      doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
+      doc.querySelectorAll('[data-until]').forEach(function (el) {   // an earlier state: shown before that chapter only
+        el.classList.toggle('hidden', n >= +el.dataset.until || +(el.dataset.ch || 0) > n);
+      });
+      doc.querySelectorAll('[data-first]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.first > n); });
+      doc.querySelectorAll('.fgroup').forEach(function (g) { g.classList.toggle('hidden', !g.querySelector('[data-ch]:not(.hidden)')); });
+      doc.querySelectorAll('.fsection').forEach(function (s) {
+        s.classList.toggle('hidden', !!s.querySelector('[data-first]') && !s.querySelector('[data-first]:not(.hidden), article:not([data-first])'));
+      });
+      doc.querySelectorAll('.upto-full').forEach(function (el) {
+        var cut = n < +el.dataset.last; el.classList.toggle('hidden', cut); el.nextElementSibling.style.display = cut ? 'inline' : '';
+      });
+      doc.querySelectorAll('[data-asof]').forEach(function (el) { el.textContent = '截至第 ' + Math.min(n, +el.dataset.asof) + ' 章'; });
+    }
+    doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
+    doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
+    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
+      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
+    });
+    status.hidden = n === Infinity;
+    status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+  }
+  function changed() {
+    if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
+    var n = current();
+    put(KEY, n < Infinity ? String(n) : null);
+    if (n < Infinity) put(SEEN, '1');
+    if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
+    note.hidden = true; apply();
+  }
+  box.addEventListener('input', changed);
+  clear.addEventListener('click', function () { box.value = ''; changed(); });
+  banner.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.choice === 'fill') { box.focus(); return; }
+      put(SEEN, '1'); apply();
+    });
+  });
+  apply();
+  var hash = location.hash.slice(1);   // ids are percent-encoded names (person-%E7%94%B2), so try the hash as it is first
+  var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
+  if (target && !off && target.closest('.hidden')) {
+    var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
+    note.textContent = '你要看的“' + name + '”按你的进度（读到第 ' + current() + ' 章）还没出现；改大章号或清除进度就能看到。';
+    note.hidden = false; note.scrollIntoView();
+  } else if (target) { target.scrollIntoView(); }
+})();
+</script></body></html>

@@ -24,8 +24,26 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
 .rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
 .rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
-.rail .toggle-label { margin-left:auto; }
-.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+/* reading progress: one value for the whole site, set in the rail (localStorage wdzx.upto) */
+.rail .progress { margin-left:auto; display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--rail-muted); white-space:nowrap; }
+.rail .progress input { width:5.4em; background:transparent; color:var(--rail-ink); border:1px solid var(--rail-muted); border-radius:3px; padding:5px 6px; font:13px var(--mono); }
+.rail .progress input:invalid { border-color:var(--signal); }
+.has-progress .rail .progress input { border-color:var(--brass); color:var(--brass); }
+.rail .progress button { background:none; border:none; color:var(--rail-muted); font-size:17px; line-height:1; cursor:pointer; padding:4px 6px; }
+.banner { background:var(--card-2); border-bottom:1px solid var(--brass); }
+.banner-inner { max-width:920px; margin:0 auto; padding:10px 16px; font-size:14px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; }
+.banner-inner b { color:var(--brass); }
+.banner button { font:13px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:7px 12px; cursor:pointer; }
+.banner button.primary { background:var(--brass); color:var(--rail); border-color:var(--brass); }
+.progress-status { font-size:13px; color:var(--brass); margin:0 0 6px; }
+.progress-note { font-size:14px; color:var(--muted); margin:0 0 8px; }
+details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+@media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
+  .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
+.beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
+details.fold[open] > summary { display:none; }
+[hidden] { display:none !important; }
+html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* sources switch */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
@@ -82,6 +100,22 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
 .tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+/* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
+.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
+.seal.wide { font-size:14px; }
+.seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
+.seal.mid { color:var(--ink); } .seal.low { color:var(--muted); }
+.seal.none { width:34px; height:26px; border:1px dashed var(--line); border-radius:4px; transform:none; color:var(--muted); font:13px var(--sans); }
+:root[data-theme="light"] .seal.top { color:#a07a10; }
+/* the player panel, in the book's 【key：value】 lines */
+.syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
+  padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
+.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+.tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 
 .hidden { display:none !important; }
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
@@ -102,6 +136,20 @@ ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px 
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
 .subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+ul.people li > :not(.subject) { grid-column:2; }
+@media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
+.harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
+.harvest .h-rating { display:flex; align-items:center; gap:12px; font-size:15.5px; } .harvest .h-line { margin:6px 0; font-size:15.5px; }
+.stamp-seal { position:absolute; top:12px; right:16px; transform:scale(1.5); transform-origin:top right; }
+small.diff { font-size:11px; color:var(--muted); margin-left:4px; letter-spacing:0; }
+nav.units-nav { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+nav.units-nav a { display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 14px; color:var(--ink); }
+nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
+nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
+nav.units-nav small.after { color:var(--signal); }
+.graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
+@media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
 details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
 .graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
@@ -123,15 +171,18 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body><input type="checkbox" id="show-src" class="toggle"><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{b.checked=localStorage.getItem('show-src')==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
-<div class="ticket"><div class="ticket-main"><div class="stamp">E<small>级</small></div><div class="kicker">副本 · E 级</div>
-<h1>分贝小镇</h1><div class="route">第 81 章 ──── 第 118 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观写到第 990 章，含本卡之后的剧情。</p></div>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="all">没看过，随便看看</button><button type="button" data-choice="all">已追平</button></div></div><main>
+<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
+<div class="ticket"><div class="ticket-main"><div class="stamp-seal"><span class="seal none" title="随机副本">—</span></div><div class="kicker">副本 · <span class="grade" style="background:#6f675c">E</span><small class="diff">副本难度</small></div>
+<h1>分贝小镇</h1><div class="route">第 81 章 ──── 第 118 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="81" hidden>这张卡从第 81 章开始，在你填的进度之后，整张都是剧透。</p></div>
 <div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0008</div><div class="stub-row"><b>句数</b>93</div>
 <div class="stub-row"><b>引用</b>53 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
 <p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 81–118 章正文后撰写。</p>
+<nav class="units-nav top"><a class="prev" href="u0007.html"><small>← 上一单元</small><b>汀城（鲜肉供应厂之后）</b><small>第 58–80 章</small></a><a class="next" href="u0009.html"><small>下一单元 →</small><b>超级道具通告与 014 区风波</b><small>第 119–145 章</small><small class="after" data-beyond="119" hidden>在你的进度之后</small></a></nav>
 <details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。写到第 118 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
 <ul class="items"><li><span class="text">一座被高墙围住的废弃小镇：满地会尖叫的洋娃娃，声音一大、人一多，看不见的“保安”就会扑出来吃人；没有食物，任务只有一句“离开”。</span><span class="ch">第 81–82 章</span></li><li><span class="text">E 级随机副本，入口是汀城那栋会吞人的凶宅。第 81 章徐获被卷入，第 107 章东门打开，第 117 章从西门走出围墙完成任务，第 118 章结算。</span><span class="ch">第 81、107、117–118 章</span><details class="src"><summary>原文</summary><blockquote>玩家路人甲已进入“分贝小镇”，默认参与该E级随机副本<cite>第 81 章</cite></blockquote><blockquote>恭喜玩家路人甲成功通关“分贝小镇”<cite>第 118 章</cite></blockquote></details></li></ul>
 </section>
+<section id="harvest" class="harvest"><h3>徐获的收获</h3><div class="h-rating"><span class="seal none" title="不评级">—</span><span>评级：书里没写评级（随机副本）<span class="ch">第 118 章</span><details class="src"><summary>原文</summary><blockquote>恭喜玩家路人甲成功通关“分贝小镇”<cite>第 118 章</cite></blockquote></details></span></div><div class="h-line">奖励一次道具升级；副本里还打了 P0S、得到超级道具“人生的三秒”。<span class="ch">第 113、118 章</span></div><div class="h-line">中了异种毒后打了两支 P0S，转入完美进化，进化率从 10% 跳到 20%。<span class="ch">第 113–114 章</span><details class="src"><summary>原文</summary><blockquote>昨天用了两支S针剂后，进化率飙升到了20％<cite>第 114 章</cite></blockquote></details></div><p class="links"><b>拿到</b><a href="../items.html#item-%E4%BA%BA%E7%94%9F%E7%9A%84%E4%B8%89%E7%A7%92">人生的三秒</a><a href="../items.html#item-%E5%B0%8F%E6%B0%94%E7%9A%84%E7%9A%AE%E7%AE%B1">小气的皮箱</a><a href="../items.html#item-%E4%BA%92%E7%9B%B8%E8%AE%A8%E5%8E%8C%E7%9A%84%E5%BC%93%E4%B8%8E%E7%AE%AD">互相讨厌的弓与箭</a><a href="../items.html#item-%E5%AF%86%E5%B0%81%E7%9B%92%E5%AD%90">密封盒子</a><a href="../items.html#item-%E6%97%A0%E7%95%8F%E9%A3%8E%E9%9B%AA%E7%9A%84%E7%81%AB%E6%8A%8A">无畏风雪的火把</a><a href="../items.html#item-%E9%B1%BC%E7%9A%AE%E9%98%B2%E6%8A%A4%E8%A1%A3">鱼皮防护衣</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
 <section id="setup"><h3>背景与规则</h3>
 <ul class="items"><li><span class="text">系统给的背景：钟表大师尼塞退休后建了这座小镇，邀亲友定居；居民筑起机械大墙，只留东西两扇门，高价聘了几名“不同寻常的保安”，处罚超过 60 分贝或 80 分贝的噪音，并约定绝不三人同时出现在任一公共场合。</span><span class="ch">第 81 章</span><details class="src"><summary>原文</summary><blockquote>在周围筑起了机械大墙，只留东西两扇门供以出入<cite>第 81 章</cite></blockquote></details></li><li><span class="text">尼塞死后，来吊唁的客人违反规则，遭到保安和居民疯狂报复，政府勒令全体居民搬走、关闭小镇。</span><span class="ch">第 81 章</span></li><li><span class="text">副本任务只有一句：离开分贝小镇。副本时间不限。</span><span class="ch">第 81 章</span><details class="src"><summary>原文</summary><blockquote>副本任务：离开分贝小镇<cite>第 81 章</cite></blockquote></details></li><li><span class="text">满街的洋娃娃和门上的铃铛一碰就响，声音都超过 60 分贝；镇上唯一能动的是一辆不能停的公交车，一停下就会拉响警报。</span><span class="ch">第 81 章</span></li><li><span class="text">镇上找不到吃的，先进来的人只能喝水，已经有人活活饿死。</span><span class="ch">第 81、83 章</span><details class="src"><summary>原文</summary><blockquote>这个镇子荒废了很久，又和外界隔绝，就算有食物也没法吃，只能喝水<cite>第 81 章</cite></blockquote></details></li><li><span class="text">到处贴着尼塞出的谜题，钟表整点报时提问；后来发现答错有的只送糖果，有的会招来异种。</span><span class="ch">第 82–83、86 章</span></li></ul>
 </section>
@@ -159,20 +210,20 @@ h4[id] { scroll-margin-top:16px; }
 <h4 id="puzzle-1">规则</h4>
 <ul class="items"><li><span class="text">声音超过 60 分贝会引来一只异种，三人同时出现在公共场合也会；报时的时候异种会被引回地笼，这段时间相对安全。</span><span class="ch">第 81、86、90 章</span></li><li><span class="text">谜题不都安全：有的答错只送糖果，有的答错就放出异种。</span><span class="ch">第 83、86 章</span></li></ul>
 <h4 id="puzzle-2">线索</h4>
-<ul class="items"><li><span class="text">谜题问的都是尼塞的生活琐事，商店多是童装店、洋娃娃店、蜡笔店：小镇是为一个孩子建的。（徐获的推断）</span><span class="ch">第 85 章</span><details class="src"><summary>原文</summary><blockquote>这些问题针对的目标是小孩子<cite>第 85 章</cite></blockquote></details></li><li><span class="text">尼塞孙女的房间窗户装着和地笼一样的栅栏；照片里抱着她的尼塞神色严肃。</span><span class="ch">第 87–88 章</span></li><li><span class="text">钟表送的宝石手表和镇长办公楼的大钟时间一致；大钟是尼塞的第 20001 只表，每晚十二点秒针反光照向大门。</span><span class="ch">第 97–98、107 章</span><details class="src"><summary>原文</summary><blockquote>第20001只钟表是他来到这个小镇后完成的第1001只表<cite>第 98 章</cite></blockquote></details></li><li><span class="text">林培拿到的纸条谜语：“特殊的时间，特殊的道具……独一无二的形状，独一无二的位置，是离开小镇的唯一钥匙。”</span><span class="ch">第 105、109 章</span></li></ul>
+<ul class="items"><li><span class="text"><span class="tier guess" title="徐获的推断">推测</span>谜题问的都是尼塞的生活琐事，商店多是童装店、洋娃娃店、蜡笔店：小镇是为一个孩子建的。</span><span class="ch">第 85 章</span><details class="src"><summary>原文</summary><blockquote>这些问题针对的目标是小孩子<cite>第 85 章</cite></blockquote></details></li><li><span class="text">尼塞孙女的房间窗户装着和地笼一样的栅栏；照片里抱着她的尼塞神色严肃。</span><span class="ch">第 87–88 章</span></li><li><span class="text">钟表送的宝石手表和镇长办公楼的大钟时间一致；大钟是尼塞的第 20001 只表，每晚十二点秒针反光照向大门。</span><span class="ch">第 97–98、107 章</span><details class="src"><summary>原文</summary><blockquote>第20001只钟表是他来到这个小镇后完成的第1001只表<cite>第 98 章</cite></blockquote></details></li><li><span class="text">林培拿到的纸条谜语：“特殊的时间，特殊的道具……独一无二的形状，独一无二的位置，是离开小镇的唯一钥匙。”</span><span class="ch">第 105、109 章</span></li></ul>
 <h4 id="puzzle-3">误导</h4>
-<ul class="items"><li><span class="text">林培把谜语里的“道具”当成了游戏道具，以为开门要一把钥匙，一直在尼塞家翻找，还为此暗杀徐获。（徐获的推断）</span><span class="ch">第 104–105、114 章</span></li><li><span class="text">东门看上去是出口，其实门后是关满异种的夹道。</span><span class="ch">第 108、110 章</span></li><li><span class="text">徐获一度怀疑镇上还藏着外人，后来才确定放暗箭、放异种的都是林培。</span><span class="ch">第 103–104 章</span></li></ul>
+<ul class="items"><li><span class="text"><span class="tier guess" title="徐获的推断">推测</span>林培把谜语里的“道具”当成了游戏道具，以为开门要一把钥匙，一直在尼塞家翻找，还为此暗杀徐获。</span><span class="ch">第 104–105、114 章</span></li><li><span class="text">东门看上去是出口，其实门后是关满异种的夹道。</span><span class="ch">第 108、110 章</span></li><li><span class="text">徐获一度怀疑镇上还藏着外人，后来才确定放暗箭、放异种的都是林培。</span><span class="ch">第 103–104 章</span></li></ul>
 <h4 id="puzzle-4">真相</h4>
-<ul class="items"><li><span class="text">小镇的“保安”就是异种；居民不是尼塞的亲友，而是来监视他的，他死后带走了他的私人物品。（徐获的推断）</span><span class="ch">第 81、88 章</span><details class="src"><summary>原文</summary><blockquote>他们是来监视尼塞大师的<cite>第 88 章</cite></blockquote></details></li><li><span class="text">尼塞的孙女异种化了，他为她建了这座童话般的小镇，又用黑金属和高墙防她失控跑出去；那只最凶的矮个子异种可能就是她。（徐获的推断）</span><span class="ch">第 96、110 章</span></li><li><span class="text">门每天午夜自动开关，根本不需要钥匙。</span><span class="ch">第 106–107 章</span></li><li><span class="text">尼塞找到了完美进化的方法：S 版药剂，他的地下室里就有 P0S。</span><span class="ch">第 111、113 章</span><details class="src"><summary>原文</summary><blockquote>P0S针剂是P0药剂的完成版，拥有更为完善的缺陷抑制效果，必须在进化之初使用<cite>第 113 章</cite></blockquote></details></li></ul>
+<ul class="items"><li><span class="text"><span class="tier guess" title="徐获的推断">徐获推测</span>小镇的“保安”就是异种；居民不是尼塞的亲友，而是来监视他的，他死后带走了他的私人物品。</span><span class="ch">第 81、88 章</span><details class="src"><summary>原文</summary><blockquote>他们是来监视尼塞大师的<cite>第 88 章</cite></blockquote></details></li><li><span class="text"><span class="tier guess" title="徐获的推断">徐获推测</span>尼塞的孙女异种化了，他为她建了这座童话般的小镇，又用黑金属和高墙防她失控跑出去；那只最凶的矮个子异种可能就是她。</span><span class="ch">第 96、110 章</span></li><li><span class="text">门每天午夜自动开关，根本不需要钥匙。</span><span class="ch">第 106–107 章</span></li><li><span class="text">尼塞找到了完美进化的方法：S 版药剂，他的地下室里就有 P0S。</span><span class="ch">第 111、113 章</span><details class="src"><summary>原文</summary><blockquote>P0S针剂是P0药剂的完成版，拥有更为完善的缺陷抑制效果，必须在进化之初使用<cite>第 113 章</cite></blockquote></details></li></ul>
 <h4 id="puzzle-5">解法</h4>
 <ul class="items"><li><span class="text">趁安全谜题的答题时间，用黑金属和彩虹枪封住地笼。</span><span class="ch">第 94–95 章</span></li><li><span class="text">用火攻、铃铛和隔空的剑杀死东门那只能撕车的异种。</span><span class="ch">第 99、101 章</span></li><li><span class="text">午夜十二点推门；东门是陷阱，要从西门出去。</span><span class="ch">第 107、115 章</span></li></ul>
 </section>
 <section id="fates"><h3>人物结局</h3>
-<ul class="people"><li><b class="subject"><a href="../people.html?upto=118#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">通关。打了 P0S 转入完美进化，进化率 20%；得到超级道具“人生的三秒”、小气的皮箱和林培的弓箭。</span><span class="ch">第 113–114、118 章</span><details class="src"><summary>原文</summary><blockquote>恭喜玩家路人甲成功通关“分贝小镇”<cite>第 118 章</cite></blockquote></details></li><li><b class="subject"><a href="../people.html?upto=118#person-%E8%B0%B7%E9%9B%A8">谷雨</a></b><span class="text">通关，断了一只手、一只脚受伤，被异种咬伤后用解毒剂救回；临走说会给徐获打电话。</span><span class="ch">第 112、117 章</span></li><li><b class="subject">柯良</b><span class="text">通关，大腿被飞箭射穿；海市人，说欠徐获一条命。</span><span class="ch">第 112、117 章</span><details class="src"><summary>原文</summary><blockquote>不光是人情，还有救命之恩<cite>第 117 章</cite></blockquote></details></li><li><b class="subject"><a href="../people.html?upto=118#person-%E6%B2%88%E6%96%B0">沈新</a></b><span class="text">通关，哥哥死了；徐获把哥哥的弹绳留给她，她打算跟谷雨去京市。</span><span class="ch">第 117 章</span><details class="src"><summary>原文</summary><blockquote>徐获道具栏里的弹绳取出来递给沈新<cite>第 117 章</cite></blockquote></details></li><li><b class="subject">沈毅</b><span class="text">被徐获从异种堆里救上吊桥，随即被林培一箭射穿太阳穴。</span><span class="ch">第 109 章</span></li><li><b class="subject">吴秋意</b><span class="text">被逃出地笼的异种掏穿腹部，死在分贝小镇。</span><span class="ch">第 101–102 章</span></li><li><b class="subject">年鸿安</b><span class="text">留在车上时被东门的异种撕碎。</span><span class="ch">第 99 章</span></li><li><b class="subject">林培</b><span class="text">被自己放出来的异种撕咬，最后被徐获隔空斩杀；系统报他是黑色玩家。</span><span class="ch">第 116 章</span><details class="src"><summary>原文</summary><blockquote>恭喜玩家路人甲杀死一名黑色玩家<cite>第 116 章</cite></blockquote></details></li><li><b class="subject"><a href="../people.html?upto=118#person-%E7%8E%8B%E8%B6%85%E6%B8%85">王超清</a></b><span class="text">一出围墙就抢先脱离；回到凶宅被袁耀、黄俊杰抓住，徐获放了他。</span><span class="ch">第 117 章</span></li><li><b class="subject">小恒、刘大哥和吴秋意的男友</b><span class="text">徐获进来之前就死了：一个饿死，一个撞门被异种分尸，一个误碰铃铛被异种吃掉。（吴秋意的说法）</span><span class="ch">第 83 章</span></li></ul>
+<ul class="people"><li><b class="subject"><a href="../people.html?upto=118#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">通关。打了 P0S 转入完美进化，进化率 20%；得到超级道具“人生的三秒”、小气的皮箱和林培的弓箭。</span><span class="ch">第 113–114、118 章</span><details class="src"><summary>原文</summary><blockquote>恭喜玩家路人甲成功通关“分贝小镇”<cite>第 118 章</cite></blockquote></details></li><li><b class="subject"><a href="../people.html?upto=118#person-%E8%B0%B7%E9%9B%A8">谷雨</a></b><span class="text">通关，断了一只手、一只脚受伤，被异种咬伤后用解毒剂救回；临走说会给徐获打电话。</span><span class="ch">第 112、117 章</span></li><li><b class="subject">柯良</b><span class="text">通关，大腿被飞箭射穿；海市人，说欠徐获一条命。</span><span class="ch">第 112、117 章</span><details class="src"><summary>原文</summary><blockquote>不光是人情，还有救命之恩<cite>第 117 章</cite></blockquote></details></li><li><b class="subject"><a href="../people.html?upto=118#person-%E6%B2%88%E6%96%B0">沈新</a></b><span class="text">通关，哥哥死了；徐获把哥哥的弹绳留给她，她打算跟谷雨去京市。</span><span class="ch">第 117 章</span><details class="src"><summary>原文</summary><blockquote>徐获道具栏里的弹绳取出来递给沈新<cite>第 117 章</cite></blockquote></details></li><li><b class="subject">沈毅</b><span class="text">被徐获从异种堆里救上吊桥，随即被林培一箭射穿太阳穴。</span><span class="ch">第 109 章</span></li><li><b class="subject">吴秋意</b><span class="text">被逃出地笼的异种掏穿腹部，死在分贝小镇。</span><span class="ch">第 101–102 章</span></li><li><b class="subject">年鸿安</b><span class="text">留在车上时被东门的异种撕碎。</span><span class="ch">第 99 章</span></li><li><b class="subject">林培</b><span class="text">被自己放出来的异种撕咬，最后被徐获隔空斩杀；系统报他是黑色玩家。</span><span class="ch">第 116 章</span><details class="src"><summary>原文</summary><blockquote>恭喜玩家路人甲杀死一名黑色玩家<cite>第 116 章</cite></blockquote></details></li><li><b class="subject"><a href="../people.html?upto=118#person-%E7%8E%8B%E8%B6%85%E6%B8%85">王超清</a></b><span class="text">一出围墙就抢先脱离；回到凶宅被袁耀、黄俊杰抓住，徐获放了他。</span><span class="ch">第 117 章</span></li><li><b class="subject">小恒、刘大哥和吴秋意的男友</b><span class="text"><span class="tier claim" title="吴秋意的说法">吴秋意说</span>徐获进来之前就死了：一个饿死，一个撞门被异种分尸，一个误碰铃铛被异种吃掉。</span><span class="ch">第 83 章</span></li></ul>
 </section>
 <section id="relations"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
-<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
 <marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
@@ -212,8 +263,80 @@ h4[id] { scroll-margin-top:16px; }
 </section>
 <section id="threads"><h3>伏笔与未解</h3>
 <p class="note">截至第 118 章还没有交代的事。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html?upto=118#thread-036" title="伏笔总表">#036</a><span class="text">完美进化剂出自神秘的武博士，只偶尔出现在副本里；徐获已经走上完美进化，下一阶段要找 P1S。</span><span class="ch">第 114 章</span><details class="src"><summary>原文</summary><blockquote>S版进化剂会偶然地出现在游戏副本中<cite>第 114 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=118#thread-034" title="伏笔总表">#034</a><span class="text">恒星公司和它名下的恒星医药研究集团：尼塞的儿子儿媳死于“车祸”，尼塞恨不得杀了恒星公司的人；徐获怀疑恒星公司就是游戏的开发者。</span><span class="ch">第 87–88 章</span><details class="src"><summary>原文</summary><blockquote>我要杀了恒星公司那帮人<cite>第 88 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=118#thread-035" title="伏笔总表">#035</a><span class="text">尼塞的尸体被人带走了；他有没有在自己身上试过完美进化，没人知道。（徐获的推断）</span><span class="ch">第 110 章</span></li><li><a class="thread-no" href="../threads.html?upto=118#thread-037" title="伏笔总表">#037</a><span class="text">皮箱里还有两支 P0T、两支 P1A 针剂，徐获不打算自己用，准备送人。</span><span class="ch">第 114、118 章</span></li><li><a class="thread-no" href="../threads.html?upto=118#thread-039" title="伏笔总表">#039</a><span class="text">纵火犯的工具和无畏风雪的火把正在合并升级成一件 D 级道具。</span><span class="ch">第 118 章</span></li><li><a class="thread-no" href="../threads.html?upto=118#thread-038" title="伏笔总表">#038</a><span class="text">徐获让王超清在家等着，说会有人去找他。</span><span class="ch">第 117 章</span></li><li><a class="thread-no" href="../threads.html?upto=118#thread-010" title="伏笔总表">#010</a><span class="text">下一次游戏倒计时 25 天，徐获打算在积木童话城和小丑城里选一个。</span><span class="ch">第 118 章</span><details class="src"><summary>原文</summary><blockquote>下次游戏倒计时：25天<cite>第 118 章</cite></blockquote></details></li></ul>
+<ul class="items"><li><a class="thread-no" href="../threads.html?upto=118#thread-036" title="伏笔总表">#036</a><span class="text">完美进化剂出自神秘的武博士，只偶尔出现在副本里；徐获已经走上完美进化，下一阶段要找 P1S。</span><span class="ch">第 114 章</span><details class="src"><summary>原文</summary><blockquote>S版进化剂会偶然地出现在游戏副本中<cite>第 114 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=118#thread-034" title="伏笔总表">#034</a><span class="text">恒星公司和它名下的恒星医药研究集团：尼塞的儿子儿媳死于“车祸”，尼塞恨不得杀了恒星公司的人；徐获怀疑恒星公司就是游戏的开发者。</span><span class="ch">第 87–88 章</span><details class="src"><summary>原文</summary><blockquote>我要杀了恒星公司那帮人<cite>第 88 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=118#thread-035" title="伏笔总表">#035</a><span class="text"><span class="tier guess" title="徐获的推断">徐获推测</span>尼塞的尸体被人带走了；他有没有在自己身上试过完美进化，没人知道。</span><span class="ch">第 110 章</span></li><li><a class="thread-no" href="../threads.html?upto=118#thread-037" title="伏笔总表">#037</a><span class="text">皮箱里还有两支 P0T、两支 P1A 针剂，徐获不打算自己用，准备送人。</span><span class="ch">第 114、118 章</span></li><li><a class="thread-no" href="../threads.html?upto=118#thread-039" title="伏笔总表">#039</a><span class="text">纵火犯的工具和无畏风雪的火把正在合并升级成一件 D 级道具。</span><span class="ch">第 118 章</span></li><li><a class="thread-no" href="../threads.html?upto=118#thread-038" title="伏笔总表">#038</a><span class="text">徐获让王超清在家等着，说会有人去找他。</span><span class="ch">第 117 章</span></li><li><a class="thread-no" href="../threads.html?upto=118#thread-010" title="伏笔总表">#010</a><span class="text">下一次游戏倒计时 25 天，徐获打算在积木童话城和小丑城里选一个。</span><span class="ch">第 118 章</span><details class="src"><summary>原文</summary><blockquote>下次游戏倒计时：25天<cite>第 118 章</cite></blockquote></details></li></ul>
 </section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E7%BB%B4%E5%BA%A6%E8%A3%82%E7%BC%9D">维度裂缝</a><a href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC">随机副本</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%9D%A5%E6%BA%90">副本从哪来</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E5%89%82">进化剂</a><a href="../world.html#world-%E5%AE%8C%E7%BE%8E%E8%BF%9B%E5%8C%96%E5%89%82">完美进化剂与武博士</a><a href="../world.html#world-%E5%BC%82%E7%A7%8D%E5%8C%96">异种与异种化</a><a href="../world.html#world-%E7%89%B9%E6%80%A7">特性</a><a href="../world.html#world-%E9%81%93%E5%85%B7">道具</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E9%81%93%E5%85%B7">超级道具</a><a href="../world.html#world-%E5%AE%98%E6%96%B9">官方的应对：特事局与先锋玩家</a><a href="../world.html#world-%E7%8E%A9%E5%AE%B6%E4%BA%92%E5%8A%A9">玩家的互助组织</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E7%BA%B5%E7%81%AB%E7%8A%AF%E7%9A%84%E5%B7%A5%E5%85%B7">纵火犯的工具</a><a href="../items.html#item-%E8%A7%A3%E6%AF%92%E5%89%82">解毒剂</a><a href="../items.html#item-%E7%89%9B%E7%9B%BE">牛盾</a><a href="../items.html#item-%E4%BA%BA%E7%94%9F%E7%9A%84%E4%B8%89%E7%A7%92">人生的三秒</a><a href="../items.html#item-%E5%BD%A9%E8%99%B9%E6%9E%AA">彩虹枪</a><a href="../items.html#item-%E5%B0%8F%E6%B0%94%E7%9A%84%E7%9A%AE%E7%AE%B1">小气的皮箱</a><a href="../items.html#item-%E5%BC%B9%E7%BB%B3">弹绳</a><a href="../items.html#item-%E6%97%A0%E7%95%8F%E9%A3%8E%E9%9B%AA%E7%9A%84%E7%81%AB%E6%8A%8A">无畏风雪的火把</a></p></section></details>
-
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。这个选择浏览器会记住。</footer>
-</main></body></html>
+<nav class="units-nav bottom"><a class="prev" href="u0007.html"><small>← 上一单元</small><b>汀城（鲜肉供应厂之后）</b><small>第 58–80 章</small></a><a class="next" href="u0009.html"><small>下一单元 →</small><b>超级道具通告与 014 区风波</b><small>第 119–145 章</small><small class="after" data-beyond="119" hidden>在你的进度之后</small></a></nav>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+</main><script>
+(function () {
+  var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;
+  var box = doc.getElementById('wdzx-upto'), clear = doc.getElementById('wdzx-clear'), banner = doc.getElementById('wdzx-banner');
+  var status = doc.getElementById('wdzx-status'), note = doc.getElementById('wdzx-note');
+  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('max') || Infinity;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function valid(n) { return n >= 1 && n <= reach; }
+  if (root.classList.contains('local')) {   // the Datasette database exists only on this machine
+    var nav = doc.querySelector('.rail nav'), db = doc.createElement('a');
+    db.href = nav.dataset.db; db.textContent = '数据库'; nav.appendChild(db);
+  }
+  if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
+  var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
+  saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
+  if (Math.max(saved, query)) box.value = Math.max(saved, query);
+  function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function apply() {
+    var n = current(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', n < Infinity);
+    banner.hidden = chosen;
+    if (!off) {
+      doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
+      doc.querySelectorAll('[data-until]').forEach(function (el) {   // an earlier state: shown before that chapter only
+        el.classList.toggle('hidden', n >= +el.dataset.until || +(el.dataset.ch || 0) > n);
+      });
+      doc.querySelectorAll('[data-first]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.first > n); });
+      doc.querySelectorAll('.fgroup').forEach(function (g) { g.classList.toggle('hidden', !g.querySelector('[data-ch]:not(.hidden)')); });
+      doc.querySelectorAll('.fsection').forEach(function (s) {
+        s.classList.toggle('hidden', !!s.querySelector('[data-first]') && !s.querySelector('[data-first]:not(.hidden), article:not([data-first])'));
+      });
+      doc.querySelectorAll('.upto-full').forEach(function (el) {
+        var cut = n < +el.dataset.last; el.classList.toggle('hidden', cut); el.nextElementSibling.style.display = cut ? 'inline' : '';
+      });
+      doc.querySelectorAll('[data-asof]').forEach(function (el) { el.textContent = '截至第 ' + Math.min(n, +el.dataset.asof) + ' 章'; });
+    }
+    doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
+    doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
+    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
+      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
+    });
+    status.hidden = n === Infinity;
+    status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+  }
+  function changed() {
+    if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
+    var n = current();
+    put(KEY, n < Infinity ? String(n) : null);
+    if (n < Infinity) put(SEEN, '1');
+    if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
+    note.hidden = true; apply();
+  }
+  box.addEventListener('input', changed);
+  clear.addEventListener('click', function () { box.value = ''; changed(); });
+  banner.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.choice === 'fill') { box.focus(); return; }
+      put(SEEN, '1'); apply();
+    });
+  });
+  apply();
+  var hash = location.hash.slice(1);   // ids are percent-encoded names (person-%E7%94%B2), so try the hash as it is first
+  var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
+  if (target && !off && target.closest('.hidden')) {
+    var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
+    note.textContent = '你要看的“' + name + '”按你的进度（读到第 ' + current() + ' 章）还没出现；改大章号或清除进度就能看到。';
+    note.hidden = false; note.scrollIntoView();
+  } else if (target) { target.scrollIntoView(); }
+})();
+</script></body></html>

@@ -24,8 +24,26 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
 .rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
 .rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
-.rail .toggle-label { margin-left:auto; }
-.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+/* reading progress: one value for the whole site, set in the rail (localStorage wdzx.upto) */
+.rail .progress { margin-left:auto; display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--rail-muted); white-space:nowrap; }
+.rail .progress input { width:5.4em; background:transparent; color:var(--rail-ink); border:1px solid var(--rail-muted); border-radius:3px; padding:5px 6px; font:13px var(--mono); }
+.rail .progress input:invalid { border-color:var(--signal); }
+.has-progress .rail .progress input { border-color:var(--brass); color:var(--brass); }
+.rail .progress button { background:none; border:none; color:var(--rail-muted); font-size:17px; line-height:1; cursor:pointer; padding:4px 6px; }
+.banner { background:var(--card-2); border-bottom:1px solid var(--brass); }
+.banner-inner { max-width:920px; margin:0 auto; padding:10px 16px; font-size:14px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; }
+.banner-inner b { color:var(--brass); }
+.banner button { font:13px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:7px 12px; cursor:pointer; }
+.banner button.primary { background:var(--brass); color:var(--rail); border-color:var(--brass); }
+.progress-status { font-size:13px; color:var(--brass); margin:0 0 6px; }
+.progress-note { font-size:14px; color:var(--muted); margin:0 0 8px; }
+details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+@media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
+  .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
+.beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
+details.fold[open] > summary { display:none; }
+[hidden] { display:none !important; }
+html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* sources switch */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
@@ -82,6 +100,22 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
 .tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+/* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
+.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
+.seal.wide { font-size:14px; }
+.seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
+.seal.mid { color:var(--ink); } .seal.low { color:var(--muted); }
+.seal.none { width:34px; height:26px; border:1px dashed var(--line); border-radius:4px; transform:none; color:var(--muted); font:13px var(--sans); }
+:root[data-theme="light"] .seal.top { color:#a07a10; }
+/* the player panel, in the book's 【key：value】 lines */
+.syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
+  padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
+.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+.tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 
 .hidden { display:none !important; }
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
@@ -102,6 +136,20 @@ ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px 
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
 .subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+ul.people li > :not(.subject) { grid-column:2; }
+@media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
+.harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
+.harvest .h-rating { display:flex; align-items:center; gap:12px; font-size:15.5px; } .harvest .h-line { margin:6px 0; font-size:15.5px; }
+.stamp-seal { position:absolute; top:12px; right:16px; transform:scale(1.5); transform-origin:top right; }
+small.diff { font-size:11px; color:var(--muted); margin-left:4px; letter-spacing:0; }
+nav.units-nav { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+nav.units-nav a { display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 14px; color:var(--ink); }
+nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
+nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
+nav.units-nav small.after { color:var(--signal); }
+.graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
+@media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
 details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
 .graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
@@ -123,15 +171,18 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body><input type="checkbox" id="show-src" class="toggle"><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{b.checked=localStorage.getItem('show-src')==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
-<div class="ticket"><div class="ticket-main"><div class="kicker">副本</div>
-<h1>初审列车</h1><div class="route">第 3 章 ──── 第 16 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观写到第 990 章，含本卡之后的剧情。</p></div>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="all">没看过，随便看看</button><button type="button" data-choice="all">已追平</button></div></div><main>
+<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
+<div class="ticket"><div class="ticket-main"><div class="stamp-seal"><span class="seal low" title="评级 C">C</span></div><div class="kicker">副本</div>
+<h1>初审列车</h1><div class="route">第 3 章 ──── 第 16 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="3" hidden>这张卡从第 3 章开始，在你填的进度之后，整张都是剧透。</p></div>
 <div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0002</div><div class="stub-row"><b>句数</b>84</div>
 <div class="stub-row"><b>引用</b>47 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
 <p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 1–17 章正文后撰写。</p>
+<nav class="units-nav top"><a class="prev" href="u0001.html"><small>← 上一单元</small><b>入局前（汀城）</b><small>第 1–2 章</small></a><a class="next" href="u0003.html"><small>下一单元 →</small><b>五维车站（初审后）</b><small>第 17 章</small><small class="after" data-beyond="17" hidden>在你的进度之后</small></a></nav>
 <details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。写到第 16 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
 <ul class="items"><li><span class="text">每个新玩家的第一关：一群刚觉醒、饿得发慌的进化者被关进同一趟列车，熬过三天三夜才能成为正式玩家，车上还混着吃过人的红色玩家。</span><span class="ch">第 3、9 章</span></li><li><span class="text">按站内分类算副本，系统说它其实不具备副本功能；徐获评 C 级优秀。第 3 章上车，第 16 章到站。</span><span class="ch">第 3、16 章</span><details class="src"><summary>原文</summary><blockquote>您在行车期间的表现被评定为C级优秀<cite>第 16 章</cite></blockquote></details></li></ul>
 </section>
+<section id="harvest" class="harvest"><h3>徐获的收获</h3><div class="h-rating"><span class="seal low" title="评级 C">C</span><span>评级：C 级优秀<span class="ch">第 16 章</span><details class="src"><summary>原文</summary><blockquote>您在行车期间的表现被评定为C级优秀<cite>第 16 章</cite></blockquote></details></span></div><div class="h-line">成为正式的黑色玩家；奖励一个特性（知情者视角）、两件道具、四种药剂和三张车票。<span class="ch">第 16–17 章</span><details class="src"><summary>原文</summary><blockquote>多了一个特性，两个道具，四种药剂，一个礼包和三张车票<cite>第 17 章</cite></blockquote></details></div><div class="h-line">连喝三瓶进化剂，进化率到 10%（原文作进化度）。<span class="ch">第 17 章</span><details class="src"><summary>原文</summary><blockquote>进化度跳到了10％<cite>第 17 章</cite></blockquote></details></div><p class="links"><b>新特性</b><a href="../hero.html#trait-%E5%8F%8C%E8%85%BF">不会疲劳的双腿</a></p><p class="links"><b>拿到</b><a href="../items.html#item-%E6%AF%9B%E5%8F%91%E7%94%9F%E9%95%BF%E5%89%82">毛发生长剂</a><a href="../items.html#item-%E6%B8%85%E6%B4%81%E5%89%82">清洁剂</a><a href="../items.html#item-%E7%BA%B5%E7%81%AB%E7%8A%AF%E7%9A%84%E5%B7%A5%E5%85%B7">纵火犯的工具</a><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a><a href="../items.html#item-%E8%B6%85%E7%BA%A7%E8%B7%91%E9%9E%8B">超级跑鞋</a></p><p class="note">奖励写到第 17 章清点（下一段的开头）。</p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
 <section id="setup"><h3>背景与规则</h3>
 <ul class="items"><li><span class="text">一个月前，世界各地怪事频发，不少人出现吃人的冲动，体能和感官同时增强，被称为“进化者”。徐获在家里杀了第三个来吃他的进化者，当晚眼前弹出了游戏界面。</span><span class="ch">第 1–2 章</span><details class="src"><summary>原文</summary><blockquote>忽然有人提出“进化者理论”<cite>第 2 章</cite></blockquote></details></li><li><span class="text">选完职业，玩家被直接传送上初审列车 301 次：从三维点出发，穿过维度裂缝，三天后早上八点抵达五维车站。</span><span class="ch">第 3 章</span><details class="src"><summary>原文</summary><blockquote>本次列车由三维点出发，穿过维度裂缝<cite>第 3 章</cite></blockquote></details></li><li><span class="text">座位按现实资产分：特等座、一等座、二等座、三等座，越有钱越靠前。每节车厢十二人。</span><span class="ch">第 3–4 章</span><details class="src"><summary>原文</summary><blockquote>特等座、一等座、二等座、三等座，资产越多的人坐的车厢越靠前<cite>第 4 章</cite></blockquote></details></li><li><span class="text">乘车规则四条：必须消费；不要随意进入其他车厢；晚上八点熄灯；乘务员有驱逐预备玩家的权利。列车会根据玩家的表现分类评级。</span><span class="ch">第 3 章</span><details class="src"><summary>原文</summary><blockquote>四、乘务员有驱逐预备玩家的权利。<cite>第 3 章</cite></blockquote><blockquote>列车将根据进化者在行驶期间的表现分类评级<cite>第 3 章</cite></blockquote></details></li><li><span class="text">车上的饭很贵：一杯水一百白钞，一碗面三百白钞，但吃了能压住吃人的冲动。</span><span class="ch">第 5 章</span><details class="src"><summary>原文</summary><blockquote>一杯水一百白钞，一碗面三百白钞<cite>第 5 章</cite></blockquote></details></li></ul>
 </section>
@@ -157,13 +208,13 @@ h4[id] { scroll-margin-top:16px; }
 <h4 id="puzzle-1">表面规则</h4>
 <ul class="items"><li><span class="text">必须消费；不要随意进入其他车厢；晚上八点熄灯；乘务员可以驱逐玩家。</span><span class="ch">第 3 章</span><details class="src"><summary>原文</summary><blockquote>三、晚上八点熄灯。<cite>第 3 章</cite></blockquote></details></li><li><span class="text">列车会根据表现给玩家分类评级。</span><span class="ch">第 3 章</span></li></ul>
 <h4 id="puzzle-2">隐藏规则</h4>
-<ul class="items"><li><span class="text">乘务员给的纸条：“晚上保持清醒”“不要开灯”。熄灯不是让人睡觉，灯才是真正的陷阱。</span><span class="ch">第 6 章</span><details class="src"><summary>原文</summary><blockquote>叠好徐获那张“晚上保持清醒”的纸条还给他<cite>第 6 章</cite></blockquote><blockquote>也把那张“不要开灯”递过去<cite>第 6 章</cite></blockquote></details></li><li><span class="text">低等车厢的人打不开高等车厢的门，除非里面有人开门；只有高等一侧的门外装了门铃。</span><span class="ch">第 6、8 章</span><details class="src"><summary>原文</summary><blockquote>低等车厢不能进入高等车厢，除非有人开门<cite>第 6 章</cite></blockquote></details></li><li><span class="text">点餐可以赊账，但到站时拿什么结算不知道，徐获判断赊账会从评级里扣。（徐获的推断）</span><span class="ch">第 6 章</span><details class="src"><summary>原文</summary><blockquote>车厢点餐可以赊账<cite>第 6 章</cite></blockquote></details></li><li><span class="text">进了别的车厢不会当场出事，但特性时间会缩短三分之一，待到终点就永久扣除。（王小慧的说法）</span><span class="ch">第 13 章</span><details class="src"><summary>原文</summary><blockquote>我违反了列车规定，特性时间缩短三分之一<cite>第 13 章</cite></blockquote></details></li><li><span class="text">袭击乘务员会被当场扔下列车。</span><span class="ch">第 9 章</span></li></ul>
+<ul class="items"><li><span class="text">乘务员给的纸条：“晚上保持清醒”“不要开灯”。熄灯不是让人睡觉，灯才是真正的陷阱。</span><span class="ch">第 6 章</span><details class="src"><summary>原文</summary><blockquote>叠好徐获那张“晚上保持清醒”的纸条还给他<cite>第 6 章</cite></blockquote><blockquote>也把那张“不要开灯”递过去<cite>第 6 章</cite></blockquote></details></li><li><span class="text">低等车厢的人打不开高等车厢的门，除非里面有人开门；只有高等一侧的门外装了门铃。</span><span class="ch">第 6、8 章</span><details class="src"><summary>原文</summary><blockquote>低等车厢不能进入高等车厢，除非有人开门<cite>第 6 章</cite></blockquote></details></li><li><span class="text"><span class="tier guess" title="徐获的推断">推测</span>点餐可以赊账，但到站时拿什么结算不知道，徐获判断赊账会从评级里扣。</span><span class="ch">第 6 章</span><details class="src"><summary>原文</summary><blockquote>车厢点餐可以赊账<cite>第 6 章</cite></blockquote></details></li><li><span class="text"><span class="tier claim" title="王小慧的说法">王小慧说</span>进了别的车厢不会当场出事，但特性时间会缩短三分之一，待到终点就永久扣除。</span><span class="ch">第 13 章</span><details class="src"><summary>原文</summary><blockquote>我违反了列车规定，特性时间缩短三分之一<cite>第 13 章</cite></blockquote></details></li><li><span class="text">袭击乘务员会被当场扔下列车。</span><span class="ch">第 9 章</span></li></ul>
 <h4 id="puzzle-3">线索</h4>
 <ul class="items"><li><span class="text">方脸男人嚷嚷有人从后门进来又跑了，可三等座的人根本打不开这扇门。</span><span class="ch">第 8 章</span><details class="src"><summary>原文</summary><blockquote>你们没发现后门外有个门铃吗<cite>第 8 章</cite></blockquote></details></li><li><span class="text">瓜子脸女人身上有三处大小不一的咬痕，吃人的不止一个。</span><span class="ch">第 8 章</span></li><li><span class="text">老人肩章上的牙印朝向不对，是他自己咬的，用来压住吃人的冲动。</span><span class="ch">第 8、12 章</span></li><li><span class="text">刘佳夜里能看见东西，她看见浓妆女人抹掉嘴边的血，看见中年妇女在吃“零食”。</span><span class="ch">第 12、14 章</span></li><li><span class="text">三等座开灯后，二等座只被余光扫了一下就引来了好几只怪物；怪物对声音反应迟钝。</span><span class="ch">第 12 章</span><details class="src"><summary>原文</summary><blockquote>是三等座开了灯后<cite>第 12 章</cite></blockquote></details></li></ul>
 <h4 id="puzzle-4">误导</h4>
 <ul class="items"><li><span class="text">陈益被反杀前大喊徐获才是血腥玩家。</span><span class="ch">第 7 章</span></li><li><span class="text">李飞说徐获没有证据就杀人，是为了游戏奖励。</span><span class="ch">第 8 章</span></li><li><span class="text">刘佳猜是“游戏在帮血腥玩家”，其实是车厢里的人在互相掩护。</span><span class="ch">第 8 章</span></li></ul>
 <h4 id="puzzle-5">真相</h4>
-<ul class="items"><li><span class="text">每节车厢十二人，红色玩家和普通玩家大约各占一半。（聂玄的说法）</span><span class="ch">第 9、12 章</span><details class="src"><summary>原文</summary><blockquote>血腥玩家和普通玩家的人数应该是一比一<cite>第 9 章</cite></blockquote></details></li><li><span class="text">车上的饭能压住普通玩家的饥饿，对吃过人的玩家到了夜里就不管用，所以他们必须在黑暗里吃人。（韩教授的推断）</span><span class="ch">第 8 章</span></li><li><span class="text">窗外的怪物是上车后没吃到人的红色玩家变的，老人就是例子。（徐获的推断）</span><span class="ch">第 12 章</span><details class="src"><summary>原文</summary><blockquote>我猜测应该是上车后没有进食的红色玩家才会变异<cite>第 12 章</cite></blockquote></details></li><li><span class="text">徐获认定为红色玩家而杀掉的陈益和方脸男人，系统结算时说是一个红色玩家、一个普通玩家，他错杀了一个。</span><span class="ch">第 7–8、16 章</span><details class="src"><summary>原文</summary><blockquote>杀死一名红色玩家和一名普通玩家<cite>第 16 章</cite></blockquote></details></li><li><span class="text">第三夜那个巨大的东西，系统事后称是工作人员失误导致的“D级事件”，并给每人补了一张车票。</span><span class="ch">第 16 章</span><details class="src"><summary>原文</summary><blockquote>由于工作人员的失误，列车遭遇D级事件<cite>第 16 章</cite></blockquote></details></li></ul>
+<ul class="items"><li><span class="text"><span class="tier claim" title="聂玄的说法">聂玄说</span>每节车厢十二人，红色玩家和普通玩家大约各占一半。</span><span class="ch">第 9、12 章</span><details class="src"><summary>原文</summary><blockquote>血腥玩家和普通玩家的人数应该是一比一<cite>第 9 章</cite></blockquote></details></li><li><span class="text"><span class="tier guess" title="韩教授的推断">韩教授推测</span>车上的饭能压住普通玩家的饥饿，对吃过人的玩家到了夜里就不管用，所以他们必须在黑暗里吃人。</span><span class="ch">第 8 章</span></li><li><span class="text"><span class="tier guess" title="徐获的推断">徐获推测</span>窗外的怪物是上车后没吃到人的红色玩家变的，老人就是例子。</span><span class="ch">第 12 章</span><details class="src"><summary>原文</summary><blockquote>我猜测应该是上车后没有进食的红色玩家才会变异<cite>第 12 章</cite></blockquote></details></li><li><span class="text">徐获认定为红色玩家而杀掉的陈益和方脸男人，系统结算时说是一个红色玩家、一个普通玩家，他错杀了一个。</span><span class="ch">第 7–8、16 章</span><details class="src"><summary>原文</summary><blockquote>杀死一名红色玩家和一名普通玩家<cite>第 16 章</cite></blockquote></details></li><li><span class="text">第三夜那个巨大的东西，系统事后称是工作人员失误导致的“D级事件”，并给每人补了一张车票。</span><span class="ch">第 16 章</span><details class="src"><summary>原文</summary><blockquote>由于工作人员的失误，列车遭遇D级事件<cite>第 16 章</cite></blockquote></details></li></ul>
 <h4 id="puzzle-6">解法</h4>
 <ul class="items"><li><span class="text">花钱买信息：用小费换乘务员的提示，再拿提示去和一等座交换，拼出隐藏规则。</span><span class="ch">第 5–6 章</span></li><li><span class="text">守住黑暗：不开灯、不出声、不用手机，把门和破窗堵死。</span><span class="ch">第 7、11、16 章</span></li><li><span class="text">揪出内鬼：用门铃规则和刘佳的夜视排除嫌疑，再让严嘉鱼这样能打的人守在要害位置。</span><span class="ch">第 8、12–13 章</span></li></ul>
 </section>
@@ -172,7 +223,7 @@ h4[id] { scroll-margin-top:16px; }
 </section>
 <section id="relations"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
-<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
 <marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
@@ -213,6 +264,78 @@ h4[id] { scroll-margin-top:16px; }
 <p class="note">截至第 16 章还没有交代的事。</p>
 <ul class="items"><li><a class="thread-no" href="../threads.html?upto=16#thread-008" title="伏笔总表">#008</a><span class="text">徐获错杀的是陈益还是方脸男人？系统只说一红一普通。</span><span class="ch">第 16 章</span></li><li><a class="thread-no" href="../threads.html?upto=16#thread-007" title="伏笔总表">#007</a><span class="text">严嘉鱼问徐获“你看起来也不像饿着肚子上车的”，他只回了一句“你猜呢”。系统说他在列车上没吃过人，上车前呢？</span><span class="ch">第 15–16 章</span><details class="src"><summary>原文</summary><blockquote>你看起来也不像饿着肚子上车的<cite>第 15 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=16#thread-009" title="伏笔总表">#009</a><span class="text">追上列车的巨大怪物是什么，“工作人员的失误”又是什么意思。</span><span class="ch">第 16 章</span></li><li><a class="thread-no" href="../threads.html?upto=16#thread-005" title="伏笔总表">#005</a><span class="text">聂玄的金色名片和汀城第一研究所：下车后联系他。</span><span class="ch">第 2、9 章</span></li><li><a class="thread-no" href="../threads.html?upto=16#thread-006" title="伏笔总表">#006</a><span class="text">老人留下一封写着地址的遗书，王小慧说要送到首都；刘佳带走了何洋的背包。</span><span class="ch">第 13 章</span></li><li><a class="thread-no" href="../threads.html?upto=16#thread-010" title="伏笔总表">#010</a><span class="text">徐获的票夹里有三张单程票：小丑城站、温泉山城站、花园城堡站，下一站去哪儿由他选。</span><span class="ch">第 16 章</span><details class="src"><summary>原文</summary><blockquote>小丑城站、温泉山城站、花园城堡站<cite>第 16 章</cite></blockquote></details></li></ul>
 </section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E7%BB%B4%E5%BA%A6%E8%A3%82%E7%BC%9D">维度裂缝</a><a href="../world.html#world-%E5%88%9D%E5%AE%A1%E5%88%97%E8%BD%A6">初审列车</a><a href="../world.html#world-%E8%BD%A6%E7%A5%A8%E4%B8%8E%E5%89%AF%E6%9C%AC">车票与回程票</a><a href="../world.html#world-%E7%BC%BA%E5%B8%AD%E5%89%AF%E6%9C%AC">每月必须下副本</a><a href="../world.html#world-%E9%80%9A%E5%85%B3%E4%B8%8E%E8%AF%84%E7%BA%A7">通关与评级</a><a href="../world.html#world-%E5%88%97%E8%BD%A6%E8%A7%84%E5%88%99">列车与乘务员</a><a href="../world.html#world-%E5%88%97%E8%BD%A6%E6%80%AA%E7%89%A9">夜里的怪物</a><a href="../world.html#world-%E8%81%8C%E4%B8%9A">职业</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E8%80%85">进化者、进化率与等级</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E5%89%82">进化剂</a><a href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B">红、黑、白玩家与编号</a><a href="../world.html#world-%E7%BA%A2%E8%89%B2%E7%8E%A9%E5%AE%B6">红色玩家的饥饿</a><a href="../world.html#world-%E7%8E%A9%E5%AE%B6%E6%98%B5%E7%A7%B0">玩家昵称</a><a href="../world.html#world-%E7%89%B9%E6%80%A7">特性</a><a href="../world.html#world-%E9%81%93%E5%85%B7%E7%BB%A7%E6%89%BF">杀人夺宝与无主道具</a><a href="../world.html#world-%E8%8D%AF%E5%89%82">药剂</a><a href="../world.html#world-%E7%99%BD%E9%92%9E">白钞</a></p></section></details>
-
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。这个选择浏览器会记住。</footer>
-</main></body></html>
+<nav class="units-nav bottom"><a class="prev" href="u0001.html"><small>← 上一单元</small><b>入局前（汀城）</b><small>第 1–2 章</small></a><a class="next" href="u0003.html"><small>下一单元 →</small><b>五维车站（初审后）</b><small>第 17 章</small><small class="after" data-beyond="17" hidden>在你的进度之后</small></a></nav>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+</main><script>
+(function () {
+  var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;
+  var box = doc.getElementById('wdzx-upto'), clear = doc.getElementById('wdzx-clear'), banner = doc.getElementById('wdzx-banner');
+  var status = doc.getElementById('wdzx-status'), note = doc.getElementById('wdzx-note');
+  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('max') || Infinity;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function valid(n) { return n >= 1 && n <= reach; }
+  if (root.classList.contains('local')) {   // the Datasette database exists only on this machine
+    var nav = doc.querySelector('.rail nav'), db = doc.createElement('a');
+    db.href = nav.dataset.db; db.textContent = '数据库'; nav.appendChild(db);
+  }
+  if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
+  var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
+  saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
+  if (Math.max(saved, query)) box.value = Math.max(saved, query);
+  function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function apply() {
+    var n = current(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', n < Infinity);
+    banner.hidden = chosen;
+    if (!off) {
+      doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
+      doc.querySelectorAll('[data-until]').forEach(function (el) {   // an earlier state: shown before that chapter only
+        el.classList.toggle('hidden', n >= +el.dataset.until || +(el.dataset.ch || 0) > n);
+      });
+      doc.querySelectorAll('[data-first]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.first > n); });
+      doc.querySelectorAll('.fgroup').forEach(function (g) { g.classList.toggle('hidden', !g.querySelector('[data-ch]:not(.hidden)')); });
+      doc.querySelectorAll('.fsection').forEach(function (s) {
+        s.classList.toggle('hidden', !!s.querySelector('[data-first]') && !s.querySelector('[data-first]:not(.hidden), article:not([data-first])'));
+      });
+      doc.querySelectorAll('.upto-full').forEach(function (el) {
+        var cut = n < +el.dataset.last; el.classList.toggle('hidden', cut); el.nextElementSibling.style.display = cut ? 'inline' : '';
+      });
+      doc.querySelectorAll('[data-asof]').forEach(function (el) { el.textContent = '截至第 ' + Math.min(n, +el.dataset.asof) + ' 章'; });
+    }
+    doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
+    doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
+    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
+      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
+    });
+    status.hidden = n === Infinity;
+    status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+  }
+  function changed() {
+    if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
+    var n = current();
+    put(KEY, n < Infinity ? String(n) : null);
+    if (n < Infinity) put(SEEN, '1');
+    if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
+    note.hidden = true; apply();
+  }
+  box.addEventListener('input', changed);
+  clear.addEventListener('click', function () { box.value = ''; changed(); });
+  banner.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.choice === 'fill') { box.focus(); return; }
+      put(SEEN, '1'); apply();
+    });
+  });
+  apply();
+  var hash = location.hash.slice(1);   // ids are percent-encoded names (person-%E7%94%B2), so try the hash as it is first
+  var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
+  if (target && !off && target.closest('.hidden')) {
+    var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
+    note.textContent = '你要看的“' + name + '”按你的进度（读到第 ' + current() + ' 章）还没出现；改大章号或清除进度就能看到。';
+    note.hidden = false; note.scrollIntoView();
+  } else if (target) { target.scrollIntoView(); }
+})();
+</script></body></html>

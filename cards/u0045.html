@@ -24,8 +24,26 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
 .rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
 .rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
-.rail .toggle-label { margin-left:auto; }
-.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+/* reading progress: one value for the whole site, set in the rail (localStorage wdzx.upto) */
+.rail .progress { margin-left:auto; display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--rail-muted); white-space:nowrap; }
+.rail .progress input { width:5.4em; background:transparent; color:var(--rail-ink); border:1px solid var(--rail-muted); border-radius:3px; padding:5px 6px; font:13px var(--mono); }
+.rail .progress input:invalid { border-color:var(--signal); }
+.has-progress .rail .progress input { border-color:var(--brass); color:var(--brass); }
+.rail .progress button { background:none; border:none; color:var(--rail-muted); font-size:17px; line-height:1; cursor:pointer; padding:4px 6px; }
+.banner { background:var(--card-2); border-bottom:1px solid var(--brass); }
+.banner-inner { max-width:920px; margin:0 auto; padding:10px 16px; font-size:14px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; }
+.banner-inner b { color:var(--brass); }
+.banner button { font:13px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:7px 12px; cursor:pointer; }
+.banner button.primary { background:var(--brass); color:var(--rail); border-color:var(--brass); }
+.progress-status { font-size:13px; color:var(--brass); margin:0 0 6px; }
+.progress-note { font-size:14px; color:var(--muted); margin:0 0 8px; }
+details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+@media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
+  .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
+.beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
+details.fold[open] > summary { display:none; }
+[hidden] { display:none !important; }
+html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* sources switch */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
@@ -82,6 +100,22 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
 .tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+/* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
+.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
+.seal.wide { font-size:14px; }
+.seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
+.seal.mid { color:var(--ink); } .seal.low { color:var(--muted); }
+.seal.none { width:34px; height:26px; border:1px dashed var(--line); border-radius:4px; transform:none; color:var(--muted); font:13px var(--sans); }
+:root[data-theme="light"] .seal.top { color:#a07a10; }
+/* the player panel, in the book's 【key：value】 lines */
+.syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
+  padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
+.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+.tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 
 .hidden { display:none !important; }
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
@@ -102,6 +136,20 @@ ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px 
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
 .subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+ul.people li > :not(.subject) { grid-column:2; }
+@media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
+.harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
+.harvest .h-rating { display:flex; align-items:center; gap:12px; font-size:15.5px; } .harvest .h-line { margin:6px 0; font-size:15.5px; }
+.stamp-seal { position:absolute; top:12px; right:16px; transform:scale(1.5); transform-origin:top right; }
+small.diff { font-size:11px; color:var(--muted); margin-left:4px; letter-spacing:0; }
+nav.units-nav { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+nav.units-nav a { display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 14px; color:var(--ink); }
+nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
+nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
+nav.units-nav small.after { color:var(--signal); }
+.graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
+@media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
 details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
 .graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
@@ -123,15 +171,18 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body><input type="checkbox" id="show-src" class="toggle"><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{b.checked=localStorage.getItem('show-src')==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
-<div class="ticket"><div class="ticket-main"><div class="stamp">C<small>级</small></div><div class="kicker">副本 · C 级</div>
-<h1>加密信息</h1><div class="route">第 897 章 ──── 第 983 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观写到第 990 章，含本卡之后的剧情。</p></div>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="all">没看过，随便看看</button><button type="button" data-choice="all">已追平</button></div></div><main>
+<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
+<div class="ticket"><div class="ticket-main"><div class="stamp-seal"><span class="seal top wide" title="评级 SS">SS</span></div><div class="kicker">副本 · <span class="grade" style="background:#2f7a4f">C</span><small class="diff">副本难度</small></div>
+<h1>加密信息</h1><div class="route">第 897 章 ──── 第 983 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="897" hidden>这张卡从第 897 章开始，在你填的进度之后，整张都是剧透。</p></div>
 <div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0045</div><div class="stub-row"><b>句数</b>96</div>
 <div class="stub-row"><b>引用</b>120 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
 <p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 897–983 章正文后撰写。</p>
+<nav class="units-nav top"><a class="prev" href="u0044.html"><small>← 上一单元</small><b>去 W37 基地站的列车</b><small>第 890–896 章</small></a><a class="next" href="u0046.html"><small>下一单元 →</small><b>去 002 区（只夜城）</b><small>第 984–990 章</small><small class="after" data-beyond="984" hidden>在你的进度之后</small></a></nav>
 <details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。写到第 983 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
 <ul class="items"><li><span class="text">C 级副本“加密信息”：徐获和上官曦把“疫苗样本”运进 W37 基地城，才知它是 SE 病毒的源头、市长想借疫病清人；他借鸟塔把解毒剂撒遍全城，拿到双 S。</span><span class="ch">第 897、944、964–965、977、979 章</span><details class="src"><summary>原文</summary><blockquote>副本任务：运送一个活体样本到W37基地<cite>第 897 章</cite></blockquote><blockquote>“至少一半以上。”高真背对着他<cite>第 965 章</cite></blockquote><blockquote>顺利救下一座基地城近十万人口<cite>第 979 章</cite></blockquote></details></li><li><span class="text">C 级副本，第 897–983 章。第 897 章进入，第 979 章通关；第 980–983 章是分奖励、离开和在车站清点收获。第 984 章起是去下一站的列车。</span><span class="ch">第 897、979、983 章</span></li></ul>
 </section>
+<section id="harvest" class="harvest"><h3>徐获的收获</h3><div class="h-rating"><span class="seal top wide" title="评级 SS">SS</span><span>评级：SS 级<span class="ch">第 979 章</span><details class="src"><summary>原文</summary><blockquote>玩家路人甲：SS级<cite>第 979 章</cite></blockquote></details></span></div><div class="h-line">奖励新主要特性“讲述者的魅力”和持有人之死、不可侵犯领地等 A 级道具，团队奖励的一次特性升级用在真相超越一切上。<span class="ch">第 979、981–982 章</span></div><p class="links"><b>升级</b><span>真相超越一切 → 真相超越一切 2.0</span></p><p class="links"><b>拿到</b><a href="../items.html#item-%E9%80%BC%E7%9C%9F%E7%9A%84%E8%9C%A1%E4%BA%BA">逼真的蜡人</a><a href="../items.html#item-%E5%9F%8E%E5%B8%82%E6%B2%99%E7%9B%98">城市沙盘</a><a href="../items.html#item-%E6%8C%81%E6%9C%89%E4%BA%BA%E4%B9%8B%E6%AD%BB">持有人之死</a><a href="../items.html#item-%E4%B8%8D%E5%8F%AF%E4%BE%B5%E7%8A%AF%E9%A2%86%E5%9C%B0">不可侵犯领地</a><a href="../items.html#item-%E5%BC%BA%E5%88%B6%E6%BC%82%E6%B5%AE">强制漂浮</a><a href="../items.html#item-%E7%9B%97%E7%AA%83%E6%88%90%E7%98%BE">盗窃成瘾</a><a href="../items.html#item-%E5%90%8C%E9%80%9F%E9%A3%9E%E8%A1%8C">同速飞行</a><a href="../items.html#item-%E5%A4%96%E4%BA%BA%E5%88%AB%E6%83%B3%E7%9C%8B">外人别想看</a><a href="../items.html#item-%E5%B0%8F%E9%9B%B7%E8%BE%BE">小雷达</a><a href="../items.html#item-%E8%BA%AB%E4%BB%BD%E5%AF%B9%E8%B0%83">身份对调</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
 <section id="setup"><h3>背景与规则</h3>
 <ul class="items"><li><span class="text">W37 基地站原名已经不可考：第一次异种潮后文明瓦解，活下来的人退进临时建起的 37 座安全城市，站点由此得名。后来一种病毒让十多座基地城沦陷。</span><span class="ch">第 897 章</span><details class="src"><summary>原文</summary><blockquote>存活下来的人不得不退居到临时建立起来的37座安全城市<cite>第 897 章</cite></blockquote></details></li><li><span class="text">副本背景说：W11 基地找到了一种有抗体的人类异种，武装部队接力把仅剩的三个活体样本运到了 W19，之后失联，W11 把运送任务委托给玩家。任务是把一个活体样本送到 W37 基地，时间是本区三十天；每人一个定位器，靠近样本时提示方向。</span><span class="ch">第 897 章</span><details class="src"><summary>原文</summary><blockquote>先后十多支武装部队接力才将仅剩的三个活体样本运送到W19基地<cite>第 897 章</cite></blockquote><blockquote>每名玩家都将拿到一个定位器，在靠近活体样本时会提示方向<cite>第 897 章</cite></blockquote></details></li><li><span class="text">样本关在沉重的金属笼里，玩家把手环对准笼子上的卡扣就算认证组队；徐获说一个笼子只能有五个认证。况文君推测，手环认证只是 W37 基地站惯用的交接方式，和通关是两回事。</span><span class="ch">第 925、928 章</span><details class="src"><summary>原文</summary><blockquote>一个笼子只能有五个认证<cite>第 925 章</cite></blockquote><blockquote>手环破坏与否应该跟通关没关系<cite>第 928 章</cite></blockquote></details></li><li><span class="text">路线：W18 → 沙漠（手操越野车才过得去）→ 挖空了能源矿的戈壁 → 过渡区 → W19；再从 W19 穿过树林、荒野和 W37 新修的人工河，经过 W37 的训练基地进城。</span><span class="ch">第 906–907、913、927、937 章</span></li></ul>
 </section>
@@ -163,7 +214,7 @@ h4[id] { scroll-margin-top:16px; }
 <section id="puzzle"><h3>解谜结构</h3>
 <p class="note">副本名“加密信息”：明面的任务背后藏着样本的真实用途、市长的计划和罗长仁的来历。</p>
 <h4 id="puzzle-1">“加密信息”加密的是什么</h4>
-<ul class="items"><li><span class="text">明面上的背景：W11 找到带抗体的异种，托玩家送去 W37 研究疫苗。徐获一路推：W11 和 W37 不和，W37 的人见了异种却不关心；样本在训练基地被人杀了，W37 又不追他们。他判断样本是病毒载体，W37 知情并放任。（徐获的推断）</span><span class="ch">第 928、935、944、947 章</span><details class="src"><summary>原文</summary><blockquote>徐获更倾向于是高小砚方面杀死了活体样本<cite>第 944 章</cite></blockquote></details></li><li><span class="text">高真亲口承认：原始样本是她放进来的，目的是清理养不起的人口。徐获说，副本里能涉及的信息到这里都完整了。</span><span class="ch">第 964–965、973–974 章</span><details class="src"><summary>原文</summary><blockquote>给基地站减负后，还是需要有人来繁衍后代啊<cite>第 964 章</cite></blockquote><blockquote>副本“加密信息”中可能涉及信息都已经完整了<cite>第 974 章</cite></blockquote></details></li></ul>
+<ul class="items"><li><span class="text"><span class="tier guess" title="徐获的推断">推测</span>明面上的背景：W11 找到带抗体的异种，托玩家送去 W37 研究疫苗。徐获一路推：W11 和 W37 不和，W37 的人见了异种却不关心；样本在训练基地被人杀了，W37 又不追他们。他判断样本是病毒载体，W37 知情并放任。</span><span class="ch">第 928、935、944、947 章</span><details class="src"><summary>原文</summary><blockquote>徐获更倾向于是高小砚方面杀死了活体样本<cite>第 944 章</cite></blockquote></details></li><li><span class="text">高真亲口承认：原始样本是她放进来的，目的是清理养不起的人口。徐获说，副本里能涉及的信息到这里都完整了。</span><span class="ch">第 964–965、973–974 章</span><details class="src"><summary>原文</summary><blockquote>给基地站减负后，还是需要有人来繁衍后代啊<cite>第 964 章</cite></blockquote><blockquote>副本“加密信息”中可能涉及信息都已经完整了<cite>第 974 章</cite></blockquote></details></li></ul>
 <h4 id="puzzle-2">支线任务：倒计时 48 小时</h4>
 <ul class="items"><li><span class="text">触发地点是焚烧厂；罗长仁说原始病毒四十八小时就会污染全城，徐获由此认定任务是在病毒扩散前救人。</span><span class="ch">第 950、973 章</span><details class="src"><summary>原文</summary><blockquote>还是罗先生告诉我原始病毒扩散到全城需要四十八个小时<cite>第 973 章</cite></blockquote></details></li><li><span class="text">解法是拿到鸟塔的发射密码：只有政府高层知道，徐获用解毒剂当场试药，逼高小砚在执法队面前选择救人。</span><span class="ch">第 972、974–976 章</span><details class="src"><summary>原文</summary><blockquote>鸟塔的发射台有三层加密，现在只有基地的政府高层才知道密码<cite>第 972 章</cite></blockquote></details></li></ul>
 <h4 id="puzzle-3">罗长仁说了几次假话</h4>
@@ -179,7 +230,7 @@ h4[id] { scroll-margin-top:16px; }
 </section>
 <section id="relations"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
-<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
 <marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
@@ -233,6 +284,78 @@ h4[id] { scroll-margin-top:16px; }
 <p class="note">截至第 983 章还没有交代的事。</p>
 <ul class="items"><li><a class="thread-no" href="../threads.html?upto=983#thread-201" title="伏笔总表">#201</a><span class="text">章医生：给罗长仁基因进化剂和后遗症药的医生，儒雅、热衷慈善、爱摆弄首饰；罗长仁在 E21-024 见过他，后来写给徐获的落脚点和上官曦名片上的地方都在 E20-002。他也在找武博士。</span><span class="ch">第 968–969、974、980 章</span><details class="src"><summary>原文</summary><blockquote>辗转了两个分区后，我在E21-024见到了章医生<cite>第 968 章</cite></blockquote><blockquote>这才是章医生的落脚点<cite>第 974 章</cite></blockquote><blockquote>E20-002，这么巧，和章医生在同一个分区<cite>第 980 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=983#thread-202" title="伏笔总表">#202</a><span class="text">上官曦的名片：E20-002 的一个地方，出示名片就有人接待，他说那里的人可能有武博士的线索。上官曦到底是什么来路。</span><span class="ch">第 980 章</span><details class="src"><summary>原文</summary><blockquote>我其实知道一个地方，那里的人可能有武博士的线索<cite>第 980 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=983#thread-203" title="伏笔总表">#203</a><span class="text">游戏政府面试通知单：E27 虫洞点总政府办事员，具名、不能转让，面试通过就能成为灰色玩家。</span><span class="ch">第 982 章</span><details class="src"><summary>原文</summary><blockquote>上面写明是“E27虫洞点总政府办事员”面试<cite>第 982 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=983#thread-206" title="伏笔总表">#206</a><span class="text">高春风那个十二三岁的外甥：两个妹妹和舅舅、母亲都被过路玩家杀了，他的下落书里没写。</span><span class="ch">第 909、913 章</span><details class="src"><summary>原文</summary><blockquote>旁边一个十二三的男孩子在照顾他<cite>第 909 章</cite></blockquote></details></li></ul>
 </section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E9%80%9A%E5%85%B3%E4%B8%8E%E8%AF%84%E7%BA%A7">通关与评级</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%9D%A5%E6%BA%90">副本从哪来</a><a href="../world.html#world-%E8%BD%A6%E7%AB%99">车站</a><a href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96">精神进化与精神世界</a><a href="../world.html#world-%E9%81%93%E5%85%B7%E7%BB%A7%E6%89%BF">杀人夺宝与无主道具</a><a href="../world.html#world-%E6%B8%B8%E6%88%8F%E6%94%BF%E5%BA%9C">游戏政府与灰色玩家</a><a href="../world.html#world-W37%E5%9F%BA%E5%9C%B0%E7%AB%99">W37 基地站</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E8%A7%A3%E6%AF%92%E5%89%82">解毒剂</a><a href="../items.html#item-%E7%94%BB%E4%B8%AD%E7%9A%84%E4%B8%96%E7%95%8C">画中的世界</a><a href="../items.html#item-%E5%B0%8F%E8%98%91%E8%8F%87%E4%BA%91">小蘑菇云</a><a href="../items.html#item-%E5%94%AF%E4%B8%80%E5%85%A5%E5%8F%A3">唯一入口</a><a href="../items.html#item-%E5%9F%8E%E5%B8%82%E6%B2%99%E7%9B%98">城市沙盘</a><a href="../items.html#item-%E5%A4%A7%E8%84%B8%E7%9D%80%E5%9C%B0">大脸着地</a><a href="../items.html#item-%E7%A6%81%E6%AD%A2%E9%9D%A0%E8%BF%91">禁止靠近</a><a href="../items.html#item-%E9%80%BC%E7%9C%9F%E7%9A%84%E8%9C%A1%E4%BA%BA">逼真的蜡人</a><a href="../items.html#item-%E6%8C%81%E6%9C%89%E4%BA%BA%E4%B9%8B%E6%AD%BB">持有人之死</a><a href="../items.html#item-%E4%B8%8D%E5%8F%AF%E4%BE%B5%E7%8A%AF%E9%A2%86%E5%9C%B0">不可侵犯领地</a></p></section></details>
-
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。这个选择浏览器会记住。</footer>
-</main></body></html>
+<nav class="units-nav bottom"><a class="prev" href="u0044.html"><small>← 上一单元</small><b>去 W37 基地站的列车</b><small>第 890–896 章</small></a><a class="next" href="u0046.html"><small>下一单元 →</small><b>去 002 区（只夜城）</b><small>第 984–990 章</small><small class="after" data-beyond="984" hidden>在你的进度之后</small></a></nav>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+</main><script>
+(function () {
+  var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;
+  var box = doc.getElementById('wdzx-upto'), clear = doc.getElementById('wdzx-clear'), banner = doc.getElementById('wdzx-banner');
+  var status = doc.getElementById('wdzx-status'), note = doc.getElementById('wdzx-note');
+  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('max') || Infinity;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function valid(n) { return n >= 1 && n <= reach; }
+  if (root.classList.contains('local')) {   // the Datasette database exists only on this machine
+    var nav = doc.querySelector('.rail nav'), db = doc.createElement('a');
+    db.href = nav.dataset.db; db.textContent = '数据库'; nav.appendChild(db);
+  }
+  if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
+  var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
+  saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
+  if (Math.max(saved, query)) box.value = Math.max(saved, query);
+  function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function apply() {
+    var n = current(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', n < Infinity);
+    banner.hidden = chosen;
+    if (!off) {
+      doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
+      doc.querySelectorAll('[data-until]').forEach(function (el) {   // an earlier state: shown before that chapter only
+        el.classList.toggle('hidden', n >= +el.dataset.until || +(el.dataset.ch || 0) > n);
+      });
+      doc.querySelectorAll('[data-first]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.first > n); });
+      doc.querySelectorAll('.fgroup').forEach(function (g) { g.classList.toggle('hidden', !g.querySelector('[data-ch]:not(.hidden)')); });
+      doc.querySelectorAll('.fsection').forEach(function (s) {
+        s.classList.toggle('hidden', !!s.querySelector('[data-first]') && !s.querySelector('[data-first]:not(.hidden), article:not([data-first])'));
+      });
+      doc.querySelectorAll('.upto-full').forEach(function (el) {
+        var cut = n < +el.dataset.last; el.classList.toggle('hidden', cut); el.nextElementSibling.style.display = cut ? 'inline' : '';
+      });
+      doc.querySelectorAll('[data-asof]').forEach(function (el) { el.textContent = '截至第 ' + Math.min(n, +el.dataset.asof) + ' 章'; });
+    }
+    doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
+    doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
+    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
+      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
+    });
+    status.hidden = n === Infinity;
+    status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+  }
+  function changed() {
+    if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
+    var n = current();
+    put(KEY, n < Infinity ? String(n) : null);
+    if (n < Infinity) put(SEEN, '1');
+    if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
+    note.hidden = true; apply();
+  }
+  box.addEventListener('input', changed);
+  clear.addEventListener('click', function () { box.value = ''; changed(); });
+  banner.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.choice === 'fill') { box.focus(); return; }
+      put(SEEN, '1'); apply();
+    });
+  });
+  apply();
+  var hash = location.hash.slice(1);   // ids are percent-encoded names (person-%E7%94%B2), so try the hash as it is first
+  var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
+  if (target && !off && target.closest('.hidden')) {
+    var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
+    note.textContent = '你要看的“' + name + '”按你的进度（读到第 ' + current() + ' 章）还没出现；改大章号或清除进度就能看到。';
+    note.hidden = false; note.scrollIntoView();
+  } else if (target) { target.scrollIntoView(); }
+})();
+</script></body></html>

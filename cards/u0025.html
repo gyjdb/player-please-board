@@ -24,8 +24,26 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
 .rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
 .rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
-.rail .toggle-label { margin-left:auto; }
-.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+/* reading progress: one value for the whole site, set in the rail (localStorage wdzx.upto) */
+.rail .progress { margin-left:auto; display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--rail-muted); white-space:nowrap; }
+.rail .progress input { width:5.4em; background:transparent; color:var(--rail-ink); border:1px solid var(--rail-muted); border-radius:3px; padding:5px 6px; font:13px var(--mono); }
+.rail .progress input:invalid { border-color:var(--signal); }
+.has-progress .rail .progress input { border-color:var(--brass); color:var(--brass); }
+.rail .progress button { background:none; border:none; color:var(--rail-muted); font-size:17px; line-height:1; cursor:pointer; padding:4px 6px; }
+.banner { background:var(--card-2); border-bottom:1px solid var(--brass); }
+.banner-inner { max-width:920px; margin:0 auto; padding:10px 16px; font-size:14px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; }
+.banner-inner b { color:var(--brass); }
+.banner button { font:13px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:7px 12px; cursor:pointer; }
+.banner button.primary { background:var(--brass); color:var(--rail); border-color:var(--brass); }
+.progress-status { font-size:13px; color:var(--brass); margin:0 0 6px; }
+.progress-note { font-size:14px; color:var(--muted); margin:0 0 8px; }
+details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+@media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
+  .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
+.beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
+details.fold[open] > summary { display:none; }
+[hidden] { display:none !important; }
+html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* sources switch */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
@@ -82,6 +100,22 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
 .tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+/* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
+.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
+.seal.wide { font-size:14px; }
+.seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
+.seal.mid { color:var(--ink); } .seal.low { color:var(--muted); }
+.seal.none { width:34px; height:26px; border:1px dashed var(--line); border-radius:4px; transform:none; color:var(--muted); font:13px var(--sans); }
+:root[data-theme="light"] .seal.top { color:#a07a10; }
+/* the player panel, in the book's 【key：value】 lines */
+.syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
+  padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
+.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+.tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 
 .hidden { display:none !important; }
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
@@ -102,6 +136,20 @@ ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px 
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
 .subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+ul.people li > :not(.subject) { grid-column:2; }
+@media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
+.harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
+.harvest .h-rating { display:flex; align-items:center; gap:12px; font-size:15.5px; } .harvest .h-line { margin:6px 0; font-size:15.5px; }
+.stamp-seal { position:absolute; top:12px; right:16px; transform:scale(1.5); transform-origin:top right; }
+small.diff { font-size:11px; color:var(--muted); margin-left:4px; letter-spacing:0; }
+nav.units-nav { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+nav.units-nav a { display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 14px; color:var(--ink); }
+nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
+nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
+nav.units-nav small.after { color:var(--signal); }
+.graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
+@media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
 details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
 .graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
@@ -123,12 +171,14 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body><input type="checkbox" id="show-src" class="toggle"><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{b.checked=localStorage.getItem('show-src')==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="all">没看过，随便看看</button><button type="button" data-choice="all">已追平</button></div></div><main>
+<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
-<h1>离开深蓝岛（善后与回程列车）</h1><div class="route">第 454 章 ──── 第 474 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观写到第 990 章，含本卡之后的剧情。</p></div>
+<h1>离开深蓝岛（善后与回程列车）</h1><div class="route">第 454 章 ──── 第 474 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="454" hidden>这张卡从第 454 章开始，在你填的进度之后，整张都是剧透。</p></div>
 <div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0025</div><div class="stub-row"><b>句数</b>53</div>
 <div class="stub-row"><b>引用</b>41 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
 <p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 454–474 章正文后撰写。</p>
+<nav class="units-nav top"><a class="prev" href="u0024.html"><small>← 上一单元</small><b>天黑不开门</b><small>第 419–453 章</small></a><a class="next" href="u0026.html"><small>下一单元 →</small><b>011 区（贵族与军火）</b><small>第 475–485 章</small><small class="after" data-beyond="475" hidden>在你的进度之后</small></a></nav>
 <details class="layer" open><summary><b>概况</b><span>一句话、登场人物。写到第 474 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
 <ul class="items"><li><span class="text">天黑不开门之后，徐获揭穿苗羽、带邓博士坐车回 011 区；车上有恒星医药的押运队和超级玩家劳伦斯·李，他靠“人生的三秒”两次死里逃生，平安到站。</span><span class="ch">第 459–460、464、467、472–474 章</span></li></ul>
 </section>
@@ -138,7 +188,7 @@ h4[id] { scroll-margin-top:16px; }
 </section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。写到第 474 章，含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
 <p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
 <h4 id="story-1">一、深蓝岛善后（第 454–460 章）</h4>
-<p class="prose">副本结束后，徐获、苗羽、楚源、甘庆和邓博士回实验室又搜了一遍，地下三层的电梯已经封死，一无所获，只带走几幅武教授的画。徐获推想武教授就是尼塞说的武博士，四处散布完美进化剂，有和游戏打擂台的意思。<sup class="cite" title="第454章：深蓝实验室的武教授，很大可能就是尼塞大师口中提到的“武博士”">454</sup>邓博士担心鬼影还在实验室活动；徐获想到，鬼影化成粉末也许只是障眼法，它其实还在自己的行李舱里。（徐获的推断）<sup class="cite" title="第455章：所以鬼影还在他的行李舱">455</sup>夜里分班放风，徐获开着消声手办单独问邓博士：武教授常改换容貌姓名，据说至少活了两百岁；邓博士承认先前说 S 版被 A 级虫洞点垄断是编的，他自己为恒星集团工作过、被辞退了。他还讲了临时通行证和虫洞花。<sup class="cite" title="第456章：刚才我说的S版进化剂被垄断的事是假的">455–457</sup>第二天回程路上，地上和树上早布满了童健的胶水。邱向东从树后迂回，徐获用沙漠风车掩住胶水、截到他面前，剑到脖子时邱向东凭空消失；童健趁乱偷袭，被公平钱包打掉胶衣、点火烧身，苗羽从背后夹击，徐获一剑砍掉他一只手。<sup class="cite" title="第458章：不过当剑锋挥到他脖子上时，邱向东却突然从原地消失了">457–458</sup>徐获用风筝线钉住童健的心脏逼问。童健说夹墙里的东西被人拿走了，众人互相猜疑；徐获却点破苗羽：她和童健是同伴，当初是她临时投了孔氏兄妹、捅伤郭晓南，留在岛上是为了杀邓博士灭口。甘庆趁乱跑了。<sup class="cite" title="第459章：我的意思是你们俩是同伴就不用相互洗白了；第459章：甘庆不见了，多半是跑了">459</sup>苗羽没否认，说自己在伯伦家族里不是核心人物。两人做了一笔各怀鬼胎的交易：她给徐获翻看武教授的资料和两页加密文件，换他回答有没有找到药剂——她的测谎道具测不出徐获的假话。徐获把一管 P0 丢给她，用车票离开的同时收紧风筝线，杀了童健。<sup class="cite" title="第460章：不过我在家族中不是核心人物，知道的有限；第460章：我头一次碰到测谎道具都没法测出真假的人；第460章：风筝线一带，还收割了童健的生命">460</sup></p><details class="src block"><summary>本段原文 9 处</summary><blockquote>深蓝实验室的武教授，很大可能就是尼塞大师口中提到的“武博士”<cite>第 454 章</cite></blockquote><blockquote>所以鬼影还在他的行李舱<cite>第 455 章</cite></blockquote><blockquote>刚才我说的S版进化剂被垄断的事是假的<cite>第 456 章</cite></blockquote><blockquote>不过当剑锋挥到他脖子上时，邱向东却突然从原地消失了<cite>第 458 章</cite></blockquote><blockquote>我的意思是你们俩是同伴就不用相互洗白了<cite>第 459 章</cite></blockquote><blockquote>甘庆不见了，多半是跑了<cite>第 459 章</cite></blockquote><blockquote>不过我在家族中不是核心人物，知道的有限<cite>第 460 章</cite></blockquote><blockquote>我头一次碰到测谎道具都没法测出真假的人<cite>第 460 章</cite></blockquote><blockquote>风筝线一带，还收割了童健的生命<cite>第 460 章</cite></blockquote></details>
+<p class="prose">副本结束后，徐获、苗羽、楚源、甘庆和邓博士回实验室又搜了一遍，地下三层的电梯已经封死，一无所获，只带走几幅武教授的画。徐获推想武教授就是尼塞说的武博士，四处散布完美进化剂，有和游戏打擂台的意思。<sup class="cite" title="第454章：深蓝实验室的武教授，很大可能就是尼塞大师口中提到的“武博士”">454</sup><span class="tier guess" title="徐获的推断">推测</span>邓博士担心鬼影还在实验室活动；徐获想到，鬼影化成粉末也许只是障眼法，它其实还在自己的行李舱里。<sup class="cite" title="第455章：所以鬼影还在他的行李舱">455</sup>夜里分班放风，徐获开着消声手办单独问邓博士：武教授常改换容貌姓名，据说至少活了两百岁；邓博士承认先前说 S 版被 A 级虫洞点垄断是编的，他自己为恒星集团工作过、被辞退了。他还讲了临时通行证和虫洞花。<sup class="cite" title="第456章：刚才我说的S版进化剂被垄断的事是假的">455–457</sup>第二天回程路上，地上和树上早布满了童健的胶水。邱向东从树后迂回，徐获用沙漠风车掩住胶水、截到他面前，剑到脖子时邱向东凭空消失；童健趁乱偷袭，被公平钱包打掉胶衣、点火烧身，苗羽从背后夹击，徐获一剑砍掉他一只手。<sup class="cite" title="第458章：不过当剑锋挥到他脖子上时，邱向东却突然从原地消失了">457–458</sup>徐获用风筝线钉住童健的心脏逼问。童健说夹墙里的东西被人拿走了，众人互相猜疑；徐获却点破苗羽：她和童健是同伴，当初是她临时投了孔氏兄妹、捅伤郭晓南，留在岛上是为了杀邓博士灭口。甘庆趁乱跑了。<sup class="cite" title="第459章：我的意思是你们俩是同伴就不用相互洗白了；第459章：甘庆不见了，多半是跑了">459</sup>苗羽没否认，说自己在伯伦家族里不是核心人物。两人做了一笔各怀鬼胎的交易：她给徐获翻看武教授的资料和两页加密文件，换他回答有没有找到药剂——她的测谎道具测不出徐获的假话。徐获把一管 P0 丢给她，用车票离开的同时收紧风筝线，杀了童健。<sup class="cite" title="第460章：不过我在家族中不是核心人物，知道的有限；第460章：我头一次碰到测谎道具都没法测出真假的人；第460章：风筝线一带，还收割了童健的生命">460</sup></p><details class="src block"><summary>本段原文 9 处</summary><blockquote>深蓝实验室的武教授，很大可能就是尼塞大师口中提到的“武博士”<cite>第 454 章</cite></blockquote><blockquote>所以鬼影还在他的行李舱<cite>第 455 章</cite></blockquote><blockquote>刚才我说的S版进化剂被垄断的事是假的<cite>第 456 章</cite></blockquote><blockquote>不过当剑锋挥到他脖子上时，邱向东却突然从原地消失了<cite>第 458 章</cite></blockquote><blockquote>我的意思是你们俩是同伴就不用相互洗白了<cite>第 459 章</cite></blockquote><blockquote>甘庆不见了，多半是跑了<cite>第 459 章</cite></blockquote><blockquote>不过我在家族中不是核心人物，知道的有限<cite>第 460 章</cite></blockquote><blockquote>我头一次碰到测谎道具都没法测出真假的人<cite>第 460 章</cite></blockquote><blockquote>风筝线一带，还收割了童健的生命<cite>第 460 章</cite></blockquote></details>
 <h4 id="story-2">二、一等座（第 461–466 章）</h4>
 <p class="prose">车站里一个满身是血的红色玩家扑向邓博士，被徐获挡下。徐获清点收获：他在深蓝实验室杀了毛威、葛蟠、郭晓南、黑衫玩家、孔惠和童健，得到一批道具；“空腹的贪吃蛇”还偷来两件 B 级道具，孔诚的“绝对安全距离”和童健的“移动的金属”。<sup class="cite" title="第461章：他在深蓝实验室中杀了毛威、葛蟠、郭晓南以及黑衫玩家、孔惠和童健；第461章：不用想也知道是“空腹的贪吃蛇”偷过来的">461</sup>上车就进了满地残肢的吃人玩家车厢，徐获拿两叠白钞和永星餐厅会员的身份换到一等座，那里坐着“一家三口”，女儿叫薇薇。<sup class="cite" title="第462章：我是永星餐厅的会员">461–462</sup>夜里邓博士鼻孔里飞出一条黑虫，随即狂笑不止，徐获眼里满车厢都成了小丑；他砸碎一瓶恶臭药剂、开灯照向对面，挡下射来的飞镖，也引来异种扑窗。薇薇的“父母”随后去后面的车厢，半小时里杀的杀、逃的逃。<sup class="cite" title="第463章：对方的鼻孔里却突然飞出条黑漆漆的虫子；第463章：半个小时后，对面车厢的玩家有死有逃">463</sup>徐获查看天黑不开门的奖励：特性“频繁移动”，道具“熟人对面不相识”“错位捕捉”“伤害打折”。他在洗手间注射了 P1S，眩晕中看见一个穿病号服的小女孩背影跑远，进化率一下升到 30%。<sup class="cite" title="第464章：这次副本出来游戏奖励了一个“频繁移动”特性；第464章：一股不知名的力量促使他伸手去抓她，但小孩却背对着他头也不回地跑远了">464</sup>十个穿同样衣服的人抬着一口棺材似的金属箱上车。邓博士说他们可能是恒星医药的武装押运人员，恒星医药就是开发游戏的公司，押运的多半是重要的实验样本。徐获花钱让乘务员清空后几节车厢，在那里布下陷阱。<sup class="cite" title="第465章：那帮人，有可能是恒星医药的武装押运人员">465</sup>几名玩家突袭押运人员，转眼就被杀光。一股无色气体让徐获看不见任何人，一个坐轮椅的碧眼男人从他手里拿走导演的权利又弹了回来，让乘务员把血腥的车厢打扫干净。<sup class="cite" title="第466章：一个坐着轮椅的碧眼男人出现在眼前，手里正拿着他的道具">466</sup></p><details class="src block"><summary>本段原文 9 处</summary><blockquote>他在深蓝实验室中杀了毛威、葛蟠、郭晓南以及黑衫玩家、孔惠和童健<cite>第 461 章</cite></blockquote><blockquote>不用想也知道是“空腹的贪吃蛇”偷过来的<cite>第 461 章</cite></blockquote><blockquote>我是永星餐厅的会员<cite>第 462 章</cite></blockquote><blockquote>对方的鼻孔里却突然飞出条黑漆漆的虫子<cite>第 463 章</cite></blockquote><blockquote>半个小时后，对面车厢的玩家有死有逃<cite>第 463 章</cite></blockquote><blockquote>这次副本出来游戏奖励了一个“频繁移动”特性<cite>第 464 章</cite></blockquote><blockquote>一股不知名的力量促使他伸手去抓她，但小孩却背对着他头也不回地跑远了<cite>第 464 章</cite></blockquote><blockquote>那帮人，有可能是恒星医药的武装押运人员<cite>第 465 章</cite></blockquote><blockquote>一个坐着轮椅的碧眼男人出现在眼前，手里正拿着他的道具<cite>第 466 章</cite></blockquote></details>
 <h4 id="story-3">三、劳伦斯·李（第 467–474 章）</h4>
@@ -146,11 +196,11 @@ h4[id] { scroll-margin-top:16px; }
 </section>
 <section id="callbacks"><h3>承接前文</h3>
 <p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html?upto=474#thread-130" title="伏笔总表">#130</a><span class="text">苗羽站在哪边：徐获点破她临时投了孔氏兄妹、捅伤郭晓南，她承认自己是伯伦家族的人。</span><span class="ch">第 459–460 章</span><details class="src"><summary>原文</summary><blockquote>不过我在家族中不是核心人物，知道的有限<cite>第 460 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=474#thread-131" title="伏笔总表">#131</a><span class="text">郭晓南、邱向东、童健：徐获清点收获时把郭晓南算在自己杀的人里；童健被他用风筝线杀死；邱向东在剑下凭空消失，逃了。</span><span class="ch">第 458、460–461 章</span></li><li><a class="thread-no" href="../threads.html?upto=474#thread-128" title="伏笔总表">#128</a><span class="text">鬼影：徐获想到粉末也许只是障眼法，鬼影还在他的行李舱里。（徐获的推断）</span><span class="ch">第 455 章</span></li><li><a class="thread-no" href="../threads.html?upto=474#thread-036" title="伏笔总表">#036</a><span class="text">武博士和 S 版：邓博士说武教授常改换容貌姓名，据说活了两百岁；徐获注射了从深蓝实验室拿到的 P1S，一支就涨了 10%，还看见一个穿病号服的小女孩，苗羽给的资料推测武教授有个女儿。</span><span class="ch">第 455、464 章</span><details class="src"><summary>原文</summary><blockquote>他时常会改换容貌和姓名去不同的游戏分区<cite>第 455 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=474#thread-034" title="伏笔总表">#034</a><span class="text">恒星公司：邓博士说恒星医药就是开发游戏的公司，还拿活人做实验。（邓博士的说法）</span><span class="ch">第 465、474 章</span></li><li><a class="thread-no" href="../threads.html?upto=474#thread-132" title="伏笔总表">#132</a><span class="text">邓博士跟着徐获回到 011 区，找了份工作暂停玩家身份；徐获留他一命，给了通讯频道。</span><span class="ch">第 474 章</span><details class="src"><summary>原文</summary><blockquote>从满大街的广告中挑选了一个去应聘了<cite>第 474 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=474#thread-043" title="伏笔总表">#043</a><span class="text">劳伦斯·李本人上了车：徐获认出他就是海市那个和诡音骑士团开战的轮椅玩家。</span><span class="ch">第 467 章</span><details class="src"><summary>原文</summary><blockquote>立刻便让他联想到了当初在海市机缘巧合牵制住诡音骑士团的轮椅玩家<cite>第 467 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=474#thread-051" title="伏笔总表">#051</a><span class="text">劳伦斯·李给徐获的感觉，和离开积木童话城时遇到的那个提皮箱的男人出奇相似。</span><span class="ch">第 466 章</span><details class="src"><summary>原文</summary><blockquote>这种感觉让他想起了离开积木童话城时遇到的那个提着皮箱的男人<cite>第 466 章</cite></blockquote></details></li><li><span class="text">孔诚在深蓝实验室给邓博士的音乐盒，在列车上替他挡了一分半钟异种。</span><span class="ch">第 471 章</span></li></ul>
+<ul class="items"><li><a class="thread-no" href="../threads.html?upto=474#thread-130" title="伏笔总表">#130</a><span class="text">苗羽站在哪边：徐获点破她临时投了孔氏兄妹、捅伤郭晓南，她承认自己是伯伦家族的人。</span><span class="ch">第 459–460 章</span><details class="src"><summary>原文</summary><blockquote>不过我在家族中不是核心人物，知道的有限<cite>第 460 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=474#thread-131" title="伏笔总表">#131</a><span class="text">郭晓南、邱向东、童健：徐获清点收获时把郭晓南算在自己杀的人里；童健被他用风筝线杀死；邱向东在剑下凭空消失，逃了。</span><span class="ch">第 458、460–461 章</span></li><li><a class="thread-no" href="../threads.html?upto=474#thread-128" title="伏笔总表">#128</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>鬼影：徐获想到粉末也许只是障眼法，鬼影还在他的行李舱里。</span><span class="ch">第 455 章</span></li><li><a class="thread-no" href="../threads.html?upto=474#thread-036" title="伏笔总表">#036</a><span class="text">武博士和 S 版：邓博士说武教授常改换容貌姓名，据说活了两百岁；徐获注射了从深蓝实验室拿到的 P1S，一支就涨了 10%，还看见一个穿病号服的小女孩，苗羽给的资料推测武教授有个女儿。</span><span class="ch">第 455、464 章</span><details class="src"><summary>原文</summary><blockquote>他时常会改换容貌和姓名去不同的游戏分区<cite>第 455 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=474#thread-034" title="伏笔总表">#034</a><span class="text"><span class="tier claim" title="邓博士的说法">说法</span>恒星公司：邓博士说恒星医药就是开发游戏的公司，还拿活人做实验。</span><span class="ch">第 465、474 章</span></li><li><a class="thread-no" href="../threads.html?upto=474#thread-132" title="伏笔总表">#132</a><span class="text">邓博士跟着徐获回到 011 区，找了份工作暂停玩家身份；徐获留他一命，给了通讯频道。</span><span class="ch">第 474 章</span><details class="src"><summary>原文</summary><blockquote>从满大街的广告中挑选了一个去应聘了<cite>第 474 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=474#thread-043" title="伏笔总表">#043</a><span class="text">劳伦斯·李本人上了车：徐获认出他就是海市那个和诡音骑士团开战的轮椅玩家。</span><span class="ch">第 467 章</span><details class="src"><summary>原文</summary><blockquote>立刻便让他联想到了当初在海市机缘巧合牵制住诡音骑士团的轮椅玩家<cite>第 467 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=474#thread-051" title="伏笔总表">#051</a><span class="text">劳伦斯·李给徐获的感觉，和离开积木童话城时遇到的那个提皮箱的男人出奇相似。</span><span class="ch">第 466 章</span><details class="src"><summary>原文</summary><blockquote>这种感觉让他想起了离开积木童话城时遇到的那个提着皮箱的男人<cite>第 466 章</cite></blockquote></details></li><li><span class="text">孔诚在深蓝实验室给邓博士的音乐盒，在列车上替他挡了一分半钟异种。</span><span class="ch">第 471 章</span></li></ul>
 </section>
 <section id="relations"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span><span><i class="dash"></i>某人的说法或推断</span></p>
-<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
 <marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
@@ -185,12 +235,84 @@ h4[id] { scroll-margin-top:16px; }
 <g class="node"><circle cx="340.6" cy="90.5" r="10.8"/><text x="340.6" y="73.7" class="name">袁主任</text></g>
 <g class="node"><circle cx="542.6" cy="146.0" r="10.0"/><text x="542.6" y="130.0" class="name">薇薇</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text"><a href="../people.html?upto=474#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 童健</span><span class="ch">第 460 章</span></li><li><span class="text">童健 — 合作设伏 — 邱向东</span><span class="ch">第 458 章</span></li><li><span class="text"><a href="../people.html?upto=474#person-%E8%8B%97%E7%BE%BD">苗羽</a> — 同伴 — 童健（徐获的推断）</span><span class="ch">第 459 章</span></li><li><span class="text"><a href="../people.html?upto=474#person-%E5%BE%90%E8%8E%B7">徐获</a> → 揭穿、交易 → <a href="../people.html?upto=474#person-%E8%8B%97%E7%BE%BD">苗羽</a></span><span class="ch">第 459–460 章</span></li><li><span class="text"><a href="../people.html?upto=474#person-%E5%BE%90%E8%8E%B7">徐获</a> — 交手 — 邱向东</span><span class="ch">第 458 章</span></li><li><span class="text"><a href="../people.html?upto=474#person-%E5%BE%90%E8%8E%B7">徐获</a> → 护送、提防 → <a href="../people.html?upto=474#person-%E9%82%93%E5%8D%9A%E5%A3%AB">邓博士</a></span><span class="ch">第 461、472、474 章</span></li><li><span class="text"><a href="../people.html?upto=474#person-%E5%8A%B3%E4%BC%A6%E6%96%AF%C2%B7%E6%9D%8E">劳伦斯·李</a> → 杀死 → 袁主任</span><span class="ch">第 473 章</span></li><li><span class="text">袁主任 → 捏爆心脏 → <a href="../people.html?upto=474#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 472 章</span></li><li><span class="text"><a href="../people.html?upto=474#person-%E9%82%93%E5%8D%9A%E5%A3%AB">邓博士</a> → 想跟着走 → <a href="../people.html?upto=474#person-%E5%8A%B3%E4%BC%A6%E6%96%AF%C2%B7%E6%9D%8E">劳伦斯·李</a>（徐获的推断）</span><span class="ch">第 467、473 章</span></li><li><span class="text"><a href="../people.html?upto=474#person-%E5%BE%90%E8%8E%B7">徐获</a> — 互相试探 — 薇薇</span><span class="ch">第 462、464、474 章</span></li></ul></details>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text"><a href="../people.html?upto=474#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 童健</span><span class="ch">第 460 章</span></li><li><span class="text">童健 — 合作设伏 — 邱向东</span><span class="ch">第 458 章</span></li><li><span class="text"><span class="tier guess" title="徐获的推断">徐获推测</span><a href="../people.html?upto=474#person-%E8%8B%97%E7%BE%BD">苗羽</a> — 同伴 — 童健</span><span class="ch">第 459 章</span></li><li><span class="text"><a href="../people.html?upto=474#person-%E5%BE%90%E8%8E%B7">徐获</a> → 揭穿、交易 → <a href="../people.html?upto=474#person-%E8%8B%97%E7%BE%BD">苗羽</a></span><span class="ch">第 459–460 章</span></li><li><span class="text"><a href="../people.html?upto=474#person-%E5%BE%90%E8%8E%B7">徐获</a> — 交手 — 邱向东</span><span class="ch">第 458 章</span></li><li><span class="text"><a href="../people.html?upto=474#person-%E5%BE%90%E8%8E%B7">徐获</a> → 护送、提防 → <a href="../people.html?upto=474#person-%E9%82%93%E5%8D%9A%E5%A3%AB">邓博士</a></span><span class="ch">第 461、472、474 章</span></li><li><span class="text"><a href="../people.html?upto=474#person-%E5%8A%B3%E4%BC%A6%E6%96%AF%C2%B7%E6%9D%8E">劳伦斯·李</a> → 杀死 → 袁主任</span><span class="ch">第 473 章</span></li><li><span class="text">袁主任 → 捏爆心脏 → <a href="../people.html?upto=474#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 472 章</span></li><li><span class="text"><span class="tier guess" title="徐获的推断">徐获推测</span><a href="../people.html?upto=474#person-%E9%82%93%E5%8D%9A%E5%A3%AB">邓博士</a> → 想跟着走 → <a href="../people.html?upto=474#person-%E5%8A%B3%E4%BC%A6%E6%96%AF%C2%B7%E6%9D%8E">劳伦斯·李</a></span><span class="ch">第 467、473 章</span></li><li><span class="text"><a href="../people.html?upto=474#person-%E5%BE%90%E8%8E%B7">徐获</a> — 互相试探 — 薇薇</span><span class="ch">第 462、464、474 章</span></li></ul></details>
 </section>
 <section id="threads"><h3>伏笔与未解</h3>
 <p class="note">截至第 474 章还没有交代的事。</p>
 <ul class="items"><li><a class="thread-no" href="../threads.html?upto=474#thread-133" title="伏笔总表">#133</a><span class="text">恒星医药押送的棺材箱里装着一柜子致命的粉红气体；劳伦斯·李为什么引来成群的异种，又为什么要带走那个女性血异。</span><span class="ch">第 469、473 章</span><details class="src"><summary>原文</summary><blockquote>身边放着一个笼子，里面关住的正是刚才差点被袁主任杀死的那个女性血异<cite>第 473 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=474#thread-134" title="伏笔总表">#134</a><span class="text">注射 P1S 时看见的穿病号服的小女孩：是药剂里被人动了手脚，还是武教授留下的指引。</span><span class="ch">第 464 章</span></li><li><a class="thread-no" href="../threads.html?upto=474#thread-136" title="伏笔总表">#136</a><span class="text">薇薇一伙是什么人：夜里让邓博士狂笑、让徐获满眼小丑的是谁（徐获怀疑薇薇）；原文给她的“父母”加了引号。</span><span class="ch">第 463、468 章</span><details class="src"><summary>原文</summary><blockquote>薇薇的“父母”交换了一下眼神<cite>第 468 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=474#thread-135" title="伏笔总表">#135</a><span class="text">塔尔公爵请徐获五天后去贵族俱乐部赴会，冬先生说这关系到继承男爵称号。</span><span class="ch">第 474 章</span><details class="src"><summary>原文</summary><blockquote>邀请他在五天后去参加一个聚会<cite>第 474 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=474#thread-132" title="伏笔总表">#132</a><span class="text">邓博士想终止游戏对人类的掌控，又一再主动让高级玩家绑走自己；他说知道武博士的过去，还没说。</span><span class="ch">第 473–474 章</span></li></ul>
 </section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E7%BB%B4%E5%BA%A6%E8%A3%82%E7%BC%9D">维度裂缝</a><a href="../world.html#world-%E8%BD%A6%E7%A5%A8%E4%B8%8E%E5%89%AF%E6%9C%AC">车票与回程票</a><a href="../world.html#world-%E5%88%97%E8%BD%A6%E8%A7%84%E5%88%99">列车与乘务员</a><a href="../world.html#world-%E5%88%97%E8%BD%A6%E6%80%AA%E7%89%A9">夜里的怪物</a><a href="../world.html#world-%E9%9D%9E%E7%8E%A9%E5%AE%B6%E5%88%97%E8%BD%A6">非玩家的列车与暂停玩家身份</a><a href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96">精神进化与精神世界</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E5%89%82">进化剂</a><a href="../world.html#world-%E5%AE%8C%E7%BE%8E%E8%BF%9B%E5%8C%96%E5%89%82">完美进化剂与武博士</a><a href="../world.html#world-%E9%81%93%E5%85%B7">道具</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9">进化的动植物</a><a href="../world.html#world-%E9%80%9A%E7%BC%89%E7%8A%AF">通缉犯</a><a href="../world.html#world-014%E5%8C%BA%E5%89%8D%E9%80%94">014 区的前途</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E4%BA%BA%E7%94%9F%E7%9A%84%E4%B8%89%E7%A7%92">人生的三秒</a><a href="../items.html#item-%E6%B2%99%E6%BC%A0%E9%A3%8E%E8%BD%A6">沙漠风车</a><a href="../items.html#item-%E6%B6%88%E5%A3%B0%E6%89%8B%E5%8A%9E">消声手办</a><a href="../items.html#item-%E5%85%AC%E5%B9%B3%E9%92%B1%E5%8C%85">公平钱包</a><a href="../items.html#item-%E7%A9%BA%E8%85%B9%E7%9A%84%E8%B4%AA%E5%90%83%E8%9B%87">空腹的贪吃蛇</a><a href="../items.html#item-%E6%9D%9F%E6%98%9F%E4%B9%8B%E7%90%83">束星之球</a><a href="../items.html#item-%E8%A6%81%E5%AE%B3%E9%A3%8E%E7%AD%9D">要害风筝</a><a href="../items.html#item-%E5%AF%BC%E6%BC%94%E7%9A%84%E6%9D%83%E5%88%A9">导演的权利</a><a href="../items.html#item-%E8%83%B6%E8%A1%A3">胶衣</a><a href="../items.html#item-%E6%95%B0%E6%95%B0%E6%A0%BC%E5%AD%90">数数格子</a><a href="../items.html#item-%E7%A7%BB%E5%8A%A8%E7%9A%84%E9%87%91%E5%B1%9E">移动的金属</a><a href="../items.html#item-%E7%BB%9D%E5%AF%B9%E5%AE%89%E5%85%A8%E8%B7%9D%E7%A6%BB">绝对安全距离</a><a href="../items.html#item-%E4%BC%A4%E5%AE%B3%E6%89%93%E6%8A%98">伤害打折</a><a href="../items.html#item-%E7%86%9F%E4%BA%BA%E5%AF%B9%E9%9D%A2%E4%B8%8D%E7%9B%B8%E8%AF%86">熟人对面不相识</a><a href="../items.html#item-%E9%94%99%E4%BD%8D%E6%8D%95%E6%8D%89">错位捕捉</a><a href="../items.html#item-%E9%9F%B3%E4%B9%90%E7%9B%92">音乐盒</a></p></section></details>
-
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。这个选择浏览器会记住。</footer>
-</main></body></html>
+<nav class="units-nav bottom"><a class="prev" href="u0024.html"><small>← 上一单元</small><b>天黑不开门</b><small>第 419–453 章</small></a><a class="next" href="u0026.html"><small>下一单元 →</small><b>011 区（贵族与军火）</b><small>第 475–485 章</small><small class="after" data-beyond="475" hidden>在你的进度之后</small></a></nav>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+</main><script>
+(function () {
+  var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;
+  var box = doc.getElementById('wdzx-upto'), clear = doc.getElementById('wdzx-clear'), banner = doc.getElementById('wdzx-banner');
+  var status = doc.getElementById('wdzx-status'), note = doc.getElementById('wdzx-note');
+  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('max') || Infinity;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function valid(n) { return n >= 1 && n <= reach; }
+  if (root.classList.contains('local')) {   // the Datasette database exists only on this machine
+    var nav = doc.querySelector('.rail nav'), db = doc.createElement('a');
+    db.href = nav.dataset.db; db.textContent = '数据库'; nav.appendChild(db);
+  }
+  if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
+  var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
+  saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
+  if (Math.max(saved, query)) box.value = Math.max(saved, query);
+  function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function apply() {
+    var n = current(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', n < Infinity);
+    banner.hidden = chosen;
+    if (!off) {
+      doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
+      doc.querySelectorAll('[data-until]').forEach(function (el) {   // an earlier state: shown before that chapter only
+        el.classList.toggle('hidden', n >= +el.dataset.until || +(el.dataset.ch || 0) > n);
+      });
+      doc.querySelectorAll('[data-first]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.first > n); });
+      doc.querySelectorAll('.fgroup').forEach(function (g) { g.classList.toggle('hidden', !g.querySelector('[data-ch]:not(.hidden)')); });
+      doc.querySelectorAll('.fsection').forEach(function (s) {
+        s.classList.toggle('hidden', !!s.querySelector('[data-first]') && !s.querySelector('[data-first]:not(.hidden), article:not([data-first])'));
+      });
+      doc.querySelectorAll('.upto-full').forEach(function (el) {
+        var cut = n < +el.dataset.last; el.classList.toggle('hidden', cut); el.nextElementSibling.style.display = cut ? 'inline' : '';
+      });
+      doc.querySelectorAll('[data-asof]').forEach(function (el) { el.textContent = '截至第 ' + Math.min(n, +el.dataset.asof) + ' 章'; });
+    }
+    doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
+    doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
+    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
+      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
+    });
+    status.hidden = n === Infinity;
+    status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+  }
+  function changed() {
+    if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
+    var n = current();
+    put(KEY, n < Infinity ? String(n) : null);
+    if (n < Infinity) put(SEEN, '1');
+    if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
+    note.hidden = true; apply();
+  }
+  box.addEventListener('input', changed);
+  clear.addEventListener('click', function () { box.value = ''; changed(); });
+  banner.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.choice === 'fill') { box.focus(); return; }
+      put(SEEN, '1'); apply();
+    });
+  });
+  apply();
+  var hash = location.hash.slice(1);   // ids are percent-encoded names (person-%E7%94%B2), so try the hash as it is first
+  var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
+  if (target && !off && target.closest('.hidden')) {
+    var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
+    note.textContent = '你要看的“' + name + '”按你的进度（读到第 ' + current() + ' 章）还没出现；改大章号或清除进度就能看到。';
+    note.hidden = false; note.scrollIntoView();
+  } else if (target) { target.scrollIntoView(); }
+})();
+</script></body></html>

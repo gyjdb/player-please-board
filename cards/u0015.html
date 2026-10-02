@@ -24,8 +24,26 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
 .rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
 .rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
-.rail .toggle-label { margin-left:auto; }
-.rail nav a.local-only { display:none; } html.local .rail nav a.local-only { display:inline; }
+/* reading progress: one value for the whole site, set in the rail (localStorage wdzx.upto) */
+.rail .progress { margin-left:auto; display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--rail-muted); white-space:nowrap; }
+.rail .progress input { width:5.4em; background:transparent; color:var(--rail-ink); border:1px solid var(--rail-muted); border-radius:3px; padding:5px 6px; font:13px var(--mono); }
+.rail .progress input:invalid { border-color:var(--signal); }
+.has-progress .rail .progress input { border-color:var(--brass); color:var(--brass); }
+.rail .progress button { background:none; border:none; color:var(--rail-muted); font-size:17px; line-height:1; cursor:pointer; padding:4px 6px; }
+.banner { background:var(--card-2); border-bottom:1px solid var(--brass); }
+.banner-inner { max-width:920px; margin:0 auto; padding:10px 16px; font-size:14px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; }
+.banner-inner b { color:var(--brass); }
+.banner button { font:13px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:7px 12px; cursor:pointer; }
+.banner button.primary { background:var(--brass); color:var(--rail); border-color:var(--brass); }
+.progress-status { font-size:13px; color:var(--brass); margin:0 0 6px; }
+.progress-note { font-size:14px; color:var(--muted); margin:0 0 8px; }
+details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+@media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
+  .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
+.beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
+details.fold[open] > summary { display:none; }
+[hidden] { display:none !important; }
+html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* sources switch */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
@@ -82,6 +100,22 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
 .tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+/* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
+.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
+.seal.wide { font-size:14px; }
+.seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
+.seal.mid { color:var(--ink); } .seal.low { color:var(--muted); }
+.seal.none { width:34px; height:26px; border:1px dashed var(--line); border-radius:4px; transform:none; color:var(--muted); font:13px var(--sans); }
+:root[data-theme="light"] .seal.top { color:#a07a10; }
+/* the player panel, in the book's 【key：value】 lines */
+.syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
+  padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
+.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+.tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 
 .hidden { display:none !important; }
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
@@ -102,6 +136,20 @@ ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px 
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
 .subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
+ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+ul.people li > :not(.subject) { grid-column:2; }
+@media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
+.harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
+.harvest .h-rating { display:flex; align-items:center; gap:12px; font-size:15.5px; } .harvest .h-line { margin:6px 0; font-size:15.5px; }
+.stamp-seal { position:absolute; top:12px; right:16px; transform:scale(1.5); transform-origin:top right; }
+small.diff { font-size:11px; color:var(--muted); margin-left:4px; letter-spacing:0; }
+nav.units-nav { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+nav.units-nav a { display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 14px; color:var(--ink); }
+nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
+nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
+nav.units-nav small.after { color:var(--signal); }
+.graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
+@media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
 details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
 .graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
@@ -123,15 +171,18 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body><input type="checkbox" id="show-src" class="toggle"><script>if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{b.checked=localStorage.getItem('show-src')==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a><a href="../../novel" class="local-only">数据库</a></nav><label for="show-src" class="toggle-label">显示出处</label></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="all">没看过，随便看看</button><button type="button" data-choice="all">已追平</button></div></div><main>
+<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
-<h1>升级 D 级之后、第十七医院初现</h1><div class="route">第 241 章 ──── 第 256 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观写到第 990 章，含本卡之后的剧情。</p></div>
+<h1>升级 D 级之后、第十七医院初现</h1><div class="route">第 241 章 ──── 第 256 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="241" hidden>这张卡从第 241 章开始，在你填的进度之后，整张都是剧透。</p></div>
 <div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0015</div><div class="stub-row"><b>句数</b>59</div>
 <div class="stub-row"><b>引用</b>36 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
 <p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 241–256 章正文后撰写。</p>
+<nav class="units-nav top"><a class="prev" href="u0014.html"><small>← 上一单元</small><b>三十天</b><small>第 222–240 章</small></a><a class="next" href="u0016.html"><small>下一单元 →</small><b>粉红帽的游乐园</b><small>第 257–287 章</small><small class="after" data-beyond="257" hidden>在你的进度之后</small></a></nav>
 <details class="layer" open><summary><b>概况</b><span>一句话、登场人物。写到第 256 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
 <ul class="items"><li><span class="text">升到 D 级的徐获发现记忆被人动过，找回童年住过的第十七医院，医院连同记录都已消失；他大闹隆兴、拒绝特防部，靠空间道具从包围中脱身。</span><span class="ch">第 244、248、253、255 章</span></li><li><span class="text">主线段，第 241–256 章，地点汀城、京市，最后落在花城。</span><span class="ch">第 241、256 章</span></li></ul>
 </section>
+<section id="harvest" class="harvest"><h3>徐获的收获</h3><p class="links"><b>拿到</b><a href="../items.html#item-%E5%8F%98%E8%B4%A8%E6%89%8B%E5%A5%97">变质手套</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
 <section id="cast"><h3>登场人物</h3>
 <p class="note">按出场先后。</p>
 <ul class="people"><li><b class="subject"><a href="../people.html?upto=256#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">刚升为 D 级玩家，新得主要特性“事故触发体质”；二十年前在第十七医院住过院，十七岁那年哥哥徐知被枪杀。</span><span class="ch">第 241、248、250 章</span><details class="src"><summary>原文</summary><blockquote>新增一项主要特性“事故触发体质”<cite>第 241 章</cite></blockquote></details></li><li><b class="subject"><a href="../people.html?upto=256#person-%E8%81%82%E7%8E%84">聂玄</a></b><span class="text">特防部的人，在海市伤了腿，装着游戏里找来的特殊金属。</span><span class="ch">第 242 章</span><details class="src"><summary>原文</summary><blockquote>在海市受了伤，要不是游戏里找到的特殊金属，只怕腿都保不住<cite>第 242 章</cite></blockquote></details></li><li><b class="subject"><a href="../people.html?upto=256#person-%E4%BF%9E%E6%99%B4%E6%99%B4">俞晴晴</a></b><span class="text">表妹，已经过了初审列车，职业是心理分析师，赖在徐获家里住下。</span><span class="ch">第 243 章</span><details class="src"><summary>原文</summary><blockquote>心理分析师，怎么样？是不是很适合我<cite>第 243 章</cite></blockquote></details></li><li><b class="subject"><a href="../people.html?upto=256#person-%E5%91%A8%E5%87%9D">周凝</a>、<a href="../people.html?upto=256#person-%E8%83%A1%E6%96%87%E8%99%8E">胡文虎</a></b><span class="text">之前一起对付过圣剑会的玩家，同伴已经死在游戏里；周凝的职业是美杜莎，头发能化蛇。</span><span class="ch">第 244、246 章</span></li><li><b class="subject">林院长</b><span class="text">第十七医院的前院长，如今家徒四壁，老伴被人骗着替干儿子背了高利贷。</span><span class="ch">第 248、250 章</span></li><li><b class="subject">廖旭</b><span class="text">第十七医院一位女医生的儿子，他母亲得了阿尔兹海默症。</span><span class="ch">第 250–251 章</span></li><li><b class="subject">杰哥、杨超</b><span class="text">徐获十年前在隆兴地下市场结下的旧识和冤家；杨超是有背景的“杨公子”，那年和徐获赛车。</span><span class="ch">第 251–252 章</span></li><li><b class="subject"><a href="../people.html?upto=256#person-%E5%90%B4%E7%BB%84%E9%95%BF">吴组长</a>、<a href="../people.html?upto=256#person-%E5%A7%9C%E7%BF%98">姜翘</a>、<a href="../people.html?upto=256#person-%E5%AE%8B%E7%BB%84%E9%95%BF">宋组长</a>、<a href="../people.html?upto=256#person-%E6%A8%8A%E9%83%A8%E9%95%BF">樊部长</a></b><span class="text">特防部的人：吴组长一直想拉拢徐获，姜翘对他很感兴趣，宋组长主张抓捕或击毙。</span><span class="ch">第 254–255 章</span></li><li><b class="subject"><a href="../people.html?upto=256#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a></b><span class="text">在小花红红大楼里遇到的玩家，如今在宋组长手下。</span><span class="ch">第 256 章</span></li><li><b class="subject"><a href="../people.html?upto=256#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a></b><span class="text">约过徐获一起去随机副本的女孩，在花城的废公园里守着一个人偶。</span><span class="ch">第 243、256 章</span></li></ul>
@@ -155,7 +206,7 @@ h4[id] { scroll-margin-top:16px; }
 </section>
 <section id="relations"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
-<div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
 <marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
@@ -203,6 +254,78 @@ h4[id] { scroll-margin-top:16px; }
 <p class="note">截至第 256 章还没有交代的事。</p>
 <ul class="items"><li><a class="thread-no" href="../threads.html?upto=256#thread-074" title="伏笔总表">#074</a><span class="text">合照里不存在的第七个医生：梦里教他博弈、给他吃药的人，女医生画里没有眼睛的男人。他和出资建院、从不露面的朱姓商人是不是同一个人。</span><span class="ch">第 248–249、251 章</span></li><li><a class="thread-no" href="../threads.html?upto=256#thread-075" title="伏笔总表">#075</a><span class="text">常贝等四个孩子十年前“死亡”或“失踪”，徐获认定他们是被人带走了。</span><span class="ch">第 249、251 章</span></li><li><a class="thread-no" href="../threads.html?upto=256#thread-041" title="伏笔总表">#041</a><span class="text">徐知之死的两个版本：毒贩流弹，还是一场赌局里的两声枪响。</span><span class="ch">第 253 章</span><details class="src"><summary>原文</summary><blockquote>你说输的人是你，愿赌服输……枪一共响了两声<cite>第 253 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=256#thread-077" title="伏笔总表">#077</a><span class="text">二十年前、十年前两次周边省份仪器停摆，是谁进入了 014 区。</span><span class="ch">第 255 章</span></li><li><a class="thread-no" href="../threads.html?upto=256#thread-076" title="伏笔总表">#076</a><span class="text">特防部内部的分歧，和戴文谦“借东风”的打算。</span><span class="ch">第 254、256 章</span></li><li><a class="thread-no" href="../threads.html?upto=256#thread-078" title="伏笔总表">#078</a><span class="text">严嘉鱼在花城废公园里守着的那个人偶，她说“眼睛都看疼了，什么时候才亮”。</span><span class="ch">第 256 章</span></li><li><a class="thread-no" href="../threads.html?upto=256#thread-073" title="伏笔总表">#073</a><span class="text">新特性“事故触发体质”和窥探之眼还有哪些用处，他预感下一个副本会看到全新的广阔世界。</span><span class="ch">第 241 章</span><details class="src"><summary>原文</summary><blockquote>他预感，下次进入副本将会看到一个全新的广阔世界<cite>第 241 章</cite></blockquote></details></li></ul>
 </section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E7%BB%B4%E5%BA%A6%E8%A3%82%E7%BC%9D">维度裂缝</a><a href="../world.html#world-%E7%BC%BA%E5%B8%AD%E5%89%AF%E6%9C%AC">每月必须下副本</a><a href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC%E5%85%A5%E5%8F%A3">随机副本的入口与大雾</a><a href="../world.html#world-D%E7%BA%A7%E6%9D%83%E9%99%90">升级与权限</a><a href="../world.html#world-%E9%81%93%E5%85%B7">道具</a><a href="../world.html#world-%E7%89%B9%E9%98%B2%E9%83%A8">特防部</a><a href="../world.html#world-%E5%A4%96%E5%8C%BA%E5%85%A5%E4%BE%B5">外区的侵略</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E6%AF%9B%E5%8F%91%E7%94%9F%E9%95%BF%E5%89%82">毛发生长剂</a><a href="../items.html#item-%E7%BE%8E%E6%A2%A6%E6%88%90%E7%9C%9F%E5%89%82">美梦成真剂</a><a href="../items.html#item-%E9%89%B4%E5%AE%9A%E5%8F%89">鉴定叉</a><a href="../items.html#item-%E4%BA%94%E4%BA%94%E5%BC%80%E6%B0%94%E7%AA%97">五五开气窗</a><a href="../items.html#item-%E7%94%BB%E4%B8%AD%E7%9A%84%E4%B8%96%E7%95%8C">画中的世界</a><a href="../items.html#item-%E7%A5%9E%E5%87%BA%E9%AC%BC%E6%B2%A1%E7%9A%84%E5%B0%96%E5%8F%AB%E9%B8%A1">神出鬼没的尖叫鸡</a><a href="../items.html#item-%E7%AA%A5%E6%8E%A2%E4%B9%8B%E7%9C%BC">窥探之眼</a><a href="../items.html#item-%E5%8F%98%E8%B4%A8%E6%89%8B%E5%A5%97">变质手套</a></p></section></details>
-
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现。这个选择浏览器会记住。</footer>
-</main></body></html>
+<nav class="units-nav bottom"><a class="prev" href="u0014.html"><small>← 上一单元</small><b>三十天</b><small>第 222–240 章</small></a><a class="next" href="u0016.html"><small>下一单元 →</small><b>粉红帽的游乐园</b><small>第 257–287 章</small><small class="after" data-beyond="257" hidden>在你的进度之后</small></a></nav>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+</main><script>
+(function () {
+  var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;
+  var box = doc.getElementById('wdzx-upto'), clear = doc.getElementById('wdzx-clear'), banner = doc.getElementById('wdzx-banner');
+  var status = doc.getElementById('wdzx-status'), note = doc.getElementById('wdzx-note');
+  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('max') || Infinity;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function valid(n) { return n >= 1 && n <= reach; }
+  if (root.classList.contains('local')) {   // the Datasette database exists only on this machine
+    var nav = doc.querySelector('.rail nav'), db = doc.createElement('a');
+    db.href = nav.dataset.db; db.textContent = '数据库'; nav.appendChild(db);
+  }
+  if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
+  var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
+  saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
+  if (Math.max(saved, query)) box.value = Math.max(saved, query);
+  function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function apply() {
+    var n = current(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', n < Infinity);
+    banner.hidden = chosen;
+    if (!off) {
+      doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
+      doc.querySelectorAll('[data-until]').forEach(function (el) {   // an earlier state: shown before that chapter only
+        el.classList.toggle('hidden', n >= +el.dataset.until || +(el.dataset.ch || 0) > n);
+      });
+      doc.querySelectorAll('[data-first]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.first > n); });
+      doc.querySelectorAll('.fgroup').forEach(function (g) { g.classList.toggle('hidden', !g.querySelector('[data-ch]:not(.hidden)')); });
+      doc.querySelectorAll('.fsection').forEach(function (s) {
+        s.classList.toggle('hidden', !!s.querySelector('[data-first]') && !s.querySelector('[data-first]:not(.hidden), article:not([data-first])'));
+      });
+      doc.querySelectorAll('.upto-full').forEach(function (el) {
+        var cut = n < +el.dataset.last; el.classList.toggle('hidden', cut); el.nextElementSibling.style.display = cut ? 'inline' : '';
+      });
+      doc.querySelectorAll('[data-asof]').forEach(function (el) { el.textContent = '截至第 ' + Math.min(n, +el.dataset.asof) + ' 章'; });
+    }
+    doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
+    doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
+    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
+      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
+    });
+    status.hidden = n === Infinity;
+    status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+  }
+  function changed() {
+    if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
+    var n = current();
+    put(KEY, n < Infinity ? String(n) : null);
+    if (n < Infinity) put(SEEN, '1');
+    if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
+    note.hidden = true; apply();
+  }
+  box.addEventListener('input', changed);
+  clear.addEventListener('click', function () { box.value = ''; changed(); });
+  banner.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.choice === 'fill') { box.focus(); return; }
+      put(SEEN, '1'); apply();
+    });
+  });
+  apply();
+  var hash = location.hash.slice(1);   // ids are percent-encoded names (person-%E7%94%B2), so try the hash as it is first
+  var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
+  if (target && !off && target.closest('.hidden')) {
+    var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
+    note.textContent = '你要看的“' + name + '”按你的进度（读到第 ' + current() + ' 章）还没出现；改大章号或清除进度就能看到。';
+    note.hidden = false; note.scrollIntoView();
+  } else if (target) { target.scrollIntoView(); }
+})();
+</script></body></html>
