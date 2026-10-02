@@ -113,9 +113,12 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
   padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
 .syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
 .syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+@media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
+.upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
 /* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
 .tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
 .tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
+.tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
 
 .hidden { display:none !important; }
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
@@ -163,43 +166,44 @@ svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
 svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
 svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
 details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
-.links { margin:8px 0; } .links b { display:inline-block; width:3em; color:var(--brass); font-weight:600; }
+.links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
 .links a { margin-right:12px; white-space:nowrap; }
+.progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
 .hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
 nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
 nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="all">没看过，随便看看</button><button type="button" data-choice="all">已追平</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
-<div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
+<div class="ticket" id="card" data-first="890" data-end="896"><div class="ticket-main"><div class="kicker">主线</div>
 <h1>去 W37 基地站的列车</h1><div class="route">第 890 章 ──── 第 896 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="890" hidden>这张卡从第 890 章开始，在你填的进度之后，整张都是剧透。</p></div>
 <div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0044</div><div class="stub-row"><b>句数</b>20</div>
 <div class="stub-row"><b>引用</b>22 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 890–896 章正文后撰写。</p>
+<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 890–896 章正文后撰写。</p>
 <nav class="units-nav top"><a class="prev" href="u0043.html"><small>← 上一单元</small><b>友谊天长地久</b><small>第 862–889 章</small></a><a class="next" href="u0045.html"><small>下一单元 →</small><b>加密信息</b><small>第 897–983 章</small><small class="after" data-beyond="897" hidden>在你的进度之后</small></a></nav>
-<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。写到第 896 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
-<ul class="items"><li><span class="text">升到 C 级的徐获坐 C171 次列车去别的虫洞点，路上合并、置换道具补齐短板，结识了新人上官曦，异种袭车时杀了盯上他的吃人玩家。</span><span class="ch">第 890–894、896 章</span></li><li><span class="text">主线，第 890–896 章，全程在 C171 次列车上。</span><span class="ch">第 890、896 章</span></li></ul>
+<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。写到第 896 章，含结局。</span></summary><section id="overview" class="fgroup"><h3>一句话</h3>
+<ul class="items"><li data-ch="896"><span class="text">升到 C 级的徐获坐 C171 次列车去别的虫洞点，路上合并、置换道具补齐短板，结识了新人上官曦，异种袭车时杀了盯上他的吃人玩家。</span><span class="ch">第 890–894、896 章</span></li><li data-ch="896"><span class="text">主线，第 890–896 章，全程在 C171 次列车上。</span><span class="ch">第 890、896 章</span></li></ul>
 </section>
-<section id="harvest" class="harvest"><h3>徐获的收获</h3><p class="links"><b>拿到</b><a href="../items.html#item-%E4%B8%87%E7%89%A9%E5%8F%AF%E6%89%8B%E6%8C%81">万物可手持</a><a href="../items.html#item-%E5%85%B1%E4%BA%AB%E5%AE%9A%E4%BD%8D">共享定位</a><a href="../items.html#item-%E5%8E%9A%E9%87%8D%E7%9A%84%E4%BF%9D%E6%8A%A4%E8%89%B2">厚重的保护色</a><a href="../items.html#item-%E5%B0%8F%E8%98%91%E8%8F%87%E4%BA%91">小蘑菇云</a><a href="../items.html#item-%E5%BF%83%E5%8A%A8%E6%8A%98%E6%89%A3">心动折扣</a><a href="../items.html#item-%E6%AD%A4%E8%B7%AF%E4%B8%8D%E9%80%9A">此路不通</a><a href="../items.html#item-%E6%B0%94%E7%90%83%E7%BA%BF">气球线</a><a href="../items.html#item-%E7%9C%9F%E7%A9%BA%E5%9C%88">真空圈</a><a href="../items.html#item-%E9%87%8D%E6%96%B0%E5%81%9A%E4%BA%BA">重新做人</a><a href="../items.html#item-%E9%AD%94%E6%9C%AF%E8%84%B1%E9%80%83">魔术脱逃</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
-<section id="cast"><h3>登场人物</h3>
+<section id="harvest" class="harvest" data-ch="896"><h3>徐获的收获</h3><p class="links"><b>拿到</b><a href="../items.html#item-%E4%B8%87%E7%89%A9%E5%8F%AF%E6%89%8B%E6%8C%81">万物可手持</a><a href="../items.html#item-%E5%85%B1%E4%BA%AB%E5%AE%9A%E4%BD%8D">共享定位</a><a href="../items.html#item-%E5%8E%9A%E9%87%8D%E7%9A%84%E4%BF%9D%E6%8A%A4%E8%89%B2">厚重的保护色</a><a href="../items.html#item-%E5%B0%8F%E8%98%91%E8%8F%87%E4%BA%91">小蘑菇云</a><a href="../items.html#item-%E5%BF%83%E5%8A%A8%E6%8A%98%E6%89%A3">心动折扣</a><a href="../items.html#item-%E6%AD%A4%E8%B7%AF%E4%B8%8D%E9%80%9A">此路不通</a><a href="../items.html#item-%E6%B0%94%E7%90%83%E7%BA%BF">气球线</a><a href="../items.html#item-%E7%9C%9F%E7%A9%BA%E5%9C%88">真空圈</a><a href="../items.html#item-%E9%87%8D%E6%96%B0%E5%81%9A%E4%BA%BA">重新做人</a><a href="../items.html#item-%E9%AD%94%E6%9C%AF%E8%84%B1%E9%80%83">魔术脱逃</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
+<section id="cast" class="fgroup"><h3>登场人物</h3>
 <p class="note">按出场先后。车上其他人（短发女玩家、独眼、带机械狗的玩家）都没报名字。</p>
-<ul class="people"><li><b class="subject"><a href="../people.html?upto=896#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">刚升 C 级，报的名字是“路人甲”，对上官曦说自己四十岁。</span><span class="ch">第 892–893 章</span></li><li><b class="subject"><a href="../people.html?upto=896#person-%E4%B8%8A%E5%AE%98%E6%9B%A6">上官曦</a></b><span class="text">和徐获同站上车的新晋 C 级玩家，昵称“众神之主”，排在榜单一万九千多名；嘴碎热情，自称有预判特性，认定徐获是好人。</span><span class="ch">第 892–893、895 章</span><details class="src"><summary>原文</summary><blockquote>重新认识一下，我叫上官曦，生于朝阳，始于光明<cite>第 893 章</cite></blockquote></details></li><li><b class="subject"><a href="../people.html?upto=896#person-%E4%B8%81%E7%BB%B4">丁维</a></b><span class="text">在餐厅搭讪的女玩家，自称心理疏导师，特性让人初见就觉得亲切；她手里的书会发光，徐获看出她在套上官曦的话。</span><span class="ch">第 894–895 章</span><details class="src"><summary>原文</summary><blockquote>交谈之后女玩家告诉两人她叫丁维，职业是心理疏导师<cite>第 895 章</cite></blockquote></details></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。写到第 896 章，含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+<ul class="people"><li data-ch="893"><b class="subject"><a href="../people.html?upto=896#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">刚升 C 级，报的名字是“路人甲”，对上官曦说自己四十岁。</span><span class="ch">第 892–893 章</span></li><li data-ch="895"><b class="subject"><a href="../people.html?upto=896#person-%E4%B8%8A%E5%AE%98%E6%9B%A6">上官曦</a></b><span class="text">和徐获同站上车的新晋 C 级玩家，昵称“众神之主”，排在榜单一万九千多名；嘴碎热情，自称有预判特性，认定徐获是好人。</span><span class="ch">第 892–893、895 章</span><details class="src"><summary>原文</summary><blockquote>重新认识一下，我叫上官曦，生于朝阳，始于光明<cite>第 893 章</cite></blockquote></details></li><li data-ch="895"><b class="subject"><a href="../people.html?upto=896#person-%E4%B8%81%E7%BB%B4">丁维</a></b><span class="text">在餐厅搭讪的女玩家，自称心理疏导师，特性让人初见就觉得亲切；她手里的书会发光，徐获看出她在套上官曦的话。</span><span class="ch">第 894–895 章</span><details class="src"><summary>原文</summary><blockquote>交谈之后女玩家告诉两人她叫丁维，职业是心理疏导师<cite>第 895 章</cite></blockquote></details></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。写到第 896 章，含全部剧透。</span></summary><section id="story" class="fgroup"><h3>剧情梗概</h3>
 <p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
-<h4 id="story-1">一、跨虫洞点的列车（第 890–891 章）</h4>
-<p class="prose">开往其他虫洞点的列车每节车厢有十二个小房间、全透明车壁，还有休闲室和三个餐厅，房间五千白钞一晚。车上的 C 级玩家一言不合就动手：短发女玩家只因独眼多看了她几眼，就拔剑把他打出了车厢。<sup class="cite" title="第890章：前往其他虫洞点的列车与以往的列车区别较大；第890章：杀人还要理由？老娘单纯看你不顺眼而已">890</sup>徐获用掉三次合并：尖叫鸡、友好手绢、看不看得见合成 C 级的共享定位；进度条消失和极度疲惫合成 B 级的心动折扣；口吃的恶意、眼见为实、两分魔术合成 B 级的厚重的保护色。<sup class="cite" title="第891章：恭喜玩家路人甲获得C级道具“共享定位”；第891章：第二组合并的道具是“进度条消失”和“极度疲惫”">891</sup>C 级玩家能贴钱置换道具：万能润滑换成特殊道具魔术脱逃，要害风筝换成气球线，美丽的射线换成此路不通，爆破的美感换成 B 级的小蘑菇云；又在悬赏平台买了真空圈、重新做人、万物可手持，前后花了近两千五百万白钞。<sup class="cite" title="第891章：花费一百万白钞，更换成了同类特殊道具“魔术脱逃”；第891章：第四件“爆破的美感”升级为B级道具“小蘑菇云”">891</sup></p><details class="src block"><summary>本段原文 6 处</summary><blockquote>前往其他虫洞点的列车与以往的列车区别较大<cite>第 890 章</cite></blockquote><blockquote>杀人还要理由？老娘单纯看你不顺眼而已<cite>第 890 章</cite></blockquote><blockquote>恭喜玩家路人甲获得C级道具“共享定位”<cite>第 891 章</cite></blockquote><blockquote>第二组合并的道具是“进度条消失”和“极度疲惫”<cite>第 891 章</cite></blockquote><blockquote>花费一百万白钞，更换成了同类特殊道具“魔术脱逃”<cite>第 891 章</cite></blockquote><blockquote>第四件“爆破的美感”升级为B级道具“小蘑菇云”<cite>第 891 章</cite></blockquote></details>
-<h4 id="story-2">二、维度之下（第 891–893 章）</h4>
-<p class="prose">他用三星账号登录“维度之下”大厅，看到有人在 009 区和 004 区见到提箱人负了伤，据说和纸役师交过手。玩家们还在聊副本的时间差：副本里过了几个月甚至几年，外面可能还不到一个月。<sup class="cite" title="第892章：有人发消息称分别在009和004区见过提箱人；第892章：所以会出现副本外时间过去不足一月">891–892</sup>当初丢下纸役师的纸飞机本是为了引战，徐获觉得两人没把共眼打爆有点可惜，干脆在 D 级板块免费发了共眼的攻略，又去翻 E21 虫洞点 007 区的消息。<sup class="cite" title="第892章：把009区“共眼”副本攻略发表出去；第892章：他又找到有关E21虫洞点007区的信息仔细浏览">892</sup>同站上车的上官曦拉他一起吃饭，惊讶他在两万人的 C 级榜单上排到了四千多名；两人在过道里一起逼退了独眼。<sup class="cite" title="第893章：你怎么做到的！竟然排在四千多；第893章：二对一你胜算不大">892–893</sup></p><details class="src block"><summary>本段原文 6 处</summary><blockquote>有人发消息称分别在009和004区见过提箱人<cite>第 892 章</cite></blockquote><blockquote>所以会出现副本外时间过去不足一月<cite>第 892 章</cite></blockquote><blockquote>把009区“共眼”副本攻略发表出去<cite>第 892 章</cite></blockquote><blockquote>他又找到有关E21虫洞点007区的信息仔细浏览<cite>第 892 章</cite></blockquote><blockquote>你怎么做到的！竟然排在四千多<cite>第 893 章</cite></blockquote><blockquote>二对一你胜算不大<cite>第 893 章</cite></blockquote></details>
-<h4 id="story-3">三、异种密集区与吃人玩家（第 893–896 章）</h4>
-<p class="prose">夜里列车穿越异种密集区，异种挤满车壁；后面有玩家内讧露了光，第十九到二十一节车厢相继被攻破，里面的人几乎死光。<sup class="cite" title="第893章：由于第十九、二十、二十一车厢损坏严重">893</sup>同车厢那个从不露面的吃人玩家夜里出来“钓鱼”，把独眼堵进房间吃了。第十七节车厢还有两个吃人玩家，在餐厅想凑过来，被徐获用精神干扰逼退。<sup class="cite" title="第894章：昨晚死的是独眼，上官曦没忍住">894</sup>丁维来搭讪、问 C 级副本的经验，徐获看出她是在借上官曦的说话方式分析人，悄悄用眼镜上的共享定位标记了她。<sup class="cite" title="第895章：她不是在看你说什么，而是看你怎么说">895</sup>第二夜吃人玩家找上徐获：厚重的保护色第一次用就免疫了他贴身压制的特性，此路不通的射线逼退了他，徐获掏出了他的心，让他在幻觉里化成一滩蜡死去。短发女玩家随即来问他去哪一站、要不要组队。<sup class="cite" title="第896章：“厚重的保护色”可以随机免疫特性，没想到第一次使用就看到了效果；第896章：你刚升上C吧，这次是去哪个车站？说不定我们还能组队">896</sup></p><details class="src block"><summary>本段原文 5 处</summary><blockquote>由于第十九、二十、二十一车厢损坏严重<cite>第 893 章</cite></blockquote><blockquote>昨晚死的是独眼，上官曦没忍住<cite>第 894 章</cite></blockquote><blockquote>她不是在看你说什么，而是看你怎么说<cite>第 895 章</cite></blockquote><blockquote>“厚重的保护色”可以随机免疫特性，没想到第一次使用就看到了效果<cite>第 896 章</cite></blockquote><blockquote>你刚升上C吧，这次是去哪个车站？说不定我们还能组队<cite>第 896 章</cite></blockquote></details>
+<h4 id="story-1" data-ch="890">一、跨虫洞点的列车（第 890–891 章）</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="890">开往其他虫洞点的列车每节车厢有十二个小房间、全透明车壁，还有休闲室和三个餐厅，房间五千白钞一晚。车上的 C 级玩家一言不合就动手：短发女玩家只因独眼多看了她几眼，就拔剑把他打出了车厢。<sup class="cite" title="第890章：前往其他虫洞点的列车与以往的列车区别较大；第890章：杀人还要理由？老娘单纯看你不顺眼而已">890</sup></span><span class="stmt" data-ch="891">徐获用掉三次合并：尖叫鸡、友好手绢、看不看得见合成 C 级的共享定位；进度条消失和极度疲惫合成 B 级的心动折扣；口吃的恶意、眼见为实、两分魔术合成 B 级的厚重的保护色。<sup class="cite" title="第891章：恭喜玩家路人甲获得C级道具“共享定位”；第891章：第二组合并的道具是“进度条消失”和“极度疲惫”">891</sup></span><span class="stmt" data-ch="891">C 级玩家能贴钱置换道具：万能润滑换成特殊道具魔术脱逃，要害风筝换成气球线，美丽的射线换成此路不通，爆破的美感换成 B 级的小蘑菇云；又在悬赏平台买了真空圈、重新做人、万物可手持，前后花了近两千五百万白钞。<sup class="cite" title="第891章：花费一百万白钞，更换成了同类特殊道具“魔术脱逃”；第891章：第四件“爆破的美感”升级为B级道具“小蘑菇云”">891</sup></span></p><details class="src block fgroup"><summary>本段原文 6 处</summary><blockquote data-ch="890">前往其他虫洞点的列车与以往的列车区别较大<cite>第 890 章</cite></blockquote><blockquote data-ch="890">杀人还要理由？老娘单纯看你不顺眼而已<cite>第 890 章</cite></blockquote><blockquote data-ch="891">恭喜玩家路人甲获得C级道具“共享定位”<cite>第 891 章</cite></blockquote><blockquote data-ch="891">第二组合并的道具是“进度条消失”和“极度疲惫”<cite>第 891 章</cite></blockquote><blockquote data-ch="891">花费一百万白钞，更换成了同类特殊道具“魔术脱逃”<cite>第 891 章</cite></blockquote><blockquote data-ch="891">第四件“爆破的美感”升级为B级道具“小蘑菇云”<cite>第 891 章</cite></blockquote></details>
+<h4 id="story-2" data-ch="892">二、维度之下（第 891–893 章）</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="892">他用三星账号登录“维度之下”大厅，看到有人在 009 区和 004 区见到提箱人负了伤，据说和纸役师交过手。玩家们还在聊副本的时间差：副本里过了几个月甚至几年，外面可能还不到一个月。<sup class="cite" title="第892章：有人发消息称分别在009和004区见过提箱人；第892章：所以会出现副本外时间过去不足一月">891–892</sup></span><span class="stmt" data-ch="892">当初丢下纸役师的纸飞机本是为了引战，徐获觉得两人没把共眼打爆有点可惜，干脆在 D 级板块免费发了共眼的攻略，又去翻 E21 虫洞点 007 区的消息。<sup class="cite" title="第892章：把009区“共眼”副本攻略发表出去；第892章：他又找到有关E21虫洞点007区的信息仔细浏览">892</sup></span><span class="stmt" data-ch="893">同站上车的上官曦拉他一起吃饭，惊讶他在两万人的 C 级榜单上排到了四千多名；两人在过道里一起逼退了独眼。<sup class="cite" title="第893章：你怎么做到的！竟然排在四千多；第893章：二对一你胜算不大">892–893</sup></span></p><details class="src block fgroup"><summary>本段原文 6 处</summary><blockquote data-ch="892">有人发消息称分别在009和004区见过提箱人<cite>第 892 章</cite></blockquote><blockquote data-ch="892">所以会出现副本外时间过去不足一月<cite>第 892 章</cite></blockquote><blockquote data-ch="892">把009区“共眼”副本攻略发表出去<cite>第 892 章</cite></blockquote><blockquote data-ch="892">他又找到有关E21虫洞点007区的信息仔细浏览<cite>第 892 章</cite></blockquote><blockquote data-ch="893">你怎么做到的！竟然排在四千多<cite>第 893 章</cite></blockquote><blockquote data-ch="893">二对一你胜算不大<cite>第 893 章</cite></blockquote></details>
+<h4 id="story-3" data-ch="893">三、异种密集区与吃人玩家（第 893–896 章）</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="893">夜里列车穿越异种密集区，异种挤满车壁；后面有玩家内讧露了光，第十九到二十一节车厢相继被攻破，里面的人几乎死光。<sup class="cite" title="第893章：由于第十九、二十、二十一车厢损坏严重">893</sup></span><span class="stmt" data-ch="894">同车厢那个从不露面的吃人玩家夜里出来“钓鱼”，把独眼堵进房间吃了。第十七节车厢还有两个吃人玩家，在餐厅想凑过来，被徐获用精神干扰逼退。<sup class="cite" title="第894章：昨晚死的是独眼，上官曦没忍住">894</sup></span><span class="stmt" data-ch="895">丁维来搭讪、问 C 级副本的经验，徐获看出她是在借上官曦的说话方式分析人，悄悄用眼镜上的共享定位标记了她。<sup class="cite" title="第895章：她不是在看你说什么，而是看你怎么说">895</sup></span><span class="stmt" data-ch="896">第二夜吃人玩家找上徐获：厚重的保护色第一次用就免疫了他贴身压制的特性，此路不通的射线逼退了他，徐获掏出了他的心，让他在幻觉里化成一滩蜡死去。短发女玩家随即来问他去哪一站、要不要组队。<sup class="cite" title="第896章：“厚重的保护色”可以随机免疫特性，没想到第一次使用就看到了效果；第896章：你刚升上C吧，这次是去哪个车站？说不定我们还能组队">896</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="893">由于第十九、二十、二十一车厢损坏严重<cite>第 893 章</cite></blockquote><blockquote data-ch="894">昨晚死的是独眼，上官曦没忍住<cite>第 894 章</cite></blockquote><blockquote data-ch="895">她不是在看你说什么，而是看你怎么说<cite>第 895 章</cite></blockquote><blockquote data-ch="896">“厚重的保护色”可以随机免疫特性，没想到第一次使用就看到了效果<cite>第 896 章</cite></blockquote><blockquote data-ch="896">你刚升上C吧，这次是去哪个车站？说不定我们还能组队<cite>第 896 章</cite></blockquote></details>
 </section>
-<section id="callbacks"><h3>承接前文</h3>
+<section id="callbacks" class="fgroup"><h3>承接前文</h3>
 <p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
-<ul class="items"><li><span class="text">提箱人和纸役师：徐获当初在四方宫丢下纸役师的纸飞机，本想引两人交手；“维度之下”上有人说提箱人负了伤，还和纸役师打过。</span><span class="ch">第 892 章</span><details class="src"><summary>原文</summary><blockquote>当初他丢下纸役师的飞机是为了引战<cite>第 892 章</cite></blockquote></details></li></ul>
+<ul class="items"><li data-ch="892"><span class="text">提箱人和纸役师：徐获当初在四方宫丢下纸役师的纸飞机，本想引两人交手；“维度之下”上有人说提箱人负了伤，还和纸役师打过。</span><span class="ch">第 892 章</span><details class="src"><summary>原文</summary><blockquote>当初他丢下纸役师的飞机是为了引战<cite>第 892 章</cite></blockquote></details></li></ul>
 </section>
-<section id="relations"><h3>关键关系</h3>
+<section id="relations" class="fgroup"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span><span><i class="dash"></i>某人的说法或推断</span></p>
 <p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
@@ -207,21 +211,47 @@ h4[id] { scroll-margin-top:16px; }
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
 <marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
 </defs>
-<g class="edge"><title>徐获 — 同车结伴 — 上官曦（第 892–893、896 章）</title><path d="M306.9,401.7 Q362.4,326.9 410.8,261.6" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge"><title>丁维 → 套话 → 上官曦（推断）（第 895 章）</title><path d="M415.3,66.1 Q416.6,159.1 417.7,240.0" fill="none" stroke="#8d95a3" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#card-arrow-other)"/></g>
-<text x="362.4" y="330.9" class="elabel" style="fill:#4fbf7f">同车结伴</text>
-<text x="416.6" y="163.1" class="elabel" style="fill:#8d95a3">套话</text>
-<g class="node"><circle cx="417.9" cy="252.0" r="10.8"/><text x="417.9" y="235.2" class="name">上官曦</text></g>
-<g class="node"><circle cx="306.9" cy="401.7" r="10.0"/><text x="306.9" y="385.7" class="name">徐获</text></g>
-<g class="node"><circle cx="415.3" cy="66.1" r="10.0"/><text x="415.3" y="50.1" class="name">丁维</text></g>
+<g class="edge" data-ch="896"><title>徐获 — 同车结伴 — 上官曦（第 892–893、896 章）</title><path d="M306.9,401.7 Q362.4,326.9 410.8,261.6" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge" data-ch="895"><title>丁维 → 套话 → 上官曦（推断）（第 895 章）</title><path d="M415.3,66.1 Q416.6,159.1 417.7,240.0" fill="none" stroke="#8d95a3" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#card-arrow-other)"/></g>
+<text x="362.4" y="330.9" class="elabel" style="fill:#4fbf7f" data-ch="896">同车结伴</text>
+<text x="416.6" y="163.1" class="elabel" style="fill:#8d95a3" data-ch="895">套话</text>
+<g class="node" data-ch="895"><circle cx="417.9" cy="252.0" r="10.8"/><text x="417.9" y="235.2" class="name">上官曦</text></g>
+<g class="node" data-ch="896"><circle cx="306.9" cy="401.7" r="10.0"/><text x="306.9" y="385.7" class="name">徐获</text></g>
+<g class="node" data-ch="895"><circle cx="415.3" cy="66.1" r="10.0"/><text x="415.3" y="50.1" class="name">丁维</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text"><a href="../people.html?upto=896#person-%E5%BE%90%E8%8E%B7">徐获</a> — 同车结伴 — <a href="../people.html?upto=896#person-%E4%B8%8A%E5%AE%98%E6%9B%A6">上官曦</a></span><span class="ch">第 892–893、896 章</span></li><li><span class="text"><span class="tier guess" title="推测">推测</span><a href="../people.html?upto=896#person-%E4%B8%81%E7%BB%B4">丁维</a> → 套话 → <a href="../people.html?upto=896#person-%E4%B8%8A%E5%AE%98%E6%9B%A6">上官曦</a></span><span class="ch">第 895 章</span></li></ul></details>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li data-ch="896"><span class="text"><a href="../people.html?upto=896#person-%E5%BE%90%E8%8E%B7">徐获</a> — 同车结伴 — <a href="../people.html?upto=896#person-%E4%B8%8A%E5%AE%98%E6%9B%A6">上官曦</a></span><span class="ch">第 892–893、896 章</span></li><li data-ch="895"><span class="text"><span class="tier guess" title="推测">推测</span><a href="../people.html?upto=896#person-%E4%B8%81%E7%BB%B4">丁维</a> → 套话 → <a href="../people.html?upto=896#person-%E4%B8%8A%E5%AE%98%E6%9B%A6">上官曦</a></span><span class="ch">第 895 章</span></li></ul></details>
 </section>
-<section id="threads"><h3>伏笔与未解</h3>
+<section id="threads" class="fgroup"><h3>伏笔与未解</h3>
 <p class="note">截至第 896 章还没有交代的事。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html?upto=896#thread-199" title="伏笔总表">#199</a><span class="text">E21 虫洞点 007 区：徐获升 C 级后第一时间去翻这个分区的消息，原文没说为什么。</span><span class="ch">第 892 章</span><details class="src"><summary>原文</summary><blockquote>他又找到有关E21虫洞点007区的信息仔细浏览<cite>第 892 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=896#thread-200" title="伏笔总表">#200</a><span class="text">丁维：她那本会发光的书在记录什么，徐获用共享定位标记了她。</span><span class="ch">第 895 章</span><details class="src"><summary>原文</summary><blockquote>书页无风自动，空白的页面上发出了微弱的光<cite>第 895 章</cite></blockquote></details></li></ul>
-</section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E6%97%B6%E5%B7%AE">游戏里的时间</a><a href="../world.html#world-%E5%88%97%E8%BD%A6%E8%A7%84%E5%88%99">列车与乘务员</a><a href="../world.html#world-%E7%BA%A2%E8%89%B2%E7%8E%A9%E5%AE%B6">红色玩家的饥饿</a><a href="../world.html#world-D%E7%BA%A7%E6%9D%83%E9%99%90">升级与权限</a><a href="../world.html#world-%E9%81%93%E5%85%B7">道具</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E7%A5%9E%E5%87%BA%E9%AC%BC%E6%B2%A1%E7%9A%84%E5%B0%96%E5%8F%AB%E9%B8%A1">神出鬼没的尖叫鸡</a><a href="../items.html#item-%E5%8F%A3%E5%90%83%E7%9A%84%E6%81%B6%E6%84%8F">口吃的恶意</a><a href="../items.html#item-%E7%9C%BC%E8%A7%81%E4%B8%BA%E5%AE%9E">眼见为实</a><a href="../items.html#item-%E7%9C%8B%E4%B8%8D%E7%9C%8B%E5%BE%97%E8%A7%81">看不看得见</a><a href="../items.html#item-%E8%A6%81%E5%AE%B3%E9%A3%8E%E7%AD%9D">要害风筝</a><a href="../items.html#item-%E4%B8%A4%E5%88%86%E9%AD%94%E6%9C%AF">两分魔术</a><a href="../items.html#item-%E5%8F%8B%E5%A5%BD%E6%89%8B%E7%BB%A2">友好手绢</a><a href="../items.html#item-%E4%B8%87%E8%83%BD%E6%B6%A6%E6%BB%91">万能润滑</a><a href="../items.html#item-%E7%BE%8E%E4%B8%BD%E7%9A%84%E5%B0%84%E7%BA%BF">美丽的射线</a><a href="../items.html#item-%E6%9E%81%E5%BA%A6%E7%96%B2%E6%83%AB">极度疲惫</a><a href="../items.html#item-%E8%BF%9B%E5%BA%A6%E6%9D%A1%E6%B6%88%E5%A4%B1">进度条消失</a><a href="../items.html#item-%E7%88%86%E7%A0%B4%E7%9A%84%E7%BE%8E%E6%84%9F">爆破的美感</a><a href="../items.html#item-%E4%B8%87%E7%89%A9%E5%8F%AF%E6%89%8B%E6%8C%81">万物可手持</a><a href="../items.html#item-%E5%85%B1%E4%BA%AB%E5%AE%9A%E4%BD%8D">共享定位</a><a href="../items.html#item-%E5%8E%9A%E9%87%8D%E7%9A%84%E4%BF%9D%E6%8A%A4%E8%89%B2">厚重的保护色</a><a href="../items.html#item-%E5%B0%8F%E8%98%91%E8%8F%87%E4%BA%91">小蘑菇云</a><a href="../items.html#item-%E5%BF%83%E5%8A%A8%E6%8A%98%E6%89%A3">心动折扣</a><a href="../items.html#item-%E6%AD%A4%E8%B7%AF%E4%B8%8D%E9%80%9A">此路不通</a><a href="../items.html#item-%E6%B0%94%E7%90%83%E7%BA%BF">气球线</a><a href="../items.html#item-%E7%9C%9F%E7%A9%BA%E5%9C%88">真空圈</a><a href="../items.html#item-%E9%87%8D%E6%96%B0%E5%81%9A%E4%BA%BA">重新做人</a><a href="../items.html#item-%E9%AD%94%E6%9C%AF%E8%84%B1%E9%80%83">魔术脱逃</a></p></section></details>
-<nav class="units-nav bottom"><a class="prev" href="u0043.html"><small>← 上一单元</small><b>友谊天长地久</b><small>第 862–889 章</small></a><a class="next" href="u0045.html"><small>下一单元 →</small><b>加密信息</b><small>第 897–983 章</small><small class="after" data-beyond="897" hidden>在你的进度之后</small></a></nav>
+<ul class="items"><li data-ch="892"><a class="thread-no" href="../threads.html?upto=896#thread-199" title="伏笔总表">#199</a><span class="text">E21 虫洞点 007 区：徐获升 C 级后第一时间去翻这个分区的消息，原文没说为什么。</span><span class="ch">第 892 章</span><details class="src"><summary>原文</summary><blockquote>他又找到有关E21虫洞点007区的信息仔细浏览<cite>第 892 章</cite></blockquote></details></li><li data-ch="895"><a class="thread-no" href="../threads.html?upto=896#thread-200" title="伏笔总表">#200</a><span class="text">丁维：她那本会发光的书在记录什么，徐获用共享定位标记了她。</span><span class="ch">第 895 章</span><details class="src"><summary>原文</summary><blockquote>书页无风自动，空白的页面上发出了微弱的光<cite>第 895 章</cite></blockquote></details></li></ul>
+</section><section id="links" class="fgroup"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E6%97%B6%E5%B7%AE" data-ch="892">游戏里的时间</a><a href="../world.html#world-%E5%88%97%E8%BD%A6%E8%A7%84%E5%88%99" data-ch="890">列车与乘务员</a><a href="../world.html#world-%E7%BA%A2%E8%89%B2%E7%8E%A9%E5%AE%B6" data-ch="896">红色玩家的饥饿</a><a href="../world.html#world-D%E7%BA%A7%E6%9D%83%E9%99%90" data-ch="892">升级与权限</a><a href="../world.html#world-%E9%81%93%E5%85%B7" data-ch="890">道具</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E7%A5%9E%E5%87%BA%E9%AC%BC%E6%B2%A1%E7%9A%84%E5%B0%96%E5%8F%AB%E9%B8%A1" data-ch="891">神出鬼没的尖叫鸡</a><a href="../items.html#item-%E5%8F%A3%E5%90%83%E7%9A%84%E6%81%B6%E6%84%8F" data-ch="891">口吃的恶意</a><a href="../items.html#item-%E7%9C%BC%E8%A7%81%E4%B8%BA%E5%AE%9E" data-ch="891">眼见为实</a><a href="../items.html#item-%E7%9C%8B%E4%B8%8D%E7%9C%8B%E5%BE%97%E8%A7%81" data-ch="891">看不看得见</a><a href="../items.html#item-%E8%A6%81%E5%AE%B3%E9%A3%8E%E7%AD%9D" data-ch="891">要害风筝</a><a href="../items.html#item-%E4%B8%A4%E5%88%86%E9%AD%94%E6%9C%AF" data-ch="891">两分魔术</a><a href="../items.html#item-%E5%8F%8B%E5%A5%BD%E6%89%8B%E7%BB%A2" data-ch="891">友好手绢</a><a href="../items.html#item-%E4%B8%87%E8%83%BD%E6%B6%A6%E6%BB%91" data-ch="891">万能润滑</a><a href="../items.html#item-%E7%BE%8E%E4%B8%BD%E7%9A%84%E5%B0%84%E7%BA%BF" data-ch="891">美丽的射线</a><a href="../items.html#item-%E6%9E%81%E5%BA%A6%E7%96%B2%E6%83%AB" data-ch="891">极度疲惫</a><a href="../items.html#item-%E8%BF%9B%E5%BA%A6%E6%9D%A1%E6%B6%88%E5%A4%B1" data-ch="891">进度条消失</a><a href="../items.html#item-%E7%88%86%E7%A0%B4%E7%9A%84%E7%BE%8E%E6%84%9F" data-ch="890">爆破的美感</a><a href="../items.html#item-%E4%B8%87%E7%89%A9%E5%8F%AF%E6%89%8B%E6%8C%81" data-ch="891">万物可手持</a><a href="../items.html#item-%E5%85%B1%E4%BA%AB%E5%AE%9A%E4%BD%8D" data-ch="891">共享定位</a><a href="../items.html#item-%E5%8E%9A%E9%87%8D%E7%9A%84%E4%BF%9D%E6%8A%A4%E8%89%B2" data-ch="891">厚重的保护色</a><a href="../items.html#item-%E5%B0%8F%E8%98%91%E8%8F%87%E4%BA%91" data-ch="891">小蘑菇云</a><a href="../items.html#item-%E5%BF%83%E5%8A%A8%E6%8A%98%E6%89%A3" data-ch="891">心动折扣</a><a href="../items.html#item-%E6%AD%A4%E8%B7%AF%E4%B8%8D%E9%80%9A" data-ch="891">此路不通</a><a href="../items.html#item-%E6%B0%94%E7%90%83%E7%BA%BF" data-ch="891">气球线</a><a href="../items.html#item-%E7%9C%9F%E7%A9%BA%E5%9C%88" data-ch="891">真空圈</a><a href="../items.html#item-%E9%87%8D%E6%96%B0%E5%81%9A%E4%BA%BA" data-ch="891">重新做人</a><a href="../items.html#item-%E9%AD%94%E6%9C%AF%E8%84%B1%E9%80%83" data-ch="891">魔术脱逃</a></p></section></details>
+<nav class="units-nav bottom"><a class="prev" href="u0043.html"><small>← 上一单元</small><b>友谊天长地久</b><small>第 862–889 章</small></a><a class="next" href="u0045.html"><small>下一单元 →</small><b>加密信息</b><small>第 897–983 章</small><small class="after" data-beyond="897" hidden>在你的进度之后</small></a></nav><script>
+(function () {
+  var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
+  var status = doc.getElementById('wdzx-status'), beyond = doc.querySelector('p.beyond'), box = doc.getElementById('wdzx-upto');
+  var layers = doc.querySelectorAll('details.layer'), peek = false;
+  var button = doc.createElement('button'); button.type = 'button'; button.className = 'peek';
+  button.addEventListener('click', function () {
+    if (peek) { box.dispatchEvent(new Event('input')); return; }   // the shared script puts the marks back and sends the event
+    peek = true;
+    doc.querySelectorAll('main .hidden').forEach(function (el) { el.classList.remove('hidden'); });
+    layers.forEach(function (d) { d.hidden = false; });
+    status.textContent = '已展开全部，含你进度之后的内容。'; button.textContent = '按进度收起'; status.appendChild(button);
+  });
+  doc.addEventListener('wdzx:progress', function (e) {
+    var n = e.detail, before = n < first, mid = !before && n < end;
+    peek = false;
+    if (beyond) beyond.hidden = true;
+    layers.forEach(function (d) { d.hidden = before; });
+    if (n === Infinity) return;
+    status.hidden = false;
+    if (before) status.textContent = '这张卡从第 ' + first + ' 章开始，在你的进度（第 ' + n + ' 章）之后，整张都是剧透，先收起了。';
+    else if (mid) status.textContent = '你读到第 ' + n + ' 章，这张卡写到第 ' + end + ' 章：之后的句子、评级和收获已藏起。';
+    else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
+    button.textContent = '仍然展开'; status.appendChild(button);
+  });
+})();
+</script>
 <footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
 </main><script>
 (function () {
@@ -239,11 +269,12 @@ h4[id] { scroll-margin-top:16px; }
   if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
   var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
   saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
-  if (Math.max(saved, query)) box.value = Math.max(saved, query);
+  if (saved) box.value = saved;   // the box is the reader's own chapter; a card's ?upto only widens what this page shows
   function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function shown() { var n = current(); return query ? Math.max(n < Infinity ? n : 0, query) : n; }
   function apply() {
-    var n = current(), chosen = n < Infinity || get(SEEN) === '1';
-    root.classList.toggle('has-progress', n < Infinity);
+    var mine = current(), n = shown(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', mine < Infinity);
     banner.hidden = chosen;
     if (!off) {
       doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
@@ -262,19 +293,21 @@ h4[id] { scroll-margin-top:16px; }
     }
     doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
     doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
-    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
     if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
       var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
     });
     status.hidden = n === Infinity;
     status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : n !== mine ? '按这张单元卡显示到第 ' + n + ' 章；' + (mine < Infinity ? '你的进度仍是第 ' + mine + ' 章。' : '你还没填进度，在页头填了章号后以它为准。')
       : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
   }
   function changed() {
     if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
     var n = current();
     put(KEY, n < Infinity ? String(n) : null);
     if (n < Infinity) put(SEEN, '1');
+    query = 0;
     if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
     note.hidden = true; apply();
   }
@@ -283,6 +316,11 @@ h4[id] { scroll-margin-top:16px; }
   banner.querySelectorAll('button').forEach(function (b) {
     b.addEventListener('click', function () {
       if (b.dataset.choice === 'fill') { box.focus(); return; }
+      if (b.dataset.choice === 'start' && valid(+b.dataset.chapter)) {
+        box.value = b.dataset.chapter; changed();
+        note.textContent = '还没开始读：先只显示到第 ' + b.dataset.chapter + ' 章，第一个副本结束的地方。读起来以后，在页头改成你读到的章就行。';
+        note.hidden = false; return;
+      }
       put(SEEN, '1'); apply();
     });
   });
@@ -291,7 +329,8 @@ h4[id] { scroll-margin-top:16px; }
   var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
   if (target && !off && target.closest('.hidden')) {
     var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
-    note.textContent = '你要看的“' + name + '”按你的进度（读到第 ' + current() + ' 章）还没出现；改大章号或清除进度就能看到。';
+    var upto = shown(), why = upto !== current() ? '按这张单元卡的章号（第 ' + upto + ' 章）' : '按你的进度（读到第 ' + upto + ' 章）';
+    note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
     note.hidden = false; note.scrollIntoView();
   } else if (target) { target.scrollIntoView(); }
 })();

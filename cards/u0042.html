@@ -113,9 +113,12 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
   padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
 .syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
 .syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+@media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
+.upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
 /* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
 .tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
 .tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
+.tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
 
 .hidden { display:none !important; }
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
@@ -163,45 +166,46 @@ svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
 svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
 svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
 details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
-.links { margin:8px 0; } .links b { display:inline-block; width:3em; color:var(--brass); font-weight:600; }
+.links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
 .links a { margin-right:12px; white-space:nowrap; }
+.progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
 .hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
 nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
 nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="all">没看过，随便看看</button><button type="button" data-choice="all">已追平</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
-<div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
+<div class="ticket" id="card" data-first="855" data-end="861"><div class="ticket-main"><div class="kicker">主线</div>
 <h1>去海上大世界的列车</h1><div class="route">第 855 章 ──── 第 861 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="855" hidden>这张卡从第 855 章开始，在你填的进度之后，整张都是剧透。</p></div>
 <div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0042</div><div class="stub-row"><b>句数</b>26</div>
 <div class="stub-row"><b>引用</b>24 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 855–861 章正文后撰写。</p>
+<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 855–861 章正文后撰写。</p>
 <nav class="units-nav top"><a class="prev" href="u0041.html"><small>← 上一单元</small><b>011 区（宴会与次类石）</b><small>第 822–854 章</small></a><a class="next" href="u0043.html"><small>下一单元 →</small><b>友谊天长地久</b><small>第 862–889 章</small><small class="after" data-beyond="862" hidden>在你的进度之后</small></a></nav>
-<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。写到第 861 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
-<ul class="items"><li><span class="text">徐获化名余丛坐 792 次列车去海上大世界，车上接连有人被斩首、在幻觉里撑死；同车厢的断指乘客，很可能就是他在法庭上递过车票的圣剑会玩家。</span><span class="ch">第 855–857、859–861 章</span></li><li><span class="text">主线，第 855–861 章。</span><span class="ch">第 855、861 章</span></li></ul>
+<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。写到第 861 章，含结局。</span></summary><section id="overview" class="fgroup"><h3>一句话</h3>
+<ul class="items"><li data-ch="861"><span class="text">徐获化名余丛坐 792 次列车去海上大世界，车上接连有人被斩首、在幻觉里撑死；同车厢的断指乘客，很可能就是他在法庭上递过车票的圣剑会玩家。</span><span class="ch">第 855–857、859–861 章</span></li><li data-ch="861"><span class="text">主线，第 855–861 章。</span><span class="ch">第 855、861 章</span></li></ul>
 </section>
-<section id="cast"><h3>登场人物</h3>
+<section id="cast" class="fgroup"><h3>登场人物</h3>
 <p class="note">按出场先后。车上有几人没报名字，按原文的叫法。</p>
-<ul class="people"><li><b class="subject"><a href="../people.html?upto=861#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲，化名余丛）</b><span class="text">在车上化名余丛。</span><span class="ch">第 857 章</span><details class="src"><summary>原文</summary><blockquote>“余丛。”徐获看向对面的背包玩家<cite>第 857 章</cite></blockquote></details></li><li><b class="subject"><a href="../people.html?upto=861#person-%E8%82%96%E5%90%91%E6%9E%97">肖向林</a></b><span class="text">在车站兜售药剂的玩家，嘴碎，也去海上大世界；送了徐获一瓶助眠药剂。</span><span class="ch">第 855、857、859 章</span><details class="src"><summary>原文</summary><blockquote>我叫肖向林，兄弟，交个朋友呗<cite>第 857 章</cite></blockquote></details></li><li><b class="subject">许劲峰</b><span class="text">背着包的玩家，话少。</span><span class="ch">第 857–858 章</span><details class="src"><summary>原文</summary><blockquote>对方开口道：“许劲峰。”<cite>第 857 章</cite></blockquote></details></li><li><b class="subject"><a href="../people.html?upto=861#person-%E6%B8%B8%E5%9B%9B">游四</a></b><span class="text">烟不离手、正在戒酒的玩家，出手利落。</span><span class="ch">第 858、860 章</span><details class="src"><summary>原文</summary><blockquote>又自报了家门，“游四。”<cite>第 860 章</cite></blockquote></details></li><li><b class="subject">断指玩家</b><span class="text">右手缺了食指中指、手上有电击刑讯痕迹的玩家；徐获认定他就是在法庭上拿走车票的圣剑会 C 级玩家。</span><span class="ch">第 855、858–859 章</span></li><li><b class="subject">女玩家</b><span class="text">容貌出色、处处挑事的女玩家；跟她出去的黑痣玩家再没回来。</span><span class="ch">第 855、857 章</span></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。写到第 861 章，含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+<ul class="people"><li data-ch="857"><b class="subject"><a href="../people.html?upto=861#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲，化名余丛）</b><span class="text">在车上化名余丛。</span><span class="ch">第 857 章</span><details class="src"><summary>原文</summary><blockquote>“余丛。”徐获看向对面的背包玩家<cite>第 857 章</cite></blockquote></details></li><li data-ch="859"><b class="subject"><a href="../people.html?upto=861#person-%E8%82%96%E5%90%91%E6%9E%97">肖向林</a></b><span class="text">在车站兜售药剂的玩家，嘴碎，也去海上大世界；送了徐获一瓶助眠药剂。</span><span class="ch">第 855、857、859 章</span><details class="src"><summary>原文</summary><blockquote>我叫肖向林，兄弟，交个朋友呗<cite>第 857 章</cite></blockquote></details></li><li data-ch="858"><b class="subject">许劲峰</b><span class="text">背着包的玩家，话少。</span><span class="ch">第 857–858 章</span><details class="src"><summary>原文</summary><blockquote>对方开口道：“许劲峰。”<cite>第 857 章</cite></blockquote></details></li><li data-ch="860"><b class="subject"><a href="../people.html?upto=861#person-%E6%B8%B8%E5%9B%9B">游四</a></b><span class="text">烟不离手、正在戒酒的玩家，出手利落。</span><span class="ch">第 858、860 章</span><details class="src"><summary>原文</summary><blockquote>又自报了家门，“游四。”<cite>第 860 章</cite></blockquote></details></li><li data-ch="859"><b class="subject">断指玩家</b><span class="text">右手缺了食指中指、手上有电击刑讯痕迹的玩家；徐获认定他就是在法庭上拿走车票的圣剑会 C 级玩家。</span><span class="ch">第 855、858–859 章</span></li><li data-ch="857"><b class="subject">女玩家</b><span class="text">容貌出色、处处挑事的女玩家；跟她出去的黑痣玩家再没回来。</span><span class="ch">第 855、857 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。写到第 861 章，含全部剧透。</span></summary><section id="story" class="fgroup"><h3>剧情梗概</h3>
 <p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
-<nav class="arcs"><a href="#story-1">一、离开 011 区（第 855 章）</a><a href="#story-2">二、生日套餐（第 856–857 章）</a><a href="#story-3">三、断指玩家（第 858–859 章）</a><a href="#story-4">四、纸钱与撑死的人（第 860–861 章）</a></nav>
-<h4 id="story-1">一、离开 011 区（第 855 章）</h4>
-<p class="prose">徐获推断，那名被捕的圣剑会玩家拿车票不走，说明圣剑会在 011 区的目的还没达到，被捕和受审都掺了水分；这些圣剑会玩家比一般吃人玩家更有秩序，像一个有别样信仰的联盟。<sup class="cite" title="第855章：反而像是一个有别样信仰的联合">855</sup>他回到古堡，拿出被烧出剑形烙印的钻石手套，一只燃烧的手随即凭空伸出；他在白蔻出现的瞬间脱身到了车站。他又一次感到身体有种像后遗症的阻滞感。<sup class="cite" title="第855章：他拿出那只被烧出一个剑形图案的钻石手套；第855章：视野一转徐获出现在了车站">855</sup></p><details class="src block"><summary>本段原文 3 处</summary><blockquote>反而像是一个有别样信仰的联合<cite>第 855 章</cite></blockquote><blockquote>他拿出那只被烧出一个剑形图案的钻石手套<cite>第 855 章</cite></blockquote><blockquote>视野一转徐获出现在了车站<cite>第 855 章</cite></blockquote></details>
-<h4 id="story-2">二、生日套餐（第 856–857 章）</h4>
-<p class="prose">792 次列车的规则：非游戏物品请勿带上车、必须消费、请勿开灯；今天厨师长过生日，鼓励每人至少消费五千白钞。徐获带头点了五千的套餐，还给厨师长包了礼，送了礼的人都多得了一份布丁。<sup class="cite" title="第856章：今天是本次列车厨师长的生日；第857章：包了礼的玩家又多送了一份布丁">856–857</sup>漂亮的女玩家跳舞喝酒后去了洗手间，跟出去的黑痣玩家再没回来，她说他“去了别的车厢”。熄灯后徐获在昏沉中看见一个举着斧头的影子，一剑挥去却是幻像；醒来时车厢里一半人睡死，黄发女玩家和老者已被斩首。<sup class="cite" title="第857章：睁开眼便看到一个宽大的影子站在自己面前，手里举着一把斧头；第857章：那名老者和黄发女玩家已经身首异处">857</sup></p><details class="src block"><summary>本段原文 4 处</summary><blockquote>今天是本次列车厨师长的生日<cite>第 856 章</cite></blockquote><blockquote>包了礼的玩家又多送了一份布丁<cite>第 857 章</cite></blockquote><blockquote>睁开眼便看到一个宽大的影子站在自己面前，手里举着一把斧头<cite>第 857 章</cite></blockquote><blockquote>那名老者和黄发女玩家已经身首异处<cite>第 857 章</cite></blockquote></details>
-<h4 id="story-3">三、断指玩家（第 858–859 章）</h4>
-<p class="prose">游四去看过，前后车厢也都死了人。众人互相猜忌，最后各顾各的；徐获和肖向林、许劲峰打牌熬夜。<sup class="cite" title="第858章：也死了几个，死状差不多">858</sup>天亮后断指玩家试探徐获：“我觉得你有点眼熟。”徐获用“好朋友来打分”看到他的数字跳到了 9。徐获认定他就是那名圣剑会玩家：在法庭上给他的道具烙了记号，追到古堡又被白蔻逼进了游戏，丢了两根手指。<sup class="cite" title="第859章：我觉得你有点眼熟，以前是不是见过？；第859章：徐获看着他头上的“好朋友来打分”数字跳到“9”又降回来">859</sup><span class="tier guess" title="徐获的推断">推测</span>白天补觉时徐获又感到身边有杀意，他疑心是完美药剂的后遗症，又怀疑是那道烙印留下的伏笔。<sup class="cite" title="第859章：难道是服用药剂的后遗症">859–860</sup></p><details class="src block"><summary>本段原文 4 处</summary><blockquote>也死了几个，死状差不多<cite>第 858 章</cite></blockquote><blockquote>我觉得你有点眼熟，以前是不是见过？<cite>第 859 章</cite></blockquote><blockquote>徐获看着他头上的“好朋友来打分”数字跳到“9”又降回来<cite>第 859 章</cite></blockquote><blockquote>难道是服用药剂的后遗症<cite>第 859 章</cite></blockquote></details>
-<h4 id="story-4">四、纸钱与撑死的人（第 860–861 章）</h4>
-<p class="prose">第二晚，女玩家放鬼故事，讲的是末班车上挥纸钱的鬼；许劲峰随即说看见车外有两个人拿着纸钱招手。前一节车厢有人拍门求救，下一秒被拖走，背上的皮整个没了。<sup class="cite" title="第860章：我刚才真的看到了，两个人，拿着纸钱">860</sup>天亮一看，前一节车厢全员死亡：有人失血而死，有人活活撑死，鉴定叉验不出毒和麻醉剂，像是陷在幻觉里互相残杀。<sup class="cite" title="第861章：这个玩家竟然是撑死的；第861章：徐获用鉴定叉在这名玩家身上试了试">861</sup>徐获想到，车上吃的东西大家都一样，只有给厨师长送了礼的人才收到布丁。他再找乘务员要“相似的推荐”，乘务员没收钱，说去问厨师长，此后再没下文。<sup class="cite" title="第861章：其实车上的玩家餐食最大的区别不是套餐，而是附赠来的那枚布丁">861</sup></p><details class="src block"><summary>本段原文 4 处</summary><blockquote>我刚才真的看到了，两个人，拿着纸钱<cite>第 860 章</cite></blockquote><blockquote>这个玩家竟然是撑死的<cite>第 861 章</cite></blockquote><blockquote>徐获用鉴定叉在这名玩家身上试了试<cite>第 861 章</cite></blockquote><blockquote>其实车上的玩家餐食最大的区别不是套餐，而是附赠来的那枚布丁<cite>第 861 章</cite></blockquote></details>
+<nav class="arcs"><a href="#story-1" data-ch="855">一、离开 011 区（第 855 章）</a><a href="#story-2" data-ch="857">二、生日套餐（第 856–857 章）</a><a href="#story-3" data-ch="858">三、断指玩家（第 858–859 章）</a><a href="#story-4" data-ch="860">四、纸钱与撑死的人（第 860–861 章）</a></nav>
+<h4 id="story-1" data-ch="855">一、离开 011 区（第 855 章）</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="855">徐获推断，那名被捕的圣剑会玩家拿车票不走，说明圣剑会在 011 区的目的还没达到，被捕和受审都掺了水分；这些圣剑会玩家比一般吃人玩家更有秩序，像一个有别样信仰的联盟。<sup class="cite" title="第855章：反而像是一个有别样信仰的联合">855</sup></span><span class="stmt" data-ch="855">他回到古堡，拿出被烧出剑形烙印的钻石手套，一只燃烧的手随即凭空伸出；他在白蔻出现的瞬间脱身到了车站。他又一次感到身体有种像后遗症的阻滞感。<sup class="cite" title="第855章：他拿出那只被烧出一个剑形图案的钻石手套；第855章：视野一转徐获出现在了车站">855</sup></span></p><details class="src block fgroup"><summary>本段原文 3 处</summary><blockquote data-ch="855">反而像是一个有别样信仰的联合<cite>第 855 章</cite></blockquote><blockquote data-ch="855">他拿出那只被烧出一个剑形图案的钻石手套<cite>第 855 章</cite></blockquote><blockquote data-ch="855">视野一转徐获出现在了车站<cite>第 855 章</cite></blockquote></details>
+<h4 id="story-2" data-ch="857">二、生日套餐（第 856–857 章）</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="857">792 次列车的规则：非游戏物品请勿带上车、必须消费、请勿开灯；今天厨师长过生日，鼓励每人至少消费五千白钞。徐获带头点了五千的套餐，还给厨师长包了礼，送了礼的人都多得了一份布丁。<sup class="cite" title="第856章：今天是本次列车厨师长的生日；第857章：包了礼的玩家又多送了一份布丁">856–857</sup></span><span class="stmt" data-ch="857">漂亮的女玩家跳舞喝酒后去了洗手间，跟出去的黑痣玩家再没回来，她说他“去了别的车厢”。熄灯后徐获在昏沉中看见一个举着斧头的影子，一剑挥去却是幻像；醒来时车厢里一半人睡死，黄发女玩家和老者已被斩首。<sup class="cite" title="第857章：睁开眼便看到一个宽大的影子站在自己面前，手里举着一把斧头；第857章：那名老者和黄发女玩家已经身首异处">857</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="857">今天是本次列车厨师长的生日<cite>第 856 章</cite></blockquote><blockquote data-ch="857">包了礼的玩家又多送了一份布丁<cite>第 857 章</cite></blockquote><blockquote data-ch="857">睁开眼便看到一个宽大的影子站在自己面前，手里举着一把斧头<cite>第 857 章</cite></blockquote><blockquote data-ch="857">那名老者和黄发女玩家已经身首异处<cite>第 857 章</cite></blockquote></details>
+<h4 id="story-3" data-ch="858">三、断指玩家（第 858–859 章）</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="858">游四去看过，前后车厢也都死了人。众人互相猜忌，最后各顾各的；徐获和肖向林、许劲峰打牌熬夜。<sup class="cite" title="第858章：也死了几个，死状差不多">858</sup></span><span class="stmt" data-ch="859">天亮后断指玩家试探徐获：“我觉得你有点眼熟。”徐获用“好朋友来打分”看到他的数字跳到了 9。徐获认定他就是那名圣剑会玩家：在法庭上给他的道具烙了记号，追到古堡又被白蔻逼进了游戏，丢了两根手指。<sup class="cite" title="第859章：我觉得你有点眼熟，以前是不是见过？；第859章：徐获看着他头上的“好朋友来打分”数字跳到“9”又降回来">859</sup></span><span class="stmt" data-ch="860"><span class="tier guess" title="徐获的推断">推测</span>白天补觉时徐获又感到身边有杀意，他疑心是完美药剂的后遗症，又怀疑是那道烙印留下的伏笔。<sup class="cite" title="第859章：难道是服用药剂的后遗症">859–860</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="858">也死了几个，死状差不多<cite>第 858 章</cite></blockquote><blockquote data-ch="859">我觉得你有点眼熟，以前是不是见过？<cite>第 859 章</cite></blockquote><blockquote data-ch="859">徐获看着他头上的“好朋友来打分”数字跳到“9”又降回来<cite>第 859 章</cite></blockquote><blockquote data-ch="860">难道是服用药剂的后遗症<cite>第 859 章</cite></blockquote></details>
+<h4 id="story-4" data-ch="860">四、纸钱与撑死的人（第 860–861 章）</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="860">第二晚，女玩家放鬼故事，讲的是末班车上挥纸钱的鬼；许劲峰随即说看见车外有两个人拿着纸钱招手。前一节车厢有人拍门求救，下一秒被拖走，背上的皮整个没了。<sup class="cite" title="第860章：我刚才真的看到了，两个人，拿着纸钱">860</sup></span><span class="stmt" data-ch="861">天亮一看，前一节车厢全员死亡：有人失血而死，有人活活撑死，鉴定叉验不出毒和麻醉剂，像是陷在幻觉里互相残杀。<sup class="cite" title="第861章：这个玩家竟然是撑死的；第861章：徐获用鉴定叉在这名玩家身上试了试">861</sup></span><span class="stmt" data-ch="861">徐获想到，车上吃的东西大家都一样，只有给厨师长送了礼的人才收到布丁。他再找乘务员要“相似的推荐”，乘务员没收钱，说去问厨师长，此后再没下文。<sup class="cite" title="第861章：其实车上的玩家餐食最大的区别不是套餐，而是附赠来的那枚布丁">861</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="860">我刚才真的看到了，两个人，拿着纸钱<cite>第 860 章</cite></blockquote><blockquote data-ch="861">这个玩家竟然是撑死的<cite>第 861 章</cite></blockquote><blockquote data-ch="861">徐获用鉴定叉在这名玩家身上试了试<cite>第 861 章</cite></blockquote><blockquote data-ch="861">其实车上的玩家餐食最大的区别不是套餐，而是附赠来的那枚布丁<cite>第 861 章</cite></blockquote></details>
 </section>
-<section id="callbacks"><h3>承接前文</h3>
+<section id="callbacks" class="fgroup"><h3>承接前文</h3>
 <p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html?upto=861#thread-183" title="伏笔总表">#183</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>写名字就能杀人的纸：徐获带着“一次性道具”的判断离开 011 区；那名拿了他车票的圣剑会玩家，此时就坐在同一节车厢。</span><span class="ch">第 855、859 章</span><details class="src"><summary>原文</summary><blockquote>大概率就是那名被捕的圣剑会C级玩家<cite>第 859 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=861#thread-031" title="伏笔总表">#031</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>圣剑会的来头：徐获觉得，圣剑会里的吃人玩家比别处更有秩序，行动都是有明确目的的团体行动，像一个有别样信仰的联合。</span><span class="ch">第 855 章</span><details class="src"><summary>原文</summary><blockquote>反而像是一个有别样信仰的联合<cite>第 855 章</cite></blockquote></details></li></ul>
+<ul class="items"><li data-ch="859"><a class="thread-no" href="../threads.html?upto=861#thread-183" title="伏笔总表">#183</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>写名字就能杀人的纸：徐获带着“一次性道具”的判断离开 011 区；那名拿了他车票的圣剑会玩家，此时就坐在同一节车厢。</span><span class="ch">第 855、859 章</span><details class="src"><summary>原文</summary><blockquote>大概率就是那名被捕的圣剑会C级玩家<cite>第 859 章</cite></blockquote></details></li><li data-ch="855"><a class="thread-no" href="../threads.html?upto=861#thread-031" title="伏笔总表">#031</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>圣剑会的来头：徐获觉得，圣剑会里的吃人玩家比别处更有秩序，行动都是有明确目的的团体行动，像一个有别样信仰的联合。</span><span class="ch">第 855 章</span><details class="src"><summary>原文</summary><blockquote>反而像是一个有别样信仰的联合<cite>第 855 章</cite></blockquote></details></li></ul>
 </section>
-<section id="relations"><h3>关键关系</h3>
+<section id="relations" class="fgroup"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span>→ 箭头从做事的一方指向承受的一方</span><span><i class="dash"></i>某人的说法或推断</span></p>
 <p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
@@ -209,24 +213,50 @@ h4[id] { scroll-margin-top:16px; }
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
 <marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
 </defs>
-<g class="edge"><title>断指玩家 → 起了杀心 → 徐获（推断）（第 859 章）</title><path d="M463.6,402.2 Q421.4,320.3 384.7,249.1" fill="none" stroke="#f0904f" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#card-arrow-enemy)"/></g>
-<g class="edge"><title>徐获 — 同车厢 — 肖向林（第 858、860 章）</title><path d="M379.2,238.4 Q287.6,234.8 208.1,231.6" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge"><title>徐获 — 同车厢 — 许劲峰（第 858、860 章）</title><path d="M379.2,238.4 Q429.4,161.8 472.9,95.1" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<text x="421.4" y="324.3" class="elabel" style="fill:#f0904f">起了杀心</text>
-<text x="287.6" y="238.8" class="elabel" style="fill:#4fbf7f">同车厢</text>
-<text x="429.4" y="165.8" class="elabel" style="fill:#4fbf7f">同车厢</text>
-<g class="node"><circle cx="379.2" cy="238.4" r="11.5"/><text x="379.2" y="220.9" class="name">徐获</text></g>
-<g class="node"><circle cx="463.6" cy="402.2" r="10.0"/><text x="463.6" y="386.2" class="name">断指玩家</text></g>
-<g class="node"><circle cx="196.1" cy="231.1" r="10.0"/><text x="196.1" y="215.1" class="name">肖向林</text></g>
-<g class="node"><circle cx="479.5" cy="85.1" r="10.0"/><text x="479.5" y="69.1" class="name">许劲峰</text></g>
+<g class="edge" data-ch="859"><title>断指玩家 → 起了杀心 → 徐获（推断）（第 859 章）</title><path d="M463.6,402.2 Q421.4,320.3 384.7,249.1" fill="none" stroke="#f0904f" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="860"><title>徐获 — 同车厢 — 肖向林（第 858、860 章）</title><path d="M379.2,238.4 Q287.6,234.8 208.1,231.6" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge" data-ch="860"><title>徐获 — 同车厢 — 许劲峰（第 858、860 章）</title><path d="M379.2,238.4 Q429.4,161.8 472.9,95.1" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<text x="421.4" y="324.3" class="elabel" style="fill:#f0904f" data-ch="859">起了杀心</text>
+<text x="287.6" y="238.8" class="elabel" style="fill:#4fbf7f" data-ch="860">同车厢</text>
+<text x="429.4" y="165.8" class="elabel" style="fill:#4fbf7f" data-ch="860">同车厢</text>
+<g class="node" data-ch="859"><circle cx="379.2" cy="238.4" r="11.5"/><text x="379.2" y="220.9" class="name">徐获</text></g>
+<g class="node" data-ch="859"><circle cx="463.6" cy="402.2" r="10.0"/><text x="463.6" y="386.2" class="name">断指玩家</text></g>
+<g class="node" data-ch="860"><circle cx="196.1" cy="231.1" r="10.0"/><text x="196.1" y="215.1" class="name">肖向林</text></g>
+<g class="node" data-ch="860"><circle cx="479.5" cy="85.1" r="10.0"/><text x="479.5" y="69.1" class="name">许劲峰</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text"><span class="tier guess" title="推测">推测</span>断指玩家 → 起了杀心 → <a href="../people.html?upto=861#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 859 章</span></li><li><span class="text"><a href="../people.html?upto=861#person-%E5%BE%90%E8%8E%B7">徐获</a> — 同车厢 — <a href="../people.html?upto=861#person-%E8%82%96%E5%90%91%E6%9E%97">肖向林</a></span><span class="ch">第 858、860 章</span></li><li><span class="text"><a href="../people.html?upto=861#person-%E5%BE%90%E8%8E%B7">徐获</a> — 同车厢 — 许劲峰</span><span class="ch">第 858、860 章</span></li></ul></details>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li data-ch="859"><span class="text"><span class="tier guess" title="推测">推测</span>断指玩家 → 起了杀心 → <a href="../people.html?upto=861#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 859 章</span></li><li data-ch="860"><span class="text"><a href="../people.html?upto=861#person-%E5%BE%90%E8%8E%B7">徐获</a> — 同车厢 — <a href="../people.html?upto=861#person-%E8%82%96%E5%90%91%E6%9E%97">肖向林</a></span><span class="ch">第 858、860 章</span></li><li data-ch="860"><span class="text"><a href="../people.html?upto=861#person-%E5%BE%90%E8%8E%B7">徐获</a> — 同车厢 — 许劲峰</span><span class="ch">第 858、860 章</span></li></ul></details>
 </section>
-<section id="threads"><h3>伏笔与未解</h3>
+<section id="threads" class="fgroup"><h3>伏笔与未解</h3>
 <p class="note">截至第 861 章还没有交代的事。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html?upto=861#thread-193" title="伏笔总表">#193</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>792 次列车上的昏睡、斩首和幻觉：是车上有高级玩家在杀人，还是列车驶经了会引发幻觉的地方；只发给送礼者的布丁有没有问题。</span><span class="ch">第 857、861 章</span><details class="src"><summary>原文</summary><blockquote>其实车上的玩家餐食最大的区别不是套餐，而是附赠来的那枚布丁<cite>第 861 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=861#thread-194" title="伏笔总表">#194</a><span class="text">断指玩家：他认出了徐获，“好朋友来打分”跳到过 9，同样要去海上大世界。</span><span class="ch">第 859 章</span><details class="src"><summary>原文</summary><blockquote>徐获看着他头上的“好朋友来打分”数字跳到“9”又降回来<cite>第 859 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=861#thread-195" title="伏笔总表">#195</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>徐获身上的阻滞感和影子：注射 P2S 后身体有阻滞感，车上又频频看见持斧的影子，是药剂的后遗症，还是圣剑会玩家的烙印在作怪。</span><span class="ch">第 855、859–860 章</span><details class="src"><summary>原文</summary><blockquote>不可能真的是武博士在药剂里做过别的手脚吧<cite>第 860 章</cite></blockquote></details></li></ul>
-</section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E5%88%97%E8%BD%A6%E8%A7%84%E5%88%99">列车与乘务员</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E9%89%B4%E5%AE%9A%E5%8F%89">鉴定叉</a><a href="../items.html#item-%E9%92%BB%E7%9F%B3%E6%89%8B%E5%A5%97">钻石手套</a></p></section></details>
-<nav class="units-nav bottom"><a class="prev" href="u0041.html"><small>← 上一单元</small><b>011 区（宴会与次类石）</b><small>第 822–854 章</small></a><a class="next" href="u0043.html"><small>下一单元 →</small><b>友谊天长地久</b><small>第 862–889 章</small><small class="after" data-beyond="862" hidden>在你的进度之后</small></a></nav>
+<ul class="items"><li data-ch="861"><a class="thread-no" href="../threads.html?upto=861#thread-193" title="伏笔总表">#193</a><span class="text"><span class="tier guess" title="徐获的推断" tabindex="0">推测</span>792 次列车上的昏睡、斩首和幻觉：是车上有高级玩家在杀人，还是列车驶经了会引发幻觉的地方；只发给送礼者的布丁有没有问题。</span><span class="ch">第 857、861 章</span><details class="src"><summary>原文</summary><blockquote>其实车上的玩家餐食最大的区别不是套餐，而是附赠来的那枚布丁<cite>第 861 章</cite></blockquote></details></li><li data-ch="859"><a class="thread-no" href="../threads.html?upto=861#thread-194" title="伏笔总表">#194</a><span class="text">断指玩家：他认出了徐获，“好朋友来打分”跳到过 9，同样要去海上大世界。</span><span class="ch">第 859 章</span><details class="src"><summary>原文</summary><blockquote>徐获看着他头上的“好朋友来打分”数字跳到“9”又降回来<cite>第 859 章</cite></blockquote></details></li><li data-ch="860"><a class="thread-no" href="../threads.html?upto=861#thread-195" title="伏笔总表">#195</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>徐获身上的阻滞感和影子：注射 P2S 后身体有阻滞感，车上又频频看见持斧的影子，是药剂的后遗症，还是圣剑会玩家的烙印在作怪。</span><span class="ch">第 855、859–860 章</span><details class="src"><summary>原文</summary><blockquote>不可能真的是武博士在药剂里做过别的手脚吧<cite>第 860 章</cite></blockquote></details></li></ul>
+</section><section id="links" class="fgroup"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E5%88%97%E8%BD%A6%E8%A7%84%E5%88%99" data-ch="856">列车与乘务员</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E9%89%B4%E5%AE%9A%E5%8F%89" data-ch="861">鉴定叉</a><a href="../items.html#item-%E9%92%BB%E7%9F%B3%E6%89%8B%E5%A5%97" data-ch="855">钻石手套</a></p></section></details>
+<nav class="units-nav bottom"><a class="prev" href="u0041.html"><small>← 上一单元</small><b>011 区（宴会与次类石）</b><small>第 822–854 章</small></a><a class="next" href="u0043.html"><small>下一单元 →</small><b>友谊天长地久</b><small>第 862–889 章</small><small class="after" data-beyond="862" hidden>在你的进度之后</small></a></nav><script>
+(function () {
+  var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
+  var status = doc.getElementById('wdzx-status'), beyond = doc.querySelector('p.beyond'), box = doc.getElementById('wdzx-upto');
+  var layers = doc.querySelectorAll('details.layer'), peek = false;
+  var button = doc.createElement('button'); button.type = 'button'; button.className = 'peek';
+  button.addEventListener('click', function () {
+    if (peek) { box.dispatchEvent(new Event('input')); return; }   // the shared script puts the marks back and sends the event
+    peek = true;
+    doc.querySelectorAll('main .hidden').forEach(function (el) { el.classList.remove('hidden'); });
+    layers.forEach(function (d) { d.hidden = false; });
+    status.textContent = '已展开全部，含你进度之后的内容。'; button.textContent = '按进度收起'; status.appendChild(button);
+  });
+  doc.addEventListener('wdzx:progress', function (e) {
+    var n = e.detail, before = n < first, mid = !before && n < end;
+    peek = false;
+    if (beyond) beyond.hidden = true;
+    layers.forEach(function (d) { d.hidden = before; });
+    if (n === Infinity) return;
+    status.hidden = false;
+    if (before) status.textContent = '这张卡从第 ' + first + ' 章开始，在你的进度（第 ' + n + ' 章）之后，整张都是剧透，先收起了。';
+    else if (mid) status.textContent = '你读到第 ' + n + ' 章，这张卡写到第 ' + end + ' 章：之后的句子、评级和收获已藏起。';
+    else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
+    button.textContent = '仍然展开'; status.appendChild(button);
+  });
+})();
+</script>
 <footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
 </main><script>
 (function () {
@@ -244,11 +274,12 @@ h4[id] { scroll-margin-top:16px; }
   if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
   var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
   saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
-  if (Math.max(saved, query)) box.value = Math.max(saved, query);
+  if (saved) box.value = saved;   // the box is the reader's own chapter; a card's ?upto only widens what this page shows
   function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function shown() { var n = current(); return query ? Math.max(n < Infinity ? n : 0, query) : n; }
   function apply() {
-    var n = current(), chosen = n < Infinity || get(SEEN) === '1';
-    root.classList.toggle('has-progress', n < Infinity);
+    var mine = current(), n = shown(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', mine < Infinity);
     banner.hidden = chosen;
     if (!off) {
       doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
@@ -267,19 +298,21 @@ h4[id] { scroll-margin-top:16px; }
     }
     doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
     doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
-    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
     if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
       var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
     });
     status.hidden = n === Infinity;
     status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : n !== mine ? '按这张单元卡显示到第 ' + n + ' 章；' + (mine < Infinity ? '你的进度仍是第 ' + mine + ' 章。' : '你还没填进度，在页头填了章号后以它为准。')
       : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
   }
   function changed() {
     if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
     var n = current();
     put(KEY, n < Infinity ? String(n) : null);
     if (n < Infinity) put(SEEN, '1');
+    query = 0;
     if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
     note.hidden = true; apply();
   }
@@ -288,6 +321,11 @@ h4[id] { scroll-margin-top:16px; }
   banner.querySelectorAll('button').forEach(function (b) {
     b.addEventListener('click', function () {
       if (b.dataset.choice === 'fill') { box.focus(); return; }
+      if (b.dataset.choice === 'start' && valid(+b.dataset.chapter)) {
+        box.value = b.dataset.chapter; changed();
+        note.textContent = '还没开始读：先只显示到第 ' + b.dataset.chapter + ' 章，第一个副本结束的地方。读起来以后，在页头改成你读到的章就行。';
+        note.hidden = false; return;
+      }
       put(SEEN, '1'); apply();
     });
   });
@@ -296,7 +334,8 @@ h4[id] { scroll-margin-top:16px; }
   var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
   if (target && !off && target.closest('.hidden')) {
     var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
-    note.textContent = '你要看的“' + name + '”按你的进度（读到第 ' + current() + ' 章）还没出现；改大章号或清除进度就能看到。';
+    var upto = shown(), why = upto !== current() ? '按这张单元卡的章号（第 ' + upto + ' 章）' : '按你的进度（读到第 ' + upto + ' 章）';
+    note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
     note.hidden = false; note.scrollIntoView();
   } else if (target) { target.scrollIntoView(); }
 })();

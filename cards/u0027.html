@@ -113,9 +113,12 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
   padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
 .syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
 .syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+@media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
+.upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
 /* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
 .tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
 .tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
+.tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
 
 .hidden { display:none !important; }
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
@@ -163,46 +166,47 @@ svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
 svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
 svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
 details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
-.links { margin:8px 0; } .links b { display:inline-block; width:3em; color:var(--brass); font-weight:600; }
+.links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
 .links a { margin-right:12px; white-space:nowrap; }
+.progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
 .hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
 nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
 nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="all">没看过，随便看看</button><button type="button" data-choice="all">已追平</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
-<div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
+<div class="ticket" id="card" data-first="486" data-end="505"><div class="ticket-main"><div class="kicker">主线</div>
 <h1>荣欣集团的邮轮</h1><div class="route">第 486 章 ──── 第 505 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="486" hidden>这张卡从第 486 章开始，在你填的进度之后，整张都是剧透。</p></div>
 <div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0027</div><div class="stub-row"><b>句数</b>48</div>
 <div class="stub-row"><b>引用</b>26 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 486–505 章正文后撰写。</p>
+<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 486–505 章正文后撰写。</p>
 <nav class="units-nav top"><a class="prev" href="u0026.html"><small>← 上一单元</small><b>011 区（贵族与军火）</b><small>第 475–485 章</small></a><a class="next" href="u0028.html"><small>下一单元 →</small><b>第十七医院（邮轮）</b><small>第 506–516 章</small><small class="after" data-beyond="506" hidden>在你的进度之后</small></a></nav>
-<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。写到第 505 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
-<ul class="items"><li><span class="text">荣欣集团的邮轮驶进车票失效的海域，贵族和吃人玩家猎杀白手环；徐获一路反杀，脱身无门时在副本授权书上写下“第十七医院”，成了这个随机副本的持有人。</span><span class="ch">第 486、489、496、501–502、505 章</span></li></ul>
+<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。写到第 505 章，含结局。</span></summary><section id="overview" class="fgroup"><h3>一句话</h3>
+<ul class="items"><li data-ch="505"><span class="text">荣欣集团的邮轮驶进车票失效的海域，贵族和吃人玩家猎杀白手环；徐获一路反杀，脱身无门时在副本授权书上写下“第十七医院”，成了这个随机副本的持有人。</span><span class="ch">第 486、489、496、501–502、505 章</span></li></ul>
 </section>
-<section id="harvest" class="harvest"><h3>徐获的收获</h3><p class="links"><b>拿到</b><a href="../items.html#item-%E5%89%8A%E5%BC%B1%E6%A9%A1%E7%9A%AE">削弱橡皮</a><a href="../items.html#item-%E6%81%A9%E6%96%AD%E4%B9%89%E7%BB%9D%E9%97%A8">恩断义绝门</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
-<section id="cast"><h3>登场人物</h3>
+<section id="harvest" class="harvest" data-ch="505"><h3>徐获的收获</h3><p class="links"><b>拿到</b><a href="../items.html#item-%E5%89%8A%E5%BC%B1%E6%A9%A1%E7%9A%AE">削弱橡皮</a><a href="../items.html#item-%E6%81%A9%E6%96%AD%E4%B9%89%E7%BB%9D%E9%97%A8">恩断义绝门</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
+<section id="cast" class="fgroup"><h3>登场人物</h3>
 <p class="note">按出场先后。</p>
-<ul class="people"><li><b class="subject"><a href="../people.html?upto=505#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲，化名徐知）</b><span class="text">作为冉英的同伴上船，拿的是最低等的白手环。</span><span class="ch">第 486 章</span></li><li><b class="subject"><a href="../people.html?upto=505#person-%E5%86%89%E8%8B%B1">冉英</a></b><span class="text">黑肩章分队长，拉徐获上船，自己拿黑手环。</span><span class="ch">第 486 章</span></li><li><b class="subject"><a href="../people.html?upto=505#person-%E5%A1%9E%E6%9E%97">塞林</a></b><span class="text">来自 009 区、穿黑袍的金发男人，自称追随宗教，一路收“信徒”，逼问对手是否悔过再捏断脖子。</span><span class="ch">第 486、493 章</span></li><li><b class="subject">劳拉</b><span class="text">普通进化人，和戴红手环的未婚夫同来，还盼着旅行后成婚。</span><span class="ch">第 487 章</span></li><li><b class="subject">陆云</b><span class="text">在花瓶里藏摄像仪的黑手环玩家，事先调查过这艘船，杀了不少红手环。</span><span class="ch">第 487、498、503 章</span></li><li><b class="subject"><a href="../people.html?upto=505#person-%E9%A9%AC%E7%89%B9%E8%88%B9%E9%95%BF">马特船长</a></b><span class="text">舰船的主人，传说是退休的 B 级玩家、舰船公司老板，在 011 区政坛有分量。</span><span class="ch">第 488 章</span></li><li><b class="subject">帕拉达</b><span class="text">在 A1 时间俱乐部见过的贵族青年，这次在 609 房里和同伴吃人。</span><span class="ch">第 488 章</span></li><li><b class="subject"><a href="../people.html?upto=505#person-%E7%99%BD%E8%94%BB">白蔻</a>（蝴蝶夫人）</b><span class="text">被塔尔公爵接上船，混在九楼的贵族里。</span><span class="ch">第 489 章</span></li><li><b class="subject">蒋奉</b><span class="text">泳池边的黑手环贵族，特性“雨滴石穿”，还能控物、隔空切割；妹妹是个能用声音操控海草的小姑娘。</span><span class="ch">第 491、494、498 章</span></li><li><b class="subject"><a href="../people.html?upto=505#person-%E9%9B%A8%E6%9E%9C">雨果</a></b><span class="text">诡音骑士团成员，穿花衬衣沙滩裤，碰到的东西会迅速腐朽粉碎。</span><span class="ch">第 501–502 章</span></li><li><b class="subject"><a href="../people.html?upto=505#person-%E7%BB%B4%E6%A3%AE%C2%B7%E6%A2%85%E5%B0%BC">维森·梅尼</a>、<a href="../people.html?upto=505#person-%E9%98%BF%E5%B8%8C%E6%96%AF%C2%B7%E7%BB%B4%E5%B0%94%E7%BA%B3">阿希斯·维尔纳</a></b><span class="text">荣欣集团的交易方，和八楼上的贵族高级玩家。</span><span class="ch">第 502、505 章</span></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。写到第 505 章，含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+<ul class="people"><li data-ch="486"><b class="subject"><a href="../people.html?upto=505#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲，化名徐知）</b><span class="text">作为冉英的同伴上船，拿的是最低等的白手环。</span><span class="ch">第 486 章</span></li><li data-ch="486"><b class="subject"><a href="../people.html?upto=505#person-%E5%86%89%E8%8B%B1">冉英</a></b><span class="text">黑肩章分队长，拉徐获上船，自己拿黑手环。</span><span class="ch">第 486 章</span></li><li data-ch="493"><b class="subject"><a href="../people.html?upto=505#person-%E5%A1%9E%E6%9E%97">塞林</a></b><span class="text">来自 009 区、穿黑袍的金发男人，自称追随宗教，一路收“信徒”，逼问对手是否悔过再捏断脖子。</span><span class="ch">第 486、493 章</span></li><li data-ch="487"><b class="subject">劳拉</b><span class="text">普通进化人，和戴红手环的未婚夫同来，还盼着旅行后成婚。</span><span class="ch">第 487 章</span></li><li data-ch="503"><b class="subject">陆云</b><span class="text">在花瓶里藏摄像仪的黑手环玩家，事先调查过这艘船，杀了不少红手环。</span><span class="ch">第 487、498、503 章</span></li><li data-ch="488"><b class="subject"><a href="../people.html?upto=505#person-%E9%A9%AC%E7%89%B9%E8%88%B9%E9%95%BF">马特船长</a></b><span class="text">舰船的主人，传说是退休的 B 级玩家、舰船公司老板，在 011 区政坛有分量。</span><span class="ch">第 488 章</span></li><li data-ch="488"><b class="subject">帕拉达</b><span class="text">在 A1 时间俱乐部见过的贵族青年，这次在 609 房里和同伴吃人。</span><span class="ch">第 488 章</span></li><li data-ch="489"><b class="subject"><a href="../people.html?upto=505#person-%E7%99%BD%E8%94%BB">白蔻</a>（蝴蝶夫人）</b><span class="text">被塔尔公爵接上船，混在九楼的贵族里。</span><span class="ch">第 489 章</span></li><li data-ch="498"><b class="subject">蒋奉</b><span class="text">泳池边的黑手环贵族，特性“雨滴石穿”，还能控物、隔空切割；妹妹是个能用声音操控海草的小姑娘。</span><span class="ch">第 491、494、498 章</span></li><li data-ch="502"><b class="subject"><a href="../people.html?upto=505#person-%E9%9B%A8%E6%9E%9C">雨果</a></b><span class="text">诡音骑士团成员，穿花衬衣沙滩裤，碰到的东西会迅速腐朽粉碎。</span><span class="ch">第 501–502 章</span></li><li data-ch="505"><b class="subject"><a href="../people.html?upto=505#person-%E7%BB%B4%E6%A3%AE%C2%B7%E6%A2%85%E5%B0%BC">维森·梅尼</a>、<a href="../people.html?upto=505#person-%E9%98%BF%E5%B8%8C%E6%96%AF%C2%B7%E7%BB%B4%E5%B0%94%E7%BA%B3">阿希斯·维尔纳</a></b><span class="text">荣欣集团的交易方，和八楼上的贵族高级玩家。</span><span class="ch">第 502、505 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。写到第 505 章，含全部剧透。</span></summary><section id="story" class="fgroup"><h3>剧情梗概</h3>
 <p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
-<nav class="arcs"><a href="#story-1">一、手环（第 486–488 章）</a><a href="#story-2">二、狂欢夜（第 489–495 章）</a><a href="#story-3">三、蒋奉（第 496–501 章）</a><a href="#story-4">四、军火交易（第 502–505 章）</a></nav>
-<h4 id="story-1">一、手环（第 486–488 章）</h4>
-<p class="prose">这是一艘十层的巨型舰船，前三层在水下，四层往上能绕中心主轴旋转。上船按身份发手环，徐获作为冉英带来的同伴拿白手环，冉英拿黑手环。墙上刻满一种叫“海魔”的海草花纹，塞林在墙里钉了三根银钉，说嗅到了不幸的征兆。<sup class="cite" title="第486章：登船的时候服务生给了他一个白色的手环，而冉英拿的是黑色的；第486章：是一种叫海魔的海草">486</sup>餐厅里，劳拉被 011 区出身的白手环玩家挤兑，一个黑手环男人替她出头，听说她未婚夫戴红手环便匆匆走开；徐获找到他藏在花瓶里的摄像仪，想通了三种手环的意思——劳拉的未婚夫戴红手环，是吃人玩家。<sup class="cite" title="第487章：我见到了刚才那个女人的未婚夫，戴着红手环，这么巧，还是个吃人玩家">487</sup>船长马特在九楼窗前举杯，人们传说他是退休的 B 级玩家；可船上的服务生全是今年新来的。冉英回信要他上七楼，自己却没按说的来找他。徐获扮成服务生去 609 房送酒，帕拉达几个贵族吸着嗨剂，床上是被吃掉一半的女人；劳拉的未婚夫要拧他脖子，反被他拧断，又被他切死一人，帕拉达破窗逃走。<sup class="cite" title="第488章：马特船长退休前是B级玩家；第488章：发现他们全都是第一次上船；第488章：床上的女人已经死了">488–489</sup></p><details class="src block"><summary>本段原文 6 处</summary><blockquote>登船的时候服务生给了他一个白色的手环，而冉英拿的是黑色的<cite>第 486 章</cite></blockquote><blockquote>是一种叫海魔的海草<cite>第 486 章</cite></blockquote><blockquote>我见到了刚才那个女人的未婚夫，戴着红手环，这么巧，还是个吃人玩家<cite>第 487 章</cite></blockquote><blockquote>马特船长退休前是B级玩家<cite>第 488 章</cite></blockquote><blockquote>发现他们全都是第一次上船<cite>第 488 章</cite></blockquote><blockquote>床上的女人已经死了<cite>第 488 章</cite></blockquote></details>
-<h4 id="story-2">二、狂欢夜（第 489–495 章）</h4>
-<p class="prose">九楼上，马特宣布他特意搜罗了一些玩家上船供大家狩猎，扮成蝴蝶夫人的白蔻嫌时间太短，他便定为三小时；舰船停下、灯熄灭。帕拉达逃到九楼告状没人理，下楼时被白蔻割破喉管，撞上换了脸的徐获，最后在他眼前断了气。<sup class="cite" title="第489章：我特意搜寻了一些玩家上船，请大家狩猎的时候也要小心别被猎物抓伤；第489章：各位，狂欢夜开始了">489–490</sup>全船成了屠场，死得最多的是服务生。徐获在升降梯里设绳杀了偷袭的红手环，摘下他的红手环冒充吃人玩家；四楼泳池边，一个黑手环贵族逼玩家憋气、谁先出水就爆头，徐获突然出手偷袭他，引走他身边的三个红手环，泳池里的人趁乱逃走。<sup class="cite" title="第490章：一眼看去，死的最多的就是服务生；第491章：时间还没到谁从水下出来就是输了，输的人就去死">490–491</sup>他在餐厅用束星之球的幻觉杀了一个红手环；塞林逼问红手环悔不悔过，再一个个捏断脖子。升降梯卡住后，整艘船长满海草，变得像泡了多年的沉船，窗外的海草能把人拖出去砸碎头——船本身是一件道具。<sup class="cite" title="第493章：很遗憾，你不是诚心悔过；第493章：湿淋淋的海草爬满了整艘舰船">492–493</sup>一个小姑娘假装求救，引来两个红手环，徐获和塞林各杀一个；她的声音能操控海草，塞林让她暂时发不出声。泳池边的黑手环贵族赶来，满身钻石像子弹一样射出，徐获跳窗躲进 101 号紧急避难，又放出只剩一次机会的拟人娃娃引开他。<sup class="cite" title="第494章：她的声音可以控制海草">494–495</sup></p><details class="src block"><summary>本段原文 7 处</summary><blockquote>我特意搜寻了一些玩家上船，请大家狩猎的时候也要小心别被猎物抓伤<cite>第 489 章</cite></blockquote><blockquote>各位，狂欢夜开始了<cite>第 489 章</cite></blockquote><blockquote>一眼看去，死的最多的就是服务生<cite>第 490 章</cite></blockquote><blockquote>时间还没到谁从水下出来就是输了，输的人就去死<cite>第 491 章</cite></blockquote><blockquote>很遗憾，你不是诚心悔过<cite>第 493 章</cite></blockquote><blockquote>湿淋淋的海草爬满了整艘舰船<cite>第 493 章</cite></blockquote><blockquote>她的声音可以控制海草<cite>第 494 章</cite></blockquote></details>
-<h4 id="story-3">三、蒋奉（第 496–501 章）</h4>
-<p class="prose">九楼爆炸后火焰原路倒退、一切复原。徐获判断没下楼的人才是军火交易的核心；船越驶越远，车票用不了，每年都有这种航行，说明往年没人活着回去。<sup class="cite" title="第496章：下一秒，它又按照喷发的轨迹原路倒退回去；第496章：既然每年都有这种航行，那就代表往年没有活口出去">496</sup>他借监控看黑手环贵族怎么对付拟人娃娃，摸清了他的特性和道具，布下数数格子。黑手环贵族蒋奉用粉末追查到避难所，跟着同来的红手环绕到避难所门前，两人一起被困进格子；徐获穿过雨幕、用刃绳切碎他的屏障，再用束星之球把他和红手环拉进自己精神世界的迷门。<sup class="cite" title="第498章：蒋先生，这里有门">497–499</sup>红手环困死在书房迷宫里，被徐获杀了；蒋奉按下胸口的电击装置醒来，放出能量龙卷风，徐获用刚从红手环身上得来的恩断义绝门和削弱橡皮挡住，带着他跳出窗外。空中缠斗，避难所压着两人坠落，七楼突然转出来接住；七楼随即粉化翻转，一根金属条削掉蒋奉的左肩，徐获用刃绳割下了他的头。<sup class="cite" title="第501章：蒋奉的人头飞了出去">500–501</sup>那个小姑娘正是蒋奉的妹妹，她控制船内外的海草疯狂报复。六楼上，白蔻和诡音骑士团的雨果对峙。<sup class="cite" title="第501章：蒋奉的妹妹，那个小姑娘出现在六楼上">501</sup></p><details class="src block"><summary>本段原文 5 处</summary><blockquote>下一秒，它又按照喷发的轨迹原路倒退回去<cite>第 496 章</cite></blockquote><blockquote>既然每年都有这种航行，那就代表往年没有活口出去<cite>第 496 章</cite></blockquote><blockquote>蒋先生，这里有门<cite>第 498 章</cite></blockquote><blockquote>蒋奉的人头飞了出去<cite>第 501 章</cite></blockquote><blockquote>蒋奉的妹妹，那个小姑娘出现在六楼上<cite>第 501 章</cite></blockquote></details>
-<h4 id="story-4">四、军火交易（第 502–505 章）</h4>
-<p class="prose">八楼上是交易的几方：负责转运军火的马特、交易方维森·梅尼、代表合作方的冉英，还有三名贵族高级玩家。雨果用手术刀切开了蒋奉妹妹的喉管；徐获认为削掉蒋奉肩膀的那根金属条是白蔻帮了自己一把。<sup class="cite" title="第502章：用一把小巧的手术刀直接切开了她的喉管">502</sup>船复原又变形，海水变成能融化道具的黑水，交配期的变异巨型章把船团团围住。白蔻那边的冲击把人掀出窗外，徐获用刃绳救下那个黑手环，他叫陆云；陆云说原航线半小时后有一片不稳定空间，也许能用车票，可船已经偏航。<sup class="cite" title="第503章：我叫陆云。”黑手环和他握手">502–503</sup>白蔻一滴白色药剂杀死了整层的海草，扛着能源炮轰雨果，又轰向舰船主轴，被一个纹身壮汉拍到海里炸开。陆云等人在主控室改航线失败；徐获主张打开楼层的展开模式，一名女玩家按了下去，引来更多巨型章。<sup class="cite" title="第504章：一滴白色的药剂滴在脚边的海草手臂上">504–505</sup>马特放出闪电水母毒死了围来的巨型章。八楼上，贵族阿希斯·维尔纳看出“蝴蝶夫人”是 A 级玩家，不是冲着诡音骑士团交付的这批军火来的，怀疑她是白金之眼的人，说不能让她活着离开；马特说船上带了时空缝隙干扰器。<sup class="cite" title="第505章：我们购买的军火是白金之眼去年更新的版本；第505章：如果是白金之眼的人，那就不能让她活着离开">505</sup>徐获走到无人的走廊，拿出在花城得到的副本授权书，写下副本名“第十七医院”和三个任务：至少接受一次心理治疗、杀死一名医生、找到医院的大门，署上“路人甲”和编号——游戏审核通过，他成了这个随机副本的持有人。<sup class="cite" title="第505章：将半截烟踩灭后拿出了在花城得到的副本授权书；第505章：恭喜玩家路人甲成为‘第十七医院’随机副本持有人，您的副本名称和任务已通过游戏审核">505</sup></p><details class="src block"><summary>本段原文 7 处</summary><blockquote>用一把小巧的手术刀直接切开了她的喉管<cite>第 502 章</cite></blockquote><blockquote>我叫陆云。”黑手环和他握手<cite>第 503 章</cite></blockquote><blockquote>一滴白色的药剂滴在脚边的海草手臂上<cite>第 504 章</cite></blockquote><blockquote>我们购买的军火是白金之眼去年更新的版本<cite>第 505 章</cite></blockquote><blockquote>如果是白金之眼的人，那就不能让她活着离开<cite>第 505 章</cite></blockquote><blockquote>将半截烟踩灭后拿出了在花城得到的副本授权书<cite>第 505 章</cite></blockquote><blockquote>恭喜玩家路人甲成为‘第十七医院’随机副本持有人，您的副本名称和任务已通过游戏审核<cite>第 505 章</cite></blockquote></details>
+<nav class="arcs"><a href="#story-1" data-ch="486">一、手环（第 486–488 章）</a><a href="#story-2" data-ch="490">二、狂欢夜（第 489–495 章）</a><a href="#story-3" data-ch="496">三、蒋奉（第 496–501 章）</a><a href="#story-4" data-ch="502">四、军火交易（第 502–505 章）</a></nav>
+<h4 id="story-1" data-ch="486">一、手环（第 486–488 章）</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="486">这是一艘十层的巨型舰船，前三层在水下，四层往上能绕中心主轴旋转。上船按身份发手环，徐获作为冉英带来的同伴拿白手环，冉英拿黑手环。墙上刻满一种叫“海魔”的海草花纹，塞林在墙里钉了三根银钉，说嗅到了不幸的征兆。<sup class="cite" title="第486章：登船的时候服务生给了他一个白色的手环，而冉英拿的是黑色的；第486章：是一种叫海魔的海草">486</sup></span><span class="stmt" data-ch="487">餐厅里，劳拉被 011 区出身的白手环玩家挤兑，一个黑手环男人替她出头，听说她未婚夫戴红手环便匆匆走开；徐获找到他藏在花瓶里的摄像仪，想通了三种手环的意思——劳拉的未婚夫戴红手环，是吃人玩家。<sup class="cite" title="第487章：我见到了刚才那个女人的未婚夫，戴着红手环，这么巧，还是个吃人玩家">487</sup></span><span class="stmt" data-ch="489">船长马特在九楼窗前举杯，人们传说他是退休的 B 级玩家；可船上的服务生全是今年新来的。冉英回信要他上七楼，自己却没按说的来找他。徐获扮成服务生去 609 房送酒，帕拉达几个贵族吸着嗨剂，床上是被吃掉一半的女人；劳拉的未婚夫要拧他脖子，反被他拧断，又被他切死一人，帕拉达破窗逃走。<sup class="cite" title="第488章：马特船长退休前是B级玩家；第488章：发现他们全都是第一次上船；第488章：床上的女人已经死了">488–489</sup></span></p><details class="src block fgroup"><summary>本段原文 6 处</summary><blockquote data-ch="486">登船的时候服务生给了他一个白色的手环，而冉英拿的是黑色的<cite>第 486 章</cite></blockquote><blockquote data-ch="486">是一种叫海魔的海草<cite>第 486 章</cite></blockquote><blockquote data-ch="487">我见到了刚才那个女人的未婚夫，戴着红手环，这么巧，还是个吃人玩家<cite>第 487 章</cite></blockquote><blockquote data-ch="489">马特船长退休前是B级玩家<cite>第 488 章</cite></blockquote><blockquote data-ch="489">发现他们全都是第一次上船<cite>第 488 章</cite></blockquote><blockquote data-ch="489">床上的女人已经死了<cite>第 488 章</cite></blockquote></details>
+<h4 id="story-2" data-ch="490">二、狂欢夜（第 489–495 章）</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="490">九楼上，马特宣布他特意搜罗了一些玩家上船供大家狩猎，扮成蝴蝶夫人的白蔻嫌时间太短，他便定为三小时；舰船停下、灯熄灭。帕拉达逃到九楼告状没人理，下楼时被白蔻割破喉管，撞上换了脸的徐获，最后在他眼前断了气。<sup class="cite" title="第489章：我特意搜寻了一些玩家上船，请大家狩猎的时候也要小心别被猎物抓伤；第489章：各位，狂欢夜开始了">489–490</sup></span><span class="stmt" data-ch="491">全船成了屠场，死得最多的是服务生。徐获在升降梯里设绳杀了偷袭的红手环，摘下他的红手环冒充吃人玩家；四楼泳池边，一个黑手环贵族逼玩家憋气、谁先出水就爆头，徐获突然出手偷袭他，引走他身边的三个红手环，泳池里的人趁乱逃走。<sup class="cite" title="第490章：一眼看去，死的最多的就是服务生；第491章：时间还没到谁从水下出来就是输了，输的人就去死">490–491</sup></span><span class="stmt" data-ch="493">他在餐厅用束星之球的幻觉杀了一个红手环；塞林逼问红手环悔不悔过，再一个个捏断脖子。升降梯卡住后，整艘船长满海草，变得像泡了多年的沉船，窗外的海草能把人拖出去砸碎头——船本身是一件道具。<sup class="cite" title="第493章：很遗憾，你不是诚心悔过；第493章：湿淋淋的海草爬满了整艘舰船">492–493</sup></span><span class="stmt" data-ch="495">一个小姑娘假装求救，引来两个红手环，徐获和塞林各杀一个；她的声音能操控海草，塞林让她暂时发不出声。泳池边的黑手环贵族赶来，满身钻石像子弹一样射出，徐获跳窗躲进 101 号紧急避难，又放出只剩一次机会的拟人娃娃引开他。<sup class="cite" title="第494章：她的声音可以控制海草">494–495</sup></span></p><details class="src block fgroup"><summary>本段原文 7 处</summary><blockquote data-ch="490">我特意搜寻了一些玩家上船，请大家狩猎的时候也要小心别被猎物抓伤<cite>第 489 章</cite></blockquote><blockquote data-ch="490">各位，狂欢夜开始了<cite>第 489 章</cite></blockquote><blockquote data-ch="491">一眼看去，死的最多的就是服务生<cite>第 490 章</cite></blockquote><blockquote data-ch="491">时间还没到谁从水下出来就是输了，输的人就去死<cite>第 491 章</cite></blockquote><blockquote data-ch="493">很遗憾，你不是诚心悔过<cite>第 493 章</cite></blockquote><blockquote data-ch="493">湿淋淋的海草爬满了整艘舰船<cite>第 493 章</cite></blockquote><blockquote data-ch="495">她的声音可以控制海草<cite>第 494 章</cite></blockquote></details>
+<h4 id="story-3" data-ch="496">三、蒋奉（第 496–501 章）</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="496">九楼爆炸后火焰原路倒退、一切复原。徐获判断没下楼的人才是军火交易的核心；船越驶越远，车票用不了，每年都有这种航行，说明往年没人活着回去。<sup class="cite" title="第496章：下一秒，它又按照喷发的轨迹原路倒退回去；第496章：既然每年都有这种航行，那就代表往年没有活口出去">496</sup></span><span class="stmt" data-ch="499">他借监控看黑手环贵族怎么对付拟人娃娃，摸清了他的特性和道具，布下数数格子。黑手环贵族蒋奉用粉末追查到避难所，跟着同来的红手环绕到避难所门前，两人一起被困进格子；徐获穿过雨幕、用刃绳切碎他的屏障，再用束星之球把他和红手环拉进自己精神世界的迷门。<sup class="cite" title="第498章：蒋先生，这里有门">497–499</sup></span><span class="stmt" data-ch="501">红手环困死在书房迷宫里，被徐获杀了；蒋奉按下胸口的电击装置醒来，放出能量龙卷风，徐获用刚从红手环身上得来的恩断义绝门和削弱橡皮挡住，带着他跳出窗外。空中缠斗，避难所压着两人坠落，七楼突然转出来接住；七楼随即粉化翻转，一根金属条削掉蒋奉的左肩，徐获用刃绳割下了他的头。<sup class="cite" title="第501章：蒋奉的人头飞了出去">500–501</sup></span><span class="stmt" data-ch="501">那个小姑娘正是蒋奉的妹妹，她控制船内外的海草疯狂报复。六楼上，白蔻和诡音骑士团的雨果对峙。<sup class="cite" title="第501章：蒋奉的妹妹，那个小姑娘出现在六楼上">501</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="496">下一秒，它又按照喷发的轨迹原路倒退回去<cite>第 496 章</cite></blockquote><blockquote data-ch="496">既然每年都有这种航行，那就代表往年没有活口出去<cite>第 496 章</cite></blockquote><blockquote data-ch="499">蒋先生，这里有门<cite>第 498 章</cite></blockquote><blockquote data-ch="501">蒋奉的人头飞了出去<cite>第 501 章</cite></blockquote><blockquote data-ch="501">蒋奉的妹妹，那个小姑娘出现在六楼上<cite>第 501 章</cite></blockquote></details>
+<h4 id="story-4" data-ch="502">四、军火交易（第 502–505 章）</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="502">八楼上是交易的几方：负责转运军火的马特、交易方维森·梅尼、代表合作方的冉英，还有三名贵族高级玩家。雨果用手术刀切开了蒋奉妹妹的喉管；徐获认为削掉蒋奉肩膀的那根金属条是白蔻帮了自己一把。<sup class="cite" title="第502章：用一把小巧的手术刀直接切开了她的喉管">502</sup></span><span class="stmt" data-ch="503">船复原又变形，海水变成能融化道具的黑水，交配期的变异巨型章把船团团围住。白蔻那边的冲击把人掀出窗外，徐获用刃绳救下那个黑手环，他叫陆云；陆云说原航线半小时后有一片不稳定空间，也许能用车票，可船已经偏航。<sup class="cite" title="第503章：我叫陆云。”黑手环和他握手">502–503</sup></span><span class="stmt" data-ch="505">白蔻一滴白色药剂杀死了整层的海草，扛着能源炮轰雨果，又轰向舰船主轴，被一个纹身壮汉拍到海里炸开。陆云等人在主控室改航线失败；徐获主张打开楼层的展开模式，一名女玩家按了下去，引来更多巨型章。<sup class="cite" title="第504章：一滴白色的药剂滴在脚边的海草手臂上">504–505</sup></span><span class="stmt" data-ch="505">马特放出闪电水母毒死了围来的巨型章。八楼上，贵族阿希斯·维尔纳看出“蝴蝶夫人”是 A 级玩家，不是冲着诡音骑士团交付的这批军火来的，怀疑她是白金之眼的人，说不能让她活着离开；马特说船上带了时空缝隙干扰器。<sup class="cite" title="第505章：我们购买的军火是白金之眼去年更新的版本；第505章：如果是白金之眼的人，那就不能让她活着离开">505</sup></span><span class="stmt" data-ch="505">徐获走到无人的走廊，拿出在花城得到的副本授权书，写下副本名“第十七医院”和三个任务：至少接受一次心理治疗、杀死一名医生、找到医院的大门，署上“路人甲”和编号——游戏审核通过，他成了这个随机副本的持有人。<sup class="cite" title="第505章：将半截烟踩灭后拿出了在花城得到的副本授权书；第505章：恭喜玩家路人甲成为‘第十七医院’随机副本持有人，您的副本名称和任务已通过游戏审核">505</sup></span></p><details class="src block fgroup"><summary>本段原文 7 处</summary><blockquote data-ch="502">用一把小巧的手术刀直接切开了她的喉管<cite>第 502 章</cite></blockquote><blockquote data-ch="503">我叫陆云。”黑手环和他握手<cite>第 503 章</cite></blockquote><blockquote data-ch="505">一滴白色的药剂滴在脚边的海草手臂上<cite>第 504 章</cite></blockquote><blockquote data-ch="505">我们购买的军火是白金之眼去年更新的版本<cite>第 505 章</cite></blockquote><blockquote data-ch="505">如果是白金之眼的人，那就不能让她活着离开<cite>第 505 章</cite></blockquote><blockquote data-ch="505">将半截烟踩灭后拿出了在花城得到的副本授权书<cite>第 505 章</cite></blockquote><blockquote data-ch="505">恭喜玩家路人甲成为‘第十七医院’随机副本持有人，您的副本名称和任务已通过游戏审核<cite>第 505 章</cite></blockquote></details>
 </section>
-<section id="callbacks"><h3>承接前文</h3>
+<section id="callbacks" class="fgroup"><h3>承接前文</h3>
 <p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html?upto=505#thread-118" title="伏笔总表">#118</a><span class="text">荣欣的军火交易就在这艘船上：马特转运，维森·梅尼是交易方，冉英代表合作方；买的是白金之眼去年更新的一批军火，由诡音骑士团交付。</span><span class="ch">第 502、505 章</span><details class="src"><summary>原文</summary><blockquote>我们购买的军火是白金之眼去年更新的版本<cite>第 505 章</cite></blockquote></details></li><li><a class="thread-no" href="../threads.html?upto=505#thread-092" title="伏笔总表">#092</a><span class="text">副本授权书：徐获终于签了，副本名“第十七医院”，三个任务都写在上面，游戏审核通过。</span><span class="ch">第 505 章</span></li><li><a class="thread-no" href="../threads.html?upto=505#thread-137" title="伏笔总表">#137</a><span class="text"><span class="tier guess" title="阿希斯·维尔纳的推断">推测</span>白蔻：贵族们看出她是 A 级玩家、不是吃人玩家，“蝴蝶夫人”的身份可疑，疑心她是白金之眼的人；她一个人对上了诡音骑士团的雨果。</span><span class="ch">第 501、505 章</span></li><li><span class="text">帕拉达就是 A1 时间俱乐部里挤兑徐获的那个贵族青年，这次死在船上。</span><span class="ch">第 488、490 章</span></li></ul>
+<ul class="items"><li data-ch="505"><a class="thread-no" href="../threads.html?upto=505#thread-118" title="伏笔总表">#118</a><span class="text">荣欣的军火交易就在这艘船上：马特转运，维森·梅尼是交易方，冉英代表合作方；买的是白金之眼去年更新的一批军火，由诡音骑士团交付。</span><span class="ch">第 502、505 章</span><details class="src"><summary>原文</summary><blockquote>我们购买的军火是白金之眼去年更新的版本<cite>第 505 章</cite></blockquote></details></li><li data-ch="505"><a class="thread-no" href="../threads.html?upto=505#thread-092" title="伏笔总表">#092</a><span class="text">副本授权书：徐获终于签了，副本名“第十七医院”，三个任务都写在上面，游戏审核通过。</span><span class="ch">第 505 章</span></li><li data-ch="505"><a class="thread-no" href="../threads.html?upto=505#thread-137" title="伏笔总表">#137</a><span class="text"><span class="tier guess" title="阿希斯·维尔纳的推断" tabindex="0">推测</span>白蔻：贵族们看出她是 A 级玩家、不是吃人玩家，“蝴蝶夫人”的身份可疑，疑心她是白金之眼的人；她一个人对上了诡音骑士团的雨果。</span><span class="ch">第 501、505 章</span></li><li data-ch="490"><span class="text">帕拉达就是 A1 时间俱乐部里挤兑徐获的那个贵族青年，这次死在船上。</span><span class="ch">第 488、490 章</span></li></ul>
 </section>
-<section id="relations"><h3>关键关系</h3>
+<section id="relations" class="fgroup"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
 <p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
@@ -210,49 +214,75 @@ h4[id] { scroll-margin-top:16px; }
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
 <marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
 </defs>
-<g class="edge"><title>徐获 → 杀死 → 蒋奉（第 501 章）</title><path d="M465.2,202.9 Q395.1,250.4 334.9,291.3" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
-<g class="edge"><title>白蔻 → 割喉 → 帕拉达（第 489–490 章）</title><path d="M491.0,352.1 Q534.9,325.5 568.5,305.0" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
-<g class="edge"><title>徐获 → 看着断气 → 帕拉达（第 488、490 章）</title><path d="M465.2,202.9 Q522.0,250.9 569.6,291.1" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
-<g class="edge"><title>雨果 → 杀死 → 蒋奉的妹妹（第 502 章）</title><path d="M382.8,420 Q323.8,420.0 276.7,420.0" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
-<g class="edge"><title>蒋奉 — 兄妹 — 蒋奉的妹妹（第 501 章）</title><path d="M325.0,298.0 Q294.9,359.0 270.0,409.2" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge"><title>白蔻 — 交手 — 雨果（第 501、504 章）</title><path d="M491.0,352.1 Q436.9,386.1 393.0,413.6" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
-<g class="edge"><title>白蔻 — 合作 — 徐获（第 492、503 章）</title><path d="M491.0,352.1 Q478.1,277.5 467.2,214.7" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge"><title>徐获 → 救下、结伴 → 陆云（第 503 章）</title><path d="M465.2,202.9 Q482.4,131.4 496.8,71.7" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
-<g class="edge"><title>徐获 — 并肩杀红手环 — 塞林（第 493–494 章）</title><path d="M465.2,202.9 Q538.1,173.2 600.0,148.1" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge"><title>马特船长 — 军火转运与交易 — 维森·梅尼（第 502 章）</title><path d="M60,60 Q120.1,60.0 168.2,60.0" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge"><title>维森·梅尼 — 交易与合作方 — 冉英（第 502 章）</title><path d="M180.2,60 Q249.5,81.0 307.3,98.5" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge"><title>冉英 → 带上船 → 徐获（第 486、488 章）</title><path d="M318.8,102.0 Q392.0,152.4 455.3,196.1" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
-<text x="395.1" y="254.4" class="elabel" style="fill:#ef5a4f">杀死</text>
-<text x="534.9" y="329.5" class="elabel" style="fill:#ef5a4f">割喉</text>
-<text x="522.0" y="254.9" class="elabel" style="fill:#8d95a3">看着断气</text>
-<text x="323.8" y="424.0" class="elabel" style="fill:#ef5a4f">杀死</text>
-<text x="294.9" y="363.0" class="elabel" style="fill:#4fbf7f">兄妹</text>
-<text x="436.9" y="390.1" class="elabel" style="fill:#f0904f">交手</text>
-<text x="478.1" y="281.5" class="elabel" style="fill:#4fbf7f">合作</text>
-<text x="482.4" y="135.4" class="elabel" style="fill:#4fbf7f">救下、结伴</text>
-<text x="538.1" y="177.2" class="elabel" style="fill:#4fbf7f">并肩杀红手环</text>
-<text x="120.1" y="64.0" class="elabel" style="fill:#4fbf7f">军火转运与交易</text>
-<text x="249.5" y="85.0" class="elabel" style="fill:#4fbf7f">交易与合作方</text>
-<text x="392.0" y="156.4" class="elabel" style="fill:#8d95a3">带上船</text>
-<g class="node"><circle cx="465.2" cy="202.9" r="12.9"/><text x="465.2" y="184.0" class="name">徐获</text></g>
-<g class="node"><circle cx="491.0" cy="352.1" r="11.5"/><text x="491.0" y="334.6" class="name">白蔻</text></g>
-<g class="node"><circle cx="325.0" cy="298.0" r="10.8"/><text x="325.0" y="281.2" class="name">蒋奉</text></g>
-<g class="node"><circle cx="578.8" cy="298.8" r="10.8"/><text x="578.8" y="282.0" class="name">帕拉达</text></g>
-<g class="node"><circle cx="382.8" cy="420" r="10.8"/><text x="382.8" y="403.2" class="name">雨果</text></g>
-<g class="node"><circle cx="264.7" cy="420" r="10.8"/><text x="264.7" y="403.2" class="name">蒋奉的妹妹</text></g>
-<g class="node"><circle cx="180.2" cy="60" r="10.8"/><text x="180.2" y="43.2" class="name">维森·梅尼</text></g>
-<g class="node"><circle cx="318.8" cy="102.0" r="10.8"/><text x="318.8" y="85.2" class="name">冉英</text></g>
-<g class="node"><circle cx="499.6" cy="60" r="10.0"/><text x="499.6" y="44.0" class="name">陆云</text></g>
-<g class="node"><circle cx="611.1" cy="143.6" r="10.0"/><text x="611.1" y="127.6" class="name">塞林</text></g>
-<g class="node"><circle cx="60" cy="60" r="10.0"/><text x="60" y="44.0" class="name">马特船长</text></g>
+<g class="edge" data-ch="501"><title>徐获 → 杀死 → 蒋奉（第 501 章）</title><path d="M465.2,202.9 Q395.1,250.4 334.9,291.3" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge" data-ch="490"><title>白蔻 → 割喉 → 帕拉达（第 489–490 章）</title><path d="M491.0,352.1 Q534.9,325.5 568.5,305.0" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge" data-ch="490"><title>徐获 → 看着断气 → 帕拉达（第 488、490 章）</title><path d="M465.2,202.9 Q522.0,250.9 569.6,291.1" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="502"><title>雨果 → 杀死 → 蒋奉的妹妹（第 502 章）</title><path d="M382.8,420 Q323.8,420.0 276.7,420.0" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge" data-ch="501"><title>蒋奉 — 兄妹 — 蒋奉的妹妹（第 501 章）</title><path d="M325.0,298.0 Q294.9,359.0 270.0,409.2" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge" data-ch="504"><title>白蔻 — 交手 — 雨果（第 501、504 章）</title><path d="M491.0,352.1 Q436.9,386.1 393.0,413.6" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
+<g class="edge" data-ch="503"><title>白蔻 — 合作 — 徐获（第 492、503 章）</title><path d="M491.0,352.1 Q478.1,277.5 467.2,214.7" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge" data-ch="503"><title>徐获 → 救下、结伴 → 陆云（第 503 章）</title><path d="M465.2,202.9 Q482.4,131.4 496.8,71.7" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="494"><title>徐获 — 并肩杀红手环 — 塞林（第 493–494 章）</title><path d="M465.2,202.9 Q538.1,173.2 600.0,148.1" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge" data-ch="502"><title>马特船长 — 军火转运与交易 — 维森·梅尼（第 502 章）</title><path d="M60,60 Q120.1,60.0 168.2,60.0" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge" data-ch="502"><title>维森·梅尼 — 交易与合作方 — 冉英（第 502 章）</title><path d="M180.2,60 Q249.5,81.0 307.3,98.5" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge" data-ch="488"><title>冉英 → 带上船 → 徐获（第 486、488 章）</title><path d="M318.8,102.0 Q392.0,152.4 455.3,196.1" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<text x="395.1" y="254.4" class="elabel" style="fill:#ef5a4f" data-ch="501">杀死</text>
+<text x="534.9" y="329.5" class="elabel" style="fill:#ef5a4f" data-ch="490">割喉</text>
+<text x="522.0" y="254.9" class="elabel" style="fill:#8d95a3" data-ch="490">看着断气</text>
+<text x="323.8" y="424.0" class="elabel" style="fill:#ef5a4f" data-ch="502">杀死</text>
+<text x="294.9" y="363.0" class="elabel" style="fill:#4fbf7f" data-ch="501">兄妹</text>
+<text x="436.9" y="390.1" class="elabel" style="fill:#f0904f" data-ch="504">交手</text>
+<text x="478.1" y="281.5" class="elabel" style="fill:#4fbf7f" data-ch="503">合作</text>
+<text x="482.4" y="135.4" class="elabel" style="fill:#4fbf7f" data-ch="503">救下、结伴</text>
+<text x="538.1" y="177.2" class="elabel" style="fill:#4fbf7f" data-ch="494">并肩杀红手环</text>
+<text x="120.1" y="64.0" class="elabel" style="fill:#4fbf7f" data-ch="502">军火转运与交易</text>
+<text x="249.5" y="85.0" class="elabel" style="fill:#4fbf7f" data-ch="502">交易与合作方</text>
+<text x="392.0" y="156.4" class="elabel" style="fill:#8d95a3" data-ch="488">带上船</text>
+<g class="node" data-ch="488"><circle cx="465.2" cy="202.9" r="12.9"/><text x="465.2" y="184.0" class="name">徐获</text></g>
+<g class="node" data-ch="490"><circle cx="491.0" cy="352.1" r="11.5"/><text x="491.0" y="334.6" class="name">白蔻</text></g>
+<g class="node" data-ch="501"><circle cx="325.0" cy="298.0" r="10.8"/><text x="325.0" y="281.2" class="name">蒋奉</text></g>
+<g class="node" data-ch="490"><circle cx="578.8" cy="298.8" r="10.8"/><text x="578.8" y="282.0" class="name">帕拉达</text></g>
+<g class="node" data-ch="502"><circle cx="382.8" cy="420" r="10.8"/><text x="382.8" y="403.2" class="name">雨果</text></g>
+<g class="node" data-ch="501"><circle cx="264.7" cy="420" r="10.8"/><text x="264.7" y="403.2" class="name">蒋奉的妹妹</text></g>
+<g class="node" data-ch="502"><circle cx="180.2" cy="60" r="10.8"/><text x="180.2" y="43.2" class="name">维森·梅尼</text></g>
+<g class="node" data-ch="488"><circle cx="318.8" cy="102.0" r="10.8"/><text x="318.8" y="85.2" class="name">冉英</text></g>
+<g class="node" data-ch="503"><circle cx="499.6" cy="60" r="10.0"/><text x="499.6" y="44.0" class="name">陆云</text></g>
+<g class="node" data-ch="494"><circle cx="611.1" cy="143.6" r="10.0"/><text x="611.1" y="127.6" class="name">塞林</text></g>
+<g class="node" data-ch="502"><circle cx="60" cy="60" r="10.0"/><text x="60" y="44.0" class="name">马特船长</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text"><a href="../people.html?upto=505#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 蒋奉</span><span class="ch">第 501 章</span></li><li><span class="text"><a href="../people.html?upto=505#person-%E7%99%BD%E8%94%BB">白蔻</a> → 割喉 → 帕拉达</span><span class="ch">第 489–490 章</span></li><li><span class="text"><a href="../people.html?upto=505#person-%E5%BE%90%E8%8E%B7">徐获</a> → 看着断气 → 帕拉达</span><span class="ch">第 488、490 章</span></li><li><span class="text"><a href="../people.html?upto=505#person-%E9%9B%A8%E6%9E%9C">雨果</a> → 杀死 → 蒋奉的妹妹</span><span class="ch">第 502 章</span></li><li><span class="text">蒋奉 — 兄妹 — 蒋奉的妹妹</span><span class="ch">第 501 章</span></li><li><span class="text"><a href="../people.html?upto=505#person-%E7%99%BD%E8%94%BB">白蔻</a> — 交手 — <a href="../people.html?upto=505#person-%E9%9B%A8%E6%9E%9C">雨果</a></span><span class="ch">第 501、504 章</span></li><li><span class="text"><a href="../people.html?upto=505#person-%E7%99%BD%E8%94%BB">白蔻</a> — 合作 — <a href="../people.html?upto=505#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 492、503 章</span></li><li><span class="text"><a href="../people.html?upto=505#person-%E5%BE%90%E8%8E%B7">徐获</a> → 救下、结伴 → 陆云</span><span class="ch">第 503 章</span></li><li><span class="text"><a href="../people.html?upto=505#person-%E5%BE%90%E8%8E%B7">徐获</a> — 并肩杀红手环 — <a href="../people.html?upto=505#person-%E5%A1%9E%E6%9E%97">塞林</a></span><span class="ch">第 493–494 章</span></li><li><span class="text"><a href="../people.html?upto=505#person-%E9%A9%AC%E7%89%B9%E8%88%B9%E9%95%BF">马特船长</a> — 军火转运与交易 — <a href="../people.html?upto=505#person-%E7%BB%B4%E6%A3%AE%C2%B7%E6%A2%85%E5%B0%BC">维森·梅尼</a></span><span class="ch">第 502 章</span></li><li><span class="text"><a href="../people.html?upto=505#person-%E7%BB%B4%E6%A3%AE%C2%B7%E6%A2%85%E5%B0%BC">维森·梅尼</a> — 交易与合作方 — <a href="../people.html?upto=505#person-%E5%86%89%E8%8B%B1">冉英</a></span><span class="ch">第 502 章</span></li><li><span class="text"><a href="../people.html?upto=505#person-%E5%86%89%E8%8B%B1">冉英</a> → 带上船 → <a href="../people.html?upto=505#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 486、488 章</span></li></ul></details>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li data-ch="501"><span class="text"><a href="../people.html?upto=505#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 蒋奉</span><span class="ch">第 501 章</span></li><li data-ch="490"><span class="text"><a href="../people.html?upto=505#person-%E7%99%BD%E8%94%BB">白蔻</a> → 割喉 → 帕拉达</span><span class="ch">第 489–490 章</span></li><li data-ch="490"><span class="text"><a href="../people.html?upto=505#person-%E5%BE%90%E8%8E%B7">徐获</a> → 看着断气 → 帕拉达</span><span class="ch">第 488、490 章</span></li><li data-ch="502"><span class="text"><a href="../people.html?upto=505#person-%E9%9B%A8%E6%9E%9C">雨果</a> → 杀死 → 蒋奉的妹妹</span><span class="ch">第 502 章</span></li><li data-ch="501"><span class="text">蒋奉 — 兄妹 — 蒋奉的妹妹</span><span class="ch">第 501 章</span></li><li data-ch="504"><span class="text"><a href="../people.html?upto=505#person-%E7%99%BD%E8%94%BB">白蔻</a> — 交手 — <a href="../people.html?upto=505#person-%E9%9B%A8%E6%9E%9C">雨果</a></span><span class="ch">第 501、504 章</span></li><li data-ch="503"><span class="text"><a href="../people.html?upto=505#person-%E7%99%BD%E8%94%BB">白蔻</a> — 合作 — <a href="../people.html?upto=505#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 492、503 章</span></li><li data-ch="503"><span class="text"><a href="../people.html?upto=505#person-%E5%BE%90%E8%8E%B7">徐获</a> → 救下、结伴 → 陆云</span><span class="ch">第 503 章</span></li><li data-ch="494"><span class="text"><a href="../people.html?upto=505#person-%E5%BE%90%E8%8E%B7">徐获</a> — 并肩杀红手环 — <a href="../people.html?upto=505#person-%E5%A1%9E%E6%9E%97">塞林</a></span><span class="ch">第 493–494 章</span></li><li data-ch="502"><span class="text"><a href="../people.html?upto=505#person-%E9%A9%AC%E7%89%B9%E8%88%B9%E9%95%BF">马特船长</a> — 军火转运与交易 — <a href="../people.html?upto=505#person-%E7%BB%B4%E6%A3%AE%C2%B7%E6%A2%85%E5%B0%BC">维森·梅尼</a></span><span class="ch">第 502 章</span></li><li data-ch="502"><span class="text"><a href="../people.html?upto=505#person-%E7%BB%B4%E6%A3%AE%C2%B7%E6%A2%85%E5%B0%BC">维森·梅尼</a> — 交易与合作方 — <a href="../people.html?upto=505#person-%E5%86%89%E8%8B%B1">冉英</a></span><span class="ch">第 502 章</span></li><li data-ch="488"><span class="text"><a href="../people.html?upto=505#person-%E5%86%89%E8%8B%B1">冉英</a> → 带上船 → <a href="../people.html?upto=505#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 486、488 章</span></li></ul></details>
 </section>
-<section id="threads"><h3>伏笔与未解</h3>
+<section id="threads" class="fgroup"><h3>伏笔与未解</h3>
 <p class="note">截至第 505 章还没有交代的事。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html?upto=505#thread-139" title="伏笔总表">#139</a><span class="text">这艘船是件什么道具：能让时间倒流、长满海草、楼层粉化又复原，真正的掌控权在马特手里；船上的服务生全是新人，往年的人去了哪里。</span><span class="ch">第 488、493、496、503 章</span></li><li><a class="thread-no" href="../threads.html?upto=505#thread-140" title="伏笔总表">#140</a><span class="text">徐获为什么偏偏在困在船上时签下副本授权书。</span><span class="ch">第 505 章</span></li><li><a class="thread-no" href="../threads.html?upto=505#thread-141" title="伏笔总表">#141</a><span class="text">塞林是什么人：自称顶替朋友上船、来收信徒，钉在墙里的银钉是做什么的。</span><span class="ch">第 486、494 章</span></li><li><a class="thread-no" href="../threads.html?upto=505#thread-142" title="伏笔总表">#142</a><span class="text">陆云有备而来：带着燃料、事先调查过船，原本的脱身计划是什么。</span><span class="ch">第 503 章</span></li></ul>
-</section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E8%BD%A6%E7%A5%A8%E4%B8%8E%E5%89%AF%E6%9C%AC">车票与回程票</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%8E%88%E6%9D%83%E4%B9%A6">副本授权书与持有者</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96">超级进化</a><a href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96">精神进化与精神世界</a><a href="../world.html#world-%E9%81%93%E5%85%B7">道具</a><a href="../world.html#world-%E6%96%B0%E8%BD%AE%E6%95%99">新轮教</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9">进化的动植物</a><a href="../world.html#world-011%E5%8C%BA">011 区</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E6%8B%9F%E4%BA%BA%E5%A8%83%E5%A8%83">拟人娃娃</a><a href="../items.html#item-%E6%9D%9F%E6%98%9F%E4%B9%8B%E7%90%83">束星之球</a><a href="../items.html#item-%E6%95%B0%E6%95%B0%E6%A0%BC%E5%AD%90">数数格子</a><a href="../items.html#item-%E5%89%8A%E5%BC%B1%E6%A9%A1%E7%9A%AE">削弱橡皮</a><a href="../items.html#item-%E6%81%A9%E6%96%AD%E4%B9%89%E7%BB%9D%E9%97%A8">恩断义绝门</a></p></section></details>
-<nav class="units-nav bottom"><a class="prev" href="u0026.html"><small>← 上一单元</small><b>011 区（贵族与军火）</b><small>第 475–485 章</small></a><a class="next" href="u0028.html"><small>下一单元 →</small><b>第十七医院（邮轮）</b><small>第 506–516 章</small><small class="after" data-beyond="506" hidden>在你的进度之后</small></a></nav>
+<ul class="items"><li data-ch="503"><a class="thread-no" href="../threads.html?upto=505#thread-139" title="伏笔总表">#139</a><span class="text">这艘船是件什么道具：能让时间倒流、长满海草、楼层粉化又复原，真正的掌控权在马特手里；船上的服务生全是新人，往年的人去了哪里。</span><span class="ch">第 488、493、496、503 章</span></li><li data-ch="505"><a class="thread-no" href="../threads.html?upto=505#thread-140" title="伏笔总表">#140</a><span class="text">徐获为什么偏偏在困在船上时签下副本授权书。</span><span class="ch">第 505 章</span></li><li data-ch="494"><a class="thread-no" href="../threads.html?upto=505#thread-141" title="伏笔总表">#141</a><span class="text">塞林是什么人：自称顶替朋友上船、来收信徒，钉在墙里的银钉是做什么的。</span><span class="ch">第 486、494 章</span></li><li data-ch="503"><a class="thread-no" href="../threads.html?upto=505#thread-142" title="伏笔总表">#142</a><span class="text">陆云有备而来：带着燃料、事先调查过船，原本的脱身计划是什么。</span><span class="ch">第 503 章</span></li></ul>
+</section><section id="links" class="fgroup"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E8%BD%A6%E7%A5%A8%E4%B8%8E%E5%89%AF%E6%9C%AC" data-ch="503">车票与回程票</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%8E%88%E6%9D%83%E4%B9%A6" data-ch="505">副本授权书与持有者</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96" data-ch="497">超级进化</a><a href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" data-ch="500">精神进化与精神世界</a><a href="../world.html#world-%E9%81%93%E5%85%B7" data-ch="499">道具</a><a href="../world.html#world-%E6%96%B0%E8%BD%AE%E6%95%99" data-ch="505">新轮教</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9" data-ch="502">进化的动植物</a><a href="../world.html#world-011%E5%8C%BA" data-ch="487">011 区</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E6%8B%9F%E4%BA%BA%E5%A8%83%E5%A8%83" data-ch="495">拟人娃娃</a><a href="../items.html#item-%E6%9D%9F%E6%98%9F%E4%B9%8B%E7%90%83" data-ch="492">束星之球</a><a href="../items.html#item-%E6%95%B0%E6%95%B0%E6%A0%BC%E5%AD%90" data-ch="497">数数格子</a><a href="../items.html#item-%E5%89%8A%E5%BC%B1%E6%A9%A1%E7%9A%AE" data-ch="500">削弱橡皮</a><a href="../items.html#item-%E6%81%A9%E6%96%AD%E4%B9%89%E7%BB%9D%E9%97%A8" data-ch="500">恩断义绝门</a></p></section></details>
+<nav class="units-nav bottom"><a class="prev" href="u0026.html"><small>← 上一单元</small><b>011 区（贵族与军火）</b><small>第 475–485 章</small></a><a class="next" href="u0028.html"><small>下一单元 →</small><b>第十七医院（邮轮）</b><small>第 506–516 章</small><small class="after" data-beyond="506" hidden>在你的进度之后</small></a></nav><script>
+(function () {
+  var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
+  var status = doc.getElementById('wdzx-status'), beyond = doc.querySelector('p.beyond'), box = doc.getElementById('wdzx-upto');
+  var layers = doc.querySelectorAll('details.layer'), peek = false;
+  var button = doc.createElement('button'); button.type = 'button'; button.className = 'peek';
+  button.addEventListener('click', function () {
+    if (peek) { box.dispatchEvent(new Event('input')); return; }   // the shared script puts the marks back and sends the event
+    peek = true;
+    doc.querySelectorAll('main .hidden').forEach(function (el) { el.classList.remove('hidden'); });
+    layers.forEach(function (d) { d.hidden = false; });
+    status.textContent = '已展开全部，含你进度之后的内容。'; button.textContent = '按进度收起'; status.appendChild(button);
+  });
+  doc.addEventListener('wdzx:progress', function (e) {
+    var n = e.detail, before = n < first, mid = !before && n < end;
+    peek = false;
+    if (beyond) beyond.hidden = true;
+    layers.forEach(function (d) { d.hidden = before; });
+    if (n === Infinity) return;
+    status.hidden = false;
+    if (before) status.textContent = '这张卡从第 ' + first + ' 章开始，在你的进度（第 ' + n + ' 章）之后，整张都是剧透，先收起了。';
+    else if (mid) status.textContent = '你读到第 ' + n + ' 章，这张卡写到第 ' + end + ' 章：之后的句子、评级和收获已藏起。';
+    else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
+    button.textContent = '仍然展开'; status.appendChild(button);
+  });
+})();
+</script>
 <footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
 </main><script>
 (function () {
@@ -270,11 +300,12 @@ h4[id] { scroll-margin-top:16px; }
   if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
   var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
   saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
-  if (Math.max(saved, query)) box.value = Math.max(saved, query);
+  if (saved) box.value = saved;   // the box is the reader's own chapter; a card's ?upto only widens what this page shows
   function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function shown() { var n = current(); return query ? Math.max(n < Infinity ? n : 0, query) : n; }
   function apply() {
-    var n = current(), chosen = n < Infinity || get(SEEN) === '1';
-    root.classList.toggle('has-progress', n < Infinity);
+    var mine = current(), n = shown(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', mine < Infinity);
     banner.hidden = chosen;
     if (!off) {
       doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
@@ -293,19 +324,21 @@ h4[id] { scroll-margin-top:16px; }
     }
     doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
     doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
-    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
     if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
       var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
     });
     status.hidden = n === Infinity;
     status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : n !== mine ? '按这张单元卡显示到第 ' + n + ' 章；' + (mine < Infinity ? '你的进度仍是第 ' + mine + ' 章。' : '你还没填进度，在页头填了章号后以它为准。')
       : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
   }
   function changed() {
     if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
     var n = current();
     put(KEY, n < Infinity ? String(n) : null);
     if (n < Infinity) put(SEEN, '1');
+    query = 0;
     if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
     note.hidden = true; apply();
   }
@@ -314,6 +347,11 @@ h4[id] { scroll-margin-top:16px; }
   banner.querySelectorAll('button').forEach(function (b) {
     b.addEventListener('click', function () {
       if (b.dataset.choice === 'fill') { box.focus(); return; }
+      if (b.dataset.choice === 'start' && valid(+b.dataset.chapter)) {
+        box.value = b.dataset.chapter; changed();
+        note.textContent = '还没开始读：先只显示到第 ' + b.dataset.chapter + ' 章，第一个副本结束的地方。读起来以后，在页头改成你读到的章就行。';
+        note.hidden = false; return;
+      }
       put(SEEN, '1'); apply();
     });
   });
@@ -322,7 +360,8 @@ h4[id] { scroll-margin-top:16px; }
   var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
   if (target && !off && target.closest('.hidden')) {
     var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
-    note.textContent = '你要看的“' + name + '”按你的进度（读到第 ' + current() + ' 章）还没出现；改大章号或清除进度就能看到。';
+    var upto = shown(), why = upto !== current() ? '按这张单元卡的章号（第 ' + upto + ' 章）' : '按你的进度（读到第 ' + upto + ' 章）';
+    note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
     note.hidden = false; note.scrollIntoView();
   } else if (target) { target.scrollIntoView(); }
 })();

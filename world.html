@@ -113,9 +113,12 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
   padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
 .syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
 .syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+@media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
+.upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
 /* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
 .tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
 .tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
+.tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
 
 .hidden { display:none !important; }
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
@@ -145,7 +148,7 @@ p.legend { font-size:14px; color:var(--muted); margin:8px 0 0; line-height:1.9; 
 a.xref { display:inline-block; font-size:12.5px; margin-left:8px; color:var(--brass); }
 @media (max-width:720px) { .layout { grid-template-columns:1fr; } .toc { position:static; max-height:none; } }
 </style></head>
-<body data-progress="off"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../novel"><a href="index.html">首页</a><a href="hero.html">主角</a><a href="world.html" class="on">世界观</a><a href="people.html">人物</a><a href="places.html">地理</a><a href="threads.html">伏笔</a><a href="items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="all">没看过，随便看看</button><button type="button" data-choice="all">已追平</button></div></div><main>
+<body data-progress="off"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../novel"><a href="index.html">首页</a><a href="hero.html">主角</a><a href="world.html" class="on">世界观</a><a href="people.html">人物</a><a href="places.html">地理</a><a href="threads.html">伏笔</a><a href="items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket"><div class="ticket-main"><div class="kicker">乘客须知</div><h1>世界观</h1>
 <div class="route">截至第 990 章</div>
@@ -171,11 +174,12 @@ a.xref { display:inline-block; font-size:12.5px; margin-left:8px; color:var(--br
   if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
   var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
   saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
-  if (Math.max(saved, query)) box.value = Math.max(saved, query);
+  if (saved) box.value = saved;   // the box is the reader's own chapter; a card's ?upto only widens what this page shows
   function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function shown() { var n = current(); return query ? Math.max(n < Infinity ? n : 0, query) : n; }
   function apply() {
-    var n = current(), chosen = n < Infinity || get(SEEN) === '1';
-    root.classList.toggle('has-progress', n < Infinity);
+    var mine = current(), n = shown(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', mine < Infinity);
     banner.hidden = chosen;
     if (!off) {
       doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
@@ -194,19 +198,21 @@ a.xref { display:inline-block; font-size:12.5px; margin-left:8px; color:var(--br
     }
     doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
     doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
-    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
     if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
       var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
     });
     status.hidden = n === Infinity;
     status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : n !== mine ? '按这张单元卡显示到第 ' + n + ' 章；' + (mine < Infinity ? '你的进度仍是第 ' + mine + ' 章。' : '你还没填进度，在页头填了章号后以它为准。')
       : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
   }
   function changed() {
     if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
     var n = current();
     put(KEY, n < Infinity ? String(n) : null);
     if (n < Infinity) put(SEEN, '1');
+    query = 0;
     if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
     note.hidden = true; apply();
   }
@@ -215,6 +221,11 @@ a.xref { display:inline-block; font-size:12.5px; margin-left:8px; color:var(--br
   banner.querySelectorAll('button').forEach(function (b) {
     b.addEventListener('click', function () {
       if (b.dataset.choice === 'fill') { box.focus(); return; }
+      if (b.dataset.choice === 'start' && valid(+b.dataset.chapter)) {
+        box.value = b.dataset.chapter; changed();
+        note.textContent = '还没开始读：先只显示到第 ' + b.dataset.chapter + ' 章，第一个副本结束的地方。读起来以后，在页头改成你读到的章就行。';
+        note.hidden = false; return;
+      }
       put(SEEN, '1'); apply();
     });
   });
@@ -223,7 +234,8 @@ a.xref { display:inline-block; font-size:12.5px; margin-left:8px; color:var(--br
   var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
   if (target && !off && target.closest('.hidden')) {
     var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
-    note.textContent = '你要看的“' + name + '”按你的进度（读到第 ' + current() + ' 章）还没出现；改大章号或清除进度就能看到。';
+    var upto = shown(), why = upto !== current() ? '按这张单元卡的章号（第 ' + upto + ' 章）' : '按你的进度（读到第 ' + upto + ' 章）';
+    note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
     note.hidden = false; note.scrollIntoView();
   } else if (target) { target.scrollIntoView(); }
 })();

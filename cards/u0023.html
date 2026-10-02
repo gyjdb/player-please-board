@@ -113,9 +113,12 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
   padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
 .syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
 .syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+@media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
+.upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
 /* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
 .tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
 .tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
+.tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
 
 .hidden { display:none !important; }
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
@@ -163,42 +166,43 @@ svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
 svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
 svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
 details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
-.links { margin:8px 0; } .links b { display:inline-block; width:3em; color:var(--brass); font-weight:600; }
+.links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
 .links a { margin-right:12px; white-space:nowrap; }
+.progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
 .hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
 nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
 nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="all">没看过，随便看看</button><button type="button" data-choice="all">已追平</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
-<div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
+<div class="ticket" id="card" data-first="414" data-end="418"><div class="ticket-main"><div class="kicker">主线</div>
 <h1>前往深蓝岛（列车与萨伊尔海岸）</h1><div class="route">第 414 章 ──── 第 418 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="414" hidden>这张卡从第 414 章开始，在你填的进度之后，整张都是剧透。</p></div>
 <div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0023</div><div class="stub-row"><b>句数</b>45</div>
 <div class="stub-row"><b>引用</b>29 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 414–418 章正文后撰写。</p>
+<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 414–418 章正文后撰写。</p>
 <nav class="units-nav top"><a class="prev" href="u0022.html"><small>← 上一单元</small><b>011 区滞留</b><small>第 369–413 章</small></a><a class="next" href="u0024.html"><small>下一单元 →</small><b>天黑不开门</b><small>第 419–453 章</small><small class="after" data-beyond="419" hidden>在你的进度之后</small></a></nav>
-<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。写到第 418 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
-<ul class="items"><li><span class="text">徐获坐车去萨伊尔海岸，一上车就被楚源的道具拴在一起、伤痛同受；他顺势和楚源合作，登记去深蓝实验室，第二天和几十号人同船驶向深蓝岛。</span><span class="ch">第 414、416–418 章</span></li><li><span class="text">主线段，第 414–418 章：章首还在 011 区（白蔻找冬先生讨范肖的尸身），随后是两天的列车和萨伊尔海岸的一天。</span><span class="ch">第 414、418 章</span></li></ul>
+<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。写到第 418 章，含结局。</span></summary><section id="overview" class="fgroup"><h3>一句话</h3>
+<ul class="items"><li data-ch="418"><span class="text">徐获坐车去萨伊尔海岸，一上车就被楚源的道具拴在一起、伤痛同受；他顺势和楚源合作，登记去深蓝实验室，第二天和几十号人同船驶向深蓝岛。</span><span class="ch">第 414、416–418 章</span></li><li data-ch="418"><span class="text">主线段，第 414–418 章：章首还在 011 区（白蔻找冬先生讨范肖的尸身），随后是两天的列车和萨伊尔海岸的一天。</span><span class="ch">第 414、418 章</span></li></ul>
 </section>
-<section id="cast"><h3>登场人物</h3>
+<section id="cast" class="fgroup"><h3>登场人物</h3>
 <p class="note">按出场先后。车上多数人没有报名字，按外貌称呼。</p>
-<ul class="people"><li><b class="subject"><a href="../people.html?upto=418#person-%E7%99%BD%E8%94%BB">白蔻</a>、<a href="../people.html?upto=418#person-%E5%86%AC%E5%85%88%E7%94%9F">冬先生</a></b><span class="text">章首的月季花古堡：白蔻（蝴蝶夫人）逼管家冬先生交出范肖叔叔的尸身。</span><span class="ch">第 414 章</span></li><li><b class="subject"><a href="../people.html?upto=418#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">用“演员的面具”换了张老实巴交的脸，登记时报的名字是“徐知”，要去深蓝实验室做一个 D 级副本。</span><span class="ch">第 414–415、417 章</span></li><li><b class="subject"><a href="../people.html?upto=418#person-%E6%A5%9A%E6%BA%90">楚源</a></b><span class="text">车上炫耀道具时把徐获套进了“七天民政局”；嘴硬，自称独狼，脸上戴着长满尖刺的面具。</span><span class="ch">第 414、418 章</span></li><li><b class="subject">舌钉女孩</b><span class="text">拿出鉴谎道具“真理之口”起哄的女玩家，给徐获讲伯伦家族和萨伊尔海岸。</span><span class="ch">第 414–416 章</span></li><li><b class="subject">魁梧的纹身玩家</b><span class="text">拿萨伊尔海岸的规矩摁住想动手的楚源。</span><span class="ch">第 414–415 章</span></li><li><b class="subject">口罩玩家（毛威）</b><span class="text">佝偻着背、头发遮眼，在洗手间外两次说能帮他们解开绳子；登记时也去深蓝实验室。</span><span class="ch">第 415、417 章</span></li><li><b class="subject">黑泳裙女人</b><span class="text">按摩店的店员，替徐获代买登岛用品。</span><span class="ch">第 417–418 章</span></li><li><b class="subject"><a href="../people.html?upto=418#person-%E8%8B%97%E7%BE%BD">苗羽</a></b><span class="text">高挑的女玩家，把闹事的何春升扔出饭店，和楚源一见如故，也去深蓝实验室。</span><span class="ch">第 418 章</span></li><li><b class="subject">何春升</b><span class="text">被苗羽扔出饭店时短刀划破了楚源的道具外套，第二天同船去深蓝实验室。</span><span class="ch">第 418 章</span></li><li><b class="subject"><a href="../people.html?upto=418#person-%E9%82%93%E5%8D%9A%E5%A3%AB">邓博士</a></b><span class="text">同船的中年男人，对深蓝岛了解不少。</span><span class="ch">第 418 章</span></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。写到第 418 章，含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+<ul class="people"><li data-ch="414"><b class="subject"><a href="../people.html?upto=418#person-%E7%99%BD%E8%94%BB">白蔻</a>、<a href="../people.html?upto=418#person-%E5%86%AC%E5%85%88%E7%94%9F">冬先生</a></b><span class="text">章首的月季花古堡：白蔻（蝴蝶夫人）逼管家冬先生交出范肖叔叔的尸身。</span><span class="ch">第 414 章</span></li><li data-ch="417"><b class="subject"><a href="../people.html?upto=418#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">用“演员的面具”换了张老实巴交的脸，登记时报的名字是“徐知”，要去深蓝实验室做一个 D 级副本。</span><span class="ch">第 414–415、417 章</span></li><li data-ch="418"><b class="subject"><a href="../people.html?upto=418#person-%E6%A5%9A%E6%BA%90">楚源</a></b><span class="text">车上炫耀道具时把徐获套进了“七天民政局”；嘴硬，自称独狼，脸上戴着长满尖刺的面具。</span><span class="ch">第 414、418 章</span></li><li data-ch="416"><b class="subject">舌钉女孩</b><span class="text">拿出鉴谎道具“真理之口”起哄的女玩家，给徐获讲伯伦家族和萨伊尔海岸。</span><span class="ch">第 414–416 章</span></li><li data-ch="415"><b class="subject">魁梧的纹身玩家</b><span class="text">拿萨伊尔海岸的规矩摁住想动手的楚源。</span><span class="ch">第 414–415 章</span></li><li data-ch="417"><b class="subject">口罩玩家（毛威）</b><span class="text">佝偻着背、头发遮眼，在洗手间外两次说能帮他们解开绳子；登记时也去深蓝实验室。</span><span class="ch">第 415、417 章</span></li><li data-ch="418"><b class="subject">黑泳裙女人</b><span class="text">按摩店的店员，替徐获代买登岛用品。</span><span class="ch">第 417–418 章</span></li><li data-ch="418"><b class="subject"><a href="../people.html?upto=418#person-%E8%8B%97%E7%BE%BD">苗羽</a></b><span class="text">高挑的女玩家，把闹事的何春升扔出饭店，和楚源一见如故，也去深蓝实验室。</span><span class="ch">第 418 章</span></li><li data-ch="418"><b class="subject">何春升</b><span class="text">被苗羽扔出饭店时短刀划破了楚源的道具外套，第二天同船去深蓝实验室。</span><span class="ch">第 418 章</span></li><li data-ch="418"><b class="subject"><a href="../people.html?upto=418#person-%E9%82%93%E5%8D%9A%E5%A3%AB">邓博士</a></b><span class="text">同船的中年男人，对深蓝岛了解不少。</span><span class="ch">第 418 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。写到第 418 章，含全部剧透。</span></summary><section id="story" class="fgroup"><h3>剧情梗概</h3>
 <p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
-<h4 id="story-1">一、一根红绳（第 414–415 章）</h4>
-<p class="prose">章首接上一段：月季花古堡里，白蔻逼冬先生说出范肖叔叔的尸身在哪，说他不过是一件勉强有了人的思维的特殊道具，拆了皮就只能变回玩具蜘蛛。冬先生脸色阴郁，身后的黑暗从古堡角落里爬了出来。<sup class="cite" title="第414章：黑暗从古堡的角落里快速爬出">414</sup>去深蓝实验室站点的列车上，徐获一被传送到座位上，就踩进了邻座楚源向女玩家炫耀的道具：脚下的红光缩成一条红索，把两人的手腕连在一起。<sup class="cite" title="第414章：红光就快速缩到他右腕变成了一条红索">414</sup>楚源说这件道具叫七天民政局，套上就进入“婚姻关系”，七天后才自动解除；期间一方受伤，另一方也感同身受。舌钉女孩掏出会咬断说谎者手的“真理之口”，整车人起哄下注，徐获借来一只假手递给楚源。<sup class="cite" title="第414章：要七天后才会自动解除；第414章：赌楚源会不会被切掉手">414</sup>楚源想动手，被魁梧的纹身玩家摁住：这车直达萨伊尔海岸，中途不停，不守玩家的规矩，到了海岸会怎样他心里有数。徐获试探一句“男人和男人真的能结婚？”，楚源心虚地变了脸色。<sup class="cite" title="第414章：这辆车直达萨伊尔海岸，这之后没有下车的地方；第414章：楚源却心虚地变了变脸色">414</sup>这趟车上的玩家大多皮肤黝黑、一身热带打扮，闹起来毫不认生，和以往的列车完全不同。午饭只有面包和煎深蓝鱼，老玩家力荐萨伊尔海岸的生鱼片；后面车厢有人跟乘务员耍横，被扔出了列车。<sup class="cite" title="第414章：和以往的列车氛围完全不同；第415章：紧接着一个人飞出了列车">414–415</sup>楚源上洗手间时，一个戴口罩的玩家两次提出帮他们解开绳子。徐获一扯绳子打断了谈话，回头反问楚源：“你碰到过这么好心的人吗？”<sup class="cite" title="第415章：你碰到过这么好心的人吗？">415</sup>熄灯后整列车死一般安静。第二天一早列车通知：头等座两名玩家失去了萨伊尔海岸的招待资格，到了海岸没有船会载他们。舌钉女孩说，萨伊尔海岸是伯伦家族说了算。<sup class="cite" title="第415章：头等座车厢内两名玩家失去了萨伊尔海岸招待资格；第415章：海岸上的事当然是他们说了算">415</sup></p><details class="src block"><summary>本段原文 11 处</summary><blockquote>黑暗从古堡的角落里快速爬出<cite>第 414 章</cite></blockquote><blockquote>红光就快速缩到他右腕变成了一条红索<cite>第 414 章</cite></blockquote><blockquote>要七天后才会自动解除<cite>第 414 章</cite></blockquote><blockquote>赌楚源会不会被切掉手<cite>第 414 章</cite></blockquote><blockquote>这辆车直达萨伊尔海岸，这之后没有下车的地方<cite>第 414 章</cite></blockquote><blockquote>楚源却心虚地变了变脸色<cite>第 414 章</cite></blockquote><blockquote>和以往的列车氛围完全不同<cite>第 414 章</cite></blockquote><blockquote>紧接着一个人飞出了列车<cite>第 415 章</cite></blockquote><blockquote>你碰到过这么好心的人吗？<cite>第 415 章</cite></blockquote><blockquote>头等座车厢内两名玩家失去了萨伊尔海岸招待资格<cite>第 415 章</cite></blockquote><blockquote>海岸上的事当然是他们说了算<cite>第 415 章</cite></blockquote></details>
-<h4 id="story-2">二、黄金海岸（第 416–417 章）</h4>
-<p class="prose">老玩家给新人“科普”：萨伊尔海岸周围矿产丰富，伯伦家族每年往这里送大量玩家，登记了副本就集中派船、食宿便宜，代价是带出的珍贵矿石至少卖给他们三分之一。还有传说，附近的洋流跨越多个空间，海上漂着一座全是矿石的矿石岛。<sup class="cite" title="第416章：至少要卖三分之一给伯伦家族；第416章：还有一个全部是矿石的矿石岛">416</sup>车站建在海上，通往海岸的路两边全是酒吧和商店，二十块广告屏循环播着欢迎玩家的广告。下车后徐获没收到副本提示，判断深蓝实验室只是个地名；楚源也要去那里。<sup class="cite" title="第416章：通向萨伊尔海岸的路上，这样的广告屏竟然多达二十个；第416章：所以深蓝实验室应该就是一个地名">416</sup>登记时，口罩玩家也站到了他们身后，报名毛威，同样去深蓝实验室；徐获报的名字是“徐知”。老头给了登岸卡和免费住伊丽丝酒店的名片：明天正好有船，下一趟要等多久说不准。<sup class="cite" title="第417章：这是口罩玩家的名字；第417章：恰好明天就有船去深蓝实验室">417</sup>包一条能在萨伊尔海上安全走的船，少说十万白钞起步，徐获说没钱包船，两人只能明天就走。他拿着老头送的优惠券进了按摩店，让店里代买登岛用品，自己一边做机器人按摩一边看采购视频。<sup class="cite" title="第417章：能够安全在萨伊尔海上行走的船只少说十万白钞起步">417</sup>楚源买了潜水套装、矿石检测器和抗辐射药；徐获另买了收缩皮艇、防护服、防辐射睡袋和变异物种的体液，挖矿的工具一样没买。他不是冲着矿石来的，头疼的是还要和楚源绑四天。<sup class="cite" title="第417章：他不是冲着矿石来的；第417章：还要绑上四天，进了副本会很不方便">417</sup></p><details class="src block"><summary>本段原文 9 处</summary><blockquote>至少要卖三分之一给伯伦家族<cite>第 416 章</cite></blockquote><blockquote>还有一个全部是矿石的矿石岛<cite>第 416 章</cite></blockquote><blockquote>通向萨伊尔海岸的路上，这样的广告屏竟然多达二十个<cite>第 416 章</cite></blockquote><blockquote>所以深蓝实验室应该就是一个地名<cite>第 416 章</cite></blockquote><blockquote>这是口罩玩家的名字<cite>第 417 章</cite></blockquote><blockquote>恰好明天就有船去深蓝实验室<cite>第 417 章</cite></blockquote><blockquote>能够安全在萨伊尔海上行走的船只少说十万白钞起步<cite>第 417 章</cite></blockquote><blockquote>他不是冲着矿石来的<cite>第 417 章</cite></blockquote><blockquote>还要绑上四天，进了副本会很不方便<cite>第 417 章</cite></blockquote></details>
-<h4 id="story-3">三、驶向深蓝岛（第 418 章）</h4>
-<p class="prose">徐获问哪里能买枪，店员说萨伊尔海岸没人买卖枪支，何况枪一般也带不进副本。去酒店的路上，楚源提出进副本前说好不能内讧，徐获顺势提议合作；楚源说自己一向是独狼。<sup class="cite" title="第418章：反正已经绑在一起，不如我们合作？；第418章：独狼一匹！”楚源很是自得地道">418</sup>一个玩家砸碎玻璃从饭店里飞出来，短刀划破了楚源的道具外套。楚源被绳子拖着，一拳没打实，对方反手扇他一巴掌，倒被他脸上长满尖刺的面具扎得惨叫，捂着满手血跑了。<sup class="cite" title="第418章：对方手里的短刀瞬间划破他的袖子；第418章：楚源一摸脸上长满尖刺的面具">418</sup>把人扔出来的高挑女玩家苗羽和楚源一见如故，也住伊丽丝酒店；楚源介绍徐获是自己的“小弟”。苗羽说只听过时空系道具互相排斥会失效，拿她的 B 级弧刀也切不断那根绳子。<sup class="cite" title="第418章：这是我小弟。”楚源拍拍徐获的肩膀；第418章：B级道具都无可奈何">418</sup>第二天一早，他们搭快船去深蓝实验室：深蓝岛岛心一处废弃的实验地点，平时只有玩家登岛。同船的有苗羽，还有昨天划破楚源外套的何春升。<sup class="cite" title="第418章：这个男人就是昨天和楚源起冲突的那个，名字叫何春升">418</sup>何春升问深蓝岛是不是又叫魔鬼岛。邓博士说，雷雨天的骷髅云只是强风从骷髅形的地缝吹出来的，嘶吼声是风声和动物叫声，真正要当心的是岛上野生动物带的细菌和毒素。徐获告诉楚源，网上有传闻说深蓝岛闹鬼。<sup class="cite" title="第418章：我听说深蓝岛又被叫做魔鬼岛是不是；第418章：有传闻说深蓝岛闹鬼">418</sup></p><details class="src block"><summary>本段原文 9 处</summary><blockquote>反正已经绑在一起，不如我们合作？<cite>第 418 章</cite></blockquote><blockquote>独狼一匹！”楚源很是自得地道<cite>第 418 章</cite></blockquote><blockquote>对方手里的短刀瞬间划破他的袖子<cite>第 418 章</cite></blockquote><blockquote>楚源一摸脸上长满尖刺的面具<cite>第 418 章</cite></blockquote><blockquote>这是我小弟。”楚源拍拍徐获的肩膀<cite>第 418 章</cite></blockquote><blockquote>B级道具都无可奈何<cite>第 418 章</cite></blockquote><blockquote>这个男人就是昨天和楚源起冲突的那个，名字叫何春升<cite>第 418 章</cite></blockquote><blockquote>我听说深蓝岛又被叫做魔鬼岛是不是<cite>第 418 章</cite></blockquote><blockquote>有传闻说深蓝岛闹鬼<cite>第 418 章</cite></blockquote></details>
+<h4 id="story-1" data-ch="414">一、一根红绳（第 414–415 章）</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="414">章首接上一段：月季花古堡里，白蔻逼冬先生说出范肖叔叔的尸身在哪，说他不过是一件勉强有了人的思维的特殊道具，拆了皮就只能变回玩具蜘蛛。冬先生脸色阴郁，身后的黑暗从古堡角落里爬了出来。<sup class="cite" title="第414章：黑暗从古堡的角落里快速爬出">414</sup></span><span class="stmt" data-ch="414">去深蓝实验室站点的列车上，徐获一被传送到座位上，就踩进了邻座楚源向女玩家炫耀的道具：脚下的红光缩成一条红索，把两人的手腕连在一起。<sup class="cite" title="第414章：红光就快速缩到他右腕变成了一条红索">414</sup></span><span class="stmt" data-ch="414">楚源说这件道具叫七天民政局，套上就进入“婚姻关系”，七天后才自动解除；期间一方受伤，另一方也感同身受。舌钉女孩掏出会咬断说谎者手的“真理之口”，整车人起哄下注，徐获借来一只假手递给楚源。<sup class="cite" title="第414章：要七天后才会自动解除；第414章：赌楚源会不会被切掉手">414</sup></span><span class="stmt" data-ch="414">楚源想动手，被魁梧的纹身玩家摁住：这车直达萨伊尔海岸，中途不停，不守玩家的规矩，到了海岸会怎样他心里有数。徐获试探一句“男人和男人真的能结婚？”，楚源心虚地变了脸色。<sup class="cite" title="第414章：这辆车直达萨伊尔海岸，这之后没有下车的地方；第414章：楚源却心虚地变了变脸色">414</sup></span><span class="stmt" data-ch="415">这趟车上的玩家大多皮肤黝黑、一身热带打扮，闹起来毫不认生，和以往的列车完全不同。午饭只有面包和煎深蓝鱼，老玩家力荐萨伊尔海岸的生鱼片；后面车厢有人跟乘务员耍横，被扔出了列车。<sup class="cite" title="第414章：和以往的列车氛围完全不同；第415章：紧接着一个人飞出了列车">414–415</sup></span><span class="stmt" data-ch="415">楚源上洗手间时，一个戴口罩的玩家两次提出帮他们解开绳子。徐获一扯绳子打断了谈话，回头反问楚源：“你碰到过这么好心的人吗？”<sup class="cite" title="第415章：你碰到过这么好心的人吗？">415</sup></span><span class="stmt" data-ch="415">熄灯后整列车死一般安静。第二天一早列车通知：头等座两名玩家失去了萨伊尔海岸的招待资格，到了海岸没有船会载他们。舌钉女孩说，萨伊尔海岸是伯伦家族说了算。<sup class="cite" title="第415章：头等座车厢内两名玩家失去了萨伊尔海岸招待资格；第415章：海岸上的事当然是他们说了算">415</sup></span></p><details class="src block fgroup"><summary>本段原文 11 处</summary><blockquote data-ch="414">黑暗从古堡的角落里快速爬出<cite>第 414 章</cite></blockquote><blockquote data-ch="414">红光就快速缩到他右腕变成了一条红索<cite>第 414 章</cite></blockquote><blockquote data-ch="414">要七天后才会自动解除<cite>第 414 章</cite></blockquote><blockquote data-ch="414">赌楚源会不会被切掉手<cite>第 414 章</cite></blockquote><blockquote data-ch="414">这辆车直达萨伊尔海岸，这之后没有下车的地方<cite>第 414 章</cite></blockquote><blockquote data-ch="414">楚源却心虚地变了变脸色<cite>第 414 章</cite></blockquote><blockquote data-ch="415">和以往的列车氛围完全不同<cite>第 414 章</cite></blockquote><blockquote data-ch="415">紧接着一个人飞出了列车<cite>第 415 章</cite></blockquote><blockquote data-ch="415">你碰到过这么好心的人吗？<cite>第 415 章</cite></blockquote><blockquote data-ch="415">头等座车厢内两名玩家失去了萨伊尔海岸招待资格<cite>第 415 章</cite></blockquote><blockquote data-ch="415">海岸上的事当然是他们说了算<cite>第 415 章</cite></blockquote></details>
+<h4 id="story-2" data-ch="416">二、黄金海岸（第 416–417 章）</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="416">老玩家给新人“科普”：萨伊尔海岸周围矿产丰富，伯伦家族每年往这里送大量玩家，登记了副本就集中派船、食宿便宜，代价是带出的珍贵矿石至少卖给他们三分之一。还有传说，附近的洋流跨越多个空间，海上漂着一座全是矿石的矿石岛。<sup class="cite" title="第416章：至少要卖三分之一给伯伦家族；第416章：还有一个全部是矿石的矿石岛">416</sup></span><span class="stmt" data-ch="416">车站建在海上，通往海岸的路两边全是酒吧和商店，二十块广告屏循环播着欢迎玩家的广告。下车后徐获没收到副本提示，判断深蓝实验室只是个地名；楚源也要去那里。<sup class="cite" title="第416章：通向萨伊尔海岸的路上，这样的广告屏竟然多达二十个；第416章：所以深蓝实验室应该就是一个地名">416</sup></span><span class="stmt" data-ch="417">登记时，口罩玩家也站到了他们身后，报名毛威，同样去深蓝实验室；徐获报的名字是“徐知”。老头给了登岸卡和免费住伊丽丝酒店的名片：明天正好有船，下一趟要等多久说不准。<sup class="cite" title="第417章：这是口罩玩家的名字；第417章：恰好明天就有船去深蓝实验室">417</sup></span><span class="stmt" data-ch="417">包一条能在萨伊尔海上安全走的船，少说十万白钞起步，徐获说没钱包船，两人只能明天就走。他拿着老头送的优惠券进了按摩店，让店里代买登岛用品，自己一边做机器人按摩一边看采购视频。<sup class="cite" title="第417章：能够安全在萨伊尔海上行走的船只少说十万白钞起步">417</sup></span><span class="stmt" data-ch="417">楚源买了潜水套装、矿石检测器和抗辐射药；徐获另买了收缩皮艇、防护服、防辐射睡袋和变异物种的体液，挖矿的工具一样没买。他不是冲着矿石来的，头疼的是还要和楚源绑四天。<sup class="cite" title="第417章：他不是冲着矿石来的；第417章：还要绑上四天，进了副本会很不方便">417</sup></span></p><details class="src block fgroup"><summary>本段原文 9 处</summary><blockquote data-ch="416">至少要卖三分之一给伯伦家族<cite>第 416 章</cite></blockquote><blockquote data-ch="416">还有一个全部是矿石的矿石岛<cite>第 416 章</cite></blockquote><blockquote data-ch="416">通向萨伊尔海岸的路上，这样的广告屏竟然多达二十个<cite>第 416 章</cite></blockquote><blockquote data-ch="416">所以深蓝实验室应该就是一个地名<cite>第 416 章</cite></blockquote><blockquote data-ch="417">这是口罩玩家的名字<cite>第 417 章</cite></blockquote><blockquote data-ch="417">恰好明天就有船去深蓝实验室<cite>第 417 章</cite></blockquote><blockquote data-ch="417">能够安全在萨伊尔海上行走的船只少说十万白钞起步<cite>第 417 章</cite></blockquote><blockquote data-ch="417">他不是冲着矿石来的<cite>第 417 章</cite></blockquote><blockquote data-ch="417">还要绑上四天，进了副本会很不方便<cite>第 417 章</cite></blockquote></details>
+<h4 id="story-3" data-ch="418">三、驶向深蓝岛（第 418 章）</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="418">徐获问哪里能买枪，店员说萨伊尔海岸没人买卖枪支，何况枪一般也带不进副本。去酒店的路上，楚源提出进副本前说好不能内讧，徐获顺势提议合作；楚源说自己一向是独狼。<sup class="cite" title="第418章：反正已经绑在一起，不如我们合作？；第418章：独狼一匹！”楚源很是自得地道">418</sup></span><span class="stmt" data-ch="418">一个玩家砸碎玻璃从饭店里飞出来，短刀划破了楚源的道具外套。楚源被绳子拖着，一拳没打实，对方反手扇他一巴掌，倒被他脸上长满尖刺的面具扎得惨叫，捂着满手血跑了。<sup class="cite" title="第418章：对方手里的短刀瞬间划破他的袖子；第418章：楚源一摸脸上长满尖刺的面具">418</sup></span><span class="stmt" data-ch="418">把人扔出来的高挑女玩家苗羽和楚源一见如故，也住伊丽丝酒店；楚源介绍徐获是自己的“小弟”。苗羽说只听过时空系道具互相排斥会失效，拿她的 B 级弧刀也切不断那根绳子。<sup class="cite" title="第418章：这是我小弟。”楚源拍拍徐获的肩膀；第418章：B级道具都无可奈何">418</sup></span><span class="stmt" data-ch="418">第二天一早，他们搭快船去深蓝实验室：深蓝岛岛心一处废弃的实验地点，平时只有玩家登岛。同船的有苗羽，还有昨天划破楚源外套的何春升。<sup class="cite" title="第418章：这个男人就是昨天和楚源起冲突的那个，名字叫何春升">418</sup></span><span class="stmt" data-ch="418">何春升问深蓝岛是不是又叫魔鬼岛。邓博士说，雷雨天的骷髅云只是强风从骷髅形的地缝吹出来的，嘶吼声是风声和动物叫声，真正要当心的是岛上野生动物带的细菌和毒素。徐获告诉楚源，网上有传闻说深蓝岛闹鬼。<sup class="cite" title="第418章：我听说深蓝岛又被叫做魔鬼岛是不是；第418章：有传闻说深蓝岛闹鬼">418</sup></span></p><details class="src block fgroup"><summary>本段原文 9 处</summary><blockquote data-ch="418">反正已经绑在一起，不如我们合作？<cite>第 418 章</cite></blockquote><blockquote data-ch="418">独狼一匹！”楚源很是自得地道<cite>第 418 章</cite></blockquote><blockquote data-ch="418">对方手里的短刀瞬间划破他的袖子<cite>第 418 章</cite></blockquote><blockquote data-ch="418">楚源一摸脸上长满尖刺的面具<cite>第 418 章</cite></blockquote><blockquote data-ch="418">这是我小弟。”楚源拍拍徐获的肩膀<cite>第 418 章</cite></blockquote><blockquote data-ch="418">B级道具都无可奈何<cite>第 418 章</cite></blockquote><blockquote data-ch="418">这个男人就是昨天和楚源起冲突的那个，名字叫何春升<cite>第 418 章</cite></blockquote><blockquote data-ch="418">我听说深蓝岛又被叫做魔鬼岛是不是<cite>第 418 章</cite></blockquote><blockquote data-ch="418">有传闻说深蓝岛闹鬼<cite>第 418 章</cite></blockquote></details>
 </section>
-<section id="callbacks"><h3>承接前文</h3>
+<section id="callbacks" class="fgroup"><h3>承接前文</h3>
 <p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html?upto=418#thread-120" title="伏笔总表">#120</a><span class="text">白蔻和冬先生：上一段末尾揭开何普就是 V·范肖、冬先生管蝴蝶夫人叫“白蔻小姐”，冬先生说不知道何普的尸身在哪；白蔻不信，认定尸身就在古堡。</span><span class="ch">第 414 章</span></li><li><span class="text">“演员的面具”是徐获杀死木剑玩家后收到的特殊道具，这次用来换一张老实巴交的脸。</span><span class="ch">第 414 章</span></li><li><span class="text">解绳子时，徐获在车上试过鲜红的剑和从 011 区带出来的袖珍切割器，都没用。</span><span class="ch">第 418 章</span></li><li><span class="text">乘务员能驱逐玩家，是初审列车上提示过的规则；之后的列车不再提示，但照样有效。以往列车的后厨由永星餐厅承包，这趟换成了萨伊尔海岸。</span><span class="ch">第 415 章</span></li></ul>
+<ul class="items"><li data-ch="414"><a class="thread-no" href="../threads.html?upto=418#thread-120" title="伏笔总表">#120</a><span class="text">白蔻和冬先生：上一段末尾揭开何普就是 V·范肖、冬先生管蝴蝶夫人叫“白蔻小姐”，冬先生说不知道何普的尸身在哪；白蔻不信，认定尸身就在古堡。</span><span class="ch">第 414 章</span></li><li data-ch="414"><span class="text">“演员的面具”是徐获杀死木剑玩家后收到的特殊道具，这次用来换一张老实巴交的脸。</span><span class="ch">第 414 章</span></li><li data-ch="418"><span class="text">解绳子时，徐获在车上试过鲜红的剑和从 011 区带出来的袖珍切割器，都没用。</span><span class="ch">第 418 章</span></li><li data-ch="415"><span class="text">乘务员能驱逐玩家，是初审列车上提示过的规则；之后的列车不再提示，但照样有效。以往列车的后厨由永星餐厅承包，这趟换成了萨伊尔海岸。</span><span class="ch">第 415 章</span></li></ul>
 </section>
-<section id="relations"><h3>关键关系</h3>
+<section id="relations" class="fgroup"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
 <p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
@@ -206,33 +210,59 @@ h4[id] { scroll-margin-top:16px; }
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
 <marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
 </defs>
-<g class="edge"><title>徐获 — 红绳相连，合作 — 楚源（第 414、418 章）</title><path d="M461.1,106.6 Q476.6,187.4 489.9,256.3" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge"><title>白蔻 → 逼问范肖尸身 → 冬先生（第 414 章）</title><path d="M75.4,200.4 Q97.2,138.7 114.9,88.2" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
-<g class="edge"><title>毛威 → 说能解绳子 → 楚源（第 415 章）</title><path d="M641.2,219.1 Q566.7,243.6 503.6,264.4" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
-<g class="edge"><title>何春升 → 划破外套 → 楚源（第 418 章）</title><path d="M488.7,420 Q490.4,344.1 491.9,280.1" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
-<g class="edge"><title>苗羽 → 扔出饭店 → 何春升（第 418 章）</title><path d="M379.2,376.2 Q433.9,398.1 477.6,415.5" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
-<g class="edge"><title>苗羽 — 一见如故 — 楚源（第 418 章）</title><path d="M379.2,376.2 Q435.7,322.1 483.5,276.4" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
-<text x="476.7" y="191.4" class="elabel" style="fill:#4fbf7f">红绳相连，合作</text>
-<text x="97.2" y="142.7" class="elabel" style="fill:#f0904f">逼问范肖尸身</text>
-<text x="566.7" y="247.6" class="elabel" style="fill:#8d95a3">说能解绳子</text>
-<text x="490.4" y="348.0" class="elabel" style="fill:#f0904f">划破外套</text>
-<text x="433.9" y="402.1" class="elabel" style="fill:#f0904f">扔出饭店</text>
-<text x="435.7" y="326.1" class="elabel" style="fill:#8d95a3">一见如故</text>
-<g class="node"><circle cx="492.2" cy="268.1" r="12.0"/><text x="492.2" y="250.1" class="name">楚源</text></g>
-<g class="node"><circle cx="488.7" cy="420" r="10.8"/><text x="488.7" y="403.2" class="name">何春升</text></g>
-<g class="node"><circle cx="379.2" cy="376.2" r="10.8"/><text x="379.2" y="359.4" class="name">苗羽</text></g>
-<g class="node"><circle cx="461.1" cy="106.6" r="10.0"/><text x="461.1" y="90.6" class="name">徐获</text></g>
-<g class="node"><circle cx="75.4" cy="200.4" r="10.0"/><text x="75.4" y="184.4" class="name">白蔻</text></g>
-<g class="node"><circle cx="118.9" cy="76.9" r="10.0"/><text x="118.9" y="60.9" class="name">冬先生</text></g>
-<g class="node"><circle cx="641.2" cy="219.1" r="10.0"/><text x="641.2" y="203.1" class="name">毛威</text></g>
+<g class="edge" data-ch="418"><title>徐获 — 红绳相连，合作 — 楚源（第 414、418 章）</title><path d="M461.1,106.6 Q476.6,187.4 489.9,256.3" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
+<g class="edge" data-ch="414"><title>白蔻 → 逼问范肖尸身 → 冬先生（第 414 章）</title><path d="M75.4,200.4 Q97.2,138.7 114.9,88.2" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="415"><title>毛威 → 说能解绳子 → 楚源（第 415 章）</title><path d="M641.2,219.1 Q566.7,243.6 503.6,264.4" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="418"><title>何春升 → 划破外套 → 楚源（第 418 章）</title><path d="M488.7,420 Q490.4,344.1 491.9,280.1" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="418"><title>苗羽 → 扔出饭店 → 何春升（第 418 章）</title><path d="M379.2,376.2 Q433.9,398.1 477.6,415.5" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="418"><title>苗羽 — 一见如故 — 楚源（第 418 章）</title><path d="M379.2,376.2 Q435.7,322.1 483.5,276.4" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
+<text x="476.7" y="191.4" class="elabel" style="fill:#4fbf7f" data-ch="418">红绳相连，合作</text>
+<text x="97.2" y="142.7" class="elabel" style="fill:#f0904f" data-ch="414">逼问范肖尸身</text>
+<text x="566.7" y="247.6" class="elabel" style="fill:#8d95a3" data-ch="415">说能解绳子</text>
+<text x="490.4" y="348.0" class="elabel" style="fill:#f0904f" data-ch="418">划破外套</text>
+<text x="433.9" y="402.1" class="elabel" style="fill:#f0904f" data-ch="418">扔出饭店</text>
+<text x="435.7" y="326.1" class="elabel" style="fill:#8d95a3" data-ch="418">一见如故</text>
+<g class="node" data-ch="415"><circle cx="492.2" cy="268.1" r="12.0"/><text x="492.2" y="250.1" class="name">楚源</text></g>
+<g class="node" data-ch="418"><circle cx="488.7" cy="420" r="10.8"/><text x="488.7" y="403.2" class="name">何春升</text></g>
+<g class="node" data-ch="418"><circle cx="379.2" cy="376.2" r="10.8"/><text x="379.2" y="359.4" class="name">苗羽</text></g>
+<g class="node" data-ch="418"><circle cx="461.1" cy="106.6" r="10.0"/><text x="461.1" y="90.6" class="name">徐获</text></g>
+<g class="node" data-ch="414"><circle cx="75.4" cy="200.4" r="10.0"/><text x="75.4" y="184.4" class="name">白蔻</text></g>
+<g class="node" data-ch="414"><circle cx="118.9" cy="76.9" r="10.0"/><text x="118.9" y="60.9" class="name">冬先生</text></g>
+<g class="node" data-ch="415"><circle cx="641.2" cy="219.1" r="10.0"/><text x="641.2" y="203.1" class="name">毛威</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text"><a href="../people.html?upto=418#person-%E5%BE%90%E8%8E%B7">徐获</a> — 红绳相连，合作 — <a href="../people.html?upto=418#person-%E6%A5%9A%E6%BA%90">楚源</a></span><span class="ch">第 414、418 章</span></li><li><span class="text"><a href="../people.html?upto=418#person-%E7%99%BD%E8%94%BB">白蔻</a> → 逼问范肖尸身 → <a href="../people.html?upto=418#person-%E5%86%AC%E5%85%88%E7%94%9F">冬先生</a></span><span class="ch">第 414 章</span></li><li><span class="text">毛威 → 说能解绳子 → <a href="../people.html?upto=418#person-%E6%A5%9A%E6%BA%90">楚源</a></span><span class="ch">第 415 章</span></li><li><span class="text">何春升 → 划破外套 → <a href="../people.html?upto=418#person-%E6%A5%9A%E6%BA%90">楚源</a></span><span class="ch">第 418 章</span></li><li><span class="text"><a href="../people.html?upto=418#person-%E8%8B%97%E7%BE%BD">苗羽</a> → 扔出饭店 → 何春升</span><span class="ch">第 418 章</span></li><li><span class="text"><a href="../people.html?upto=418#person-%E8%8B%97%E7%BE%BD">苗羽</a> — 一见如故 — <a href="../people.html?upto=418#person-%E6%A5%9A%E6%BA%90">楚源</a></span><span class="ch">第 418 章</span></li></ul></details>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li data-ch="418"><span class="text"><a href="../people.html?upto=418#person-%E5%BE%90%E8%8E%B7">徐获</a> — 红绳相连，合作 — <a href="../people.html?upto=418#person-%E6%A5%9A%E6%BA%90">楚源</a></span><span class="ch">第 414、418 章</span></li><li data-ch="414"><span class="text"><a href="../people.html?upto=418#person-%E7%99%BD%E8%94%BB">白蔻</a> → 逼问范肖尸身 → <a href="../people.html?upto=418#person-%E5%86%AC%E5%85%88%E7%94%9F">冬先生</a></span><span class="ch">第 414 章</span></li><li data-ch="415"><span class="text">毛威 → 说能解绳子 → <a href="../people.html?upto=418#person-%E6%A5%9A%E6%BA%90">楚源</a></span><span class="ch">第 415 章</span></li><li data-ch="418"><span class="text">何春升 → 划破外套 → <a href="../people.html?upto=418#person-%E6%A5%9A%E6%BA%90">楚源</a></span><span class="ch">第 418 章</span></li><li data-ch="418"><span class="text"><a href="../people.html?upto=418#person-%E8%8B%97%E7%BE%BD">苗羽</a> → 扔出饭店 → 何春升</span><span class="ch">第 418 章</span></li><li data-ch="418"><span class="text"><a href="../people.html?upto=418#person-%E8%8B%97%E7%BE%BD">苗羽</a> — 一见如故 — <a href="../people.html?upto=418#person-%E6%A5%9A%E6%BA%90">楚源</a></span><span class="ch">第 418 章</span></li></ul></details>
 </section>
-<section id="threads"><h3>伏笔与未解</h3>
+<section id="threads" class="fgroup"><h3>伏笔与未解</h3>
 <p class="note">截至第 418 章还没有交代的事。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html?upto=418#thread-120" title="伏笔总表">#120</a><span class="text">冬先生身后爬出的黑暗；范肖的尸身到底在不在古堡。</span><span class="ch">第 414 章</span></li><li><a class="thread-no" href="../threads.html?upto=418#thread-123" title="伏笔总表">#123</a><span class="text">楚源对七天民政局没说全：被问两个男人能不能结婚时，他心虚了。</span><span class="ch">第 414 章</span></li><li><a class="thread-no" href="../threads.html?upto=418#thread-124" title="伏笔总表">#124</a><span class="text">口罩玩家毛威为什么主动要帮人解绳子，又和他们去了同一个地方。</span><span class="ch">第 415、417 章</span></li><li><a class="thread-no" href="../threads.html?upto=418#thread-126" title="伏笔总表">#126</a><span class="text">徐获说自己不是冲着矿石来的，他去深蓝实验室要做什么；买收缩皮艇、变异物种的体液又是为了什么。</span><span class="ch">第 417 章</span></li><li><a class="thread-no" href="../threads.html?upto=418#thread-125" title="伏笔总表">#125</a><span class="text">伯伦家族的身份认证据说和特性挂钩，换了脸也躲不过。</span><span class="ch">第 416 章</span></li><li><a class="thread-no" href="../threads.html?upto=418#thread-127" title="伏笔总表">#127</a><span class="text">深蓝实验室为什么被废弃，深蓝岛闹鬼的传闻。</span><span class="ch">第 418 章</span></li></ul>
-</section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E8%BD%A6%E7%A5%A8%E4%B8%8E%E5%89%AF%E6%9C%AC">车票与回程票</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E4%B8%8D%E5%AE%8C%E5%85%A8%E5%B0%81%E9%97%AD">副本并不完全封闭</a><a href="../world.html#world-%E5%89%AF%E6%9C%ACBOSS">副本 BOSS</a><a href="../world.html#world-%E5%88%97%E8%BD%A6%E8%A7%84%E5%88%99">列车与乘务员</a><a href="../world.html#world-%E9%81%93%E5%85%B7">道具</a><a href="../world.html#world-%E8%90%A8%E4%BC%8A%E5%B0%94%E6%B5%B7%E5%B2%B8">萨伊尔海岸</a></p><p class="links"><b>道具</b><a href="../items.html#item-%E9%B2%9C%E7%BA%A2%E7%9A%84%E5%89%91">鲜红的剑</a><a href="../items.html#item-%E6%BC%94%E5%91%98%E7%9A%84%E9%9D%A2%E5%85%B7">演员的面具</a><a href="../items.html#item-%E4%B8%83%E5%A4%A9%E6%B0%91%E6%94%BF%E5%B1%80">七天民政局</a><a href="../items.html#item-%E7%9C%9F%E7%90%86%E4%B9%8B%E5%8F%A3">真理之口</a></p></section></details>
-<nav class="units-nav bottom"><a class="prev" href="u0022.html"><small>← 上一单元</small><b>011 区滞留</b><small>第 369–413 章</small></a><a class="next" href="u0024.html"><small>下一单元 →</small><b>天黑不开门</b><small>第 419–453 章</small><small class="after" data-beyond="419" hidden>在你的进度之后</small></a></nav>
+<ul class="items"><li data-ch="414"><a class="thread-no" href="../threads.html?upto=418#thread-120" title="伏笔总表">#120</a><span class="text">冬先生身后爬出的黑暗；范肖的尸身到底在不在古堡。</span><span class="ch">第 414 章</span></li><li data-ch="414"><a class="thread-no" href="../threads.html?upto=418#thread-123" title="伏笔总表">#123</a><span class="text">楚源对七天民政局没说全：被问两个男人能不能结婚时，他心虚了。</span><span class="ch">第 414 章</span></li><li data-ch="417"><a class="thread-no" href="../threads.html?upto=418#thread-124" title="伏笔总表">#124</a><span class="text">口罩玩家毛威为什么主动要帮人解绳子，又和他们去了同一个地方。</span><span class="ch">第 415、417 章</span></li><li data-ch="417"><a class="thread-no" href="../threads.html?upto=418#thread-126" title="伏笔总表">#126</a><span class="text">徐获说自己不是冲着矿石来的，他去深蓝实验室要做什么；买收缩皮艇、变异物种的体液又是为了什么。</span><span class="ch">第 417 章</span></li><li data-ch="416"><a class="thread-no" href="../threads.html?upto=418#thread-125" title="伏笔总表">#125</a><span class="text">伯伦家族的身份认证据说和特性挂钩，换了脸也躲不过。</span><span class="ch">第 416 章</span></li><li data-ch="418"><a class="thread-no" href="../threads.html?upto=418#thread-127" title="伏笔总表">#127</a><span class="text">深蓝实验室为什么被废弃，深蓝岛闹鬼的传闻。</span><span class="ch">第 418 章</span></li></ul>
+</section><section id="links" class="fgroup"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E8%BD%A6%E7%A5%A8%E4%B8%8E%E5%89%AF%E6%9C%AC" data-ch="415">车票与回程票</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E4%B8%8D%E5%AE%8C%E5%85%A8%E5%B0%81%E9%97%AD" data-ch="418">副本并不完全封闭</a><a href="../world.html#world-%E5%89%AF%E6%9C%ACBOSS" data-ch="414">副本 BOSS</a><a href="../world.html#world-%E5%88%97%E8%BD%A6%E8%A7%84%E5%88%99" data-ch="414">列车与乘务员</a><a href="../world.html#world-%E9%81%93%E5%85%B7" data-ch="418">道具</a><a href="../world.html#world-%E8%90%A8%E4%BC%8A%E5%B0%94%E6%B5%B7%E5%B2%B8" data-ch="415">萨伊尔海岸</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E9%B2%9C%E7%BA%A2%E7%9A%84%E5%89%91" data-ch="418">鲜红的剑</a><a href="../items.html#item-%E6%BC%94%E5%91%98%E7%9A%84%E9%9D%A2%E5%85%B7" data-ch="414">演员的面具</a><a href="../items.html#item-%E4%B8%83%E5%A4%A9%E6%B0%91%E6%94%BF%E5%B1%80" data-ch="414">七天民政局</a><a href="../items.html#item-%E7%9C%9F%E7%90%86%E4%B9%8B%E5%8F%A3" data-ch="414">真理之口</a></p></section></details>
+<nav class="units-nav bottom"><a class="prev" href="u0022.html"><small>← 上一单元</small><b>011 区滞留</b><small>第 369–413 章</small></a><a class="next" href="u0024.html"><small>下一单元 →</small><b>天黑不开门</b><small>第 419–453 章</small><small class="after" data-beyond="419" hidden>在你的进度之后</small></a></nav><script>
+(function () {
+  var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
+  var status = doc.getElementById('wdzx-status'), beyond = doc.querySelector('p.beyond'), box = doc.getElementById('wdzx-upto');
+  var layers = doc.querySelectorAll('details.layer'), peek = false;
+  var button = doc.createElement('button'); button.type = 'button'; button.className = 'peek';
+  button.addEventListener('click', function () {
+    if (peek) { box.dispatchEvent(new Event('input')); return; }   // the shared script puts the marks back and sends the event
+    peek = true;
+    doc.querySelectorAll('main .hidden').forEach(function (el) { el.classList.remove('hidden'); });
+    layers.forEach(function (d) { d.hidden = false; });
+    status.textContent = '已展开全部，含你进度之后的内容。'; button.textContent = '按进度收起'; status.appendChild(button);
+  });
+  doc.addEventListener('wdzx:progress', function (e) {
+    var n = e.detail, before = n < first, mid = !before && n < end;
+    peek = false;
+    if (beyond) beyond.hidden = true;
+    layers.forEach(function (d) { d.hidden = before; });
+    if (n === Infinity) return;
+    status.hidden = false;
+    if (before) status.textContent = '这张卡从第 ' + first + ' 章开始，在你的进度（第 ' + n + ' 章）之后，整张都是剧透，先收起了。';
+    else if (mid) status.textContent = '你读到第 ' + n + ' 章，这张卡写到第 ' + end + ' 章：之后的句子、评级和收获已藏起。';
+    else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
+    button.textContent = '仍然展开'; status.appendChild(button);
+  });
+})();
+</script>
 <footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
 </main><script>
 (function () {
@@ -250,11 +280,12 @@ h4[id] { scroll-margin-top:16px; }
   if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
   var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
   saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
-  if (Math.max(saved, query)) box.value = Math.max(saved, query);
+  if (saved) box.value = saved;   // the box is the reader's own chapter; a card's ?upto only widens what this page shows
   function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function shown() { var n = current(); return query ? Math.max(n < Infinity ? n : 0, query) : n; }
   function apply() {
-    var n = current(), chosen = n < Infinity || get(SEEN) === '1';
-    root.classList.toggle('has-progress', n < Infinity);
+    var mine = current(), n = shown(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', mine < Infinity);
     banner.hidden = chosen;
     if (!off) {
       doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
@@ -273,19 +304,21 @@ h4[id] { scroll-margin-top:16px; }
     }
     doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
     doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
-    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
     if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
       var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
     });
     status.hidden = n === Infinity;
     status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : n !== mine ? '按这张单元卡显示到第 ' + n + ' 章；' + (mine < Infinity ? '你的进度仍是第 ' + mine + ' 章。' : '你还没填进度，在页头填了章号后以它为准。')
       : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
   }
   function changed() {
     if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
     var n = current();
     put(KEY, n < Infinity ? String(n) : null);
     if (n < Infinity) put(SEEN, '1');
+    query = 0;
     if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
     note.hidden = true; apply();
   }
@@ -294,6 +327,11 @@ h4[id] { scroll-margin-top:16px; }
   banner.querySelectorAll('button').forEach(function (b) {
     b.addEventListener('click', function () {
       if (b.dataset.choice === 'fill') { box.focus(); return; }
+      if (b.dataset.choice === 'start' && valid(+b.dataset.chapter)) {
+        box.value = b.dataset.chapter; changed();
+        note.textContent = '还没开始读：先只显示到第 ' + b.dataset.chapter + ' 章，第一个副本结束的地方。读起来以后，在页头改成你读到的章就行。';
+        note.hidden = false; return;
+      }
       put(SEEN, '1'); apply();
     });
   });
@@ -302,7 +340,8 @@ h4[id] { scroll-margin-top:16px; }
   var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
   if (target && !off && target.closest('.hidden')) {
     var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
-    note.textContent = '你要看的“' + name + '”按你的进度（读到第 ' + current() + ' 章）还没出现；改大章号或清除进度就能看到。';
+    var upto = shown(), why = upto !== current() ? '按这张单元卡的章号（第 ' + upto + ' 章）' : '按你的进度（读到第 ' + upto + ' 章）';
+    note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
     note.hidden = false; note.scrollIntoView();
   } else if (target) { target.scrollIntoView(); }
 })();

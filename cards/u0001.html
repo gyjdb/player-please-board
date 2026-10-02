@@ -113,9 +113,12 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
   padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
 .syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
 .syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+@media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
+.upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
 /* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
 .tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
 .tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
+.tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
 
 .hidden { display:none !important; }
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
@@ -163,36 +166,37 @@ svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
 svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
 svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
 details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
-.links { margin:8px 0; } .links b { display:inline-block; width:3em; color:var(--brass); font-weight:600; }
+.links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
 .links a { margin-right:12px; white-space:nowrap; }
+.progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
 .hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
 nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
 nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="all">没看过，随便看看</button><button type="button" data-choice="all">已追平</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
-<div class="ticket"><div class="ticket-main"><div class="kicker">主线</div>
+<div class="ticket" id="card" data-first="1" data-end="2"><div class="ticket-main"><div class="kicker">主线</div>
 <h1>入局前（汀城）</h1><div class="route">第 1 章 ──── 第 2 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="1" hidden>这张卡从第 1 章开始，在你填的进度之后，整张都是剧透。</p></div>
 <div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0001</div><div class="stub-row"><b>句数</b>24</div>
 <div class="stub-row"><b>引用</b>18 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 1–2 章正文后撰写。</p>
+<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 1–2 章正文后撰写。</p>
 <nav class="units-nav top"><span class="prev none"></span><a class="next" href="u0002.html"><small>下一单元 →</small><b>初审列车</b><small>第 3–16 章</small><small class="after" data-beyond="3" hidden>在你的进度之后</small></a></nav>
-<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。写到第 2 章，含结局。</span></summary><section id="overview"><h3>一句话</h3>
-<ul class="items"><li><span class="text">一个月前世界开始异变，不少人暴食、体能猛涨，被叫作“进化者”。汀城的临时演员徐获在家里杀了一个上门吃人的快递女，被研究所的人盘问了两个小时；回到旅馆，他眼前弹出了游戏的职业选择。</span><span class="ch">第 1–2 章</span></li><li><span class="text">主线段，第 1–2 章，全书开头，地点汀城；第 3 章起是初审列车。</span><span class="ch">第 1–2 章</span></li></ul>
+<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。写到第 2 章，含结局。</span></summary><section id="overview" class="fgroup"><h3>一句话</h3>
+<ul class="items"><li data-ch="2"><span class="text">一个月前世界开始异变，不少人暴食、体能猛涨，被叫作“进化者”。汀城的临时演员徐获在家里杀了一个上门吃人的快递女，被研究所的人盘问了两个小时；回到旅馆，他眼前弹出了游戏的职业选择。</span><span class="ch">第 1–2 章</span></li><li data-ch="2"><span class="text">主线段，第 1–2 章，全书开头，地点汀城；第 3 章起是初审列车。</span><span class="ch">第 1–2 章</span></li></ul>
 </section>
-<section id="cast"><h3>登场人物</h3>
+<section id="cast" class="fgroup"><h3>登场人物</h3>
 <p class="note">按出场先后。</p>
-<ul class="people"><li><b class="subject"><a href="../people.html?upto=2#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">汀城的临时演员，做过两年武替、四年临时演员；名校毕业、家境优渥，和家里关系不好。一个月来心跳异常、饿得发慌，却一直忍着。</span><span class="ch">第 1–2 章</span></li><li><b class="subject">快递女</b><span class="text">穿快递制服上门送冰箱的进化者，上过“那辆火车”，肩后有红色编号。</span><span class="ch">第 1 章</span></li><li><b class="subject">赵标</b><span class="text">带队的老刑警，这个月已经第三次为徐获的案子出警。</span><span class="ch">第 2 章</span></li><li><b class="subject"><a href="../people.html?upto=2#person-%E8%81%82%E7%8E%84">聂玄</a></b><span class="text">汀城第一研究所的年轻人，西装笔挺，专门来问进化者的事。</span><span class="ch">第 2 章</span></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、关键关系、伏笔与未解。写到第 2 章，含全部剧透。</span></summary><section id="story"><h3>剧情梗概</h3>
+<ul class="people"><li data-ch="2"><b class="subject"><a href="../people.html?upto=2#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">汀城的临时演员，做过两年武替、四年临时演员；名校毕业、家境优渥，和家里关系不好。一个月来心跳异常、饿得发慌，却一直忍着。</span><span class="ch">第 1–2 章</span></li><li data-ch="1"><b class="subject">快递女</b><span class="text">穿快递制服上门送冰箱的进化者，上过“那辆火车”，肩后有红色编号。</span><span class="ch">第 1 章</span></li><li data-ch="2"><b class="subject">赵标</b><span class="text">带队的老刑警，这个月已经第三次为徐获的案子出警。</span><span class="ch">第 2 章</span></li><li data-ch="2"><b class="subject"><a href="../people.html?upto=2#person-%E8%81%82%E7%8E%84">聂玄</a></b><span class="text">汀城第一研究所的年轻人，西装笔挺，专门来问进化者的事。</span><span class="ch">第 2 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、关键关系、伏笔与未解。写到第 2 章，含全部剧透。</span></summary><section id="story" class="fgroup"><h3>剧情梗概</h3>
 <p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
-<h4 id="story-1">一、送冰箱的女人（第 1 章）</h4>
-<p class="prose">新闻里全是怪事：三十度的城市下冰雹，海市上空出现黑色云洞，滨市一个月失踪十几个小孩，汀城出了碎尸狂魔，警方提醒天黑别出门。<sup class="cite" title="第1章：海市上空出现黑色云洞；第1章：汀城惊现碎尸狂魔">1</sup>一个穿快递制服的女人上门送冰箱，卸完货就坐进客厅不走。徐获闻得到她身上的肉香，她也盯着他咽口水；天一暗，她豁开嘴朝他的脸啃了过来。<sup class="cite" title="第1章：她张着嘴，朝自己脸啃来！">1</sup>她问徐获是不是也上过那辆火车，徐获眼神一亮，被她看穿是在套话。她的速度力气远超常人，一脚把沙发蹬出三米；徐获用杀虫剂拖住她，退进卧室，用藏在门后的“水果刀长枪”刺穿了她的胸口。<sup class="cite" title="第1章：你也上过那辆火车？；第1章：徐获已经摸起藏在门后的水果刀版长枪刺中了对方的胸部">1</sup>她的伤口在自己愈合，一边拖时间一边拿血诱惑他：进化者的血最香，她这样的进化者在火车上存活率最高，一半以上的进化者死在最初审查。徐获忍着吞咽，从她的话里推出：碎尸狂魔是她的同类，少量人血就能缓解饥饿，火车上还有别的进化者，而沾了人血的后果不好，是过了最初审查才知道的。<sup class="cite" title="第1章：一半以上的进化者都死在最初审查；第1章：沾了人血的后果肯定不太好">1</sup>她扑上来的一刻，另一把水果刀刺穿了她的咽喉。徐获在她肩后找到一个红色编号纹身 E33586；打开新送来的冰箱，里面垂出一颗人头。他叹了口气，报警。<sup class="cite" title="第1章：红色编号纹身：E33586；第1章：一颗脑袋就软哒哒地垂了过来">1</sup></p><details class="src block"><summary>本段原文 9 处</summary><blockquote>海市上空出现黑色云洞<cite>第 1 章</cite></blockquote><blockquote>汀城惊现碎尸狂魔<cite>第 1 章</cite></blockquote><blockquote>她张着嘴，朝自己脸啃来！<cite>第 1 章</cite></blockquote><blockquote>你也上过那辆火车？<cite>第 1 章</cite></blockquote><blockquote>徐获已经摸起藏在门后的水果刀版长枪刺中了对方的胸部<cite>第 1 章</cite></blockquote><blockquote>一半以上的进化者都死在最初审查<cite>第 1 章</cite></blockquote><blockquote>沾了人血的后果肯定不太好<cite>第 1 章</cite></blockquote><blockquote>红色编号纹身：E33586<cite>第 1 章</cite></blockquote><blockquote>一颗脑袋就软哒哒地垂了过来<cite>第 1 章</cite></blockquote></details>
-<h4 id="story-2">二、问话（第 2 章）</h4>
-<p class="prose">老刑警赵标说，这已经是这个月第三回了。一辆黑色房车跟着警车来了，汀城第一研究所的聂玄把徐获叫上车问了近两个小时：胃口有没有变、接触死者时有没有饥饿口渴或力气变大。徐获一律说没有，只说那女人自称进化者。<sup class="cite" title="第2章：真不知道你小子走了什么霉运，这个月第三回了；第2章：接触死者时有没有生理变化？">2</sup>聂玄查过他的底：名校毕业、家境优渥，却在汀城做了两年武替、四年临时演员，推掉了导演给的机会。临走他留下名片，说身体出现变化最好联系他，没有得到合理管理的进化者，就会变成袭击他的那个女人那样。<sup class="cite" title="第2章：你在汀城做过两年武替，四年临时演员；第2章：没有得到合理管理的结果就是变成袭击你的那个女人的状态">2</sup>徐获住进旅馆，饥饿感一下涌上来。一个月前世界各地异象频发，不少人出现暴食欲望，先是家畜和宠物遭殃，半个月前犯罪井喷；有人提出“进化者理论”：暴食的同时，体能和感官也在进化。<sup class="cite" title="第2章：半个月前犯罪井喷式爆发；第2章：忽然有人提出“进化者理论”">2</sup>半个月里他碰上了三个进化者：第一个像野兽，第二个混进片场跟他称兄道弟、当晚就要去他家借住，今天的女人是第三个。一个月下来，进化者已经学会伪装。<sup class="cite" title="第2章：半个月前徐获碰到第一个进化者，十天前碰到第二个">2</sup>他自己也在变：心跳最高将近三百、最低不足四十，体能和嗅觉在长，近视也好了，却远不如那个女人。他猜差距就在“最初审查”，正想着怎么才能上那辆车，眼前亮起投影屏：游戏检测到他的属性，给出三个职业——赌徒、冒险家、路人甲。<sup class="cite" title="第2章：最高时将近三百，最低时不足四十；第2章：A赌徒；B冒险家；C路人甲">2</sup></p><details class="src block"><summary>本段原文 9 处</summary><blockquote>真不知道你小子走了什么霉运，这个月第三回了<cite>第 2 章</cite></blockquote><blockquote>接触死者时有没有生理变化？<cite>第 2 章</cite></blockquote><blockquote>你在汀城做过两年武替，四年临时演员<cite>第 2 章</cite></blockquote><blockquote>没有得到合理管理的结果就是变成袭击你的那个女人的状态<cite>第 2 章</cite></blockquote><blockquote>半个月前犯罪井喷式爆发<cite>第 2 章</cite></blockquote><blockquote>忽然有人提出“进化者理论”<cite>第 2 章</cite></blockquote><blockquote>半个月前徐获碰到第一个进化者，十天前碰到第二个<cite>第 2 章</cite></blockquote><blockquote>最高时将近三百，最低时不足四十<cite>第 2 章</cite></blockquote><blockquote>A赌徒；B冒险家；C路人甲<cite>第 2 章</cite></blockquote></details>
+<h4 id="story-1" data-ch="1">一、送冰箱的女人（第 1 章）</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="1">新闻里全是怪事：三十度的城市下冰雹，海市上空出现黑色云洞，滨市一个月失踪十几个小孩，汀城出了碎尸狂魔，警方提醒天黑别出门。<sup class="cite" title="第1章：海市上空出现黑色云洞；第1章：汀城惊现碎尸狂魔">1</sup></span><span class="stmt" data-ch="1">一个穿快递制服的女人上门送冰箱，卸完货就坐进客厅不走。徐获闻得到她身上的肉香，她也盯着他咽口水；天一暗，她豁开嘴朝他的脸啃了过来。<sup class="cite" title="第1章：她张着嘴，朝自己脸啃来！">1</sup></span><span class="stmt" data-ch="1">她问徐获是不是也上过那辆火车，徐获眼神一亮，被她看穿是在套话。她的速度力气远超常人，一脚把沙发蹬出三米；徐获用杀虫剂拖住她，退进卧室，用藏在门后的“水果刀长枪”刺穿了她的胸口。<sup class="cite" title="第1章：你也上过那辆火车？；第1章：徐获已经摸起藏在门后的水果刀版长枪刺中了对方的胸部">1</sup></span><span class="stmt" data-ch="1">她的伤口在自己愈合，一边拖时间一边拿血诱惑他：进化者的血最香，她这样的进化者在火车上存活率最高，一半以上的进化者死在最初审查。徐获忍着吞咽，从她的话里推出：碎尸狂魔是她的同类，少量人血就能缓解饥饿，火车上还有别的进化者，而沾了人血的后果不好，是过了最初审查才知道的。<sup class="cite" title="第1章：一半以上的进化者都死在最初审查；第1章：沾了人血的后果肯定不太好">1</sup></span><span class="stmt" data-ch="1">她扑上来的一刻，另一把水果刀刺穿了她的咽喉。徐获在她肩后找到一个红色编号纹身 E33586；打开新送来的冰箱，里面垂出一颗人头。他叹了口气，报警。<sup class="cite" title="第1章：红色编号纹身：E33586；第1章：一颗脑袋就软哒哒地垂了过来">1</sup></span></p><details class="src block fgroup"><summary>本段原文 9 处</summary><blockquote data-ch="1">海市上空出现黑色云洞<cite>第 1 章</cite></blockquote><blockquote data-ch="1">汀城惊现碎尸狂魔<cite>第 1 章</cite></blockquote><blockquote data-ch="1">她张着嘴，朝自己脸啃来！<cite>第 1 章</cite></blockquote><blockquote data-ch="1">你也上过那辆火车？<cite>第 1 章</cite></blockquote><blockquote data-ch="1">徐获已经摸起藏在门后的水果刀版长枪刺中了对方的胸部<cite>第 1 章</cite></blockquote><blockquote data-ch="1">一半以上的进化者都死在最初审查<cite>第 1 章</cite></blockquote><blockquote data-ch="1">沾了人血的后果肯定不太好<cite>第 1 章</cite></blockquote><blockquote data-ch="1">红色编号纹身：E33586<cite>第 1 章</cite></blockquote><blockquote data-ch="1">一颗脑袋就软哒哒地垂了过来<cite>第 1 章</cite></blockquote></details>
+<h4 id="story-2" data-ch="2">二、问话（第 2 章）</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="2">老刑警赵标说，这已经是这个月第三回了。一辆黑色房车跟着警车来了，汀城第一研究所的聂玄把徐获叫上车问了近两个小时：胃口有没有变、接触死者时有没有饥饿口渴或力气变大。徐获一律说没有，只说那女人自称进化者。<sup class="cite" title="第2章：真不知道你小子走了什么霉运，这个月第三回了；第2章：接触死者时有没有生理变化？">2</sup></span><span class="stmt" data-ch="2">聂玄查过他的底：名校毕业、家境优渥，却在汀城做了两年武替、四年临时演员，推掉了导演给的机会。临走他留下名片，说身体出现变化最好联系他，没有得到合理管理的进化者，就会变成袭击他的那个女人那样。<sup class="cite" title="第2章：你在汀城做过两年武替，四年临时演员；第2章：没有得到合理管理的结果就是变成袭击你的那个女人的状态">2</sup></span><span class="stmt" data-ch="2">徐获住进旅馆，饥饿感一下涌上来。一个月前世界各地异象频发，不少人出现暴食欲望，先是家畜和宠物遭殃，半个月前犯罪井喷；有人提出“进化者理论”：暴食的同时，体能和感官也在进化。<sup class="cite" title="第2章：半个月前犯罪井喷式爆发；第2章：忽然有人提出“进化者理论”">2</sup></span><span class="stmt" data-ch="2">半个月里他碰上了三个进化者：第一个像野兽，第二个混进片场跟他称兄道弟、当晚就要去他家借住，今天的女人是第三个。一个月下来，进化者已经学会伪装。<sup class="cite" title="第2章：半个月前徐获碰到第一个进化者，十天前碰到第二个">2</sup></span><span class="stmt" data-ch="2">他自己也在变：心跳最高将近三百、最低不足四十，体能和嗅觉在长，近视也好了，却远不如那个女人。他猜差距就在“最初审查”，正想着怎么才能上那辆车，眼前亮起投影屏：游戏检测到他的属性，给出三个职业——赌徒、冒险家、路人甲。<sup class="cite" title="第2章：最高时将近三百，最低时不足四十；第2章：A赌徒；B冒险家；C路人甲">2</sup></span></p><details class="src block fgroup"><summary>本段原文 9 处</summary><blockquote data-ch="2">真不知道你小子走了什么霉运，这个月第三回了<cite>第 2 章</cite></blockquote><blockquote data-ch="2">接触死者时有没有生理变化？<cite>第 2 章</cite></blockquote><blockquote data-ch="2">你在汀城做过两年武替，四年临时演员<cite>第 2 章</cite></blockquote><blockquote data-ch="2">没有得到合理管理的结果就是变成袭击你的那个女人的状态<cite>第 2 章</cite></blockquote><blockquote data-ch="2">半个月前犯罪井喷式爆发<cite>第 2 章</cite></blockquote><blockquote data-ch="2">忽然有人提出“进化者理论”<cite>第 2 章</cite></blockquote><blockquote data-ch="2">半个月前徐获碰到第一个进化者，十天前碰到第二个<cite>第 2 章</cite></blockquote><blockquote data-ch="2">最高时将近三百，最低时不足四十<cite>第 2 章</cite></blockquote><blockquote data-ch="2">A赌徒；B冒险家；C路人甲<cite>第 2 章</cite></blockquote></details>
 </section>
-<section id="relations"><h3>关键关系</h3>
+<section id="relations" class="fgroup"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
 <p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
 <marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
@@ -200,24 +204,50 @@ h4[id] { scroll-margin-top:16px; }
 <marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
 <marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
 </defs>
-<g class="edge"><title>徐获 → 刺死 → 快递女（第 1 章）</title><path d="M379.2,238.4 Q421.4,320.3 458.1,391.5" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
-<g class="edge"><title>聂玄 → 盘问 → 徐获（第 2 章）</title><path d="M196.1,231.1 Q287.6,234.8 367.2,237.9" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
-<g class="edge"><title>赵标 → 出警 → 徐获（第 2 章）</title><path d="M479.5,85.1 Q429.4,161.8 385.8,228.4" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
-<text x="421.4" y="324.3" class="elabel" style="fill:#ef5a4f">刺死</text>
-<text x="287.6" y="238.8" class="elabel" style="fill:#8d95a3">盘问</text>
-<text x="429.4" y="165.8" class="elabel" style="fill:#8d95a3">出警</text>
-<g class="node"><circle cx="379.2" cy="238.4" r="11.5"/><text x="379.2" y="220.9" class="name">徐获</text></g>
-<g class="node"><circle cx="463.6" cy="402.2" r="10.0"/><text x="463.6" y="386.2" class="name">快递女</text></g>
-<g class="node"><circle cx="196.1" cy="231.1" r="10.0"/><text x="196.1" y="215.1" class="name">聂玄</text></g>
-<g class="node"><circle cx="479.5" cy="85.1" r="10.0"/><text x="479.5" y="69.1" class="name">赵标</text></g>
+<g class="edge" data-ch="1"><title>徐获 → 刺死 → 快递女（第 1 章）</title><path d="M379.2,238.4 Q421.4,320.3 458.1,391.5" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge" data-ch="2"><title>聂玄 → 盘问 → 徐获（第 2 章）</title><path d="M196.1,231.1 Q287.6,234.8 367.2,237.9" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="2"><title>赵标 → 出警 → 徐获（第 2 章）</title><path d="M479.5,85.1 Q429.4,161.8 385.8,228.4" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<text x="421.4" y="324.3" class="elabel" style="fill:#ef5a4f" data-ch="1">刺死</text>
+<text x="287.6" y="238.8" class="elabel" style="fill:#8d95a3" data-ch="2">盘问</text>
+<text x="429.4" y="165.8" class="elabel" style="fill:#8d95a3" data-ch="2">出警</text>
+<g class="node" data-ch="1"><circle cx="379.2" cy="238.4" r="11.5"/><text x="379.2" y="220.9" class="name">徐获</text></g>
+<g class="node" data-ch="1"><circle cx="463.6" cy="402.2" r="10.0"/><text x="463.6" y="386.2" class="name">快递女</text></g>
+<g class="node" data-ch="2"><circle cx="196.1" cy="231.1" r="10.0"/><text x="196.1" y="215.1" class="name">聂玄</text></g>
+<g class="node" data-ch="2"><circle cx="479.5" cy="85.1" r="10.0"/><text x="479.5" y="69.1" class="name">赵标</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li><span class="text"><a href="../people.html?upto=2#person-%E5%BE%90%E8%8E%B7">徐获</a> → 刺死 → 快递女</span><span class="ch">第 1 章</span></li><li><span class="text"><a href="../people.html?upto=2#person-%E8%81%82%E7%8E%84">聂玄</a> → 盘问 → <a href="../people.html?upto=2#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 2 章</span></li><li><span class="text">赵标 → 出警 → <a href="../people.html?upto=2#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 2 章</span></li></ul></details>
+<details class="rel"><summary>逐条看</summary><ul class="items"><li data-ch="1"><span class="text"><a href="../people.html?upto=2#person-%E5%BE%90%E8%8E%B7">徐获</a> → 刺死 → 快递女</span><span class="ch">第 1 章</span></li><li data-ch="2"><span class="text"><a href="../people.html?upto=2#person-%E8%81%82%E7%8E%84">聂玄</a> → 盘问 → <a href="../people.html?upto=2#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 2 章</span></li><li data-ch="2"><span class="text">赵标 → 出警 → <a href="../people.html?upto=2#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 2 章</span></li></ul></details>
 </section>
-<section id="threads"><h3>伏笔与未解</h3>
+<section id="threads" class="fgroup"><h3>伏笔与未解</h3>
 <p class="note">截至第 2 章还没有交代的事。</p>
-<ul class="items"><li><a class="thread-no" href="../threads.html?upto=2#thread-001" title="伏笔总表">#001</a><span class="text"><span class="tier claim" title="快递女的说法">说法</span>快递女说的“那辆火车”和“最初审查”：怎么上车，为什么一半以上的进化者死在上面。</span><span class="ch">第 1 章</span></li><li><a class="thread-no" href="../threads.html?upto=2#thread-002" title="伏笔总表">#002</a><span class="text"><span class="tier guess" title="徐获的推断">徐获推测</span>沾了人血会有不好的后果，而且是过了最初审查才发现的。</span><span class="ch">第 1 章</span></li><li><a class="thread-no" href="../threads.html?upto=2#thread-003" title="伏笔总表">#003</a><span class="text">快递女肩后的红色编号 E33586 是什么。</span><span class="ch">第 1 章</span></li><li><a class="thread-no" href="../threads.html?upto=2#thread-005" title="伏笔总表">#005</a><span class="text">汀城第一研究所在管进化者；聂玄说身体有变化就去找他。</span><span class="ch">第 2 章</span></li><li><a class="thread-no" href="../threads.html?upto=2#thread-004" title="伏笔总表">#004</a><span class="text">三个进化者为什么都找上徐获，快递女说他“很香”。</span><span class="ch">第 1–2 章</span></li></ul>
-</section><section id="links"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links"><b>设定</b><a href="../world.html#world-%E5%88%9D%E5%AE%A1%E5%88%97%E8%BD%A6">初审列车</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E8%80%85">进化者、进化率与等级</a><a href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B">红、黑、白玩家与编号</a></p></section></details>
-<nav class="units-nav bottom"><span class="prev none"></span><a class="next" href="u0002.html"><small>下一单元 →</small><b>初审列车</b><small>第 3–16 章</small><small class="after" data-beyond="3" hidden>在你的进度之后</small></a></nav>
+<ul class="items"><li data-ch="1"><a class="thread-no" href="../threads.html?upto=2#thread-001" title="伏笔总表">#001</a><span class="text"><span class="tier claim" title="快递女的说法">说法</span>快递女说的“那辆火车”和“最初审查”：怎么上车，为什么一半以上的进化者死在上面。</span><span class="ch">第 1 章</span></li><li data-ch="1"><a class="thread-no" href="../threads.html?upto=2#thread-002" title="伏笔总表">#002</a><span class="text"><span class="tier guess" title="徐获的推断" tabindex="0">徐获推测</span>沾了人血会有不好的后果，而且是过了最初审查才发现的。</span><span class="ch">第 1 章</span></li><li data-ch="1"><a class="thread-no" href="../threads.html?upto=2#thread-003" title="伏笔总表">#003</a><span class="text">快递女肩后的红色编号 E33586 是什么。</span><span class="ch">第 1 章</span></li><li data-ch="2"><a class="thread-no" href="../threads.html?upto=2#thread-005" title="伏笔总表">#005</a><span class="text">汀城第一研究所在管进化者；聂玄说身体有变化就去找他。</span><span class="ch">第 2 章</span></li><li data-ch="2"><a class="thread-no" href="../threads.html?upto=2#thread-004" title="伏笔总表">#004</a><span class="text">三个进化者为什么都找上徐获，快递女说他“很香”。</span><span class="ch">第 1–2 章</span></li></ul>
+</section><section id="links" class="fgroup"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E5%88%9D%E5%AE%A1%E5%88%97%E8%BD%A6" data-ch="1">初审列车</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E8%80%85" data-ch="2">进化者、进化率与等级</a><a href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B" data-ch="1">红、黑、白玩家与编号</a></p></section></details>
+<nav class="units-nav bottom"><span class="prev none"></span><a class="next" href="u0002.html"><small>下一单元 →</small><b>初审列车</b><small>第 3–16 章</small><small class="after" data-beyond="3" hidden>在你的进度之后</small></a></nav><script>
+(function () {
+  var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
+  var status = doc.getElementById('wdzx-status'), beyond = doc.querySelector('p.beyond'), box = doc.getElementById('wdzx-upto');
+  var layers = doc.querySelectorAll('details.layer'), peek = false;
+  var button = doc.createElement('button'); button.type = 'button'; button.className = 'peek';
+  button.addEventListener('click', function () {
+    if (peek) { box.dispatchEvent(new Event('input')); return; }   // the shared script puts the marks back and sends the event
+    peek = true;
+    doc.querySelectorAll('main .hidden').forEach(function (el) { el.classList.remove('hidden'); });
+    layers.forEach(function (d) { d.hidden = false; });
+    status.textContent = '已展开全部，含你进度之后的内容。'; button.textContent = '按进度收起'; status.appendChild(button);
+  });
+  doc.addEventListener('wdzx:progress', function (e) {
+    var n = e.detail, before = n < first, mid = !before && n < end;
+    peek = false;
+    if (beyond) beyond.hidden = true;
+    layers.forEach(function (d) { d.hidden = before; });
+    if (n === Infinity) return;
+    status.hidden = false;
+    if (before) status.textContent = '这张卡从第 ' + first + ' 章开始，在你的进度（第 ' + n + ' 章）之后，整张都是剧透，先收起了。';
+    else if (mid) status.textContent = '你读到第 ' + n + ' 章，这张卡写到第 ' + end + ' 章：之后的句子、评级和收获已藏起。';
+    else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
+    button.textContent = '仍然展开'; status.appendChild(button);
+  });
+})();
+</script>
 <footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
 </main><script>
 (function () {
@@ -235,11 +265,12 @@ h4[id] { scroll-margin-top:16px; }
   if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
   var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
   saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
-  if (Math.max(saved, query)) box.value = Math.max(saved, query);
+  if (saved) box.value = saved;   // the box is the reader's own chapter; a card's ?upto only widens what this page shows
   function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function shown() { var n = current(); return query ? Math.max(n < Infinity ? n : 0, query) : n; }
   function apply() {
-    var n = current(), chosen = n < Infinity || get(SEEN) === '1';
-    root.classList.toggle('has-progress', n < Infinity);
+    var mine = current(), n = shown(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', mine < Infinity);
     banner.hidden = chosen;
     if (!off) {
       doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
@@ -258,19 +289,21 @@ h4[id] { scroll-margin-top:16px; }
     }
     doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
     doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
-    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
     if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
       var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
     });
     status.hidden = n === Infinity;
     status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : n !== mine ? '按这张单元卡显示到第 ' + n + ' 章；' + (mine < Infinity ? '你的进度仍是第 ' + mine + ' 章。' : '你还没填进度，在页头填了章号后以它为准。')
       : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
   }
   function changed() {
     if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
     var n = current();
     put(KEY, n < Infinity ? String(n) : null);
     if (n < Infinity) put(SEEN, '1');
+    query = 0;
     if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
     note.hidden = true; apply();
   }
@@ -279,6 +312,11 @@ h4[id] { scroll-margin-top:16px; }
   banner.querySelectorAll('button').forEach(function (b) {
     b.addEventListener('click', function () {
       if (b.dataset.choice === 'fill') { box.focus(); return; }
+      if (b.dataset.choice === 'start' && valid(+b.dataset.chapter)) {
+        box.value = b.dataset.chapter; changed();
+        note.textContent = '还没开始读：先只显示到第 ' + b.dataset.chapter + ' 章，第一个副本结束的地方。读起来以后，在页头改成你读到的章就行。';
+        note.hidden = false; return;
+      }
       put(SEEN, '1'); apply();
     });
   });
@@ -287,7 +325,8 @@ h4[id] { scroll-margin-top:16px; }
   var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
   if (target && !off && target.closest('.hidden')) {
     var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
-    note.textContent = '你要看的“' + name + '”按你的进度（读到第 ' + current() + ' 章）还没出现；改大章号或清除进度就能看到。';
+    var upto = shown(), why = upto !== current() ? '按这张单元卡的章号（第 ' + upto + ' 章）' : '按你的进度（读到第 ' + upto + ' 章）';
+    note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
     note.hidden = false; note.scrollIntoView();
   } else if (target) { target.scrollIntoView(); }
 })();
