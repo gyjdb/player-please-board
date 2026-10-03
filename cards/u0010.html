@@ -3,11 +3,18 @@
 <title>讲故事的女人 · 单元卡 · 维度之下</title><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
   --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
   --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
   --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
 :root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
-  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380; }
+/* what stays dark in the light theme keeps the dark accents */
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; }
+:root[data-theme="light"] .banner button.primary { color:#fff; }
+:root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
 * { box-sizing:border-box; }
 html { background:var(--paper); }
 body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
@@ -45,10 +52,12 @@ details.fold[open] > summary { display:none; }
 [hidden] { display:none !important; }
 html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
-/* sources switch */
+/* the 显示出处 and 浅色 switches */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
+.switches { display:inline-flex; gap:8px; }
 .toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
-#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+html:not(.js) label[for="theme-light"] { display:none; }
 .ch, sup.cite, details.src, .src-only { display:none; }
 #show-src:checked ~ main .ch { display:inline-block; }
 #show-src:checked ~ main sup.cite { display:inline; }
@@ -175,7 +184,7 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket" id="card" data-first="146" data-end="176"><div class="ticket-main"><div class="stamp-seal"><span class="seal mid" data-ch="174" title="评级 A">A</span></div><div class="kicker">副本 · <span class="grade" style="background:#6f675c">E</span><small class="diff">副本难度</small></div>
 <h1>讲故事的女人</h1><div class="route">第 146 章 ──── 第 176 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="146" hidden>这张卡从第 146 章开始，在你填的进度之后，整张都是剧透。</p></div>
@@ -226,39 +235,39 @@ h4[id] { scroll-margin-top:16px; }
 <ul class="people"><li data-ch="176"><b class="subject"><a href="../people.html?upto=176#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">通关，A 级；得到白婆婆送的天使的牙齿，甩掉追踪胚胎，用回程票回到海市。</span><span class="ch">第 174、176 章</span><details class="src"><summary>原文</summary><blockquote>恭喜玩家路人甲顺利通关“讲故事的女人”副本<cite>第 174 章</cite></blockquote></details></li><li data-ch="176"><b class="subject">孙继柔</b><span class="text">通关，C 级；失去沈泰，和徐获约下一个人情后脱离副本。</span><span class="ch">第 174–176 章</span></li><li data-ch="174"><b class="subject">陶承欣</b><span class="text">通关，C 级。</span><span class="ch">第 174 章</span></li><li data-ch="159"><b class="subject">沈泰</b><span class="text"><span class="tier claim" title="孙继柔的说法">说法</span>死在积木馍馍店的钢刺夹板里；孙继柔说他是为救她而死。</span><span class="ch">第 158–159 章</span></li><li data-ch="170"><b class="subject">杨胜、汪桥、高白梅</b><span class="text">被白婆婆的巨嘴拦腰咬断。</span><span class="ch">第 170 章</span></li><li data-ch="174"><b class="subject">汤元</b><span class="text">被根茎咬掉一只手，逃出花房时上半身消失。</span><span class="ch">第 173–174 章</span></li><li data-ch="153"><b class="subject">两个壮硕玩家</b><span class="text">劫持徐获和汤元后，在美人香薰店失踪。</span><span class="ch">第 153 章</span></li><li data-ch="158"><b class="subject">跟踪徐获的红色玩家</b><span class="text">在熊爪餐厅被徐获斩断脖子。</span><span class="ch">第 158 章</span></li><li data-ch="176"><b class="subject"><a href="../people.html?upto=176#person-%E7%99%BD%E5%A9%86%E5%A9%86">白婆婆</a></b><span class="text">留在童话城；徐获离开时城市上空炸开红雾，她的下落不明。</span><span class="ch">第 176 章</span></li></ul>
 </section>
 <section id="relations" class="fgroup"><h3>关键关系</h3>
-<p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span><span><i class="dash"></i>某人的说法或推断</span></p>
+<p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-kill)"></i>杀死</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span><span><i class="dash"></i>某人的说法或推断</span></p>
 <p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
-<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
-<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
-<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
-<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-ally)"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-enemy)"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-kill)"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-other)"/></marker>
 </defs>
-<g class="edge" data-ch="153"><title>孙继柔 — 同伴 — 沈泰（第 146、153 章）</title><path d="M175.2,171.8 Q140.2,115.9 111.6,70.2" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="153"><title>汪桥 — 结伴 — 高白梅（第 153 章）</title><path d="M639.6,325.0 Q617.2,366.6 600.6,397.5" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="173"><title>汤元 — 一伙 — 杨胜（第 164、173 章）</title><path d="M376.6,321.4 Q397.1,370.7 413.0,408.9" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="158"><title>徐获 — 盟友 — 陶承欣（第 156、158 章）</title><path d="M345.5,200.1 Q357.2,130.1 367.0,71.8" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="175"><title>徐获 — 救命·反目 — 孙继柔（第 158、171、175 章）</title><path d="M345.5,200.1 Q260.4,185.9 187.0,173.8" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
-<g class="edge" data-ch="173"><title>徐获 → 识破 → 汤元（第 169、173 章）</title><path d="M345.5,200.1 Q361.1,260.8 373.6,309.8" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
-<g class="edge" data-ch="168"><title>汤元 → 下药 → 白婆婆（第 168 章）</title><path d="M376.6,321.4 Q437.1,309.5 485.7,299.9" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
-<g class="edge" data-ch="170"><title>白婆婆 → 咬死 → 杨胜（第 170 章）</title><path d="M497.5,297.6 Q457.6,358.8 424.2,410.0" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
-<g class="edge" data-ch="170"><title>白婆婆 → 咬死 → 汪桥（第 170 章）</title><path d="M497.5,297.6 Q568.5,311.3 627.8,322.7" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
-<g class="edge" data-ch="170"><title>白婆婆 → 咬死 → 高白梅（第 170 章）</title><path d="M497.5,297.6 Q546.2,352.9 587.0,399.1" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
-<g class="edge" data-ch="174"><title>白婆婆 → 认可·赠牙 → 徐获（第 174 章）</title><path d="M497.5,297.6 Q421.5,248.9 355.6,206.6" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
-<g class="edge" data-ch="168"><title>白婆婆 — 堂兄妹 — 白爷爷（白婆婆的说法）（第 168 章）</title><path d="M497.5,297.6 Q542.9,234.2 581.2,180.6" fill="none" stroke="#4fbf7f" stroke-width="2.2" stroke-dasharray="6 4"/></g>
-<g class="edge" data-ch="175"><title>孙继柔 — 姐弟 — 王程（孙继柔的说法）（第 175 章）</title><path d="M175.2,171.8 Q121.6,212.2 77.6,245.4" fill="none" stroke="#4fbf7f" stroke-width="2.2" stroke-dasharray="6 4"/></g>
-<text x="140.2" y="119.9" class="elabel" style="fill:#4fbf7f" data-ch="153">同伴</text>
-<text x="617.2" y="370.5" class="elabel" style="fill:#4fbf7f" data-ch="153">结伴</text>
-<text x="397.1" y="374.7" class="elabel" style="fill:#4fbf7f" data-ch="173">一伙</text>
-<text x="357.2" y="134.1" class="elabel" style="fill:#4fbf7f" data-ch="158">盟友</text>
-<text x="260.4" y="189.9" class="elabel" style="fill:#8d95a3" data-ch="175">救命·反目</text>
-<text x="361.0" y="264.8" class="elabel" style="fill:#f0904f" data-ch="173">识破</text>
-<text x="437.1" y="313.5" class="elabel" style="fill:#f0904f" data-ch="168">下药</text>
-<text x="457.5" y="362.8" class="elabel" style="fill:#ef5a4f" data-ch="170">咬死</text>
-<text x="568.5" y="315.3" class="elabel" style="fill:#ef5a4f" data-ch="170">咬死</text>
-<text x="546.2" y="356.9" class="elabel" style="fill:#ef5a4f" data-ch="170">咬死</text>
-<text x="421.5" y="252.9" class="elabel" style="fill:#4fbf7f" data-ch="174">认可·赠牙</text>
-<text x="542.9" y="238.2" class="elabel" style="fill:#4fbf7f" data-ch="168">堂兄妹</text>
-<text x="121.6" y="216.2" class="elabel" style="fill:#4fbf7f" data-ch="175">姐弟</text>
+<g class="edge" data-ch="153"><title>孙继柔 — 同伴 — 沈泰（第 146、153 章）</title><path d="M175.2,171.8 Q140.2,115.9 111.6,70.2" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="153"><title>汪桥 — 结伴 — 高白梅（第 153 章）</title><path d="M639.6,325.0 Q617.2,366.6 600.6,397.5" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="173"><title>汤元 — 一伙 — 杨胜（第 164、173 章）</title><path d="M376.6,321.4 Q397.1,370.7 413.0,408.9" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="158"><title>徐获 — 盟友 — 陶承欣（第 156、158 章）</title><path d="M345.5,200.1 Q357.2,130.1 367.0,71.8" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="175"><title>徐获 — 救命·反目 — 孙继柔（第 158、171、175 章）</title><path d="M345.5,200.1 Q260.4,185.9 187.0,173.8" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="173"><title>徐获 → 识破 → 汤元（第 169、173 章）</title><path d="M345.5,200.1 Q361.1,260.8 373.6,309.8" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="168"><title>汤元 → 下药 → 白婆婆（第 168 章）</title><path d="M376.6,321.4 Q437.1,309.5 485.7,299.9" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="170"><title>白婆婆 → 咬死 → 杨胜（第 170 章）</title><path d="M497.5,297.6 Q457.6,358.8 424.2,410.0" fill="none" style="stroke:var(--rel-kill)" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge" data-ch="170"><title>白婆婆 → 咬死 → 汪桥（第 170 章）</title><path d="M497.5,297.6 Q568.5,311.3 627.8,322.7" fill="none" style="stroke:var(--rel-kill)" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge" data-ch="170"><title>白婆婆 → 咬死 → 高白梅（第 170 章）</title><path d="M497.5,297.6 Q546.2,352.9 587.0,399.1" fill="none" style="stroke:var(--rel-kill)" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge" data-ch="174"><title>白婆婆 → 认可·赠牙 → 徐获（第 174 章）</title><path d="M497.5,297.6 Q421.5,248.9 355.6,206.6" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="168"><title>白婆婆 — 堂兄妹 — 白爷爷（白婆婆的说法）（第 168 章）</title><path d="M497.5,297.6 Q542.9,234.2 581.2,180.6" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" stroke-dasharray="6 4"/></g>
+<g class="edge" data-ch="175"><title>孙继柔 — 姐弟 — 王程（孙继柔的说法）（第 175 章）</title><path d="M175.2,171.8 Q121.6,212.2 77.6,245.4" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" stroke-dasharray="6 4"/></g>
+<text x="140.2" y="119.9" class="elabel" style="fill:var(--rel-ally)" data-ch="153">同伴</text>
+<text x="617.2" y="370.5" class="elabel" style="fill:var(--rel-ally)" data-ch="153">结伴</text>
+<text x="397.1" y="374.7" class="elabel" style="fill:var(--rel-ally)" data-ch="173">一伙</text>
+<text x="357.2" y="134.1" class="elabel" style="fill:var(--rel-ally)" data-ch="158">盟友</text>
+<text x="260.4" y="189.9" class="elabel" style="fill:var(--rel-other)" data-ch="175">救命·反目</text>
+<text x="361.0" y="264.8" class="elabel" style="fill:var(--rel-enemy)" data-ch="173">识破</text>
+<text x="437.1" y="313.5" class="elabel" style="fill:var(--rel-enemy)" data-ch="168">下药</text>
+<text x="457.5" y="362.8" class="elabel" style="fill:var(--rel-kill)" data-ch="170">咬死</text>
+<text x="568.5" y="315.3" class="elabel" style="fill:var(--rel-kill)" data-ch="170">咬死</text>
+<text x="546.2" y="356.9" class="elabel" style="fill:var(--rel-kill)" data-ch="170">咬死</text>
+<text x="421.5" y="252.9" class="elabel" style="fill:var(--rel-ally)" data-ch="174">认可·赠牙</text>
+<text x="542.9" y="238.2" class="elabel" style="fill:var(--rel-ally)" data-ch="168">堂兄妹</text>
+<text x="121.6" y="216.2" class="elabel" style="fill:var(--rel-ally)" data-ch="175">姐弟</text>
 <g class="node" data-ch="168"><circle cx="497.5" cy="297.6" r="12.9"/><text x="497.5" y="278.7" class="name">白婆婆</text></g>
 <g class="node" data-ch="158"><circle cx="345.5" cy="200.1" r="12.0"/><text x="345.5" y="182.1" class="name">徐获</text></g>
 <g class="node" data-ch="153"><circle cx="175.2" cy="171.8" r="11.5"/><text x="175.2" y="154.3" class="name">孙继柔</text></g>
@@ -304,7 +313,7 @@ h4[id] { scroll-margin-top:16px; }
   });
 })();
 </script>
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
 </main><script>
 (function () {
   var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;

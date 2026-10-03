@@ -3,11 +3,18 @@
 <title>009 区（江江与首都安全区） · 单元卡 · 维度之下</title><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
   --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
   --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
   --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
 :root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
-  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380; }
+/* what stays dark in the light theme keeps the dark accents */
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; }
+:root[data-theme="light"] .banner button.primary { color:#fff; }
+:root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
 * { box-sizing:border-box; }
 html { background:var(--paper); }
 body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
@@ -45,10 +52,12 @@ details.fold[open] > summary { display:none; }
 [hidden] { display:none !important; }
 html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
-/* sources switch */
+/* the 显示出处 and 浅色 switches */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
+.switches { display:inline-flex; gap:8px; }
 .toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
-#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+html:not(.js) label[for="theme-light"] { display:none; }
 .ch, sup.cite, details.src, .src-only { display:none; }
 #show-src:checked ~ main .ch { display:inline-block; }
 #show-src:checked ~ main sup.cite { display:inline; }
@@ -175,7 +184,7 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket" id="card" data-first="781" data-end="810"><div class="ticket-main"><div class="kicker">主线</div>
 <h1>009 区（江江与首都安全区）</h1><div class="route">第 781 章 ──── 第 810 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="781" hidden>这张卡从第 781 章开始，在你填的进度之后，整张都是剧透。</p></div>
@@ -209,33 +218,33 @@ h4[id] { scroll-margin-top:16px; }
 <ul class="items"><li data-ch="799"><a class="thread-no" href="../threads.html?upto=810#thread-178" title="伏笔总表">#178</a><span class="text">福利院被领养走的孩子：移民国外的女孩就是江江（柳弈）；男孩一家已死。徐获认定她被人训练过，她只承认认识赞助者商书铭。</span><span class="ch">第 785、788、799 章</span><details class="src"><summary>原文</summary><blockquote>一年后以曾在孤儿院用过的名字——“江江”出道<cite>第 785 章</cite></blockquote></details></li><li data-ch="802"><a class="thread-no" href="../threads.html?upto=810#thread-074" title="伏笔总表">#074</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>第七个医生：徐获向江江说出自己缺失的记忆和哥哥的死；最后他判断，训练江江的不是第十七医院那名医生。</span><span class="ch">第 789、802 章</span><details class="src"><summary>原文</summary><blockquote>但在这部分缺失记忆中有我兄长的死<cite>第 789 章</cite></blockquote><blockquote>至少培养出她的人不可能是第十七医院那名医生<cite>第 802 章</cite></blockquote></details></li><li data-ch="799"><a class="thread-no" href="../threads.html?upto=810#thread-173" title="伏笔总表">#173</a><span class="text"><span class="tier claim" title="徐获的说法">说法</span>商氏后人：江江说商书铭早就死了，只是福利院的赞助者；徐获不信，说他还在从孤儿院挑孩子。</span><span class="ch">第 788、799 章</span><details class="src"><summary>原文</summary><blockquote>判断是否培养成功的标准就是看能不能杀掉自己的父母亲人<cite>第 788 章</cite></blockquote></details></li><li data-ch="798"><a class="thread-no" href="../threads.html?upto=810#thread-081" title="伏笔总表">#081</a><span class="text">和游乐园 BOSS 的约定：徐获又用唤醒人偶叫出小粉红帽，拿一件 C 级道具和十二种限量棒棒糖换她帮一次忙。</span><span class="ch">第 798 章</span><details class="src"><summary>原文</summary><blockquote>一个小忙，帮我拉一个人进你的副本<cite>第 798 章</cite></blockquote></details></li><li data-ch="808"><a class="thread-no" href="../threads.html?upto=810#thread-065" title="伏笔总表">#065</a><span class="text">研究所名单泄露：首都有人用一张写名字再勾掉的纸杀人，死法和当年 014 区按名单死去的精英玩家一样，那人身上带着圣剑会会规手册。</span><span class="ch">第 806–808 章</span><details class="src"><summary>原文</summary><blockquote>超级道具事件中被杀掉的精英玩家<cite>第 807 章</cite></blockquote><blockquote>竟然是圣剑会会规手册<cite>第 808 章</cite></blockquote></details></li></ul>
 </section>
 <section id="relations" class="fgroup"><h3>关键关系</h3>
-<p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
+<p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-kill)"></i>杀死</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
 <p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
-<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
-<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
-<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
-<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-ally)"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-enemy)"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-kill)"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-other)"/></marker>
 </defs>
-<g class="edge" data-ch="801"><title>徐获 → 救下又交手 → 江江（第 782、789、801 章）</title><path d="M375.2,258.6 Q469.8,243.2 552.5,229.6" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
-<g class="edge" data-ch="787"><title>宋旭 → 贴身保护 → 江江（第 785、787 章）</title><path d="M699.4,201.0 Q631.8,214.3 576.1,225.4" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
-<g class="edge" data-ch="784"><title>徐获 → 借住 → 卞永毅（第 784 章）</title><path d="M375.2,258.6 Q435.9,308.8 487.3,351.3" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
-<g class="edge" data-ch="795"><title>徐获 → 收留 → 小元（第 791、795 章）</title><path d="M375.2,258.6 Q387.0,339.3 397.1,408.1" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
-<g class="edge" data-ch="794"><title>徐获 → 杀死 → 兴哥（第 794 章）</title><path d="M375.2,258.6 Q329.4,329.1 290.0,389.5" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
-<g class="edge" data-ch="798"><title>徐获 — 交易 — 小粉红帽（第 798 章）</title><path d="M375.2,258.6 Q299.8,278.4 236.0,295.1" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
-<g class="edge" data-ch="802"><title>徐获 → 相救 → 老周（第 802 章）</title><path d="M375.2,258.6 Q296.1,204.2 226.8,156.5" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
-<g class="edge" data-ch="810"><title>迟楠 — 同伙 — 老周（第 797、810 章）</title><path d="M106.5,68.1 Q161.7,108.9 207.2,142.6" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="810"><title>徐获 — 同伴 — 严嘉鱼（第 804、807、810 章）</title><path d="M375.2,258.6 Q363.5,180.6 353.7,114.4" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="810"><title>徐获 → 盘问 → 何辉（第 809–810 章）</title><path d="M375.2,258.6 Q419.1,192.4 456.5,136.2" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
-<text x="469.8" y="247.2" class="elabel" style="fill:#f0904f" data-ch="801">救下又交手</text>
-<text x="631.8" y="218.4" class="elabel" style="fill:#8d95a3" data-ch="787">贴身保护</text>
-<text x="435.9" y="312.8" class="elabel" style="fill:#8d95a3" data-ch="784">借住</text>
-<text x="387.0" y="343.3" class="elabel" style="fill:#4fbf7f" data-ch="795">收留</text>
-<text x="329.4" y="333.1" class="elabel" style="fill:#ef5a4f" data-ch="794">杀死</text>
-<text x="299.8" y="282.4" class="elabel" style="fill:#8d95a3" data-ch="798">交易</text>
-<text x="296.1" y="208.2" class="elabel" style="fill:#4fbf7f" data-ch="802">相救</text>
-<text x="161.7" y="112.9" class="elabel" style="fill:#4fbf7f" data-ch="810">同伙</text>
-<text x="363.5" y="184.6" class="elabel" style="fill:#4fbf7f" data-ch="810">同伴</text>
-<text x="419.1" y="196.4" class="elabel" style="fill:#8d95a3" data-ch="810">盘问</text>
+<g class="edge" data-ch="801"><title>徐获 → 救下又交手 → 江江（第 782、789、801 章）</title><path d="M375.2,258.6 Q469.8,243.2 552.5,229.6" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="787"><title>宋旭 → 贴身保护 → 江江（第 785、787 章）</title><path d="M699.4,201.0 Q631.8,214.3 576.1,225.4" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="784"><title>徐获 → 借住 → 卞永毅（第 784 章）</title><path d="M375.2,258.6 Q435.9,308.8 487.3,351.3" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="795"><title>徐获 → 收留 → 小元（第 791、795 章）</title><path d="M375.2,258.6 Q387.0,339.3 397.1,408.1" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="794"><title>徐获 → 杀死 → 兴哥（第 794 章）</title><path d="M375.2,258.6 Q329.4,329.1 290.0,389.5" fill="none" style="stroke:var(--rel-kill)" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge" data-ch="798"><title>徐获 — 交易 — 小粉红帽（第 798 章）</title><path d="M375.2,258.6 Q299.8,278.4 236.0,295.1" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="802"><title>徐获 → 相救 → 老周（第 802 章）</title><path d="M375.2,258.6 Q296.1,204.2 226.8,156.5" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="810"><title>迟楠 — 同伙 — 老周（第 797、810 章）</title><path d="M106.5,68.1 Q161.7,108.9 207.2,142.6" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="810"><title>徐获 — 同伴 — 严嘉鱼（第 804、807、810 章）</title><path d="M375.2,258.6 Q363.5,180.6 353.7,114.4" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="810"><title>徐获 → 盘问 → 何辉（第 809–810 章）</title><path d="M375.2,258.6 Q419.1,192.4 456.5,136.2" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<text x="469.8" y="247.2" class="elabel" style="fill:var(--rel-enemy)" data-ch="801">救下又交手</text>
+<text x="631.8" y="218.4" class="elabel" style="fill:var(--rel-other)" data-ch="787">贴身保护</text>
+<text x="435.9" y="312.8" class="elabel" style="fill:var(--rel-other)" data-ch="784">借住</text>
+<text x="387.0" y="343.3" class="elabel" style="fill:var(--rel-ally)" data-ch="795">收留</text>
+<text x="329.4" y="333.1" class="elabel" style="fill:var(--rel-kill)" data-ch="794">杀死</text>
+<text x="299.8" y="282.4" class="elabel" style="fill:var(--rel-other)" data-ch="798">交易</text>
+<text x="296.1" y="208.2" class="elabel" style="fill:var(--rel-ally)" data-ch="802">相救</text>
+<text x="161.7" y="112.9" class="elabel" style="fill:var(--rel-ally)" data-ch="810">同伙</text>
+<text x="363.5" y="184.6" class="elabel" style="fill:var(--rel-ally)" data-ch="810">同伴</text>
+<text x="419.1" y="196.4" class="elabel" style="fill:var(--rel-other)" data-ch="810">盘问</text>
 <g class="node" data-ch="784"><circle cx="375.2" cy="258.6" r="13.7"/><text x="375.2" y="238.9" class="name">徐获</text></g>
 <g class="node" data-ch="787"><circle cx="564.3" cy="227.7" r="10.8"/><text x="564.3" y="210.9" class="name">江江</text></g>
 <g class="node" data-ch="802"><circle cx="216.9" cy="149.7" r="10.8"/><text x="216.9" y="132.9" class="name">老周</text></g>
@@ -281,7 +290,7 @@ h4[id] { scroll-margin-top:16px; }
   });
 })();
 </script>
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
 </main><script>
 (function () {
   var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;

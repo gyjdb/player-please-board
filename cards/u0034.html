@@ -3,11 +3,18 @@
 <title>共眼 · 单元卡 · 维度之下</title><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
   --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
   --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
   --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
 :root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
-  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380; }
+/* what stays dark in the light theme keeps the dark accents */
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; }
+:root[data-theme="light"] .banner button.primary { color:#fff; }
+:root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
 * { box-sizing:border-box; }
 html { background:var(--paper); }
 body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
@@ -45,10 +52,12 @@ details.fold[open] > summary { display:none; }
 [hidden] { display:none !important; }
 html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
-/* sources switch */
+/* the 显示出处 and 浅色 switches */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
+.switches { display:inline-flex; gap:8px; }
 .toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
-#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+html:not(.js) label[for="theme-light"] { display:none; }
 .ch, sup.cite, details.src, .src-only { display:none; }
 #show-src:checked ~ main .ch { display:inline-block; }
 #show-src:checked ~ main sup.cite { display:inline; }
@@ -175,7 +184,7 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket" id="card" data-first="668" data-end="700"><div class="ticket-main"><div class="stamp-seal"><span class="seal mid" data-ch="700" title="评级 A">A</span></div><div class="kicker">副本 · <span class="grade" style="background:#1f7f86">D</span><small class="diff">副本难度</small></div>
 <h1>共眼</h1><div class="route">第 668 章 ──── 第 698 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="668" hidden>这张卡从第 668 章开始，在你填的进度之后，整张都是剧透。</p></div>
@@ -229,33 +238,33 @@ h4[id] { scroll-margin-top:16px; }
 <ul class="items"><li data-ch="697"><span class="text">徐获从 Y 国带出的手臂伤，自愈剂、解毒剂和王菌都治不好，原来是肉眼看不见的腐骨虫，泡进药剂才被逼出来。</span><span class="ch">第 668、682、697 章</span><details class="src"><summary>原文</summary><blockquote>Y国一行他还是着了道，上了列车发现手臂受了伤<cite>第 668 章</cite></blockquote><blockquote>“是腐骨虫吧。”边进忽然道<cite>第 697 章</cite></blockquote></details></li><li data-ch="691"><a class="thread-no" href="../threads.html?upto=698#thread-051" title="伏笔总表">#051</a><span class="text"><span class="tier claim" title="易佩的说法">说法</span>提着人偶皮箱的男人：黑甲人头颅里的箱子标记，说明四方宫的守卫是提箱人做的人偶（易佩的判断）。</span><span class="ch">第 691 章</span><details class="src"><summary>原文</summary><blockquote>这是提箱人制作的道具<cite>第 691 章</cite></blockquote></details></li><li data-ch="689"><span class="text">“如胶似漆”“危险使人盲目”“爆破的美感”都是徐获从死去的玩家身上得来的：前两件出自京市的 Y 国玩家，后一件出自石哥。</span><span class="ch">第 672、683、689 章</span><details class="src"><summary>原文</summary><blockquote>道具“爆破的美感”是徐获从刚杀死的艺术风玩家身上得来的<cite>第 689 章</cite></blockquote></details></li></ul>
 </section>
 <section id="relations" class="fgroup"><h3>关键关系</h3>
-<p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
+<p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-kill)"></i>杀死</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
 <p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
-<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
-<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
-<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
-<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-ally)"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-enemy)"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-kill)"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-other)"/></marker>
 </defs>
-<g class="edge" data-ch="696"><title>徐获 — 同伴 — 易佩（第 671、675、677、696 章）</title><path d="M434.9,235.5 Q368.9,236.8 314.8,238.0" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="695"><title>画女 → 相救 → 徐获（第 695 章）</title><path d="M479.1,77.3 Q457.0,156.4 438.1,223.9" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
-<g class="edge" data-ch="684"><title>徐获 → 杀死 → 石哥（第 684 章）</title><path d="M434.9,235.5 Q466.8,308.7 493.8,370.9" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
-<g class="edge" data-ch="684"><title>方鹏辉 — 交手 — 石哥（第 684 章）</title><path d="M569.5,321.9 Q534.0,351.9 507.8,374.1" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="698"><title>徐获 — 同伴 — 边进（第 696、698 章）</title><path d="M434.9,235.5 Q510.8,202.5 575.8,174.3" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="692"><title>方鹏辉 — 联手 — 徐获（第 679、692 章）</title><path d="M569.5,321.9 Q502.2,278.7 445.0,242.0" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="691"><title>付丹红 — 联手 — 徐获（第 691 章）</title><path d="M303.7,375.1 Q369.3,305.3 426.7,244.2" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="698"><title>徐获 — 互相提防 — 卫显（第 697–698 章）</title><path d="M434.9,235.5 Q365.8,168.8 305.3,110.3" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
-<g class="edge" data-ch="673"><title>田坤文 — 同组 — 付丹红（第 671、673 章）</title><path d="M172.2,420 Q237.9,397.6 292.3,379.0" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="670"><title>卫显 — 同住 — 尤俊（第 670 章）</title><path d="M296.7,102.0 Q230.3,81.0 175.3,63.6" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<text x="368.8" y="240.9" class="elabel" style="fill:#4fbf7f" data-ch="696">同伴</text>
-<text x="457.0" y="160.4" class="elabel" style="fill:#4fbf7f" data-ch="695">相救</text>
-<text x="466.8" y="312.7" class="elabel" style="fill:#ef5a4f" data-ch="684">杀死</text>
-<text x="534.0" y="355.9" class="elabel" style="fill:#f0904f" data-ch="684">交手</text>
-<text x="510.8" y="206.5" class="elabel" style="fill:#4fbf7f" data-ch="698">同伴</text>
-<text x="502.2" y="282.7" class="elabel" style="fill:#4fbf7f" data-ch="692">联手</text>
-<text x="369.3" y="309.3" class="elabel" style="fill:#4fbf7f" data-ch="691">联手</text>
-<text x="365.8" y="172.8" class="elabel" style="fill:#8d95a3" data-ch="698">互相提防</text>
-<text x="237.9" y="401.5" class="elabel" style="fill:#4fbf7f" data-ch="673">同组</text>
-<text x="230.3" y="85.0" class="elabel" style="fill:#4fbf7f" data-ch="670">同住</text>
+<g class="edge" data-ch="696"><title>徐获 — 同伴 — 易佩（第 671、675、677、696 章）</title><path d="M434.9,235.5 Q368.9,236.8 314.8,238.0" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="695"><title>画女 → 相救 → 徐获（第 695 章）</title><path d="M479.1,77.3 Q457.0,156.4 438.1,223.9" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="684"><title>徐获 → 杀死 → 石哥（第 684 章）</title><path d="M434.9,235.5 Q466.8,308.7 493.8,370.9" fill="none" style="stroke:var(--rel-kill)" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge" data-ch="684"><title>方鹏辉 — 交手 — 石哥（第 684 章）</title><path d="M569.5,321.9 Q534.0,351.9 507.8,374.1" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="698"><title>徐获 — 同伴 — 边进（第 696、698 章）</title><path d="M434.9,235.5 Q510.8,202.5 575.8,174.3" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="692"><title>方鹏辉 — 联手 — 徐获（第 679、692 章）</title><path d="M569.5,321.9 Q502.2,278.7 445.0,242.0" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="691"><title>付丹红 — 联手 — 徐获（第 691 章）</title><path d="M303.7,375.1 Q369.3,305.3 426.7,244.2" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="698"><title>徐获 — 互相提防 — 卫显（第 697–698 章）</title><path d="M434.9,235.5 Q365.8,168.8 305.3,110.3" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="673"><title>田坤文 — 同组 — 付丹红（第 671、673 章）</title><path d="M172.2,420 Q237.9,397.6 292.3,379.0" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="670"><title>卫显 — 同住 — 尤俊（第 670 章）</title><path d="M296.7,102.0 Q230.3,81.0 175.3,63.6" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<text x="368.8" y="240.9" class="elabel" style="fill:var(--rel-ally)" data-ch="696">同伴</text>
+<text x="457.0" y="160.4" class="elabel" style="fill:var(--rel-ally)" data-ch="695">相救</text>
+<text x="466.8" y="312.7" class="elabel" style="fill:var(--rel-kill)" data-ch="684">杀死</text>
+<text x="534.0" y="355.9" class="elabel" style="fill:var(--rel-enemy)" data-ch="684">交手</text>
+<text x="510.8" y="206.5" class="elabel" style="fill:var(--rel-ally)" data-ch="698">同伴</text>
+<text x="502.2" y="282.7" class="elabel" style="fill:var(--rel-ally)" data-ch="692">联手</text>
+<text x="369.3" y="309.3" class="elabel" style="fill:var(--rel-ally)" data-ch="691">联手</text>
+<text x="365.8" y="172.8" class="elabel" style="fill:var(--rel-other)" data-ch="698">互相提防</text>
+<text x="237.9" y="401.5" class="elabel" style="fill:var(--rel-ally)" data-ch="673">同组</text>
+<text x="230.3" y="85.0" class="elabel" style="fill:var(--rel-ally)" data-ch="670">同住</text>
 <g class="node" data-ch="684"><circle cx="434.9" cy="235.5" r="13.3"/><text x="434.9" y="216.2" class="name">徐获</text></g>
 <g class="node" data-ch="684"><circle cx="498.6" cy="381.9" r="10.8"/><text x="498.6" y="365.1" class="name">石哥</text></g>
 <g class="node" data-ch="684"><circle cx="569.5" cy="321.9" r="10.8"/><text x="569.5" y="305.1" class="name">方鹏辉</text></g>
@@ -300,7 +309,7 @@ h4[id] { scroll-margin-top:16px; }
   });
 })();
 </script>
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
 </main><script>
 (function () {
   var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;

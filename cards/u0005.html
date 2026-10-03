@@ -3,11 +3,18 @@
 <title>汀城（砍头魔之后） · 单元卡 · 维度之下</title><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
   --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
   --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
   --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
 :root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
-  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380; }
+/* what stays dark in the light theme keeps the dark accents */
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; }
+:root[data-theme="light"] .banner button.primary { color:#fff; }
+:root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
 * { box-sizing:border-box; }
 html { background:var(--paper); }
 body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
@@ -45,10 +52,12 @@ details.fold[open] > summary { display:none; }
 [hidden] { display:none !important; }
 html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
-/* sources switch */
+/* the 显示出处 and 浅色 switches */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
+.switches { display:inline-flex; gap:8px; }
 .toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
-#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+html:not(.js) label[for="theme-light"] { display:none; }
 .ch, sup.cite, details.src, .src-only { display:none; }
 #show-src:checked ~ main .ch { display:inline-block; }
 #show-src:checked ~ main sup.cite { display:inline; }
@@ -175,7 +184,7 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket" id="card" data-first="37" data-end="40"><div class="ticket-main"><div class="kicker">主线</div>
 <h1>汀城（砍头魔之后）</h1><div class="route">第 37 章 ──── 第 40 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="37" hidden>这张卡从第 37 章开始，在你填的进度之后，整张都是剧透。</p></div>
@@ -206,27 +215,27 @@ h4[id] { scroll-margin-top:16px; }
 <ul class="items"><li data-ch="38"><span class="text"><span class="tier claim" title="刘佳的说法">说法</span>初审列车上的韩教授下车后病情加重，长出绿色脓包，住院后被“专业人士”接走；同车的刘佳加入了本地政府机构，两人都没有供出同车厢的其他玩家。</span><span class="ch">第 38 章</span><details class="src"><summary>原文</summary><blockquote>身体出现绿色脓包<cite>第 38 章</cite></blockquote><blockquote>不过她和韩教授隐瞒了同车厢其他玩家的身份<cite>第 38 章</cite></blockquote></details></li><li data-ch="38"><span class="text">砍头魔里的红色玩家刘圆圆被徐获卖给了官方，聂玄已经让技术组去找她。</span><span class="ch">第 38 章</span><details class="src"><summary>原文</summary><blockquote>把这个交给技术组，让他们找到这个人<cite>第 38 章</cite></blockquote></details></li><li data-ch="40"><a class="thread-no" href="../threads.html?upto=40#thread-014" title="伏笔总表">#014</a><span class="text">俞晴晴在徐获兜里翻出一块银色小碎片，是砍头魔的斧头崩下来的：游戏收走了斧头，碎片却没有消失。</span><span class="ch">第 40 章</span><details class="src"><summary>原文</summary><blockquote>那是从砍头魔斧头上崩下来的碎片<cite>第 40 章</cite></blockquote></details></li><li data-ch="40"><a class="thread-no" href="../threads.html?upto=40#thread-014" title="伏笔总表">#014</a><span class="text"><span class="tier guess" title="推测">推测</span>应该就是第 35 章徐获在角落里捡走的那块反光碎片。</span><span class="ch">第 35、40 章</span><details class="src"><summary>原文</summary><blockquote>终于在角落里找到一个反光的碎片<cite>第 35 章</cite></blockquote></details></li><li data-ch="37"><span class="text">初审奖励过毛发生长剂，徐获在砍头魔里顶着一头及腰长发；这回游戏“考虑到玩家的需要”，特别送了一瓶除毛剂。</span><span class="ch">第 16、18、37 章</span><details class="src"><summary>原文</summary><blockquote>考虑到玩家的需要，游戏特别赠送<cite>第 37 章</cite></blockquote></details></li></ul>
 </section>
 <section id="relations" class="fgroup"><h3>关键关系</h3>
-<p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span><span><i class="dash"></i>某人的说法或推断</span></p>
+<p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span><span><i class="dash"></i>某人的说法或推断</span></p>
 <p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
-<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
-<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
-<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
-<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-ally)"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-enemy)"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-kill)"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-other)"/></marker>
 </defs>
-<g class="edge" data-ch="38"><title>徐获 → 交易、又用谎话剂坑了一把 → 聂玄（第 37–38 章）</title><path d="M418.3,221.9 Q486.6,268.3 545.0,308.0" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
-<g class="edge" data-ch="38"><title>徐获 → 卖出身份信息 → 刘圆圆（第 37–38 章）</title><path d="M418.3,221.9 Q438.6,302.6 456.1,371.8" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
-<g class="edge" data-ch="38"><title>聂玄 → 下令追查 → 刘圆圆（第 38 章）</title><path d="M554.9,314.7 Q506.9,349.0 468.8,376.4" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
-<g class="edge" data-ch="40"><title>俞晴晴 — 名义上的表兄妹 — 徐获（第 40 章）</title><path d="M339.9,66.9 Q379.1,144.4 412.9,211.2" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="39"><title>徐获 — 冲突 — 朱总（第 39 章）</title><path d="M418.3,221.9 Q477.2,159.3 527.9,105.5" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="38"><title>刘佳 → 发短信报信 → 徐获（第 38 章）</title><path d="M243.0,276.8 Q330.6,249.4 406.8,225.5" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
-<g class="edge" data-ch="38"><title>刘佳 — 一起瞒下同车厢玩家的身份 — 韩教授（刘佳的说法）（第 38 章）</title><path d="M243.0,276.8 Q173.9,300.5 116.3,320.2" fill="none" stroke="#4fbf7f" stroke-width="2.2" stroke-dasharray="6 4"/></g>
-<text x="486.6" y="272.3" class="elabel" style="fill:#8d95a3" data-ch="38">交易、又用谎话剂坑了一把</text>
-<text x="438.6" y="306.6" class="elabel" style="fill:#f0904f" data-ch="38">卖出身份信息</text>
-<text x="506.9" y="353.0" class="elabel" style="fill:#f0904f" data-ch="38">下令追查</text>
-<text x="379.1" y="148.4" class="elabel" style="fill:#4fbf7f" data-ch="40">名义上的表兄妹</text>
-<text x="477.2" y="163.3" class="elabel" style="fill:#f0904f" data-ch="39">冲突</text>
-<text x="330.6" y="253.3" class="elabel" style="fill:#8d95a3" data-ch="38">发短信报信</text>
-<text x="173.9" y="304.5" class="elabel" style="fill:#4fbf7f" data-ch="38">一起瞒下同车厢玩家的身份</text>
+<g class="edge" data-ch="38"><title>徐获 → 交易、又用谎话剂坑了一把 → 聂玄（第 37–38 章）</title><path d="M418.3,221.9 Q486.6,268.3 545.0,308.0" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="38"><title>徐获 → 卖出身份信息 → 刘圆圆（第 37–38 章）</title><path d="M418.3,221.9 Q438.6,302.6 456.1,371.8" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="38"><title>聂玄 → 下令追查 → 刘圆圆（第 38 章）</title><path d="M554.9,314.7 Q506.9,349.0 468.8,376.4" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="40"><title>俞晴晴 — 名义上的表兄妹 — 徐获（第 40 章）</title><path d="M339.9,66.9 Q379.1,144.4 412.9,211.2" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="39"><title>徐获 — 冲突 — 朱总（第 39 章）</title><path d="M418.3,221.9 Q477.2,159.3 527.9,105.5" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="38"><title>刘佳 → 发短信报信 → 徐获（第 38 章）</title><path d="M243.0,276.8 Q330.6,249.4 406.8,225.5" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="38"><title>刘佳 — 一起瞒下同车厢玩家的身份 — 韩教授（刘佳的说法）（第 38 章）</title><path d="M243.0,276.8 Q173.9,300.5 116.3,320.2" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" stroke-dasharray="6 4"/></g>
+<text x="486.6" y="272.3" class="elabel" style="fill:var(--rel-other)" data-ch="38">交易、又用谎话剂坑了一把</text>
+<text x="438.6" y="306.6" class="elabel" style="fill:var(--rel-enemy)" data-ch="38">卖出身份信息</text>
+<text x="506.9" y="353.0" class="elabel" style="fill:var(--rel-enemy)" data-ch="38">下令追查</text>
+<text x="379.1" y="148.4" class="elabel" style="fill:var(--rel-ally)" data-ch="40">名义上的表兄妹</text>
+<text x="477.2" y="163.3" class="elabel" style="fill:var(--rel-enemy)" data-ch="39">冲突</text>
+<text x="330.6" y="253.3" class="elabel" style="fill:var(--rel-other)" data-ch="38">发短信报信</text>
+<text x="173.9" y="304.5" class="elabel" style="fill:var(--rel-ally)" data-ch="38">一起瞒下同车厢玩家的身份</text>
 <g class="node" data-ch="38"><circle cx="418.3" cy="221.9" r="12.5"/><text x="418.3" y="203.4" class="name">徐获</text></g>
 <g class="node" data-ch="38"><circle cx="554.9" cy="314.7" r="10.8"/><text x="554.9" y="297.9" class="name">聂玄</text></g>
 <g class="node" data-ch="38"><circle cx="459.0" cy="383.4" r="10.8"/><text x="459.0" y="366.6" class="name">刘圆圆</text></g>
@@ -268,7 +277,7 @@ h4[id] { scroll-margin-top:16px; }
   });
 })();
 </script>
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
 </main><script>
 (function () {
   var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;

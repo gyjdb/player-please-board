@@ -3,11 +3,18 @@
 <title>014 区（异种毒与双蛇集会） · 单元卡 · 维度之下</title><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
   --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
   --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
   --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
 :root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
-  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380; }
+/* what stays dark in the light theme keeps the dark accents */
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; }
+:root[data-theme="light"] .banner button.primary { color:#fff; }
+:root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
 * { box-sizing:border-box; }
 html { background:var(--paper); }
 body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
@@ -45,10 +52,12 @@ details.fold[open] > summary { display:none; }
 [hidden] { display:none !important; }
 html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
-/* sources switch */
+/* the 显示出处 and 浅色 switches */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
+.switches { display:inline-flex; gap:8px; }
 .toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
-#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+html:not(.js) label[for="theme-light"] { display:none; }
 .ch, sup.cite, details.src, .src-only { display:none; }
 #show-src:checked ~ main .ch { display:inline-block; }
 #show-src:checked ~ main sup.cite { display:inline; }
@@ -175,7 +184,7 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket" id="card" data-first="574" data-end="616"><div class="ticket-main"><div class="kicker">主线</div>
 <h1>014 区（异种毒与双蛇集会）</h1><div class="route">第 574 章 ──── 第 616 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="574" hidden>这张卡从第 574 章开始，在你填的进度之后，整张都是剧透。</p></div>
@@ -211,45 +220,45 @@ h4[id] { scroll-margin-top:16px; }
 <ul class="items"><li data-ch="575"><a class="thread-no" href="../threads.html?upto=616#thread-150" title="伏笔总表">#150</a><span class="text">徐获把王菌交给特防部，研究人员证实截一段菌丝就能杀灭异种毒，但只有五株，量产还要培育。</span><span class="ch">第 574–575 章</span><details class="src"><summary>原文</summary><blockquote>真的有效！而且效果实在是太好了<cite>第 575 章</cite></blockquote></details></li><li data-ch="574"><a class="thread-no" href="../threads.html?upto=616#thread-147" title="伏笔总表">#147</a><span class="text">王菌离开人体没有根、不能分裂，连上女娲石才长出根茎似的细丝。</span><span class="ch">第 574 章</span></li><li data-ch="584"><a class="thread-no" href="../threads.html?upto=616#thread-151" title="伏笔总表">#151</a><span class="text">胡文虎打了徐获给的针剂，异种毒明显好转；立春住在徐家，和俞晴晴在一起。</span><span class="ch">第 582、584 章</span><details class="src"><summary>原文</summary><blockquote>周凝立刻给胡文虎注射了<cite>第 584 章</cite></blockquote><blockquote>“我们住在一起！”俞晴晴在后面说道<cite>第 582 章</cite></blockquote></details></li><li data-ch="598"><a class="thread-no" href="../threads.html?upto=616#thread-100" title="伏笔总表">#100</a><span class="text">谈阳的玩家协会得到官方认可，成了“第一协会”，谈阳做了会长；但几百号玩家各有小团体，约束不住。</span><span class="ch">第 578、598 章</span></li><li data-ch="612"><a class="thread-no" href="../threads.html?upto=616#thread-076" title="伏笔总表">#076</a><span class="text"><span class="tier claim" title="谷雨的说法">说法</span>宋组长和吴组长彻底翻脸；双蛇事件后宋组长被撤职，戴文谦转而靠上了常组长（谷雨的说法）。</span><span class="ch">第 575、610、612 章</span></li><li data-ch="611"><a class="thread-no" href="../threads.html?upto=616#thread-055" title="伏笔总表">#055</a><span class="text"><span class="tier guess" title="戴文谦、徐获的推断" tabindex="0">戴文谦、徐获推测</span>戴文谦察觉唐广博借心理评估给玩家洗脑，想借春雨协会的手除掉他；徐获评估唐广博八成也是玩家，可能是灰色玩家。</span><span class="ch">第 611 章</span><details class="src"><summary>原文</summary><blockquote>按照徐获对唐广博的评估，这个人八成也是玩家<cite>第 611 章</cite></blockquote></details></li><li data-ch="609"><a class="thread-no" href="../threads.html?upto=616#thread-091" title="伏笔总表">#091</a><span class="text">“呓语之球”的幻觉里，童年那位医生夸徐获分离出了“兄弟人格”，让它替他承担恶。</span><span class="ch">第 609 章</span><details class="src"><summary>原文</summary><blockquote>你做的很好，在这么短的时间内分离出了自己的兄弟人格<cite>第 609 章</cite></blockquote></details></li><li data-ch="614"><a class="thread-no" href="../threads.html?upto=616#thread-029" title="伏笔总表">#029</a><span class="text">徐获说画女不是他的道具，留在他身边只因为她愿意；特防部推断立春就是画女。</span><span class="ch">第 613–614 章</span><details class="src"><summary>原文</summary><blockquote>她留在014区，留在他身边也单纯是因为她愿意<cite>第 614 章</cite></blockquote></details></li><li data-ch="574"><a class="thread-no" href="../threads.html?upto=616#thread-067" title="伏笔总表">#067</a><span class="text">徐获回复刘佳：找到韩教授就带来，他能解异种毒。</span><span class="ch">第 574 章</span><details class="src"><summary>原文</summary><blockquote>挑出了刘佳的信息回复她，如果找到韩教授可以来找他，他可以解除异种毒<cite>第 574 章</cite></blockquote></details></li></ul>
 </section>
 <section id="relations" class="fgroup"><h3>关键关系</h3>
-<p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span><span><i class="dash"></i>某人的说法或推断</span></p>
+<p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-kill)"></i>杀死</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span><span><i class="dash"></i>某人的说法或推断</span></p>
 <p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
-<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
-<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
-<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
-<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-ally)"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-enemy)"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-kill)"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-other)"/></marker>
 </defs>
-<g class="edge" data-ch="597"><title>邱公子 → 逼着吃人 → 谈阳（第 597 章）</title><path d="M351.8,378.8 Q299.6,399.4 258.6,415.6" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
-<g class="edge" data-ch="602"><title>司马小二 — 卧底 — 聂玄（第 602 章）</title><path d="M700,420 Q656.4,403.6 624.0,391.3" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="578"><title>徐获 → 杀死 → 包家立（第 578 章）</title><path d="M485.3,301.8 Q433.6,284.1 393.3,270.3" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
-<g class="edge" data-ch="592"><title>严嘉鱼 — 换面具 — 徐获（第 586、592 章）</title><path d="M445.8,420 Q465.6,360.9 481.5,313.2" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="596"><title>亚伯 → 救下 → 小张（第 596 章）</title><path d="M60,420 Q60.0,378.6 60.0,349.1" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
-<g class="edge" data-ch="589"><title>谈阳 — 第一协会 — 黄俊杰（第 578、589 章）</title><path d="M247.4,420 Q204.6,420.0 173.7,420.0" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="611"><title>戴文谦 → 想除掉 → 唐广博（第 611 章）</title><path d="M344.0,60 Q372.4,108.2 394.8,146.1" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
-<g class="edge" data-ch="614"><title>聂玄 → 接手 → 徐获（第 602、614 章）</title><path d="M612.8,387.1 Q549.0,344.5 495.3,308.5" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
-<g class="edge" data-ch="574"><title>徐获 → 送王菌 → 吴组长（第 574 章）</title><path d="M485.3,301.8 Q488.9,241.9 491.8,194.1" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
-<g class="edge" data-ch="602"><title>徐获 — 对峙 — 宋组长（第 601–602 章）</title><path d="M485.3,301.8 Q546.4,297.2 595.5,293.6" fill="none" stroke="#f0904f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="608"><title>卫芒 → 救下 → 王小慧（第 608 章）</title><path d="M115.7,60 Q87.8,60.0 72.0,60.0" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
-<g class="edge" data-ch="611"><title>唐广博 — 继父 — 徐获（郑良的说法）（第 611 章）</title><path d="M400.9,156.4 Q443.1,229.1 479.3,291.4" fill="none" stroke="#8d95a3" stroke-width="2.2" stroke-dasharray="6 4"/></g>
-<g class="edge" data-ch="593"><title>画女 → 救出 → 周凝（第 593 章）</title><path d="M648.1,60 Q674.0,60.0 688.0,60.0" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
-<g class="edge" data-ch="616"><title>徐获 — 联手 — 梁哥（第 586、613、616 章）</title><path d="M485.3,301.8 Q504.7,360.9 520.4,408.6" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="616"><title>谷雨 → 帮忙 → 徐获（第 611、616 章）</title><path d="M574.0,215.1 Q529.6,258.4 493.9,293.4" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
-<g class="edge" data-ch="601"><title>徐获 → 杀死 → 邱公子（第 601 章）</title><path d="M485.3,301.8 Q418.6,340.3 362.2,372.8" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
-<text x="299.6" y="403.4" class="elabel" style="fill:#f0904f" data-ch="597">逼着吃人</text>
-<text x="656.4" y="407.5" class="elabel" style="fill:#4fbf7f" data-ch="602">卧底</text>
-<text x="433.6" y="288.1" class="elabel" style="fill:#ef5a4f" data-ch="578">杀死</text>
-<text x="465.6" y="364.9" class="elabel" style="fill:#4fbf7f" data-ch="592">换面具</text>
-<text x="60.0" y="382.5" class="elabel" style="fill:#4fbf7f" data-ch="596">救下</text>
-<text x="204.6" y="424.0" class="elabel" style="fill:#4fbf7f" data-ch="589">第一协会</text>
-<text x="372.5" y="112.2" class="elabel" style="fill:#f0904f" data-ch="611">想除掉</text>
-<text x="549.0" y="348.4" class="elabel" style="fill:#4fbf7f" data-ch="614">接手</text>
-<text x="488.9" y="246.0" class="elabel" style="fill:#4fbf7f" data-ch="574">送王菌</text>
-<text x="546.4" y="301.2" class="elabel" style="fill:#f0904f" data-ch="602">对峙</text>
-<text x="87.8" y="64.0" class="elabel" style="fill:#4fbf7f" data-ch="608">救下</text>
-<text x="443.1" y="233.1" class="elabel" style="fill:#8d95a3" data-ch="611">继父</text>
-<text x="674.0" y="64.0" class="elabel" style="fill:#4fbf7f" data-ch="593">救出</text>
-<text x="504.7" y="364.9" class="elabel" style="fill:#4fbf7f" data-ch="616">联手</text>
-<text x="529.6" y="262.4" class="elabel" style="fill:#4fbf7f" data-ch="616">帮忙</text>
-<text x="418.6" y="344.3" class="elabel" style="fill:#ef5a4f" data-ch="601">杀死</text>
+<g class="edge" data-ch="597"><title>邱公子 → 逼着吃人 → 谈阳（第 597 章）</title><path d="M351.8,378.8 Q299.6,399.4 258.6,415.6" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="602"><title>司马小二 — 卧底 — 聂玄（第 602 章）</title><path d="M700,420 Q656.4,403.6 624.0,391.3" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="578"><title>徐获 → 杀死 → 包家立（第 578 章）</title><path d="M485.3,301.8 Q433.6,284.1 393.3,270.3" fill="none" style="stroke:var(--rel-kill)" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge" data-ch="592"><title>严嘉鱼 — 换面具 — 徐获（第 586、592 章）</title><path d="M445.8,420 Q465.6,360.9 481.5,313.2" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="596"><title>亚伯 → 救下 → 小张（第 596 章）</title><path d="M60,420 Q60.0,378.6 60.0,349.1" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="589"><title>谈阳 — 第一协会 — 黄俊杰（第 578、589 章）</title><path d="M247.4,420 Q204.6,420.0 173.7,420.0" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="611"><title>戴文谦 → 想除掉 → 唐广博（第 611 章）</title><path d="M344.0,60 Q372.4,108.2 394.8,146.1" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="614"><title>聂玄 → 接手 → 徐获（第 602、614 章）</title><path d="M612.8,387.1 Q549.0,344.5 495.3,308.5" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="574"><title>徐获 → 送王菌 → 吴组长（第 574 章）</title><path d="M485.3,301.8 Q488.9,241.9 491.8,194.1" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="602"><title>徐获 — 对峙 — 宋组长（第 601–602 章）</title><path d="M485.3,301.8 Q546.4,297.2 595.5,293.6" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="608"><title>卫芒 → 救下 → 王小慧（第 608 章）</title><path d="M115.7,60 Q87.8,60.0 72.0,60.0" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="611"><title>唐广博 — 继父 — 徐获（郑良的说法）（第 611 章）</title><path d="M400.9,156.4 Q443.1,229.1 479.3,291.4" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" stroke-dasharray="6 4"/></g>
+<g class="edge" data-ch="593"><title>画女 → 救出 → 周凝（第 593 章）</title><path d="M648.1,60 Q674.0,60.0 688.0,60.0" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="616"><title>徐获 — 联手 — 梁哥（第 586、613、616 章）</title><path d="M485.3,301.8 Q504.7,360.9 520.4,408.6" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="616"><title>谷雨 → 帮忙 → 徐获（第 611、616 章）</title><path d="M574.0,215.1 Q529.6,258.4 493.9,293.4" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="601"><title>徐获 → 杀死 → 邱公子（第 601 章）</title><path d="M485.3,301.8 Q418.6,340.3 362.2,372.8" fill="none" style="stroke:var(--rel-kill)" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<text x="299.6" y="403.4" class="elabel" style="fill:var(--rel-enemy)" data-ch="597">逼着吃人</text>
+<text x="656.4" y="407.5" class="elabel" style="fill:var(--rel-ally)" data-ch="602">卧底</text>
+<text x="433.6" y="288.1" class="elabel" style="fill:var(--rel-kill)" data-ch="578">杀死</text>
+<text x="465.6" y="364.9" class="elabel" style="fill:var(--rel-ally)" data-ch="592">换面具</text>
+<text x="60.0" y="382.5" class="elabel" style="fill:var(--rel-ally)" data-ch="596">救下</text>
+<text x="204.6" y="424.0" class="elabel" style="fill:var(--rel-ally)" data-ch="589">第一协会</text>
+<text x="372.5" y="112.2" class="elabel" style="fill:var(--rel-enemy)" data-ch="611">想除掉</text>
+<text x="549.0" y="348.4" class="elabel" style="fill:var(--rel-ally)" data-ch="614">接手</text>
+<text x="488.9" y="246.0" class="elabel" style="fill:var(--rel-ally)" data-ch="574">送王菌</text>
+<text x="546.4" y="301.2" class="elabel" style="fill:var(--rel-enemy)" data-ch="602">对峙</text>
+<text x="87.8" y="64.0" class="elabel" style="fill:var(--rel-ally)" data-ch="608">救下</text>
+<text x="443.1" y="233.1" class="elabel" style="fill:var(--rel-other)" data-ch="611">继父</text>
+<text x="674.0" y="64.0" class="elabel" style="fill:var(--rel-ally)" data-ch="593">救出</text>
+<text x="504.7" y="364.9" class="elabel" style="fill:var(--rel-ally)" data-ch="616">联手</text>
+<text x="529.6" y="262.4" class="elabel" style="fill:var(--rel-ally)" data-ch="616">帮忙</text>
+<text x="418.6" y="344.3" class="elabel" style="fill:var(--rel-kill)" data-ch="601">杀死</text>
 <g class="node" data-ch="574"><circle cx="485.3" cy="301.8" r="14.0"/><text x="485.3" y="281.8" class="name">徐获</text></g>
 <g class="node" data-ch="597"><circle cx="351.8" cy="378.8" r="10.8"/><text x="351.8" y="362.0" class="name">邱公子</text></g>
 <g class="node" data-ch="589"><circle cx="247.4" cy="420" r="10.8"/><text x="247.4" y="403.2" class="name">谈阳</text></g>
@@ -304,7 +313,7 @@ h4[id] { scroll-margin-top:16px; }
   });
 })();
 </script>
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
 </main><script>
 (function () {
   var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;

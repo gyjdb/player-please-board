@@ -3,11 +3,18 @@
 <title>第十七医院（汀城大雾） · 单元卡 · 维度之下</title><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
   --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
   --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
   --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
 :root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
-  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380; }
+/* what stays dark in the light theme keeps the dark accents */
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; }
+:root[data-theme="light"] .banner button.primary { color:#fff; }
+:root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
 * { box-sizing:border-box; }
 html { background:var(--paper); }
 body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
@@ -45,10 +52,12 @@ details.fold[open] > summary { display:none; }
 [hidden] { display:none !important; }
 html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
-/* sources switch */
+/* the 显示出处 and 浅色 switches */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
+.switches { display:inline-flex; gap:8px; }
 .toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
-#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+html:not(.js) label[for="theme-light"] { display:none; }
 .ch, sup.cite, details.src, .src-only { display:none; }
 #show-src:checked ~ main .ch { display:inline-block; }
 #show-src:checked ~ main sup.cite { display:inline; }
@@ -175,7 +184,7 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket" id="card" data-first="292" data-end="307"><div class="ticket-main"><div class="stamp-seal"><span class="seal none" data-ch="303" title="新生成的随机副本">—</span></div><div class="kicker">副本 · <span class="grade" style="background:#6f675c">E</span><small class="diff">副本难度</small></div>
 <h1>第十七医院（汀城大雾）</h1><div class="route">第 292 章 ──── 第 307 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="292" hidden>这张卡从第 292 章开始，在你填的进度之后，整张都是剧透。</p></div>
@@ -222,31 +231,31 @@ h4[id] { scroll-margin-top:16px; }
 <ul class="people"><li data-ch="307"><b class="subject"><a href="../people.html?upto=307#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">精神方向二次进化，脱离后又把人带出来；得到 E 级新副本的授权书，还没签字。出雾后头痛欲裂。</span><span class="ch">第 303、306–307 章</span></li><li data-ch="307"><b class="subject"><a href="../people.html?upto=307#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a>（方丈）</b><span class="text">第一个被带出去，醒后守在外面，最后背着昏迷的徐获出了雾。</span><span class="ch">第 305、307 章</span></li><li data-ch="307"><b class="subject"><a href="../people.html?upto=307#person-%E5%8F%B8%E9%A9%AC%E5%B0%8F%E4%BA%8C">司马小二</a>（红毛）</b><span class="text">被带出，出雾后跟吴组长回汀城。</span><span class="ch">第 305、307 章</span></li><li data-ch="307"><b class="subject">小高</b><span class="text">在医院里“变成丧尸”，被徐获从脓液里拉出，出雾后在担架上醒来。</span><span class="ch">第 304、306–307 章</span></li><li data-ch="307"><b class="subject">其余特防部玩家</b><span class="text">进雾的人超过三分之一出来了；逃跑时被怪物抓住的几个没能出来，出雾后仍昏迷。</span><span class="ch">第 307 章</span><details class="src"><summary>原文</summary><blockquote>但是昏迷的几个人逃走的时候被怪物抓住了，没能出得来<cite>第 307 章</cite></blockquote></details></li><li data-ch="302"><b class="subject"><a href="../people.html?upto=307#person-%E8%81%82%E7%8E%84">聂玄</a></b><span class="text">不在废弃大楼里（第 290 章他被抛出了雾外）。</span><span class="ch">第 302 章</span></li></ul>
 </section>
 <section id="relations" class="fgroup"><h3>关键关系</h3>
-<p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
+<p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
 <p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
-<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
-<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
-<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
-<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-ally)"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-enemy)"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-kill)"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-other)"/></marker>
 </defs>
-<g class="edge" data-ch="307"><title>徐获 — 同伴 — 严嘉鱼（第 304、307 章）</title><path d="M395.3,326.1 Q355.2,373.1 322.9,410.9" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="305"><title>徐获 — 一起找出口 — 司马小二（第 296、305 章）</title><path d="M395.3,326.1 Q471.5,308.4 536.0,293.4" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="306"><title>徐获 → 救出 → 小高（第 306 章）</title><path d="M395.3,326.1 Q453.1,365.1 500.9,397.3" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
-<g class="edge" data-ch="304"><title>司马小二 — 队友 — 小高（第 304 章）</title><path d="M547.7,290.7 Q529.2,347.4 514.5,392.6" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="297"><title>唐广博 — 主治医生（幻象） — 徐获（第 294、297 章）</title><path d="M237.4,334.8 Q316.4,330.5 383.3,326.8" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
-<g class="edge" data-ch="299"><title>徐知 — 哥哥（幻象） — 徐获（第 299 章）</title><path d="M365.4,185.5 Q380.4,255.8 392.8,314.4" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
-<g class="edge" data-ch="292"><title>俞晴晴 — 护士同事（幻象） — 戴文谦（第 292 章）</title><path d="M60,60 Q107.0,60.0 142.0,60.0" fill="none" stroke="#8d95a3" stroke-width="2.2"/></g>
-<g class="edge" data-ch="307"><title>吴组长 — 组长 — 司马小二（第 307 章）</title><path d="M644.3,178.0 Q596.0,234.3 555.5,281.6" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="307"><title>廖组长 → 抢人 → 吴组长（第 307 章）</title><path d="M684.4,60 Q664.3,119.0 648.2,166.6" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
-<text x="355.2" y="377.1" class="elabel" style="fill:#4fbf7f" data-ch="307">同伴</text>
-<text x="471.5" y="312.4" class="elabel" style="fill:#4fbf7f" data-ch="305">一起找出口</text>
-<text x="453.1" y="369.1" class="elabel" style="fill:#4fbf7f" data-ch="306">救出</text>
-<text x="529.2" y="351.4" class="elabel" style="fill:#4fbf7f" data-ch="304">队友</text>
-<text x="316.4" y="334.5" class="elabel" style="fill:#8d95a3" data-ch="297">主治医生（幻象）</text>
-<text x="380.3" y="259.8" class="elabel" style="fill:#8d95a3" data-ch="299">哥哥（幻象）</text>
-<text x="107.0" y="64.0" class="elabel" style="fill:#8d95a3" data-ch="292">护士同事（幻象）</text>
-<text x="596.0" y="238.4" class="elabel" style="fill:#4fbf7f" data-ch="307">组长</text>
-<text x="664.3" y="123.0" class="elabel" style="fill:#f0904f" data-ch="307">抢人</text>
+<g class="edge" data-ch="307"><title>徐获 — 同伴 — 严嘉鱼（第 304、307 章）</title><path d="M395.3,326.1 Q355.2,373.1 322.9,410.9" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="305"><title>徐获 — 一起找出口 — 司马小二（第 296、305 章）</title><path d="M395.3,326.1 Q471.5,308.4 536.0,293.4" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="306"><title>徐获 → 救出 → 小高（第 306 章）</title><path d="M395.3,326.1 Q453.1,365.1 500.9,397.3" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="304"><title>司马小二 — 队友 — 小高（第 304 章）</title><path d="M547.7,290.7 Q529.2,347.4 514.5,392.6" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="297"><title>唐广博 — 主治医生（幻象） — 徐获（第 294、297 章）</title><path d="M237.4,334.8 Q316.4,330.5 383.3,326.8" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="299"><title>徐知 — 哥哥（幻象） — 徐获（第 299 章）</title><path d="M365.4,185.5 Q380.4,255.8 392.8,314.4" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="292"><title>俞晴晴 — 护士同事（幻象） — 戴文谦（第 292 章）</title><path d="M60,60 Q107.0,60.0 142.0,60.0" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="307"><title>吴组长 — 组长 — 司马小二（第 307 章）</title><path d="M644.3,178.0 Q596.0,234.3 555.5,281.6" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="307"><title>廖组长 → 抢人 → 吴组长（第 307 章）</title><path d="M684.4,60 Q664.3,119.0 648.2,166.6" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<text x="355.2" y="377.1" class="elabel" style="fill:var(--rel-ally)" data-ch="307">同伴</text>
+<text x="471.5" y="312.4" class="elabel" style="fill:var(--rel-ally)" data-ch="305">一起找出口</text>
+<text x="453.1" y="369.1" class="elabel" style="fill:var(--rel-ally)" data-ch="306">救出</text>
+<text x="529.2" y="351.4" class="elabel" style="fill:var(--rel-ally)" data-ch="304">队友</text>
+<text x="316.4" y="334.5" class="elabel" style="fill:var(--rel-other)" data-ch="297">主治医生（幻象）</text>
+<text x="380.3" y="259.8" class="elabel" style="fill:var(--rel-other)" data-ch="299">哥哥（幻象）</text>
+<text x="107.0" y="64.0" class="elabel" style="fill:var(--rel-other)" data-ch="292">护士同事（幻象）</text>
+<text x="596.0" y="238.4" class="elabel" style="fill:var(--rel-ally)" data-ch="307">组长</text>
+<text x="664.3" y="123.0" class="elabel" style="fill:var(--rel-enemy)" data-ch="307">抢人</text>
 <g class="node" data-ch="297"><circle cx="395.3" cy="326.1" r="12.5"/><text x="395.3" y="307.6" class="name">徐获</text></g>
 <g class="node" data-ch="304"><circle cx="547.7" cy="290.7" r="11.5"/><text x="547.7" y="273.2" class="name">司马小二</text></g>
 <g class="node" data-ch="304"><circle cx="510.8" cy="404.0" r="10.8"/><text x="510.8" y="387.2" class="name">小高</text></g>
@@ -291,7 +300,7 @@ h4[id] { scroll-margin-top:16px; }
   });
 })();
 </script>
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
 </main><script>
 (function () {
   var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;

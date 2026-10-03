@@ -3,11 +3,18 @@
 <title>好味道鲜肉供应厂 · 单元卡 · 维度之下</title><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
   --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
   --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
   --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
 :root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
-  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5; }
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380; }
+/* what stays dark in the light theme keeps the dark accents */
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; }
+:root[data-theme="light"] .banner button.primary { color:#fff; }
+:root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
 * { box-sizing:border-box; }
 html { background:var(--paper); }
 body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
@@ -45,10 +52,12 @@ details.fold[open] > summary { display:none; }
 [hidden] { display:none !important; }
 html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
-/* sources switch */
+/* the 显示出处 and 浅色 switches */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
+.switches { display:inline-flex; gap:8px; }
 .toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
-#show-src:checked ~ .rail .toggle-label { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+html:not(.js) label[for="theme-light"] { display:none; }
 .ch, sup.cite, details.src, .src-only { display:none; }
 #show-src:checked ~ main .ch { display:inline-block; }
 #show-src:checked ~ main sup.cite { display:inline; }
@@ -175,7 +184,7 @@ nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted 
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><label for="show-src" class="toggle-label">显示出处</label></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket" id="card" data-first="41" data-end="60"><div class="ticket-main"><div class="stamp-seal"><span class="seal none" data-ch="54" title="随机玩家">—</span></div><div class="kicker">副本 · <span class="grade" style="background:#1f7f86">D</span><small class="diff">副本难度</small></div>
 <h1>好味道鲜肉供应厂</h1><div class="route">第 41 章 ──── 第 57 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="41" hidden>这张卡从第 41 章开始，在你填的进度之后，整张都是剧透。</p></div>
@@ -224,37 +233,37 @@ h4[id] { scroll-margin-top:16px; }
 <ul class="people"><li data-ch="57"><b class="subject"><a href="../people.html?upto=57#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">被送回金光大厦，肩骨裂了；游戏默认他完成三项任务，另得勋章和一件特殊道具，还拿到了彭丰年转交的纸手机。</span><span class="ch">第 57 章</span><details class="src"><summary>原文</summary><blockquote>整个肩膀都淤青发肿，看来肩骨是裂了<cite>第 57 章</cite></blockquote></details></li><li data-ch="43"><b class="subject">朱总</b><span class="text">装病，第一批被拖进屠宰间，里面随即传出剁肉声。</span><span class="ch">第 42–43 章</span></li><li data-ch="54"><b class="subject">邹伟昌</b><span class="text">夜里私自取皮，被剥皮匠活剥，尸体被扔进屠宰间。</span><span class="ch">第 52–54 章</span></li><li data-ch="56"><b class="subject">汤佩</b><span class="text">通关后留下帮忙救人，抱着孩子逃向仓库时被剥皮刀穿喉。</span><span class="ch">第 54、56 章</span></li><li data-ch="56"><b class="subject">鲜大志</b><span class="text">通关后留下帮忙，为汤佩拼命，被穿线的长针刺穿脖子，倒在剥皮匠脚边。</span><span class="ch">第 54、56 章</span></li><li data-ch="57"><b class="subject">秦安</b><span class="text">通关；被变成沙皮狗险些割喉，被杨灿换了出来。</span><span class="ch">第 54、57 章</span></li><li data-ch="57"><b class="subject">杨灿</b><span class="text">通关；用“公平的交易”救下秦安。</span><span class="ch">第 54、57 章</span></li><li data-ch="57"><b class="subject"><a href="../people.html?upto=57#person-%E5%BD%AD%E4%B8%B0%E5%B9%B4">彭丰年</a></b><span class="text">通关；副本崩溃前把纸手机托司马小二转交徐获。</span><span class="ch">第 54、57 章</span></li><li data-ch="57"><b class="subject"><a href="../people.html?upto=57#person-%E5%8F%B8%E9%A9%AC%E5%B0%8F%E4%BA%8C">司马小二</a>（红毛）</b><span class="text">被徐获放出猪舍，偷画救人；副本崩溃后回到二十八楼，留下来救治受伤的同事。</span><span class="ch">第 54–55、57 章</span></li><li data-ch="57"><b class="subject">猪舍里的普通人</b><span class="text">七八个被剥皮匠割喉；其余的人随副本崩溃被送回金光大厦二十八楼。</span><span class="ch">第 56–57 章</span><details class="src"><summary>原文</summary><blockquote>那群普通人里有七八个被割了喉<cite>第 56 章</cite></blockquote></details></li></ul>
 </section>
 <section id="relations" class="fgroup"><h3>关键关系</h3>
-<p class="legend"><span><i style="border-color:#4fbf7f"></i>同伴</span><span><i style="border-color:#f0904f"></i>冲突</span><span><i style="border-color:#ef5a4f"></i>杀死</span><span><i style="border-color:#8d95a3"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
+<p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-kill)"></i>杀死</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
 <p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
-<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fbf7f"/></marker>
-<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f0904f"/></marker>
-<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef5a4f"/></marker>
-<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d95a3"/></marker>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-ally)"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-enemy)"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-kill)"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-other)"/></marker>
 </defs>
-<g class="edge" data-ch="41"><title>朱总 → 指认吃人 → 徐获（第 41 章）</title><path d="M624.8,60 Q565.0,106.6 514.7,145.8" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
-<g class="edge" data-ch="55"><title>徐获 → 救出 → 司马小二（第 42、45、54–55 章）</title><path d="M505.2,153.2 Q539.0,209.6 566.6,255.7" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
-<g class="edge" data-ch="57"><title>徐获 — 交手后合作 — 彭丰年（第 46–47、53、57 章）</title><path d="M505.2,153.2 Q417.4,145.8 341.7,139.4" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="47"><title>彭丰年 — 纸手机联络 — 汤佩（第 45、47 章）</title><path d="M329.7,138.4 Q301.2,198.1 278.0,247.0" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="45"><title>秦安 — 同伴 — 汤佩（第 45 章）</title><path d="M139.5,322.8 Q206.2,290.3 262.0,263.1" fill="none" stroke="#4fbf7f" stroke-width="2.2"/></g>
-<g class="edge" data-ch="52"><title>邹伟昌 → 不信任 → 徐获（第 47、52 章）</title><path d="M435.1,98.7 Q470.1,125.9 495.7,145.8" fill="none" stroke="#8d95a3" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
-<g class="edge" data-ch="57"><title>徐获 → 毁掉核心 → 剥皮匠（第 48–49、56–57 章）</title><path d="M505.2,153.2 Q471.6,208.3 444.3,253.2" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
-<g class="edge" data-ch="53"><title>剥皮匠 → 活剥 → 邹伟昌（第 52–53 章）</title><path d="M438.1,263.4 Q436.6,181.0 435.3,110.7" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
-<g class="edge" data-ch="56"><title>剥皮匠 → 飞刀穿喉 → 汤佩（第 55–56 章）</title><path d="M438.1,263.4 Q355.5,260.6 284.8,258.2" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
-<g class="edge" data-ch="56"><title>剥皮匠 → 长针穿颈 → 鲜大志（第 56 章）</title><path d="M438.1,263.4 Q450.5,341.7 460.9,408.1" fill="none" stroke="#ef5a4f" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
-<g class="edge" data-ch="55"><title>司马小二 → 偷画要挟 → 剥皮匠（第 55 章）</title><path d="M572.8,266.0 Q505.4,264.7 450.1,263.6" fill="none" stroke="#f0904f" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
-<g class="edge" data-ch="57"><title>杨灿 → 救下 → 秦安（第 57 章）</title><path d="M60,411.7 Q99.8,367.2 131.5,331.7" fill="none" stroke="#4fbf7f" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
-<text x="565.0" y="110.6" class="elabel" style="fill:#f0904f" data-ch="41">指认吃人</text>
-<text x="539.0" y="213.6" class="elabel" style="fill:#4fbf7f" data-ch="55">救出</text>
-<text x="417.4" y="149.8" class="elabel" style="fill:#4fbf7f" data-ch="57">交手后合作</text>
-<text x="301.2" y="202.1" class="elabel" style="fill:#4fbf7f" data-ch="47">纸手机联络</text>
-<text x="206.1" y="294.3" class="elabel" style="fill:#4fbf7f" data-ch="45">同伴</text>
-<text x="470.2" y="129.9" class="elabel" style="fill:#8d95a3" data-ch="52">不信任</text>
-<text x="471.6" y="212.3" class="elabel" style="fill:#f0904f" data-ch="57">毁掉核心</text>
-<text x="436.6" y="185.1" class="elabel" style="fill:#ef5a4f" data-ch="53">活剥</text>
-<text x="355.4" y="264.6" class="elabel" style="fill:#ef5a4f" data-ch="56">飞刀穿喉</text>
-<text x="450.4" y="345.7" class="elabel" style="fill:#ef5a4f" data-ch="56">长针穿颈</text>
-<text x="505.4" y="268.7" class="elabel" style="fill:#f0904f" data-ch="55">偷画要挟</text>
-<text x="99.8" y="371.2" class="elabel" style="fill:#4fbf7f" data-ch="57">救下</text>
+<g class="edge" data-ch="41"><title>朱总 → 指认吃人 → 徐获（第 41 章）</title><path d="M624.8,60 Q565.0,106.6 514.7,145.8" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="55"><title>徐获 → 救出 → 司马小二（第 42、45、54–55 章）</title><path d="M505.2,153.2 Q539.0,209.6 566.6,255.7" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="57"><title>徐获 — 交手后合作 — 彭丰年（第 46–47、53、57 章）</title><path d="M505.2,153.2 Q417.4,145.8 341.7,139.4" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="47"><title>彭丰年 — 纸手机联络 — 汤佩（第 45、47 章）</title><path d="M329.7,138.4 Q301.2,198.1 278.0,247.0" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="45"><title>秦安 — 同伴 — 汤佩（第 45 章）</title><path d="M139.5,322.8 Q206.2,290.3 262.0,263.1" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="52"><title>邹伟昌 → 不信任 → 徐获（第 47、52 章）</title><path d="M435.1,98.7 Q470.1,125.9 495.7,145.8" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="57"><title>徐获 → 毁掉核心 → 剥皮匠（第 48–49、56–57 章）</title><path d="M505.2,153.2 Q471.6,208.3 444.3,253.2" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="53"><title>剥皮匠 → 活剥 → 邹伟昌（第 52–53 章）</title><path d="M438.1,263.4 Q436.6,181.0 435.3,110.7" fill="none" style="stroke:var(--rel-kill)" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge" data-ch="56"><title>剥皮匠 → 飞刀穿喉 → 汤佩（第 55–56 章）</title><path d="M438.1,263.4 Q355.5,260.6 284.8,258.2" fill="none" style="stroke:var(--rel-kill)" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge" data-ch="56"><title>剥皮匠 → 长针穿颈 → 鲜大志（第 56 章）</title><path d="M438.1,263.4 Q450.5,341.7 460.9,408.1" fill="none" style="stroke:var(--rel-kill)" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge" data-ch="55"><title>司马小二 → 偷画要挟 → 剥皮匠（第 55 章）</title><path d="M572.8,266.0 Q505.4,264.7 450.1,263.6" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="57"><title>杨灿 → 救下 → 秦安（第 57 章）</title><path d="M60,411.7 Q99.8,367.2 131.5,331.7" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<text x="565.0" y="110.6" class="elabel" style="fill:var(--rel-enemy)" data-ch="41">指认吃人</text>
+<text x="539.0" y="213.6" class="elabel" style="fill:var(--rel-ally)" data-ch="55">救出</text>
+<text x="417.4" y="149.8" class="elabel" style="fill:var(--rel-ally)" data-ch="57">交手后合作</text>
+<text x="301.2" y="202.1" class="elabel" style="fill:var(--rel-ally)" data-ch="47">纸手机联络</text>
+<text x="206.1" y="294.3" class="elabel" style="fill:var(--rel-ally)" data-ch="45">同伴</text>
+<text x="470.2" y="129.9" class="elabel" style="fill:var(--rel-other)" data-ch="52">不信任</text>
+<text x="471.6" y="212.3" class="elabel" style="fill:var(--rel-enemy)" data-ch="57">毁掉核心</text>
+<text x="436.6" y="185.1" class="elabel" style="fill:var(--rel-kill)" data-ch="53">活剥</text>
+<text x="355.4" y="264.6" class="elabel" style="fill:var(--rel-kill)" data-ch="56">飞刀穿喉</text>
+<text x="450.4" y="345.7" class="elabel" style="fill:var(--rel-kill)" data-ch="56">长针穿颈</text>
+<text x="505.4" y="268.7" class="elabel" style="fill:var(--rel-enemy)" data-ch="55">偷画要挟</text>
+<text x="99.8" y="371.2" class="elabel" style="fill:var(--rel-ally)" data-ch="57">救下</text>
 <g class="node" data-ch="41"><circle cx="505.2" cy="153.2" r="12.5"/><text x="505.2" y="134.7" class="name">徐获</text></g>
 <g class="node" data-ch="53"><circle cx="438.1" cy="263.4" r="12.5"/><text x="438.1" y="244.9" class="name">剥皮匠</text></g>
 <g class="node" data-ch="45"><circle cx="272.8" cy="257.8" r="11.5"/><text x="272.8" y="240.3" class="name">汤佩</text></g>
@@ -299,7 +308,7 @@ h4[id] { scroll-margin-top:16px; }
   });
 })();
 </script>
-<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用。这两个选择浏览器都会记住。</footer>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
 </main><script>
 (function () {
   var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;
