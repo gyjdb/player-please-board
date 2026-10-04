@@ -25,9 +25,9 @@ main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 
 /* nav: the rail */
 .rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
-.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; }
+.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; }
 .brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
-.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.2em; margin-left:8px; }
+.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.12em; margin-left:6px; }   /* so brand, links, progress and switches fit one line at 920px */
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
 .rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
 .rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
@@ -142,7 +142,7 @@ article.thread { background:var(--card); border:1px solid var(--line); border-le
 article.thread.resolved { border-left-color:#4fbf7f; } article.thread.partly { border-left-color:#c99a06; }
 article.thread h3 { border:none; padding:0; margin:10px 0 4px; font-size:17px; }
 .no { font:600 13px var(--mono); color:var(--brass); margin-right:10px; }
-.state { font:12px var(--sans); color:var(--muted); border:1px solid var(--line); border-radius:3px; padding:0 6px; margin-left:10px; vertical-align:2px; }
+.state { display:inline-block; white-space:nowrap; font:12px var(--sans); color:var(--muted); border:1px solid var(--line); border-radius:3px; padding:0 6px; margin-left:10px; vertical-align:2px; }
 article.resolved .state { color:#4fbf7f; border-color:#4fbf7f; } article.partly .state { color:#c99a06; border-color:#c99a06; }
 ul.rows { list-style:none; padding-left:0; margin:4px 0; }
 ul.rows li { margin:5px 0; font-size:14.5px; display:grid; grid-template-columns:11.5em 1fr; column-gap:12px; align-items:baseline; }
