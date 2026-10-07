@@ -1,18 +1,20 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>只有一个主人的别墅 · 单元卡 · 维度之下</title><style>
+<title>只有一个主人的别墅 · 单元卡 · 维度之下</title><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20x%3D%222%22%20y%3D%226%22%20width%3D%2228%22%20height%3D%2220%22%20rx%3D%223%22%20fill%3D%22%23d3a655%22/%3E%3Ccircle%20cx%3D%222%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ctext%20x%3D%2216%22%20y%3D%2221.5%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20text-anchor%3D%22middle%22%20fill%3D%22%2307080b%22%20font-family%3D%22serif%22%3E%E7%BB%B4%3C/text%3E%3C/svg%3E"><meta name="description" content="《玩家请上车》（海晏山 著）的读者整理：按单元写的梗概与解析，世界观、人物、地理、伏笔和道具库，可按读到的章数隐藏后文。"><meta name="theme-color" content="#07080b"><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
   --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
-  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC","Source Han Serif CN","Noto Serif CJK SC","STSong","SimSun",serif;
   --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
-  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace;
+  --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
-  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
-  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380; }
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#85621f; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380;
+  --mind:#7650b0; --space:#17788a; --time:#b25f18; --gold:#a07a10; }
 /* what stays dark in the light theme keeps the dark accents */
-:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
-  --line:#3a404b; --chip:#232830; }
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth, .emblem) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] .banner button.primary { color:#fff; }
 :root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
 * { box-sizing:border-box; }
@@ -21,11 +23,15 @@ body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
   background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
 :root[data-theme="light"] body { background:var(--paper); }
 a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+/* a dense run of names (items in hand, rewards, the units a person is in): ink with a thin red line, not a wall of red (design review 2026-10-06) */
+.quiet a, a.quiet { color:var(--ink); border-bottom:1px solid var(--line); border-bottom-color:color-mix(in srgb, var(--signal) 32%, transparent); }
+.quiet a:hover, a.quiet:hover { color:var(--signal); text-decoration:none; border-bottom-color:var(--signal); }
 main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 
 /* nav: the rail */
 .rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
 .rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; }
+@media (min-width:1100px) { .rail-inner { max-width:1060px; } }   /* brand, links, progress and switches on one line (2026-10-06) */
 .brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
 .brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.12em; margin-left:6px; }   /* so brand, links, progress and switches fit one line at 920px */
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
@@ -48,18 +54,54 @@ details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 @media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
   .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
 .beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
-details.fold[open] > summary { display:none; }
+details.fold[data-fold][open] > summary { display:none; }   /* only the spoiler gate (hero 档案) drops its line once open */
+button.fold-close { display:block; margin:8px 0 2px; font:12.5px var(--sans); color:var(--muted); background:none; border:1px solid var(--line); border-radius:4px; padding:5px 12px; cursor:pointer; }
+button.fold-close:hover { color:var(--brass); border-color:var(--brass); }
+/* phones (step 7, 2026-10-06): one row of page links; intros cut to three lines; a page's contents (#toc, #jump) as
+   a drawer behind a 目录 button, with a filter; long CJK lines may break anywhere */
+button.toc-fab, .toc-backdrop { display:none; }
+input.toc-filter { display:block; width:100%; margin:2px 0 10px; }   /* the contents filter on wide screens too (2026-10-06); its look is the shared search box */
+nav.jump input.toc-filter { max-width:20em; margin:8px 0 6px; }
+.ticket-main p.premise { color:var(--ink); }
+@media (max-width:720px) {
+  html.has-toc button.toc-fab { display:block; position:fixed; right:14px; bottom:max(18px, env(safe-area-inset-bottom)); z-index:41; width:46px; height:46px;
+    padding:0; border:none; border-radius:50%; font-size:0; color:transparent; cursor:pointer; opacity:.94; box-shadow:0 4px 14px rgba(0,0,0,.35);
+    background:linear-gradient(#07080b,#07080b) 50% 16px / 18px 2px no-repeat, linear-gradient(#07080b,#07080b) 50% 22px / 18px 2px no-repeat,
+      linear-gradient(#07080b,#07080b) 50% 28px / 18px 2px no-repeat, #d3a655; transition:transform .2s ease, opacity .2s ease; }
+  html.fab-away:not(.toc-open) button.toc-fab { transform:translateY(90px); opacity:0; }
+  html.has-toc #toc, html.has-toc #jump { position:fixed !important; top:0; right:0; bottom:0; left:auto; width:min(86vw,360px);
+    max-height:none !important; margin:0; z-index:40; overflow:auto; overscroll-behavior:contain; background:var(--card);
+    border:none; border-left:1px solid var(--line); border-radius:0; padding:12px 16px 90px; transform:translateX(105%);
+    transition:transform .2s ease; box-shadow:-8px 0 24px rgba(0,0,0,.35); }
+  html.toc-open #toc, html.toc-open #jump { transform:none; }
+  html.toc-open .toc-backdrop { display:block; position:fixed; inset:0; z-index:39; background:rgba(0,0,0,.45); }
+  html.has-toc input.toc-filter { display:block; width:100%; margin:2px 0 10px; font-size:15px; min-height:40px; }
+}
+@media (max-width:640px) {
+  .rail nav { flex:1 1 100%; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+  .rail nav::-webkit-scrollbar { display:none; }
+  .rail nav a { flex:none; }
+  main { overflow-wrap:anywhere; }
+  .ticket-main p.hint.clamped { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:0; }
+  button.hint-more { background:none; border:none; color:var(--brass); font-size:12.5px; padding:2px 0 6px; cursor:pointer; }
+}
 [hidden] { display:none !important; }
 html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* the 显示出处 and 浅色 switches */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
 .switches { display:inline-flex; gap:8px; }
-.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
-#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.toggle-label { display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--rail-muted); border:1px solid #3a404b; border-radius:14px;
+  padding:4px 11px 4px 5px; cursor:pointer; user-select:none; }
+.toggle-label::before { content:""; flex:none; width:24px; height:14px; border-radius:7px; transition:background .15s;
+  background:radial-gradient(circle at 7px 50%, #8f897d 4px, transparent 4.6px), #262b33; }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail-ink); border-color:#8a7140; }
+#show-src:checked ~ .rail label[for="show-src"]::before, #theme-light:checked ~ .rail label[for="theme-light"]::before {
+  background:radial-gradient(circle at 17px 50%, #07080b 4px, transparent 4.6px), #d3a655; }
+#show-src:focus-visible ~ .rail label[for="show-src"], #theme-light:focus-visible ~ .rail label[for="theme-light"] { outline:2px solid #d3a655; outline-offset:2px; }
 html:not(.js) label[for="theme-light"] { display:none; }
 .ch, sup.cite, details.src, .src-only { display:none; }
-#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main .ch { display:inline-block; text-indent:0; }
 #show-src:checked ~ main sup.cite { display:inline; }
 #show-src:checked ~ main details.src { display:inline; }
 #show-src:checked ~ main .src-only { display:block; }
@@ -69,7 +111,7 @@ html:not(.js) label[for="theme-light"] { display:none; }
 .ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
 sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
 details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
-blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--line); color:color-mix(in srgb, var(--ink) 80%, var(--muted)); font:14.5px/1.75 var(--serif); }
 cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
 
 /* headings and text */
@@ -95,6 +137,12 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 .route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
 .stub-row { font:12px var(--mono); color:var(--muted); }
 .stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+/* a page's counts read like the fields of a ticket stub: a small label over a big number (2026-10-06) */
+.ticket-stub.stats { gap:12px; }
+.ticket-stub.stats .stub-row:not(.src-only) { font:600 24px/1.05 var(--mono); color:var(--ink); }   /* figures in ink; gold kept for its few meanings */
+.ticket-stub.stats .stub-row:not(.src-only) b { display:block; font:500 11.5px/1.4 var(--sans); color:var(--muted); letter-spacing:.12em; margin:0 0 3px; }
+.ticket-stub.stats small { font:500 12px var(--sans); color:var(--muted); margin-left:4px; }
+a.stub-row { display:block; text-decoration:none; } a.stub-row:hover b { color:var(--brass); }   /* a count that jumps to its section */
 .stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
   display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
 .stamp small { font-size:10px; margin-left:1px; }
@@ -107,10 +155,11 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* grade badge */
 .grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.dark-ink { color:#14100a; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
-.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+.tag { text-indent:0; display:inline-block; font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
 /* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
-.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+.seal { flex:none; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
   border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
 .seal.wide { font-size:14px; }
 .seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
@@ -120,35 +169,66 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* the player panel, in the book's 【key：value】 lines */
 .syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
   padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
-.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel .row > span { color:var(--rail-ink); font-weight:600; }
+.syspanel .v-rate { color:var(--brass); } .syspanel .grade { font-size:12px; height:20px; min-width:24px; vertical-align:1px; }   /* gold for evolution; a level in its colour */
+.evo-mind { color:var(--mind); } .evo-space { color:var(--space); } .evo-time { color:var(--time); }
 .syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
 @media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
 .upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
-/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
-.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已否定 (denied or refuted); settled points carry no tag */
+.tier { text-indent:0; display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
 .tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 .tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
 
 .hidden { display:none !important; }
+nav.pagenav { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0 6px; font-size:14px; }
+nav.pagenav > b { color:var(--muted); font-weight:400; font-size:13px; margin-right:2px; }
+nav.pagenav a { padding:3px 11px; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--ink); }
+nav.pagenav a:hover { border-color:var(--brass); color:var(--brass); text-decoration:none; }
+@media (min-width:721px) { nav.pagenav input.toc-filter { display:none; } }
+@media (max-width:720px) {
+  html.has-toc nav.pagenav { display:block; }
+  html.has-toc nav.pagenav > b { display:block; margin:0 0 6px; }
+  html.has-toc nav.pagenav a { display:block; border:none; border-bottom:1px solid var(--line); border-radius:0; background:none; padding:10px 2px; }
+}
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
 @media (max-width:720px) { .totop { display:inline; } }
 footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
 @media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
-  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; }
+  .ticket-stub.stats { flex-direction:row; flex-wrap:wrap; justify-content:flex-start; gap:10px 26px; } .ticket-stub.stats .stub-row.src-only { flex-basis:100%; } }
 
+input[type=search] { font:14px var(--sans); color:var(--ink); background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2714%27%20height%3D%2714%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27round%27%3E%3Ccircle%20cx%3D%2710.5%27%20cy%3D%2710.5%27%20r%3D%276.5%27/%3E%3Cpath%20d%3D%27M20%2020l-4.6-4.6%27/%3E%3C/svg%3E") no-repeat 10px 50%;
+  border:1px solid var(--line); border-radius:6px; padding:6px 10px 6px 31px; min-height:34px; }
+input[type=search]::placeholder { color:var(--muted); }
+input[type=search]:focus, select:focus { outline:none; border-color:var(--brass); box-shadow:0 0 0 2px color-mix(in srgb, var(--brass) 25%, transparent); }
+select { appearance:none; -webkit-appearance:none; font:14px var(--sans); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2710%27%20height%3D%276%27%20viewBox%3D%270%200%2010%206%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M1%201l4%204%204-4%27/%3E%3C/svg%3E") no-repeat right 10px center; padding:6px 30px 6px 10px; min-height:34px; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary { list-style:none; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::-webkit-details-marker { display:none; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::before { content:""; display:inline-block; width:6px; height:6px; margin:0 9px 2px 2px; border-right:1.6px solid currentColor;
+  border-bottom:1.6px solid currentColor; transform:rotate(-45deg); transition:transform .15s ease; opacity:.7; vertical-align:middle; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more)[open] > summary::before { transform:rotate(45deg); margin-bottom:4px; }
+@media (max-width:640px) { .scroll-fade { -webkit-mask-image:linear-gradient(to right, #000 82%, transparent); mask-image:linear-gradient(to right, #000 82%, transparent); }
+  .scroll-fade.at-end { -webkit-mask-image:none; mask-image:none; } }
+p.graph-hint { display:none !important; }
+
+details.section-fold > summary { cursor:pointer; font:600 16px var(--serif); color:var(--muted); margin:14px 0 6px; letter-spacing:.04em; }
+details.section-fold[open] > summary { color:var(--ink); }
 .layer { margin:6px 0 18px; }
-.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; display:flex; align-items:center; gap:4px 12px; }   /* a phone wraps the note, 收起 stays on the right */
 .layer > summary::-webkit-details-marker { display:none; }
-.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
-.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
-.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer > summary b { flex:none; display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { flex:1 1 auto; color:var(--muted); font-size:13px; }
+.layer > summary::after { content:"收起"; flex:none; color:var(--muted); font-size:12px; }
 .layer:not([open]) > summary::after { content:"展开"; }
 section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
 ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
-.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
-ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+a.term { color:inherit; border-bottom:1px dotted var(--muted); text-decoration:none; } a.term:hover { color:var(--signal); border-bottom-color:var(--signal); }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; overflow-wrap:anywhere; }   /* a long name wraps in its column */
+ul.people li { display:grid; grid-template-columns:8.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
 ul.people li > :not(.subject) { grid-column:2; }
 @media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
 .harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
@@ -160,6 +240,9 @@ nav.units-nav a { display:flex; flex-direction:column; background:var(--card); b
 nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
 nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
 nav.units-nav small.after { color:var(--signal); }
+@media (max-width:640px) { nav.units-nav { grid-template-columns:1fr; gap:8px; } nav.units-nav b { font-size:15px; } nav.units-nav a { padding:8px 12px; }
+  nav.units-nav span.none { display:none; } }   /* a phone: one above the other, a long name on one or two lines (design review 2026-10-06) */
+details.about-src { margin:8px 0 2px; } details.about-src > summary { color:var(--muted); font-size:13px; }
 .graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
 @media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
@@ -176,66 +259,46 @@ svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-w
 svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
 details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 .links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
-.links a { margin-right:12px; white-space:nowrap; }
+.links a, .links > span { margin-right:12px; white-space:nowrap; }   /* a name with no item card is a span: same spacing */
+@media (max-width:640px) { .links a, .links > span { white-space:normal; } }   /* a long place name wraps on a phone (u0148) */
 .progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
 .hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+.ticket-main .lede { margin:12px 0 2px; font:500 17px/1.75 var(--serif); color:var(--ink); max-width:40em; }
 nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
 nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，第一个副本结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到第一个副本结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket" id="card" data-first="768" data-end="780"><div class="ticket-main"><div class="stamp-seal"><span class="seal none" data-ch="780" title="随机副本">—</span></div><div class="kicker">副本 · <span class="grade" style="background:#1f7f86">D</span><small class="diff">副本难度</small></div>
-<h1>只有一个主人的别墅</h1><div class="route">第 768 章 ──── 第 780 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="768" hidden>这张卡从第 768 章开始，在你填的进度之后，整张都是剧透。</p></div>
-<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0038</div><div class="stub-row"><b>句数</b>60</div>
-<div class="stub-row"><b>引用</b>48 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 768–780 章正文后撰写。</p>
+<h1>只有一个主人的别墅</h1><div class="route">第 768 章 ──── 第 780 章</div><div class="lede" data-ch="769">徐获被香木卷进D级<a class="term" href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC" title="不需要车票、毫无征兆、地点随机出现的副本，卷进去的不限于玩家。">随机副本</a>“只有一个主人的别墅”，要在互相打架的客人与主人规则里，弄清怎样才算一名合格的别墅主人。<span class="ch">第 768–769 章</span></div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 3284 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="768" hidden>这张卡从第 768 章开始，在你填的进度之后，整张都是剧透。</p></div>
+<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0038</div><div class="stub-row"><b>句数</b>72</div>
+<div class="stub-row"><b>引用</b>18 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<details class="about-src meta"><summary>出处怎么核对</summary>每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</details><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 768–780 章正文后撰写；2026-10-06 第六步由 Claude 子代理（claude-opus-5-5）改写（GPT 额度用完前第二波写成的两三张也在这批里，没有分开记录），原梗概折为逐幕复盘；2026-10-06 逐幕复盘不再上页面，其中要紧的由 Claude 子代理（claude-opus-5-5）收进剧情梗概和解谜结构。</p>
 <nav class="units-nav top"><a class="prev" href="u0037.html"><small>← 上一单元</small><b>009 区（茂城与商书铭）</b><small>第 764–767 章</small></a><a class="next" href="u0039.html"><small>下一单元 →</small><b>009 区（江江与首都安全区）</b><small>第 781–810 章</small><small class="after" data-beyond="781" hidden>在你的进度之后</small></a></nav>
-<details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。写到第 780 章，含结局。</span></summary><section id="overview" class="fgroup"><h3>一句话</h3>
-<ul class="items"><li data-ch="780"><span class="text">徐获被卷进 D 级随机副本“只有一个主人的别墅”，和盟友摸清“临时主人”的职责；轮到他时打扫别墅、夜查客房、毒死捣乱的人，天亮通关。</span><span class="ch">第 768–769、775–776、778–780 章</span></li><li data-ch="780"><span class="text">D 级随机副本，第 768–780 章。第 779 章通关，第 780 章前半是结算，后半回到茂城的酒店。</span><span class="ch">第 768、779–780 章</span></li></ul>
-</section>
-<section id="harvest" class="harvest" data-ch="780"><h3>徐获的收获</h3><div class="h-rating"><span class="seal none" title="不评级">—</span><span>评级：书里没写评级（随机副本）<span class="ch">第 780 章</span></span></div><div class="h-line">奖励特殊特性“请坐”和一次道具合并。<span class="ch">第 780 章</span><details class="src"><summary>原文</summary><blockquote>请坐：一栋房子或者一个房间<cite>第 780 章</cite></blockquote></details></div><p class="links"><b>奖励</b><a href="../items.html#item-%E8%9A%81%E7%A9%B4%E6%A0%87%E6%B3%A8">蚁穴标注</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
+<nav class="jump pagenav" id="jump" aria-label="本页目录"><b>本卡</b><a href="#harvest" data-ch="780">收获</a><a href="#setup" data-ch="769">规则</a><a href="#cast" data-ch="772">人物</a><a href="#summary" data-ch="768">梗概</a><a href="#puzzle" data-ch="774">解谜</a><a href="#relations" data-ch="773">关系</a><a href="#threads" data-ch="771">伏笔</a><a href="#callbacks" data-ch="768">承接前文</a><a href="#links">设定与道具</a></nav>
+<details class="layer" open><summary><b>概况</b><span>背景与规则、人物。写到第 780 章，含结局。</span></summary><section id="harvest" class="harvest quiet" data-ch="780"><h3>徐获的收获</h3><div class="h-rating"><span class="seal none" title="不评级">—</span><span>书里没写评级（随机副本）<span class="ch">第 780 章</span></span></div><div class="h-line">奖励特殊特性“请坐”和一次道具合并。<span class="ch">第 780 章</span><details class="src"><summary>原文</summary><blockquote>请坐：一栋房子或者一个房间<cite>第 780 章</cite></blockquote></details></div><p class="links"><b>奖励</b><a href="../items.html#item-%E8%9A%81%E7%A9%B4%E6%A0%87%E6%B3%A8">蚁穴标注</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
 <section id="setup" class="fgroup"><h3>背景与规则</h3>
-<ul class="items"><li data-ch="769"><span class="text"><span class="tier claim" title="卢贞的说法">说法</span>D 级随机副本，场地是雨夜树林里一栋三层旧别墅，门窗打不开也不能破坏。卢贞说，这个副本以一种昂贵的香木为媒介，香木到过的地方，人就可能被拉进去。</span><span class="ch">第 768–769 章</span><details class="src"><summary>原文</summary><blockquote>是以一种昂贵的香木作为媒介<cite>第 769 章</cite></blockquote></details></li><li data-ch="769"><span class="text">客人规则：一间客房只住两人；选定房间不许换；晚上九点到次日八点不能出门、不能进别人的客房。受欢迎的客人每天有机会随机成为一天的不公开主人，可以出入任何房间、夜里外出、任意杀死一名玩家。</span><span class="ch">第 769 章</span></li><li data-ch="769"><span class="text">主人规则：维护别墅整洁、不破坏原有建筑、不离开别墅；违反的人会变成不受欢迎的客人。通关任务是“成为一名合格的别墅主人”，时间不限。规则只在屏幕上放了一遍。</span><span class="ch">第 769 章</span><details class="src"><summary>原文</summary><blockquote>【通关任务：成为一名合格的别墅主人。】<cite>第 769 章</cite></blockquote><blockquote>这个游戏介绍是一次性的<cite>第 769 章</cite></blockquote></details></li><li data-ch="772"><span class="text">二十二名玩家分十一个房间：二楼住了七间，其余八人上了三楼；主人房在三楼。</span><span class="ch">第 769、772 章</span><details class="src"><summary>原文</summary><blockquote>刚好二十二人，分配十一个房间<cite>第 769 章</cite></blockquote></details></li></ul>
+<ul class="items"><li data-ch="769"><span class="text">场地是雨夜树林里一栋三层旧别墅，门窗打不开也不能破坏；据卢贞说，这个<a class="term" href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC" title="不需要车票、毫无征兆、地点随机出现的副本，卷进去的不限于玩家。">随机副本</a>以一种昂贵的香木为媒介，香木到过的地方，人就可能被拉进来。</span><span class="ch">第 768–769 章</span><details class="src"><summary>原文</summary><blockquote>是以一种昂贵的香木作为媒介<cite>第 769 章</cite></blockquote></details></li><li data-ch="769"><span class="text">客人一间房只住两人，选定不许换，晚上九点到次日八点不能出门、不能进别人的客房；受欢迎的客人每天有机会随机当一天不公开的主人，可出入任何房间、夜里外出、任意杀死一名玩家。</span><span class="ch">第 769 章</span></li><li data-ch="769"><span class="text">主人要维护别墅整洁、不破坏原有建筑、不离开别墅，违反者变成不受欢迎的客人；通关任务是成为一名合格的别墅主人，不限时，规则只在屏幕上放一遍。</span><span class="ch">第 769 章</span><details class="src"><summary>原文</summary><blockquote>【通关任务：成为一名合格的别墅主人。】<cite>第 769 章</cite></blockquote></details></li><li data-ch="772"><span class="text">二十二名玩家分住十一个房间，二楼住了七间，其余八人上了三楼，主人房也在三楼。</span><span class="ch">第 769、772 章</span><details class="src"><summary>原文</summary><blockquote>刚好二十二人，分配十一个房间<cite>第 769 章</cite></blockquote></details></li></ul>
 </section>
-<section id="cast" class="fgroup"><h3>登场人物</h3>
-<p class="note">按出场先后。没留下名字的几个人按原文的叫法。</p>
-<ul class="people"><li data-ch="779"><b class="subject"><a href="../people.html?upto=780#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">被香木带进副本；和梁冲结盟，第四天当上临时主人并通关。</span><span class="ch">第 768、775、779 章</span></li><li data-ch="779"><b class="subject">卢贞</b><span class="text">E 级玩家，职业是“幕后工作人员”，特性让自己存在感弱化，副作用是总迷路，还会把同路的人一起带偏；和徐获同住一间。</span><span class="ch">第 768–769、779 章</span><details class="src"><summary>原文</summary><blockquote>我的职业是幕后工作人员<cite>第 779 章</cite></blockquote></details></li><li data-ch="779"><b class="subject">董丘</b><span class="text">和卢贞一起在树林里迷路的同伴之一，说话不过脑子；徐获觉得他精神状态不稳，让卢贞提防。</span><span class="ch">第 771、779 章</span></li><li data-ch="777"><b class="subject">梁冲</b><span class="text">住三楼、爱玩匕首的年轻玩家，主动找徐获结盟；成为进化者前是癌症晚期。</span><span class="ch">第 772–773、777 章</span><details class="src"><summary>原文</summary><blockquote>在成为进化者之前我已经是癌症晚期了<cite>第 777 章</cite></blockquote></details></li><li data-ch="775"><b class="subject">冯光</b><span class="text">梁冲的同屋，E 级玩家，第二晚的临时主人，没通关。</span><span class="ch">第 774–775 章</span></li><li data-ch="774"><b class="subject">孟三</b><span class="text">被娃娃脸和雨衣男围攻时，徐获救了他。</span><span class="ch">第 773–774 章</span></li><li data-ch="774"><b class="subject">赵晓静</b><span class="text">被两个男玩家追打欺负的女玩家，徐获出手救下。</span><span class="ch">第 772、774 章</span></li><li data-ch="773"><b class="subject">雨衣男、娃娃脸</b><span class="text">雨衣男、娃娃脸一伙：雨衣男是这伙人的主力，娃娃脸下手阴狠；两人都没留下名字。</span><span class="ch">第 768、772–773 章</span></li><li data-ch="778"><b class="subject">妩媚女玩家</b><span class="text">开门迎客的女玩家，第一晚的临时主人，会变魔术，处处阻挠别人通关；没留下名字。</span><span class="ch">第 768、776、778 章</span></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、人物结局、承接前文、关键关系、伏笔与未解。写到第 780 章，含全部剧透。</span></summary><section id="story" class="fgroup"><h3>剧情梗概</h3>
-<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
-<nav class="arcs"><a href="#story-1" data-ch="768">一、雨夜的别墅（第 768–769 章）</a><a href="#story-2" data-ch="770">二、第一夜（第 770–772 章）</a><a href="#story-3" data-ch="773">三、结盟（第 773–775 章）</a><a href="#story-4" data-ch="776">四、打扫别墅（第 776–777 章）</a><a href="#story-5" data-ch="778">五、称职的主人（第 778–779 章）</a><a href="#story-6" data-ch="780">六、结算（第 780 章）</a></nav>
-<h4 id="story-1" data-ch="768">一、雨夜的别墅（第 768–769 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="768">徐获在移民局过夜，闻到一股怪味，睁眼已在暴雨里的树林中。卢贞五人在林子里困了好几天、饿得发昏；他给了吃的，自己往前走，碰上雨衣男一行，找到了一栋旧别墅。<sup class="cite" title="第768章：我叫卢贞，我们进来已经好几天了；第768章：徐获和雨衣男一行人率先走向别墅，扣响了前门">768</sup></span><span class="stmt" data-ch="769">人一到齐，大门自动锁死，屏幕放了一遍规则就消失了。玩家们两两找搭档分房，卢贞跟着徐获住进楼梯边的一间。<sup class="cite" title="第769章：“我能不能和你一起？”卢贞跟着走过来。">768–769</sup></span></p><details class="src block fgroup"><summary>本段原文 3 处</summary><blockquote data-ch="768">我叫卢贞，我们进来已经好几天了<cite>第 768 章</cite></blockquote><blockquote data-ch="768">徐获和雨衣男一行人率先走向别墅，扣响了前门<cite>第 768 章</cite></blockquote><blockquote data-ch="769">“我能不能和你一起？”卢贞跟着走过来。<cite>第 769 章</cite></blockquote></details>
-<h4 id="story-2" data-ch="770">二、第一夜（第 770–772 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="770">第一晚死了四个人，脖子上各有一对血孔，像被毒蛇咬死；二楼左侧第一间的两人都死了，另外两间各死一个。<sup class="cite" title="第770章：二楼左侧第一间的两名玩家都死了；第770章：他们好像是被蛇咬死的">770</sup></span><span class="stmt" data-ch="770">妩媚女玩家和雨衣男借口听到脚步声，合伙对红头发下手；徐获提醒众人，与其互相猜忌，不如防着这种杀人道具。<sup class="cite" title="本句未附原文">770</sup></span><span class="stmt" data-ch="772">第二天，娃娃脸一伙趁乱又杀了人。三个男玩家追打欺负赵晓静，徐获捏断了施暴那人的脖子，另外两人退走。<sup class="cite" title="第772章：杀人不过头点地，做的有点难看了">772</sup></span><span class="stmt" data-ch="772">妩媚女玩家调笑着邀他去自己房间，徐获应下：今天不去，明天也会去。<sup class="cite" title="第772章：我向来说话算话，今天不去，明天也会去，你等着">772</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="770">二楼左侧第一间的两名玩家都死了<cite>第 770 章</cite></blockquote><blockquote data-ch="770">他们好像是被蛇咬死的<cite>第 770 章</cite></blockquote><blockquote data-ch="772">杀人不过头点地，做的有点难看了<cite>第 772 章</cite></blockquote><blockquote data-ch="772">我向来说话算话，今天不去，明天也会去，你等着<cite>第 772 章</cite></blockquote></details>
-<h4 id="story-3" data-ch="773">三、结盟（第 773–775 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="773">三楼的梁冲找徐获结盟，拿出一对能拍视频的眼睛贴纸，让卢贞夜里从门缝往外拍。当晚的临时主人在楼上走了一圈，进过空房间，没人死，也没人通关。<sup class="cite" title="第773章：“很好，怎么合作？”徐获同意了">773</sup></span><span class="stmt" data-ch="774">第三天一早，娃娃脸和雨衣男围攻落单的孟三，梁冲出手相助；徐获一剑劈开娃娃脸的黑色重锤，切断勒住孟三的线。雨衣男看到那把剑，认了怂：“我们休战。”<sup class="cite" title="第773章：想也不想一剑就切成了两半；第773章：我不想跟你动手，我们休战">773–774</sup></span><span class="stmt" data-ch="774">冯光承认前一晚的临时主人是他，按要求做了却没通关。梁冲私下告诉徐获，游戏还单独要求主人“夜晚保证别墅和客房的安全”。徐获想明白：尸体也算要打扫的垃圾，杀一个人在特权之内，但主人得进有人住的客房；越早通关越容易，拖下去没通关的人会拉别人下水。<sup class="cite" title="第774章：昨天晚上的人是我，游戏对临时主人有特别要求；第774章：作为别墅的主人要在夜晚保证别墅和客房的安全；第774章：这个副本越早通关难度越低">774</sup></span><span class="stmt" data-ch="775">徐获请全体玩家吃饭，提议谁也别动手，雨衣男一伙答应休战。当晚雨衣男是临时主人，他清走了尸体，却在妩媚女玩家房里大打出手，打穿了墙。天亮，徐获收到通知：他是今天的临时主人。<sup class="cite" title="第775章：恭喜您被选为今天的临时主人">775</sup></span></p><details class="src block fgroup"><summary>本段原文 7 处</summary><blockquote data-ch="773">“很好，怎么合作？”徐获同意了<cite>第 773 章</cite></blockquote><blockquote data-ch="774">想也不想一剑就切成了两半<cite>第 773 章</cite></blockquote><blockquote data-ch="774">我不想跟你动手，我们休战<cite>第 773 章</cite></blockquote><blockquote data-ch="774">昨天晚上的人是我，游戏对临时主人有特别要求<cite>第 774 章</cite></blockquote><blockquote data-ch="774">作为别墅的主人要在夜晚保证别墅和客房的安全<cite>第 774 章</cite></blockquote><blockquote data-ch="774">这个副本越早通关难度越低<cite>第 774 章</cite></blockquote><blockquote data-ch="775">恭喜您被选为今天的临时主人<cite>第 775 章</cite></blockquote></details>
-<h4 id="story-4" data-ch="776">四、打扫别墅（第 776–777 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="776">雨衣男没通关，他说第一晚失败的就是妩媚女玩家，她有一件像“木箱穿剑”魔术的厉害道具。<sup class="cite" title="第776章：第一天晚上通关失败的就是她；第776章：魔术中的木箱穿剑看过吗">776</sup></span><span class="stmt" data-ch="777">徐获告诉盟友自己是临时主人，答应晚上挨个敲门，让他们看着学。红头发、孟三、卢贞他们花了一整天把别墅里外打扫干净，补墙刷漆、换好玻璃；那两个欺负赵晓静的人想捣乱，被徐获按住。<sup class="cite" title="第776章：卢贞还在储物间里找到了一桶没开封的墙漆">776–777</sup></span><span class="stmt" data-ch="777">晚餐像模像样：徐获坐主人位，用鉴定叉验过娃娃脸扔来的火腿，众人举杯；他说有些分区很宜居，玩家身份也可以暂停。<sup class="cite" title="第777章：作为临时主人的徐获坐在主人位；第777章：玩家的身份可以暂停">777</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="776">第一天晚上通关失败的就是她<cite>第 776 章</cite></blockquote><blockquote data-ch="776">魔术中的木箱穿剑看过吗<cite>第 776 章</cite></blockquote><blockquote data-ch="777">卢贞还在储物间里找到了一桶没开封的墙漆<cite>第 776 章</cite></blockquote><blockquote data-ch="777">作为临时主人的徐获坐在主人位<cite>第 777 章</cite></blockquote><blockquote data-ch="777">玩家的身份可以暂停<cite>第 777 章</cite></blockquote></details>
-<h4 id="story-5" data-ch="778">五、称职的主人（第 778–779 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="779">熄灯两小时后，徐获故意踩出脚步声，从一楼查起，挨个房间敲门、看门窗、压床单。对那两个埋伏在门后的玩家，他几次把门开个缝就走开。<sup class="cite" title="本句未附原文">778–779</sup></span><span class="stmt" data-ch="778">在妩媚女玩家房里，他点破她第一晚杀了人不收拾；雨衣男没通关，是因为她用假人换走了真尸体，把尸体藏进了床垫。她出手，徐获用琴弦吊住她，又让她以为已经刺穿了他，趁机下毒；她安静地死去，房里什么都没弄坏、床单也没弄脏。他把两具尸体从后门抛到院墙外。<sup class="cite" title="第778章：他没能通关的最大原因应该是你用假人换了真尸体；第778章：没有破坏房间内的任何设施，也没有弄脏床单">778</sup></span><span class="stmt" data-ch="779">回到房里，卢贞说出自己的职业和特性；徐获和她约了暗号，日后在悬赏平台以“树林里五个迷路的小矮人”为题联系。天亮前，他处理掉了对面那两个玩家，把通关方法交代给卢贞。<sup class="cite" title="第779章：不如标题就叫树林里五个迷路的小矮人怎么样；第779章：休息到早上六点，徐获去把对面那俩人处理了">779</sup></span><span class="stmt" data-ch="779">八点一到，他从旧别墅消失，回到移民局，收到通关公告：完美履行了临时主人的职责。<sup class="cite" title="第779章：徐获从旧别墅里消失，一瞬回到了之前的移民局">779</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="778">他没能通关的最大原因应该是你用假人换了真尸体<cite>第 778 章</cite></blockquote><blockquote data-ch="778">没有破坏房间内的任何设施，也没有弄脏床单<cite>第 778 章</cite></blockquote><blockquote data-ch="779">不如标题就叫树林里五个迷路的小矮人怎么样<cite>第 779 章</cite></blockquote><blockquote data-ch="779">休息到早上六点，徐获去把对面那俩人处理了<cite>第 779 章</cite></blockquote><blockquote data-ch="779">徐获从旧别墅里消失，一瞬回到了之前的移民局<cite>第 779 章</cite></blockquote></details>
-<h4 id="story-6" data-ch="780">六、结算（第 780 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="780">奖励是一项特殊特性“请坐”：在一个像房间的空间里说出“请坐”，客人要落座维持三分钟主宾友好时间，一日一次。<sup class="cite" title="第780章：请坐：一栋房子或者一个房间；第780章：一日仅限使用一次">780</sup></span><span class="stmt" data-ch="780">合并机会他用在“死里逃生几率”和“瞄准器”上，换来特殊道具“蚁穴标注”：能在困住人的空间里标出薄弱处，标注永不消失。<sup class="cite" title="第780章：因为这两件合并可以交换一件特殊道具">780</sup></span><span class="stmt" data-ch="780">私家侦探回信：移民国外的两个孩子里，男孩和养父母五年前被海啸卷走，官方判定死亡。徐获住进一家玩家组织开的酒店，又碰上了叶应东。<sup class="cite" title="第780章：移民国外的两个孩子中的男孩及其父母已经死亡">780</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="780">请坐：一栋房子或者一个房间<cite>第 780 章</cite></blockquote><blockquote data-ch="780">一日仅限使用一次<cite>第 780 章</cite></blockquote><blockquote data-ch="780">因为这两件合并可以交换一件特殊道具<cite>第 780 章</cite></blockquote><blockquote data-ch="780">移民国外的两个孩子中的男孩及其父母已经死亡<cite>第 780 章</cite></blockquote></details>
+<section id="cast" class="fgroup"><h3>人物</h3>
+<ul class="people"><li data-ch="779"><b class="subject">卢贞</b><span class="text">E级玩家，在树林里迷路好几天，被徐获救济后与他同住；职业是“幕后工作人员”，特性让自己存在感弱化，代价是总迷路。徐获离开前把通关方法交给她，还约了联系暗号。</span><span class="ch">第 768–769、779 章</span><details class="src"><summary>原文</summary><blockquote>我的职业是幕后工作人员<cite>第 779 章</cite></blockquote></details></li><li data-ch="779"><b class="subject">董丘</b><span class="text">和卢贞一起迷路的同伴，说话不过脑子。徐获觉得他精神状态不稳，临走让卢贞提防，结局没有交代。</span><span class="ch">第 771、779 章</span></li><li data-ch="779"><b class="subject">梁冲</b><span class="text">住三楼、爱玩匕首的年轻玩家，成为进化者前是癌症晚期；他主动找徐获结盟，透露临时主人夜里还要保证别墅和客房的安全。徐获离开时他还在别墅里。</span><span class="ch">第 772–774、777、779 章</span></li><li data-ch="775"><b class="subject">冯光</b><span class="text">梁冲的同屋，E级玩家，第二晚当上临时主人，按要求做了却没通关。</span><span class="ch">第 774–775 章</span></li><li data-ch="776"><b class="subject">孟三</b><span class="text">落单时被娃娃脸和雨衣男围攻，徐获劈开重锤救下他，之后帮着打扫别墅。</span><span class="ch">第 773–774、776 章</span></li><li data-ch="772"><b class="subject">赵晓静</b><span class="text">被三个男玩家追打欺负的女玩家，徐获捏断施暴者的脖子救下她。</span><span class="ch">第 772 章</span></li><li data-ch="778"><b class="subject">雨衣男、娃娃脸</b><span class="text">一伙玩家的主力和下手阴狠的同伴，趁乱杀人、围攻孟三，见了徐获的剑才认怂休战。雨衣男第三晚当临时主人，被妩媚女玩家用假人换走尸体，没能通关。</span><span class="ch">第 772–773、775–776、778 章</span></li><li data-ch="778"><b class="subject">妩媚女玩家</b><span class="text">开门迎客、会变魔术的女玩家，第一晚的临时主人，杀了人没收拾，之后处处阻挠别人通关。被徐获点破后出手，反被毒死在自己房里。</span><span class="ch">第 768、776、778 章</span><details class="src"><summary>原文</summary><blockquote>直到她吐出最后一口气<cite>第 778 章</cite></blockquote></details></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、关键关系、伏笔与未解、承接前文。写到第 780 章，含全部剧透。</span></summary><section id="summary" class="fgroup"><h3>剧情梗概</h3>
+<h4 id="summary-1" data-ch="768">雨夜的别墅</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="768">徐获在移民局过夜时闻到一股怪味，睁眼已在暴雨里的树林中；他救济了困在林子里好几天的卢贞五人，找到一栋旧别墅。<sup class="cite" title="第 768 章">768</sup></span><span class="stmt" data-ch="769">人一到齐，大门锁死，屏幕把规则放了一遍就消失了，卢贞跟着徐获住进楼梯边的一间。<sup class="cite" title="第769章：这个游戏介绍是一次性的">768–769</sup></span><span class="stmt" data-ch="770">第一晚就死了四个人，脖子上各有一对像被毒蛇咬出的血孔；徐获提醒众人，与其互相猜忌，不如防着这种杀人道具。<sup class="cite" title="第770章：他们好像是被蛇咬死的">770</sup></span><span class="stmt" data-ch="772">第二天娃娃脸一伙趁乱又杀了人，三个男玩家追打赵晓静，徐获捏断了施暴那人的脖子。<sup class="cite" title="本句未附原文">772</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="769">这个游戏介绍是一次性的<cite>第 769 章</cite></blockquote><blockquote data-ch="770">他们好像是被蛇咬死的<cite>第 770 章</cite></blockquote></details>
+<h4 id="summary-2" data-ch="773">结盟</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="773">三楼的梁冲找徐获结盟，拿出能拍视频的眼睛贴纸，让卢贞夜里从门缝往外拍；当晚的临时主人在楼里转了一圈，没人死，也没人通关。<sup class="cite" title="第773章：“很好，怎么合作？”徐获同意了">773</sup></span><span class="stmt" data-ch="774">第三天一早，娃娃脸和雨衣男围攻落单的孟三，徐获一剑劈开重锤救下人，雨衣男看到那把剑就认了怂。<sup class="cite" title="第 773–774 章">773–774</sup></span><span class="stmt" data-ch="774">冯光承认前一晚的临时主人是他，按要求做了却没通关；梁冲私下透露，游戏还单独要求主人在夜里保证别墅和客房的安全。<sup class="cite" title="第774章：作为别墅的主人要在夜晚保证别墅和客房的安全">774</sup></span><span class="stmt" data-ch="774">徐获想明白，尸体也算要打扫的垃圾，杀一个人在特权之内；这个副本越早通关越容易，拖下去，没通关的人会拉别人下水。<sup class="cite" title="第774章：这个副本越早通关难度越低">774</sup></span><span class="stmt" data-ch="776">他请全体玩家吃饭、提议休战；当晚雨衣男当临时主人，清走了尸体，却在妩媚女玩家房里大打出手，打穿了墙，仍没通关。<sup class="cite" title="本句未附原文">775–776</sup></span><span class="stmt" data-ch="775">天亮，徐获收到通知：他是今天的临时主人。<sup class="cite" title="第 775 章">775</sup></span></p><details class="src block fgroup"><summary>本段原文 3 处</summary><blockquote data-ch="773">“很好，怎么合作？”徐获同意了<cite>第 773 章</cite></blockquote><blockquote data-ch="774">作为别墅的主人要在夜晚保证别墅和客房的安全<cite>第 774 章</cite></blockquote><blockquote data-ch="774">这个副本越早通关难度越低<cite>第 774 章</cite></blockquote></details>
+<h4 id="summary-3" data-ch="776">称职的主人</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="776">雨衣男说第一晚失败的就是妩媚女玩家，她有一件像“木箱穿剑”魔术的厉害道具。<sup class="cite" title="第776章：第一天晚上通关失败的就是她">776</sup></span><span class="stmt" data-ch="777">徐获向盟友亮明自己是临时主人，答应夜里挨个敲门，让他们看着学。盟友花一整天把别墅里外打扫干净、补墙刷漆、换好玻璃，晚餐时他坐上了主人位。<sup class="cite" title="第 776–777 章">776–777</sup></span><span class="stmt" data-ch="779">熄灯两小时后，他故意踩出脚步声，从一楼查起，挨个房间敲门、看门窗、压床单。<sup class="cite" title="本句未附原文">778–779</sup></span><span class="stmt" data-ch="778">在妩媚女玩家房里，他点破她第一晚杀了太多人没收拾，又用假人换走雨衣男抛出的真尸体、藏进床垫，害他没能通关。<sup class="cite" title="第778章：他没能通关的最大原因应该是你用假人换了真尸体">778</sup></span><span class="stmt" data-ch="778">她出手时，徐获让她以为已经刺穿了自己，趁机下毒；她安静地死去，房里什么都没弄坏，床单也没弄脏。<sup class="cite" title="第778章：没有破坏房间内的任何设施，也没有弄脏床单">778</sup></span><span class="stmt" data-ch="779">他把尸体从后门抛到院墙外。回房后卢贞说出自己的职业和特性，两人约好日后在悬赏平台以“树林里五个迷路的小矮人”为题联系。天亮前，他处理掉埋伏在对面的两个玩家，把通关方法交代给卢贞。<sup class="cite" title="第779章：休息到早上六点，徐获去把对面那俩人处理了">778–779</sup></span><span class="stmt" data-ch="780">八点一到，他回到移民局，通关公告说他完美履行了临时主人的职责，奖励是一项特殊特性“请坐”。<sup class="cite" title="第779章：徐获从旧别墅里消失，一瞬回到了之前的移民局">779–780</sup></span><span class="stmt" data-ch="780">回到移民局后，他雇的侦探回了信：移民国外的两个孩子里，男孩和养父母五年前被海啸卷走，官方判定死亡。<sup class="cite" title="本句未附原文">780</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="776">第一天晚上通关失败的就是她<cite>第 776 章</cite></blockquote><blockquote data-ch="778">他没能通关的最大原因应该是你用假人换了真尸体<cite>第 778 章</cite></blockquote><blockquote data-ch="778">没有破坏房间内的任何设施，也没有弄脏床单<cite>第 778 章</cite></blockquote><blockquote data-ch="779">休息到早上六点，徐获去把对面那俩人处理了<cite>第 779 章</cite></blockquote><blockquote data-ch="780">徐获从旧别墅里消失，一瞬回到了之前的移民局<cite>第 779 章</cite></blockquote></details>
 </section>
 <section id="puzzle" class="fgroup"><h3>解谜结构</h3>
-<p class="note">规则写得明白，难在规则之间互相打架，以及游戏只私下告诉临时主人的那几条义务。</p>
-<h4 id="puzzle-1" data-ch="774">明面上的规则</h4>
-<ul class="items"><li data-ch="774"><span class="text">客人被规则捆住，夜里的主场全留给临时主人；主人能杀一人，却又要维持整洁、不能破坏建筑，两条规则互相打架，暧昧的地方很多。</span><span class="ch">第 769、774 章</span></li><li data-ch="775"><span class="text">一次只有一个临时主人能通关，没法合作；越早通关越容易，拖得越久，没通关的人越会拉别人下水。</span><span class="ch">第 774–775 章</span><details class="src"><summary>原文</summary><blockquote>这个副本越早通关难度越低<cite>第 774 章</cite></blockquote></details></li></ul>
-<h4 id="puzzle-2" data-ch="775">主人的隐藏义务</h4>
-<ul class="items"><li data-ch="775"><span class="text">临时主人会收到单独通知：维持别墅整洁卫生，夜里保证别墅和客房的安全——发出声音让客人安心入眠、检查门窗防小偷、确认客房床被是否柔软。</span><span class="ch">第 774–775 章</span><details class="src"><summary>原文</summary><blockquote>比如发出声音让客人安心入眠<cite>第 775 章</cite></blockquote><blockquote>再次确认客房床被是否柔软令客人舒适<cite>第 775 章</cite></blockquote></details></li><li data-ch="778"><span class="text">尸体也算要清理的垃圾：杀一个人在特权之内，杀人造成的损坏也被允许，但杀多了、没收拾，就不称职。</span><span class="ch">第 774、778 章</span><details class="src"><summary>原文</summary><blockquote>杀了人没有及时处理垃圾<cite>第 778 章</cite></blockquote></details></li></ul>
-<h4 id="puzzle-3" data-ch="774">前三个主人为什么失败</h4>
-<ul class="items"><li data-ch="778"><span class="text">第一晚是妩媚女玩家，杀了四个人没收拾。</span><span class="ch">第 770、776、778 章</span></li><li data-ch="774"><span class="text"><span class="tier guess" title="徐获的推断" tabindex="0">徐获推测</span>第二晚是冯光，只在楼里转了转、进了没有活人的房间，没进有人住的客房。</span><span class="ch">第 773–774 章</span></li><li data-ch="778"><span class="text">第三晚是雨衣男，清走了尸体，却被妩媚女玩家用假人换走一具真尸体藏进床垫。</span><span class="ch">第 775、778 章</span></li></ul>
-<h4 id="puzzle-4" data-ch="779">徐获怎么做</h4>
-<ul class="items"><li data-ch="779"><span class="text">白天让盟友把别墅打扫一新、补好墙；夜里故意踩出脚步声，挨个房间敲门查门窗、压床单，只在捣乱的人身上动手，杀人不留痕迹，尸体抛到院墙外。</span><span class="ch">第 776、778–779 章</span></li></ul>
-</section>
-<section id="fates" class="fgroup"><h3>人物结局</h3>
-<p class="note">截至第 780 章。</p>
-<ul class="people"><li data-ch="780"><b class="subject"><a href="../people.html?upto=780#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">通关，得到特殊特性“请坐”，合并出“蚁穴标注”。</span><span class="ch">第 779–780 章</span></li><li data-ch="778"><b class="subject">妩媚女玩家</b><span class="text">被徐获毒死在自己房里。</span><span class="ch">第 778 章</span><details class="src"><summary>原文</summary><blockquote>直到她吐出最后一口气<cite>第 778 章</cite></blockquote></details></li><li data-ch="779"><b class="subject">欺负赵晓静的两名玩家</b><span class="text">天亮前被徐获“处理”了。</span><span class="ch">第 779 章</span></li><li data-ch="779"><b class="subject">卢贞</b><span class="text">拿到了通关方法，留在别墅里等轮到自己；徐获让她提防董丘。</span><span class="ch">第 779 章</span></li><li data-ch="779"><b class="subject">梁冲、冯光、孟三、赵晓静、董丘、雨衣男、娃娃脸</b><span class="text">到徐获离开时都还在别墅里，结局没有交代。</span><span class="ch">第 779 章</span></li></ul>
-</section>
-<section id="callbacks" class="fgroup"><h3>承接前文</h3>
-<p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
-<ul class="items"><li data-ch="768"><a class="thread-no" href="../threads.html?upto=780#thread-074" title="伏笔总表">#074</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>第七个医生：徐获开始觉得，当年在第十七医院出现的那名医生不是独行者，可能有同伴，也在挖掘、培养继任者；商书铭已经是其中一员。</span><span class="ch">第 768 章</span><details class="src"><summary>原文</summary><blockquote>他开始觉得当初出现在第十七医院的那名医生并不是一个独行者<cite>第 768 章</cite></blockquote><blockquote>商书铭已经成为这批人中的一份子<cite>第 768 章</cite></blockquote></details></li><li data-ch="780"><a class="thread-no" href="../threads.html?upto=780#thread-178" title="伏笔总表">#178</a><span class="text">被领养走的孩子：侦探查到，移民国外的男孩和养父母五年前被海啸卷走，尸体没找到，官方判定死亡。</span><span class="ch">第 780 章</span><details class="src"><summary>原文</summary><blockquote>移民国外的两个孩子中的男孩及其父母已经死亡<cite>第 780 章</cite></blockquote><blockquote>五年前被海啸卷走，尸体也没找到<cite>第 780 章</cite></blockquote></details></li><li data-ch="771"><a class="thread-no" href="../threads.html?upto=780#thread-023" title="伏笔总表">#023</a><span class="text">菲尔德家族：别墅书房里的礼仪书写到，有贵族女子嫁进菲尔德家族，又把菲尔德家族的礼仪推广到游戏政府内部；徐获还从没在任何分区遇到过恒星集团。</span><span class="ch">第 771 章</span><details class="src"><summary>原文</summary><blockquote>菲尔德家族的礼仪能在游戏分区的政府内部推广<cite>第 771 章</cite></blockquote><blockquote>徐获还没有在任何一个游戏分区里遇到恒星集团及其下属分公司<cite>第 771 章</cite></blockquote></details></li></ul>
+<h4 id="puzzle-1" data-ch="774">怎样才算合格的主人</h4>
+<ul class="items"><li data-ch="774"><b class="subject">谜面</b><span class="text">通关任务只说要成为合格的别墅主人；主人能杀一人，又要维持整洁、不能破坏建筑，两条规则互相打架。</span><span class="ch">第 769、774 章</span></li><li data-ch="775"><b class="subject">线索</b><span class="text">临时主人会收到单独通知：维持整洁卫生，夜里保证别墅和客房的安全，比如发出声音让客人安心入眠、检查门窗、确认床被柔软。</span><span class="ch">第 774–775 章</span><details class="src"><summary>原文</summary><blockquote>比如发出声音让客人安心入眠<cite>第 775 章</cite></blockquote></details></li><li data-ch="778"><b class="subject">谜底</b><span class="text">尸体也算要清理的垃圾，杀一个人、因一名玩家造成的破坏都在允许范围内；称职的主人要把别墅打扫干净，夜里逐间巡查，不弄坏任何东西。</span><span class="ch">第 774、778 章</span><details class="src"><summary>原文</summary><blockquote>杀了人没有及时处理垃圾<cite>第 778 章</cite></blockquote></details></li></ul>
+<h4 id="puzzle-2" data-ch="776">前三个主人为什么失败</h4>
+<ul class="items"><li data-ch="776"><b class="subject">谜面</b><span class="text">前三晚各有一名临时主人，都没能通关。</span><span class="ch">第 773–776 章</span></li><li data-ch="778"><b class="subject">线索</b><span class="text">第一晚死了四个人，没人收拾。第二晚的主人只在楼里转了一圈，进过空房间。第三晚雨衣男清走了尸体，徐获却在院墙外的尸体里发现一具是假的。</span><span class="ch">第 770、773、778 章</span></li><li data-ch="778"><b class="subject">谜底</b><span class="text">妩媚女玩家杀人太多，没有收拾。照徐获推断，冯光是因为没进有人住的客房。雨衣男则被她用假人换走了一具真尸体，那具尸体藏在床垫里。</span><span class="ch">第 774、776、778 章</span></li></ul>
+<h4 id="puzzle-3" data-ch="774">越拖越难</h4>
+<ul class="items"><li data-ch="774"><b class="subject">谜面</b><span class="text">每天只有一个不公开的临时主人，没轮到或没通关的人会怎么做？</span><span class="ch">第 769、774 章</span></li><li data-ch="778"><b class="subject">线索</b><span class="text">拖人下水的办法很简单，只要让人晚上回不了房间；徐获当主人这晚，欺负赵晓静的两人早就埋伏在门后。</span><span class="ch">第 774、778 章</span></li><li data-ch="779"><b class="subject">谜底</b><span class="text">徐获白天按住想捣乱的人，夜里对门后埋伏的两人只把门开条缝就走开，先解决妩媚女玩家，天亮前才处理掉那两人。</span><span class="ch">第 776–779 章</span></li></ul>
 </section>
 <section id="relations" class="fgroup"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
@@ -265,12 +328,14 @@ h4[id] { scroll-margin-top:16px; }
 <g class="node" data-ch="774"><circle cx="490.7" cy="60" r="10.0"/><text x="490.7" y="44.0" class="name">赵晓静</text></g>
 <g class="node" data-ch="779"><circle cx="608.2" cy="408.4" r="10.0"/><text x="608.2" y="392.4" class="name">董丘</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li data-ch="779"><span class="text"><a href="../people.html?upto=780#person-%E5%BE%90%E8%8E%B7">徐获</a> → 同屋、托付通关方法 → 卢贞</span><span class="ch">第 769、779 章</span></li><li data-ch="773"><span class="text"><a href="../people.html?upto=780#person-%E5%BE%90%E8%8E%B7">徐获</a> — 结盟 — 梁冲</span><span class="ch">第 773 章</span></li><li data-ch="774"><span class="text">梁冲 — 同屋 — 冯光</span><span class="ch">第 774 章</span></li><li data-ch="774"><span class="text"><a href="../people.html?upto=780#person-%E5%BE%90%E8%8E%B7">徐获</a> → 相救 → 孟三</span><span class="ch">第 773–774 章</span></li><li data-ch="774"><span class="text"><a href="../people.html?upto=780#person-%E5%BE%90%E8%8E%B7">徐获</a> → 相救 → 赵晓静</span><span class="ch">第 772、774 章</span></li><li data-ch="779"><span class="text">卢贞 — 同路 — 董丘</span><span class="ch">第 771、779 章</span></li></ul></details>
+<details class="rel"><summary>文字版</summary><ul class="items"><li data-ch="779"><span class="text"><a href="../people.html?upto=780#person-%E5%BE%90%E8%8E%B7">徐获</a> → 同屋、托付通关方法 → 卢贞</span><span class="ch">第 769、779 章</span></li><li data-ch="773"><span class="text"><a href="../people.html?upto=780#person-%E5%BE%90%E8%8E%B7">徐获</a> — 结盟 — 梁冲</span><span class="ch">第 773 章</span></li><li data-ch="774"><span class="text">梁冲 — 同屋 — 冯光</span><span class="ch">第 774 章</span></li><li data-ch="774"><span class="text"><a href="../people.html?upto=780#person-%E5%BE%90%E8%8E%B7">徐获</a> → 相救 → 孟三</span><span class="ch">第 773–774 章</span></li><li data-ch="774"><span class="text"><a href="../people.html?upto=780#person-%E5%BE%90%E8%8E%B7">徐获</a> → 相救 → 赵晓静</span><span class="ch">第 772、774 章</span></li><li data-ch="779"><span class="text">卢贞 — 同路 — 董丘</span><span class="ch">第 771、779 章</span></li></ul></details>
 </section>
 <section id="threads" class="fgroup"><h3>伏笔与未解</h3>
-<p class="note">截至第 780 章还没有交代的事。</p>
-<ul class="items"><li data-ch="777"><a class="thread-no" href="../threads.html?upto=780#thread-179" title="伏笔总表">#179</a><span class="text">拿着香木到处跑的人：这个随机副本靠香木拉人，徐获正是因为有人把香木带进了移民局才被卷进来；妩媚女玩家也恨透了这种人。</span><span class="ch">第 769、776–777 章</span><details class="src"><summary>原文</summary><blockquote>是以一种昂贵的香木作为媒介<cite>第 769 章</cite></blockquote></details></li><li data-ch="771"><a class="thread-no" href="../threads.html?upto=780#thread-180" title="伏笔总表">#180</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>别墅从哪来：书房里的书写着进化动植物之间的“礼仪”，徐获没在去过的分区见过，猜这个副本场地来自 E27 排序靠前的分区，或者别的虫洞点。</span><span class="ch">第 771 章</span><details class="src"><summary>原文</summary><blockquote>这个副本场地可能是来自于E27排序靠前的游戏分区<cite>第 771 章</cite></blockquote></details></li><li data-ch="779"><a class="thread-no" href="../threads.html?upto=780#thread-181" title="伏笔总表">#181</a><span class="text">卢贞的暗号：等她升到 D 级，在悬赏平台发“树林里五个迷路的小矮人”，就能联系上徐获。</span><span class="ch">第 779 章</span><details class="src"><summary>原文</summary><blockquote>不如标题就叫树林里五个迷路的小矮人怎么样<cite>第 779 章</cite></blockquote></details></li></ul>
-</section><section id="links" class="fgroup"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC" data-ch="769">随机副本</a><a href="../world.html#world-%E7%89%B9%E6%80%A7" data-ch="779">特性</a><a href="../world.html#world-%E9%81%93%E5%85%B7" data-ch="780">道具</a><a href="../world.html#world-%E8%8F%B2%E5%B0%94%E5%BE%B7%E5%AE%B6%E6%97%8F" data-ch="771">菲尔德家族</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9" data-ch="771">进化的动植物</a><a href="../world.html#world-009%E5%8C%BA" data-ch="777">009 区</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E6%97%A0%E5%A4%84%E4%B8%8D%E5%9C%A8%E7%9A%84%E7%90%B4%E5%BC%A6" data-ch="778">无处不在的琴弦</a><a href="../items.html#item-%E9%89%B4%E5%AE%9A%E5%8F%89" data-ch="777">鉴定叉</a><a href="../items.html#item-%E6%AD%BB%E9%87%8C%E9%80%83%E7%94%9F%E5%87%A0%E7%8E%87" data-ch="780">死里逃生几率</a><a href="../items.html#item-%E7%9E%84%E5%87%86%E5%99%A8" data-ch="780">瞄准器</a><a href="../items.html#item-%E8%B4%B4%E7%BA%B8" data-ch="773">贴纸</a><a href="../items.html#item-%E8%9A%81%E7%A9%B4%E6%A0%87%E6%B3%A8" data-ch="780">蚁穴标注</a></p></section></details>
+<ul class="items"><li data-ch="777"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#179</span><span class="text">这个<a class="term" href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC" title="不需要车票、毫无征兆、地点随机出现的副本，卷进去的不限于玩家。">随机副本</a>靠香木拉人，徐获就是因为有人把香木带进移民局才被卷进来，那个人是谁没有交代，妩媚女玩家也恨透了这种人。</span><span class="ch">第 769、776–777 章</span></li><li data-ch="771"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#180</span><span class="text">书房里的书写着进化动植物之间的“礼仪”，徐获没在去过的分区见过，猜这个场地来自E27排序靠前的分区或别的<a class="term" href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C" title="游戏世界的大区；一个虫洞点下有许多互不相通的世界，被游戏划成分区。">虫洞点</a>。</span><span class="ch">第 771 章</span></li><li data-ch="779"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#181</span><span class="text">卢贞升到D级后，在悬赏平台发“树林里五个迷路的小矮人”，就能联系上徐获。</span><span class="ch">第 779 章</span></li></ul>
+</section>
+<section id="callbacks" class="fgroup"><h3>承接前文</h3>
+<ul class="items"><li data-ch="768"><a class="thread-no" href="../threads.html?upto=780#thread-201" title="伏笔总表">#074</a><span class="text">徐获开始觉得，当年在第十七医院出现的那名医生不是独行者，可能有同伴也在培养继任者，商书铭已经是其中一员。</span><span class="ch">第 768 章</span></li><li data-ch="780"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#178</span><span class="text">私家侦探回信：移民国外的男孩和养父母五年前被海啸卷走，尸体没找到，官方判定死亡。</span><span class="ch">第 780 章</span><details class="src"><summary>原文</summary><blockquote>五年前被海啸卷走，尸体也没找到<cite>第 780 章</cite></blockquote></details></li><li data-ch="771"><a class="thread-no" href="../threads.html?upto=780#thread-023" title="伏笔总表">#023</a><span class="text">别墅书房的礼仪书写到，有贵族女子嫁进菲尔德家族，又把菲尔德家族的礼仪推广到游戏政府内部。</span><span class="ch">第 771 章</span></li></ul>
+</section><section id="links" class="fgroup"><h3>本单元涉及的设定、地点与道具</h3><p class="note">设定在世界观页，地点和势力在地理页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC" data-ch="769">随机副本</a><a href="../world.html#world-%E7%89%B9%E6%80%A7" data-ch="779">特性</a><a href="../world.html#world-%E9%81%93%E5%85%B7" data-ch="780">道具</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9" data-ch="771">进化的动植物</a></p><p class="links fgroup"><b>地点与势力</b><a href="../places.html#faction-%E8%8F%B2%E5%B0%94%E5%BE%B7%E5%AE%B6%E6%97%8F" data-ch="771">菲尔德家族</a></p></section></details>
 <nav class="units-nav bottom"><a class="prev" href="u0037.html"><small>← 上一单元</small><b>009 区（茂城与商书铭）</b><small>第 764–767 章</small></a><a class="next" href="u0039.html"><small>下一单元 →</small><b>009 区（江江与首都安全区）</b><small>第 781–810 章</small><small class="after" data-beyond="781" hidden>在你的进度之后</small></a></nav><script>
 (function () {
   var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
@@ -296,6 +361,17 @@ h4[id] { scroll-margin-top:16px; }
     else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
     button.textContent = '仍然展开'; status.appendChild(button);
   });
+  if (window.matchMedia('(max-width:640px)').matches) {   // a phone (design reviews 2026-10-06): the graph is wider than
+    doc.querySelectorAll('details.rel').forEach(function (d) { d.open = true; });   // the screen, so the list shows too,
+    doc.querySelectorAll('.graph').forEach(function (g) {   // and the strip starts at the busiest person, not the left edge
+      var svg = g.querySelector('svg'), best = null;
+      if (!svg || !svg.viewBox || !svg.viewBox.baseVal) return;
+      g.querySelectorAll('g.node circle').forEach(function (c) { if (!best || +c.getAttribute('r') > +best.getAttribute('r')) best = c; });
+      if (!best) return;
+      var scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width;
+      g.scrollLeft = Math.max(0, +best.getAttribute('cx') * scale - g.clientWidth / 2);
+    });
+  }
 })();
 </script>
 <footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
@@ -379,5 +455,84 @@ h4[id] { scroll-margin-top:16px; }
     note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
     note.hidden = false; note.scrollIntoView();
   } else if (target) { target.scrollIntoView(); }
+})();
+
+document.addEventListener('toggle', function (e) {
+  var d = e.target;
+  if (!d.open || d.tagName !== 'DETAILS' || d.classList.contains('src') || d.hasAttribute('data-fold')) return;
+  if (d.querySelector(':scope > button.fold-close') || d.getBoundingClientRect().height < window.innerHeight * 0.7) return;
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'fold-close'; b.textContent = '收起 ▲';
+  b.addEventListener('click', function () {
+    d.open = false;
+    var s = d.querySelector(':scope > summary') || d;
+    if (s.getBoundingClientRect().top < 0) s.scrollIntoView({block: 'start'});
+  });
+  d.appendChild(b);
+}, true);
+
+(function () {   // phones (step 7): the contents as a drawer, intros cut to three lines
+  var doc = document, root = doc.documentElement, small = window.matchMedia('(max-width:720px)');
+  var toc = doc.getElementById('toc') || doc.getElementById('jump');
+  if (toc) {
+    root.classList.add('has-toc');
+    var fab = doc.createElement('button'), back = doc.createElement('div'), filter = doc.createElement('input');
+    fab.type = 'button'; fab.className = 'toc-fab'; fab.textContent = '目录'; fab.setAttribute('aria-label', '目录');
+    var lastY = window.scrollY;   // scrolling down it steps aside, scrolling up it comes back (design review 2026-10-06)
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (y > lastY + 8 && y > 240) root.classList.add('fab-away'); else if (y < lastY - 8) root.classList.remove('fab-away');
+      lastY = y;
+    }, {passive: true});
+    back.className = 'toc-backdrop';
+    filter.type = 'search'; filter.className = 'toc-filter'; filter.placeholder = '在目录里找…';
+    toc.insertBefore(filter, toc.firstChild);
+    doc.body.appendChild(back); doc.body.appendChild(fab);
+    var open = function (on) { root.classList.toggle('toc-open', on); if (on && small.matches) filter.focus({preventScroll: true}); };
+    fab.addEventListener('click', function () { open(!root.classList.contains('toc-open')); });
+    back.addEventListener('click', function () { open(false); });
+    toc.addEventListener('click', function (e) { if (e.target.closest('a')) open(false); });
+    doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+    doc.querySelectorAll('a.totop').forEach(function (a) {   // on a phone it opens the contents, so it says so (GPT design review 2026-10-06)
+      a.textContent = '目录';
+      a.addEventListener('click', function (e) { if (small.matches) { e.preventDefault(); open(true); } });
+    });
+    filter.addEventListener('input', function () {   // names and data-keys (other names); a .find-only row shows only on a hit
+      var q = filter.value.replace(/\s/g, '');
+      toc.querySelectorAll('a').forEach(function (a) {
+        a.style.display = !q || (a.textContent + (a.dataset.keys || '')).replace(/\s/g, '').indexOf(q) >= 0 ? '' : 'none';
+      });
+      toc.querySelectorAll('.find-only').forEach(function (r) {
+        r.classList.toggle('found', !!q && Array.prototype.some.call(r.querySelectorAll('a'), function (a) { return a.style.display !== 'none'; }));
+      });
+    });
+  }
+  if (window.matchMedia('(max-width:640px)').matches) {
+    doc.querySelectorAll('.ticket-main > p.hint').forEach(function (p) {
+      if (p.scrollHeight < 90) return;
+      p.classList.add('clamped');
+      var b = doc.createElement('button');
+      b.type = 'button'; b.className = 'hint-more'; b.textContent = '展开说明';
+      b.addEventListener('click', function () { p.classList.remove('clamped'); b.remove(); });
+      p.after(b);
+    });
+  }
+})();
+
+(function () {   // a link into a closed fold opens the folds around its target first (design reviews 2026-10-06)
+  function openTo(id) {
+    var t = id && (document.getElementById(id) || document.getElementById(decodeURIComponent(id)));
+    for (var p = t && t.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a) openTo(a.getAttribute('href').slice(1));
+  }, true);
+  if (location.hash) openTo(location.hash.slice(1));
+  document.querySelectorAll('.graph, .growth').forEach(function (g) {   // a strip wider than the screen fades at its right edge
+    if (g.scrollWidth <= g.clientWidth + 2) return;
+    var check = function () { g.classList.toggle('at-end', g.scrollLeft + g.clientWidth >= g.scrollWidth - 4); };
+    g.classList.add('scroll-fade'); g.addEventListener('scroll', check, {passive: true}); check();
+  });
 })();
 </script></body></html>

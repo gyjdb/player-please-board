@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第十七医院（旅游小镇） · 单元卡 · 维度之下</title><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20x%3D%222%22%20y%3D%226%22%20width%3D%2228%22%20height%3D%2220%22%20rx%3D%223%22%20fill%3D%22%23d3a655%22/%3E%3Ccircle%20cx%3D%222%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ctext%20x%3D%2216%22%20y%3D%2221.5%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20text-anchor%3D%22middle%22%20fill%3D%22%2307080b%22%20font-family%3D%22serif%22%3E%E7%BB%B4%3C/text%3E%3C/svg%3E"><meta name="description" content="《玩家请上车》（海晏山 著）的读者整理：按单元写的梗概与解析，世界观、人物、地理、伏笔和道具库，可按读到的章数隐藏后文。"><meta name="theme-color" content="#07080b"><style>
+:root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
+  --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC","Source Han Serif CN","Noto Serif CJK SC","STSong","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace;
+  --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
+:root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#85621f; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380;
+  --mind:#7650b0; --space:#17788a; --time:#b25f18; --gold:#a07a10; }
+/* what stays dark in the light theme keeps the dark accents */
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth, .emblem) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
+:root[data-theme="light"] .banner button.primary { color:#fff; }
+:root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
+  background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
+:root[data-theme="light"] body { background:var(--paper); }
+a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+/* a dense run of names (items in hand, rewards, the units a person is in): ink with a thin red line, not a wall of red (design review 2026-10-06) */
+.quiet a, a.quiet { color:var(--ink); border-bottom:1px solid var(--line); border-bottom-color:color-mix(in srgb, var(--signal) 32%, transparent); }
+.quiet a:hover, a.quiet:hover { color:var(--signal); text-decoration:none; border-bottom-color:var(--signal); }
+main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
+
+/* nav: the rail */
+.rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
+.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; }
+@media (min-width:1100px) { .rail-inner { max-width:1060px; } }   /* brand, links, progress and switches on one line (2026-10-06) */
+.brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
+.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.12em; margin-left:6px; }   /* so brand, links, progress and switches fit one line at 920px */
+.rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
+.rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
+/* reading progress: one value for the whole site, set in the rail (localStorage wdzx.upto) */
+.rail .progress { margin-left:auto; display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--rail-muted); white-space:nowrap; }
+.rail .progress input { width:5.4em; background:transparent; color:var(--rail-ink); border:1px solid var(--rail-muted); border-radius:3px; padding:5px 6px; font:13px var(--mono); }
+.rail .progress input:invalid { border-color:var(--signal); }
+.has-progress .rail .progress input { border-color:var(--brass); color:var(--brass); }
+.rail .progress button { background:none; border:none; color:var(--rail-muted); font-size:17px; line-height:1; cursor:pointer; padding:4px 6px; }
+.banner { background:var(--card-2); border-bottom:1px solid var(--brass); }
+.banner-inner { max-width:920px; margin:0 auto; padding:10px 16px; font-size:14px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; }
+.banner-inner b { color:var(--brass); }
+.banner button { font:13px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:7px 12px; cursor:pointer; }
+.banner button.primary { background:var(--brass); color:var(--rail); border-color:var(--brass); }
+.progress-status { font-size:13px; color:var(--brass); margin:0 0 6px; }
+.progress-note { font-size:14px; color:var(--muted); margin:0 0 8px; }
+details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+@media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
+  .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
+.beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
+details.fold[data-fold][open] > summary { display:none; }   /* only the spoiler gate (hero 档案) drops its line once open */
+button.fold-close { display:block; margin:8px 0 2px; font:12.5px var(--sans); color:var(--muted); background:none; border:1px solid var(--line); border-radius:4px; padding:5px 12px; cursor:pointer; }
+button.fold-close:hover { color:var(--brass); border-color:var(--brass); }
+/* phones (step 7, 2026-10-06): one row of page links; intros cut to three lines; a page's contents (#toc, #jump) as
+   a drawer behind a 目录 button, with a filter; long CJK lines may break anywhere */
+button.toc-fab, .toc-backdrop { display:none; }
+input.toc-filter { display:block; width:100%; margin:2px 0 10px; }   /* the contents filter on wide screens too (2026-10-06); its look is the shared search box */
+nav.jump input.toc-filter { max-width:20em; margin:8px 0 6px; }
+.ticket-main p.premise { color:var(--ink); }
+@media (max-width:720px) {
+  html.has-toc button.toc-fab { display:block; position:fixed; right:14px; bottom:max(18px, env(safe-area-inset-bottom)); z-index:41; width:46px; height:46px;
+    padding:0; border:none; border-radius:50%; font-size:0; color:transparent; cursor:pointer; opacity:.94; box-shadow:0 4px 14px rgba(0,0,0,.35);
+    background:linear-gradient(#07080b,#07080b) 50% 16px / 18px 2px no-repeat, linear-gradient(#07080b,#07080b) 50% 22px / 18px 2px no-repeat,
+      linear-gradient(#07080b,#07080b) 50% 28px / 18px 2px no-repeat, #d3a655; transition:transform .2s ease, opacity .2s ease; }
+  html.fab-away:not(.toc-open) button.toc-fab { transform:translateY(90px); opacity:0; }
+  html.has-toc #toc, html.has-toc #jump { position:fixed !important; top:0; right:0; bottom:0; left:auto; width:min(86vw,360px);
+    max-height:none !important; margin:0; z-index:40; overflow:auto; overscroll-behavior:contain; background:var(--card);
+    border:none; border-left:1px solid var(--line); border-radius:0; padding:12px 16px 90px; transform:translateX(105%);
+    transition:transform .2s ease; box-shadow:-8px 0 24px rgba(0,0,0,.35); }
+  html.toc-open #toc, html.toc-open #jump { transform:none; }
+  html.toc-open .toc-backdrop { display:block; position:fixed; inset:0; z-index:39; background:rgba(0,0,0,.45); }
+  html.has-toc input.toc-filter { display:block; width:100%; margin:2px 0 10px; font-size:15px; min-height:40px; }
+}
+@media (max-width:640px) {
+  .rail nav { flex:1 1 100%; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+  .rail nav::-webkit-scrollbar { display:none; }
+  .rail nav a { flex:none; }
+  main { overflow-wrap:anywhere; }
+  .ticket-main p.hint.clamped { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:0; }
+  button.hint-more { background:none; border:none; color:var(--brass); font-size:12.5px; padding:2px 0 6px; cursor:pointer; }
+}
+[hidden] { display:none !important; }
+html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
+
+/* the 显示出处 and 浅色 switches */
+.toggle { position:absolute; opacity:0; pointer-events:none; }
+.switches { display:inline-flex; gap:8px; }
+.toggle-label { display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--rail-muted); border:1px solid #3a404b; border-radius:14px;
+  padding:4px 11px 4px 5px; cursor:pointer; user-select:none; }
+.toggle-label::before { content:""; flex:none; width:24px; height:14px; border-radius:7px; transition:background .15s;
+  background:radial-gradient(circle at 7px 50%, #8f897d 4px, transparent 4.6px), #262b33; }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail-ink); border-color:#8a7140; }
+#show-src:checked ~ .rail label[for="show-src"]::before, #theme-light:checked ~ .rail label[for="theme-light"]::before {
+  background:radial-gradient(circle at 17px 50%, #07080b 4px, transparent 4.6px), #d3a655; }
+#show-src:focus-visible ~ .rail label[for="show-src"], #theme-light:focus-visible ~ .rail label[for="theme-light"] { outline:2px solid #d3a655; outline-offset:2px; }
+html:not(.js) label[for="theme-light"] { display:none; }
+.ch, sup.cite, details.src, .src-only { display:none; }
+#show-src:checked ~ main .ch { display:inline-block; text-indent:0; }
+#show-src:checked ~ main sup.cite { display:inline; }
+#show-src:checked ~ main details.src { display:inline; }
+#show-src:checked ~ main .src-only { display:block; }
+#show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ticket-stub.src-only { display:none; }
+#show-src:checked ~ main .ticket-stub.src-only { display:flex; }
+.ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
+sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
+details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--line); color:color-mix(in srgb, var(--ink) 80%, var(--muted)); font:14.5px/1.75 var(--serif); }
+cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
+
+/* headings and text */
+h1, h2, h3, h4 { font-family:var(--serif); }
+h2.sign { display:inline-block; font-size:20px; margin:34px 0 10px; padding:4px 14px; background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-bottom:2px solid var(--signal); border-radius:4px; letter-spacing:.12em; }
+h3 { font-size:19px; margin:26px 0 8px; padding-left:12px; border-left:4px solid var(--signal); }
+h4 { font-size:15px; margin:16px 0 4px; color:var(--brass); letter-spacing:.06em; }
+.note { color:var(--muted); font-size:14px; margin:4px 0; }
+.meta { color:var(--muted); font-size:13px; }
+ul { margin:0; padding-left:20px; } li { margin:6px 0; }
+.chipline { display:flex; flex-wrap:wrap; gap:6px 8px; margin:8px 0; }
+.chipline a, .chip { background:var(--chip); color:var(--ink); border-radius:3px; padding:1px 9px; font-size:13px; white-space:nowrap; }
+
+/* the ticket (page header of a unit card, index entries) */
+.ticket { display:flex; background:linear-gradient(135deg, var(--card-2), var(--card)); border:1px solid var(--line); border-radius:10px; margin:18px 0 8px; position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.ticket-main { flex:1; padding:18px 22px 16px; min-width:0; position:relative; }
+.ticket-stub { width:170px; padding:16px 18px; border-left:2px dashed var(--line); position:relative; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.ticket-stub::before, .ticket-stub::after { content:""; position:absolute; left:-11px; width:20px; height:20px; border-radius:50%; background:var(--paper); border:1px solid var(--line); }
+.ticket-stub::before { top:-11px; } .ticket-stub::after { bottom:-11px; }
+.kicker { font-size:12px; letter-spacing:.3em; color:var(--signal); }
+.ticket h1 { font-size:34px; margin:2px 0 4px; letter-spacing:.06em; }
+.route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
+.stub-row { font:12px var(--mono); color:var(--muted); }
+.stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+/* a page's counts read like the fields of a ticket stub: a small label over a big number (2026-10-06) */
+.ticket-stub.stats { gap:12px; }
+.ticket-stub.stats .stub-row:not(.src-only) { font:600 24px/1.05 var(--mono); color:var(--ink); }   /* figures in ink; gold kept for its few meanings */
+.ticket-stub.stats .stub-row:not(.src-only) b { display:block; font:500 11.5px/1.4 var(--sans); color:var(--muted); letter-spacing:.12em; margin:0 0 3px; }
+.ticket-stub.stats small { font:500 12px var(--sans); color:var(--muted); margin-left:4px; }
+a.stub-row { display:block; text-decoration:none; } a.stub-row:hover b { color:var(--brass); }   /* a count that jumps to its section */
+.stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
+  display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
+.stamp small { font-size:10px; margin-left:1px; }
+
+/* the dark system panel for text the game shows */
+.sys { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px; padding:10px 14px; margin:8px 0; font:14px/1.75 var(--serif); }
+.sys::before { content:"【系统】"; color:var(--brass); margin-right:4px; font-family:var(--sans); font-size:12px; letter-spacing:.1em; }
+.sys b { color:var(--brass); font:600 12px var(--sans); margin-right:6px; }
+
+/* grade badge */
+.grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
+  color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.dark-ink { color:#14100a; }
+.grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
+.tag { text-indent:0; display:inline-block; font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+/* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
+.seal { flex:none; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
+.seal.wide { font-size:14px; }
+.seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
+.seal.mid { color:var(--ink); } .seal.low { color:var(--muted); }
+.seal.none { width:34px; height:26px; border:1px dashed var(--line); border-radius:4px; transform:none; color:var(--muted); font:13px var(--sans); }
+:root[data-theme="light"] .seal.top { color:#a07a10; }
+/* the player panel, in the book's 【key：value】 lines */
+.syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
+  padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel .row > span { color:var(--rail-ink); font-weight:600; }
+.syspanel .v-rate { color:var(--brass); } .syspanel .grade { font-size:12px; height:20px; min-width:24px; vertical-align:1px; }   /* gold for evolution; a level in its colour */
+.evo-mind { color:var(--mind); } .evo-space { color:var(--space); } .evo-time { color:var(--time); }
+.syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+@media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
+.upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已否定 (denied or refuted); settled points carry no tag */
+.tier { text-indent:0; display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+.tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
+.tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
+
+.hidden { display:none !important; }
+nav.pagenav { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0 6px; font-size:14px; }
+nav.pagenav > b { color:var(--muted); font-weight:400; font-size:13px; margin-right:2px; }
+nav.pagenav a { padding:3px 11px; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--ink); }
+nav.pagenav a:hover { border-color:var(--brass); color:var(--brass); text-decoration:none; }
+@media (min-width:721px) { nav.pagenav input.toc-filter { display:none; } }
+@media (max-width:720px) {
+  html.has-toc nav.pagenav { display:block; }
+  html.has-toc nav.pagenav > b { display:block; margin:0 0 6px; }
+  html.has-toc nav.pagenav a { display:block; border:none; border-bottom:1px solid var(--line); border-radius:0; background:none; padding:10px 2px; }
+}
+.totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
+@media (max-width:720px) { .totop { display:inline; } }
+footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
+@media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; }
+  .ticket-stub.stats { flex-direction:row; flex-wrap:wrap; justify-content:flex-start; gap:10px 26px; } .ticket-stub.stats .stub-row.src-only { flex-basis:100%; } }
+
+input[type=search] { font:14px var(--sans); color:var(--ink); background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2714%27%20height%3D%2714%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27round%27%3E%3Ccircle%20cx%3D%2710.5%27%20cy%3D%2710.5%27%20r%3D%276.5%27/%3E%3Cpath%20d%3D%27M20%2020l-4.6-4.6%27/%3E%3C/svg%3E") no-repeat 10px 50%;
+  border:1px solid var(--line); border-radius:6px; padding:6px 10px 6px 31px; min-height:34px; }
+input[type=search]::placeholder { color:var(--muted); }
+input[type=search]:focus, select:focus { outline:none; border-color:var(--brass); box-shadow:0 0 0 2px color-mix(in srgb, var(--brass) 25%, transparent); }
+select { appearance:none; -webkit-appearance:none; font:14px var(--sans); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2710%27%20height%3D%276%27%20viewBox%3D%270%200%2010%206%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M1%201l4%204%204-4%27/%3E%3C/svg%3E") no-repeat right 10px center; padding:6px 30px 6px 10px; min-height:34px; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary { list-style:none; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::-webkit-details-marker { display:none; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::before { content:""; display:inline-block; width:6px; height:6px; margin:0 9px 2px 2px; border-right:1.6px solid currentColor;
+  border-bottom:1.6px solid currentColor; transform:rotate(-45deg); transition:transform .15s ease; opacity:.7; vertical-align:middle; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more)[open] > summary::before { transform:rotate(45deg); margin-bottom:4px; }
+@media (max-width:640px) { .scroll-fade { -webkit-mask-image:linear-gradient(to right, #000 82%, transparent); mask-image:linear-gradient(to right, #000 82%, transparent); }
+  .scroll-fade.at-end { -webkit-mask-image:none; mask-image:none; } }
+p.graph-hint { display:none !important; }
+
+details.section-fold > summary { cursor:pointer; font:600 16px var(--serif); color:var(--muted); margin:14px 0 6px; letter-spacing:.04em; }
+details.section-fold[open] > summary { color:var(--ink); }
+.layer { margin:6px 0 18px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; display:flex; align-items:center; gap:4px 12px; }   /* a phone wraps the note, 收起 stays on the right */
+.layer > summary::-webkit-details-marker { display:none; }
+.layer > summary b { flex:none; display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { flex:1 1 auto; color:var(--muted); font-size:13px; }
+.layer > summary::after { content:"收起"; flex:none; color:var(--muted); font-size:12px; }
+.layer:not([open]) > summary::after { content:"展开"; }
+section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
+ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
+ul.people li:last-child { border-bottom:none; }
+.thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
+a.term { color:inherit; border-bottom:1px dotted var(--muted); text-decoration:none; } a.term:hover { color:var(--signal); border-bottom-color:var(--signal); }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; overflow-wrap:anywhere; }   /* a long name wraps in its column */
+ul.people li { display:grid; grid-template-columns:8.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+ul.people li > :not(.subject) { grid-column:2; }
+@media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
+.harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
+.harvest .h-rating { display:flex; align-items:center; gap:12px; font-size:15.5px; } .harvest .h-line { margin:6px 0; font-size:15.5px; }
+.stamp-seal { position:absolute; top:12px; right:16px; transform:scale(1.5); transform-origin:top right; }
+small.diff { font-size:11px; color:var(--muted); margin-left:4px; letter-spacing:0; }
+nav.units-nav { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+nav.units-nav a { display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 14px; color:var(--ink); }
+nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
+nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
+nav.units-nav small.after { color:var(--signal); }
+@media (max-width:640px) { nav.units-nav { grid-template-columns:1fr; gap:8px; } nav.units-nav b { font-size:15px; } nav.units-nav a { padding:8px 12px; }
+  nav.units-nav span.none { display:none; } }   /* a phone: one above the other, a long name on one or two lines (design review 2026-10-06) */
+details.about-src { margin:8px 0 2px; } details.about-src > summary { color:var(--muted); font-size:13px; }
+.graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
+@media (max-width:640px) { .graph-hint { display:block; } }
+p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
+details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
+@media (max-width:640px) { .graph svg { min-width:720px; } }
+.legend { display:flex; flex-wrap:wrap; gap:4px 14px; margin:6px 0 2px; font-size:13px; color:var(--muted); }
+.legend span { display:inline-flex; align-items:center; gap:6px; }
+.legend i { display:inline-block; width:22px; height:0; border-top:3px solid; }
+.legend i.dash { border-top-style:dashed; border-color:var(--muted); }
+svg { width:100%; height:auto; display:block; }
+svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
+svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
+svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
+details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+.links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
+.links a, .links > span { margin-right:12px; white-space:nowrap; }   /* a name with no item card is a span: same spacing */
+@media (max-width:640px) { .links a, .links > span { white-space:normal; } }   /* a long place name wraps on a phone (u0148) */
+.progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
+.hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+.ticket-main .lede { margin:12px 0 2px; font:500 17px/1.75 var(--serif); color:var(--ink); max-width:40em; }
+nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
+nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
+nav.arcs a:hover { color:var(--signal); }
+h4[id] { scroll-margin-top:16px; }
+</style></head>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，第一个副本结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到第一个副本结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
+<div class="ticket" id="card" data-first="3017" data-end="3033"><div class="ticket-main"><div class="stamp-seal"><span class="seal none" data-ch="3033" title="他是副本持有人">—</span></div><div class="kicker">副本</div>
+<h1>第十七医院（旅游小镇）</h1><div class="route">第 3017 章 ──── 第 3033 章</div><div class="lede" data-ch="3020">徐获逼宗兰芝、萧阅两拨执法部骨干进入精神类副本第十七医院，自己藏在办公大楼拿他们试精神力；众人得在幻觉和失踪中完成一项通关任务。<span class="ch">第 3017、3020 章</span></div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 3284 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="3017" hidden>这张卡从第 3017 章开始，在你填的进度之后，整张都是剧透。</p></div>
+<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0141</div><div class="stub-row"><b>句数</b>175</div>
+<div class="stub-row"><b>引用</b>21 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<details class="about-src meta"><summary>出处怎么核对</summary>每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</details><p class="meta src-only">撰写：claude-opus-5-5 (claude-code subagent)，读第 3017–3033 章正文后撰写；2026-10-06 第六步由 Claude 子代理（claude-opus-5-5）改写（GPT 额度用完前第二波写成的两三张也在这批里，没有分开记录），原梗概折为逐幕复盘；2026-10-06 逐幕复盘不再上页面，其中要紧的由 Claude 子代理（claude-opus-5-5）收进剧情梗概和解谜结构。</p>
+<nav class="units-nav top"><a class="prev" href="u0140.html"><small>← 上一单元</small><b>014 区：三艘舰船来犯</b><small>第 3014–3016 章</small></a><a class="next" href="u0142.html"><small>下一单元 →</small><b>002 区白金之眼（白蔻上位）</b><small>第 3034–3036 章</small><small class="after" data-beyond="3034" hidden>在你的进度之后</small></a></nav>
+<nav class="jump pagenav" id="jump" aria-label="本页目录"><b>本卡</b><a href="#harvest" data-ch="3033">收获</a><a href="#setup" data-ch="3017">规则</a><a href="#cast" data-ch="3021">人物</a><a href="#summary" data-ch="3017">梗概</a><a href="#puzzle" data-ch="3023">解谜</a><a href="#relations" data-ch="3020">关系</a><a href="#threads" data-ch="3020">伏笔</a><a href="#callbacks" data-ch="3032">承接前文</a><a href="#callbacks-more" data-ch="3020">更多承接</a><a href="#links">设定与道具</a></nav>
+<details class="layer" open><summary><b>概况</b><span>背景与规则、人物。写到第 3033 章，含结局。</span></summary><section id="harvest" class="harvest quiet" data-ch="3033"><h3>徐获的收获</h3><div class="h-rating"><span class="seal none" title="不评级">—</span><span>书里没写评级（他是副本持有人）<span class="ch">第 3033 章</span></span></div><div class="h-line">他自己持有的随机副本，已是 C 级，这次开在一座已经没人的旅游小镇里：他点名宗兰芝、萧阅带执法部骨干进来当病人，自己坐镇办公大楼、扮成医生，精神力覆盖整座医院，拿他们练精神防线、试投带指令的“锚”，再试刚到手的两件 A 级道具。<span class="ch">第 3016–3017、3020、3028、3031–3032 章</span><details class="src"><summary>原文</summary><blockquote>精神力却可以覆盖到副本的任何地方<cite>第 3020 章</cite></blockquote><blockquote>他们出现在这里的唯一理由就是成为实验品<cite>第 3032 章</cite></blockquote></details></div><div class="h-line">宗兰芝借精神类副本的特性想象出危楼、让石像长满青苔，看破了夜间保安就是石像，众人这才能通关；他练手练得差不多了，让画女把困在停尸间和监牢里的人领出来，被石像拉进空间夹缝的几人永远回不来了。书里没有通关公告。<span class="ch">第 3033 章</span><details class="src"><summary>原文</summary><blockquote>被石像拉入空间夹缝的那几人永远回不来了<cite>第 3033 章</cite></blockquote></details></div><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
+<section id="setup" class="fgroup"><h3>背景与规则</h3>
+<ul class="items"><li data-ch="3017"><span class="text">第十七医院开在一座已经没人的旅游小镇里，镇口立着“此地有副本”的警示牌；徐获只发来地址、没有露面，众人跨过镇门就进了医院。</span><span class="ch">第 3017 章</span><details class="src"><summary>原文</summary><blockquote>小镇大门外立着块“此地有副本”的警示牌<cite>第 3017 章</cite></blockquote></details></li><li data-ch="3021"><span class="text">这是 C 级精神类副本，三个通关任务完成任意一项即可：破解夜间吃人怪兽之谜、走出停尸间、逃离看不见的监牢。</span><span class="ch">第 3017–3019、3021 章</span><details class="src"><summary>原文</summary><blockquote>三个通关任务，完成任意一项都可以通关<cite>第 3017 章</cite></blockquote></details></li><li data-ch="3018"><span class="text">门旁的提示牌写着“请玩家注意区分自己与病人的身份”：进来的人一律被当成病人，按登记的名字分房发药，众人都报了假名，走动要家属陪同。</span><span class="ch">第 3017–3018 章</span><details class="src"><summary>原文</summary><blockquote>请玩家注意区分自己与病人的身份<cite>第 3017 章</cite></blockquote></details></li><li data-ch="3019"><span class="text">病人先住一住院楼，病情严重转进整栋被金属封住的三住院楼；院里还有实验楼、疗养院、综合楼（地下一层是停尸间）和最远的办公大楼。</span><span class="ch">第 3017–3019 章</span></li><li data-ch="3022"><span class="text">副本介绍说夜里有吃人的怪兽，另有三名专职夜间保安按门诊大楼的出勤表巡楼，每栋楼限时巡视，护士劝病人夜里别出门。</span><span class="ch">第 3018–3019、3022 章</span></li><li data-ch="3025"><span class="text">玩家的念头会改变医院：病人说的事会逐渐成真，护士的模样、楼里的“幽灵”都可能出自玩家的想象，看到、摸到的都未必是真的。</span><span class="ch">第 3018、3021–3022、3025 章</span><details class="src"><summary>原文</summary><blockquote>因为病人们说的事好像正在逐渐变成事实<cite>第 3021 章</cite></blockquote></details></li><li data-ch="3025"><span class="text">陷入幻觉的人会反复说“我觉得我缺点东西”，光扇耳光叫不醒，得有人问一句缺什么，等他答完“仁义礼智信”或“良心”才醒。</span><span class="ch">第 3022、3025 章</span></li><li data-ch="3028"><span class="text">待得越久，受精神力量影响越深：道具和仪器会逐渐失效，人也慢慢失去对身体的掌控。</span><span class="ch">第 3028 章</span></li><li data-ch="3020"><span class="text">持有者徐获坐镇办公大楼，精神力能覆盖副本的任何地方，私下动手脚也不受副本限制。</span><span class="ch">第 3020 章</span><details class="src"><summary>原文</summary><blockquote>精神力却可以覆盖到副本的任何地方<cite>第 3020 章</cite></blockquote></details></li></ul>
+</section>
+<section id="cast" class="fgroup"><h3>人物</h3>
+<ul class="people"><li data-ch="3033"><b class="subject"><a href="../people.html?upto=3033#person-%E5%AE%97%E5%85%B0%E8%8A%9D">宗兰芝</a></b><span class="text">执法部新上任的一拨骨干的首领，手下<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96" title="进化者的身体进化到一定程度后发生的质变，也叫二次进化。">超级进化</a>者多；为通关不惜换出勤表、拿萧阅那边当诱饵，最后借想象让石像长满青苔，看破了夜间保安。年少杀父的旧事在“治疗”中被徐获点破，他自认与徐获差距悬殊，肿着脸出院后像是真的老实了。</span><span class="ch">第 3017、3030–3031、3033 章</span></li><li data-ch="3033"><b class="subject"><a href="../people.html?upto=3033#person-%E8%90%A7%E9%98%85">萧阅</a></b><span class="text">另一拨执法部骨干的首领，队里三分之一是玩家组织让出名额、带进来镀金的人；她一进三住院楼就被困，后来最早怀疑这是徐获的副本，又提醒众人他可能已成危险的精神病患者。肿着脸出院，在镇口和宗兰芝一起用道具遁走。</span><span class="ch">第 3017、3020、3023–3024、3033 章</span></li><li data-ch="3033"><b class="subject"><a href="../people.html?upto=3033#person-%E7%94%BB%E5%A5%B3">画女</a></b><span class="text">一直跟着徐获、靠通讯仪说话的女玩家，在医院里完全不受精神力影响，抢着替发癫的人扇耳光，当众控纸，还拉住了石像。宗兰芝由此推断她本人就是一件<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E9%81%93%E5%85%B7" title="维度裂缝最高等级的道具，能超越时间与空间，分动态和静态两种。">超级道具</a>；最后她奉徐获之命把困住的人领了出来，叮嘱众人别说出她会控纸。</span><span class="ch">第 3027–3029、3032–3033 章</span></li><li data-ch="3033"><b class="subject">蒋科</b><span class="text">宗兰芝的手下，叫醒发癫的同伴向来一巴掌就上；带人探办公大楼被精神攻击打退，又因一拳打了护士，差点被送进实验楼。后来掉进看不见的监牢，被画女领出来，见到宗兰芝时眼眶都湿了。</span><span class="ch">第 3022、3024、3028、3033 章</span></li><li data-ch="3021"><b class="subject">庄禾</b><span class="text">萧阅这边的年轻玩家，推门时一句“总不能是空的吧”，医院里就冒出了人影；和萧阅同困三住院楼，成了徐获试投“锚”的第一个对象。锚失控，他差点昏过去，随后跟着萧阅用道具逃了出来。</span><span class="ch">第 3017、3020–3021 章</span></li><li data-ch="3033"><b class="subject">孟俊彦</b><span class="text">萧阅这边说话讨打的年轻人，却当众替徐获说话，说他是 014 区的英雄；随手推开一扇病房门，就掉进了看不见的监牢。他在那里和潘不凡等人躺平打牌，被领出来时还乐呵呵地要给大家发自愈药剂。</span><span class="ch">第 3019、3024–3026、3033 章</span></li><li data-ch="3025"><b class="subject">孙鹤逍</b><span class="text">萧阅这边的玩家，提醒她提防宗兰芝，又发现向护士发问、护士顺着说下去，事情就会成真。他想借此做张假出勤表防身，最后作罢，说分区的英雄是来教训他们的，低头挨打才是正理。</span><span class="ch">第 3025 章</span></li><li data-ch="3031"><b class="subject">曾光耀</b><span class="text">宗兰芝这边的精神进化者，用<a class="term" href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" title="精神力量能外放、干扰到别人时，以精神进化者为内核造出的“世界”。">精神世界</a>和鞭子弄醒发癫的同伴，也在天花板上看见过人身鳞尾的怪物。他奉命换掉门诊大楼的出勤表，第二天被一针放倒拖进实验楼，此后没再单独出现。</span><span class="ch">第 3027、3030–3031 章</span></li><li data-ch="3033"><b class="subject">廖娜</b><span class="text">宗兰芝这边的女玩家，负责记录医院里的空间波动；她的特性是遇袭时被动后退三米，便主动去当诱饵，看清了扑来的是一尊石像。她被宗兰芝和画女救下，还对宗兰芝说，徐获和他们是不一样的人。</span><span class="ch">第 3030、3032–3033 章</span></li><li data-ch="3033"><b class="subject">解小安</b><span class="text">宗兰芝这边入门不久的精神向超级进化者，第一夜带队进了停尸间。此后再无音讯，直到徐获练够了手，让画女把困在里面的人领了出来。</span><span class="ch">第 3019、3021、3031、3033 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、关键关系、伏笔与未解、承接前文、更多承接。写到第 3033 章，含全部剧透。</span></summary><section id="summary" class="fgroup"><h3>剧情梗概</h3>
+<nav class="arcs"><a href="#summary-1" data-ch="3017">点名进院</a><a href="#summary-2" data-ch="3018">三住院楼里的试验</a><a href="#summary-3" data-ch="3022">夜里少人</a><a href="#summary-4" data-ch="3025">看不见的监牢</a><a href="#summary-5" data-ch="3028">画女</a><a href="#summary-6" data-ch="3030">假出勤表与“治疗”</a><a href="#summary-7" data-ch="3032">石像</a><a href="#summary-8" data-ch="3033">出院</a></nav>
+<h4 id="summary-1" data-ch="3017">点名进院</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="3017">宗兰芝、萧阅为在执法部多占席位报上去的骨干名单，成了徐获的点名册，一个不到都可能招来后果，他们只能跟他进精神类副本。<sup class="cite" title="第3017章：现在这份名单就成了徐获的点名册">3017</sup></span><span class="stmt" data-ch="3017">宗兰芝看出徐获像是精神进化出了差错，却判断他只是对他们不耐烦，还想借机近距离学他通关；萧阅那边三分之一是来镀金的少爷，只觉得是去挨打。<sup class="cite" title="本句未附原文">3017</sup></span><span class="stmt" data-ch="3017">第二天两人只收到一个空旅游小镇的地址，徐获始终没露面，他们没再等，跨过镇门进了第十七医院。<sup class="cite" title="本句未附原文">3017</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="3017">现在这份名单就成了徐获的点名册<cite>第 3017 章</cite></blockquote></details>
+<h4 id="summary-2" data-ch="3018">三住院楼里的试验</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="3018">护士把所有人当病人登记、分房，想参观就叫来保安；萧阅很快想到，连护士的模样都可能出自他们自己的脑子。<sup class="cite" title="本句未附原文">3018</sup></span><span class="stmt" data-ch="3019">两边各出六人分三路探楼：宗兰芝一组在综合楼地下找到挂牌的停尸间，微型炸弹也炸不开；去三住院楼的萧阅、庄禾一组却失了联。<sup class="cite" title="本句未附原文">3019</sup></span><span class="stmt" data-ch="3020">这四人其实只被几名病人误关进一个房间，面板和道具却全失效了；萧阅以为楼栋越往后干扰越深，真正的原因是徐获在办公大楼动了手脚。<sup class="cite" title="第3020章：他们之所以这么快被困住，只是因为徐获动了手脚">3020</sup></span><span class="stmt" data-ch="3020">徐获刚又突破一层桎梏，还不太适应涌进来的大量信息；他猜王家庄园的姚女士病倒，大概就是身体扛不住长期的信息过载。<sup class="cite" title="本句未附原文">3020</sup></span><span class="stmt" data-ch="3020">徐获刚摸到精神防线：穿过它拿不到别人的记忆，却能让干扰和控制快得多；他在庄禾身上试投一个只带“打蚊子”指令的“锚”，锚失控了。<sup class="cite" title="第3020章：因此指令也很简单，那就是“打蚊子”">3020</sup></span><span class="stmt" data-ch="3021">庄禾差点昏过去，同伴接连头痛流鼻血，却始终没有幻觉；等面板恢复，四人用道具逃了出来。<sup class="cite" title="本句未附原文">3020–3021</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="3020">他们之所以这么快被困住，只是因为徐获动了手脚<cite>第 3020 章</cite></blockquote><blockquote data-ch="3020">因此指令也很简单，那就是“打蚊子”<cite>第 3020 章</cite></blockquote></details>
+<h4 id="summary-3" data-ch="3022">夜里少人</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="3022">医院开始照病人的话变化：有人从楼顶跳下，门牌号全变了，楼里多出穿墙的“幽灵”，被穿过的人像被抽干了力气。<sup class="cite" title="本句未附原文">3021–3022</sup></span><span class="stmt" data-ch="3025">天黑后停尸间的门开了，两边共十二人由解小安等人带队进去，约好以一小时为限；门随即关上，里面的人再也联系不上。<sup class="cite" title="本句未附原文">3021–3022、3025</sup></span><span class="stmt" data-ch="3025">夜里六人一组行动，仍有人走过安全门就不见了；三名夜间保安巡过后，留下的人接连头痛流鼻血，几次失踪都和保安的位置重叠。<sup class="cite" title="本句未附原文">3021–3022、3025</sup></span><span class="stmt" data-ch="3023">第二天见过医生的人开始说自己“缺点东西”，有人腹部多了缝合疤；萧阅怀疑这是徐获的副本，宗兰芝嘲讽说他多半是院长，“在教育我们”。<sup class="cite" title="第3023章：如果副本是他的，那他最有可能是院长">3023</sup></span><span class="stmt" data-ch="3024">众人又难堪又愤怒，孟俊彦却替徐获说话，说他是 014 区的英雄；宗兰芝也承认徐获是救星，可他们要的是 014 区的决策权。<sup class="cite" title="本句未附原文">3023–3024</sup></span><span class="stmt" data-ch="3024">蒋科带人去探办公大楼，仪器测到顶楼有人，他们还没上去就倒了六个，有人醒来连为什么进副本都忘了。<sup class="cite" title="本句未附原文">3024</sup></span><span class="stmt" data-ch="3024">萧阅则提醒众人，徐获从王家庄园出来后判若两人，他们面对的可能是一个危险的精神病患者。<sup class="cite" title="第3024章：我们面对的可能是一个危险的精神病患者">3024</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="3023">如果副本是他的，那他最有可能是院长<cite>第 3023 章</cite></blockquote><blockquote data-ch="3024">我们面对的可能是一个危险的精神病患者<cite>第 3024 章</cite></blockquote></details>
+<h4 id="summary-4" data-ch="3025">看不见的监牢</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="3025">两拨人从此分头行动，都想找诱饵弄清保安和怪物；孙鹤逍提醒萧阅提防宗兰芝，还发现向护士发问、护士顺着说下去，事情就会成真。<sup class="cite" title="本句未附原文">3025</sup></span><span class="stmt" data-ch="3026">孟俊彦随手推开一间病房，掉进了看不见的监牢，在那座空无一人的医院里碰上了宗兰芝那边走丢的潘不凡。<sup class="cite" title="本句未附原文">3025–3026</sup></span><span class="stmt" data-ch="3027">陷入幻觉的人只会重复“我觉得我缺点东西”，耳光打不醒，得有人问他缺什么，等他说完“仁义礼智信”或“良心”才醒。<sup class="cite" title="本句未附原文">3025、3027</sup></span><span class="stmt" data-ch="3028">徐获这时在清点王家庄园的奖励，新到手的两件精品 A 级道具“颅内铃声”“提线人偶”已在这些人身上试过；为了练熟精神防线，他让他们接连陷入幻觉、互扇耳光。<sup class="cite" title="本句未附原文">3027–3028</sup></span><span class="stmt" data-ch="3028">第二天评估、吃药时，众人发现道具都在失效，人也在失去对身体的掌控；蒋科一拳打了护士，靠同伴掀翻桌子才翻窗逃走。<sup class="cite" title="本句未附原文">3028</sup></span></p>
+<h4 id="summary-5" data-ch="3028">画女</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="3028">只有画女不受影响：她扇了宗兰芝一耳光，又搬进他的病房，抢着替发癫的人“走流程”扇耳光，还说“他喜欢”。<sup class="cite" title="本句未附原文">3027–3028</sup></span><span class="stmt" data-ch="3029">众人想通过她见徐获，她的条件是以后的耳光都由她来打；有人要打她，“梦中情人”扑进来咬伤他，满屋碎纸像刀片一样飞旋。<sup class="cite" title="本句未附原文">3029</sup></span><span class="stmt" data-ch="3029">众人认出这是海市<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E9%81%93%E5%85%B7" title="维度裂缝最高等级的道具，能超越时间与空间，分动态和静态两种。">超级道具</a>事件里的控纸场面，这才明白超级道具从没离开 014 区，还在一个傻子手里。<sup class="cite" title="第3029章：谁能想到道具竟然没有离开014区，还在一个傻子手里">3029</sup></span><span class="stmt" data-ch="3030">夜里两人交换秘密，宗兰芝说自己很久以前杀过一个坏人，画女却说她是骗他的；当晚他梦见父亲倒在血泊里，自己抓起刀刺进那双怒睁的眼睛。<sup class="cite" title="本句未附原文">3030</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="3029">谁能想到道具竟然没有离开014区，还在一个傻子手里<cite>第 3029 章</cite></blockquote></details>
+<h4 id="summary-6" data-ch="3030">假出勤表与“治疗”</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="3030">为弄清保安和怪物的关系，宗兰芝让曾光耀把出勤表上保安的巡逻推迟半小时：保安照假表走就能反推，不照着走，萧阅那边正好在前面当诱饵。<sup class="cite" title="本句未附原文">3030</sup></span><span class="stmt" data-ch="3031">第二天出勤表被重新覆盖，曾光耀被一针放倒拖进实验楼，想救他的人一碰上保安，进化来的力气就没了。<sup class="cite" title="本句未附原文">3031</sup></span><span class="stmt" data-ch="3031">随后的“治疗”里，对面的医生就是徐获：他问宗兰芝是不是梦见了父亲、是不是后悔杀了他，宗兰芝刚要发作，徐获已站到他身后。<sup class="cite" title="第3031章：你经常回想起他，是觉得后悔杀死他">3031</sup></span><span class="stmt" data-ch="3031">治疗过后，他在住院楼的病人里又见到了父亲，跟上去再杀了一次，只觉得荒诞。<sup class="cite" title="本句未附原文">3031</sup></span><span class="stmt" data-ch="3032">宗兰芝这才明白精神进化者之间隔着巨大的经验沟壑；他担心徐获借副本捏住他们的把柄，其实徐获对这些秘密毫无兴趣，只把他们当实验品。<sup class="cite" title="第3032章：他们出现在这里的唯一理由就是成为实验品">3031–3032</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="3031">你经常回想起他，是觉得后悔杀死他<cite>第 3031 章</cite></blockquote><blockquote data-ch="3032">他们出现在这里的唯一理由就是成为实验品<cite>第 3032 章</cite></blockquote></details>
+<h4 id="summary-7" data-ch="3032">石像</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="3032">又过了两天，几乎每人都昏厥过两遍，被“挖走”内脏、关进实验楼的人越来越多，他们只确定怪物总在保安巡逻之前出现。<sup class="cite" title="本句未附原文">3032</sup></span><span class="stmt" data-ch="3032">廖娜凭遇袭会被动后退三米的特性去三住院楼当诱饵，看清扑来的是一尊石像；徐获有意放任石像碰她，又让画女跟了过去。<sup class="cite" title="本句未附原文">3032</sup></span><span class="stmt" data-ch="3032">石像再次出现在她身后时，宗兰芝赶来推开两人，画女则拉住了一半已没进空间夹缝的石像。<sup class="cite" title="本句未附原文">3032</sup></span><span class="stmt" data-ch="3032">宗兰芝由此推断画女本人就是一件超级道具，也第一次佩服当年只是 E 级玩家的徐获，敢为 014 区去赌那一点机会。<sup class="cite" title="本句未附原文">3032</sup></span><span class="stmt" data-ch="3033">廖娜说徐获和他们是不一样的人，宗兰芝笑着认了：徐获全不在意别人怎么看，他自己却还在向外求。<sup class="cite" title="本句未附原文">3033</sup></span><span class="stmt" data-ch="3033">他随即借精神副本的特性想象出危楼、让石像长满青苔，青苔留下的痕迹暴露了保安的行踪。<sup class="cite" title="本句未附原文">3033</sup></span><span class="stmt" data-ch="3033">众人由此推断石像就是夜间保安，总算能通关了；徐获也练够了手，让画女把困在停尸间和监牢里的人领了出来。<sup class="cite" title="本句未附原文">3033</sup></span><span class="stmt" data-ch="3033">被石像拖进空间夹缝的几人，却永远回不来了。<sup class="cite" title="第3033章：被石像拉入空间夹缝的那几人永远回不来了">3032–3033</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="3033">被石像拉入空间夹缝的那几人永远回不来了<cite>第 3033 章</cite></blockquote></details>
+<h4 id="summary-8" data-ch="3033">出院</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="3033">众人怕消了肿又被拉出来重打，宁可肿着脸出院；在镇口撞见来接他们的同伴和执法总部的人，要面子的宗兰芝、萧阅当即用道具遁走。<sup class="cite" title="本句未附原文">3033</sup></span><span class="stmt" data-ch="3033">出院的一幕还是被拍下传到了论坛，半天之内，有点渠道的玩家都知道这两拨新上任的执法部骨干被徐获打肿了脸才放出来。<sup class="cite" title="第3033章：被徐获打肿了脸才放出来的">3033</sup></span><span class="stmt" data-ch="3033">舰船的事没了下文，外区也没再进攻，014 区恢复了原先的节奏，宗兰芝等人像是真的老实了。<sup class="cite" title="本句未附原文">3033</sup></span><span class="stmt" data-ch="3033">聂玄那边分批送来物资，其中有一枚带空间属性的<a class="term" href="../world.html#world-%E6%AC%A1%E7%B1%BB%E7%9F%B3" title="能让别的物质发生质变的石头，附近的矿石会变成次类石。">原生石</a>；等<a class="term" href="../world.html#world-%E7%81%B0%E8%89%B2%E7%8E%A9%E5%AE%B6" title="不用按月进副本、仍保留个人面板和道具的玩家。">灰色玩家</a>名额和非玩家车票份额陆续下发，徐获又离开了 014 区。<sup class="cite" title="本句未附原文">3033</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="3033">被徐获打肿了脸才放出来的<cite>第 3033 章</cite></blockquote></details>
+</section>
+<section id="puzzle" class="fgroup"><h3>解谜结构</h3>
+<h4 id="puzzle-1" data-ch="3025">夜间吃人怪兽之谜</h4>
+<ul class="items"><li data-ch="3025"><b class="subject">谜面</b><span class="text">副本介绍说夜里有吃人的怪兽，又有三名专职夜间保安按出勤表巡楼；有人走过一道门就不见了，亲眼见过怪物的人都没回来。</span><span class="ch">第 3018、3021–3022、3025 章</span></li><li data-ch="3032"><b class="subject">线索</b><span class="text">失踪总和保安的位置重叠，怪物总在保安巡逻之前出现；推迟巡逻时间的假出勤表第二天就被医院覆盖，换表的人遭了重罚；廖娜当诱饵时，看清扑来的是一尊能隐进空间夹缝的石像。</span><span class="ch">第 3025、3031–3032 章</span><details class="src"><summary>原文</summary><blockquote>夜间更换出出勤表的曾光耀被一针放倒<cite>第 3031 章</cite></blockquote></details></li><li data-ch="3033"><b class="subject">谜底</b><span class="text">石像是徐获从藏仙湖下还没成形的副本场地里抓来的，能把人拖进空间夹缝，它们既是夜间保安也是噬人怪物；宗兰芝想象出危楼、让石像长满青苔，青苔蹭出的痕迹暴露了保安的行踪，众人由此坐实这一点。</span><span class="ch">第 3032–3033 章</span><details class="src"><summary>原文</summary><blockquote>同时它们也是夜间保安和噬人怪物<cite>第 3032 章</cite></blockquote><blockquote>也让他们推断出石像其实就是夜间保安<cite>第 3033 章</cite></blockquote></details></li></ul>
+<h4 id="puzzle-2" data-ch="3026">看不见的监牢</h4>
+<ul class="items"><li data-ch="3026"><b class="subject">谜面</b><span class="text">有人推开一扇病房门就消失了，房里只测得到一下模糊的空间波动；萧阅从第三个任务叫“逃离监牢”判断，被困的人暂时没有性命之忧。</span><span class="ch">第 3025–3026 章</span></li><li data-ch="3030"><b class="subject">线索</b><span class="text">徐获提醒画女，医院里有别的空间；廖娜记录到白天医院里的空间波动很小、夜里却很频繁，可能是多重空间产生了交互。</span><span class="ch">第 3027、3030 章</span></li><li data-ch="3033"><b class="subject">谜底</b><span class="text">潘不凡说破：监牢是另一个空间里的医院，空无一人、楼内外都很新，幻觉全退，面板和游戏渠道却被切断；两人猜出口随时可能出现，扫了五六趟楼也没找到，最后是画女把人领了出来。</span><span class="ch">第 3026、3033 章</span><details class="src"><summary>原文</summary><blockquote>看不见的监牢是另一个空间，是空的<cite>第 3026 章</cite></blockquote></details></li></ul>
+<h4 id="puzzle-3" data-ch="3023">徐获在哪里，在做什么</h4>
+<ul class="items"><li data-ch="3023"><b class="subject">谜面</b><span class="text">徐获只给地址、一直没露面；萧阅一组一进三住院楼就没了面板，见过医生的人又说自己缺了“仁义礼智信”或“良心”，身上多出缝合疤。</span><span class="ch">第 3019–3020、3023 章</span></li><li data-ch="3024"><b class="subject">线索</b><span class="text">萧阅从“仁义礼智信”想到这可能是徐获的副本，宗兰芝断定他是院长；仪器测到办公大楼顶楼有一个人，蒋科一行还没上去就被精神攻击打倒。</span><span class="ch">第 3023–3024 章</span></li><li data-ch="3032"><b class="subject">谜底</b><span class="text">徐获坐镇办公大楼，精神力覆盖全院：三住院楼里那么快被困、无端头痛流血，是他在练精神防线、试带指令的“锚”；给宗兰芝做治疗的医生也是他本人，众人只是实验品。</span><span class="ch">第 3020、3031–3032 章</span></li></ul>
+<h4 id="puzzle-4" data-ch="3032">画女为什么不受影响</h4>
+<ul class="items"><li data-ch="3032"><b class="subject">谜面</b><span class="text">众人的道具都在失效，一直跟着徐获的画女却完全不受精神力影响，行动自如，还和有思维的道具“梦中情人”为伍。</span><span class="ch">第 3028–3029、3032 章</span></li><li data-ch="3032"><b class="subject">线索</b><span class="text">有人要打她时，满屋碎纸像刀片一样飞旋，正是海市<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E9%81%93%E5%85%B7" title="维度裂缝最高等级的道具，能超越时间与空间，分动态和静态两种。">超级道具</a>事件里的控纸场面；她又敢拉住能把人拖进空间夹缝的石像，不在特防部的资料里，也只跟着徐获行动。</span><span class="ch">第 3029、3032 章</span></li><li data-ch="3033"><b class="subject">谜底</b><span class="text">宗兰芝推断，控纸的不是她拿到的超级道具，她本人就是一件超级道具；出院时画女只叮嘱众人别把她会控纸的事说出去，说徐获要保密。</span><span class="ch">第 3032–3033 章</span><details class="src"><summary>原文</summary><blockquote>如果她其实就是一件超级道具呢？<cite>第 3032 章</cite></blockquote></details></li></ul>
+</section>
+<section id="relations" class="fgroup"><h3>关键关系</h3>
+<p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-kill)"></i>杀死</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
+<p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-ally)"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-enemy)"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-kill)"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-other)"/></marker>
+</defs>
+<g class="edge" data-ch="3032"><title>徐获 → 拉进医院当实验品，亲自“治疗” → 宗兰芝（第 3020、3031–3032 章）</title><path d="M224.3,321.6 Q293.4,315.3 350.5,310.1" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="3032"><title>徐获 → 拉进医院当实验品 → 萧阅（第 3020、3032 章）</title><path d="M224.3,321.6 Q243.0,255.8 258.4,201.4" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="3020"><title>徐获 → 投下带指令的锚 → 庄禾（第 3020 章）</title><path d="M224.3,321.6 Q154.7,336.7 96.8,349.3" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="3033"><title>徐获 — 同伴 — 画女（第 3027、3033 章）</title><path d="M224.3,321.6 Q271.0,369.6 309.3,409.1" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="3028"><title>画女 → 扇耳光，搬进他的病房 → 宗兰芝（第 3027–3028 章）</title><path d="M317.7,417.7 Q350.3,367.5 360.0,320.7" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="3033"><title>宗兰芝 → 套话、拉拢 → 画女（第 3029–3030、3033 章）</title><path d="M362.5,309.0 Q329.9,359.2 320.2,406.0" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="3030"><title>宗兰芝 → 换出勤表拿她那边当诱饵 → 萧阅（第 3030 章）</title><path d="M362.5,309.0 Q312.1,249.4 269.5,199.1" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="3025"><title>孙鹤逍 → 献计提防宗兰芝 → 萧阅（第 3025 章）</title><path d="M213.0,60 Q237.3,125.0 257.5,178.7" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="3032"><title>宗兰芝 → 救下当诱饵的她 → 廖娜（第 3032 章）</title><path d="M362.5,309.0 Q397.0,364.5 425.2,409.8" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="3032"><title>画女 → 拉住扑向她的石像 → 廖娜（第 3032 章）</title><path d="M317.7,417.7 Q374.6,418.9 419.5,419.8" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="3033"><title>孟俊彦 — 同困监牢 — 潘不凡（第 3026、3033 章）</title><path d="M605.3,60 Q652.6,60.0 688.0,60.0" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="3030"><title>宗兰芝 → 年少时杀死 → 宗兰芝的父亲（第 3030 章）</title><path d="M362.5,309.0 Q436.6,297.2 498.7,287.4" fill="none" style="stroke:var(--rel-kill)" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<text x="328.9" y="342.2" class="elabel" style="fill:var(--rel-enemy)" data-ch="3032">拉进医院当实验品，亲自“治疗”</text>
+<text x="243.0" y="259.8" class="elabel" style="fill:var(--rel-enemy)" data-ch="3032">拉进医院当实验品</text>
+<text x="154.7" y="340.7" class="elabel" style="fill:var(--rel-enemy)" data-ch="3020">投下带指令的锚</text>
+<text x="271.0" y="373.7" class="elabel" style="fill:var(--rel-ally)" data-ch="3033">同伴</text>
+<text x="346.9" y="365.1" class="elabel" style="fill:var(--rel-other)" data-ch="3028">扇耳光，搬进他的病房</text>
+<text x="355.9" y="383.2" class="elabel" style="fill:var(--rel-other)" data-ch="3033">套话、拉拢</text>
+<text x="300.0" y="239.2" class="elabel" style="fill:var(--rel-enemy)" data-ch="3030">换出勤表拿她那边当诱饵</text>
+<text x="237.4" y="128.9" class="elabel" style="fill:var(--rel-ally)" data-ch="3025">献计提防宗兰芝</text>
+<text x="435.6" y="381.4" class="elabel" style="fill:var(--rel-ally)" data-ch="3032">救下当诱饵的她</text>
+<text x="374.1" y="448.8" class="elabel" style="fill:var(--rel-ally)" data-ch="3032">拉住扑向她的石像</text>
+<text x="652.6" y="64.0" class="elabel" style="fill:var(--rel-ally)" data-ch="3033">同困监牢</text>
+<text x="436.5" y="301.2" class="elabel" style="fill:var(--rel-kill)" data-ch="3030">年少时杀死</text>
+<g class="node" data-ch="3028"><circle cx="362.5" cy="309.0" r="12.9"/><text x="362.5" y="290.1" class="name">宗兰芝</text></g>
+<g class="node" data-ch="3020"><circle cx="224.3" cy="321.6" r="12.0"/><text x="224.3" y="303.6" class="name">徐获</text></g>
+<g class="node" data-ch="3028"><circle cx="317.7" cy="417.7" r="12.0"/><text x="317.7" y="399.7" class="name">画女</text></g>
+<g class="node" data-ch="3025"><circle cx="261.7" cy="189.9" r="11.5"/><text x="261.7" y="172.4" class="name">萧阅</text></g>
+<g class="node" data-ch="3032"><circle cx="431.5" cy="420" r="10.8"/><text x="431.5" y="403.2" class="name">廖娜</text></g>
+<g class="node" data-ch="3020"><circle cx="85.1" cy="351.8" r="10.0"/><text x="85.1" y="335.8" class="name">庄禾</text></g>
+<g class="node" data-ch="3025"><circle cx="213.0" cy="60" r="10.0"/><text x="213.0" y="44.0" class="name">孙鹤逍</text></g>
+<g class="node" data-ch="3033"><circle cx="605.3" cy="60" r="10.0"/><text x="605.3" y="44.0" class="name">孟俊彦</text></g>
+<g class="node" data-ch="3033"><circle cx="700" cy="60" r="10.0"/><text x="700" y="44.0" class="name">潘不凡</text></g>
+<g class="node" data-ch="3030"><circle cx="510.6" cy="285.5" r="10.0"/><text x="510.6" y="269.5" class="name">宗兰芝的父亲</text></g>
+</svg></div>
+<details class="rel"><summary>文字版</summary><ul class="items"><li data-ch="3032"><span class="text"><a href="../people.html?upto=3033#person-%E5%BE%90%E8%8E%B7">徐获</a> → 拉进医院当实验品，亲自“治疗” → <a href="../people.html?upto=3033#person-%E5%AE%97%E5%85%B0%E8%8A%9D">宗兰芝</a></span><span class="ch">第 3020、3031–3032 章</span></li><li data-ch="3032"><span class="text"><a href="../people.html?upto=3033#person-%E5%BE%90%E8%8E%B7">徐获</a> → 拉进医院当实验品 → <a href="../people.html?upto=3033#person-%E8%90%A7%E9%98%85">萧阅</a></span><span class="ch">第 3020、3032 章</span></li><li data-ch="3020"><span class="text"><a href="../people.html?upto=3033#person-%E5%BE%90%E8%8E%B7">徐获</a> → 投下带指令的锚 → 庄禾</span><span class="ch">第 3020 章</span></li><li data-ch="3033"><span class="text"><a href="../people.html?upto=3033#person-%E5%BE%90%E8%8E%B7">徐获</a> — 同伴 — <a href="../people.html?upto=3033#person-%E7%94%BB%E5%A5%B3">画女</a></span><span class="ch">第 3027、3033 章</span></li><li data-ch="3028"><span class="text"><a href="../people.html?upto=3033#person-%E7%94%BB%E5%A5%B3">画女</a> → 扇耳光，搬进他的病房 → <a href="../people.html?upto=3033#person-%E5%AE%97%E5%85%B0%E8%8A%9D">宗兰芝</a></span><span class="ch">第 3027–3028 章</span></li><li data-ch="3033"><span class="text"><a href="../people.html?upto=3033#person-%E5%AE%97%E5%85%B0%E8%8A%9D">宗兰芝</a> → 套话、拉拢 → <a href="../people.html?upto=3033#person-%E7%94%BB%E5%A5%B3">画女</a></span><span class="ch">第 3029–3030、3033 章</span></li><li data-ch="3030"><span class="text"><a href="../people.html?upto=3033#person-%E5%AE%97%E5%85%B0%E8%8A%9D">宗兰芝</a> → 换出勤表拿她那边当诱饵 → <a href="../people.html?upto=3033#person-%E8%90%A7%E9%98%85">萧阅</a></span><span class="ch">第 3030 章</span></li><li data-ch="3025"><span class="text">孙鹤逍 → 献计提防宗兰芝 → <a href="../people.html?upto=3033#person-%E8%90%A7%E9%98%85">萧阅</a></span><span class="ch">第 3025 章</span></li><li data-ch="3032"><span class="text"><a href="../people.html?upto=3033#person-%E5%AE%97%E5%85%B0%E8%8A%9D">宗兰芝</a> → 救下当诱饵的她 → 廖娜</span><span class="ch">第 3032 章</span></li><li data-ch="3032"><span class="text"><a href="../people.html?upto=3033#person-%E7%94%BB%E5%A5%B3">画女</a> → 拉住扑向她的石像 → 廖娜</span><span class="ch">第 3032 章</span></li><li data-ch="3033"><span class="text">孟俊彦 — 同困监牢 — 潘不凡</span><span class="ch">第 3026、3033 章</span></li><li data-ch="3030"><span class="text"><a href="../people.html?upto=3033#person-%E5%AE%97%E5%85%B0%E8%8A%9D">宗兰芝</a> → 年少时杀死 → 宗兰芝的父亲</span><span class="ch">第 3030 章</span></li></ul></details>
+</section>
+<section id="threads" class="fgroup"><h3>伏笔与未解</h3>
+<ul class="items"><li data-ch="3033"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#449</span><span class="text">被石像拖进空间夹缝的几人永远回不来了，他们被拖去了哪里，连徐获也不清楚。</span><span class="ch">第 3032–3033 章</span></li><li data-ch="3020"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#597</span><span class="text">带指令的“锚”：徐获在庄禾身上的第一次尝试失控了；他设想锚能像定时炸弹，在很远的地方、很久以后执行命令，能不能做到还不知道。</span><span class="ch">第 3020 章</span></li><li data-ch="3033"><span class="text">停尸间的门只在夜里打开，进去的十二人很快断了联系，后来门能打开，里面却不见人；他们在里面遇到了什么、“走出停尸间”该怎么完成，都没有交代。</span><span class="ch">第 3021–3022、3031、3033 章</span></li></ul>
+</section>
+<section id="callbacks" class="fgroup"><h3>承接前文</h3>
+<ul class="items"><li data-ch="3032"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#451</span><span class="text">升级后的第十七医院这回开在一座空旅游小镇里，进来试用的是宗兰芝、萧阅两拨执法部骨干；医院能升级，正是因为徐获放进去的石像。</span><span class="ch">第 3017、3032 章</span></li><li data-ch="3033"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#449</span><span class="text">徐获从藏仙湖抓来的石像被放进第十七医院，成了夜间保安和噬人怪物，能把人拖进空间夹缝，最后被宗兰芝用青苔看破。</span><span class="ch">第 3032–3033 章</span></li><li data-ch="3033"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#588</span><span class="text">宗兰芝和萧阅的骨干被徐获当了几天实验品、打肿了脸才放出来；此后宗兰芝一伙心平气和地等风波过去，像是真的老实了。</span><span class="ch">第 3032–3033 章</span></li><li data-ch="3032"><a class="thread-no" href="../threads.html?upto=3033#thread-029" title="伏笔总表">#029</a><span class="text">宗兰芝问画女为什么跟着徐获，她只说喜欢；他由控纸、不受影响和敢拉石像推断，她本人就是一件<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E9%81%93%E5%85%B7" title="维度裂缝最高等级的道具，能超越时间与空间，分动态和静态两种。">超级道具</a>。</span><span class="ch">第 3029、3032 章</span></li></ul>
+</section>
+<section id="callbacks-more" class="fgroup"><details class="section-fold"><summary>更多承接</summary>
+<ul class="items"><li data-ch="3033"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#596</span><span class="text">宗兰芝判断三艘舰船本身是空的，多半是别的分区来试探徐获深浅；此后舰船的事果然没有后续，外区似乎也不打算再进攻。</span><span class="ch">第 3017、3033 章</span></li><li data-ch="3033"><a class="thread-no" href="../threads.html?upto=3033#thread-042" title="伏笔总表">#042</a><span class="text">执法总部终于和游戏政府接洽上，<a class="term" href="../world.html#world-%E7%81%B0%E8%89%B2%E7%8E%A9%E5%AE%B6" title="不用按月进副本、仍保留个人面板和道具的玩家。">灰色玩家</a>名额和非玩家车票份额逐渐下发，014 区的分区政府名副其实了。</span><span class="ch">第 3033 章</span><details class="src"><summary>原文</summary><blockquote>分区政府名副其实了<cite>第 3033 章</cite></blockquote></details></li><li data-ch="3020"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#595</span><span class="text">徐获适应信息过载后想到，姚女士生病，大概是她有天分、身体却撑不住长时间的信息过载。</span><span class="ch">第 3020 章</span></li><li data-ch="3020"><a class="thread-no" href="../threads.html?upto=3033#thread-201" title="伏笔总表">#201</a><span class="text">徐获认为，像章医生那样的人应该能在“锚”上动手脚，让它在特定条件下爆发，摧毁一个人的大脑。</span><span class="ch">第 3020 章</span></li></ul>
+</details></section><section id="links" class="fgroup"><h3>本单元涉及的设定、地点与道具</h3><p class="note">设定在世界观页，地点和势力在地理页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E7%B2%BE%E7%A5%9E%E7%B1%BB%E5%89%AF%E6%9C%AC" data-ch="3020">精神类副本</a><a href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" data-ch="3020">精神进化与精神世界</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E9%81%93%E5%85%B7" data-ch="3032">超级道具</a><a href="../world.html#world-%E6%B8%B8%E6%88%8F%E7%89%A9%E5%93%81" data-ch="3028">游戏物品</a><a href="../world.html#world-%E6%AC%A1%E7%B1%BB%E7%9F%B3" data-ch="3033">次类石与“时间起点”</a></p><p class="links fgroup"><b>地点与势力</b><a href="../places.html#place-014%E5%8C%BA" data-ch="3033">014 区</a><a href="../places.html#faction-%E7%89%B9%E4%BA%8B%E5%B1%80" data-ch="3017">特防部（原特事局）</a><a href="../places.html#faction-014%E5%8C%BA%E5%88%86%E5%8C%BA%E6%94%BF%E5%BA%9C" data-ch="3033">分区政府（014 区）</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82" data-ch="3033">自愈剂</a><a href="../items.html#item-%E6%A2%A6%E4%B8%AD%E6%83%85%E4%BA%BA" data-ch="3027">梦中情人</a><a href="../items.html#item-%E6%8F%90%E7%BA%BF%E4%BA%BA%E5%81%B6" data-ch="3027">提线人偶</a><a href="../items.html#item-%E9%A2%85%E5%86%85%E9%93%83%E5%A3%B0" data-ch="3027">颅内铃声</a></p></section></details>
+<nav class="units-nav bottom"><a class="prev" href="u0140.html"><small>← 上一单元</small><b>014 区：三艘舰船来犯</b><small>第 3014–3016 章</small></a><a class="next" href="u0142.html"><small>下一单元 →</small><b>002 区白金之眼（白蔻上位）</b><small>第 3034–3036 章</small><small class="after" data-beyond="3034" hidden>在你的进度之后</small></a></nav><script>
+(function () {
+  var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
+  var status = doc.getElementById('wdzx-status'), beyond = doc.querySelector('p.beyond'), box = doc.getElementById('wdzx-upto');
+  var layers = doc.querySelectorAll('details.layer'), peek = false;
+  var button = doc.createElement('button'); button.type = 'button'; button.className = 'peek';
+  button.addEventListener('click', function () {
+    if (peek) { box.dispatchEvent(new Event('input')); return; }   // the shared script puts the marks back and sends the event
+    peek = true;
+    doc.querySelectorAll('main .hidden').forEach(function (el) { el.classList.remove('hidden'); });
+    layers.forEach(function (d) { d.hidden = false; });
+    status.textContent = '已展开全部，含你进度之后的内容。'; button.textContent = '按进度收起'; status.appendChild(button);
+  });
+  doc.addEventListener('wdzx:progress', function (e) {
+    var n = e.detail, before = n < first, mid = !before && n < end;
+    peek = false;
+    if (beyond) beyond.hidden = true;
+    layers.forEach(function (d) { d.hidden = before; });
+    if (n === Infinity) return;
+    status.hidden = false;
+    if (before) status.textContent = '这张卡从第 ' + first + ' 章开始，在你的进度（第 ' + n + ' 章）之后，整张都是剧透，先收起了。';
+    else if (mid) status.textContent = '你读到第 ' + n + ' 章，这张卡写到第 ' + end + ' 章：之后的句子、评级和收获已藏起。';
+    else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
+    button.textContent = '仍然展开'; status.appendChild(button);
+  });
+  if (window.matchMedia('(max-width:640px)').matches) {   // a phone (design reviews 2026-10-06): the graph is wider than
+    doc.querySelectorAll('details.rel').forEach(function (d) { d.open = true; });   // the screen, so the list shows too,
+    doc.querySelectorAll('.graph').forEach(function (g) {   // and the strip starts at the busiest person, not the left edge
+      var svg = g.querySelector('svg'), best = null;
+      if (!svg || !svg.viewBox || !svg.viewBox.baseVal) return;
+      g.querySelectorAll('g.node circle').forEach(function (c) { if (!best || +c.getAttribute('r') > +best.getAttribute('r')) best = c; });
+      if (!best) return;
+      var scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width;
+      g.scrollLeft = Math.max(0, +best.getAttribute('cx') * scale - g.clientWidth / 2);
+    });
+  }
+})();
+</script>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
+</main><script>
+(function () {
+  var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;
+  var box = doc.getElementById('wdzx-upto'), clear = doc.getElementById('wdzx-clear'), banner = doc.getElementById('wdzx-banner');
+  var status = doc.getElementById('wdzx-status'), note = doc.getElementById('wdzx-note');
+  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('max') || Infinity;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function valid(n) { return n >= 1 && n <= reach; }
+  if (root.classList.contains('local')) {   // the Datasette database exists only on this machine
+    var nav = doc.querySelector('.rail nav'), db = doc.createElement('a');
+    db.href = nav.dataset.db; db.textContent = '数据库'; nav.appendChild(db);
+  }
+  if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
+  var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
+  saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
+  if (saved) box.value = saved;   // the box is the reader's own chapter; a card's ?upto only widens what this page shows
+  function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function shown() { var n = current(); return query ? Math.max(n < Infinity ? n : 0, query) : n; }
+  function apply() {
+    var mine = current(), n = shown(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', mine < Infinity);
+    banner.hidden = chosen;
+    if (!off) {
+      doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
+      doc.querySelectorAll('[data-until]').forEach(function (el) {   // an earlier state: shown before that chapter only
+        el.classList.toggle('hidden', n >= +el.dataset.until || +(el.dataset.ch || 0) > n);
+      });
+      doc.querySelectorAll('[data-first]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.first > n); });
+      doc.querySelectorAll('.fgroup').forEach(function (g) { g.classList.toggle('hidden', !g.querySelector('[data-ch]:not(.hidden)')); });
+      doc.querySelectorAll('.fsection').forEach(function (s) {
+        s.classList.toggle('hidden', !!s.querySelector('[data-first]') && !s.querySelector('[data-first]:not(.hidden), article:not([data-first])'));
+      });
+      doc.querySelectorAll('.upto-full').forEach(function (el) {
+        var cut = n < +el.dataset.last; el.classList.toggle('hidden', cut); el.nextElementSibling.style.display = cut ? 'inline' : '';
+      });
+      doc.querySelectorAll('[data-asof]').forEach(function (el) { el.textContent = '截至第 ' + Math.min(n, +el.dataset.asof) + ' 章'; });
+    }
+    doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
+    doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
+    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
+      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
+    });
+    status.hidden = n === Infinity;
+    status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : n !== mine ? '按这张单元卡显示到第 ' + n + ' 章；' + (mine < Infinity ? '你的进度仍是第 ' + mine + ' 章。' : '你还没填进度，在页头填了章号后以它为准。')
+      : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
+  }
+  function changed() {
+    if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
+    var n = current();
+    put(KEY, n < Infinity ? String(n) : null);
+    if (n < Infinity) put(SEEN, '1');
+    query = 0;
+    if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
+    note.hidden = true; apply();
+  }
+  box.addEventListener('input', changed);
+  clear.addEventListener('click', function () { box.value = ''; changed(); });
+  banner.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.choice === 'fill') { box.focus(); return; }
+      if (b.dataset.choice === 'start' && valid(+b.dataset.chapter)) {
+        box.value = b.dataset.chapter; changed();
+        note.textContent = '还没开始读：先只显示到第 ' + b.dataset.chapter + ' 章，第一个副本结束的地方。读起来以后，在页头改成你读到的章就行。';
+        note.hidden = false; return;
+      }
+      put(SEEN, '1'); apply();
+    });
+  });
+  apply();
+  var hash = location.hash.slice(1);   // ids are percent-encoded names (person-%E7%94%B2), so try the hash as it is first
+  var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
+  if (target && !off && target.closest('.hidden')) {
+    var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
+    var upto = shown(), why = upto !== current() ? '按这张单元卡的章号（第 ' + upto + ' 章）' : '按你的进度（读到第 ' + upto + ' 章）';
+    note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
+    note.hidden = false; note.scrollIntoView();
+  } else if (target) { target.scrollIntoView(); }
+})();
+
+document.addEventListener('toggle', function (e) {
+  var d = e.target;
+  if (!d.open || d.tagName !== 'DETAILS' || d.classList.contains('src') || d.hasAttribute('data-fold')) return;
+  if (d.querySelector(':scope > button.fold-close') || d.getBoundingClientRect().height < window.innerHeight * 0.7) return;
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'fold-close'; b.textContent = '收起 ▲';
+  b.addEventListener('click', function () {
+    d.open = false;
+    var s = d.querySelector(':scope > summary') || d;
+    if (s.getBoundingClientRect().top < 0) s.scrollIntoView({block: 'start'});
+  });
+  d.appendChild(b);
+}, true);
+
+(function () {   // phones (step 7): the contents as a drawer, intros cut to three lines
+  var doc = document, root = doc.documentElement, small = window.matchMedia('(max-width:720px)');
+  var toc = doc.getElementById('toc') || doc.getElementById('jump');
+  if (toc) {
+    root.classList.add('has-toc');
+    var fab = doc.createElement('button'), back = doc.createElement('div'), filter = doc.createElement('input');
+    fab.type = 'button'; fab.className = 'toc-fab'; fab.textContent = '目录'; fab.setAttribute('aria-label', '目录');
+    var lastY = window.scrollY;   // scrolling down it steps aside, scrolling up it comes back (design review 2026-10-06)
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (y > lastY + 8 && y > 240) root.classList.add('fab-away'); else if (y < lastY - 8) root.classList.remove('fab-away');
+      lastY = y;
+    }, {passive: true});
+    back.className = 'toc-backdrop';
+    filter.type = 'search'; filter.className = 'toc-filter'; filter.placeholder = '在目录里找…';
+    toc.insertBefore(filter, toc.firstChild);
+    doc.body.appendChild(back); doc.body.appendChild(fab);
+    var open = function (on) { root.classList.toggle('toc-open', on); if (on && small.matches) filter.focus({preventScroll: true}); };
+    fab.addEventListener('click', function () { open(!root.classList.contains('toc-open')); });
+    back.addEventListener('click', function () { open(false); });
+    toc.addEventListener('click', function (e) { if (e.target.closest('a')) open(false); });
+    doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+    doc.querySelectorAll('a.totop').forEach(function (a) {   // on a phone it opens the contents, so it says so (GPT design review 2026-10-06)
+      a.textContent = '目录';
+      a.addEventListener('click', function (e) { if (small.matches) { e.preventDefault(); open(true); } });
+    });
+    filter.addEventListener('input', function () {   // names and data-keys (other names); a .find-only row shows only on a hit
+      var q = filter.value.replace(/\s/g, '');
+      toc.querySelectorAll('a').forEach(function (a) {
+        a.style.display = !q || (a.textContent + (a.dataset.keys || '')).replace(/\s/g, '').indexOf(q) >= 0 ? '' : 'none';
+      });
+      toc.querySelectorAll('.find-only').forEach(function (r) {
+        r.classList.toggle('found', !!q && Array.prototype.some.call(r.querySelectorAll('a'), function (a) { return a.style.display !== 'none'; }));
+      });
+    });
+  }
+  if (window.matchMedia('(max-width:640px)').matches) {
+    doc.querySelectorAll('.ticket-main > p.hint').forEach(function (p) {
+      if (p.scrollHeight < 90) return;
+      p.classList.add('clamped');
+      var b = doc.createElement('button');
+      b.type = 'button'; b.className = 'hint-more'; b.textContent = '展开说明';
+      b.addEventListener('click', function () { p.classList.remove('clamped'); b.remove(); });
+      p.after(b);
+    });
+  }
+})();
+
+(function () {   // a link into a closed fold opens the folds around its target first (design reviews 2026-10-06)
+  function openTo(id) {
+    var t = id && (document.getElementById(id) || document.getElementById(decodeURIComponent(id)));
+    for (var p = t && t.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a) openTo(a.getAttribute('href').slice(1));
+  }, true);
+  if (location.hash) openTo(location.hash.slice(1));
+  document.querySelectorAll('.graph, .growth').forEach(function (g) {   // a strip wider than the screen fades at its right edge
+    if (g.scrollWidth <= g.clientWidth + 2) return;
+    var check = function () { g.classList.toggle('at-end', g.scrollLeft + g.clientWidth >= g.scrollWidth - 4); };
+    g.classList.add('scroll-fade'); g.addEventListener('scroll', check, {passive: true}); check();
+  });
+})();
+</script></body></html>

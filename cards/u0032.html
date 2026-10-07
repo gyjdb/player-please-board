@@ -1,18 +1,20 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>京市（黑雨与 Y 国敢死队） · 单元卡 · 维度之下</title><style>
+<title>京市（黑雨与 Y 国敢死队） · 单元卡 · 维度之下</title><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20x%3D%222%22%20y%3D%226%22%20width%3D%2228%22%20height%3D%2220%22%20rx%3D%223%22%20fill%3D%22%23d3a655%22/%3E%3Ccircle%20cx%3D%222%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ctext%20x%3D%2216%22%20y%3D%2221.5%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20text-anchor%3D%22middle%22%20fill%3D%22%2307080b%22%20font-family%3D%22serif%22%3E%E7%BB%B4%3C/text%3E%3C/svg%3E"><meta name="description" content="《玩家请上车》（海晏山 著）的读者整理：按单元写的梗概与解析，世界观、人物、地理、伏笔和道具库，可按读到的章数隐藏后文。"><meta name="theme-color" content="#07080b"><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
   --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
-  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC","Source Han Serif CN","Noto Serif CJK SC","STSong","SimSun",serif;
   --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
-  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace;
+  --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
-  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
-  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380; }
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#85621f; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380;
+  --mind:#7650b0; --space:#17788a; --time:#b25f18; --gold:#a07a10; }
 /* what stays dark in the light theme keeps the dark accents */
-:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
-  --line:#3a404b; --chip:#232830; }
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth, .emblem) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] .banner button.primary { color:#fff; }
 :root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
 * { box-sizing:border-box; }
@@ -21,11 +23,15 @@ body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
   background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
 :root[data-theme="light"] body { background:var(--paper); }
 a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+/* a dense run of names (items in hand, rewards, the units a person is in): ink with a thin red line, not a wall of red (design review 2026-10-06) */
+.quiet a, a.quiet { color:var(--ink); border-bottom:1px solid var(--line); border-bottom-color:color-mix(in srgb, var(--signal) 32%, transparent); }
+.quiet a:hover, a.quiet:hover { color:var(--signal); text-decoration:none; border-bottom-color:var(--signal); }
 main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 
 /* nav: the rail */
 .rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
 .rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; }
+@media (min-width:1100px) { .rail-inner { max-width:1060px; } }   /* brand, links, progress and switches on one line (2026-10-06) */
 .brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
 .brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.12em; margin-left:6px; }   /* so brand, links, progress and switches fit one line at 920px */
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
@@ -48,18 +54,54 @@ details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 @media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
   .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
 .beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
-details.fold[open] > summary { display:none; }
+details.fold[data-fold][open] > summary { display:none; }   /* only the spoiler gate (hero 档案) drops its line once open */
+button.fold-close { display:block; margin:8px 0 2px; font:12.5px var(--sans); color:var(--muted); background:none; border:1px solid var(--line); border-radius:4px; padding:5px 12px; cursor:pointer; }
+button.fold-close:hover { color:var(--brass); border-color:var(--brass); }
+/* phones (step 7, 2026-10-06): one row of page links; intros cut to three lines; a page's contents (#toc, #jump) as
+   a drawer behind a 目录 button, with a filter; long CJK lines may break anywhere */
+button.toc-fab, .toc-backdrop { display:none; }
+input.toc-filter { display:block; width:100%; margin:2px 0 10px; }   /* the contents filter on wide screens too (2026-10-06); its look is the shared search box */
+nav.jump input.toc-filter { max-width:20em; margin:8px 0 6px; }
+.ticket-main p.premise { color:var(--ink); }
+@media (max-width:720px) {
+  html.has-toc button.toc-fab { display:block; position:fixed; right:14px; bottom:max(18px, env(safe-area-inset-bottom)); z-index:41; width:46px; height:46px;
+    padding:0; border:none; border-radius:50%; font-size:0; color:transparent; cursor:pointer; opacity:.94; box-shadow:0 4px 14px rgba(0,0,0,.35);
+    background:linear-gradient(#07080b,#07080b) 50% 16px / 18px 2px no-repeat, linear-gradient(#07080b,#07080b) 50% 22px / 18px 2px no-repeat,
+      linear-gradient(#07080b,#07080b) 50% 28px / 18px 2px no-repeat, #d3a655; transition:transform .2s ease, opacity .2s ease; }
+  html.fab-away:not(.toc-open) button.toc-fab { transform:translateY(90px); opacity:0; }
+  html.has-toc #toc, html.has-toc #jump { position:fixed !important; top:0; right:0; bottom:0; left:auto; width:min(86vw,360px);
+    max-height:none !important; margin:0; z-index:40; overflow:auto; overscroll-behavior:contain; background:var(--card);
+    border:none; border-left:1px solid var(--line); border-radius:0; padding:12px 16px 90px; transform:translateX(105%);
+    transition:transform .2s ease; box-shadow:-8px 0 24px rgba(0,0,0,.35); }
+  html.toc-open #toc, html.toc-open #jump { transform:none; }
+  html.toc-open .toc-backdrop { display:block; position:fixed; inset:0; z-index:39; background:rgba(0,0,0,.45); }
+  html.has-toc input.toc-filter { display:block; width:100%; margin:2px 0 10px; font-size:15px; min-height:40px; }
+}
+@media (max-width:640px) {
+  .rail nav { flex:1 1 100%; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+  .rail nav::-webkit-scrollbar { display:none; }
+  .rail nav a { flex:none; }
+  main { overflow-wrap:anywhere; }
+  .ticket-main p.hint.clamped { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:0; }
+  button.hint-more { background:none; border:none; color:var(--brass); font-size:12.5px; padding:2px 0 6px; cursor:pointer; }
+}
 [hidden] { display:none !important; }
 html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* the 显示出处 and 浅色 switches */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
 .switches { display:inline-flex; gap:8px; }
-.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
-#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.toggle-label { display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--rail-muted); border:1px solid #3a404b; border-radius:14px;
+  padding:4px 11px 4px 5px; cursor:pointer; user-select:none; }
+.toggle-label::before { content:""; flex:none; width:24px; height:14px; border-radius:7px; transition:background .15s;
+  background:radial-gradient(circle at 7px 50%, #8f897d 4px, transparent 4.6px), #262b33; }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail-ink); border-color:#8a7140; }
+#show-src:checked ~ .rail label[for="show-src"]::before, #theme-light:checked ~ .rail label[for="theme-light"]::before {
+  background:radial-gradient(circle at 17px 50%, #07080b 4px, transparent 4.6px), #d3a655; }
+#show-src:focus-visible ~ .rail label[for="show-src"], #theme-light:focus-visible ~ .rail label[for="theme-light"] { outline:2px solid #d3a655; outline-offset:2px; }
 html:not(.js) label[for="theme-light"] { display:none; }
 .ch, sup.cite, details.src, .src-only { display:none; }
-#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main .ch { display:inline-block; text-indent:0; }
 #show-src:checked ~ main sup.cite { display:inline; }
 #show-src:checked ~ main details.src { display:inline; }
 #show-src:checked ~ main .src-only { display:block; }
@@ -69,7 +111,7 @@ html:not(.js) label[for="theme-light"] { display:none; }
 .ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
 sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
 details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
-blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--line); color:color-mix(in srgb, var(--ink) 80%, var(--muted)); font:14.5px/1.75 var(--serif); }
 cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
 
 /* headings and text */
@@ -95,6 +137,12 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 .route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
 .stub-row { font:12px var(--mono); color:var(--muted); }
 .stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+/* a page's counts read like the fields of a ticket stub: a small label over a big number (2026-10-06) */
+.ticket-stub.stats { gap:12px; }
+.ticket-stub.stats .stub-row:not(.src-only) { font:600 24px/1.05 var(--mono); color:var(--ink); }   /* figures in ink; gold kept for its few meanings */
+.ticket-stub.stats .stub-row:not(.src-only) b { display:block; font:500 11.5px/1.4 var(--sans); color:var(--muted); letter-spacing:.12em; margin:0 0 3px; }
+.ticket-stub.stats small { font:500 12px var(--sans); color:var(--muted); margin-left:4px; }
+a.stub-row { display:block; text-decoration:none; } a.stub-row:hover b { color:var(--brass); }   /* a count that jumps to its section */
 .stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
   display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
 .stamp small { font-size:10px; margin-left:1px; }
@@ -107,10 +155,11 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* grade badge */
 .grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.dark-ink { color:#14100a; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
-.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+.tag { text-indent:0; display:inline-block; font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
 /* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
-.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+.seal { flex:none; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
   border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
 .seal.wide { font-size:14px; }
 .seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
@@ -120,35 +169,66 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* the player panel, in the book's 【key：value】 lines */
 .syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
   padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
-.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel .row > span { color:var(--rail-ink); font-weight:600; }
+.syspanel .v-rate { color:var(--brass); } .syspanel .grade { font-size:12px; height:20px; min-width:24px; vertical-align:1px; }   /* gold for evolution; a level in its colour */
+.evo-mind { color:var(--mind); } .evo-space { color:var(--space); } .evo-time { color:var(--time); }
 .syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
 @media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
 .upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
-/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
-.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已否定 (denied or refuted); settled points carry no tag */
+.tier { text-indent:0; display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
 .tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 .tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
 
 .hidden { display:none !important; }
+nav.pagenav { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0 6px; font-size:14px; }
+nav.pagenav > b { color:var(--muted); font-weight:400; font-size:13px; margin-right:2px; }
+nav.pagenav a { padding:3px 11px; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--ink); }
+nav.pagenav a:hover { border-color:var(--brass); color:var(--brass); text-decoration:none; }
+@media (min-width:721px) { nav.pagenav input.toc-filter { display:none; } }
+@media (max-width:720px) {
+  html.has-toc nav.pagenav { display:block; }
+  html.has-toc nav.pagenav > b { display:block; margin:0 0 6px; }
+  html.has-toc nav.pagenav a { display:block; border:none; border-bottom:1px solid var(--line); border-radius:0; background:none; padding:10px 2px; }
+}
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
 @media (max-width:720px) { .totop { display:inline; } }
 footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
 @media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
-  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; }
+  .ticket-stub.stats { flex-direction:row; flex-wrap:wrap; justify-content:flex-start; gap:10px 26px; } .ticket-stub.stats .stub-row.src-only { flex-basis:100%; } }
 
+input[type=search] { font:14px var(--sans); color:var(--ink); background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2714%27%20height%3D%2714%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27round%27%3E%3Ccircle%20cx%3D%2710.5%27%20cy%3D%2710.5%27%20r%3D%276.5%27/%3E%3Cpath%20d%3D%27M20%2020l-4.6-4.6%27/%3E%3C/svg%3E") no-repeat 10px 50%;
+  border:1px solid var(--line); border-radius:6px; padding:6px 10px 6px 31px; min-height:34px; }
+input[type=search]::placeholder { color:var(--muted); }
+input[type=search]:focus, select:focus { outline:none; border-color:var(--brass); box-shadow:0 0 0 2px color-mix(in srgb, var(--brass) 25%, transparent); }
+select { appearance:none; -webkit-appearance:none; font:14px var(--sans); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2710%27%20height%3D%276%27%20viewBox%3D%270%200%2010%206%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M1%201l4%204%204-4%27/%3E%3C/svg%3E") no-repeat right 10px center; padding:6px 30px 6px 10px; min-height:34px; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary { list-style:none; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::-webkit-details-marker { display:none; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::before { content:""; display:inline-block; width:6px; height:6px; margin:0 9px 2px 2px; border-right:1.6px solid currentColor;
+  border-bottom:1.6px solid currentColor; transform:rotate(-45deg); transition:transform .15s ease; opacity:.7; vertical-align:middle; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more)[open] > summary::before { transform:rotate(45deg); margin-bottom:4px; }
+@media (max-width:640px) { .scroll-fade { -webkit-mask-image:linear-gradient(to right, #000 82%, transparent); mask-image:linear-gradient(to right, #000 82%, transparent); }
+  .scroll-fade.at-end { -webkit-mask-image:none; mask-image:none; } }
+p.graph-hint { display:none !important; }
+
+details.section-fold > summary { cursor:pointer; font:600 16px var(--serif); color:var(--muted); margin:14px 0 6px; letter-spacing:.04em; }
+details.section-fold[open] > summary { color:var(--ink); }
 .layer { margin:6px 0 18px; }
-.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; display:flex; align-items:center; gap:4px 12px; }   /* a phone wraps the note, 收起 stays on the right */
 .layer > summary::-webkit-details-marker { display:none; }
-.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
-.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
-.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer > summary b { flex:none; display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { flex:1 1 auto; color:var(--muted); font-size:13px; }
+.layer > summary::after { content:"收起"; flex:none; color:var(--muted); font-size:12px; }
 .layer:not([open]) > summary::after { content:"展开"; }
 section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
 ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
-.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
-ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+a.term { color:inherit; border-bottom:1px dotted var(--muted); text-decoration:none; } a.term:hover { color:var(--signal); border-bottom-color:var(--signal); }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; overflow-wrap:anywhere; }   /* a long name wraps in its column */
+ul.people li { display:grid; grid-template-columns:8.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
 ul.people li > :not(.subject) { grid-column:2; }
 @media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
 .harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
@@ -160,6 +240,9 @@ nav.units-nav a { display:flex; flex-direction:column; background:var(--card); b
 nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
 nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
 nav.units-nav small.after { color:var(--signal); }
+@media (max-width:640px) { nav.units-nav { grid-template-columns:1fr; gap:8px; } nav.units-nav b { font-size:15px; } nav.units-nav a { padding:8px 12px; }
+  nav.units-nav span.none { display:none; } }   /* a phone: one above the other, a long name on one or two lines (design review 2026-10-06) */
+details.about-src { margin:8px 0 2px; } details.about-src > summary { color:var(--muted); font-size:13px; }
 .graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
 @media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
@@ -176,44 +259,38 @@ svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-w
 svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
 details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 .links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
-.links a { margin-right:12px; white-space:nowrap; }
+.links a, .links > span { margin-right:12px; white-space:nowrap; }   /* a name with no item card is a span: same spacing */
+@media (max-width:640px) { .links a, .links > span { white-space:normal; } }   /* a long place name wraps on a phone (u0148) */
 .progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
 .hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+.ticket-main .lede { margin:12px 0 2px; font:500 17px/1.75 var(--serif); color:var(--ink); max-width:40em; }
 nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
 nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，第一个副本结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到第一个副本结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket" id="card" data-first="632" data-end="657"><div class="ticket-main"><div class="kicker">主线</div>
-<h1>京市（黑雨与 Y 国敢死队）</h1><div class="route">第 632 章 ──── 第 657 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="632" hidden>这张卡从第 632 章开始，在你填的进度之后，整张都是剧透。</p></div>
-<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0032</div><div class="stub-row"><b>句数</b>54</div>
-<div class="stub-row"><b>引用</b>63 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 632–657 章正文后撰写。</p>
+<h1>京市（黑雨与 Y 国敢死队）</h1><div class="route">第 632 章 ──── 第 657 章</div><div class="lede" data-ch="656">京市下起带异种毒的黑雨，徐获追到闻山洼地的源头，与Y国玩家交手、让黑雨倒灌回Y国基地，又从对方手里救回弟弟童童。<span class="ch">第 632、638、645、656 章</span></div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 3284 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="632" hidden>这张卡从第 632 章开始，在你填的进度之后，整张都是剧透。</p></div>
+<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0032</div><div class="stub-row"><b>句数</b>72</div>
+<div class="stub-row"><b>引用</b>28 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<details class="about-src meta"><summary>出处怎么核对</summary>每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</details><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 632–657 章正文后撰写；2026-10-06 第六步由 Claude 子代理（claude-opus-5-5）改写（GPT 额度用完前第二波写成的两三张也在这批里，没有分开记录），原梗概折为逐段复盘；2026-10-06 逐幕复盘不再上页面，其中要紧的由 Claude 子代理（claude-opus-5-5）收进剧情梗概和解谜结构。</p>
 <nav class="units-nav top"><a class="prev" href="u0031.html"><small>← 上一单元</small><b>第十七医院（京市）</b><small>第 617–631 章</small></a><a class="next" href="u0033.html"><small>下一单元 →</small><b>Y 国之行</b><small>第 658–667 章</small><small class="after" data-beyond="658" hidden>在你的进度之后</small></a></nav>
-<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。写到第 657 章，含结局。</span></summary><section id="overview" class="fgroup"><h3>一句话</h3>
-<ul class="items"><li data-ch="657"><span class="text">京市下起带异种毒的黑雨，徐获找到闻山下的源头、和 Y 国敢死队交手，把黑雨倒灌进 Y 国的基地；又从 Y 国玩家手里救回弟弟童童，决定走走私渠道去 Y 国。</span><span class="ch">第 632、638、643、645、649、656–657 章</span></li><li data-ch="657"><span class="text">主线段，第 632–657 章，都在京市。第 658 章起是出境前往 Y 国的一段。</span><span class="ch">第 632、657 章</span></li></ul>
-</section>
-<section id="harvest" class="harvest" data-ch="657"><h3>徐获的收获</h3><p class="links"><b>拿到</b><a href="../items.html#item-%E9%9B%A8%E7%87%95">雨燕</a><a href="../items.html#item-%E7%BE%8E%E4%B8%BD%E7%9A%84%E5%B0%84%E7%BA%BF">美丽的射线</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
-<section id="cast" class="fgroup"><h3>登场人物</h3>
-<p class="note">按出场先后。</p>
-<ul class="people"><li data-ch="652"><b class="subject"><a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">一路换脸，混进特防部的探路队时穿着编号 3304 的制服。</span><span class="ch">第 650、652 章</span></li><li data-ch="636"><b class="subject"><a href="../people.html?upto=657#person-%E9%83%91%E8%89%AF">郑良</a>、<a href="../people.html?upto=657#person-%E8%B0%B7%E9%9B%A8">谷雨</a>、文雪琳</b><span class="text">春雨协会的人，黑雨里和徐获困在同一栋楼；郑良替徐获通过黑市办身份证明。</span><span class="ch">第 632、636 章</span></li><li data-ch="632"><b class="subject"><a href="../people.html?upto=657#person-%E6%A2%81%E5%93%A5">梁哥</a>、关祖弘</b><span class="text">梁哥一伙，和春雨协会的人一起躲雨。</span><span class="ch">第 632 章</span></li><li data-ch="634"><b class="subject"><a href="../people.html?upto=657#person-%E6%A8%8A%E9%83%A8%E9%95%BF">樊部长</a>、常组长、<a href="../people.html?upto=657#person-%E5%90%95%E7%BB%84%E9%95%BF">吕组长</a>、<a href="../people.html?upto=657#person-%E5%90%B4%E7%BB%84%E9%95%BF">吴组长</a>、<a href="../people.html?upto=657#person-%E5%A7%9C%E7%BF%98">姜翘</a></b><span class="text">特防部的部长和组长，被异种困在临时总指挥室。</span><span class="ch">第 633–634 章</span></li><li data-ch="636"><b class="subject"><a href="../people.html?upto=657#person-%E8%81%82%E7%8E%84">聂玄</a></b><span class="text">特防部组长，照戴维·皮尔斯给的情报围剿 Y 国玩家的据点。</span><span class="ch">第 633、636 章</span></li><li data-ch="637"><b class="subject">林先生</b><span class="text">Y 国据点里的混血玩家，被特防部抓住审问。</span><span class="ch">第 636–637 章</span></li><li data-ch="644"><b class="subject"><a href="../people.html?upto=657#person-%E7%94%BB%E5%A5%B3">画女</a>（立春）</b><span class="text">有智慧的超级道具，不肯帮特防部，却为了光明绅士勋章来给徐获“打工”。</span><span class="ch">第 637、640、644 章</span></li><li data-ch="639"><b class="subject">代号 A、B、C</b><span class="text">守在闻山洼地的 Y 国玩家，用字母当代号。</span><span class="ch">第 639 章</span></li><li data-ch="644"><b class="subject"><a href="../people.html?upto=657#person-%E7%8E%8B%E8%B6%85%E6%B8%85">王超清</a>、曾泰、简元杰、祝玉蝉</b><span class="text">特防部派去闻山的精英队里的玩家；王超清就是当初误把徐获带进分贝小镇的影子玩家。</span><span class="ch">第 639、644 章</span></li><li data-ch="649"><b class="subject"><a href="../people.html?upto=657#person-%E7%AB%A5%E7%AB%A5">童童</a></b><span class="text">徐获同父异母的幼弟，被 Y 国玩家从安全区掳走。</span><span class="ch">第 649 章</span></li><li data-ch="653"><b class="subject">王队长</b><span class="text">特防部探路队的队长，和徐获一起被困在三楼的镜子迷宫。</span><span class="ch">第 652–653 章</span></li><li data-ch="655"><b class="subject">翠西</b><span class="text">大厦里的红衣女人，擅用镜子道具，是守大厦的 Y 国玩家之一。</span><span class="ch">第 653、655 章</span></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。写到第 657 章，含全部剧透。</span></summary><section id="story" class="fgroup"><h3>剧情梗概</h3>
-<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
-<nav class="arcs"><a href="#story-1" data-ch="633">一、黑雨（第 632–635 章）</a><a href="#story-2" data-ch="637">二、闻山洼地（第 636–641 章）</a><a href="#story-3" data-ch="643">三、倒灌（第 642–646 章）</a><a href="#story-4" data-ch="647">四、童童（第 647–657 章）</a></nav>
-<h4 id="story-1" data-ch="633">一、黑雨（第 632–635 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="633">雨淋到的植物和小动物立刻出事，喝了存水也会中毒。异种从窗外爬进郑良他们躲雨的屋子，身上穿着特防部的制服；徐获把“伤人不伤己”横在窗上，带大家从楼梯撤到小区保安室。<sup class="cite" title="第632章：特防部的玩家怎么会变成异种；第632章：他将“伤人不伤己”横穿在窗户上又把“恩断义绝门”收起来">632–633</sup></span><span class="stmt" data-ch="634">特防部总部附近的玩家成批异种化，樊部长和几位组长被困在临时总指挥室。一名异变玩家服下解毒菌后恢复正常，研究院用他的血提取有效成分；聂玄转来戴维·皮尔斯的交代：Y 国有一件与雨有关的高级道具，眼下就在市内。随后特防部总部大楼倒塌。<sup class="cite" title="第633章：刚才紧急给异变玩家服用了一只解毒菌，人恢复正常了；第633章：Y国有一件与雨相关的高级道具，他们内部有风声；第634章：徐获那边也目睹了总部大楼倒塌的场景">633–634</sup></span><span class="stmt" data-ch="635">徐获独自出去救人，救下护送两个孩子的特防部女玩家，给她注射自己的解毒剂，证明它能解这种毒；但几支解毒剂无济于事，雨水迟早会污染全城的自来水。<sup class="cite" title="第634章：举起水刀枪分别射向三名异种的眉心；第635章：也算当一次实验样品吧，我的解毒剂有效；第635章：雨水迟早会污染整座城市的自来水">634–635</sup></span></p><details class="src block fgroup"><summary>本段原文 8 处</summary><blockquote data-ch="633">特防部的玩家怎么会变成异种<cite>第 632 章</cite></blockquote><blockquote data-ch="633">他将“伤人不伤己”横穿在窗户上又把“恩断义绝门”收起来<cite>第 632 章</cite></blockquote><blockquote data-ch="634">刚才紧急给异变玩家服用了一只解毒菌，人恢复正常了<cite>第 633 章</cite></blockquote><blockquote data-ch="634">Y国有一件与雨相关的高级道具，他们内部有风声<cite>第 633 章</cite></blockquote><blockquote data-ch="634">徐获那边也目睹了总部大楼倒塌的场景<cite>第 634 章</cite></blockquote><blockquote data-ch="635">举起水刀枪分别射向三名异种的眉心<cite>第 634 章</cite></blockquote><blockquote data-ch="635">也算当一次实验样品吧，我的解毒剂有效<cite>第 635 章</cite></blockquote><blockquote data-ch="635">雨水迟早会污染整座城市的自来水<cite>第 635 章</cite></blockquote></details>
-<h4 id="story-2" data-ch="637">二、闻山洼地（第 636–641 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="637">徐获向聂玄要了蓄水库的位置，打算往里放解毒剂，又托郑良通过黑市办一套身份证明。聂玄那边按皮尔斯的情报围剿 Y 国玩家的据点，抓住了林先生，在他背上埋了致死胶囊审问；林先生说黑雨道具是高级道具，杀了他也会有人接手。<sup class="cite" title="第636章：你问蓄水库，是想往里面放解毒剂；第636章：给我弄一套身份证明，需要的东西都在上面写着；第637章：我死了，很快就有人接手那件道具">636–637</sup></span><span class="stmt" data-ch="638">立春（即画女）不肯帮特防部，秘密安全基地的老人直接打给徐获求援。徐获在去蓄水库的路上撞见闻山下的洼地：水珠倒着往天上飞，这里就是黑雨的起源，附近有十二个玩家。<sup class="cite" title="第637章：刚才和立春沟通过了，她不愿意帮忙；第637章：危难存亡之际，希望你能伸出援手；第638章：答案呼之欲出，这里就是黑雨的起源">637–638</sup></span><span class="stmt" data-ch="639">三名穿道具雨衣的玩家围攻他，他用一整套道具加“呓语之球”把他们拖进幻觉；领头的 C 中毒垂死，引爆金属桶和两个同伴同归于尽。代号 A 让 B 留下回收道具，带其余人把特防部的二十三名精英引上闻山。<sup class="cite" title="第638章：他将风筝线抛出，又用了“两分魔术”和“呓语之球”；第639章：金属桶应声而爆，大火瞬间涌出；第639章：B留下准备回收道具，其他人跟我把人引上闻山">638–639</sup></span><span class="stmt" data-ch="641">徐获从灰烬里扒出 C 的“雨燕”，用一块光明绅士勋章雇立春来“兼职”，又提醒吴组长：敌人守的是洼地，和闻山无关。隐身的 B 摸过来偷袭，被拉进徐获的精神世界后，靠一件远距离移动道具强行逃脱——徐获第一次尝到精神世界被突破的反噬。<sup class="cite" title="第640章：徐获在灰烬堆里扒拉出C的“雨燕”道具；第640章：报酬是一块光明绅士的勋章，干不干；第640章：那些玩家守的地方是洼地，和闻山无关；第641章：这还是他第一次感受到精神世界被强行突破后受到的反噬">640–641</sup></span></p><details class="src block fgroup"><summary>本段原文 13 处</summary><blockquote data-ch="637">你问蓄水库，是想往里面放解毒剂<cite>第 636 章</cite></blockquote><blockquote data-ch="637">给我弄一套身份证明，需要的东西都在上面写着<cite>第 636 章</cite></blockquote><blockquote data-ch="637">我死了，很快就有人接手那件道具<cite>第 637 章</cite></blockquote><blockquote data-ch="638">刚才和立春沟通过了，她不愿意帮忙<cite>第 637 章</cite></blockquote><blockquote data-ch="638">危难存亡之际，希望你能伸出援手<cite>第 637 章</cite></blockquote><blockquote data-ch="638">答案呼之欲出，这里就是黑雨的起源<cite>第 638 章</cite></blockquote><blockquote data-ch="639">他将风筝线抛出，又用了“两分魔术”和“呓语之球”<cite>第 638 章</cite></blockquote><blockquote data-ch="639">金属桶应声而爆，大火瞬间涌出<cite>第 639 章</cite></blockquote><blockquote data-ch="639">B留下准备回收道具，其他人跟我把人引上闻山<cite>第 639 章</cite></blockquote><blockquote data-ch="641">徐获在灰烬堆里扒拉出C的“雨燕”道具<cite>第 640 章</cite></blockquote><blockquote data-ch="641">报酬是一块光明绅士的勋章，干不干<cite>第 640 章</cite></blockquote><blockquote data-ch="641">那些玩家守的地方是洼地，和闻山无关<cite>第 640 章</cite></blockquote><blockquote data-ch="641">这还是他第一次感受到精神世界被强行突破后受到的反噬<cite>第 641 章</cite></blockquote></details>
-<h4 id="story-3" data-ch="643">三、倒灌（第 642–646 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="643">徐获把王菌菌丝种在女娲石上，装进“强盗的宝盒”，让立春带着沉进洼地。曾泰吹口哨招来野猫和蛇缠住 B；B 潜进水里放唤醒装置时，又一次陷进徐获的精神世界，被一剑结果。<sup class="cite" title="第642章：将女娲石连同菌丝一块儿放进“强盗的宝盒”；第642章：B察觉不对，再伸手去摸装置时身体不由自主地向下栽倒；第643章：徐获一剑结果了代号B">642–643</sup></span><span class="stmt" data-ch="644">洼地里藏着长了腮的异种，醒来后直奔总部方向。立春从一具异种肚子里掏出黑雨道具：一个带雨云图案的方块，持有人没死就收不进道具栏。徐获推断异种和留守的玩家一边当诱饵一边运道具，让聂玄撤回轰炸闻山的命令，把异种留给立春对付。<sup class="cite" title="第643章：他的脖子两侧分别有三道腮一样的裂口；第643章：画女从背后掏出魔方大小的方块递给他；第644章：异种和留守洼地的玩家应该兼具诱饵和运送两个任务">643–644</sup></span><span class="stmt" data-ch="645">立春用“画中的世界”装进两名 Y 国玩家，把女娲石和王菌放进闻山蓄水库。徐获在自己的空间里审问代号 A，从他的神情看出手里的道具并不完整；他让立春把方块带过雨云——大雨戛然而止，积水倒飞回天上。<sup class="cite" title="第644章：将女娲石和王菌放进蓄水库里；第645章：我手里的这个道具并不完整；第645章：当她跨过云层的瞬间，大雨就像从半空收了口般戛然而止">644–645</sup></span><span class="stmt" data-ch="646">黑水倒灌进 Y 国在 X 国邻国湖边建的临时基地，基地被冲垮，行动负责人被砸断颈椎，Y 国销毁证据撤离。京市黑雨停了；聂玄沿异种奔袭的方向抓捕潜伏玩家，特防部内部为是否放弃已经异种化的人争执不下；徐获让吴组长半小时后派人接手蓄水库，又答应把自己在 011 区的古堡送给立春。<sup class="cite" title="第645章：下了不到一夜的雨突然倒灌，汹涌如潮，顷刻将临时基地冲垮；第646章：特防部内部观点出现了两极分化；第646章：半个小时以后派人来接手蓄水库；第646章：我在011区有座古堡，里面有不少好东西">645–646</sup></span></p><details class="src block fgroup"><summary>本段原文 13 处</summary><blockquote data-ch="643">将女娲石连同菌丝一块儿放进“强盗的宝盒”<cite>第 642 章</cite></blockquote><blockquote data-ch="643">B察觉不对，再伸手去摸装置时身体不由自主地向下栽倒<cite>第 642 章</cite></blockquote><blockquote data-ch="643">徐获一剑结果了代号B<cite>第 643 章</cite></blockquote><blockquote data-ch="644">他的脖子两侧分别有三道腮一样的裂口<cite>第 643 章</cite></blockquote><blockquote data-ch="644">画女从背后掏出魔方大小的方块递给他<cite>第 643 章</cite></blockquote><blockquote data-ch="644">异种和留守洼地的玩家应该兼具诱饵和运送两个任务<cite>第 644 章</cite></blockquote><blockquote data-ch="645">将女娲石和王菌放进蓄水库里<cite>第 644 章</cite></blockquote><blockquote data-ch="645">我手里的这个道具并不完整<cite>第 645 章</cite></blockquote><blockquote data-ch="645">当她跨过云层的瞬间，大雨就像从半空收了口般戛然而止<cite>第 645 章</cite></blockquote><blockquote data-ch="646">下了不到一夜的雨突然倒灌，汹涌如潮，顷刻将临时基地冲垮<cite>第 645 章</cite></blockquote><blockquote data-ch="646">特防部内部观点出现了两极分化<cite>第 646 章</cite></blockquote><blockquote data-ch="646">半个小时以后派人来接手蓄水库<cite>第 646 章</cite></blockquote><blockquote data-ch="646">我在011区有座古堡，里面有不少好东西<cite>第 646 章</cite></blockquote></details>
-<h4 id="story-4" data-ch="647">四、童童（第 647–657 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="647">回城的哨卡前，记者追着徐获质问，立春嫌他们吵，转身就把几个记者爆了头。徐获问她为什么杀人，她说：“他们很讨厌啊。”<sup class="cite" title="第647章：之前态度嚣张的那几名记者被当场爆头">647</sup></span><span class="stmt" data-ch="649">接谷雨的路上，“完事剧本”写出一只跟踪的独眼猫头鹰和一个混在异种群里的玩家；那人拿徐获的弟弟要挟，被徐获吊上楼顶、拉进精神世界，用水滴逼问出 Y 国玩家的藏身处。<sup class="cite" title="第648章：使用特性“完事剧本”后；第648章：不想知道你弟弟的下落；第649章：据异种男交代，这是几名Y国玩家的藏身地点">648–649</sup></span><span class="stmt" data-ch="649">原来 Y 国玩家找不到解毒菌，就想抓徐获的亲人换：他们从安全区掳走了徐获后妈生的幼弟童童。吴组长承认特防部知情，已经在找。<sup class="cite" title="第649章：所以他们退而求其次抓他的亲人；第649章：这件事不是有意瞒着你，我们的人已经去找了">649</sup></span><span class="stmt" data-ch="654">徐获让立春先潜进大厦找童童，自己换上特防部的制服混进探路队拖住敌人：电影院里的“影视人物”、三楼的镜子迷宫都被他破掉，红衣女人翠西脖子上挨了一道带毒的伤，逃往楼上。<sup class="cite" title="第649章：你想办法进去找童童，保护好他；第650章：徐获换了套特防部的装备，跟在探路队伍后进了大楼；第654章：红衣女人脸色一变，随即在脖子上一抹，掌心里竟然是一片黑血">649–650、652–654</sup></span><span class="stmt" data-ch="656">八楼的金寸头用幻象摆出“童童”和“立春”当人质要解毒菌，被徐获识破；徐获说他故意让翠西带着 A 级污染物回国。金寸头和两名同伴联手也没占到便宜，一人被杀，金寸头逃走；立春已经把童童藏好。<sup class="cite" title="第655章：“A级污染物！”金寸头立刻反应过来；第656章：而他的同伴已经身首分离地倒在了地上；第656章：正看到她把眼泪汪汪的童童往一个抽屉里摁">655–656</sup></span><span class="stmt" data-ch="657">徐获把童童交给吴组长亲自送回家，说要去办一件事，“办完了，以后没人再敢到我们家里去”。郑良查到一条玩家新开的走私渠道，徐获决定带立春去 Y 国，开始列清单；聂玄得知这条渠道，向上打了报告，又问吴组长给徐获的道具定下来没有。<sup class="cite" title="第657章：等办完了，以后没人再敢到我们家里去；第657章：“我带立春一起去。”徐获正在列一张单子；第657章：之前商量给徐获的道具定下来了吗">657</sup></span></p><details class="src block fgroup"><summary>本段原文 15 处</summary><blockquote data-ch="647">之前态度嚣张的那几名记者被当场爆头<cite>第 647 章</cite></blockquote><blockquote data-ch="649">使用特性“完事剧本”后<cite>第 648 章</cite></blockquote><blockquote data-ch="649">不想知道你弟弟的下落<cite>第 648 章</cite></blockquote><blockquote data-ch="649">据异种男交代，这是几名Y国玩家的藏身地点<cite>第 649 章</cite></blockquote><blockquote data-ch="649">所以他们退而求其次抓他的亲人<cite>第 649 章</cite></blockquote><blockquote data-ch="649">这件事不是有意瞒着你，我们的人已经去找了<cite>第 649 章</cite></blockquote><blockquote data-ch="654">你想办法进去找童童，保护好他<cite>第 649 章</cite></blockquote><blockquote data-ch="654">徐获换了套特防部的装备，跟在探路队伍后进了大楼<cite>第 650 章</cite></blockquote><blockquote data-ch="654">红衣女人脸色一变，随即在脖子上一抹，掌心里竟然是一片黑血<cite>第 654 章</cite></blockquote><blockquote data-ch="656">“A级污染物！”金寸头立刻反应过来<cite>第 655 章</cite></blockquote><blockquote data-ch="656">而他的同伴已经身首分离地倒在了地上<cite>第 656 章</cite></blockquote><blockquote data-ch="656">正看到她把眼泪汪汪的童童往一个抽屉里摁<cite>第 656 章</cite></blockquote><blockquote data-ch="657">等办完了，以后没人再敢到我们家里去<cite>第 657 章</cite></blockquote><blockquote data-ch="657">“我带立春一起去。”徐获正在列一张单子<cite>第 657 章</cite></blockquote><blockquote data-ch="657">之前商量给徐获的道具定下来了吗<cite>第 657 章</cite></blockquote></details>
-</section>
-<section id="callbacks" class="fgroup"><h3>承接前文</h3>
-<p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
-<ul class="items"><li data-ch="645"><a class="thread-no" href="../threads.html?upto=657#thread-160" title="伏笔总表">#160</a><span class="text">京市的黑雨来自 Y 国的高级道具：道具藏在闻山洼地的异种肚子里，立春把它带过雨云后，黑雨倒灌回 Y 国的基地。</span><span class="ch">第 638、643、645 章</span><details class="src"><summary>原文</summary><blockquote>答案呼之欲出，这里就是黑雨的起源<cite>第 638 章</cite></blockquote><blockquote>下了不到一夜的雨突然倒灌，汹涌如潮，顷刻将临时基地冲垮<cite>第 645 章</cite></blockquote></details></li><li data-ch="643"><a class="thread-no" href="../threads.html?upto=657#thread-159" title="伏笔总表">#159</a><span class="text">被带进京市的高级道具就是这件黑雨道具，戴维·皮尔斯落到特防部手里后交代了它的存在（聂玄转述）。</span><span class="ch">第 633、643 章</span><details class="src"><summary>原文</summary><blockquote>Y国有一件与雨相关的高级道具，他们内部有风声<cite>第 633 章</cite></blockquote></details></li><li data-ch="657"><a class="thread-no" href="../threads.html?upto=657#thread-150" title="伏笔总表">#150</a><span class="text">黑雨里的异种毒确认能用解毒菌解；徐获把王菌种进闻山蓄水库，吴组长说这水能让轻度中毒的人在短时间内复原。但要批量制药，还缺 014 区没有的成分。</span><span class="ch">第 646、657 章</span><details class="src"><summary>原文</summary><blockquote>因为黑雨中的异种毒确认是可以用解毒菌解的<cite>第 646 章</cite></blockquote><blockquote>有一些药剂成分，是014区没有的<cite>第 646 章</cite></blockquote><blockquote>那些水很有用，轻度中毒的人甚至可以在短时间内复原<cite>第 657 章</cite></blockquote></details></li><li data-ch="639"><span class="text">王超清就是当初偷窥徐获、误把他带进分贝小镇的影子玩家，在海市中了异种毒后跟着吴组长来到京市。</span><span class="ch">第 639 章</span><details class="src"><summary>原文</summary><blockquote>王超清就是之前偷窥徐获还误把他带进分贝小镇的影子玩家<cite>第 639 章</cite></blockquote></details></li><li data-ch="644"><span class="text">严嘉鱼送给徐获的那枚光明绅士勋章，成了立春这次“打工”的报酬。</span><span class="ch">第 640、644 章</span><details class="src"><summary>原文</summary><blockquote>严嘉鱼赠送的那枚光明绅士的勋章已经挂在了她的脖子上<cite>第 644 章</cite></blockquote></details></li></ul>
+<nav class="jump pagenav" id="jump" aria-label="本页目录"><b>本卡</b><a href="#harvest" data-ch="657">收获</a><a href="#cast" data-ch="637">人物</a><a href="#summary" data-ch="633">梗概</a><a href="#relations" data-ch="632">关系</a><a href="#threads" data-ch="646">伏笔</a><a href="#callbacks" data-ch="639">承接前文</a><a href="#links">设定与道具</a></nav>
+<details class="layer" open><summary><b>概况</b><span>人物。写到第 657 章，含结局。</span></summary><section id="harvest" class="harvest quiet" data-ch="657"><h3>徐获的收获</h3><p class="links"><b>拿到</b><a href="../items.html#item-%E9%9B%A8%E7%87%95">雨燕</a><a href="../items.html#item-%E7%BE%8E%E4%B8%BD%E7%9A%84%E5%B0%84%E7%BA%BF">美丽的射线</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
+<section id="cast" class="fgroup"><h3>人物</h3>
+<ul class="people"><li data-ch="656"><b class="subject"><a href="../people.html?upto=657#person-%E7%94%BB%E5%A5%B3">画女</a>（立春）</b><span class="text">有智慧的<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E9%81%93%E5%85%B7" title="维度裂缝最高等级的道具，能超越时间与空间，分动态和静态两种。">超级道具</a>，不肯帮特防部，却为一块光明绅士勋章给徐获“打工”，取出黑雨道具、护住童童。她嫌记者吵就当场杀人，徐获答应把011区的古堡送给她。</span><span class="ch">第 637、640、643、646–647、656 章</span></li><li data-ch="657"><b class="subject"><a href="../people.html?upto=657#person-%E8%81%82%E7%8E%84">聂玄</a></b><span class="text">特防部组长，按戴维·皮尔斯的情报围剿Y国据点，抓住林先生审问。黑雨停后他沿异种奔袭的方向抓捕潜伏玩家，又为徐获要走的走私渠道向上打了报告。</span><span class="ch">第 633、636、646、657 章</span></li><li data-ch="657"><b class="subject"><a href="../people.html?upto=657#person-%E5%90%B4%E7%BB%84%E9%95%BF">吴组长</a></b><span class="text">特防部的组长，是徐获在闻山一带的联络人，事后接手蓄水库。他承认特防部早知童童被掳，最后亲自把童童送回家。</span><span class="ch">第 640、646、649、657 章</span></li><li data-ch="657"><b class="subject"><a href="../people.html?upto=657#person-%E9%83%91%E8%89%AF">郑良</a></b><span class="text">春雨协会的人，黑雨里和徐获困在同一栋楼。他替徐获从黑市办身份证明，又查到一条玩家新开的走私渠道。</span><span class="ch">第 632、636、657 章</span></li><li data-ch="637"><b class="subject">林先生</b><span class="text">Y国据点里的混血玩家，被特防部抓住，背上埋了致死胶囊审问。他只承认黑雨道具是高级道具，说自己死了也会有人接手。</span><span class="ch">第 636–637 章</span></li><li data-ch="645"><b class="subject">代号 A、B、C</b><span class="text">守在闻山洼地、用字母当代号的Y国玩家。C引爆金属桶与同伴同归于尽，B两次被拉进徐获的<a class="term" href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" title="精神力量能外放、干扰到别人时，以精神进化者为内核造出的“世界”。">精神世界</a>后被杀，A被装进“画中的世界”受审。</span><span class="ch">第 639、643–645 章</span></li><li data-ch="643"><b class="subject"><a href="../people.html?upto=657#person-%E7%8E%8B%E8%B6%85%E6%B8%85">王超清</a>、曾泰、简元杰、祝玉蝉</b><span class="text">特防部派去闻山的精英队玩家，王超清就是当初误把徐获带进分贝小镇的影子玩家。曾泰吹口哨招来野猫和蛇，帮徐获缠住了B。</span><span class="ch">第 639、642–643 章</span></li><li data-ch="657"><b class="subject"><a href="../people.html?upto=657#person-%E7%AB%A5%E7%AB%A5">童童</a></b><span class="text">徐获同父异母的幼弟，被找不到解毒菌的Y国玩家从安全区掳走当筹码。立春把他藏好，最后由吴组长送回家。</span><span class="ch">第 649、656–657 章</span></li><li data-ch="655"><b class="subject">翠西</b><span class="text">大厦里的红衣女人，擅用镜子道具，是守大厦的Y国玩家之一。她脖子上挨了一道带毒的伤逃走，徐获说是故意让她把A级污染物带回Y国。</span><span class="ch">第 653–655 章</span></li><li data-ch="656"><b class="subject">金寸头</b><span class="text">守在大厦八楼的Y国玩家，用幻象摆出假人质向徐获要解毒菌。他和两名同伴联手也没占到便宜，一名同伴被杀，自己逃走。</span><span class="ch">第 655–656 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、关键关系、伏笔与未解、承接前文。写到第 657 章，含全部剧透。</span></summary><section id="summary" class="fgroup"><h3>剧情梗概</h3>
+<nav class="arcs"><a href="#summary-1" data-ch="633">黑雨</a><a href="#summary-2" data-ch="637">闻山洼地</a><a href="#summary-3" data-ch="643">让黑雨倒灌</a><a href="#summary-4" data-ch="647">救回童童</a></nav>
+<h4 id="summary-1" data-ch="633">黑雨</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="633">京市下起黑雨，淋到的动植物立刻出事，喝了存水也会中毒，连特防部的玩家都成批变成异种。<sup class="cite" title="第632章：特防部的玩家怎么会变成异种">632–633</sup></span><span class="stmt" data-ch="634">樊部长和几位组长被困在临时总指挥室，总部大楼随后倒塌；聂玄转来戴维·皮尔斯的交代：Y国有一件与雨有关的高级道具，就在市内。<sup class="cite" title="第633章：Y国有一件与雨相关的高级道具，他们内部有风声">633–634</sup></span><span class="stmt" data-ch="635">一名异变玩家服下解毒菌后恢复正常，徐获的解毒剂也被证明有效，可几支药无济于事，雨水迟早会污染全城的自来水。<sup class="cite" title="第635章：雨水迟早会污染整座城市的自来水">633–635</sup></span><span class="stmt" data-ch="636">他打算往蓄水库里放解毒剂，向聂玄要了位置，又托郑良从黑市办一套身份证明。<sup class="cite" title="第636章：你问蓄水库，是想往里面放解毒剂">636</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="633">特防部的玩家怎么会变成异种<cite>第 632 章</cite></blockquote><blockquote data-ch="634">Y国有一件与雨相关的高级道具，他们内部有风声<cite>第 633 章</cite></blockquote><blockquote data-ch="635">雨水迟早会污染整座城市的自来水<cite>第 635 章</cite></blockquote><blockquote data-ch="636">你问蓄水库，是想往里面放解毒剂<cite>第 636 章</cite></blockquote></details>
+<h4 id="summary-2" data-ch="637">闻山洼地</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="637">聂玄抓住Y国据点的林先生审问，对方只说那是高级道具，杀了他也会有人接手。<sup class="cite" title="第637章：我死了，很快就有人接手那件道具">636–637</sup></span><span class="stmt" data-ch="638">去蓄水库的路上，徐获撞见闻山下一片洼地，水珠倒着往天上飞，这里就是黑雨的起源，附近守着十二名玩家。<sup class="cite" title="第638章：答案呼之欲出，这里就是黑雨的起源">638</sup></span><span class="stmt" data-ch="639">他用整套道具和“呓语之球”把三名围攻者拖进幻觉，领头的C中毒垂死，引爆金属桶与同伴同归于尽；代号A则带人把特防部的精英引上闻山。<sup class="cite" title="第639章：B留下准备回收道具，其他人跟我把人引上闻山">638–639</sup></span><span class="stmt" data-ch="640">立春不肯帮特防部，徐获便用一块光明绅士勋章雇她“兼职”，又提醒吴组长，敌人守的是洼地，和闻山无关。<sup class="cite" title="第640章：报酬是一块光明绅士的勋章，干不干">637、640</sup></span><span class="stmt" data-ch="641">隐身的B来偷袭，被拉进徐获的<a class="term" href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" title="精神力量能外放、干扰到别人时，以精神进化者为内核造出的“世界”。">精神世界</a>后靠远距离移动道具强行逃脱，徐获第一次尝到精神世界被突破的反噬。<sup class="cite" title="第641章：这还是他第一次感受到精神世界被强行突破后受到的反噬">641</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="637">我死了，很快就有人接手那件道具<cite>第 637 章</cite></blockquote><blockquote data-ch="638">答案呼之欲出，这里就是黑雨的起源<cite>第 638 章</cite></blockquote><blockquote data-ch="639">B留下准备回收道具，其他人跟我把人引上闻山<cite>第 639 章</cite></blockquote><blockquote data-ch="640">报酬是一块光明绅士的勋章，干不干<cite>第 640 章</cite></blockquote><blockquote data-ch="641">这还是他第一次感受到精神世界被强行突破后受到的反噬<cite>第 641 章</cite></blockquote></details>
+<h4 id="summary-3" data-ch="643">让黑雨倒灌</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="643">徐获把王菌种在女娲石上，让立春带着沉进洼地；B第二次陷进他的精神世界，被一剑结果。<sup class="cite" title="第643章：徐获一剑结果了代号B">642–643</sup></span><span class="stmt" data-ch="643">洼地里长了腮的异种醒来直奔总部，立春从一具异种肚子里掏出黑雨道具：一个带雨云图案的方块，持有人没死就收不进道具栏。<sup class="cite" title="第643章：画女从背后掏出魔方大小的方块递给他">643</sup></span><span class="stmt" data-ch="644">徐获推断异种和留守的玩家一边当诱饵一边运道具，让聂玄撤回轰炸闻山的命令，把异种留给立春对付。<sup class="cite" title="第644章：异种和留守洼地的玩家应该兼具诱饵和运送两个任务">644</sup></span><span class="stmt" data-ch="645">立春把两名Y国玩家装进“画中的世界”，又把女娲石和王菌放进闻山蓄水库；徐获审问代号A，从他的神情看出方块并不完整。<sup class="cite" title="第645章：我手里的这个道具并不完整">644–645</sup></span><span class="stmt" data-ch="645">他让立春把方块带过雨云，大雨戛然而止，积水倒飞回天上，冲垮了Y国在邻国湖边建的临时基地。行动负责人被黑水砸断颈椎，Y国赶在天亮前清扫证据撤离。<sup class="cite" title="第645章：当她跨过云层的瞬间，大雨就像从半空收了口般戛然而止">645</sup></span><span class="stmt" data-ch="646">京市的黑雨停了，特防部却为要不要放弃已经异种化的人争执不下；徐获答应把011区的古堡送给立春。<sup class="cite" title="第646章：特防部内部观点出现了两极分化">646</sup></span></p><details class="src block fgroup"><summary>本段原文 6 处</summary><blockquote data-ch="643">徐获一剑结果了代号B<cite>第 643 章</cite></blockquote><blockquote data-ch="643">画女从背后掏出魔方大小的方块递给他<cite>第 643 章</cite></blockquote><blockquote data-ch="644">异种和留守洼地的玩家应该兼具诱饵和运送两个任务<cite>第 644 章</cite></blockquote><blockquote data-ch="645">我手里的这个道具并不完整<cite>第 645 章</cite></blockquote><blockquote data-ch="645">当她跨过云层的瞬间，大雨就像从半空收了口般戛然而止<cite>第 645 章</cite></blockquote><blockquote data-ch="646">特防部内部观点出现了两极分化<cite>第 646 章</cite></blockquote></details>
+<h4 id="summary-4" data-ch="647">救回童童</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="647">回城路上，立春嫌记者吵，当场把几个人爆了头，被问起只说“他们很讨厌啊”。<sup class="cite" title="第647章：之前态度嚣张的那几名记者被当场爆头">647</sup></span><span class="stmt" data-ch="649">一个混在异种群里跟踪的玩家拿徐获的弟弟要挟，被吊上楼顶、拉进精神世界逼问，供出Y国玩家的藏身处。<sup class="cite" title="第649章：据异种男交代，这是几名Y国玩家的藏身地点">648–649</sup></span><span class="stmt" data-ch="649">原来Y国玩家找不到解毒菌，就从安全区掳走徐获后妈生的幼弟童童来换，特防部知情，也在找人。<sup class="cite" title="第649章：所以他们退而求其次抓他的亲人">649</sup></span><span class="stmt" data-ch="654">徐获让立春先潜进大厦护住童童，自己换上特防部的制服混进探路队拖住敌人，红衣女人翠西被他划出带毒的伤，逃往楼上。<sup class="cite" title="第649章：你想办法进去找童童，保护好他">649–650、654</sup></span><span class="stmt" data-ch="656">八楼的金寸头用幻象摆出假人质要解毒菌，被徐获识破，同伴被杀，自己逃走；徐获说是故意让翠西带着A级污染物回国。<sup class="cite" title="第655章：“A级污染物！”金寸头立刻反应过来">655–656</sup></span><span class="stmt" data-ch="657">立春护住了童童，吴组长亲自送他回家。徐获说要去办一件事，办完以后没人再敢到他家去；郑良查到一条新开的走私渠道，他决定带立春去Y国。<sup class="cite" title="第657章：等办完了，以后没人再敢到我们家里去">656–657</sup></span><span class="stmt" data-ch="657">聂玄得知这条渠道，只让手下盯着、自己向上打报告，又打电话问吴组长：给徐获的道具定下来没有。<sup class="cite" title="第657章：之前商量给徐获的道具定下来了吗">657</sup></span></p><details class="src block fgroup"><summary>本段原文 7 处</summary><blockquote data-ch="647">之前态度嚣张的那几名记者被当场爆头<cite>第 647 章</cite></blockquote><blockquote data-ch="649">据异种男交代，这是几名Y国玩家的藏身地点<cite>第 649 章</cite></blockquote><blockquote data-ch="649">所以他们退而求其次抓他的亲人<cite>第 649 章</cite></blockquote><blockquote data-ch="654">你想办法进去找童童，保护好他<cite>第 649 章</cite></blockquote><blockquote data-ch="656">“A级污染物！”金寸头立刻反应过来<cite>第 655 章</cite></blockquote><blockquote data-ch="657">等办完了，以后没人再敢到我们家里去<cite>第 657 章</cite></blockquote><blockquote data-ch="657">之前商量给徐获的道具定下来了吗<cite>第 657 章</cite></blockquote></details>
 </section>
 <section id="relations" class="fgroup"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-kill)"></i>杀死</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
@@ -266,12 +343,14 @@ h4[id] { scroll-margin-top:16px; }
 <g class="node" data-ch="639"><circle cx="522.4" cy="114.0" r="10.0"/><text x="522.4" y="98.0" class="name">C</text></g>
 <g class="node" data-ch="642"><circle cx="661.4" cy="420" r="10.0"/><text x="661.4" y="404.0" class="name">曾泰</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li data-ch="645"><span class="text"><a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a> → 审问 → 代号A</span><span class="ch">第 645 章</span></li><li data-ch="657"><span class="text"><a href="../people.html?upto=657#person-%E7%AB%A5%E7%AB%A5">童童</a> — 异母弟弟 — <a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 649、657 章</span></li><li data-ch="632"><span class="text"><a href="../people.html?upto=657#person-%E9%83%91%E8%89%AF">郑良</a> — 联手 — 关祖弘</span><span class="ch">第 632 章</span></li><li data-ch="644"><span class="text"><a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a> — 联手 — <a href="../people.html?upto=657#person-%E8%81%82%E7%8E%84">聂玄</a></span><span class="ch">第 644 章</span></li><li data-ch="657"><span class="text"><a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a> → 托办身份 → <a href="../people.html?upto=657#person-%E9%83%91%E8%89%AF">郑良</a></span><span class="ch">第 636、657 章</span></li><li data-ch="639"><span class="text">代号A → 指挥 → 代号B</span><span class="ch">第 639 章</span></li><li data-ch="654"><span class="text">翠西 — 交手 — <a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 653–654 章</span></li><li data-ch="643"><span class="text"><a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a> → 救下 → <a href="../people.html?upto=657#person-%E7%8E%8B%E8%B6%85%E6%B8%85">王超清</a></span><span class="ch">第 643 章</span></li><li data-ch="643"><span class="text"><a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 代号B</span><span class="ch">第 643 章</span></li><li data-ch="645"><span class="text"><a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a> → 雇来打工 → <a href="../people.html?upto=657#person-%E7%94%BB%E5%A5%B3">立春</a></span><span class="ch">第 640、642、645 章</span></li><li data-ch="657"><span class="text"><a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a> → 交出蓄水库 → <a href="../people.html?upto=657#person-%E5%90%B4%E7%BB%84%E9%95%BF">吴组长</a></span><span class="ch">第 646、657 章</span></li><li data-ch="637"><span class="text"><a href="../people.html?upto=657#person-%E8%81%82%E7%8E%84">聂玄</a> → 审问 → 林先生</span><span class="ch">第 637 章</span></li><li data-ch="639"><span class="text"><a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a> — 交手 — C</span><span class="ch">第 638–639 章</span></li><li data-ch="642"><span class="text">曾泰 — 交手 — 代号B</span><span class="ch">第 642 章</span></li></ul></details>
+<details class="rel"><summary>文字版</summary><ul class="items"><li data-ch="645"><span class="text"><a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a> → 审问 → 代号A</span><span class="ch">第 645 章</span></li><li data-ch="657"><span class="text"><a href="../people.html?upto=657#person-%E7%AB%A5%E7%AB%A5">童童</a> — 异母弟弟 — <a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 649、657 章</span></li><li data-ch="632"><span class="text"><a href="../people.html?upto=657#person-%E9%83%91%E8%89%AF">郑良</a> — 联手 — 关祖弘</span><span class="ch">第 632 章</span></li><li data-ch="644"><span class="text"><a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a> — 联手 — <a href="../people.html?upto=657#person-%E8%81%82%E7%8E%84">聂玄</a></span><span class="ch">第 644 章</span></li><li data-ch="657"><span class="text"><a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a> → 托办身份 → <a href="../people.html?upto=657#person-%E9%83%91%E8%89%AF">郑良</a></span><span class="ch">第 636、657 章</span></li><li data-ch="639"><span class="text">代号A → 指挥 → 代号B</span><span class="ch">第 639 章</span></li><li data-ch="654"><span class="text">翠西 — 交手 — <a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 653–654 章</span></li><li data-ch="643"><span class="text"><a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a> → 救下 → <a href="../people.html?upto=657#person-%E7%8E%8B%E8%B6%85%E6%B8%85">王超清</a></span><span class="ch">第 643 章</span></li><li data-ch="643"><span class="text"><a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 代号B</span><span class="ch">第 643 章</span></li><li data-ch="645"><span class="text"><a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a> → 雇来打工 → <a href="../people.html?upto=657#person-%E7%94%BB%E5%A5%B3">立春</a></span><span class="ch">第 640、642、645 章</span></li><li data-ch="657"><span class="text"><a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a> → 交出蓄水库 → <a href="../people.html?upto=657#person-%E5%90%B4%E7%BB%84%E9%95%BF">吴组长</a></span><span class="ch">第 646、657 章</span></li><li data-ch="637"><span class="text"><a href="../people.html?upto=657#person-%E8%81%82%E7%8E%84">聂玄</a> → 审问 → 林先生</span><span class="ch">第 637 章</span></li><li data-ch="639"><span class="text"><a href="../people.html?upto=657#person-%E5%BE%90%E8%8E%B7">徐获</a> — 交手 — C</span><span class="ch">第 638–639 章</span></li><li data-ch="642"><span class="text">曾泰 — 交手 — 代号B</span><span class="ch">第 642 章</span></li></ul></details>
 </section>
 <section id="threads" class="fgroup"><h3>伏笔与未解</h3>
-<p class="note">截至第 657 章还没有交代的事。</p>
-<ul class="items"><li data-ch="657"><a class="thread-no" href="../threads.html?upto=657#thread-161" title="伏笔总表">#161</a><span class="text">徐获的 Y 国之行：他说办完这件事“以后没人再敢到我们家里去”，准备带立春走一条新开的走私渠道出境。</span><span class="ch">第 657 章</span><details class="src"><summary>原文</summary><blockquote>等办完了，以后没人再敢到我们家里去<cite>第 657 章</cite></blockquote></details></li><li data-ch="646"><a class="thread-no" href="../threads.html?upto=657#thread-162" title="伏笔总表">#162</a><span class="text">黑雨道具的另一半：徐获从代号 A 的反应看出手里的方块并不完整；黑雨停后它能放进行李舱，仍收不进道具栏，他打算到 011 区再查。</span><span class="ch">第 645–646 章</span><details class="src"><summary>原文</summary><blockquote>我手里的这个道具并不完整<cite>第 645 章</cite></blockquote><blockquote>可惜的是道具仍然不能收进道具栏，但可以放进行李舱了<cite>第 646 章</cite></blockquote></details></li><li data-ch="655"><a class="thread-no" href="../threads.html?upto=657#thread-163" title="伏笔总表">#163</a><span class="text"><span class="tier claim" title="徐获的说法">说法</span>翠西带回 Y 国的污染物：徐获说故意让她带着 A 级污染物回国，除非 Y 国能从制器师手上买到超级解毒剂。</span><span class="ch">第 655 章</span><details class="src"><summary>原文</summary><blockquote>除非你们能从制器师手上买到超级解毒剂<cite>第 655 章</cite></blockquote></details></li><li data-ch="657"><a class="thread-no" href="../threads.html?upto=657#thread-164" title="伏笔总表">#164</a><span class="text">特防部要给徐获的道具：聂玄问吴组长“之前商量给徐获的道具定下来了吗”，还自语徐获的空间道具“也不是那么好用”。</span><span class="ch">第 657 章</span><details class="src"><summary>原文</summary><blockquote>之前商量给徐获的道具定下来了吗<cite>第 657 章</cite></blockquote><blockquote>看来你的空间道具也不是那么好用啊<cite>第 657 章</cite></blockquote></details></li></ul>
-</section><section id="links" class="fgroup"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" data-ch="641">精神进化与精神世界</a><a href="../world.html#world-%E5%BC%82%E7%A7%8D%E5%8C%96" data-ch="633">异种与异种化</a><a href="../world.html#world-%E9%81%93%E5%85%B7" data-ch="637">道具</a><a href="../world.html#world-%E8%87%AA%E4%B8%BB%E9%81%93%E5%85%B7" data-ch="647">有自主能力的道具</a><a href="../world.html#world-%E7%89%B9%E9%98%B2%E9%83%A8" data-ch="637">特防部</a><a href="../world.html#world-014%E5%8C%BA%E5%90%84%E5%9B%BD" data-ch="633">014 区的各国</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E8%A7%A3%E6%AF%92%E5%89%82" data-ch="632">解毒剂</a><a href="../items.html#item-%E7%94%BB%E4%B8%AD%E7%9A%84%E4%B8%96%E7%95%8C" data-ch="644">画中的世界</a><a href="../items.html#item-%E4%BC%A4%E4%BA%BA%E4%B8%8D%E4%BC%A4%E5%B7%B1" data-ch="632">伤人不伤己</a><a href="../items.html#item-%E5%BC%BA%E7%9B%97%E7%9A%84%E5%AE%9D%E7%9B%92" data-ch="642">强盗的宝盒</a><a href="../items.html#item-%E5%91%93%E8%AF%AD%E4%B9%8B%E7%90%83" data-ch="638">呓语之球</a><a href="../items.html#item-%E9%9B%A8%E7%87%95" data-ch="638">雨燕</a></p></section></details>
+<ul class="items"><li data-ch="657"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#161</span><span class="text">徐获说办完这件事“以后没人再敢到我们家里去”，准备带立春走新开的走私渠道去Y国。</span><span class="ch">第 657 章</span></li><li data-ch="646"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#162</span><span class="text">徐获从代号A的反应看出黑雨方块并不完整；雨停后它能放进行李舱，仍收不进道具栏，另一半在哪里不清楚。</span><span class="ch">第 645–646 章</span><details class="src"><summary>原文</summary><blockquote>可惜的是道具仍然不能收进道具栏，但可以放进行李舱了<cite>第 646 章</cite></blockquote></details></li><li data-ch="655"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#163</span><span class="text">徐获说故意让翠西带着A级污染物回国，除非Y国能从制器师手上买到超级解毒剂，后果仍待后文。</span><span class="ch">第 655 章</span><details class="src"><summary>原文</summary><blockquote>除非你们能从制器师手上买到超级解毒剂<cite>第 655 章</cite></blockquote></details></li><li data-ch="657"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#164</span><span class="text">聂玄问吴组长给徐获的道具定下来没有，特防部要给的是什么，还没有交代。</span><span class="ch">第 657 章</span><details class="src"><summary>原文</summary><blockquote>之前商量给徐获的道具定下来了吗<cite>第 657 章</cite></blockquote></details></li></ul>
+</section>
+<section id="callbacks" class="fgroup"><h3>承接前文</h3>
+<ul class="items"><li data-ch="645"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#160</span><span class="text">京市的黑雨来自Y国的高级道具，道具藏在闻山洼地的异种肚子里，被立春带过雨云后倒灌回Y国的基地。</span><span class="ch">第 638、643、645 章</span><details class="src"><summary>原文</summary><blockquote>下了不到一夜的雨突然倒灌，汹涌如潮，顷刻将临时基地冲垮<cite>第 645 章</cite></blockquote></details></li><li data-ch="643"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#159</span><span class="text">被带进京市的高级道具就是这件黑雨道具，是落到特防部手里的戴维·皮尔斯交代出来的。</span><span class="ch">第 633、643 章</span></li><li data-ch="657"><a class="thread-no" href="../threads.html?upto=657#thread-150" title="伏笔总表">#150</a><span class="text">黑雨里的异种毒确认能用解毒菌解，徐获把王菌种进闻山蓄水库，可要批量制药，还缺014区没有的成分。</span><span class="ch">第 646、657 章</span><details class="src"><summary>原文</summary><blockquote>有一些药剂成分，是014区没有的<cite>第 646 章</cite></blockquote></details></li><li data-ch="639"><span class="text">王超清就是当初偷窥徐获、误把他带进分贝小镇的影子玩家，在海市中了异种毒后跟着吴组长来到京市。</span><span class="ch">第 639 章</span><details class="src"><summary>原文</summary><blockquote>王超清就是之前偷窥徐获还误把他带进分贝小镇的影子玩家<cite>第 639 章</cite></blockquote></details></li></ul>
+</section><section id="links" class="fgroup"><h3>本单元涉及的设定、地点与道具</h3><p class="note">设定在世界观页，地点和势力在地理页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" data-ch="641">精神进化与精神世界</a><a href="../world.html#world-%E5%BC%82%E7%A7%8D%E5%8C%96" data-ch="633">异种与异种化</a><a href="../world.html#world-%E9%81%93%E5%85%B7" data-ch="637">道具</a><a href="../world.html#world-%E8%87%AA%E4%B8%BB%E9%81%93%E5%85%B7" data-ch="647">有自主能力的道具</a></p><p class="links fgroup"><b>地点与势力</b><a href="../places.html#place-%E4%BA%AC%E5%B8%82" data-ch="633">京市</a><a href="../places.html#place-%E9%97%BB%E5%B1%B1" data-ch="636">闻山</a><a href="../places.html#place-Y%E5%9B%BD" data-ch="633">Y 国</a><a href="../places.html#faction-%E7%89%B9%E4%BA%8B%E5%B1%80" data-ch="637">特防部（原特事局）</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E8%A7%A3%E6%AF%92%E5%89%82" data-ch="632">解毒剂</a><a href="../items.html#item-%E7%94%BB%E4%B8%AD%E7%9A%84%E4%B8%96%E7%95%8C" data-ch="644">画中的世界</a><a href="../items.html#item-%E5%91%93%E8%AF%AD%E4%B9%8B%E7%90%83" data-ch="638">呓语之球</a></p></section></details>
 <nav class="units-nav bottom"><a class="prev" href="u0031.html"><small>← 上一单元</small><b>第十七医院（京市）</b><small>第 617–631 章</small></a><a class="next" href="u0033.html"><small>下一单元 →</small><b>Y 国之行</b><small>第 658–667 章</small><small class="after" data-beyond="658" hidden>在你的进度之后</small></a></nav><script>
 (function () {
   var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
@@ -297,6 +376,17 @@ h4[id] { scroll-margin-top:16px; }
     else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
     button.textContent = '仍然展开'; status.appendChild(button);
   });
+  if (window.matchMedia('(max-width:640px)').matches) {   // a phone (design reviews 2026-10-06): the graph is wider than
+    doc.querySelectorAll('details.rel').forEach(function (d) { d.open = true; });   // the screen, so the list shows too,
+    doc.querySelectorAll('.graph').forEach(function (g) {   // and the strip starts at the busiest person, not the left edge
+      var svg = g.querySelector('svg'), best = null;
+      if (!svg || !svg.viewBox || !svg.viewBox.baseVal) return;
+      g.querySelectorAll('g.node circle').forEach(function (c) { if (!best || +c.getAttribute('r') > +best.getAttribute('r')) best = c; });
+      if (!best) return;
+      var scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width;
+      g.scrollLeft = Math.max(0, +best.getAttribute('cx') * scale - g.clientWidth / 2);
+    });
+  }
 })();
 </script>
 <footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
@@ -380,5 +470,84 @@ h4[id] { scroll-margin-top:16px; }
     note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
     note.hidden = false; note.scrollIntoView();
   } else if (target) { target.scrollIntoView(); }
+})();
+
+document.addEventListener('toggle', function (e) {
+  var d = e.target;
+  if (!d.open || d.tagName !== 'DETAILS' || d.classList.contains('src') || d.hasAttribute('data-fold')) return;
+  if (d.querySelector(':scope > button.fold-close') || d.getBoundingClientRect().height < window.innerHeight * 0.7) return;
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'fold-close'; b.textContent = '收起 ▲';
+  b.addEventListener('click', function () {
+    d.open = false;
+    var s = d.querySelector(':scope > summary') || d;
+    if (s.getBoundingClientRect().top < 0) s.scrollIntoView({block: 'start'});
+  });
+  d.appendChild(b);
+}, true);
+
+(function () {   // phones (step 7): the contents as a drawer, intros cut to three lines
+  var doc = document, root = doc.documentElement, small = window.matchMedia('(max-width:720px)');
+  var toc = doc.getElementById('toc') || doc.getElementById('jump');
+  if (toc) {
+    root.classList.add('has-toc');
+    var fab = doc.createElement('button'), back = doc.createElement('div'), filter = doc.createElement('input');
+    fab.type = 'button'; fab.className = 'toc-fab'; fab.textContent = '目录'; fab.setAttribute('aria-label', '目录');
+    var lastY = window.scrollY;   // scrolling down it steps aside, scrolling up it comes back (design review 2026-10-06)
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (y > lastY + 8 && y > 240) root.classList.add('fab-away'); else if (y < lastY - 8) root.classList.remove('fab-away');
+      lastY = y;
+    }, {passive: true});
+    back.className = 'toc-backdrop';
+    filter.type = 'search'; filter.className = 'toc-filter'; filter.placeholder = '在目录里找…';
+    toc.insertBefore(filter, toc.firstChild);
+    doc.body.appendChild(back); doc.body.appendChild(fab);
+    var open = function (on) { root.classList.toggle('toc-open', on); if (on && small.matches) filter.focus({preventScroll: true}); };
+    fab.addEventListener('click', function () { open(!root.classList.contains('toc-open')); });
+    back.addEventListener('click', function () { open(false); });
+    toc.addEventListener('click', function (e) { if (e.target.closest('a')) open(false); });
+    doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+    doc.querySelectorAll('a.totop').forEach(function (a) {   // on a phone it opens the contents, so it says so (GPT design review 2026-10-06)
+      a.textContent = '目录';
+      a.addEventListener('click', function (e) { if (small.matches) { e.preventDefault(); open(true); } });
+    });
+    filter.addEventListener('input', function () {   // names and data-keys (other names); a .find-only row shows only on a hit
+      var q = filter.value.replace(/\s/g, '');
+      toc.querySelectorAll('a').forEach(function (a) {
+        a.style.display = !q || (a.textContent + (a.dataset.keys || '')).replace(/\s/g, '').indexOf(q) >= 0 ? '' : 'none';
+      });
+      toc.querySelectorAll('.find-only').forEach(function (r) {
+        r.classList.toggle('found', !!q && Array.prototype.some.call(r.querySelectorAll('a'), function (a) { return a.style.display !== 'none'; }));
+      });
+    });
+  }
+  if (window.matchMedia('(max-width:640px)').matches) {
+    doc.querySelectorAll('.ticket-main > p.hint').forEach(function (p) {
+      if (p.scrollHeight < 90) return;
+      p.classList.add('clamped');
+      var b = doc.createElement('button');
+      b.type = 'button'; b.className = 'hint-more'; b.textContent = '展开说明';
+      b.addEventListener('click', function () { p.classList.remove('clamped'); b.remove(); });
+      p.after(b);
+    });
+  }
+})();
+
+(function () {   // a link into a closed fold opens the folds around its target first (design reviews 2026-10-06)
+  function openTo(id) {
+    var t = id && (document.getElementById(id) || document.getElementById(decodeURIComponent(id)));
+    for (var p = t && t.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a) openTo(a.getAttribute('href').slice(1));
+  }, true);
+  if (location.hash) openTo(location.hash.slice(1));
+  document.querySelectorAll('.graph, .growth').forEach(function (g) {   // a strip wider than the screen fades at its right edge
+    if (g.scrollWidth <= g.clientWidth + 2) return;
+    var check = function () { g.classList.toggle('at-end', g.scrollLeft + g.clientWidth >= g.scrollWidth - 4); };
+    g.classList.add('scroll-fade'); g.addEventListener('scroll', check, {passive: true}); check();
+  });
 })();
 </script></body></html>

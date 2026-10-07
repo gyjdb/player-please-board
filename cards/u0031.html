@@ -1,18 +1,20 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>第十七医院（京市） · 单元卡 · 维度之下</title><style>
+<title>第十七医院（京市） · 单元卡 · 维度之下</title><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20x%3D%222%22%20y%3D%226%22%20width%3D%2228%22%20height%3D%2220%22%20rx%3D%223%22%20fill%3D%22%23d3a655%22/%3E%3Ccircle%20cx%3D%222%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ctext%20x%3D%2216%22%20y%3D%2221.5%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20text-anchor%3D%22middle%22%20fill%3D%22%2307080b%22%20font-family%3D%22serif%22%3E%E7%BB%B4%3C/text%3E%3C/svg%3E"><meta name="description" content="《玩家请上车》（海晏山 著）的读者整理：按单元写的梗概与解析，世界观、人物、地理、伏笔和道具库，可按读到的章数隐藏后文。"><meta name="theme-color" content="#07080b"><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
   --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
-  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC","Source Han Serif CN","Noto Serif CJK SC","STSong","SimSun",serif;
   --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
-  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace;
+  --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
-  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
-  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380; }
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#85621f; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380;
+  --mind:#7650b0; --space:#17788a; --time:#b25f18; --gold:#a07a10; }
 /* what stays dark in the light theme keeps the dark accents */
-:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
-  --line:#3a404b; --chip:#232830; }
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth, .emblem) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] .banner button.primary { color:#fff; }
 :root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
 * { box-sizing:border-box; }
@@ -21,11 +23,15 @@ body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
   background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
 :root[data-theme="light"] body { background:var(--paper); }
 a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+/* a dense run of names (items in hand, rewards, the units a person is in): ink with a thin red line, not a wall of red (design review 2026-10-06) */
+.quiet a, a.quiet { color:var(--ink); border-bottom:1px solid var(--line); border-bottom-color:color-mix(in srgb, var(--signal) 32%, transparent); }
+.quiet a:hover, a.quiet:hover { color:var(--signal); text-decoration:none; border-bottom-color:var(--signal); }
 main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 
 /* nav: the rail */
 .rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
 .rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; }
+@media (min-width:1100px) { .rail-inner { max-width:1060px; } }   /* brand, links, progress and switches on one line (2026-10-06) */
 .brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
 .brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.12em; margin-left:6px; }   /* so brand, links, progress and switches fit one line at 920px */
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
@@ -48,18 +54,54 @@ details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 @media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
   .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
 .beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
-details.fold[open] > summary { display:none; }
+details.fold[data-fold][open] > summary { display:none; }   /* only the spoiler gate (hero 档案) drops its line once open */
+button.fold-close { display:block; margin:8px 0 2px; font:12.5px var(--sans); color:var(--muted); background:none; border:1px solid var(--line); border-radius:4px; padding:5px 12px; cursor:pointer; }
+button.fold-close:hover { color:var(--brass); border-color:var(--brass); }
+/* phones (step 7, 2026-10-06): one row of page links; intros cut to three lines; a page's contents (#toc, #jump) as
+   a drawer behind a 目录 button, with a filter; long CJK lines may break anywhere */
+button.toc-fab, .toc-backdrop { display:none; }
+input.toc-filter { display:block; width:100%; margin:2px 0 10px; }   /* the contents filter on wide screens too (2026-10-06); its look is the shared search box */
+nav.jump input.toc-filter { max-width:20em; margin:8px 0 6px; }
+.ticket-main p.premise { color:var(--ink); }
+@media (max-width:720px) {
+  html.has-toc button.toc-fab { display:block; position:fixed; right:14px; bottom:max(18px, env(safe-area-inset-bottom)); z-index:41; width:46px; height:46px;
+    padding:0; border:none; border-radius:50%; font-size:0; color:transparent; cursor:pointer; opacity:.94; box-shadow:0 4px 14px rgba(0,0,0,.35);
+    background:linear-gradient(#07080b,#07080b) 50% 16px / 18px 2px no-repeat, linear-gradient(#07080b,#07080b) 50% 22px / 18px 2px no-repeat,
+      linear-gradient(#07080b,#07080b) 50% 28px / 18px 2px no-repeat, #d3a655; transition:transform .2s ease, opacity .2s ease; }
+  html.fab-away:not(.toc-open) button.toc-fab { transform:translateY(90px); opacity:0; }
+  html.has-toc #toc, html.has-toc #jump { position:fixed !important; top:0; right:0; bottom:0; left:auto; width:min(86vw,360px);
+    max-height:none !important; margin:0; z-index:40; overflow:auto; overscroll-behavior:contain; background:var(--card);
+    border:none; border-left:1px solid var(--line); border-radius:0; padding:12px 16px 90px; transform:translateX(105%);
+    transition:transform .2s ease; box-shadow:-8px 0 24px rgba(0,0,0,.35); }
+  html.toc-open #toc, html.toc-open #jump { transform:none; }
+  html.toc-open .toc-backdrop { display:block; position:fixed; inset:0; z-index:39; background:rgba(0,0,0,.45); }
+  html.has-toc input.toc-filter { display:block; width:100%; margin:2px 0 10px; font-size:15px; min-height:40px; }
+}
+@media (max-width:640px) {
+  .rail nav { flex:1 1 100%; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+  .rail nav::-webkit-scrollbar { display:none; }
+  .rail nav a { flex:none; }
+  main { overflow-wrap:anywhere; }
+  .ticket-main p.hint.clamped { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:0; }
+  button.hint-more { background:none; border:none; color:var(--brass); font-size:12.5px; padding:2px 0 6px; cursor:pointer; }
+}
 [hidden] { display:none !important; }
 html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* the 显示出处 and 浅色 switches */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
 .switches { display:inline-flex; gap:8px; }
-.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
-#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.toggle-label { display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--rail-muted); border:1px solid #3a404b; border-radius:14px;
+  padding:4px 11px 4px 5px; cursor:pointer; user-select:none; }
+.toggle-label::before { content:""; flex:none; width:24px; height:14px; border-radius:7px; transition:background .15s;
+  background:radial-gradient(circle at 7px 50%, #8f897d 4px, transparent 4.6px), #262b33; }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail-ink); border-color:#8a7140; }
+#show-src:checked ~ .rail label[for="show-src"]::before, #theme-light:checked ~ .rail label[for="theme-light"]::before {
+  background:radial-gradient(circle at 17px 50%, #07080b 4px, transparent 4.6px), #d3a655; }
+#show-src:focus-visible ~ .rail label[for="show-src"], #theme-light:focus-visible ~ .rail label[for="theme-light"] { outline:2px solid #d3a655; outline-offset:2px; }
 html:not(.js) label[for="theme-light"] { display:none; }
 .ch, sup.cite, details.src, .src-only { display:none; }
-#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main .ch { display:inline-block; text-indent:0; }
 #show-src:checked ~ main sup.cite { display:inline; }
 #show-src:checked ~ main details.src { display:inline; }
 #show-src:checked ~ main .src-only { display:block; }
@@ -69,7 +111,7 @@ html:not(.js) label[for="theme-light"] { display:none; }
 .ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
 sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
 details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
-blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--line); color:color-mix(in srgb, var(--ink) 80%, var(--muted)); font:14.5px/1.75 var(--serif); }
 cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
 
 /* headings and text */
@@ -95,6 +137,12 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 .route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
 .stub-row { font:12px var(--mono); color:var(--muted); }
 .stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+/* a page's counts read like the fields of a ticket stub: a small label over a big number (2026-10-06) */
+.ticket-stub.stats { gap:12px; }
+.ticket-stub.stats .stub-row:not(.src-only) { font:600 24px/1.05 var(--mono); color:var(--ink); }   /* figures in ink; gold kept for its few meanings */
+.ticket-stub.stats .stub-row:not(.src-only) b { display:block; font:500 11.5px/1.4 var(--sans); color:var(--muted); letter-spacing:.12em; margin:0 0 3px; }
+.ticket-stub.stats small { font:500 12px var(--sans); color:var(--muted); margin-left:4px; }
+a.stub-row { display:block; text-decoration:none; } a.stub-row:hover b { color:var(--brass); }   /* a count that jumps to its section */
 .stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
   display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
 .stamp small { font-size:10px; margin-left:1px; }
@@ -107,10 +155,11 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* grade badge */
 .grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.dark-ink { color:#14100a; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
-.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+.tag { text-indent:0; display:inline-block; font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
 /* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
-.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+.seal { flex:none; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
   border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
 .seal.wide { font-size:14px; }
 .seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
@@ -120,35 +169,66 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* the player panel, in the book's 【key：value】 lines */
 .syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
   padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
-.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel .row > span { color:var(--rail-ink); font-weight:600; }
+.syspanel .v-rate { color:var(--brass); } .syspanel .grade { font-size:12px; height:20px; min-width:24px; vertical-align:1px; }   /* gold for evolution; a level in its colour */
+.evo-mind { color:var(--mind); } .evo-space { color:var(--space); } .evo-time { color:var(--time); }
 .syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
 @media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
 .upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
-/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
-.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已否定 (denied or refuted); settled points carry no tag */
+.tier { text-indent:0; display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
 .tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 .tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
 
 .hidden { display:none !important; }
+nav.pagenav { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0 6px; font-size:14px; }
+nav.pagenav > b { color:var(--muted); font-weight:400; font-size:13px; margin-right:2px; }
+nav.pagenav a { padding:3px 11px; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--ink); }
+nav.pagenav a:hover { border-color:var(--brass); color:var(--brass); text-decoration:none; }
+@media (min-width:721px) { nav.pagenav input.toc-filter { display:none; } }
+@media (max-width:720px) {
+  html.has-toc nav.pagenav { display:block; }
+  html.has-toc nav.pagenav > b { display:block; margin:0 0 6px; }
+  html.has-toc nav.pagenav a { display:block; border:none; border-bottom:1px solid var(--line); border-radius:0; background:none; padding:10px 2px; }
+}
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
 @media (max-width:720px) { .totop { display:inline; } }
 footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
 @media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
-  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; }
+  .ticket-stub.stats { flex-direction:row; flex-wrap:wrap; justify-content:flex-start; gap:10px 26px; } .ticket-stub.stats .stub-row.src-only { flex-basis:100%; } }
 
+input[type=search] { font:14px var(--sans); color:var(--ink); background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2714%27%20height%3D%2714%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27round%27%3E%3Ccircle%20cx%3D%2710.5%27%20cy%3D%2710.5%27%20r%3D%276.5%27/%3E%3Cpath%20d%3D%27M20%2020l-4.6-4.6%27/%3E%3C/svg%3E") no-repeat 10px 50%;
+  border:1px solid var(--line); border-radius:6px; padding:6px 10px 6px 31px; min-height:34px; }
+input[type=search]::placeholder { color:var(--muted); }
+input[type=search]:focus, select:focus { outline:none; border-color:var(--brass); box-shadow:0 0 0 2px color-mix(in srgb, var(--brass) 25%, transparent); }
+select { appearance:none; -webkit-appearance:none; font:14px var(--sans); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2710%27%20height%3D%276%27%20viewBox%3D%270%200%2010%206%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M1%201l4%204%204-4%27/%3E%3C/svg%3E") no-repeat right 10px center; padding:6px 30px 6px 10px; min-height:34px; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary { list-style:none; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::-webkit-details-marker { display:none; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::before { content:""; display:inline-block; width:6px; height:6px; margin:0 9px 2px 2px; border-right:1.6px solid currentColor;
+  border-bottom:1.6px solid currentColor; transform:rotate(-45deg); transition:transform .15s ease; opacity:.7; vertical-align:middle; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more)[open] > summary::before { transform:rotate(45deg); margin-bottom:4px; }
+@media (max-width:640px) { .scroll-fade { -webkit-mask-image:linear-gradient(to right, #000 82%, transparent); mask-image:linear-gradient(to right, #000 82%, transparent); }
+  .scroll-fade.at-end { -webkit-mask-image:none; mask-image:none; } }
+p.graph-hint { display:none !important; }
+
+details.section-fold > summary { cursor:pointer; font:600 16px var(--serif); color:var(--muted); margin:14px 0 6px; letter-spacing:.04em; }
+details.section-fold[open] > summary { color:var(--ink); }
 .layer { margin:6px 0 18px; }
-.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; display:flex; align-items:center; gap:4px 12px; }   /* a phone wraps the note, 收起 stays on the right */
 .layer > summary::-webkit-details-marker { display:none; }
-.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
-.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
-.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer > summary b { flex:none; display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { flex:1 1 auto; color:var(--muted); font-size:13px; }
+.layer > summary::after { content:"收起"; flex:none; color:var(--muted); font-size:12px; }
 .layer:not([open]) > summary::after { content:"展开"; }
 section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
 ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
-.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
-ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+a.term { color:inherit; border-bottom:1px dotted var(--muted); text-decoration:none; } a.term:hover { color:var(--signal); border-bottom-color:var(--signal); }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; overflow-wrap:anywhere; }   /* a long name wraps in its column */
+ul.people li { display:grid; grid-template-columns:8.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
 ul.people li > :not(.subject) { grid-column:2; }
 @media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
 .harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
@@ -160,6 +240,9 @@ nav.units-nav a { display:flex; flex-direction:column; background:var(--card); b
 nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
 nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
 nav.units-nav small.after { color:var(--signal); }
+@media (max-width:640px) { nav.units-nav { grid-template-columns:1fr; gap:8px; } nav.units-nav b { font-size:15px; } nav.units-nav a { padding:8px 12px; }
+  nav.units-nav span.none { display:none; } }   /* a phone: one above the other, a long name on one or two lines (design review 2026-10-06) */
+details.about-src { margin:8px 0 2px; } details.about-src > summary { color:var(--muted); font-size:13px; }
 .graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
 @media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
@@ -176,62 +259,53 @@ svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-w
 svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
 details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 .links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
-.links a { margin-right:12px; white-space:nowrap; }
+.links a, .links > span { margin-right:12px; white-space:nowrap; }   /* a name with no item card is a span: same spacing */
+@media (max-width:640px) { .links a, .links > span { white-space:normal; } }   /* a long place name wraps on a phone (u0148) */
 .progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
 .hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+.ticket-main .lede { margin:12px 0 2px; font:500 17px/1.75 var(--serif); color:var(--ink); max-width:40em; }
 nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
 nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，第一个副本结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到第一个副本结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket" id="card" data-first="617" data-end="631"><div class="ticket-main"><div class="stamp-seal"><span class="seal none" data-ch="618" title="他是副本持有人">—</span></div><div class="kicker">副本 · <span class="grade" style="background:#1f7f86">D</span><small class="diff">副本难度</small></div>
-<h1>第十七医院（京市）</h1><div class="route">第 617 章 ──── 第 631 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="617" hidden>这张卡从第 617 章开始，在你填的进度之后，整张都是剧透。</p></div>
-<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0031</div><div class="stub-row"><b>句数</b>56</div>
-<div class="stub-row"><b>引用</b>47 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 617–631 章正文后撰写。</p>
+<h1>第十七医院（京市）</h1><div class="route">第 617 章 ──── 第 631 章</div><div class="lede" data-ch="618">“十日之期”那晚，徐获在特防部总部附近放出自己的第十七医院，副本当场升为D级，把外国间谍、吃人玩家和春雨协会的朋友一并吞了进去。<span class="ch">第 617–618 章</span></div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 3284 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="617" hidden>这张卡从第 617 章开始，在你填的进度之后，整张都是剧透。</p></div>
+<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0031</div><div class="stub-row"><b>句数</b>81</div>
+<div class="stub-row"><b>引用</b>20 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<details class="about-src meta"><summary>出处怎么核对</summary>每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</details><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 617–631 章正文后撰写；2026-10-06 第六步由 Claude 子代理（claude-opus-5-5）改写（GPT 额度用完前第二波写成的两三张也在这批里，没有分开记录），原梗概折为逐幕复盘；2026-10-06 逐幕复盘不再上页面，其中要紧的由 Claude 子代理（claude-opus-5-5）收进剧情梗概和解谜结构。</p>
 <nav class="units-nav top"><a class="prev" href="u0030.html"><small>← 上一单元</small><b>014 区（异种毒与双蛇集会）</b><small>第 574–616 章</small></a><a class="next" href="u0032.html"><small>下一单元 →</small><b>京市（黑雨与 Y 国敢死队）</b><small>第 632–657 章</small><small class="after" data-beyond="632" hidden>在你的进度之后</small></a></nav>
-<details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。写到第 631 章，含结局。</span></summary><section id="overview" class="fgroup"><h3>一句话</h3>
-<ul class="items"><li data-ch="631"><span class="text">“十日之期”那晚，徐获在京市放出第十七医院，副本当场升为 D 级，吞进吃人玩家和外国间谍；他放走自己人、审出超级矿石，收拾干净后结束了副本。</span><span class="ch">第 617–618、622、630–631 章</span></li></ul>
-</section>
-<section id="harvest" class="harvest" data-ch="631"><h3>徐获的收获</h3><div class="h-rating"><span class="seal none" title="不评级">—</span><span>评级：书里没写评级（他是副本持有人）<span class="ch">第 618 章</span></span></div><div class="h-line">他的随机副本升为 D 级。<span class="ch">第 618 章</span><details class="src"><summary>原文</summary><blockquote>副本成功升级为D级<cite>第 618 章</cite></blockquote></details></div><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
+<nav class="jump pagenav" id="jump" aria-label="本页目录"><b>本卡</b><a href="#harvest" data-ch="631">收获</a><a href="#setup" data-ch="618">规则</a><a href="#cast" data-ch="626">人物</a><a href="#summary" data-ch="617">梗概</a><a href="#puzzle" data-ch="618">解谜</a><a href="#relations" data-ch="619">关系</a><a href="#threads" data-ch="631">伏笔</a><a href="#callbacks" data-ch="617">承接前文</a><a href="#links">设定与道具</a></nav>
+<details class="layer" open><summary><b>概况</b><span>背景与规则、人物。写到第 631 章，含结局。</span></summary><section id="harvest" class="harvest quiet" data-ch="631"><h3>徐获的收获</h3><div class="h-rating"><span class="seal none" title="不评级">—</span><span>书里没写评级（他是副本持有人）<span class="ch">第 618 章</span></span></div><div class="h-line">他的随机副本升为 D 级。<span class="ch">第 618 章</span><details class="src"><summary>原文</summary><blockquote>副本成功升级为D级<cite>第 618 章</cite></blockquote></details></div><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
 <section id="setup" class="fgroup"><h3>背景与规则</h3>
-<ul class="items"><li data-ch="618"><span class="text">D 级随机副本，持有人是徐获。他在总部附近放出医院时它开始升级：一栋门诊大楼变成三栋楼，副本升为 D 级，可容纳玩家人数不限。</span><span class="ch">第 617–618 章</span><details class="src"><summary>原文</summary><blockquote>出去是不可能的，因为第十七医院这个副本正在升级<cite>第 617 章</cite></blockquote><blockquote>副本成功升级为D级<cite>第 618 章</cite></blockquote><blockquote>您已进入“第十七医院”，默认参与该D级随机副本<cite>第 618 章</cite></blockquote></details></li><li data-ch="618"><span class="text">三栋楼：一栋是门诊和病房，三到六楼普通病房，七到九楼加锁单间；二栋是病理室、观察楼层和病菌样品库；三栋是加了金属电网的传染病隔离楼，雨果留下的病菌被转到了这里。</span><span class="ch">第 618 章</span><details class="src"><summary>原文</summary><blockquote>三楼到六楼是普通病房，七、八、九楼是加锁病房<cite>第 618 章</cite></blockquote><blockquote>第三栋楼整栋楼的外面都加固了金属电网<cite>第 618 章</cite></blockquote></details></li><li data-ch="618"><span class="text">背景沿用上一版，并加了传染病研究：病人感染了不知名的强传染病菌，只能就地隔离。“今天有一批新的病人被家属送到了第十七医院。”</span><span class="ch">第 618 章</span></li><li data-ch="618"><span class="text">三个任务：至少接受一次心理治疗；窃取重要的病菌样本；清扫医院大门。任一完成即可脱离，副本时间不限；提示：医院内不欢迎想象力丰富的病人。</span><span class="ch">第 618 章</span><details class="src"><summary>原文</summary><blockquote>副本任务：①至少接受一次心理治疗<cite>第 618 章</cite></blockquote><blockquote>【②窃取重要的病菌样本。】<cite>第 618 章</cite></blockquote><blockquote>玩家任一完成一项任务即可脱离副本<cite>第 618 章</cite></blockquote><blockquote>请注意，医院内不欢迎想象力丰富的病人<cite>第 618 章</cite></blockquote></details></li></ul>
+<ul class="items"><li data-ch="618"><span class="text">第十七医院是徐获持有的<a class="term" href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC" title="不需要车票、毫无征兆、地点随机出现的副本，卷进去的不限于玩家。">随机副本</a>，在总部附近放出时开始升级：一栋门诊楼变成三栋楼，升为D级，容纳人数不限。</span><span class="ch">第 617–618 章</span><details class="src"><summary>原文</summary><blockquote>副本成功升级为D级<cite>第 618 章</cite></blockquote></details></li><li data-ch="618"><span class="text">持有者能写规则和任务，却堵不死通关的路；徐获重写的第二个任务被游戏改成了“窃取重要的病菌样本”。</span><span class="ch">第 618 章</span><details class="src"><summary>原文</summary><blockquote>【②窃取重要的病菌样本。】<cite>第 618 章</cite></blockquote></details></li><li data-ch="618"><span class="text">三个任务完成任一项即可脱离，副本时间不限：至少接受一次心理治疗、窃取重要的病菌样本、清扫医院大门。</span><span class="ch">第 618 章</span><details class="src"><summary>原文</summary><blockquote>玩家任一完成一项任务即可脱离副本<cite>第 618 章</cite></blockquote></details></li><li data-ch="618"><span class="text">背景是病人感染了不知名的强传染病菌，只能就地隔离；提示说医院不欢迎想象力丰富的病人。</span><span class="ch">第 618 章</span><details class="src"><summary>原文</summary><blockquote>请注意，医院内不欢迎想象力丰富的病人<cite>第 618 章</cite></blockquote></details></li><li data-ch="618"><span class="text">一栋是门诊和病房，七到九楼是加锁单间；二栋有病理室和病菌样品库；三栋是加了金属电网的传染病隔离楼。</span><span class="ch">第 618 章</span><details class="src"><summary>原文</summary><blockquote>第三栋楼整栋楼的外面都加固了金属电网<cite>第 618 章</cite></blockquote></details></li><li data-ch="618"><span class="text">每栋楼的消防点都多了一张按实际尺寸精确缩小的医院平面图，徐获用精神力量也改不了它。</span><span class="ch">第 618 章</span><details class="src"><summary>原文</summary><blockquote>他尝试用精神力量影响平面图的样子但没能成功<cite>第 618 章</cite></blockquote></details></li></ul>
 </section>
-<section id="cast" class="fgroup"><h3>登场人物</h3>
-<p class="note">按出场先后。</p>
-<ul class="people"><li data-ch="626"><b class="subject"><a href="../people.html?upto=631#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">副本持有人；在医院里是换了脸的“医生”，护士们管他叫院长。</span><span class="ch">第 617、624、626 章</span></li><li data-ch="630"><b class="subject">本特利·阿贝</b><span class="text">一队十名外国玩家的领头人，在京市潜伏多年，进医院前正要刺杀特防部高层。</span><span class="ch">第 617、630 章</span></li><li data-ch="630"><b class="subject">戴维·皮尔斯</b><span class="text">本特利手下最年轻的棕发玩家。</span><span class="ch">第 629–630 章</span></li><li data-ch="619"><b class="subject"><a href="../people.html?upto=631#person-%E8%B0%B7%E9%9B%A8">谷雨</a>、<a href="../people.html?upto=631#person-%E9%83%91%E8%89%AF">郑良</a>、文雪琳</b><span class="text">春雨协会的人，扮成徐获引人时被扩大的副本吞了进来。</span><span class="ch">第 618–619 章</span></li><li data-ch="619"><b class="subject"><a href="../people.html?upto=631#person-%E6%A2%81%E5%93%A5">梁哥</a>、关祖弘</b><span class="text">梁哥一伙，和春雨协会的人一起进了医院。</span><span class="ch">第 619 章</span></li><li data-ch="626"><b class="subject">阿益（神风）、阿颖</b><span class="text">兄妹俩，合伙开“神风快递”专给玩家运东西；阿益懂一点精神类副本的门道。</span><span class="ch">第 625–626 章</span></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、人物结局、承接前文、关键关系、伏笔与未解。写到第 631 章，含全部剧透。</span></summary><section id="story" class="fgroup"><h3>剧情梗概</h3>
-<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
-<nav class="arcs"><a href="#story-1" data-ch="617">一、放出医院（第 617–618 章）</a><a href="#story-2" data-ch="619">二、病人（第 619–622 章）</a><a href="#story-3" data-ch="624">三、治疗室（第 623–624 章）</a><a href="#story-4" data-ch="626">四、样品库（第 625–626 章）</a><a href="#story-5" data-ch="628">五、大门（第 627–629 章）</a><a href="#story-6" data-ch="630">六、隔离楼里的外国人（第 629–631 章）</a></nav>
-<h4 id="story-1" data-ch="617">一、放出医院（第 617–618 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="617">总部附近起了人造的大雾，一队外国玩家发誓要“拿到解毒菌，杀光特防部玩家”；几口大箱子被抛到总部上空，炸开后落下的面具、石头、门和洋娃娃全是随机副本的入口。<sup class="cite" title="第617章：拿到解毒菌，杀光特防部玩家；第617章：看到这几样东西的瞬间，在场的人就知道这是随机副本的入口">617</sup></span><span class="stmt" data-ch="618">这十个人一脚踏进徐获放出的医院。医院开始升级，徐获重新写了三个任务，第二个被游戏改成“窃取重要的病菌样本”；他想改动楼里的平面图，没能成功。<sup class="cite" title="第617章：看来我们踏入了随机副本，运气真不好；第618章：任务提交之后，第二个任务并没有通过，闪烁之后字体自行修改为；第618章：他尝试用精神力量影响平面图的样子但没能成功">617–618</sup></span><span class="stmt" data-ch="618">医院范围一扩大，被谷雨、梁哥等人引来的近五十名玩家，连同谷雨他们自己，都被吸了进去。<sup class="cite" title="第618章：倒霉的跟着谷雨、郑良几个被扩大后的副本吸入了">618</sup></span></p><details class="src block fgroup"><summary>本段原文 6 处</summary><blockquote data-ch="617">拿到解毒菌，杀光特防部玩家<cite>第 617 章</cite></blockquote><blockquote data-ch="617">看到这几样东西的瞬间，在场的人就知道这是随机副本的入口<cite>第 617 章</cite></blockquote><blockquote data-ch="618">看来我们踏入了随机副本，运气真不好<cite>第 617 章</cite></blockquote><blockquote data-ch="618">任务提交之后，第二个任务并没有通过，闪烁之后字体自行修改为<cite>第 618 章</cite></blockquote><blockquote data-ch="618">他尝试用精神力量影响平面图的样子但没能成功<cite>第 618 章</cite></blockquote><blockquote data-ch="618">倒霉的跟着谷雨、郑良几个被扩大后的副本吸入了<cite>第 618 章</cite></blockquote></details>
-<h4 id="story-2" data-ch="619">二、病人（第 619–622 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="619">有人一刀切断护士长的脖子，她却自己把头扶回原位；玩家的道具没用，被保安戴上嘴套押去七楼。<sup class="cite" title="第619章：一秒后，被鲜血淋湿半边衣服的护士长自己伸手把头扶回原位">619</sup></span><span class="stmt" data-ch="621">夜里，走廊上游荡着缝合怪、异种和文雪琳幻想出来的“女鬼”；徐获到谷雨他们的房间叫醒众人，提醒这是精神类副本，想象的东西会变成真的。<sup class="cite" title="第621章：最脱离现实的就是由文雪琳幻想出来的“女鬼”；第621章：这是个精神类的随机副本，幻想的东西可能会变成真的，最好不要多想">620–621</sup></span><span class="stmt" data-ch="622">第二天，玩家的个人面板打不开了，道具成了装饰品；护士发“维生素”，一辆警车押回昨晚逃跑的玩家，队长长得像吴组长，警员像戴文谦，动手的吃人玩家被当场击毙。<sup class="cite" title="第622章：那就是他们的个人面板打不开了，原本戴在身上的道具也变成了普通的装饰物；第622章：“不只戴文谦，那个队长就是吴组长。”郑良挠挠头">622</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="619">一秒后，被鲜血淋湿半边衣服的护士长自己伸手把头扶回原位<cite>第 619 章</cite></blockquote><blockquote data-ch="621">最脱离现实的就是由文雪琳幻想出来的“女鬼”<cite>第 621 章</cite></blockquote><blockquote data-ch="621">这是个精神类的随机副本，幻想的东西可能会变成真的，最好不要多想<cite>第 621 章</cite></blockquote><blockquote data-ch="622">那就是他们的个人面板打不开了，原本戴在身上的道具也变成了普通的装饰物<cite>第 622 章</cite></blockquote><blockquote data-ch="622">“不只戴文谦，那个队长就是吴组长。”郑良挠挠头<cite>第 622 章</cite></blockquote></details>
-<h4 id="story-3" data-ch="624">三、治疗室（第 623–624 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="624">徐获换了脸当心理医生，把“呓语之球”放在抽屉里：意志坚强的疤痕玩家一心逼他写出院，结果陷进自己流血的幻觉；徐获蒙上他的眼睛，拿水桶滴水做“吓死人”的实验。<sup class="cite" title="第623章：他将“呓语之球”搁在下面拉开的抽屉里；第624章：想知道人是不是真的会被吓死">623–624</sup></span><span class="stmt" data-ch="624">郑良来做测试，徐获拿出他和徐知这十年的“合影”，说徐知每月都来看他；郑良认定徐知死了十年，摔门不出院了。<sup class="cite" title="第624章：你还记得你的好朋友徐知吗">624</sup></span></p><details class="src block fgroup"><summary>本段原文 3 处</summary><blockquote data-ch="624">他将“呓语之球”搁在下面拉开的抽屉里<cite>第 623 章</cite></blockquote><blockquote data-ch="624">想知道人是不是真的会被吓死<cite>第 624 章</cite></blockquote><blockquote data-ch="624">你还记得你的好朋友徐知吗<cite>第 624 章</cite></blockquote></details>
-<h4 id="story-4" data-ch="626">四、样品库（第 625–626 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="626">神风快递的阿益、阿颖兄妹摸进二栋偷样本。徐获装成玩家跟着他们，用“鲜红的剑”切开样品库的门；阿益说精神类副本里最先看到的东西最接近真实，可以拿来当参照。<sup class="cite" title="第625章：神风是我在游戏里的ID，我叫阿益，这是我妹妹阿颖；第626章：所以刚开始我们看到的医院最接近真实">625–626</sup></span><span class="stmt" data-ch="626">警铃响后，徐获在门口“挡住”保安，兄妹俩在楼上的样品室找到样本，通关离开。<sup class="cite" title="第626章：徐获作为副本的持有者，当然知道他们通关了">626</sup></span></p><details class="src block fgroup"><summary>本段原文 3 处</summary><blockquote data-ch="626">神风是我在游戏里的ID，我叫阿益，这是我妹妹阿颖<cite>第 625 章</cite></blockquote><blockquote data-ch="626">所以刚开始我们看到的医院最接近真实<cite>第 626 章</cite></blockquote><blockquote data-ch="626">徐获作为副本的持有者，当然知道他们通关了<cite>第 626 章</cite></blockquote></details>
-<h4 id="story-5" data-ch="628">五、大门（第 627–629 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="628">副本里过了一整天，外面还是同一个夜晚。疤痕玩家被抬出治疗室，据说是吓死的；夜里病菌蔓延，被咬的人变得像丧尸。<sup class="cite" title="第627章：副本里已经过了整整一天，但实际上外面还停留在夜晚；第628章：刚才医院消杀的时候，我看到两个保安从那个治疗室里抬了个尸袋出去，听说是吓死的">627–628</sup></span><span class="stmt" data-ch="629">谷雨从三楼吊下去，被咬了一口，把偷来的清洁剂砸在大门上，当场通关；郑良用袖子擦门也通关了，文雪琳、关祖弘跟着出来。<sup class="cite" title="第628章：清洁剂淌满半扇大门，顷刻间，她人就从原地消失了；第629章：“通关了！我们真的通关了！”出来之后，文雪琳扑上去抱住谷雨">628–629</sup></span><span class="stmt" data-ch="629">聂玄问起徐获，谷雨叮嘱同伴只说徐获的定位信号在副本入口消失了。<sup class="cite" title="第629章：如果特防部的人再问，你们都要说是徐获的定位信号在副本入口消失">629</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="628">副本里已经过了整整一天，但实际上外面还停留在夜晚<cite>第 627 章</cite></blockquote><blockquote data-ch="628">刚才医院消杀的时候，我看到两个保安从那个治疗室里抬了个尸袋出去，听说是吓死的<cite>第 628 章</cite></blockquote><blockquote data-ch="629">清洁剂淌满半扇大门，顷刻间，她人就从原地消失了<cite>第 628 章</cite></blockquote><blockquote data-ch="629">“通关了！我们真的通关了！”出来之后，文雪琳扑上去抱住谷雨<cite>第 629 章</cite></blockquote><blockquote data-ch="629">如果特防部的人再问，你们都要说是徐获的定位信号在副本入口消失<cite>第 629 章</cite></blockquote></details>
-<h4 id="story-6" data-ch="630">六、隔离楼里的外国人（第 629–631 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="630">徐获把十个外国玩家关进三栋隔离病房：让戴维·皮尔斯相信自己是京市长大的“郝正”，问出这是一个潜伏多年的间谍组织，这回想趁乱抢解毒菌、刺杀高层；Y 国在新资源区发现大量矿藏，已经拿去换道具。<sup class="cite" title="第629章：我不叫郝正，我的名字是戴维·皮尔斯；第630章：从他的口述中，徐获对这个潜藏在京市的地下组织有了些了解；第630章：而且Y国在新生成的资源区内发现了大量矿藏">629–630</sup></span><span class="stmt" data-ch="631">领头的本特利识破他是副本持有人，拿“超级矿石”换命，报了个坐标，被徐获一剑杀了；坐标是假的，徐获又从剩下八人那里问出了标记，然后宣布皮尔斯“病愈出院”放了他。<sup class="cite" title="第630章：您对超级矿石感兴趣吗；第630章：话说完一剑结束了他的生命；第631章：本特利没有说出真实的矿藏地址，不过没关系，还有八个人">630–631</sup></span><span class="stmt" data-ch="631">他把大门往左挪了一扇，冲来擦门的玩家挑错门就死；放走几个普通玩家后封死门窗，把吃人玩家困在鬼怪和病毒里收割干净，收拢邮轮玩家留下的道具，结束副本。出来时，京市下起了带油光的黑雨。<sup class="cite" title="第631章：因此徐获只是把原来门的位置向左移动了一扇；第631章：医院里的人清理的差不多了，徐获又把之前舰船玩家留下的道具收拢，然后结束了副本；第631章：“这雨怎么是黑的？”有特防部人员在脸上抹了一把">631</sup></span></p><details class="src block fgroup"><summary>本段原文 9 处</summary><blockquote data-ch="630">我不叫郝正，我的名字是戴维·皮尔斯<cite>第 629 章</cite></blockquote><blockquote data-ch="630">从他的口述中，徐获对这个潜藏在京市的地下组织有了些了解<cite>第 630 章</cite></blockquote><blockquote data-ch="630">而且Y国在新生成的资源区内发现了大量矿藏<cite>第 630 章</cite></blockquote><blockquote data-ch="631">您对超级矿石感兴趣吗<cite>第 630 章</cite></blockquote><blockquote data-ch="631">话说完一剑结束了他的生命<cite>第 630 章</cite></blockquote><blockquote data-ch="631">本特利没有说出真实的矿藏地址，不过没关系，还有八个人<cite>第 631 章</cite></blockquote><blockquote data-ch="631">因此徐获只是把原来门的位置向左移动了一扇<cite>第 631 章</cite></blockquote><blockquote data-ch="631">医院里的人清理的差不多了，徐获又把之前舰船玩家留下的道具收拢，然后结束了副本<cite>第 631 章</cite></blockquote><blockquote data-ch="631">“这雨怎么是黑的？”有特防部人员在脸上抹了一把<cite>第 631 章</cite></blockquote></details>
+<section id="cast" class="fgroup"><h3>人物</h3>
+<ul class="people"><li data-ch="629"><b class="subject"><a href="../people.html?upto=631#person-%E8%B0%B7%E9%9B%A8">谷雨</a></b><span class="text">春雨协会的人，和同伴扮成徐获引开敌人，被扩大的医院吞了进来。她从三楼吊下去、被咬了一口，把偷来的清洁剂砸在大门上通关，出来后叮嘱同伴替徐获遮掩。</span><span class="ch">第 618、628–629 章</span></li><li data-ch="629"><b class="subject"><a href="../people.html?upto=631#person-%E9%83%91%E8%89%AF">郑良</a></b><span class="text">春雨协会的人，徐知生前的好朋友，学过武术，在医院里成了普通人也敢和吃人玩家动手。心理测试里他坚持徐知死了十年、宁可不出院，后来用袖子擦门通关。</span><span class="ch">第 624、629 章</span></li><li data-ch="629"><b class="subject"><a href="../people.html?upto=631#person-%E6%96%87%E9%9B%AA%E7%90%B3">文雪琳</a></b><span class="text">和谷雨一起被吞进来的春雨协会成员，她幻想出的“女鬼”夜里真的在走廊游荡。最后跟着谷雨、郑良从大门通关出来。</span><span class="ch">第 618、621、629 章</span></li><li data-ch="626"><b class="subject">阿益（神风）</b><span class="text">和妹妹合开“神风快递”专给玩家运东西，懂一点精神类副本的门道，提出以最先看到的医院当参照。兄妹俩在徐获暗中帮忙下偷到病菌样本，通关离开。</span><span class="ch">第 625–626 章</span></li><li data-ch="626"><b class="subject">阿颖</b><span class="text">阿益的妹妹，跟着哥哥摸进二栋，在样品室里翻出病菌样本，一起通关。</span><span class="ch">第 625–626 章</span></li><li data-ch="628"><b class="subject">疤痕玩家</b><span class="text">意志坚强的玩家，一心逼“医生”写出院，反陷进自己流血的幻觉。治疗后再没出来，被保安抬了出去，据说是吓死的。</span><span class="ch">第 623–624、628 章</span></li><li data-ch="631"><b class="subject">本特利·阿贝</b><span class="text">一队十名外国玩家的领头人，在京市潜伏多年，这次想趁乱抢解毒菌、刺杀特防部高层。他识破徐获是副本持有人，拿超级矿石的假坐标换命，被一剑杀死。</span><span class="ch">第 617、630–631 章</span></li><li data-ch="631"><b class="subject">戴维·皮尔斯</b><span class="text">本特利手下最年轻的棕发玩家，被徐获引着相信自己是京市长大的“郝正”，说出了间谍组织的底细。最后被宣布“病愈出院”，离开副本。</span><span class="ch">第 629–631 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、关键关系、伏笔与未解、承接前文。写到第 631 章，含全部剧透。</span></summary><section id="summary" class="fgroup"><h3>剧情梗概</h3>
+<nav class="arcs"><a href="#summary-1" data-ch="617">放出医院</a><a href="#summary-2" data-ch="619">病人</a><a href="#summary-3" data-ch="624">院长的治疗室</a><a href="#summary-4" data-ch="626">样品库与大门</a><a href="#summary-5" data-ch="630">隔离楼里的外国人</a></nav>
+<h4 id="summary-1" data-ch="617">放出医院</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="617">“十日之期”那晚，一队外国玩家借人造大雾袭击特防部总部，扬言要拿到解毒菌、杀光特防部玩家。<sup class="cite" title="第617章：拿到解毒菌，杀光特防部玩家">617</sup></span><span class="stmt" data-ch="617">他们抛到总部上空的几口箱子被拦截弹炸开，掉出的面具、石头、门和洋娃娃都是<a class="term" href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC" title="不需要车票、毫无征兆、地点随机出现的副本，卷进去的不限于玩家。">随机副本</a>的入口。<sup class="cite" title="本句未附原文">617</sup></span><span class="stmt" data-ch="617">徐获要把这十人留住，在附近开启第十七医院，没想到它不但没因先前的病菌污染失效，反而开始升级。<sup class="cite" title="本句未附原文">617</sup></span><span class="stmt" data-ch="618">他重写了任务，第二条被游戏改成偷病菌样本；他由此判断，三个任务最多只有一个能按他的主观意愿判定。<sup class="cite" title="第618章：三个任务最多只有一个能基本按照他的主观意愿来判定是否通关">618</sup></span><span class="stmt" data-ch="618">医院一扩大，扮成徐获引人的谷雨、郑良等人和近五十名追来的玩家都被吸了进去。<sup class="cite" title="第 618 章">618</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="617">拿到解毒菌，杀光特防部玩家<cite>第 617 章</cite></blockquote><blockquote data-ch="618">三个任务最多只有一个能基本按照他的主观意愿来判定是否通关<cite>第 618 章</cite></blockquote></details>
+<h4 id="summary-2" data-ch="619">病人</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="619">有人一刀切断护士长的脖子，她却自己把头扶回原位；玩家的道具不起作用，被保安戴上嘴套押去七楼。<sup class="cite" title="第619章：一秒后，被鲜血淋湿半边衣服的护士长自己伸手把头扶回原位">619</sup></span><span class="stmt" data-ch="621">夜里走廊上游荡着缝合怪、异种和文雪琳幻想出来的“女鬼”；徐获叫醒谷雨他们，提醒这是精神类副本，想象的东西会成真。<sup class="cite" title="第 620–621 章">620–621</sup></span><span class="stmt" data-ch="622">第二天，玩家的面板打不开了，道具成了装饰品，人人都成了普通人；动手的吃人玩家被一支长得像吴组长的警队当场击毙。<sup class="cite" title="第 622 章">622</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="619">一秒后，被鲜血淋湿半边衣服的护士长自己伸手把头扶回原位<cite>第 619 章</cite></blockquote></details>
+<h4 id="summary-3" data-ch="624">院长的治疗室</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="628">徐获换了脸当心理医生，护士们叫他院长。疤痕玩家一心逼他写出院，反被拖进自己流血的幻觉。徐获照一个“吓死人”的实验，在他手腕上划一刀、蒙上眼，让他听桶里的滴水声；后来那人被抬出治疗室，据说是吓死的。<sup class="cite" title="本句未附原文">623–624、626、628</sup></span><span class="stmt" data-ch="624">郑良来做出院测试，徐获拿出他和徐知这十年的“合影”，说徐知常来看他；郑良认定徐知死了十年，宁可不出院。<sup class="cite" title="第624章：你还记得你的好朋友徐知吗">624</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="624">你还记得你的好朋友徐知吗<cite>第 624 章</cite></blockquote></details>
+<h4 id="summary-4" data-ch="626">样品库与大门</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="626">神风快递的阿益、阿颖兄妹摸进二栋偷样本，徐获装成玩家跟着；阿益说精神类副本里最先看到的东西最接近真实，可以拿来当参照。<sup class="cite" title="第626章：所以刚开始我们看到的医院最接近真实">625–626</sup></span><span class="stmt" data-ch="626">警铃响后，徐获放出黑斑污染拦住保安，兄妹俩在样品室翻出样本，通关离开。<sup class="cite" title="本句未附原文">626</sup></span><span class="stmt" data-ch="628">副本里过了一整天，外面还是同一个夜晚；夜里病菌蔓延，被咬的人变得像丧尸。<sup class="cite" title="第 627–628 章">627–628</sup></span><span class="stmt" data-ch="629">谷雨从三楼吊下去、被咬了一口，把偷来的清洁剂砸在大门上当场通关，郑良用袖子擦门也通关了，文雪琳、关祖弘跟着出来。<sup class="cite" title="第628章：清洁剂淌满半扇大门，顷刻间，她人就从原地消失了">628–629</sup></span><span class="stmt" data-ch="629">聂玄问起徐获，谷雨叮嘱同伴只说他的定位信号在副本入口消失了。<sup class="cite" title="第 629 章">629</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="626">所以刚开始我们看到的医院最接近真实<cite>第 626 章</cite></blockquote><blockquote data-ch="629">清洁剂淌满半扇大门，顷刻间，她人就从原地消失了<cite>第 628 章</cite></blockquote></details>
+<h4 id="summary-5" data-ch="630">隔离楼里的外国人</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="630">徐获把十名外国玩家关进三栋隔离病房，引戴维·皮尔斯相信自己是京市长大的“郝正”，问出这是一个潜伏多年的间谍组织。<sup class="cite" title="第 629–630 章">629–630</sup></span><span class="stmt" data-ch="630">据皮尔斯交代，他们这次想抢解毒菌、刺杀特防部高层，让 X 国也陷进战火。014 区别国也出现了道具交易店，Y国拿新资源区发现的矿藏换了道具，副本入口就是借道具运进来的。<sup class="cite" title="第630章：这次几个副本入口之所以能运进来就是借用的道具力量">630</sup></span><span class="stmt" data-ch="631">领头的本特利识破他是副本持有人，拿“超级矿石”的坐标换命，被他一剑杀死；坐标是假的，他又从剩下八人那里问出了标记。<sup class="cite" title="第631章：本特利没有说出真实的矿藏地址，不过没关系，还有八个人">630–631</sup></span><span class="stmt" data-ch="631">他宣布皮尔斯“病愈出院”，皮尔斯当场离开了副本。<sup class="cite" title="本句未附原文">631</sup></span><span class="stmt" data-ch="631">谷雨几人通关后，其余玩家纷纷冲去擦大门，徐获把门的位置向左挪了一扇，挑错门的就死在门前。<sup class="cite" title="第631章：因此徐获只是把原来门的位置向左移动了一扇">631</sup></span><span class="stmt" data-ch="631">放走几个普通玩家后，他封死门窗，把吃人玩家困在鬼怪和病毒里收割干净，收拢邮轮玩家留下的道具，结束了副本；出来时，京市下起了带油光的黑雨。<sup class="cite" title="第631章：“这雨怎么是黑的？”有特防部人员在脸上抹了一把">631</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="630">这次几个副本入口之所以能运进来就是借用的道具力量<cite>第 630 章</cite></blockquote><blockquote data-ch="631">本特利没有说出真实的矿藏地址，不过没关系，还有八个人<cite>第 631 章</cite></blockquote><blockquote data-ch="631">因此徐获只是把原来门的位置向左移动了一扇<cite>第 631 章</cite></blockquote><blockquote data-ch="631">“这雨怎么是黑的？”有特防部人员在脸上抹了一把<cite>第 631 章</cite></blockquote></details>
 </section>
 <section id="puzzle" class="fgroup"><h3>解谜结构</h3>
-<p class="note">持有人徐获在场，三个任务里只有第一个由他判定；其余两个按游戏的规则走。</p>
-<h4 id="puzzle-1" data-ch="618">三个任务</h4>
-<ul class="items"><li data-ch="631"><span class="text">心理治疗：通不通关看“医生”的判定。疤痕玩家硬要出院没用，皮尔斯被宣布“病愈”就当场离开。</span><span class="ch">第 623、631 章</span><details class="src"><summary>原文</summary><blockquote>话才说完，皮尔斯就从副本里消失了<cite>第 631 章</cite></blockquote></details></li><li data-ch="626"><span class="text">偷样本：样品库的位置和平面图对得上，找对了楼层就能拿到；阿益兄妹由此通关。</span><span class="ch">第 626 章</span></li><li data-ch="631"><span class="text">清扫大门：大门位置是游戏定的，徐获改不了，只能把门往左挪一扇；谷雨用清洁剂、郑良用袖子都通关了。</span><span class="ch">第 628–629、631 章</span><details class="src"><summary>原文</summary><blockquote>因此徐获只是把原来门的位置向左移动了一扇<cite>第 631 章</cite></blockquote></details></li><li data-ch="618"><span class="text"><span class="tier guess" title="徐获的推断">推测</span>游戏限制持有者：第二个任务被改写，徐获推断三个任务里最多只有一个能按他的意思判定。</span><span class="ch">第 618 章</span><details class="src"><summary>原文</summary><blockquote>三个任务最多只有一个能基本按照他的主观意愿来判定是否通关<cite>第 618 章</cite></blockquote></details></li></ul>
-<h4 id="puzzle-2" data-ch="626">想象会变成真的</h4>
-<ul class="items"><li data-ch="628"><span class="text">玩家相信道具没用，道具就真的没用；夜里的怪物、女鬼、丧尸都来自玩家的想象。</span><span class="ch">第 619、621、628 章</span></li><li data-ch="626"><span class="text">破解办法：记住最先看到的医院当参照；意志坚强的人也更难被影响。</span><span class="ch">第 623、626 章</span></li></ul>
-</section>
-<section id="fates" class="fgroup"><h3>人物结局</h3>
-<p class="note">截至第 631 章。</p>
-<ul class="people"><li data-ch="631"><b class="subject"><a href="../people.html?upto=631#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">结束副本，拿到邮轮玩家留下的道具和几处矿藏的标记，混在人群里甩开了特防部的监视。</span><span class="ch">第 631 章</span></li><li data-ch="629"><b class="subject"><a href="../people.html?upto=631#person-%E8%B0%B7%E9%9B%A8">谷雨</a>、<a href="../people.html?upto=631#person-%E9%83%91%E8%89%AF">郑良</a>、文雪琳、关祖弘</b><span class="text">通关出来，向聂玄交代时替徐获遮掩。</span><span class="ch">第 629 章</span></li><li data-ch="626"><b class="subject">阿益、阿颖</b><span class="text">偷到病菌样本通关。</span><span class="ch">第 626 章</span></li><li data-ch="631"><b class="subject">本特利·阿贝</b><span class="text">报了假坐标，被徐获一剑杀死。</span><span class="ch">第 630–631 章</span></li><li data-ch="631"><b class="subject">戴维·皮尔斯</b><span class="text">被宣布“病愈出院”，离开副本。</span><span class="ch">第 631 章</span></li><li data-ch="628"><b class="subject">疤痕玩家</b><span class="text">治疗后没再出来，被抬了出去，据说是吓死的。</span><span class="ch">第 628 章</span></li></ul>
-</section>
-<section id="callbacks" class="fgroup"><h3>承接前文</h3>
-<p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
-<ul class="items"><li data-ch="631"><a class="thread-no" href="../threads.html?upto=631#thread-152" title="伏笔总表">#152</a><span class="text">“十日之期”的那晚，徐获没有去总部，而是在附近放出第十七医院，把追来的吃人玩家和外国间谍都困在里面收拾掉。</span><span class="ch">第 617、631 章</span><details class="src"><summary>原文</summary><blockquote>从现在开始，徐获开始收割那些吃人玩家了<cite>第 631 章</cite></blockquote></details></li><li data-ch="630"><a class="thread-no" href="../threads.html?upto=631#thread-157" title="伏笔总表">#157</a><span class="text"><span class="tier claim" title="戴维·皮尔斯、本特利·阿贝的说法" tabindex="0">说法</span>Y 国在新资源区发现大量矿藏，已经拿去和制器师交易；间谍还提到一种含放射元素的“超级矿石”。</span><span class="ch">第 630 章</span></li><li data-ch="617"><a class="thread-no" href="../threads.html?upto=631#thread-150" title="伏笔总表">#150</a><span class="text"><span class="tier claim" title="本特利·阿贝的说法" tabindex="0">说法</span>外国间谍冲着解毒菌来，特防部早把解毒菌转移走，被炸的实验室只是空壳（间谍头目的说法）。</span><span class="ch">第 617 章</span></li><li data-ch="631"><span class="text">第十七医院上次在邮轮上是 E 级，徐获写的任务是“心理治疗、杀死一名医生、找到大门”；这次升为 D 级，徐获在医院里收拢了当时邮轮玩家留下的道具。</span><span class="ch">第 618、631 章</span></li></ul>
+<h4 id="puzzle-1" data-ch="618">持有者能定什么</h4>
+<ul class="items"><li data-ch="618"><b class="subject">谜面</b><span class="text">第十七医院是徐获的副本，他能写任务、改医院，却堵不死通关的路；谁能走、谁得留，他能决定多少？</span><span class="ch">第 618 章</span></li><li data-ch="631"><b class="subject">线索</b><span class="text">他写的第二个任务被游戏改成偷病菌样本；他想用精神力量改动平面图没有成功；医院大门的位置也是游戏固定的。</span><span class="ch">第 618、631 章</span></li><li data-ch="631"><b class="subject">谜底</b><span class="text">能按他的意思判定的只有心理治疗：出不出院由“医生”说了算，疤痕玩家硬要出院没用，皮尔斯一被宣布“病愈”就离开了。</span><span class="ch">第 618、623、631 章</span><details class="src"><summary>原文</summary><blockquote>话才说完，皮尔斯就从副本里消失了<cite>第 631 章</cite></blockquote></details></li></ul>
+<h4 id="puzzle-2" data-ch="621">想象会成真</h4>
+<ul class="items"><li data-ch="628"><b class="subject">谜面</b><span class="text">面板打不开、道具失灵，夜里又冒出缝合怪、女鬼和丧尸，这些是副本的设定，还是别的什么？</span><span class="ch">第 620–622、628 章</span></li><li data-ch="621"><b class="subject">线索</b><span class="text">护士长被切断脖子还能把头扶回去；文雪琳幻想的“女鬼”真的出现在走廊；副本提示医院不欢迎想象力丰富的病人。</span><span class="ch">第 618–619、621 章</span></li><li data-ch="626"><b class="subject">谜底</b><span class="text">这是精神类副本，玩家相信的东西会变成真的，认定道具没用，道具就真没用；精神力强、熟记平面图的人能凭已知事实排除干扰。</span><span class="ch">第 621–622、626 章</span><details class="src"><summary>原文</summary><blockquote>很容易根据已认定的事实去判断出现的事物是否合理<cite>第 626 章</cite></blockquote></details></li></ul>
+<h4 id="puzzle-3" data-ch="625">样品库在哪</h4>
+<ul class="items"><li data-ch="625"><b class="subject">谜面</b><span class="text">病菌样本在二栋的样品库，可医院的模样会随想象变化，怎样找到真正的位置？</span><span class="ch">第 618、625 章</span></li><li data-ch="626"><b class="subject">线索</b><span class="text">阿益说最先看到的医院最接近真实；他对比过医院白天和刚进来时的大小，认定平面图标注的位置没有变。</span><span class="ch">第 626 章</span><details class="src"><summary>原文</summary><blockquote>平面图上标注的位置应该没问题<cite>第 626 章</cite></blockquote></details></li><li data-ch="626"><b class="subject">谜底</b><span class="text">兄妹俩照平面图摸到楼上的样品室，样品很多，翻到对的那一瓶才触发通关，两人当场离开。</span><span class="ch">第 626 章</span></li></ul>
+<h4 id="puzzle-4" data-ch="631">哪扇才是大门</h4>
+<ul class="items"><li data-ch="631"><b class="subject">谜面</b><span class="text">清扫医院大门就能通关，谷雨用清洁剂、郑良用袖子都成功了，后来冲去擦门的人却死了不少。</span><span class="ch">第 628–629、631 章</span></li><li data-ch="631"><b class="subject">线索</b><span class="text">大门的位置是游戏定的，玩家进来前都清楚它在哪；医院平面图的比例精准，医院的大小徐获也没动过。</span><span class="ch">第 618、631 章</span></li><li data-ch="631"><b class="subject">谜底</b><span class="text">徐获把门的位置向左挪了一扇，两扇门只有一扇是真的；照平面图量一量、对比医院的实际尺寸，就能找到正确的大门。</span><span class="ch">第 631 章</span><details class="src"><summary>原文</summary><blockquote>也就是说两扇门，只有一扇门是真的<cite>第 631 章</cite></blockquote></details></li></ul>
 </section>
 <section id="relations" class="fgroup"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-kill)"></i>杀死</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
@@ -272,12 +346,14 @@ h4[id] { scroll-margin-top:16px; }
 <g class="node" data-ch="625"><circle cx="700" cy="112.0" r="10.0"/><text x="700" y="96.0" class="name">阿颖</text></g>
 <g class="node" data-ch="619"><circle cx="60" cy="95.2" r="10.0"/><text x="60" y="79.2" class="name">关祖弘</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li data-ch="626"><span class="text"><a href="../people.html?upto=631#person-%E5%BE%90%E8%8E%B7">徐获</a> → 装成玩家帮忙 → 阿益</span><span class="ch">第 625–626 章</span></li><li data-ch="621"><span class="text"><a href="../people.html?upto=631#person-%E5%BE%90%E8%8E%B7">徐获</a> → 提醒 → <a href="../people.html?upto=631#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span><span class="ch">第 621 章</span></li><li data-ch="630"><span class="text">本特利·阿贝 — 头领与手下 — 戴维·皮尔斯</span><span class="ch">第 630 章</span></li><li data-ch="630"><span class="text"><a href="../people.html?upto=631#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 本特利·阿贝</span><span class="ch">第 630 章</span></li><li data-ch="629"><span class="text">文雪琳 — 同伴 — <a href="../people.html?upto=631#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span><span class="ch">第 620、629 章</span></li><li data-ch="625"><span class="text">阿益 — 兄妹 — 阿颖</span><span class="ch">第 625 章</span></li><li data-ch="619"><span class="text"><a href="../people.html?upto=631#person-%E9%83%91%E8%89%AF">郑良</a> — 联手 — <a href="../people.html?upto=631#person-%E6%A2%81%E5%93%A5">梁哥</a></span><span class="ch">第 619 章</span></li><li data-ch="631"><span class="text"><a href="../people.html?upto=631#person-%E5%BE%90%E8%8E%B7">徐获</a> → 审问后放走 → 戴维·皮尔斯</span><span class="ch">第 629、631 章</span></li><li data-ch="628"><span class="text"><a href="../people.html?upto=631#person-%E8%B0%B7%E9%9B%A8">谷雨</a> — 同伴 — <a href="../people.html?upto=631#person-%E9%83%91%E8%89%AF">郑良</a></span><span class="ch">第 619、628 章</span></li><li data-ch="619"><span class="text"><a href="../people.html?upto=631#person-%E6%A2%81%E5%93%A5">梁哥</a> — 同伴 — 关祖弘</span><span class="ch">第 619 章</span></li></ul></details>
+<details class="rel"><summary>文字版</summary><ul class="items"><li data-ch="626"><span class="text"><a href="../people.html?upto=631#person-%E5%BE%90%E8%8E%B7">徐获</a> → 装成玩家帮忙 → 阿益</span><span class="ch">第 625–626 章</span></li><li data-ch="621"><span class="text"><a href="../people.html?upto=631#person-%E5%BE%90%E8%8E%B7">徐获</a> → 提醒 → <a href="../people.html?upto=631#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span><span class="ch">第 621 章</span></li><li data-ch="630"><span class="text">本特利·阿贝 — 头领与手下 — 戴维·皮尔斯</span><span class="ch">第 630 章</span></li><li data-ch="630"><span class="text"><a href="../people.html?upto=631#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 本特利·阿贝</span><span class="ch">第 630 章</span></li><li data-ch="629"><span class="text"><a href="../people.html?upto=631#person-%E6%96%87%E9%9B%AA%E7%90%B3">文雪琳</a> — 同伴 — <a href="../people.html?upto=631#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span><span class="ch">第 620、629 章</span></li><li data-ch="625"><span class="text">阿益 — 兄妹 — 阿颖</span><span class="ch">第 625 章</span></li><li data-ch="619"><span class="text"><a href="../people.html?upto=631#person-%E9%83%91%E8%89%AF">郑良</a> — 联手 — <a href="../people.html?upto=631#person-%E6%A2%81%E5%93%A5">梁哥</a></span><span class="ch">第 619 章</span></li><li data-ch="631"><span class="text"><a href="../people.html?upto=631#person-%E5%BE%90%E8%8E%B7">徐获</a> → 审问后放走 → 戴维·皮尔斯</span><span class="ch">第 629、631 章</span></li><li data-ch="628"><span class="text"><a href="../people.html?upto=631#person-%E8%B0%B7%E9%9B%A8">谷雨</a> — 同伴 — <a href="../people.html?upto=631#person-%E9%83%91%E8%89%AF">郑良</a></span><span class="ch">第 619、628 章</span></li><li data-ch="619"><span class="text"><a href="../people.html?upto=631#person-%E6%A2%81%E5%93%A5">梁哥</a> — 同伴 — 关祖弘</span><span class="ch">第 619 章</span></li></ul></details>
 </section>
 <section id="threads" class="fgroup"><h3>伏笔与未解</h3>
-<p class="note">截至第 631 章还没有交代的事。</p>
-<ul class="items"><li data-ch="631"><a class="thread-no" href="../threads.html?upto=631#thread-158" title="伏笔总表">#158</a><span class="text">超级矿石的矿藏：本特利报的是假地址，徐获从另外八人那里问出了几处标记。</span><span class="ch">第 630–631 章</span><details class="src"><summary>原文</summary><blockquote>本特利没有说出真实的矿藏地址，不过没关系，还有八个人<cite>第 631 章</cite></blockquote></details></li><li data-ch="631"><a class="thread-no" href="../threads.html?upto=631#thread-159" title="伏笔总表">#159</a><span class="text">被带进京市的高级道具：徐获怀疑这次动乱有人用高级道具，皮尔斯被放出去后应该落到了特防部手里。</span><span class="ch">第 631 章</span><details class="src"><summary>原文</summary><blockquote>可能是高级道具被人带进来了<cite>第 631 章</cite></blockquote></details></li><li data-ch="631"><a class="thread-no" href="../threads.html?upto=631#thread-160" title="伏笔总表">#160</a><span class="text">京市下起的黑雨：雨珠带油污和脏虹色，徐获对着雨珠放出王菌试探。</span><span class="ch">第 631 章</span><details class="src"><summary>原文</summary><blockquote>在掌心划了个口子，他对着雨珠放出几根王菌菌丝<cite>第 631 章</cite></blockquote></details></li></ul>
-</section><section id="links" class="fgroup"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC%E5%85%A5%E5%8F%A3" data-ch="617">随机副本的入口与大雾</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%8E%88%E6%9D%83%E4%B9%A6" data-ch="618">副本授权书与持有者</a><a href="../world.html#world-%E7%B2%BE%E7%A5%9E%E7%B1%BB%E5%89%AF%E6%9C%AC" data-ch="622">精神类副本</a><a href="../world.html#world-%E6%97%B6%E5%B7%AE" data-ch="627">游戏里的时间</a><a href="../world.html#world-%E8%83%BD%E6%BA%90%E7%9F%B3" data-ch="630">能源石、矿石与制器师</a><a href="../world.html#world-014%E5%8C%BA%E5%90%84%E5%9B%BD" data-ch="630">014 区的各国</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E6%B8%85%E6%B4%81%E5%89%82" data-ch="628">清洁剂</a><a href="../items.html#item-%E9%B2%9C%E7%BA%A2%E7%9A%84%E5%89%91" data-ch="625">鲜红的剑</a><a href="../items.html#item-%E5%91%93%E8%AF%AD%E4%B9%8B%E7%90%83" data-ch="623">呓语之球</a></p></section></details>
+<ul class="items"><li data-ch="631"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#158</span><span class="text">本特利报的超级矿石地址是假的，徐获从另外八人那里问出了几处标记，矿藏的真实情况还没交代。</span><span class="ch">第 630–631 章</span></li><li data-ch="631"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#159</span><span class="text">徐获怀疑这次动乱有人把高级道具带进了京市，放出去的皮尔斯应该落到了特防部手里。</span><span class="ch">第 631 章</span></li><li data-ch="631"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#160</span><span class="text">京市下起带油污和脏虹色的黑雨，徐获对着雨珠放出王菌菌丝试探，雨是什么没有交代。</span><span class="ch">第 631 章</span></li></ul>
+</section>
+<section id="callbacks" class="fgroup"><h3>承接前文</h3>
+<ul class="items"><li data-ch="631"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#152</span><span class="text">“十日之期”那晚，徐获没有去总部，而是在附近放出第十七医院，把追来的吃人玩家和外国间谍都困在里面收拾掉。</span><span class="ch">第 617、631 章</span></li><li data-ch="630"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#157</span><span class="text">据皮尔斯和本特利交代，Y国在新资源区发现大量矿藏，已拿去和制器师交易，另有一种含放射元素的“超级矿石”。</span><span class="ch">第 630 章</span></li><li data-ch="617"><a class="thread-no" href="../threads.html?upto=631#thread-150" title="伏笔总表">#150</a><span class="text">间谍头目本特利说，特防部早把解毒菌转移走了，被炸的实验室只是空壳。</span><span class="ch">第 617 章</span></li><li data-ch="631"><span class="text">第十七医院上次在邮轮上还是E级，这次升为D级，徐获在医院里收拢了当时邮轮玩家留下的道具。</span><span class="ch">第 618、631 章</span></li></ul>
+</section><section id="links" class="fgroup"><h3>本单元涉及的设定、地点与道具</h3><p class="note">设定在世界观页，地点和势力在地理页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E6%97%B6%E5%B7%AE" data-ch="627">游戏里的时间</a><a href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC%E5%85%A5%E5%8F%A3" data-ch="617">随机副本的入口与大雾</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%8E%88%E6%9D%83%E4%B9%A6" data-ch="618">副本授权书与持有者</a><a href="../world.html#world-%E7%B2%BE%E7%A5%9E%E7%B1%BB%E5%89%AF%E6%9C%AC" data-ch="622">精神类副本</a><a href="../world.html#world-%E8%83%BD%E6%BA%90%E7%9F%B3" data-ch="630">能源石、矿石与制器师</a></p><p class="links fgroup"><b>地点与势力</b><a href="../places.html#place-%E7%89%B9%E9%98%B2%E9%83%A8%E6%80%BB%E9%83%A8" data-ch="617">特防部总部</a><a href="../places.html#place-Y%E5%9B%BD" data-ch="630">Y 国</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E6%B8%85%E6%B4%81%E5%89%82" data-ch="628">清洁剂</a></p></section></details>
 <nav class="units-nav bottom"><a class="prev" href="u0030.html"><small>← 上一单元</small><b>014 区（异种毒与双蛇集会）</b><small>第 574–616 章</small></a><a class="next" href="u0032.html"><small>下一单元 →</small><b>京市（黑雨与 Y 国敢死队）</b><small>第 632–657 章</small><small class="after" data-beyond="632" hidden>在你的进度之后</small></a></nav><script>
 (function () {
   var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
@@ -303,6 +379,17 @@ h4[id] { scroll-margin-top:16px; }
     else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
     button.textContent = '仍然展开'; status.appendChild(button);
   });
+  if (window.matchMedia('(max-width:640px)').matches) {   // a phone (design reviews 2026-10-06): the graph is wider than
+    doc.querySelectorAll('details.rel').forEach(function (d) { d.open = true; });   // the screen, so the list shows too,
+    doc.querySelectorAll('.graph').forEach(function (g) {   // and the strip starts at the busiest person, not the left edge
+      var svg = g.querySelector('svg'), best = null;
+      if (!svg || !svg.viewBox || !svg.viewBox.baseVal) return;
+      g.querySelectorAll('g.node circle').forEach(function (c) { if (!best || +c.getAttribute('r') > +best.getAttribute('r')) best = c; });
+      if (!best) return;
+      var scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width;
+      g.scrollLeft = Math.max(0, +best.getAttribute('cx') * scale - g.clientWidth / 2);
+    });
+  }
 })();
 </script>
 <footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
@@ -386,5 +473,84 @@ h4[id] { scroll-margin-top:16px; }
     note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
     note.hidden = false; note.scrollIntoView();
   } else if (target) { target.scrollIntoView(); }
+})();
+
+document.addEventListener('toggle', function (e) {
+  var d = e.target;
+  if (!d.open || d.tagName !== 'DETAILS' || d.classList.contains('src') || d.hasAttribute('data-fold')) return;
+  if (d.querySelector(':scope > button.fold-close') || d.getBoundingClientRect().height < window.innerHeight * 0.7) return;
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'fold-close'; b.textContent = '收起 ▲';
+  b.addEventListener('click', function () {
+    d.open = false;
+    var s = d.querySelector(':scope > summary') || d;
+    if (s.getBoundingClientRect().top < 0) s.scrollIntoView({block: 'start'});
+  });
+  d.appendChild(b);
+}, true);
+
+(function () {   // phones (step 7): the contents as a drawer, intros cut to three lines
+  var doc = document, root = doc.documentElement, small = window.matchMedia('(max-width:720px)');
+  var toc = doc.getElementById('toc') || doc.getElementById('jump');
+  if (toc) {
+    root.classList.add('has-toc');
+    var fab = doc.createElement('button'), back = doc.createElement('div'), filter = doc.createElement('input');
+    fab.type = 'button'; fab.className = 'toc-fab'; fab.textContent = '目录'; fab.setAttribute('aria-label', '目录');
+    var lastY = window.scrollY;   // scrolling down it steps aside, scrolling up it comes back (design review 2026-10-06)
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (y > lastY + 8 && y > 240) root.classList.add('fab-away'); else if (y < lastY - 8) root.classList.remove('fab-away');
+      lastY = y;
+    }, {passive: true});
+    back.className = 'toc-backdrop';
+    filter.type = 'search'; filter.className = 'toc-filter'; filter.placeholder = '在目录里找…';
+    toc.insertBefore(filter, toc.firstChild);
+    doc.body.appendChild(back); doc.body.appendChild(fab);
+    var open = function (on) { root.classList.toggle('toc-open', on); if (on && small.matches) filter.focus({preventScroll: true}); };
+    fab.addEventListener('click', function () { open(!root.classList.contains('toc-open')); });
+    back.addEventListener('click', function () { open(false); });
+    toc.addEventListener('click', function (e) { if (e.target.closest('a')) open(false); });
+    doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+    doc.querySelectorAll('a.totop').forEach(function (a) {   // on a phone it opens the contents, so it says so (GPT design review 2026-10-06)
+      a.textContent = '目录';
+      a.addEventListener('click', function (e) { if (small.matches) { e.preventDefault(); open(true); } });
+    });
+    filter.addEventListener('input', function () {   // names and data-keys (other names); a .find-only row shows only on a hit
+      var q = filter.value.replace(/\s/g, '');
+      toc.querySelectorAll('a').forEach(function (a) {
+        a.style.display = !q || (a.textContent + (a.dataset.keys || '')).replace(/\s/g, '').indexOf(q) >= 0 ? '' : 'none';
+      });
+      toc.querySelectorAll('.find-only').forEach(function (r) {
+        r.classList.toggle('found', !!q && Array.prototype.some.call(r.querySelectorAll('a'), function (a) { return a.style.display !== 'none'; }));
+      });
+    });
+  }
+  if (window.matchMedia('(max-width:640px)').matches) {
+    doc.querySelectorAll('.ticket-main > p.hint').forEach(function (p) {
+      if (p.scrollHeight < 90) return;
+      p.classList.add('clamped');
+      var b = doc.createElement('button');
+      b.type = 'button'; b.className = 'hint-more'; b.textContent = '展开说明';
+      b.addEventListener('click', function () { p.classList.remove('clamped'); b.remove(); });
+      p.after(b);
+    });
+  }
+})();
+
+(function () {   // a link into a closed fold opens the folds around its target first (design reviews 2026-10-06)
+  function openTo(id) {
+    var t = id && (document.getElementById(id) || document.getElementById(decodeURIComponent(id)));
+    for (var p = t && t.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a) openTo(a.getAttribute('href').slice(1));
+  }, true);
+  if (location.hash) openTo(location.hash.slice(1));
+  document.querySelectorAll('.graph, .growth').forEach(function (g) {   // a strip wider than the screen fades at its right edge
+    if (g.scrollWidth <= g.clientWidth + 2) return;
+    var check = function () { g.classList.toggle('at-end', g.scrollLeft + g.clientWidth >= g.scrollWidth - 4); };
+    g.classList.add('scroll-fade'); g.addEventListener('scroll', check, {passive: true}); check();
+  });
 })();
 </script></body></html>

@@ -1,18 +1,20 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>第十七医院（汀城大雾） · 单元卡 · 维度之下</title><style>
+<title>第十七医院（汀城大雾） · 单元卡 · 维度之下</title><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20x%3D%222%22%20y%3D%226%22%20width%3D%2228%22%20height%3D%2220%22%20rx%3D%223%22%20fill%3D%22%23d3a655%22/%3E%3Ccircle%20cx%3D%222%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ctext%20x%3D%2216%22%20y%3D%2221.5%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20text-anchor%3D%22middle%22%20fill%3D%22%2307080b%22%20font-family%3D%22serif%22%3E%E7%BB%B4%3C/text%3E%3C/svg%3E"><meta name="description" content="《玩家请上车》（海晏山 著）的读者整理：按单元写的梗概与解析，世界观、人物、地理、伏笔和道具库，可按读到的章数隐藏后文。"><meta name="theme-color" content="#07080b"><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
   --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
-  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC","Source Han Serif CN","Noto Serif CJK SC","STSong","SimSun",serif;
   --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
-  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace;
+  --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
-  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
-  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380; }
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#85621f; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380;
+  --mind:#7650b0; --space:#17788a; --time:#b25f18; --gold:#a07a10; }
 /* what stays dark in the light theme keeps the dark accents */
-:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
-  --line:#3a404b; --chip:#232830; }
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth, .emblem) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] .banner button.primary { color:#fff; }
 :root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
 * { box-sizing:border-box; }
@@ -21,11 +23,15 @@ body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
   background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
 :root[data-theme="light"] body { background:var(--paper); }
 a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+/* a dense run of names (items in hand, rewards, the units a person is in): ink with a thin red line, not a wall of red (design review 2026-10-06) */
+.quiet a, a.quiet { color:var(--ink); border-bottom:1px solid var(--line); border-bottom-color:color-mix(in srgb, var(--signal) 32%, transparent); }
+.quiet a:hover, a.quiet:hover { color:var(--signal); text-decoration:none; border-bottom-color:var(--signal); }
 main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 
 /* nav: the rail */
 .rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
 .rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; }
+@media (min-width:1100px) { .rail-inner { max-width:1060px; } }   /* brand, links, progress and switches on one line (2026-10-06) */
 .brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
 .brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.12em; margin-left:6px; }   /* so brand, links, progress and switches fit one line at 920px */
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
@@ -48,18 +54,54 @@ details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 @media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
   .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
 .beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
-details.fold[open] > summary { display:none; }
+details.fold[data-fold][open] > summary { display:none; }   /* only the spoiler gate (hero 档案) drops its line once open */
+button.fold-close { display:block; margin:8px 0 2px; font:12.5px var(--sans); color:var(--muted); background:none; border:1px solid var(--line); border-radius:4px; padding:5px 12px; cursor:pointer; }
+button.fold-close:hover { color:var(--brass); border-color:var(--brass); }
+/* phones (step 7, 2026-10-06): one row of page links; intros cut to three lines; a page's contents (#toc, #jump) as
+   a drawer behind a 目录 button, with a filter; long CJK lines may break anywhere */
+button.toc-fab, .toc-backdrop { display:none; }
+input.toc-filter { display:block; width:100%; margin:2px 0 10px; }   /* the contents filter on wide screens too (2026-10-06); its look is the shared search box */
+nav.jump input.toc-filter { max-width:20em; margin:8px 0 6px; }
+.ticket-main p.premise { color:var(--ink); }
+@media (max-width:720px) {
+  html.has-toc button.toc-fab { display:block; position:fixed; right:14px; bottom:max(18px, env(safe-area-inset-bottom)); z-index:41; width:46px; height:46px;
+    padding:0; border:none; border-radius:50%; font-size:0; color:transparent; cursor:pointer; opacity:.94; box-shadow:0 4px 14px rgba(0,0,0,.35);
+    background:linear-gradient(#07080b,#07080b) 50% 16px / 18px 2px no-repeat, linear-gradient(#07080b,#07080b) 50% 22px / 18px 2px no-repeat,
+      linear-gradient(#07080b,#07080b) 50% 28px / 18px 2px no-repeat, #d3a655; transition:transform .2s ease, opacity .2s ease; }
+  html.fab-away:not(.toc-open) button.toc-fab { transform:translateY(90px); opacity:0; }
+  html.has-toc #toc, html.has-toc #jump { position:fixed !important; top:0; right:0; bottom:0; left:auto; width:min(86vw,360px);
+    max-height:none !important; margin:0; z-index:40; overflow:auto; overscroll-behavior:contain; background:var(--card);
+    border:none; border-left:1px solid var(--line); border-radius:0; padding:12px 16px 90px; transform:translateX(105%);
+    transition:transform .2s ease; box-shadow:-8px 0 24px rgba(0,0,0,.35); }
+  html.toc-open #toc, html.toc-open #jump { transform:none; }
+  html.toc-open .toc-backdrop { display:block; position:fixed; inset:0; z-index:39; background:rgba(0,0,0,.45); }
+  html.has-toc input.toc-filter { display:block; width:100%; margin:2px 0 10px; font-size:15px; min-height:40px; }
+}
+@media (max-width:640px) {
+  .rail nav { flex:1 1 100%; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+  .rail nav::-webkit-scrollbar { display:none; }
+  .rail nav a { flex:none; }
+  main { overflow-wrap:anywhere; }
+  .ticket-main p.hint.clamped { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:0; }
+  button.hint-more { background:none; border:none; color:var(--brass); font-size:12.5px; padding:2px 0 6px; cursor:pointer; }
+}
 [hidden] { display:none !important; }
 html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* the 显示出处 and 浅色 switches */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
 .switches { display:inline-flex; gap:8px; }
-.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
-#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.toggle-label { display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--rail-muted); border:1px solid #3a404b; border-radius:14px;
+  padding:4px 11px 4px 5px; cursor:pointer; user-select:none; }
+.toggle-label::before { content:""; flex:none; width:24px; height:14px; border-radius:7px; transition:background .15s;
+  background:radial-gradient(circle at 7px 50%, #8f897d 4px, transparent 4.6px), #262b33; }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail-ink); border-color:#8a7140; }
+#show-src:checked ~ .rail label[for="show-src"]::before, #theme-light:checked ~ .rail label[for="theme-light"]::before {
+  background:radial-gradient(circle at 17px 50%, #07080b 4px, transparent 4.6px), #d3a655; }
+#show-src:focus-visible ~ .rail label[for="show-src"], #theme-light:focus-visible ~ .rail label[for="theme-light"] { outline:2px solid #d3a655; outline-offset:2px; }
 html:not(.js) label[for="theme-light"] { display:none; }
 .ch, sup.cite, details.src, .src-only { display:none; }
-#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main .ch { display:inline-block; text-indent:0; }
 #show-src:checked ~ main sup.cite { display:inline; }
 #show-src:checked ~ main details.src { display:inline; }
 #show-src:checked ~ main .src-only { display:block; }
@@ -69,7 +111,7 @@ html:not(.js) label[for="theme-light"] { display:none; }
 .ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
 sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
 details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
-blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--line); color:color-mix(in srgb, var(--ink) 80%, var(--muted)); font:14.5px/1.75 var(--serif); }
 cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
 
 /* headings and text */
@@ -95,6 +137,12 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 .route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
 .stub-row { font:12px var(--mono); color:var(--muted); }
 .stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+/* a page's counts read like the fields of a ticket stub: a small label over a big number (2026-10-06) */
+.ticket-stub.stats { gap:12px; }
+.ticket-stub.stats .stub-row:not(.src-only) { font:600 24px/1.05 var(--mono); color:var(--ink); }   /* figures in ink; gold kept for its few meanings */
+.ticket-stub.stats .stub-row:not(.src-only) b { display:block; font:500 11.5px/1.4 var(--sans); color:var(--muted); letter-spacing:.12em; margin:0 0 3px; }
+.ticket-stub.stats small { font:500 12px var(--sans); color:var(--muted); margin-left:4px; }
+a.stub-row { display:block; text-decoration:none; } a.stub-row:hover b { color:var(--brass); }   /* a count that jumps to its section */
 .stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
   display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
 .stamp small { font-size:10px; margin-left:1px; }
@@ -107,10 +155,11 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* grade badge */
 .grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.dark-ink { color:#14100a; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
-.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+.tag { text-indent:0; display:inline-block; font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
 /* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
-.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+.seal { flex:none; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
   border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
 .seal.wide { font-size:14px; }
 .seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
@@ -120,35 +169,66 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* the player panel, in the book's 【key：value】 lines */
 .syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
   padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
-.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel .row > span { color:var(--rail-ink); font-weight:600; }
+.syspanel .v-rate { color:var(--brass); } .syspanel .grade { font-size:12px; height:20px; min-width:24px; vertical-align:1px; }   /* gold for evolution; a level in its colour */
+.evo-mind { color:var(--mind); } .evo-space { color:var(--space); } .evo-time { color:var(--time); }
 .syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
 @media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
 .upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
-/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
-.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已否定 (denied or refuted); settled points carry no tag */
+.tier { text-indent:0; display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
 .tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 .tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
 
 .hidden { display:none !important; }
+nav.pagenav { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0 6px; font-size:14px; }
+nav.pagenav > b { color:var(--muted); font-weight:400; font-size:13px; margin-right:2px; }
+nav.pagenav a { padding:3px 11px; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--ink); }
+nav.pagenav a:hover { border-color:var(--brass); color:var(--brass); text-decoration:none; }
+@media (min-width:721px) { nav.pagenav input.toc-filter { display:none; } }
+@media (max-width:720px) {
+  html.has-toc nav.pagenav { display:block; }
+  html.has-toc nav.pagenav > b { display:block; margin:0 0 6px; }
+  html.has-toc nav.pagenav a { display:block; border:none; border-bottom:1px solid var(--line); border-radius:0; background:none; padding:10px 2px; }
+}
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
 @media (max-width:720px) { .totop { display:inline; } }
 footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
 @media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
-  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; }
+  .ticket-stub.stats { flex-direction:row; flex-wrap:wrap; justify-content:flex-start; gap:10px 26px; } .ticket-stub.stats .stub-row.src-only { flex-basis:100%; } }
 
+input[type=search] { font:14px var(--sans); color:var(--ink); background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2714%27%20height%3D%2714%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27round%27%3E%3Ccircle%20cx%3D%2710.5%27%20cy%3D%2710.5%27%20r%3D%276.5%27/%3E%3Cpath%20d%3D%27M20%2020l-4.6-4.6%27/%3E%3C/svg%3E") no-repeat 10px 50%;
+  border:1px solid var(--line); border-radius:6px; padding:6px 10px 6px 31px; min-height:34px; }
+input[type=search]::placeholder { color:var(--muted); }
+input[type=search]:focus, select:focus { outline:none; border-color:var(--brass); box-shadow:0 0 0 2px color-mix(in srgb, var(--brass) 25%, transparent); }
+select { appearance:none; -webkit-appearance:none; font:14px var(--sans); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2710%27%20height%3D%276%27%20viewBox%3D%270%200%2010%206%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M1%201l4%204%204-4%27/%3E%3C/svg%3E") no-repeat right 10px center; padding:6px 30px 6px 10px; min-height:34px; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary { list-style:none; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::-webkit-details-marker { display:none; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::before { content:""; display:inline-block; width:6px; height:6px; margin:0 9px 2px 2px; border-right:1.6px solid currentColor;
+  border-bottom:1.6px solid currentColor; transform:rotate(-45deg); transition:transform .15s ease; opacity:.7; vertical-align:middle; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more)[open] > summary::before { transform:rotate(45deg); margin-bottom:4px; }
+@media (max-width:640px) { .scroll-fade { -webkit-mask-image:linear-gradient(to right, #000 82%, transparent); mask-image:linear-gradient(to right, #000 82%, transparent); }
+  .scroll-fade.at-end { -webkit-mask-image:none; mask-image:none; } }
+p.graph-hint { display:none !important; }
+
+details.section-fold > summary { cursor:pointer; font:600 16px var(--serif); color:var(--muted); margin:14px 0 6px; letter-spacing:.04em; }
+details.section-fold[open] > summary { color:var(--ink); }
 .layer { margin:6px 0 18px; }
-.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; display:flex; align-items:center; gap:4px 12px; }   /* a phone wraps the note, 收起 stays on the right */
 .layer > summary::-webkit-details-marker { display:none; }
-.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
-.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
-.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer > summary b { flex:none; display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { flex:1 1 auto; color:var(--muted); font-size:13px; }
+.layer > summary::after { content:"收起"; flex:none; color:var(--muted); font-size:12px; }
 .layer:not([open]) > summary::after { content:"展开"; }
 section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
 ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
-.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
-ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+a.term { color:inherit; border-bottom:1px dotted var(--muted); text-decoration:none; } a.term:hover { color:var(--signal); border-bottom-color:var(--signal); }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; overflow-wrap:anywhere; }   /* a long name wraps in its column */
+ul.people li { display:grid; grid-template-columns:8.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
 ul.people li > :not(.subject) { grid-column:2; }
 @media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
 .harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
@@ -160,6 +240,9 @@ nav.units-nav a { display:flex; flex-direction:column; background:var(--card); b
 nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
 nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
 nav.units-nav small.after { color:var(--signal); }
+@media (max-width:640px) { nav.units-nav { grid-template-columns:1fr; gap:8px; } nav.units-nav b { font-size:15px; } nav.units-nav a { padding:8px 12px; }
+  nav.units-nav span.none { display:none; } }   /* a phone: one above the other, a long name on one or two lines (design review 2026-10-06) */
+details.about-src { margin:8px 0 2px; } details.about-src > summary { color:var(--muted); font-size:13px; }
 .graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
 @media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
@@ -176,59 +259,55 @@ svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-w
 svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
 details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 .links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
-.links a { margin-right:12px; white-space:nowrap; }
+.links a, .links > span { margin-right:12px; white-space:nowrap; }   /* a name with no item card is a span: same spacing */
+@media (max-width:640px) { .links a, .links > span { white-space:normal; } }   /* a long place name wraps on a phone (u0148) */
 .progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
 .hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+.ticket-main .lede { margin:12px 0 2px; font:500 17px/1.75 var(--serif); color:var(--ink); max-width:40em; }
 nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
 nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，第一个副本结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到第一个副本结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket" id="card" data-first="292" data-end="307"><div class="ticket-main"><div class="stamp-seal"><span class="seal none" data-ch="303" title="新生成的随机副本">—</span></div><div class="kicker">副本 · <span class="grade" style="background:#6f675c">E</span><small class="diff">副本难度</small></div>
-<h1>第十七医院（汀城大雾）</h1><div class="route">第 292 章 ──── 第 307 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="292" hidden>这张卡从第 292 章开始，在你填的进度之后，整张都是剧透。</p></div>
-<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0018</div><div class="stub-row"><b>句数</b>78</div>
-<div class="stub-row"><b>引用</b>36 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 292–307 章正文后撰写。</p>
+<h1>第十七医院（汀城大雾）</h1><div class="route">第 292 章 ──── 第 307 章</div><div class="lede" data-ch="302">徐获在大雾里醒来成了精神病人，没有提示、用不了道具，他要看穿这家由众人想象拼成的医院，从自己的精神里找到出口。<span class="ch">第 292–293、300–302 章</span></div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 3284 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="292" hidden>这张卡从第 292 章开始，在你填的进度之后，整张都是剧透。</p></div>
+<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0018</div><div class="stub-row"><b>句数</b>94</div>
+<div class="stub-row"><b>引用</b>21 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<details class="about-src meta"><summary>出处怎么核对</summary>每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</details><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 292–307 章正文后撰写；2026-10-06 第六步由 Claude 子代理（claude-opus-5-5）改写（GPT 额度用完前第二波写成的两三张也在这批里，没有分开记录），原梗概折为逐幕复盘；2026-10-06 逐幕复盘不再上页面，其中要紧的由 Claude 子代理（claude-opus-5-5）收进剧情梗概和解谜结构。</p>
 <nav class="units-nav top"><a class="prev" href="u0017.html"><small>← 上一单元</small><b>超级进化与大雾</b><small>第 288–291 章</small></a><a class="next" href="u0019.html"><small>下一单元 →</small><b>进化后遗症与医院异变</b><small>第 308–325 章</small><small class="after" data-beyond="308" hidden>在你的进度之后</small></a></nav>
-<details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。写到第 307 章，含结局。</span></summary><section id="overview" class="fgroup"><h3>一句话</h3>
-<ul class="items"><li data-ch="306"><span class="text">徐获在大雾里成了“第十七医院”的精神病人，看出这是众人想象拼成的精神污染地，二次进化后脱身、带出众人，拿到这个新生 E 级副本的授权书。</span><span class="ch">第 292、299、302、305–306 章</span></li></ul>
-</section>
-<section id="harvest" class="harvest" data-ch="307"><h3>徐获的收获</h3><div class="h-rating"><span class="seal none" title="不评级">—</span><span>评级：没有任务，也没有评级（新生成的随机副本）<span class="ch">第 303 章</span></span></div><div class="h-line">新生成的 E 级随机副本；他在里面完成精神向的二次进化。<span class="ch">第 303 章</span></div><div class="h-line">拿到这个副本的授权书。<span class="ch">第 306 章</span><details class="src"><summary>原文</summary><blockquote>恭喜玩家路人甲获得副本授权书一份<cite>第 306 章</cite></blockquote></details></div><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
+<nav class="jump pagenav" id="jump" aria-label="本页目录"><b>本卡</b><a href="#harvest" data-ch="307">收获</a><a href="#setup" data-ch="293">规则</a><a href="#cast" data-ch="297">人物</a><a href="#summary" data-ch="293">梗概</a><a href="#puzzle" data-ch="293">解谜</a><a href="#relations" data-ch="292">关系</a><a href="#threads" data-ch="302">伏笔</a><a href="#links">设定与道具</a></nav>
+<details class="layer" open><summary><b>概况</b><span>背景与规则、人物。写到第 307 章，含结局。</span></summary><section id="harvest" class="harvest quiet" data-ch="307"><h3>徐获的收获</h3><div class="h-rating"><span class="seal none" title="不评级">—</span><span>没有任务，也没有评级（新生成的随机副本）<span class="ch">第 303 章</span></span></div><div class="h-line">新生成的 E 级随机副本；他在里面完成精神向的二次进化。<span class="ch">第 303 章</span></div><div class="h-line">拿到这个副本的授权书。<span class="ch">第 306 章</span><details class="src"><summary>原文</summary><blockquote>恭喜玩家路人甲获得副本授权书一份<cite>第 306 章</cite></blockquote></details></div><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
 <section id="setup" class="fgroup"><h3>背景与规则</h3>
-<ul class="items"><li data-ch="292"><span class="text">第 291 章徐获和严嘉鱼在花城大雾里翻过断墙，被冲击波卷入。醒来时他被捆在病床上，病历写着：013 号病人，入院四个月。</span><span class="ch">第 291–292 章</span><details class="src"><summary>原文</summary><blockquote>013号病人，徐获，入院时间4个月<cite>第 292 章</cite></blockquote></details></li><li data-ch="295"><span class="text">没有游戏提示，打不开面板、用不了道具，进化出来的力量也没了；严嘉鱼不见了。同样被困的还有前一夜从汀城东城区进雾的特防部玩家。</span><span class="ch">第 293、295 章</span><details class="src"><summary>原文</summary><blockquote>无法打开游戏面板，无法使用道具，连身体方面的进化特征也消失了<cite>第 293 章</cite></blockquote></details></li><li data-ch="306"><span class="text">没有副本任务，也没有副本名：第 306 章的副本授权书上，名字、背景、任务都是空白。这里按徐获看到的医院名“第十七医院”称呼它；它是徐获童年住过、后来连同记录一起消失的那家医院，这里按他的意识形成，别人看到的名字各不相同。</span><span class="ch">第 295、301、306 章</span></li></ul>
+<ul class="items"><li data-ch="293"><span class="text">徐获醒来时被捆在病床上，病历写着 013 号病人、入院四个月；和他一起被卷进雾里的严嘉鱼不见了。</span><span class="ch">第 292–293 章</span><details class="src"><summary>原文</summary><blockquote>013号病人，徐获，入院时间4个月<cite>第 292 章</cite></blockquote></details></li><li data-ch="295"><span class="text">没有游戏提示，打不开面板、用不了道具，进化出来的力量也没了；同样被困的还有从汀城进雾的特防部玩家。</span><span class="ch">第 293、295 章</span><details class="src"><summary>原文</summary><blockquote>无法打开游戏面板，无法使用道具，连身体方面的进化特征也消失了<cite>第 293 章</cite></blockquote></details></li><li data-ch="301"><span class="text">这里没有副本任务，也没有副本名；医院在徐获眼里叫“第十七医院”，正是他童年住过的那家，别人报出的名字却各不相同。</span><span class="ch">第 292、294、301 章</span></li><li data-ch="293"><span class="text">一名病友说，只有逃出这个精神病院，或者触到副本的关键点，才会重新激活玩家身份。</span><span class="ch">第 293 章</span><details class="src"><summary>原文</summary><blockquote>只有逃出这个精神病院或者触到副本的关键点才会重新激活玩家身份<cite>第 293 章</cite></blockquote></details></li></ul>
 </section>
-<section id="cast" class="fgroup"><h3>登场人物</h3>
-<p class="note">按出场先后。</p>
-<ul class="people"><li data-ch="294"><b class="subject"><a href="../people.html?upto=307#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">在这里是精神分裂的 013 号病人，据说总在讲“玩家游戏”的故事。</span><span class="ch">第 292、294 章</span></li><li data-ch="298"><b class="subject"><a href="../people.html?upto=307#person-%E4%BF%9E%E6%99%B4%E6%99%B4">俞晴晴</a>、<a href="../people.html?upto=307#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a>、<a href="../people.html?upto=307#person-%E5%91%A8%E5%87%9D">周凝</a></b><span class="text">成了医院的护士。俞晴晴爱听他讲“梦境”；戴文谦嘴上嫌他麻烦；周凝偷偷给他带零食、留饭。</span><span class="ch">第 292–293、298 章</span></li><li data-ch="294"><b class="subject"><a href="../people.html?upto=307#person-%E5%94%90%E5%B9%BF%E5%8D%9A">唐广博</a></b><span class="text">成了他的主治医生，把他的玩家经历称作“梦境”，教他用“记忆回溯”打开记忆上的锁。</span><span class="ch">第 292、294 章</span></li><li data-ch="304"><b class="subject">黑高个、干瘦病人、小高、小杨</b><span class="text">从汀城进雾的特防部玩家，一心要逃出医院。</span><span class="ch">第 293、295–296、304 章</span></li><li data-ch="296"><b class="subject"><a href="../people.html?upto=307#person-%E5%8F%B8%E9%A9%AC%E5%B0%8F%E4%BA%8C">司马小二</a>（红毛）</b><span class="text">特防部汀城分部的先锋玩家，因为闹着跳楼被关在四楼。心思简单，反倒不容易被带偏。</span><span class="ch">第 295–296 章</span><details class="src"><summary>原文</summary><blockquote>我是特防部汀城分部的先锋玩家成员<cite>第 295 章</cite></blockquote></details></li><li data-ch="299"><b class="subject"><a href="../people.html?upto=307#person-%E5%BE%90%E7%9F%A5">徐知</a>和父母</b><span class="text">徐获死去的哥哥和父母，来会客室探望他；徐知递给他一把钥匙。</span><span class="ch">第 298–299 章</span></li><li data-ch="303"><b class="subject">游乐园的 BOSS（小姑娘）</b><span class="text">被“唤醒人偶”叫出来，讲了不稳定空间、新分区和精神方面的二次进化。</span><span class="ch">第 302–303 章</span></li><li data-ch="304"><b class="subject"><a href="../people.html?upto=307#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a>（方丈）</b><span class="text">在六楼一个阳光明媚的“医院”里坐着晃脚，是徐获要找的人。</span><span class="ch">第 304 章</span></li><li data-ch="307"><b class="subject"><a href="../people.html?upto=307#person-%E5%90%B4%E7%BB%84%E9%95%BF">吴组长</a>、<a href="../people.html?upto=307#person-%E5%BB%96%E7%BB%84%E9%95%BF">廖组长</a></b><span class="text">汀城和花城特防分部的负责人，守在雾区外。</span><span class="ch">第 307 章</span></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、人物结局、关键关系、伏笔与未解。写到第 307 章，含全部剧透。</span></summary><section id="story" class="fgroup"><h3>剧情梗概</h3>
-<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
-<nav class="arcs"><a href="#story-1" data-ch="292">一、013 号病人（第 292–294 章）</a><a href="#story-2" data-ch="295">二、四楼（第 295–296 章）</a><a href="#story-3" data-ch="297">三、地下圆塔（第 297–299 章）</a><a href="#story-4" data-ch="300">四、精神污染地（第 300–301 章）</a><a href="#story-5" data-ch="302">五、二次进化（第 302–303 章）</a><a href="#story-6" data-ch="304">六、带人出去（第 304–307 章）</a></nav>
-<h4 id="story-1" data-ch="292">一、013 号病人（第 292–294 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="292">徐获被捆在病床上醒来，护士叫俞晴晴，男护士是戴文谦，对门挂着唐广博的铭牌。护士说他在医院里乱打乱砸，问他“故事”有什么新内容；说“玩家”是一款叫维度裂缝的网络游戏引起的精神污染症状。<sup class="cite" title="本句未附原文">292</sup></span><span class="stmt" data-ch="293">对床的病人偷偷告诉他千万别吃药，吃了会永远留在这里。徐获把胶囊藏在袖子里，之后冲进马桶。<sup class="cite" title="第292章：千万别吃他们给的药！千万别吃！">292–293</sup></span><span class="stmt" data-ch="293">宣传册和网上都查得到这家私立精神病院五十年的记录；外面的世界一片太平，没有玩家、没有进化者，维度裂缝只是一个游戏论坛。<sup class="cite" title="本句未附原文">293</sup></span><span class="stmt" data-ch="293">几个同样没收到游戏提示、失去了特性和道具的玩家拉他入伙逃跑，他们都是从汀城的雾里进来的。一个干瘦病人却说汀城只是维度裂缝里的游戏分区，现实中没有汀城。徐获回房后才发现自己忘了问医院的名字，还不知不觉睡死了。<sup class="cite" title="第293章：只有逃出这个精神病院或者触到副本的关键点才会重新激活玩家身份">293</sup></span><span class="stmt" data-ch="294">唐广博说，他们约好把他的幻想称作“梦境”：赌术医生、哥哥被杀、在汀城当群众演员，都是他压抑对刺激的渴望编出来的。徐获注意到，唐广博已经连续三次重复同一套动作：扶眼镜、喝水、抚平病历本的边角。<sup class="cite" title="第294章：这个唐广博已经重复同样的动作连续三次了">294</sup></span><span class="stmt" data-ch="294">唐广博教他：被遗忘的记忆像上了锁的门，每回溯一次就打开一次，锁越开越松。俞晴晴说，他梦里的角色多是常见的人：她是表妹，戴文谦是反派，周凝是同伴。<sup class="cite" title="本句未附原文">294</sup></span></p><details class="src block fgroup"><summary>本段原文 3 处</summary><blockquote data-ch="293">千万别吃他们给的药！千万别吃！<cite>第 292 章</cite></blockquote><blockquote data-ch="293">只有逃出这个精神病院或者触到副本的关键点才会重新激活玩家身份<cite>第 293 章</cite></blockquote><blockquote data-ch="294">这个唐广博已经重复同样的动作连续三次了<cite>第 294 章</cite></blockquote></details>
-<h4 id="story-2" data-ch="295">二、四楼（第 295–296 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="295">四楼的红头发男人喊着自己是特防部的先锋玩家，要往下跳，是司马小二。俞晴晴说他每次都是被不同的亲戚送进来的。<sup class="cite" title="第295章：我是特防部汀城分部的先锋玩家成员">295</sup></span><span class="stmt" data-ch="295">特防部的人记得医院叫“第十七医院”。徐获起了疑心：医院里全是他的熟人，说明这里是按他的意识形成的，别人本不该也看到这个名字。<sup class="cite" title="第295章：这个地方明显是根据他的意识形成的">295</sup></span><span class="stmt" data-ch="296">黑高个几人定下夜里逃跑的计划，让徐获去四楼接司马小二。司马小二答得出俞晴晴是他的非亲表妹，徐获才确认他是真人。<sup class="cite" title="本句未附原文">295–296</sup></span><span class="stmt" data-ch="296">司马小二白天翻过的窗户变成了一堵水泥墙，房间迅速褪成灰黑色；徐获一提，窗户又回来了。楼下哨声响起，逃跑的人被发现，两人作罢。<sup class="cite" title="第296章：白天司马小二翻窗逃跑的地方，已经变成了一堵水泥墙">296</sup></span><span class="stmt" data-ch="296">第二天逃跑的人被“家属”送了回来。小高是父母打电话送回来的，可他的父母早被进化者杀了，他反复念叨“他们不是死了吗”。<sup class="cite" title="第296章：小高竟然是被父母打电话送回来的">296</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="295">我是特防部汀城分部的先锋玩家成员<cite>第 295 章</cite></blockquote><blockquote data-ch="295">这个地方明显是根据他的意识形成的<cite>第 295 章</cite></blockquote><blockquote data-ch="296">白天司马小二翻窗逃跑的地方，已经变成了一堵水泥墙<cite>第 296 章</cite></blockquote><blockquote data-ch="296">小高竟然是被父母打电话送回来的<cite>第 296 章</cite></blockquote></details>
-<h4 id="story-3" data-ch="297">三、地下圆塔（第 297–299 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="297">唐广博递给徐获一把钥匙，让他打开办公室的小门，说“走出去就行了”。徐获却往下走，门后变成一道深入地底的巨大旋转梯。<sup class="cite" title="第297章：他说完从兜里掏出一把钥匙递给徐获">297</sup></span><span class="stmt" data-ch="298">梯子上不断出现和他步调一致的人影，追着他一圈圈往下跑，又一个个消失。十二个小时后到了一座地下圆塔，圆桌上摆着一张扑克牌、一把带血的刀、一个黑色薄片，他面前出现一本白壳书。等不来别人，他原路返回。<sup class="cite" title="第298章：一张背面朝上的扑克牌，一把带血的刀，一个黑色的圆形薄片">297–298</sup></span><span class="stmt" data-ch="298">会客室里，司马小二被一个“阿姨”数落得抬不起头；徐获问他“你不是孤儿吗”，他才回过神逃出来。徐获又盯着楼顶“第十七医院”几个字，让它们在自己眼里消失了。<sup class="cite" title="第298章：“你不是孤儿吗？哪儿来的亲戚？”徐获反问。">298</sup></span><span class="stmt" data-ch="299">俞晴晴说他的父母和哥哥晚上来探望。徐获很清楚徐知已经死了，眼前的只是幻想；他向徐知要钥匙，说这一篇永远翻不过去，现在有机会翻过去了。徐知哭着把钥匙放在桌上。<sup class="cite" title="第299章：徐知哭了，慢慢从包里取出一把钥匙放到桌上">298–299</sup></span><span class="stmt" data-ch="299">第二次下到塔底，桌边坐了三个没有脸的人影。一个问扑克牌的花色，他答红桃，牌上的花色融化了；一个问刀上是谁的血，他答徐知的，那人影把刀捅进自己胸口；第三个拍了拍黑色薄片，黑色吞没一切，只剩他和白壳书。他翻开书，白色铺出一条路。<sup class="cite" title="第299章：人影用匕首捅进了自己胸口，紧接着也消失了">299</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="297">他说完从兜里掏出一把钥匙递给徐获<cite>第 297 章</cite></blockquote><blockquote data-ch="298">一张背面朝上的扑克牌，一把带血的刀，一个黑色的圆形薄片<cite>第 298 章</cite></blockquote><blockquote data-ch="298">“你不是孤儿吗？哪儿来的亲戚？”徐获反问。<cite>第 298 章</cite></blockquote><blockquote data-ch="299">徐知哭了，慢慢从包里取出一把钥匙放到桌上<cite>第 299 章</cite></blockquote><blockquote data-ch="299">人影用匕首捅进了自己胸口，紧接着也消失了<cite>第 299 章</cite></blockquote></details>
-<h4 id="story-4" data-ch="300">四、精神污染地（第 300–301 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="300">徐获和司马小二上四楼找副本触发点。四楼越来越破旧，一个病人说走廊里有鬼，司马小二转头就看见灯光闪烁。徐获告诉他：在这家医院里，人想象的东西会变成自己和别人眼里的现实。<sup class="cite" title="第300章：你想出的东西会变成真的">300</sup></span><span class="stmt" data-ch="300">徐获判断这里不是副本，是一个精神污染地：精神越强的人越能影响环境，待得越久精神越差，医院迟早变成妖魔鬼怪的地方；出口还要在医院里找。<sup class="cite" title="第300章：这里不是副本，但要想出去也不那么容易">300</sup></span><span class="stmt" data-ch="301">司马小二在治疗室门口“看见”徐获被开膛破肚，崩溃跑掉。第二天徐获在他面前亮出游戏面板，又让他去问别人医院叫什么，得到好几个不同的答案。<sup class="cite" title="第301章：司马小二一连问了好几个人，竟然得到了几个不同的答案">301</sup></span><span class="stmt" data-ch="301">徐获推断，这片会移动、隔断通讯、造成温差的雾区更像是另一个空间入侵了 014 区；人只是精神受困，挣脱精神污染就能走出雾区。<sup class="cite" title="第301章：更像是另一个空间入侵了014区">301</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="300">你想出的东西会变成真的<cite>第 300 章</cite></blockquote><blockquote data-ch="300">这里不是副本，但要想出去也不那么容易<cite>第 300 章</cite></blockquote><blockquote data-ch="301">司马小二一连问了好几个人，竟然得到了几个不同的答案<cite>第 301 章</cite></blockquote><blockquote data-ch="301">更像是另一个空间入侵了014区<cite>第 301 章</cite></blockquote></details>
-<h4 id="story-5" data-ch="302">五、二次进化（第 302–303 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="302">第三次下到圆塔，白、橙、红、黑四种颜色在塔里争地盘，黑色占了上风，白壳书裂开：他的精神世界正被另一个人格侵占。他把书往前翻了一页，才重新压住。<sup class="cite" title="第302章：他本身的精神世界正在被另一个人格侵占">302</sup></span><span class="stmt" data-ch="302">三个人影现出模样：拿扑克牌的是少年的他，拿匕首的是青年的他，抱着黑色薄片的是一米高、没有脸的儿童影子。儿童影子想逃，被他收拢塔壁赶了回来。他把薄片、扑克牌、匕首依次叠起，最上面压上自己的白壳书，掌控了自己的精神世界。<sup class="cite" title="第302章：也完成了对自己精神世界的掌控">302</sup></span><span class="stmt" data-ch="302">他从门里走出去，在一栋破败的大楼里醒来，严嘉鱼就倒在身边；司马小二等人在旁边楼里躺成一片，都叫不醒，其中没有聂玄。周围像一座废弃的城市。<sup class="cite" title="第302章：他发现自己处在一栋破败的建筑内，严嘉鱼就倒在身边">302</sup></span><span class="stmt" data-ch="303">他敲“唤醒人偶”叫出游乐园的 BOSS。小姑娘说这里应该是玩家战争留下的“战后遗址”，一个在不同世界流浪的不稳定空间，在这里用空间道具很危险。<sup class="cite" title="第302章：这里应该是战后遗址，空间没有完全破裂，所以才在不同的世界流浪">302–303</sup></span><span class="stmt" data-ch="303">她一眼看出徐获超级进化了，方向是精神，还说精神方面的二次进化没用。徐获自己的感觉是：进化方向是精神控制，分出了三个人格。她随口一句“你怎么出来的就怎么把他们带出来”，提醒了他：把别人从精神污染地转到自己的精神世界里。<sup class="cite" title="第303章：进化的方向是精神控制，如她所说，他分化出了三个人格；第303章：把他们从精神污染地转移到自己的精神世界">303</sup></span></p><details class="src block fgroup"><summary>本段原文 6 处</summary><blockquote data-ch="302">他本身的精神世界正在被另一个人格侵占<cite>第 302 章</cite></blockquote><blockquote data-ch="302">也完成了对自己精神世界的掌控<cite>第 302 章</cite></blockquote><blockquote data-ch="302">他发现自己处在一栋破败的建筑内，严嘉鱼就倒在身边<cite>第 302 章</cite></blockquote><blockquote data-ch="303">这里应该是战后遗址，空间没有完全破裂，所以才在不同的世界流浪<cite>第 302 章</cite></blockquote><blockquote data-ch="303">进化的方向是精神控制，如她所说，他分化出了三个人格<cite>第 303 章</cite></blockquote><blockquote data-ch="303">把他们从精神污染地转移到自己的精神世界<cite>第 303 章</cite></blockquote></details>
-<h4 id="story-6" data-ch="304">六、带人出去（第 304–307 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="304">他回到医院，让司马小二叫齐特防部的人，二十来人一起往上找。五楼墙体剥落，接着两条腿、两只手的绷带怪物爬上来，病人像丧尸一样苏醒；小高被咬，变成了丧尸。<sup class="cite" title="第304章：落在最后的一个特防部成员被咬伤了">304</sup></span><span class="stmt" data-ch="304">六楼却是阳光明媚、欢声笑语，严嘉鱼坐在花坛上晃脚，一见他就跑了过来，抄起桌板把扑来的绷带怪物打飞。<sup class="cite" title="第304章：六楼却是阳光明媚、姹紫嫣红，充满了欢声笑语">304</sup></span><span class="stmt" data-ch="305">六楼污染最重，门开不出去，只能往下走。一路有人被黑影里的头发拖走，其余人的腿上也爬满黑影；带的人太多，徐获自己的精神世界也被污染，连开三道门都回到三楼。严嘉鱼和司马小二都劝他自己先走。<sup class="cite" title="本句未附原文">305</sup></span><span class="stmt" data-ch="305">他先把严嘉鱼带了出去，她在外面醒来。司马小二喊“聂队叫你们集合”，把发呆的队友带到一楼，徐获一趟趟把人接出来。外面的人发现，几个小时里雾区已经从汀城移到了花城。<sup class="cite" title="第305章：我先带严嘉鱼出去，如果成功了，我再回来接人；第305章：几个小时时间，雾区从汀城移到了花城">305</sup></span><span class="stmt" data-ch="306">一楼的人送完，徐获又回到已被黑雾吞没的医院，从头发里拽出一个满身脓包的玩家，又把被怪物踩在脚下的小高拉了出来。他这趟回来，本意是试试自己在精神污染地能撑多久。<sup class="cite" title="第306章：徐获回来不是为了救那几个被困的人">306</sup></span><span class="stmt" data-ch="306">六楼站着俞晴晴、周凝、戴文谦和他的家人。徐知让开位置，指了指桌上的卷轴：一份副本授权书。游戏说，他促进了这个新副本的生成，可以选择成为它的权限持有者。<sup class="cite" title="第306章：恭喜玩家路人甲获得副本授权书一份">306</sup></span><span class="stmt" data-ch="307">游戏提示新副本即将离开 E27-014 分区。徐获醒来时趴在严嘉鱼背上，两人在雾散前翻出高墙；大楼不见了，福利院还在。担架上的小高也醒了，说是徐获把他拉出来的。<sup class="cite" title="第307章：意识回笼之后他发现自己在严嘉鱼背上；第307章：是徐获把我拉出来的">307</sup></span><span class="stmt" data-ch="307">花城的廖组长抢先把徐获和严嘉鱼请走，吴组长黑着脸回汀城。车上徐获头痛欲裂，盯了一眼后视镜里的司机，开车的玩家手一滑，车子冲向路边。<sup class="cite" title="第307章：开车的是个玩家，对上他的视线时手下骤然打滑">307</sup></span></p><details class="src block fgroup"><summary>本段原文 9 处</summary><blockquote data-ch="304">落在最后的一个特防部成员被咬伤了<cite>第 304 章</cite></blockquote><blockquote data-ch="304">六楼却是阳光明媚、姹紫嫣红，充满了欢声笑语<cite>第 304 章</cite></blockquote><blockquote data-ch="305">我先带严嘉鱼出去，如果成功了，我再回来接人<cite>第 305 章</cite></blockquote><blockquote data-ch="305">几个小时时间，雾区从汀城移到了花城<cite>第 305 章</cite></blockquote><blockquote data-ch="306">徐获回来不是为了救那几个被困的人<cite>第 306 章</cite></blockquote><blockquote data-ch="306">恭喜玩家路人甲获得副本授权书一份<cite>第 306 章</cite></blockquote><blockquote data-ch="307">意识回笼之后他发现自己在严嘉鱼背上<cite>第 307 章</cite></blockquote><blockquote data-ch="307">是徐获把我拉出来的<cite>第 307 章</cite></blockquote><blockquote data-ch="307">开车的是个玩家，对上他的视线时手下骤然打滑<cite>第 307 章</cite></blockquote></details>
+<section id="cast" class="fgroup"><h3>人物</h3>
+<ul class="people"><li data-ch="297"><b class="subject"><a href="../people.html?upto=307#person-%E5%94%90%E5%B9%BF%E5%8D%9A">唐广博</a></b><span class="text">徐获的熟人在这里成了他的主治医生，把他的玩家经历称作“梦境”，教他回溯记忆；他连续三次重复同一套动作，让徐获起疑。他递来的钥匙通向地下圆塔。</span><span class="ch">第 292、294、297 章</span><details class="src"><summary>原文</summary><blockquote>这个唐广博已经重复同样的动作连续三次了<cite>第 294 章</cite></blockquote></details></li><li data-ch="306"><b class="subject"><a href="../people.html?upto=307#person-%E4%BF%9E%E6%99%B4%E6%99%B4">俞晴晴</a>、<a href="../people.html?upto=307#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a>、<a href="../people.html?upto=307#person-%E5%91%A8%E5%87%9D">周凝</a></b><span class="text">徐获熟人的样子，在医院里成了护士：俞晴晴爱听他讲“梦境”，戴文谦嘴上嫌他麻烦，周凝偷偷给他留饭。最后他们和徐获的家人一起站在六楼。</span><span class="ch">第 292–293、298、306 章</span></li><li data-ch="307"><b class="subject"><a href="../people.html?upto=307#person-%E5%8F%B8%E9%A9%AC%E5%B0%8F%E4%BA%8C">司马小二</a>（红毛）</b><span class="text">特防部汀城分部的先锋玩家，闹着跳楼被关在四楼，心思简单、反倒不容易被带偏，成了徐获的帮手。他召集队友让徐获一趟趟带出去，出雾后跟吴组长回了汀城。</span><span class="ch">第 295–296、305、307 章</span><details class="src"><summary>原文</summary><blockquote>我是特防部汀城分部的先锋玩家成员<cite>第 295 章</cite></blockquote></details></li><li data-ch="307"><b class="subject">黑高个、干瘦病人、小杨等特防部玩家</b><span class="text">从汀城进雾的特防部玩家，一心要逃出医院，逃出去又被“家属”送回。进雾的人超过三分之一被带了出来，逃跑时被怪物抓住的几个出雾后仍昏迷。</span><span class="ch">第 293、295–296、305、307 章</span><details class="src"><summary>原文</summary><blockquote>但是昏迷的几个人逃走的时候被怪物抓住了，没能出得来<cite>第 307 章</cite></blockquote></details></li><li data-ch="307"><b class="subject">小高</b><span class="text">特防部玩家，逃出去后被早已死去的父母打电话送了回来，后来在楼里被咬、变成丧尸。徐获从怪物脚下把他拉出来，出雾后他在担架上醒了。</span><span class="ch">第 296、304、306–307 章</span></li><li data-ch="306"><b class="subject"><a href="../people.html?upto=307#person-%E5%BE%90%E7%9F%A5">徐知</a>和父母</b><span class="text">徐获死去的哥哥和父母，来会客室探望他；徐获知道这只是幻想，徐知哭着交出钥匙。最后他们站在六楼，徐知指给他看桌上的<a class="term" href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%8E%88%E6%9D%83%E4%B9%A6" title="游戏发给促成新副本、与副本契合度高的玩家，凭它可以成为副本的权限持有者。">副本授权书</a>。</span><span class="ch">第 298–299、306 章</span></li><li data-ch="303"><b class="subject">游乐园的 BOSS（小姑娘）</b><span class="text">被“唤醒人偶”叫出来，说这里是在不同世界流浪的战后遗址，还说精神方面的二次进化没用。她随口一句话，提醒了徐获怎样把人带出去。</span><span class="ch">第 302–303 章</span></li><li data-ch="307"><b class="subject"><a href="../people.html?upto=307#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a>（方丈）</b><span class="text">和徐获一起进雾后失散，在六楼一个阳光明媚的“医院”里晃脚，抄起桌板打飞绷带怪物。她第一个被带出去，最后背着昏迷的徐获翻出高墙。</span><span class="ch">第 304–305、307 章</span></li><li data-ch="307"><b class="subject"><a href="../people.html?upto=307#person-%E5%90%B4%E7%BB%84%E9%95%BF">吴组长</a>、<a href="../people.html?upto=307#person-%E5%BB%96%E7%BB%84%E9%95%BF">廖组长</a></b><span class="text">汀城和花城特防分部的负责人，守在雾区外。廖组长抢先把徐获和严嘉鱼请走，吴组长黑着脸回了汀城。</span><span class="ch">第 307 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、关键关系、伏笔与未解。写到第 307 章，含全部剧透。</span></summary><section id="summary" class="fgroup"><h3>剧情梗概</h3>
+<nav class="arcs"><a href="#summary-1" data-ch="293">013 号病人</a><a href="#summary-2" data-ch="295">按意识形成的医院</a><a href="#summary-3" data-ch="298">地下圆塔</a><a href="#summary-4" data-ch="301">精神污染地</a><a href="#summary-5" data-ch="302">二次进化</a><a href="#summary-6" data-ch="304">带人出去</a></nav>
+<h4 id="summary-1" data-ch="293">013 号病人</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="293">徐获在大雾里醒来，成了精神病院的 013 号病人；医生护士是唐广博、俞晴晴这些熟人，他们说“玩家”是网络游戏引起的精神病。<sup class="cite" title="本句未附原文">292–293</sup></span><span class="stmt" data-ch="293">外面的世界一片太平，没有玩家和进化者，查得到这家医院五十年的记录；对床的病友却让他千万别吃药，他把胶囊藏起来冲进了马桶。<sup class="cite" title="第292章：千万别吃他们给的药！千万别吃！">292–293</sup></span><span class="stmt" data-ch="294">从汀城雾里进来的几名特防部玩家拉他入伙逃跑；唐广博把他的玩家经历称作“梦境”，却连续三次重复同一套动作，让他起了疑。<sup class="cite" title="本句未附原文">293–294</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="293">千万别吃他们给的药！千万别吃！<cite>第 292 章</cite></blockquote></details>
+<h4 id="summary-2" data-ch="295">按意识形成的医院</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="295">特防部的人也叫这里“第十七医院”，可医院里全是徐获的熟人，按理是照他的意识形成的，别人不该看到这个名字。<sup class="cite" title="第295章：这个地方明显是根据他的意识形成的">295</sup></span><span class="stmt" data-ch="296">他去四楼接被关着的先锋玩家司马小二，白天翻过的窗户变成了水泥墙，他一提又回来了；逃跑的人第二天被“家属”送回，小高的父母其实早就死了。<sup class="cite" title="第296章：小高竟然是被父母打电话送回来的">295–296</sup></span><span class="stmt" data-ch="298">会客室里，孤儿司马小二被一个“阿姨”数落得抬不起头，徐获一句“你不是孤儿吗”就让他回过神来。<sup class="cite" title="第298章：“你不是孤儿吗？哪儿来的亲戚？”徐获反问。">298</sup></span></p><details class="src block fgroup"><summary>本段原文 3 处</summary><blockquote data-ch="295">这个地方明显是根据他的意识形成的<cite>第 295 章</cite></blockquote><blockquote data-ch="296">小高竟然是被父母打电话送回来的<cite>第 296 章</cite></blockquote><blockquote data-ch="298">“你不是孤儿吗？哪儿来的亲戚？”徐获反问。<cite>第 298 章</cite></blockquote></details>
+<h4 id="summary-3" data-ch="298">地下圆塔</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="298">唐广博给他一把钥匙，门后的台阶通向阳光和笑声，唐广博说“走出去就行了”。徐获却问下面是什么，脚下随即现出深入地底的旋转梯，他往下走了十二个小时，到了一座地下圆塔。圆桌上摆着一张扑克牌、一把带血的刀和一个黑色薄片。<sup class="cite" title="第298章：一张背面朝上的扑克牌，一把带血的刀，一个黑色的圆形薄片">297–298</sup></span><span class="stmt" data-ch="299">死去的哥哥徐知和父母来探望，徐获清楚这只是幻想，说这一篇现在有机会翻过去了；徐知哭着把钥匙放到桌上。<sup class="cite" title="第299章：徐知哭了，慢慢从包里取出一把钥匙放到桌上">298–299</sup></span><span class="stmt" data-ch="299">再下塔底，三个无脸人影问牌的花色、刀上是谁的血，他答红桃、答徐知的血，黑色随即吞没一切，只剩他和一本白壳书。<sup class="cite" title="本句未附原文">299</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="298">一张背面朝上的扑克牌，一把带血的刀，一个黑色的圆形薄片<cite>第 298 章</cite></blockquote><blockquote data-ch="299">徐知哭了，慢慢从包里取出一把钥匙放到桌上<cite>第 299 章</cite></blockquote></details>
+<h4 id="summary-4" data-ch="301">精神污染地</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="301">走廊里的“鬼”说有就有，司马小二还“看见”徐获被开膛破肚；徐获判断这里不是副本，而是精神污染地，人想象的东西会变成自己和别人眼里的现实。<sup class="cite" title="第300章：这里不是副本，但要想出去也不那么容易">300–301</sup></span><span class="stmt" data-ch="301">他让司马小二去问别人医院叫什么，得到好几个答案；他推断这片会移动的雾区像是另一个空间入侵了 014 区，挣脱精神污染就能走出去。<sup class="cite" title="第301章：更像是另一个空间入侵了014区">301</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="301">这里不是副本，但要想出去也不那么容易<cite>第 300 章</cite></blockquote><blockquote data-ch="301">更像是另一个空间入侵了014区<cite>第 301 章</cite></blockquote></details>
+<h4 id="summary-5" data-ch="302">二次进化</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="302">第三次下塔，四种颜色在塔里争地盘，白壳书裂开：他的<a class="term" href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" title="精神力量能外放、干扰到别人时，以精神进化者为内核造出的“世界”。">精神世界</a>正被另一个人格侵占。<sup class="cite" title="第302章：他本身的精神世界正在被另一个人格侵占">302</sup></span><span class="stmt" data-ch="302">人影现出模样，是少年的他、青年的他和一个没有脸的儿童影子；他把薄片、扑克牌、匕首叠起，压上白壳书，掌控了自己的精神世界。<sup class="cite" title="第302章：也完成了对自己精神世界的掌控">302</sup></span><span class="stmt" data-ch="303">他在一栋破败大楼里醒来，严嘉鱼倒在身边，特防部的人在旁边楼里躺成一片叫不醒，其中没有聂玄。叫出来的游乐园 BOSS 说，这里是在不同世界流浪的战后遗址。<sup class="cite" title="本句未附原文">302–303</sup></span><span class="stmt" data-ch="303">他感觉自己完成了二次进化，方向是精神控制；BOSS 一句“你怎么出来的就怎么把他们带出来”提醒了他。<sup class="cite" title="第 303 章">303</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="302">他本身的精神世界正在被另一个人格侵占<cite>第 302 章</cite></blockquote><blockquote data-ch="302">也完成了对自己精神世界的掌控<cite>第 302 章</cite></blockquote></details>
+<h4 id="summary-6" data-ch="304">带人出去</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="304">回到医院，他带二十来人往上找，绷带怪物爬上来，病人像丧尸一样苏醒；六楼却阳光明媚，严嘉鱼就坐在那里。<sup class="cite" title="第304章：六楼却是阳光明媚、姹紫嫣红，充满了欢声笑语">304</sup></span><span class="stmt" data-ch="305">带的人太多，他的精神世界也被污染，连开三道门都回到三楼；他先送出严嘉鱼，再一趟趟接人，雾区几小时里已从汀城移到花城。<sup class="cite" title="第305章：几个小时时间，雾区从汀城移到了花城">305</sup></span><span class="stmt" data-ch="306">最后他回到被黑雾吞没的医院，本意是试试自己能撑多久，顺手拉出了小高；六楼的徐知指给他看一份<a class="term" href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%8E%88%E6%9D%83%E4%B9%A6" title="游戏发给促成新副本、与副本契合度高的玩家，凭它可以成为副本的权限持有者。">副本授权书</a>，游戏说他促成了这个新副本。<sup class="cite" title="第 306 章">306</sup></span><span class="stmt" data-ch="307">他醒来时趴在严嘉鱼背上翻出高墙，新副本即将离开 014 区。雾散了，大楼不见了，福利院还在，被他拉出来的小高也醒了。上车后他头痛欲裂，看了司机一眼，对方手一滑，车子冲向路边。<sup class="cite" title="第 307 章">307</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="304">六楼却是阳光明媚、姹紫嫣红，充满了欢声笑语<cite>第 304 章</cite></blockquote><blockquote data-ch="305">几个小时时间，雾区从汀城移到了花城<cite>第 305 章</cite></blockquote></details>
 </section>
 <section id="puzzle" class="fgroup"><h3>解谜结构</h3>
-<p class="note">这不是有任务的副本：没有提示、没有规则公告，出口在每个人自己的精神里。</p>
-<h4 id="puzzle-1" data-ch="293">表面</h4>
-<ul class="items"><li data-ch="293"><span class="text">一家真实可查的私立精神病院，外面的世界没有玩家和进化者；医生护士都说“玩家”是网络游戏引起的精神病，劝病人吃药、承认自己有病。</span><span class="ch">第 292–293 章</span></li><li data-ch="305"><span class="text">楼层从一到六，越往上精神污染越重；四楼关有攻击性的病人，六楼却阳光明媚。</span><span class="ch">第 295、304–305 章</span></li></ul>
-<h4 id="puzzle-2" data-ch="293">陷阱</h4>
-<ul class="items"><li data-ch="293"><span class="text"><span class="tier claim" title="病友、黑高个的说法" tabindex="0">说法</span>药：病友说吃了会永远留下，特防部的人怀疑是精神控制药。</span><span class="ch">第 292–293 章</span></li><li data-ch="304"><span class="text">逃出去看到的“现实”：没有汀城，研究所不存在，死去的父母打电话把人送回来。</span><span class="ch">第 296、304 章</span></li><li data-ch="299"><span class="text">探视的“家属”：孤儿司马小二来了个阿姨，徐获的父母和已死的哥哥也来了。</span><span class="ch">第 298–299 章</span></li><li data-ch="293"><span class="text">遗忘和昏睡：徐获想问的事转眼就忘，还不知不觉睡死过去。</span><span class="ch">第 293 章</span></li><li data-ch="304"><span class="text">想象出来的鬼怪会变成真的，别人的想象也能伤到自己。</span><span class="ch">第 300–301、304 章</span></li></ul>
-<h4 id="puzzle-3" data-ch="299">出路</h4>
-<ul class="items"><li data-ch="301"><span class="text"><span class="tier guess" title="徐获的推断" tabindex="0">推测</span>医院只是框架，内容由各人的想象组成，所以医院的名字人人不同；看清这一点，才不会被它说服。</span><span class="ch">第 301 章</span><details class="src"><summary>原文</summary><blockquote>医院只是框架，里面的内容是由每个人的想象组成<cite>第 301 章</cite></blockquote></details></li><li data-ch="299"><span class="text">唐广博和“徐知”给的钥匙，通向徐获自己的精神世界：地下圆塔。三道人影的问题都关于他的过去：一张红桃牌，徐知的血，一片没有脸的黑色。</span><span class="ch">第 297、299 章</span></li><li data-ch="305"><span class="text">压住三个人格、掌控圆塔之后，他能在医院里随手开门，把别人转进自己的精神世界再带出去。</span><span class="ch">第 302–303、305 章</span></li></ul>
-</section>
-<section id="fates" class="fgroup"><h3>人物结局</h3>
-<ul class="people"><li data-ch="307"><b class="subject"><a href="../people.html?upto=307#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">精神方向二次进化，脱离后又把人带出来；得到 E 级新副本的授权书，还没签字。出雾后头痛欲裂。</span><span class="ch">第 303、306–307 章</span></li><li data-ch="307"><b class="subject"><a href="../people.html?upto=307#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a>（方丈）</b><span class="text">第一个被带出去，醒后守在外面，最后背着昏迷的徐获出了雾。</span><span class="ch">第 305、307 章</span></li><li data-ch="307"><b class="subject"><a href="../people.html?upto=307#person-%E5%8F%B8%E9%A9%AC%E5%B0%8F%E4%BA%8C">司马小二</a>（红毛）</b><span class="text">被带出，出雾后跟吴组长回汀城。</span><span class="ch">第 305、307 章</span></li><li data-ch="307"><b class="subject">小高</b><span class="text">在医院里“变成丧尸”，被徐获从脓液里拉出，出雾后在担架上醒来。</span><span class="ch">第 304、306–307 章</span></li><li data-ch="307"><b class="subject">其余特防部玩家</b><span class="text">进雾的人超过三分之一出来了；逃跑时被怪物抓住的几个没能出来，出雾后仍昏迷。</span><span class="ch">第 307 章</span><details class="src"><summary>原文</summary><blockquote>但是昏迷的几个人逃走的时候被怪物抓住了，没能出得来<cite>第 307 章</cite></blockquote></details></li><li data-ch="302"><b class="subject"><a href="../people.html?upto=307#person-%E8%81%82%E7%8E%84">聂玄</a></b><span class="text">不在废弃大楼里（第 290 章他被抛出了雾外）。</span><span class="ch">第 302 章</span></li></ul>
+<h4 id="puzzle-1" data-ch="293">这里是不是副本</h4>
+<ul class="items"><li data-ch="293"><b class="subject">谜面</b><span class="text">没有提示、任务和副本名，外面的世界没有玩家，医生护士都说“玩家”是网络游戏引起的精神病，劝病人吃药、承认有病。</span><span class="ch">第 292–293 章</span></li><li data-ch="296"><b class="subject">线索</b><span class="text">唐广博连续三次重复同一套动作。医院里全是徐获的熟人，特防部的人却也叫它“第十七医院”；消失的窗户被他一提又回来了。</span><span class="ch">第 294–296 章</span></li><li data-ch="301"><b class="subject">谜底</b><span class="text">这里不是副本，而是精神污染地：医院只是框架，内容由各人的想象组成，所以名字人人不同；想象的东西会变成自己和别人眼里的现实。</span><span class="ch">第 300–301 章</span><details class="src"><summary>原文</summary><blockquote>医院只是框架，里面的内容是由每个人的想象组成<cite>第 301 章</cite></blockquote></details></li></ul>
+<h4 id="puzzle-2" data-ch="296">什么会把人留下</h4>
+<ul class="items"><li data-ch="296"><b class="subject">谜面</b><span class="text">逃跑的人总被抓回或送回，病人们越住越认定自己有病，怎样才不被这家医院说服？</span><span class="ch">第 293、296 章</span></li><li data-ch="298"><b class="subject">线索</b><span class="text">病友说吃了药会永远留下。小高被早已死去的父母送回来，孤儿司马小二来了个“阿姨”；徐获想问的事转眼就忘，还不知不觉睡死过去。</span><span class="ch">第 292–293、296、298 章</span></li><li data-ch="298"><b class="subject">谜底</b><span class="text">吃药、认亲、忘事都把人往病人的身份上推；点破破绽就能回过神，一句“你不是孤儿吗”就让司马小二逃了出来，徐获也让楼顶的院名在眼里消失。</span><span class="ch">第 298 章</span></li></ul>
+<h4 id="puzzle-3" data-ch="298">钥匙和地下圆塔</h4>
+<ul class="items"><li data-ch="298"><b class="subject">谜面</b><span class="text">唐广博给的钥匙通向地底的圆塔，塔底圆桌上摆着扑克牌、带血的刀和黑色薄片，第一次去等不来任何人。</span><span class="ch">第 297–298 章</span></li><li data-ch="299"><b class="subject">线索</b><span class="text">徐知来探望时，徐获说这一篇现在有机会翻过去，徐知交出钥匙；再下塔底，三个无脸人影问牌的花色和刀上是谁的血。</span><span class="ch">第 298–299 章</span></li><li data-ch="302"><b class="subject">谜底</b><span class="text">圆塔是他自己的<a class="term" href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" title="精神力量能外放、干扰到别人时，以精神进化者为内核造出的“世界”。">精神世界</a>，人影是少年的他、青年的他和无脸儿童影子；答出红桃和徐知的血，再把三样东西压在白壳书下，他就掌控了精神世界。</span><span class="ch">第 299、302 章</span></li></ul>
+<h4 id="puzzle-4" data-ch="303">怎样带人出去</h4>
+<ul class="items"><li data-ch="303"><b class="subject">谜面</b><span class="text">他自己脱身后，特防部的人在废弃大楼里叫不醒；这里是在不同世界流浪的战后遗址，用空间道具很危险。</span><span class="ch">第 302–303 章</span><details class="src"><summary>原文</summary><blockquote>这里应该是战后遗址，空间没有完全破裂，所以才在不同的世界流浪<cite>第 302 章</cite></blockquote></details></li><li data-ch="303"><b class="subject">线索</b><span class="text">游乐园的 BOSS 随口说“你怎么出来的就怎么把他们带出来”；那栋楼相当于精神外放的纽带，能联系上里面的人。</span><span class="ch">第 303 章</span></li><li data-ch="305"><b class="subject">谜底</b><span class="text">把别人从精神污染地转进自己的精神世界再带出去；人带多了他自己也会被污染，连开三道门都回到三楼，只能一趟趟接。</span><span class="ch">第 303、305 章</span><details class="src"><summary>原文</summary><blockquote>把他们从精神污染地转移到自己的精神世界<cite>第 303 章</cite></blockquote></details></li></ul>
 </section>
 <section id="relations" class="fgroup"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
@@ -267,12 +346,11 @@ h4[id] { scroll-margin-top:16px; }
 <g class="node" data-ch="292"><circle cx="154.0" cy="60" r="10.0"/><text x="154.0" y="44.0" class="name">戴文谦</text></g>
 <g class="node" data-ch="307"><circle cx="684.4" cy="60" r="10.0"/><text x="684.4" y="44.0" class="name">廖组长</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li data-ch="307"><span class="text"><a href="../people.html?upto=307#person-%E5%BE%90%E8%8E%B7">徐获</a> — 同伴 — <a href="../people.html?upto=307#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a></span><span class="ch">第 304、307 章</span></li><li data-ch="305"><span class="text"><a href="../people.html?upto=307#person-%E5%BE%90%E8%8E%B7">徐获</a> — 一起找出口 — <a href="../people.html?upto=307#person-%E5%8F%B8%E9%A9%AC%E5%B0%8F%E4%BA%8C">司马小二</a></span><span class="ch">第 296、305 章</span></li><li data-ch="306"><span class="text"><a href="../people.html?upto=307#person-%E5%BE%90%E8%8E%B7">徐获</a> → 救出 → 小高</span><span class="ch">第 306 章</span></li><li data-ch="304"><span class="text"><a href="../people.html?upto=307#person-%E5%8F%B8%E9%A9%AC%E5%B0%8F%E4%BA%8C">司马小二</a> — 队友 — 小高</span><span class="ch">第 304 章</span></li><li data-ch="297"><span class="text"><a href="../people.html?upto=307#person-%E5%94%90%E5%B9%BF%E5%8D%9A">唐广博</a> — 主治医生（幻象） — <a href="../people.html?upto=307#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 294、297 章</span></li><li data-ch="299"><span class="text"><a href="../people.html?upto=307#person-%E5%BE%90%E7%9F%A5">徐知</a> — 哥哥（幻象） — <a href="../people.html?upto=307#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 299 章</span></li><li data-ch="292"><span class="text"><a href="../people.html?upto=307#person-%E4%BF%9E%E6%99%B4%E6%99%B4">俞晴晴</a> — 护士同事（幻象） — <a href="../people.html?upto=307#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a></span><span class="ch">第 292 章</span></li><li data-ch="307"><span class="text"><a href="../people.html?upto=307#person-%E5%90%B4%E7%BB%84%E9%95%BF">吴组长</a> — 组长 — <a href="../people.html?upto=307#person-%E5%8F%B8%E9%A9%AC%E5%B0%8F%E4%BA%8C">司马小二</a></span><span class="ch">第 307 章</span></li><li data-ch="307"><span class="text"><a href="../people.html?upto=307#person-%E5%BB%96%E7%BB%84%E9%95%BF">廖组长</a> → 抢人 → <a href="../people.html?upto=307#person-%E5%90%B4%E7%BB%84%E9%95%BF">吴组长</a></span><span class="ch">第 307 章</span></li></ul></details>
+<details class="rel"><summary>文字版</summary><ul class="items"><li data-ch="307"><span class="text"><a href="../people.html?upto=307#person-%E5%BE%90%E8%8E%B7">徐获</a> — 同伴 — <a href="../people.html?upto=307#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a></span><span class="ch">第 304、307 章</span></li><li data-ch="305"><span class="text"><a href="../people.html?upto=307#person-%E5%BE%90%E8%8E%B7">徐获</a> — 一起找出口 — <a href="../people.html?upto=307#person-%E5%8F%B8%E9%A9%AC%E5%B0%8F%E4%BA%8C">司马小二</a></span><span class="ch">第 296、305 章</span></li><li data-ch="306"><span class="text"><a href="../people.html?upto=307#person-%E5%BE%90%E8%8E%B7">徐获</a> → 救出 → 小高</span><span class="ch">第 306 章</span></li><li data-ch="304"><span class="text"><a href="../people.html?upto=307#person-%E5%8F%B8%E9%A9%AC%E5%B0%8F%E4%BA%8C">司马小二</a> — 队友 — 小高</span><span class="ch">第 304 章</span></li><li data-ch="297"><span class="text"><a href="../people.html?upto=307#person-%E5%94%90%E5%B9%BF%E5%8D%9A">唐广博</a> — 主治医生（幻象） — <a href="../people.html?upto=307#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 294、297 章</span></li><li data-ch="299"><span class="text"><a href="../people.html?upto=307#person-%E5%BE%90%E7%9F%A5">徐知</a> — 哥哥（幻象） — <a href="../people.html?upto=307#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 299 章</span></li><li data-ch="292"><span class="text"><a href="../people.html?upto=307#person-%E4%BF%9E%E6%99%B4%E6%99%B4">俞晴晴</a> — 护士同事（幻象） — <a href="../people.html?upto=307#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a></span><span class="ch">第 292 章</span></li><li data-ch="307"><span class="text"><a href="../people.html?upto=307#person-%E5%90%B4%E7%BB%84%E9%95%BF">吴组长</a> — 组长 — <a href="../people.html?upto=307#person-%E5%8F%B8%E9%A9%AC%E5%B0%8F%E4%BA%8C">司马小二</a></span><span class="ch">第 307 章</span></li><li data-ch="307"><span class="text"><a href="../people.html?upto=307#person-%E5%BB%96%E7%BB%84%E9%95%BF">廖组长</a> → 抢人 → <a href="../people.html?upto=307#person-%E5%90%B4%E7%BB%84%E9%95%BF">吴组长</a></span><span class="ch">第 307 章</span></li></ul></details>
 </section>
 <section id="threads" class="fgroup"><h3>伏笔与未解</h3>
-<p class="note">截至第 307 章还没有交代的事。</p>
-<ul class="items"><li data-ch="306"><a class="thread-no" href="../threads.html?upto=307#thread-092" title="伏笔总表">#092</a><span class="text">副本授权书还没签：要不要成为这个 E 级新副本的持有者，写什么任务，一年内不生效就作废。</span><span class="ch">第 306 章</span></li><li data-ch="302"><a class="thread-no" href="../threads.html?upto=307#thread-091" title="伏笔总表">#091</a><span class="text">那个没有脸、一米高的儿童影子是谁，黑色薄片代表什么；少年和青年两个人格各自藏进了四楼和二十三楼的门里。</span><span class="ch">第 302 章</span></li><li data-ch="307"><a class="thread-no" href="../threads.html?upto=307#thread-093" title="伏笔总表">#093</a><span class="text">出雾后徐获头痛欲裂，看了司机一眼对方就失了神，是二次进化的后果吗。</span><span class="ch">第 307 章</span></li><li data-ch="307"><a class="thread-no" href="../threads.html?upto=307#thread-094" title="伏笔总表">#094</a><span class="text">被怪物抓住、出雾后仍昏迷的几名特防部玩家能不能醒。</span><span class="ch">第 307 章</span></li><li data-ch="307"><a class="thread-no" href="../threads.html?upto=307#thread-095" title="伏笔总表">#095</a><span class="text"><span class="tier guess" title="吴组长的推断">推测</span>吴组长认为这是有别于副本的新的游戏入侵方式，派人跟着徐获，要弄清大雾的规律。</span><span class="ch">第 307 章</span></li><li data-ch="303"><a class="thread-no" href="../threads.html?upto=307#thread-042" title="伏笔总表">#042</a><span class="text"><span class="tier claim" title="游乐园的 BOSS（小姑娘）的说法" tabindex="0">说法</span>游乐园的 BOSS 说，E27 上一个出现超级道具的新分区被毁灭了；014 区为什么没有，还不知道。</span><span class="ch">第 303 章</span></li><li data-ch="302"><a class="thread-no" href="../threads.html?upto=307#thread-081" title="伏笔总表">#081</a><span class="text">徐获答应给 BOSS 的糖，下个月要翻倍。</span><span class="ch">第 302 章</span></li></ul>
-</section><section id="links" class="fgroup"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E7%B2%BE%E7%A5%9E%E6%B1%A1%E6%9F%93%E5%9C%B0" data-ch="293">大雾中的精神污染地</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E5%B4%A9%E6%BA%83" data-ch="306">副本崩溃</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%8E%88%E6%9D%83%E4%B9%A6" data-ch="306">副本授权书与持有者</a><a href="../world.html#world-%E5%89%AF%E6%9C%ACBOSS" data-ch="303">副本 BOSS</a><a href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" data-ch="302">精神进化与精神世界</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9" data-ch="307">进化的动植物</a><a href="../world.html#world-%E7%89%B9%E9%98%B2%E9%83%A8" data-ch="307">特防部</a><a href="../world.html#world-%E5%A4%96%E5%8C%BA%E5%85%A5%E4%BE%B5" data-ch="303">外区的侵略</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E5%94%A4%E9%86%92%E4%BA%BA%E5%81%B6" data-ch="302">唤醒人偶</a></p></section></details>
+<ul class="items"><li data-ch="306"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#092</span><span class="text"><a class="term" href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%8E%88%E6%9D%83%E4%B9%A6" title="游戏发给促成新副本、与副本契合度高的玩家，凭它可以成为副本的权限持有者。">副本授权书</a>还没签：要不要成为这个 E 级新副本的持有者、写什么任务，徐获还没定，一年内不生效就作废。</span><span class="ch">第 306 章</span></li><li data-ch="302"><a class="thread-no" href="../threads.html?upto=307#thread-091" title="伏笔总表">#091</a><span class="text">那个没有脸、一米高的儿童影子是谁，黑色薄片代表什么，没有交代；少年和青年两个人格各自藏进了四楼和二十三楼的门里。</span><span class="ch">第 302 章</span></li><li data-ch="307"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#093</span><span class="text">出雾后徐获头痛欲裂，看了司机一眼对方就失了神，是不是二次进化的后果，还不清楚。</span><span class="ch">第 307 章</span></li><li data-ch="307"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#094</span><span class="text">逃跑时被怪物抓住、出雾后仍昏迷的几名特防部玩家能不能醒，没有交代。</span><span class="ch">第 307 章</span></li><li data-ch="307"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#095</span><span class="text">吴组长认为大雾是有别于副本的新的游戏入侵方式，派人跟着徐获，要弄清它的规律。</span><span class="ch">第 307 章</span></li><li data-ch="303"><a class="thread-no" href="../threads.html?upto=307#thread-042" title="伏笔总表">#042</a><span class="text">游乐园的 BOSS 说，E27 上一个出现<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E9%81%93%E5%85%B7" title="维度裂缝最高等级的道具，能超越时间与空间，分动态和静态两种。">超级道具</a>的新分区被毁灭了；014 区为什么没有，还不知道。</span><span class="ch">第 303 章</span></li><li data-ch="302"><a class="thread-no" href="../threads.html?upto=307#thread-081" title="伏笔总表">#081</a><span class="text">徐获叫出游乐园的 BOSS，答应给她的糖下个月要翻倍。</span><span class="ch">第 302 章</span></li></ul>
+</section><section id="links" class="fgroup"><h3>本单元涉及的设定、地点与道具</h3><p class="note">设定在世界观页，地点和势力在地理页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%8E%88%E6%9D%83%E4%B9%A6" data-ch="306">副本授权书与持有者</a><a href="../world.html#world-%E5%89%AF%E6%9C%ACBOSS" data-ch="303">副本 BOSS</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E5%B4%A9%E6%BA%83" data-ch="306">副本崩溃</a><a href="../world.html#world-%E7%B2%BE%E7%A5%9E%E6%B1%A1%E6%9F%93%E5%9C%B0" data-ch="293">大雾中的精神污染地</a><a href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" data-ch="302">精神进化与精神世界</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9" data-ch="307">进化的动植物</a></p><p class="links fgroup"><b>地点与势力</b><a href="../places.html#place-014%E5%8C%BA" data-ch="303">014 区</a><a href="../places.html#place-%E8%8A%B1%E5%9F%8E" data-ch="305">花城</a><a href="../places.html#faction-%E7%89%B9%E4%BA%8B%E5%B1%80" data-ch="307">特防部（原特事局）</a><a href="../places.html#faction-%E8%8A%B1%E5%9F%8E%E7%89%B9%E9%98%B2%E5%88%86%E9%83%A8" data-ch="307">花城特防分部</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E5%94%A4%E9%86%92%E4%BA%BA%E5%81%B6" data-ch="302">唤醒人偶</a></p></section></details>
 <nav class="units-nav bottom"><a class="prev" href="u0017.html"><small>← 上一单元</small><b>超级进化与大雾</b><small>第 288–291 章</small></a><a class="next" href="u0019.html"><small>下一单元 →</small><b>进化后遗症与医院异变</b><small>第 308–325 章</small><small class="after" data-beyond="308" hidden>在你的进度之后</small></a></nav><script>
 (function () {
   var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
@@ -298,6 +376,17 @@ h4[id] { scroll-margin-top:16px; }
     else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
     button.textContent = '仍然展开'; status.appendChild(button);
   });
+  if (window.matchMedia('(max-width:640px)').matches) {   // a phone (design reviews 2026-10-06): the graph is wider than
+    doc.querySelectorAll('details.rel').forEach(function (d) { d.open = true; });   // the screen, so the list shows too,
+    doc.querySelectorAll('.graph').forEach(function (g) {   // and the strip starts at the busiest person, not the left edge
+      var svg = g.querySelector('svg'), best = null;
+      if (!svg || !svg.viewBox || !svg.viewBox.baseVal) return;
+      g.querySelectorAll('g.node circle').forEach(function (c) { if (!best || +c.getAttribute('r') > +best.getAttribute('r')) best = c; });
+      if (!best) return;
+      var scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width;
+      g.scrollLeft = Math.max(0, +best.getAttribute('cx') * scale - g.clientWidth / 2);
+    });
+  }
 })();
 </script>
 <footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
@@ -381,5 +470,84 @@ h4[id] { scroll-margin-top:16px; }
     note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
     note.hidden = false; note.scrollIntoView();
   } else if (target) { target.scrollIntoView(); }
+})();
+
+document.addEventListener('toggle', function (e) {
+  var d = e.target;
+  if (!d.open || d.tagName !== 'DETAILS' || d.classList.contains('src') || d.hasAttribute('data-fold')) return;
+  if (d.querySelector(':scope > button.fold-close') || d.getBoundingClientRect().height < window.innerHeight * 0.7) return;
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'fold-close'; b.textContent = '收起 ▲';
+  b.addEventListener('click', function () {
+    d.open = false;
+    var s = d.querySelector(':scope > summary') || d;
+    if (s.getBoundingClientRect().top < 0) s.scrollIntoView({block: 'start'});
+  });
+  d.appendChild(b);
+}, true);
+
+(function () {   // phones (step 7): the contents as a drawer, intros cut to three lines
+  var doc = document, root = doc.documentElement, small = window.matchMedia('(max-width:720px)');
+  var toc = doc.getElementById('toc') || doc.getElementById('jump');
+  if (toc) {
+    root.classList.add('has-toc');
+    var fab = doc.createElement('button'), back = doc.createElement('div'), filter = doc.createElement('input');
+    fab.type = 'button'; fab.className = 'toc-fab'; fab.textContent = '目录'; fab.setAttribute('aria-label', '目录');
+    var lastY = window.scrollY;   // scrolling down it steps aside, scrolling up it comes back (design review 2026-10-06)
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (y > lastY + 8 && y > 240) root.classList.add('fab-away'); else if (y < lastY - 8) root.classList.remove('fab-away');
+      lastY = y;
+    }, {passive: true});
+    back.className = 'toc-backdrop';
+    filter.type = 'search'; filter.className = 'toc-filter'; filter.placeholder = '在目录里找…';
+    toc.insertBefore(filter, toc.firstChild);
+    doc.body.appendChild(back); doc.body.appendChild(fab);
+    var open = function (on) { root.classList.toggle('toc-open', on); if (on && small.matches) filter.focus({preventScroll: true}); };
+    fab.addEventListener('click', function () { open(!root.classList.contains('toc-open')); });
+    back.addEventListener('click', function () { open(false); });
+    toc.addEventListener('click', function (e) { if (e.target.closest('a')) open(false); });
+    doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+    doc.querySelectorAll('a.totop').forEach(function (a) {   // on a phone it opens the contents, so it says so (GPT design review 2026-10-06)
+      a.textContent = '目录';
+      a.addEventListener('click', function (e) { if (small.matches) { e.preventDefault(); open(true); } });
+    });
+    filter.addEventListener('input', function () {   // names and data-keys (other names); a .find-only row shows only on a hit
+      var q = filter.value.replace(/\s/g, '');
+      toc.querySelectorAll('a').forEach(function (a) {
+        a.style.display = !q || (a.textContent + (a.dataset.keys || '')).replace(/\s/g, '').indexOf(q) >= 0 ? '' : 'none';
+      });
+      toc.querySelectorAll('.find-only').forEach(function (r) {
+        r.classList.toggle('found', !!q && Array.prototype.some.call(r.querySelectorAll('a'), function (a) { return a.style.display !== 'none'; }));
+      });
+    });
+  }
+  if (window.matchMedia('(max-width:640px)').matches) {
+    doc.querySelectorAll('.ticket-main > p.hint').forEach(function (p) {
+      if (p.scrollHeight < 90) return;
+      p.classList.add('clamped');
+      var b = doc.createElement('button');
+      b.type = 'button'; b.className = 'hint-more'; b.textContent = '展开说明';
+      b.addEventListener('click', function () { p.classList.remove('clamped'); b.remove(); });
+      p.after(b);
+    });
+  }
+})();
+
+(function () {   // a link into a closed fold opens the folds around its target first (design reviews 2026-10-06)
+  function openTo(id) {
+    var t = id && (document.getElementById(id) || document.getElementById(decodeURIComponent(id)));
+    for (var p = t && t.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a) openTo(a.getAttribute('href').slice(1));
+  }, true);
+  if (location.hash) openTo(location.hash.slice(1));
+  document.querySelectorAll('.graph, .growth').forEach(function (g) {   // a strip wider than the screen fades at its right edge
+    if (g.scrollWidth <= g.clientWidth + 2) return;
+    var check = function () { g.classList.toggle('at-end', g.scrollLeft + g.clientWidth >= g.scrollWidth - 4); };
+    g.classList.add('scroll-fade'); g.addEventListener('scroll', check, {passive: true}); check();
+  });
 })();
 </script></body></html>

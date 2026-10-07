@@ -1,18 +1,20 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>消失的客人 · 单元卡 · 维度之下</title><style>
+<title>消失的客人 · 单元卡 · 维度之下</title><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20x%3D%222%22%20y%3D%226%22%20width%3D%2228%22%20height%3D%2220%22%20rx%3D%223%22%20fill%3D%22%23d3a655%22/%3E%3Ccircle%20cx%3D%222%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ctext%20x%3D%2216%22%20y%3D%2221.5%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20text-anchor%3D%22middle%22%20fill%3D%22%2307080b%22%20font-family%3D%22serif%22%3E%E7%BB%B4%3C/text%3E%3C/svg%3E"><meta name="description" content="《玩家请上车》（海晏山 著）的读者整理：按单元写的梗概与解析，世界观、人物、地理、伏笔和道具库，可按读到的章数隐藏后文。"><meta name="theme-color" content="#07080b"><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
   --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
-  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC","Source Han Serif CN","Noto Serif CJK SC","STSong","SimSun",serif;
   --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
-  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace;
+  --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
-  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
-  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380; }
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#85621f; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380;
+  --mind:#7650b0; --space:#17788a; --time:#b25f18; --gold:#a07a10; }
 /* what stays dark in the light theme keeps the dark accents */
-:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
-  --line:#3a404b; --chip:#232830; }
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth, .emblem) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] .banner button.primary { color:#fff; }
 :root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
 * { box-sizing:border-box; }
@@ -21,11 +23,15 @@ body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
   background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
 :root[data-theme="light"] body { background:var(--paper); }
 a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+/* a dense run of names (items in hand, rewards, the units a person is in): ink with a thin red line, not a wall of red (design review 2026-10-06) */
+.quiet a, a.quiet { color:var(--ink); border-bottom:1px solid var(--line); border-bottom-color:color-mix(in srgb, var(--signal) 32%, transparent); }
+.quiet a:hover, a.quiet:hover { color:var(--signal); text-decoration:none; border-bottom-color:var(--signal); }
 main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 
 /* nav: the rail */
 .rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
 .rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; }
+@media (min-width:1100px) { .rail-inner { max-width:1060px; } }   /* brand, links, progress and switches on one line (2026-10-06) */
 .brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
 .brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.12em; margin-left:6px; }   /* so brand, links, progress and switches fit one line at 920px */
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
@@ -48,18 +54,54 @@ details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 @media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
   .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
 .beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
-details.fold[open] > summary { display:none; }
+details.fold[data-fold][open] > summary { display:none; }   /* only the spoiler gate (hero 档案) drops its line once open */
+button.fold-close { display:block; margin:8px 0 2px; font:12.5px var(--sans); color:var(--muted); background:none; border:1px solid var(--line); border-radius:4px; padding:5px 12px; cursor:pointer; }
+button.fold-close:hover { color:var(--brass); border-color:var(--brass); }
+/* phones (step 7, 2026-10-06): one row of page links; intros cut to three lines; a page's contents (#toc, #jump) as
+   a drawer behind a 目录 button, with a filter; long CJK lines may break anywhere */
+button.toc-fab, .toc-backdrop { display:none; }
+input.toc-filter { display:block; width:100%; margin:2px 0 10px; }   /* the contents filter on wide screens too (2026-10-06); its look is the shared search box */
+nav.jump input.toc-filter { max-width:20em; margin:8px 0 6px; }
+.ticket-main p.premise { color:var(--ink); }
+@media (max-width:720px) {
+  html.has-toc button.toc-fab { display:block; position:fixed; right:14px; bottom:max(18px, env(safe-area-inset-bottom)); z-index:41; width:46px; height:46px;
+    padding:0; border:none; border-radius:50%; font-size:0; color:transparent; cursor:pointer; opacity:.94; box-shadow:0 4px 14px rgba(0,0,0,.35);
+    background:linear-gradient(#07080b,#07080b) 50% 16px / 18px 2px no-repeat, linear-gradient(#07080b,#07080b) 50% 22px / 18px 2px no-repeat,
+      linear-gradient(#07080b,#07080b) 50% 28px / 18px 2px no-repeat, #d3a655; transition:transform .2s ease, opacity .2s ease; }
+  html.fab-away:not(.toc-open) button.toc-fab { transform:translateY(90px); opacity:0; }
+  html.has-toc #toc, html.has-toc #jump { position:fixed !important; top:0; right:0; bottom:0; left:auto; width:min(86vw,360px);
+    max-height:none !important; margin:0; z-index:40; overflow:auto; overscroll-behavior:contain; background:var(--card);
+    border:none; border-left:1px solid var(--line); border-radius:0; padding:12px 16px 90px; transform:translateX(105%);
+    transition:transform .2s ease; box-shadow:-8px 0 24px rgba(0,0,0,.35); }
+  html.toc-open #toc, html.toc-open #jump { transform:none; }
+  html.toc-open .toc-backdrop { display:block; position:fixed; inset:0; z-index:39; background:rgba(0,0,0,.45); }
+  html.has-toc input.toc-filter { display:block; width:100%; margin:2px 0 10px; font-size:15px; min-height:40px; }
+}
+@media (max-width:640px) {
+  .rail nav { flex:1 1 100%; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+  .rail nav::-webkit-scrollbar { display:none; }
+  .rail nav a { flex:none; }
+  main { overflow-wrap:anywhere; }
+  .ticket-main p.hint.clamped { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:0; }
+  button.hint-more { background:none; border:none; color:var(--brass); font-size:12.5px; padding:2px 0 6px; cursor:pointer; }
+}
 [hidden] { display:none !important; }
 html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* the 显示出处 and 浅色 switches */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
 .switches { display:inline-flex; gap:8px; }
-.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
-#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.toggle-label { display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--rail-muted); border:1px solid #3a404b; border-radius:14px;
+  padding:4px 11px 4px 5px; cursor:pointer; user-select:none; }
+.toggle-label::before { content:""; flex:none; width:24px; height:14px; border-radius:7px; transition:background .15s;
+  background:radial-gradient(circle at 7px 50%, #8f897d 4px, transparent 4.6px), #262b33; }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail-ink); border-color:#8a7140; }
+#show-src:checked ~ .rail label[for="show-src"]::before, #theme-light:checked ~ .rail label[for="theme-light"]::before {
+  background:radial-gradient(circle at 17px 50%, #07080b 4px, transparent 4.6px), #d3a655; }
+#show-src:focus-visible ~ .rail label[for="show-src"], #theme-light:focus-visible ~ .rail label[for="theme-light"] { outline:2px solid #d3a655; outline-offset:2px; }
 html:not(.js) label[for="theme-light"] { display:none; }
 .ch, sup.cite, details.src, .src-only { display:none; }
-#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main .ch { display:inline-block; text-indent:0; }
 #show-src:checked ~ main sup.cite { display:inline; }
 #show-src:checked ~ main details.src { display:inline; }
 #show-src:checked ~ main .src-only { display:block; }
@@ -69,7 +111,7 @@ html:not(.js) label[for="theme-light"] { display:none; }
 .ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
 sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
 details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
-blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--line); color:color-mix(in srgb, var(--ink) 80%, var(--muted)); font:14.5px/1.75 var(--serif); }
 cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
 
 /* headings and text */
@@ -95,6 +137,12 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 .route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
 .stub-row { font:12px var(--mono); color:var(--muted); }
 .stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+/* a page's counts read like the fields of a ticket stub: a small label over a big number (2026-10-06) */
+.ticket-stub.stats { gap:12px; }
+.ticket-stub.stats .stub-row:not(.src-only) { font:600 24px/1.05 var(--mono); color:var(--ink); }   /* figures in ink; gold kept for its few meanings */
+.ticket-stub.stats .stub-row:not(.src-only) b { display:block; font:500 11.5px/1.4 var(--sans); color:var(--muted); letter-spacing:.12em; margin:0 0 3px; }
+.ticket-stub.stats small { font:500 12px var(--sans); color:var(--muted); margin-left:4px; }
+a.stub-row { display:block; text-decoration:none; } a.stub-row:hover b { color:var(--brass); }   /* a count that jumps to its section */
 .stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
   display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
 .stamp small { font-size:10px; margin-left:1px; }
@@ -107,10 +155,11 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* grade badge */
 .grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.dark-ink { color:#14100a; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
-.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+.tag { text-indent:0; display:inline-block; font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
 /* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
-.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+.seal { flex:none; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
   border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
 .seal.wide { font-size:14px; }
 .seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
@@ -120,35 +169,66 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* the player panel, in the book's 【key：value】 lines */
 .syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
   padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
-.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel .row > span { color:var(--rail-ink); font-weight:600; }
+.syspanel .v-rate { color:var(--brass); } .syspanel .grade { font-size:12px; height:20px; min-width:24px; vertical-align:1px; }   /* gold for evolution; a level in its colour */
+.evo-mind { color:var(--mind); } .evo-space { color:var(--space); } .evo-time { color:var(--time); }
 .syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
 @media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
 .upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
-/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
-.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已否定 (denied or refuted); settled points carry no tag */
+.tier { text-indent:0; display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
 .tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 .tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
 
 .hidden { display:none !important; }
+nav.pagenav { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0 6px; font-size:14px; }
+nav.pagenav > b { color:var(--muted); font-weight:400; font-size:13px; margin-right:2px; }
+nav.pagenav a { padding:3px 11px; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--ink); }
+nav.pagenav a:hover { border-color:var(--brass); color:var(--brass); text-decoration:none; }
+@media (min-width:721px) { nav.pagenav input.toc-filter { display:none; } }
+@media (max-width:720px) {
+  html.has-toc nav.pagenav { display:block; }
+  html.has-toc nav.pagenav > b { display:block; margin:0 0 6px; }
+  html.has-toc nav.pagenav a { display:block; border:none; border-bottom:1px solid var(--line); border-radius:0; background:none; padding:10px 2px; }
+}
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
 @media (max-width:720px) { .totop { display:inline; } }
 footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
 @media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
-  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; }
+  .ticket-stub.stats { flex-direction:row; flex-wrap:wrap; justify-content:flex-start; gap:10px 26px; } .ticket-stub.stats .stub-row.src-only { flex-basis:100%; } }
 
+input[type=search] { font:14px var(--sans); color:var(--ink); background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2714%27%20height%3D%2714%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27round%27%3E%3Ccircle%20cx%3D%2710.5%27%20cy%3D%2710.5%27%20r%3D%276.5%27/%3E%3Cpath%20d%3D%27M20%2020l-4.6-4.6%27/%3E%3C/svg%3E") no-repeat 10px 50%;
+  border:1px solid var(--line); border-radius:6px; padding:6px 10px 6px 31px; min-height:34px; }
+input[type=search]::placeholder { color:var(--muted); }
+input[type=search]:focus, select:focus { outline:none; border-color:var(--brass); box-shadow:0 0 0 2px color-mix(in srgb, var(--brass) 25%, transparent); }
+select { appearance:none; -webkit-appearance:none; font:14px var(--sans); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2710%27%20height%3D%276%27%20viewBox%3D%270%200%2010%206%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M1%201l4%204%204-4%27/%3E%3C/svg%3E") no-repeat right 10px center; padding:6px 30px 6px 10px; min-height:34px; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary { list-style:none; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::-webkit-details-marker { display:none; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::before { content:""; display:inline-block; width:6px; height:6px; margin:0 9px 2px 2px; border-right:1.6px solid currentColor;
+  border-bottom:1.6px solid currentColor; transform:rotate(-45deg); transition:transform .15s ease; opacity:.7; vertical-align:middle; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more)[open] > summary::before { transform:rotate(45deg); margin-bottom:4px; }
+@media (max-width:640px) { .scroll-fade { -webkit-mask-image:linear-gradient(to right, #000 82%, transparent); mask-image:linear-gradient(to right, #000 82%, transparent); }
+  .scroll-fade.at-end { -webkit-mask-image:none; mask-image:none; } }
+p.graph-hint { display:none !important; }
+
+details.section-fold > summary { cursor:pointer; font:600 16px var(--serif); color:var(--muted); margin:14px 0 6px; letter-spacing:.04em; }
+details.section-fold[open] > summary { color:var(--ink); }
 .layer { margin:6px 0 18px; }
-.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; display:flex; align-items:center; gap:4px 12px; }   /* a phone wraps the note, 收起 stays on the right */
 .layer > summary::-webkit-details-marker { display:none; }
-.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
-.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
-.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer > summary b { flex:none; display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { flex:1 1 auto; color:var(--muted); font-size:13px; }
+.layer > summary::after { content:"收起"; flex:none; color:var(--muted); font-size:12px; }
 .layer:not([open]) > summary::after { content:"展开"; }
 section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
 ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
-.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
-ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+a.term { color:inherit; border-bottom:1px dotted var(--muted); text-decoration:none; } a.term:hover { color:var(--signal); border-bottom-color:var(--signal); }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; overflow-wrap:anywhere; }   /* a long name wraps in its column */
+ul.people li { display:grid; grid-template-columns:8.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
 ul.people li > :not(.subject) { grid-column:2; }
 @media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
 .harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
@@ -160,6 +240,9 @@ nav.units-nav a { display:flex; flex-direction:column; background:var(--card); b
 nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
 nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
 nav.units-nav small.after { color:var(--signal); }
+@media (max-width:640px) { nav.units-nav { grid-template-columns:1fr; gap:8px; } nav.units-nav b { font-size:15px; } nav.units-nav a { padding:8px 12px; }
+  nav.units-nav span.none { display:none; } }   /* a phone: one above the other, a long name on one or two lines (design review 2026-10-06) */
+details.about-src { margin:8px 0 2px; } details.about-src > summary { color:var(--muted); font-size:13px; }
 .graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
 @media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
@@ -176,65 +259,55 @@ svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-w
 svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
 details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 .links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
-.links a { margin-right:12px; white-space:nowrap; }
+.links a, .links > span { margin-right:12px; white-space:nowrap; }   /* a name with no item card is a span: same spacing */
+@media (max-width:640px) { .links a, .links > span { white-space:normal; } }   /* a long place name wraps on a phone (u0148) */
 .progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
 .hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+.ticket-main .lede { margin:12px 0 2px; font:500 17px/1.75 var(--serif); color:var(--ink); max-width:40em; }
 nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
 nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，第一个副本结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到第一个副本结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket" id="card" data-first="336" data-end="368"><div class="ticket-main"><div class="stamp-seal"><span class="seal top" data-ch="368" title="评级 S">S</span></div><div class="kicker">副本 · <span class="grade" style="background:#1f7f86">D</span><small class="diff">副本难度</small></div>
-<h1>消失的客人</h1><div class="route">第 336 章 ──── 第 368 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="336" hidden>这张卡从第 336 章开始，在你填的进度之后，整张都是剧透。</p></div>
-<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0021</div><div class="stub-row"><b>句数</b>100</div>
-<div class="stub-row"><b>引用</b>47 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 336–368 章正文后撰写。</p>
+<h1>消失的客人</h1><div class="route">第 336 章 ──── 第 368 章</div><div class="lede" data-ch="351">徐获拿着通缉犯的黑市请帖混进月季花古堡，客人接连消失，他要在吃人玩家、古怪主仆和真假请帖之间查出客人消失的真相。<span class="ch">第 336、340、346、351 章</span></div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 3284 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="336" hidden>这张卡从第 336 章开始，在你填的进度之后，整张都是剧透。</p></div>
+<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0021</div><div class="stub-row"><b>句数</b>121</div>
+<div class="stub-row"><b>引用</b>30 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<details class="about-src meta"><summary>出处怎么核对</summary>每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</details><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 336–368 章正文后撰写；2026-10-06 第六步由 Claude 子代理（claude-opus-5-5）改写（GPT 额度用完前第二波写成的两三张也在这批里，没有分开记录），原梗概折为逐幕复盘；2026-10-06 逐幕复盘不再上页面，其中要紧的由 Claude 子代理（claude-opus-5-5）收进剧情梗概和解谜结构。</p>
 <nav class="units-nav top"><a class="prev" href="u0020.html"><small>← 上一单元</small><b>D 级列车之旅（往花园城堡站）</b><small>第 326–335 章</small></a><a class="next" href="u0022.html"><small>下一单元 →</small><b>011 区滞留</b><small>第 369–413 章</small><small class="after" data-beyond="369" hidden>在你的进度之后</small></a></nav>
-<details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。写到第 368 章，含结局。</span></summary><section id="overview" class="fgroup"><h3>一句话</h3>
-<ul class="items"><li data-ch="368"><span class="text">D 级副本“消失的客人”：月季花古堡的客人接连消失，徐获查出古堡主人何普早被外逃的通缉犯顶替，真正的副本持有者是管家冬先生，拿到 S 级评定。</span><span class="ch">第 336、339、353、363–364、368 章</span></li></ul>
-</section>
-<section id="harvest" class="harvest" data-ch="368"><h3>徐获的收获</h3><div class="h-rating"><span class="seal top" title="评级 S">S</span><span>评级：S 级评定<span class="ch">第 368 章</span><details class="src"><summary>原文</summary><blockquote>您获得了万中无一的S级评定<cite>第 368 章</cite></blockquote></details></span></div><div class="h-line">奖励新主要特性“撰写的力量”和特殊道具“空腹的贪吃蛇”。<span class="ch">第 368 章</span></div><p class="links"><b>奖励</b><a href="../items.html#item-%E7%A9%BA%E8%85%B9%E7%9A%84%E8%B4%AA%E5%90%83%E8%9B%87">空腹的贪吃蛇</a></p><p class="links"><b>另外拿到</b><a href="../items.html#item-%E7%82%AB%E5%85%89%E8%88%9E%E7%90%83">炫光舞球</a><a href="../items.html#item-%E8%87%AA%E4%BA%A7%E7%BB%87%E5%B8%83%E7%9A%84%E7%BA%BA%E7%BB%87%E6%9C%BA">自产织布的纺织机</a><a href="../items.html#item-%E4%BA%BA%E7%9A%AE%E4%BC%9E">人皮伞</a><a href="../items.html#item-%E7%BE%8E%E5%A6%86%E5%B8%88%E9%81%93%E5%85%B7">美妆师道具</a><a href="../items.html#item-%E8%9D%89%E7%BF%BC%E6%89%8B%E6%9C%AF%E5%88%80">蝉翼手术刀</a><a href="../items.html#item-%E6%9B%BF%E8%BA%AB%E9%95%9C%E5%AD%90">替身镜子</a><a href="../items.html#item-%E5%85%AC%E5%B9%B3%E9%92%B1%E5%8C%85">公平钱包</a><a href="../items.html#item-%E7%BE%8E%E7%A5%9E%E7%9A%84%E6%8A%A4%E8%87%82">美神的护臂</a><a href="../items.html#item-%E8%B1%AA%E5%8D%8E%E5%8D%95%E9%97%B4">豪华单间</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
+<nav class="jump pagenav" id="jump" aria-label="本页目录"><b>本卡</b><a href="#harvest" data-ch="368">收获</a><a href="#setup" data-ch="336">规则</a><a href="#cast" data-ch="340">人物</a><a href="#summary" data-ch="337">梗概</a><a href="#puzzle" data-ch="345">解谜</a><a href="#relations" data-ch="339">关系</a><a href="#threads" data-ch="338">伏笔</a><a href="#links">设定与道具</a></nav>
+<details class="layer" open><summary><b>概况</b><span>背景与规则、人物。写到第 368 章，含结局。</span></summary><section id="harvest" class="harvest quiet" data-ch="368"><h3>徐获的收获</h3><div class="h-rating"><span class="seal top" title="评级 S">S</span><span>S 级评定<span class="ch">第 368 章</span><details class="src"><summary>原文</summary><blockquote>您获得了万中无一的S级评定<cite>第 368 章</cite></blockquote></details></span></div><div class="h-line">奖励新主要特性“撰写的力量”和特殊道具“空腹的贪吃蛇”。<span class="ch">第 368 章</span></div><p class="links"><b>奖励</b><a href="../items.html#item-%E7%A9%BA%E8%85%B9%E7%9A%84%E8%B4%AA%E5%90%83%E8%9B%87">空腹的贪吃蛇</a></p><p class="links"><b>另外拿到</b><a href="../items.html#item-%E7%82%AB%E5%85%89%E8%88%9E%E7%90%83">炫光舞球</a><a href="../items.html#item-%E8%87%AA%E4%BA%A7%E7%BB%87%E5%B8%83%E7%9A%84%E7%BA%BA%E7%BB%87%E6%9C%BA">自产织布的纺织机</a><a href="../items.html#item-%E4%BA%BA%E7%9A%AE%E4%BC%9E">人皮伞</a><a href="../items.html#item-%E7%BE%8E%E5%A6%86%E5%B8%88%E9%81%93%E5%85%B7">美妆师道具</a><a href="../items.html#item-%E8%9D%89%E7%BF%BC%E6%89%8B%E6%9C%AF%E5%88%80">蝉翼手术刀</a><a href="../items.html#item-%E6%9B%BF%E8%BA%AB%E9%95%9C%E5%AD%90">替身镜子</a><a href="../items.html#item-%E5%85%AC%E5%B9%B3%E9%92%B1%E5%8C%85">公平钱包</a><a href="../items.html#item-%E7%BE%8E%E7%A5%9E%E7%9A%84%E6%8A%A4%E8%87%82">美神的护臂</a><a href="../items.html#item-%E8%B1%AA%E5%8D%8E%E5%8D%95%E9%97%B4">豪华单间</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
 <section id="setup" class="fgroup"><h3>背景与规则</h3>
-<ul class="items"><li data-ch="336"><span class="text">D 级副本，时限五天（游戏时间），要在第一晚十二点前持请帖到月季花古堡。任务一：找到消失的客人（任一）；任务二：破解客人消失的真相。</span><span class="ch">第 336 章</span><details class="src"><summary>原文</summary><blockquote>副本任务一：找到消失的客人<cite>第 336 章</cite></blockquote><blockquote>副本任务二：破解客人消失的真相<cite>第 336 章</cite></blockquote></details></li><li data-ch="341"><span class="text">古堡主人何普是有名的慈善家、男爵，十五年前买下古堡，五年前生病后不再露面，古堡也不再对外开放；城里传说有人在花园土里看到过人骨。</span><span class="ch">第 336、341 章</span><details class="src"><summary>原文</summary><blockquote>古堡现在的拥有者名为何普，十五年前购入此宅<cite>第 341 章</cite></blockquote></details></li><li data-ch="340"><span class="text">请帖有两种：游戏给任务玩家的署名请帖，落款何普；黑市流通的不署名请帖，只有一朵月季花。拿后者的玩家不是任务玩家，也能在时限前进堡。</span><span class="ch">第 338、340 章</span><details class="src"><summary>原文</summary><blockquote>他的副本邀请人是古堡主人何普，女人的请帖只有一朵月季花图案<cite>第 338 章</cite></blockquote></details></li><li data-ch="364"><span class="text">古堡不完全与外界隔绝：这里的法律对副本也有约束，报警、火灾都会引来外面的人。</span><span class="ch">第 347、364 章</span><details class="src"><summary>原文</summary><blockquote>这说明这里的法律对副本同样有约束作用<cite>第 347 章</cite></blockquote></details></li></ul>
+<ul class="items"><li data-ch="336"><span class="text">D级副本“消失的客人”时限五天，须在第一晚十二点前持请帖到古堡；任务一是找到任一消失的客人，任务二是破解客人消失的真相。</span><span class="ch">第 336 章</span><details class="src"><summary>原文</summary><blockquote>副本任务二：破解客人消失的真相<cite>第 336 章</cite></blockquote></details></li><li data-ch="341"><span class="text">古堡主人何普是有名的慈善家，十五年前买下古堡，五年前生病后不再露面，古堡也不再开放；城里传说有人在花园土里见过人骨。</span><span class="ch">第 336、341 章</span><details class="src"><summary>原文</summary><blockquote>古堡现在的拥有者名为何普，十五年前购入此宅<cite>第 341 章</cite></blockquote></details></li><li data-ch="340"><span class="text">请帖分两种：游戏给任务玩家的落款何普，黑市流通的只画一朵月季花；拿后者的不是任务玩家，也能在时限前进堡。</span><span class="ch">第 338、340 章</span><details class="src"><summary>原文</summary><blockquote>他的副本邀请人是古堡主人何普，女人的请帖只有一朵月季花图案<cite>第 338 章</cite></blockquote></details></li><li data-ch="340"><span class="text">古堡里的音乐鉴赏会要开五天，客人可以随意参观，只是不能上三楼。</span><span class="ch">第 340 章</span></li><li data-ch="364"><span class="text">古堡并不与外界完全隔绝：这里的法律对副本同样有约束，报警、火灾都会引来外面的人。</span><span class="ch">第 347、364 章</span><details class="src"><summary>原文</summary><blockquote>这说明这里的法律对副本同样有约束作用<cite>第 347 章</cite></blockquote></details></li></ul>
 </section>
-<section id="cast" class="fgroup"><h3>登场人物</h3>
-<p class="note">按出场先后。</p>
-<ul class="people"><li data-ch="340"><b class="subject"><a href="../people.html?upto=368#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">拿着何普署名的请帖，却用通缉犯的不署名请帖进了门。</span><span class="ch">第 336、340 章</span></li><li data-ch="337"><b class="subject"><a href="../people.html?upto=368#person-%E9%82%93%E5%AE%A3">邓宣</a>（瘦猴）</b><span class="text">列车上倒卖道具的玩家，徐获进副本前从他那儿买了纺织机和舞球。</span><span class="ch">第 336–337 章</span></li><li data-ch="339"><b class="subject">旗袍女人（人皮伞）</b><span class="text">城南雨巷里撑白伞、穿人皮的吃人玩家，E15 虫洞点逃来的通缉犯，买了黑市请帖要去古堡“免费吃玩家”。</span><span class="ch">第 337–339 章</span></li><li data-ch="354"><b class="subject"><a href="../people.html?upto=368#person-%E5%86%AC%E5%85%88%E7%94%9F">冬先生</a></b><span class="text">古堡的管家，会腹语，养着一别馆的蜘蛛。</span><span class="ch">第 339、341、354 章</span></li><li data-ch="344"><b class="subject"><a href="../people.html?upto=368#person-%E5%81%87%E4%BD%95%E6%99%AE">何普</a></b><span class="text">古堡主人，病恹恹的，讲究对称，只在晚宴露面。</span><span class="ch">第 344 章</span></li><li data-ch="353"><b class="subject">胡珊</b><span class="text">何普的私人女佣，严厉得像女管家，会做陶瓷。</span><span class="ch">第 341、353 章</span></li><li data-ch="343"><b class="subject">马先生、马太太</b><span class="text">一对形影不离的吃人玩家夫妻，上个副本没拿到车票，花大价钱买了请帖来“吃饭”。</span><span class="ch">第 340、343 章</span></li><li data-ch="342"><b class="subject">游其文、方敏、弗莱</b><span class="text">黑脸的游其文、斯文的方敏、高瘦的中年人弗莱；弗莱拿出契约书“契约精神”召集合作。</span><span class="ch">第 342 章</span></li><li data-ch="342"><b class="subject">魏兰灯</b><span class="text">长发苍白的女玩家，第一晚把人头晾在窗台上，签契约用的可能是假名。</span><span class="ch">第 340、342 章</span></li><li data-ch="344"><b class="subject">刘正平、李超</b><span class="text">脾气冲的帅气青年，和嗜酒的壮汉。</span><span class="ch">第 344 章</span></li><li data-ch="349"><b class="subject">陈图、陈南</b><span class="text">一对双胞胎兄弟，有能转移伤害的“替身镜子”。</span><span class="ch">第 344、349 章</span></li><li data-ch="344"><b class="subject">俞帅</b><span class="text">列车上见过的娃娃脸，进堡时拿徐获的性别打赌。</span><span class="ch">第 339、344 章</span></li><li data-ch="368"><b class="subject"><a href="../people.html?upto=368#person-%E5%86%89%E8%8B%B1">冉英</a>、郭应光、程冰</b><span class="text">011 区执法部的人：第七小队队长冉英、寸头的郭应光，程冰是两个共用一个名字的机器人。</span><span class="ch">第 367–368 章</span></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、人物结局、关键关系、伏笔与未解。写到第 368 章，含全部剧透。</span></summary><section id="story" class="fgroup"><h3>剧情梗概</h3>
-<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
-<nav class="arcs"><a href="#story-1" data-ch="337">一、雨巷（第 336–339 章）</a><a href="#story-2" data-ch="340">二、古堡里的十二个客人（第 340–344 章）</a><a href="#story-3" data-ch="345">三、羊肉与蜘蛛（第 345–347 章）</a><a href="#story-4" data-ch="348">四、各怀鬼胎（第 348–351 章）</a><a href="#story-5" data-ch="352">五、五年前（第 352–354 章）</a><a href="#story-6" data-ch="355">六、墙里的人（第 355–358 章）</a><a href="#story-7" data-ch="359">七、音乐鉴赏会（第 359–364 章）</a><a href="#story-8" data-ch="365">八、收场（第 364–368 章）</a></nav>
-<h4 id="story-1" data-ch="337">一、雨巷（第 336–339 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="337">徐获从邓宣那儿买了纺织机和舞球两件道具，坐车到中心城，收到副本任务。古城没有随机副本，城南却有一片居民区，三年来每晚莫名下雨，下雨就有人失踪或死亡。<sup class="cite" title="第336章：请玩家路人甲前往月季花古堡，完成副本“消失的客人”">336–337</sup></span><span class="stmt" data-ch="338">他撑着花伞等在巷口，撑白伞的旗袍女人找他要伞。他报出新闻里失踪姑娘的名字说是亲戚，女人出手就抓他的喉咙；这把伞下的雨能压制道具，她身上穿着好几层人皮。<sup class="cite" title="第337章：徐获眉头一皱，抬脚将女人的手踢开，“你穿着人皮？”">337–338</sup></span><span class="stmt" data-ch="338">徐获用汽油烧破白伞，雨对他的压制随之失效，他砍掉她一只手和两条腿。女人招出：她是去月季花古堡赴宴的，请帖在黑市买的，听说那里能免费吃到玩家；她原是 E15 虫洞点的玩家，逃亡时遇上维度风暴才到了 E27。<sup class="cite" title="第338章：月季花古堡的请帖不具名，任何人都可以在黑市买到">338</sup></span><span class="stmt" data-ch="339">她拿手术刀偷袭，被一刀割喉。游戏提示他猎杀了一名通缉犯，代号“人皮伞”，赏金五万白钞；撕掉伞面的人皮后，人皮伞变成了专克吃人玩家的“正义之伞”，还能收尸。<sup class="cite" title="第339章：恭喜玩家路人甲成功猎杀一名通缉犯，可获取赏金50000白钞；第339章：原有“人皮伞”的位置已经被“正义之伞”取代">339</sup></span><span class="stmt" data-ch="340">午夜前，徐获浑身湿透地敲开古堡的门，递上的是旗袍女人那张不署名请帖。管家用腹语说主人已经休息；大厅里俞帅拿他是男是女打赌。<sup class="cite" title="第340章：他进门的时候给中年管家的就是旗袍女人的请帖">339–340</sup></span></p><details class="src block fgroup"><summary>本段原文 6 处</summary><blockquote data-ch="337">请玩家路人甲前往月季花古堡，完成副本“消失的客人”<cite>第 336 章</cite></blockquote><blockquote data-ch="338">徐获眉头一皱，抬脚将女人的手踢开，“你穿着人皮？”<cite>第 337 章</cite></blockquote><blockquote data-ch="338">月季花古堡的请帖不具名，任何人都可以在黑市买到<cite>第 338 章</cite></blockquote><blockquote data-ch="339">恭喜玩家路人甲成功猎杀一名通缉犯，可获取赏金50000白钞<cite>第 339 章</cite></blockquote><blockquote data-ch="339">原有“人皮伞”的位置已经被“正义之伞”取代<cite>第 339 章</cite></blockquote><blockquote data-ch="340">他进门的时候给中年管家的就是旗袍女人的请帖<cite>第 340 章</cite></blockquote></details>
-<h4 id="story-2" data-ch="340">二、古堡里的十二个客人（第 340–344 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="340">夜里窗外闪过一双红眼睛，窗台上还晾着一颗长发人头。早餐时管家说何普病了，音乐鉴赏会要开五天，客人可以随意参观，只是不能上三楼；古堡的角落挂满蜘蛛。马太太伸手碰徐获的伞，被一把餐刀钉在指尖前。<sup class="cite" title="本句未附原文">340</sup></span><span class="stmt" data-ch="341">管家冬先生说何普在这里住了“五年”。三楼的女佣胡珊把徐获赶下楼，抱怨冬先生又买了劣质油漆。书房的相册里，每年开头都有何普和冬先生在古堡前的合照，一直到五年前。<sup class="cite" title="第341章：每一年的开头都有一张何普跟管家冬先生站在古堡前的合照，一直到五年前">341</sup></span><span class="stmt" data-ch="343">九个玩家用弗莱的契约书“契约精神”签了合作契约：谁找到消失的客人，要在两小时内告诉其他人。徐获和马氏夫妇被排除在外，徐获也不肯签，只问了一句：你们确定来的十二个人都是任务玩家？<sup class="cite" title="第342章：这份契约书名叫契约精神">342–343</sup></span><span class="stmt" data-ch="343">马太太来拉拢他：夫妻俩没拿到车票，困在花园城堡站，买了请帖以为是来白吃的。徐获暗示古堡里大有文章、请帖未必是何普发的。<sup class="cite" title="本句未附原文">343</sup></span><span class="stmt" data-ch="345">晚宴上何普第一次露面，瘦削苍老，由胡珊搀下楼；他坚持只有对称的东西才美，一盘熏鸭都要换成竖着对剖的。<sup class="cite" title="本句未附原文">344–345</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="341">每一年的开头都有一张何普跟管家冬先生站在古堡前的合照，一直到五年前<cite>第 341 章</cite></blockquote><blockquote data-ch="343">这份契约书名叫契约精神<cite>第 342 章</cite></blockquote></details>
-<h4 id="story-3" data-ch="345">三、羊肉与蜘蛛（第 345–347 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="345">主菜烤全羊，剔出来的骨头不对，徐获借口不合胃口离席，马氏夫妇跟着走。魏兰灯当场吐了出来，何普、冬先生和佣人一齐盯着他们。<sup class="cite" title="第345章：动物骨骼和人类骨骼还是有区别的">345</sup></span><span class="stmt" data-ch="346">午夜熄灯，一只两米多高的人蛛闯进徐获房间，八只脚甩着铁链砸屋。徐获放火，它把步足往胸口一扎，房里的东西像时间倒放一样复原，自己倒着爬上房顶走了。<sup class="cite" title="第345章：竟然是一只两米多高的人蛛">345–346</sup></span><span class="stmt" data-ch="347">同一时间方敏死了，房里只剩一双小腿摆在茶几上。玩家们互相指认凶手；胡珊赶来，拿起小腿说那是陶瓷。<sup class="cite" title="第346章：方敏死了，不但死了，而且死的很惨">346–347</sup></span><span class="stmt" data-ch="347">徐获戴着窥探之眼，看见尸体在胡珊手里变成陶瓷，胡珊也是玩家。他提议报警，胡珊竟然照做了：这里的法律对副本也有约束。<sup class="cite" title="第347章：目睹了尸体在她手上变成陶瓷的过程">347</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="345">动物骨骼和人类骨骼还是有区别的<cite>第 345 章</cite></blockquote><blockquote data-ch="346">竟然是一只两米多高的人蛛<cite>第 345 章</cite></blockquote><blockquote data-ch="347">方敏死了，不但死了，而且死的很惨<cite>第 346 章</cite></blockquote><blockquote data-ch="347">目睹了尸体在她手上变成陶瓷的过程<cite>第 347 章</cite></blockquote></details>
-<h4 id="story-4" data-ch="348">四、各怀鬼胎（第 348–351 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="348">徐获对马氏夫妇说袭击他的是冬先生，古堡里有“盟友”。李超私下和弗莱结盟，才知道契约书的另一个用处是看出每个玩家的颜色。马氏夫妇悄悄上了三楼。<sup class="cite" title="第348章：它只能显出每个玩家的颜色分类">348</sup></span><span class="stmt" data-ch="349">徐获让年轻女佣带他走了一段花园迷宫，没看到挖过的痕迹；又托她拿戒指去典当、替他买东西。<sup class="cite" title="本句未附原文">349</sup></span><span class="stmt" data-ch="350">双胞胎在他房里设伏，替身镜子把他砍出的伤转到他自己身上；他一刀砍碎了梳妆台旁那面立镜、烧了陈图，两人求饶。陈图说方敏是停电后闯进来要杀他，被他反杀的；他们的请帖是从黑市买家手里抢来的。<sup class="cite" title="第350章：幸好替身镜子帮我挡住了一记致命伤，我只伤到了皮毛，这才反杀了她">349–350</sup></span><span class="stmt" data-ch="351">徐获收下替身镜子作抵押（这面镜子碎一次只是少挡一回伤），和兄弟俩结盟。下午俞帅不见了；胡珊领大家参观三楼，说那座大理石雕塑是何普五年前的作品。<sup class="cite" title="第351章：最后陈图还是把替身镜子给了他；第351章：镜子很容易被破坏，碎一次就相当于少一条命">351</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="348">它只能显出每个玩家的颜色分类<cite>第 348 章</cite></blockquote><blockquote data-ch="350">幸好替身镜子帮我挡住了一记致命伤，我只伤到了皮毛，这才反杀了她<cite>第 350 章</cite></blockquote><blockquote data-ch="351">最后陈图还是把替身镜子给了他<cite>第 351 章</cite></blockquote><blockquote data-ch="351">镜子很容易被破坏，碎一次就相当于少一条命<cite>第 351 章</cite></blockquote></details>
-<h4 id="story-5" data-ch="352">五、五年前（第 352–354 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="352">何普打开了三楼所有房间：满屋的珠宝、古董、武器、药剂和道具，还有养变异鳄鱼的水潭。三楼书房里，何普的药剂笔记批注几乎都在五年前，此后寥寥几笔，字迹也变了。<sup class="cite" title="第352章：有整房间的名贵珠宝首饰、整房间的古董字画、整房间武器枪械；第352章：大部分的批注都在五年前，过去这五年也断断续续有一些，数量很少">352</sup></span><span class="stmt" data-ch="352">徐获承认自己的请帖是“从别人手里弄来的”，何普毫不在意：非任务玩家混进来根本无所谓。<sup class="cite" title="本句未附原文">352</sup></span><span class="stmt" data-ch="354">半夜马氏夫妇尾随徐获到别馆外，想吃掉他。他用琴弦、打火机、辣椒水和电锯，在养蜘蛛的别馆里杀了两人；出去取剑回来，两具尸体不见了。<sup class="cite" title="第353章：踢开马先生后用杀猪刀抹了她的脖子；第354章：等他再从外面进去的时候，两具尸体不见了">353–354</sup></span><span class="stmt" data-ch="354">别馆资料室里全是蜘蛛比赛的奖杯，获奖的都是冬先生，合影里是他和何普。徐获推断：两人曾是挚友，五年前的何普和现在这个完全不像一个人。冬先生在雨里等着送他回去。<sup class="cite" title="第354章：这些奖项的获得人却是冬先生">354</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="352">有整房间的名贵珠宝首饰、整房间的古董字画、整房间武器枪械<cite>第 352 章</cite></blockquote><blockquote data-ch="352">大部分的批注都在五年前，过去这五年也断断续续有一些，数量很少<cite>第 352 章</cite></blockquote><blockquote data-ch="354">踢开马先生后用杀猪刀抹了她的脖子<cite>第 353 章</cite></blockquote><blockquote data-ch="354">等他再从外面进去的时候，两具尸体不见了<cite>第 354 章</cite></blockquote><blockquote data-ch="354">这些奖项的获得人却是冬先生<cite>第 354 章</cite></blockquote></details>
-<h4 id="story-6" data-ch="355">六、墙里的人（第 355–358 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="355">李超不见了，胡珊说他有急事提前走了。徐获拿出两张请帖，证明混进来了非任务玩家，被剩下的人接纳，约好晚餐时由他去搜何普的卧室。<sup class="cite" title="第355章：李超有急事提前离开了古堡">355</sup></span><span class="stmt" data-ch="356">卧室里的音响放着带精神压制的鼓声，没有尸体，墙里却有一团能量在移动。何普眨眼就回到三楼，站在门口嗅了嗅：“两只羊。”<sup class="cite" title="第356章：何普站在门口闻着空气里的气味，咧嘴露出森然笑容">356</sup></span><span class="stmt" data-ch="357">玩家们在树林里围攻冬先生变的蜘蛛人，徐获的电锯砍上去变成了软橡胶：专门对人的电锯伤不了它，它是一件诞生了智慧的道具。<sup class="cite" title="第357章：蜘蛛人的属性不是人，那就很有可能是诞生了智慧的道具">357</sup></span><span class="stmt" data-ch="358">他溜回主楼，在游其文的房间墙里刺出了“失踪”的俞帅，游戏随即提示：找到了消失的客人。俞帅说尸体被何普做成人偶，藏在卧室墙内的衣柜里，可他试遍了答案，任务二都不对。<sup class="cite" title="第357章：恭喜玩家路人甲找到“消失的客人”；第358章：就在何普的卧室墙内的衣柜里，他给做成了人偶">357–358</sup></span><span class="stmt" data-ch="358">胡珊拧掉门把手闯进来。徐获扬言要一把火烧了古堡和花园迷宫，她抡着能把东西变成陶瓷的方锤扑了上来。<sup class="cite" title="本句未附原文">358</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="355">李超有急事提前离开了古堡<cite>第 355 章</cite></blockquote><blockquote data-ch="356">何普站在门口闻着空气里的气味，咧嘴露出森然笑容<cite>第 356 章</cite></blockquote><blockquote data-ch="357">蜘蛛人的属性不是人，那就很有可能是诞生了智慧的道具<cite>第 357 章</cite></blockquote><blockquote data-ch="358">恭喜玩家路人甲找到“消失的客人”<cite>第 357 章</cite></blockquote><blockquote data-ch="358">就在何普的卧室墙内的衣柜里，他给做成了人偶<cite>第 358 章</cite></blockquote></details>
-<h4 id="story-7" data-ch="359">七、音乐鉴赏会（第 359–364 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="359">胡珊越打越占上风，冬先生来了：墙面化成黑色物质，几乎把她整个吞掉，直到三楼传来一股力量才把她震出来。冬先生只顾着登记房间里的损失。<sup class="cite" title="第359章：一道人影站在了窗台上，红色的眼睛凌迟般地看着她，是冬先生">359</sup></span><span class="stmt" data-ch="361">音乐会上何普一挥指挥棒，无人演奏的乐器齐响，玩家们动弹不得；胡珊举刀要割游其文的喉，被他反手冻进了冰匣。游其文又转身砍向弗莱：他才是非任务玩家。<sup class="cite" title="第361章：一手握住他的前额，另一手刀片对准了他的喉咙；第361章：他不是，弗莱才是">361</sup></span><span class="stmt" data-ch="363">衣柜里空了，弗莱早把消息透给了何普。游其文猜出一半真相：“你根本不是真正的何普！”俞帅被何普从墙里震出来，除了弗莱，大家都收到了任务一完成的提示。<sup class="cite" title="第362章：因为你根本不是真正的何普；第363章：在场的玩家除了弗莱都收到了第一个任务完成的通知">362–363</sup></span><span class="stmt" data-ch="364">茶厅里，徐获把剩下的真相讲完：这个何普自恋、爱炫耀、连乐器都不会，不可能是副本持有者，持有者是冬先生；假何普平时不用离开古堡进副本，因为他是从别的虫洞点逃来的通缉犯。话音一落，游戏给了通关提示。<sup class="cite" title="第363章：虽然明面上来看，古堡的主人更应该是副本持有者；第364章：你不是何普，也不是游戏政府的玩家，而是从其他虫洞点逃过来的通缉犯">363–364</sup></span><span class="stmt" data-ch="364">他早留了后手：人皮伞受害者的遗物一部分拿去典当，一部分藏在古堡里，花园迷宫也点了火；出去后还要去政府举报古堡里有个疑似圣剑会的通缉犯。<sup class="cite" title="第364章：说月季花古堡这里有个疑似圣剑会人员的通缉犯">364</sup></span></p><details class="src block fgroup"><summary>本段原文 8 处</summary><blockquote data-ch="359">一道人影站在了窗台上，红色的眼睛凌迟般地看着她，是冬先生<cite>第 359 章</cite></blockquote><blockquote data-ch="361">一手握住他的前额，另一手刀片对准了他的喉咙<cite>第 361 章</cite></blockquote><blockquote data-ch="361">他不是，弗莱才是<cite>第 361 章</cite></blockquote><blockquote data-ch="363">因为你根本不是真正的何普<cite>第 362 章</cite></blockquote><blockquote data-ch="363">在场的玩家除了弗莱都收到了第一个任务完成的通知<cite>第 363 章</cite></blockquote><blockquote data-ch="364">虽然明面上来看，古堡的主人更应该是副本持有者<cite>第 363 章</cite></blockquote><blockquote data-ch="364">你不是何普，也不是游戏政府的玩家，而是从其他虫洞点逃过来的通缉犯<cite>第 364 章</cite></blockquote><blockquote data-ch="364">说月季花古堡这里有个疑似圣剑会人员的通缉犯<cite>第 364 章</cite></blockquote></details>
-<h4 id="story-8" data-ch="365">八、收场（第 364–368 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="365">何普动手，玩家们围攻。刘正平第一个用回程票走了；魏兰灯抱住何普，和游其文用一对手柄引电流把三人串在一起，电光过后她气息全无。徐获借音叉的空当，把何普拉进了自己的精神世界一瞬。<sup class="cite" title="第365章：刘正平从幻觉中出来的瞬间就用回程票脱离了游戏；第365章：他双目一凝，成功将何普带进了他的精神世界">364–365</sup></span><span class="stmt" data-ch="366">古堡突然变得老旧灰暗，弗莱被楼梯绞进地面消失；何普跳进空间道具开的黑洞逃走，一道虹光追了进去。游其文扶着“死而复生”的魏兰灯离开，双胞胎没履行承诺也走了。<sup class="cite" title="第366章：只来得及惨叫一声就被楼梯绞进了地面，随之消失不见；第366章：游其文扶着死而复生的魏兰灯">366</sup></span><span class="stmt" data-ch="367">徐获没用回程票，从古堡一侧离开、朝远处跑去，草地突然变成一片黑水，躲在水下的何普要把他拖下去，徐获抱住五五开气窗，把两人一起传送到了 011 区执法部门口。执法部的冉英、郭应光和机器人程冰当场制住何普。<sup class="cite" title="第367章：我是执法部人员郭应光">366–367</sup></span><span class="stmt" data-ch="368">冉英对他很感兴趣，把他送进永星酒店。结算：万中无一的 S 级评定，新特性“撰写的力量”，特殊道具“空腹的贪吃蛇”，另有 D 级道具、二十份药剂和两万白钞。<sup class="cite" title="第368章：您获得了万中无一的S级评定；第368章：主要特性：撰写的力量">368</sup></span></p><details class="src block fgroup"><summary>本段原文 7 处</summary><blockquote data-ch="365">刘正平从幻觉中出来的瞬间就用回程票脱离了游戏<cite>第 365 章</cite></blockquote><blockquote data-ch="365">他双目一凝，成功将何普带进了他的精神世界<cite>第 365 章</cite></blockquote><blockquote data-ch="366">只来得及惨叫一声就被楼梯绞进了地面，随之消失不见<cite>第 366 章</cite></blockquote><blockquote data-ch="366">游其文扶着死而复生的魏兰灯<cite>第 366 章</cite></blockquote><blockquote data-ch="367">我是执法部人员郭应光<cite>第 367 章</cite></blockquote><blockquote data-ch="368">您获得了万中无一的S级评定<cite>第 368 章</cite></blockquote><blockquote data-ch="368">主要特性：撰写的力量<cite>第 368 章</cite></blockquote></details>
+<section id="cast" class="fgroup"><h3>人物</h3>
+<ul class="people"><li data-ch="340"><b class="subject">旗袍女人（人皮伞）</b><span class="text">城南雨巷里撑白伞、穿人皮的吃人玩家，从E15<a class="term" href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C" title="游戏世界的大区；一个虫洞点下有许多互不相通的世界，被游戏划成分区。">虫洞点</a>逃来的通缉犯，买了黑市请帖要去古堡“免费吃玩家”。她被徐获割喉，那张请帖成了徐获进堡的门票。</span><span class="ch">第 337–340 章</span></li><li data-ch="366"><b class="subject"><a href="../people.html?upto=368#person-%E5%86%AC%E5%85%88%E7%94%9F">冬先生</a></b><span class="text">古堡的管家，会腹语，养着一别馆的蜘蛛，夜里化作人蛛杀害假何普请来的客人。徐获认定他是诞生了智慧的道具、真正的副本持有者；古堡变回老旧模样后，他不见了。</span><span class="ch">第 339、345、354、357、363、366 章</span></li><li data-ch="367"><b class="subject"><a href="../people.html?upto=368#person-%E5%81%87%E4%BD%95%E6%99%AE">假何普</a></b><span class="text">以古堡主人身份出现的“何普”，病恹恹、事事讲究对称，用音乐和幻觉杀人。他其实是披着拟像蛇蛇皮、从别的虫洞点逃来的通缉犯，被徐获传送到011区执法部门口，当场被捕。</span><span class="ch">第 344、361、364、367 章</span></li><li data-ch="362"><b class="subject">胡珊</b><span class="text">何普的私人女佣，严厉得像女管家，其实是能把尸体和东西变成陶瓷的玩家，替假何普带走客人。音乐会上被游其文冻进冰匣，结局未交代。</span><span class="ch">第 341、347、358、361–362 章</span></li><li data-ch="354"><b class="subject">马先生、马太太</b><span class="text">一对形影不离的吃人玩家夫妻，没拿到车票，才买请帖来古堡“吃饭”，还拉拢过徐获。半夜尾随徐获想吃掉他，被他杀死在别馆，尸体随后不见了。</span><span class="ch">第 340、343、353–354 章</span></li><li data-ch="366"><b class="subject">弗莱</b><span class="text">拿出契约书“契约精神”召集合作的高瘦中年人，契约书还能看出每个玩家的颜色。他其实是非任务玩家，暗中向假何普透信；古堡异变时被楼梯绞进地面，不知死活。</span><span class="ch">第 342、348、361–362、366 章</span></li><li data-ch="366"><b class="subject">游其文</b><span class="text">黑脸的玩家，契约同盟的一员，音乐会上反手冻住胡珊、揭出弗莱的身份，又第一个喊破何普是假的。他与魏兰灯合力引电流围攻假何普，最后扶着“死而复生”的魏兰灯通关离开。</span><span class="ch">第 342、361–362、365–366 章</span></li><li data-ch="366"><b class="subject">俞帅</b><span class="text">列车上见过的娃娃脸，进堡时拿徐获的性别打赌，后来突然失踪。他其实躲在墙里，是最早找到“消失的客人”的人，被徐获刺出来后通关离开。</span><span class="ch">第 339、351、357–358、366 章</span></li><li data-ch="366"><b class="subject">陈图、陈南</b><span class="text">一对双胞胎，靠“替身镜子”转移伤害，在房里伏击徐获失手后，交出镜子作抵押与他结盟。最后没履行承诺，直接走了。</span><span class="ch">第 344、349–351、366 章</span></li><li data-ch="368"><b class="subject"><a href="../people.html?upto=368#person-%E5%86%89%E8%8B%B1">冉英</a>、郭应光、程冰</b><span class="text">011区执法部的人：第七小队队长冉英、寸头的郭应光和两个共用一个名字的机器人程冰，当场制住被传送来的假何普。冉英对徐获很感兴趣，把他安顿进了永星酒店。</span><span class="ch">第 367–368 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、关键关系、伏笔与未解。写到第 368 章，含全部剧透。</span></summary><section id="summary" class="fgroup"><h3>剧情梗概</h3>
+<nav class="arcs"><a href="#summary-1" data-ch="337">雨巷里的请帖</a><a href="#summary-2" data-ch="341">五年前的分界</a><a href="#summary-3" data-ch="346">人蛛与陶瓷</a><a href="#summary-4" data-ch="352">管家与主人</a><a href="#summary-5" data-ch="358">三层真相</a><a href="#summary-6" data-ch="365">收场</a></nav>
+<h4 id="summary-1" data-ch="337">雨巷里的请帖</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="337">古城没有<a class="term" href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC" title="不需要车票、毫无征兆、地点随机出现的副本，卷进去的不限于玩家。">随机副本</a>，城南的一片居民区却三年来每晚莫名下雨，下雨就有人失踪或死亡。<sup class="cite" title="本句未附原文">337</sup></span><span class="stmt" data-ch="338">进古堡前，徐获在中心城城南的雨巷里截住撑白伞的旗袍女人：她穿着好几层人皮，伞下的雨能压制道具。<sup class="cite" title="第337章：徐获眉头一皱，抬脚将女人的手踢开，“你穿着人皮？”">337–338</sup></span><span class="stmt" data-ch="338">他烧破白伞制住她，问出她是E15<a class="term" href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C" title="游戏世界的大区；一个虫洞点下有许多互不相通的世界，被游戏划成分区。">虫洞点</a>逃来的通缉犯，从黑市买了月季花古堡的请帖，听说那里能免费吃到玩家。<sup class="cite" title="第338章：月季花古堡的请帖不具名，任何人都可以在黑市买到">338</sup></span><span class="stmt" data-ch="339">她偷袭失手被割喉，游戏判定他猎杀了通缉犯“人皮伞”；撕掉人皮后，那把伞成了专克吃人玩家的“正义之伞”。<sup class="cite" title="第339章：原有“人皮伞”的位置已经被“正义之伞”取代">339</sup></span><span class="stmt" data-ch="340">午夜前，徐获递给管家的是她那张不署名请帖，而不是游戏给他的署名请帖。<sup class="cite" title="第340章：他进门的时候给中年管家的就是旗袍女人的请帖">339–340</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="338">徐获眉头一皱，抬脚将女人的手踢开，“你穿着人皮？”<cite>第 337 章</cite></blockquote><blockquote data-ch="338">月季花古堡的请帖不具名，任何人都可以在黑市买到<cite>第 338 章</cite></blockquote><blockquote data-ch="339">原有“人皮伞”的位置已经被“正义之伞”取代<cite>第 339 章</cite></blockquote><blockquote data-ch="340">他进门的时候给中年管家的就是旗袍女人的请帖<cite>第 340 章</cite></blockquote></details>
+<h4 id="summary-2" data-ch="341">五年前的分界</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="341">古堡里来了十二个客人，角落挂满蜘蛛；管家冬先生说主人病了，书房相册里何普与他的合照却只拍到五年前。<sup class="cite" title="第341章：每一年的开头都有一张何普跟管家冬先生站在古堡前的合照，一直到五年前">340–341</sup></span><span class="stmt" data-ch="343">九名玩家用弗莱的契约书结盟，徐获不签，只问他们确定来的十二人都是任务玩家吗；吃人玩家马氏夫妇也来拉拢过他。<sup class="cite" title="本句未附原文">342–343</sup></span><span class="stmt" data-ch="343">马太太说夫妻俩没拿到车票被困在站里，买请帖以为是来白吃的；徐获暗示她，请帖未必是何普发的。<sup class="cite" title="本句未附原文">343</sup></span><span class="stmt" data-ch="345">晚宴上何普第一次露面，瘦削苍老，事事要求对称；那道烤全羊剔出来的却是人骨。<sup class="cite" title="第345章：动物骨骼和人类骨骼还是有区别的">344–345</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="341">每一年的开头都有一张何普跟管家冬先生站在古堡前的合照，一直到五年前<cite>第 341 章</cite></blockquote><blockquote data-ch="345">动物骨骼和人类骨骼还是有区别的<cite>第 345 章</cite></blockquote></details>
+<h4 id="summary-3" data-ch="346">人蛛与陶瓷</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="346">当夜一只两米多高的人蛛闯进徐获房间，被火烧后，屋里的东西像时间倒放一样复原，它自己爬走了。<sup class="cite" title="第345章：竟然是一只两米多高的人蛛">345–346</sup></span><span class="stmt" data-ch="347">同一时间方敏死了，只剩一双小腿；徐获用窥探之眼看见尸体在女佣胡珊手里变成陶瓷，认出她也是玩家。<sup class="cite" title="第347章：目睹了尸体在她手上变成陶瓷的过程">346–347</sup></span><span class="stmt" data-ch="347">他提议报警，胡珊竟然照做了，可见这里的法律对副本也有约束。<sup class="cite" title="本句未附原文">347</sup></span><span class="stmt" data-ch="351">双胞胎陈图、陈南用替身镜子伏击他失手，交出镜子结盟；据陈图说，方敏是停电后来杀他，反被他杀死的。<sup class="cite" title="第350章：幸好替身镜子帮我挡住了一记致命伤，我只伤到了皮毛，这才反杀了她">349–351</sup></span><span class="stmt" data-ch="351">这天下午，众人才发现俞帅失踪了。<sup class="cite" title="本句未附原文">351</sup></span></p><details class="src block fgroup"><summary>本段原文 3 处</summary><blockquote data-ch="346">竟然是一只两米多高的人蛛<cite>第 345 章</cite></blockquote><blockquote data-ch="347">目睹了尸体在她手上变成陶瓷的过程<cite>第 347 章</cite></blockquote><blockquote data-ch="351">幸好替身镜子帮我挡住了一记致命伤，我只伤到了皮毛，这才反杀了她<cite>第 350 章</cite></blockquote></details>
+<h4 id="summary-4" data-ch="352">管家与主人</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="352">何普打开三楼，满屋珍宝和道具，他的药剂笔记批注却几乎都停在五年前，字迹也变了。<sup class="cite" title="第352章：大部分的批注都在五年前，过去这五年也断断续续有一些，数量很少">352</sup></span><span class="stmt" data-ch="352">徐获承认自己的请帖是从别人手里弄来的，何普毫不在意，非任务玩家混进来对他根本无所谓。<sup class="cite" title="本句未附原文">352</sup></span><span class="stmt" data-ch="354">半夜马氏夫妇尾随徐获想吃掉他，被他杀死在养蜘蛛的别馆，尸体转眼就不见了。<sup class="cite" title="第354章：等他再从外面进去的时候，两具尸体不见了">353–354</sup></span><span class="stmt" data-ch="354">别馆的蜘蛛比赛奖杯都归冬先生，合影里是他和何普；徐获推断两人曾是挚友，五年前的何普和现在这个不像一个人。<sup class="cite" title="第354章：这些奖项的获得人却是冬先生">354</sup></span><span class="stmt" data-ch="355">李超随后不见了，胡珊说他提前走了；徐获拿出两张请帖，证明混进了非任务玩家，被剩下的玩家接纳，约好由他去搜何普的卧室。<sup class="cite" title="第355章：李超有急事提前离开了古堡">355</sup></span><span class="stmt" data-ch="356">卧室里没有尸体，墙里却有一团能量在移动；何普眨眼就回到三楼，站在门口嗅了嗅，说是“两只羊”。<sup class="cite" title="本句未附原文">356</sup></span><span class="stmt" data-ch="357">众人围攻冬先生变的蜘蛛人，专门对人的电锯砍上去成了软橡胶，徐获由此认定它是诞生了智慧的道具。<sup class="cite" title="第357章：蜘蛛人的属性不是人，那就很有可能是诞生了智慧的道具">357</sup></span><span class="stmt" data-ch="357">在他看来，冬先生不满现在的何普，才专杀他请来的客人；何普控制不了冬先生，散出不署名请帖就是在请外援。<sup class="cite" title="本句未附原文">357</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="352">大部分的批注都在五年前，过去这五年也断断续续有一些，数量很少<cite>第 352 章</cite></blockquote><blockquote data-ch="354">等他再从外面进去的时候，两具尸体不见了<cite>第 354 章</cite></blockquote><blockquote data-ch="354">这些奖项的获得人却是冬先生<cite>第 354 章</cite></blockquote><blockquote data-ch="355">李超有急事提前离开了古堡<cite>第 355 章</cite></blockquote><blockquote data-ch="357">蜘蛛人的属性不是人，那就很有可能是诞生了智慧的道具<cite>第 357 章</cite></blockquote></details>
+<h4 id="summary-5" data-ch="358">三层真相</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="358">徐获在游其文房间的墙里刺出“失踪”的俞帅，完成任务一；俞帅说尸体被做成人偶藏在何普卧室的衣柜里，可他试遍答案，任务二都不对。<sup class="cite" title="第357章：恭喜玩家路人甲找到“消失的客人”">357–358</sup></span><span class="stmt" data-ch="359">胡珊扑来要杀他，冬先生现身用墙把她吞掉大半，只顾着登记房间里的损失。<sup class="cite" title="本句未附原文">358–359</sup></span><span class="stmt" data-ch="362">音乐会上，何普用无人演奏的乐器定住众人，胡珊被游其文冻进冰匣；游其文又揭出弗莱才是非任务玩家，衣柜里的尸体早被转移。<sup class="cite" title="第361章：他不是，弗莱才是">361–362</sup></span><span class="stmt" data-ch="363">游其文喊破何普是假的，俞帅被震出墙，众人都收到任务一完成的提示，任务二却仍没过。<sup class="cite" title="第362章：因为你根本不是真正的何普">362–363</sup></span><span class="stmt" data-ch="363">游其文补充，这个副本已有五年、又在游戏政府基地附近，游戏不可能不管持有者，副本BOSS可以钻漏洞杀人，却不能完全不守规则。<sup class="cite" title="本句未附原文">363</sup></span><span class="stmt" data-ch="364">徐获补上后两层：这个何普当不了副本持有者，持有者是更早在这里的冬先生；他不必离开古堡，因为他是从别的虫洞点逃来的通缉犯。<sup class="cite" title="第364章：你不是何普，也不是游戏政府的玩家，而是从其他虫洞点逃过来的通缉犯">363–364</sup></span><span class="stmt" data-ch="364">话音一落，游戏发出通关提示；他早留了后手，典当了人皮伞受害者的遗物、点燃花园迷宫，出去后还要举报古堡里藏着通缉犯。<sup class="cite" title="第364章：说月季花古堡这里有个疑似圣剑会人员的通缉犯">364</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="358">恭喜玩家路人甲找到“消失的客人”<cite>第 357 章</cite></blockquote><blockquote data-ch="362">他不是，弗莱才是<cite>第 361 章</cite></blockquote><blockquote data-ch="363">因为你根本不是真正的何普<cite>第 362 章</cite></blockquote><blockquote data-ch="364">你不是何普，也不是游戏政府的玩家，而是从其他虫洞点逃过来的通缉犯<cite>第 364 章</cite></blockquote><blockquote data-ch="364">说月季花古堡这里有个疑似圣剑会人员的通缉犯<cite>第 364 章</cite></blockquote></details>
+<h4 id="summary-6" data-ch="365">收场</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="365">假何普翻脸，刘正平先用回程票走了；魏兰灯抱住他引电流后气息全无，徐获趁机把他拉进自己的<a class="term" href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" title="精神力量能外放、干扰到别人时，以精神进化者为内核造出的“世界”。">精神世界</a>一瞬。<sup class="cite" title="第365章：他双目一凝，成功将何普带进了他的精神世界">364–365</sup></span><span class="stmt" data-ch="366">古堡忽然变得老旧灰暗，弗莱被楼梯绞进地面，假何普开空间黑洞逃走；游其文扶着死而复生的魏兰灯离开，双胞胎也走了。<sup class="cite" title="第366章：游其文扶着死而复生的魏兰灯">366</sup></span><span class="stmt" data-ch="367">徐获没用回程票，假何普从黑水里拖他，他抱住“五五开气窗”，把两人一起传送到011区执法部门口，假何普当场被制住。<sup class="cite" title="第367章：我是执法部人员郭应光">366–367</sup></span><span class="stmt" data-ch="368">执法部认出他脸上是通缉犯常用来换脸的拟像蛇蛇皮，冉英又说，真何普是被通缉犯弄死的。<sup class="cite" title="第368章：原来是被通缉犯弄死了">367–368</sup></span><span class="stmt" data-ch="368">徐获拿到万中无一的S级评定和新特性“撰写的力量”，被冉英安顿进011区的永星酒店。<sup class="cite" title="第368章：您获得了万中无一的S级评定">368</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="365">他双目一凝，成功将何普带进了他的精神世界<cite>第 365 章</cite></blockquote><blockquote data-ch="366">游其文扶着死而复生的魏兰灯<cite>第 366 章</cite></blockquote><blockquote data-ch="367">我是执法部人员郭应光<cite>第 367 章</cite></blockquote><blockquote data-ch="368">原来是被通缉犯弄死了<cite>第 368 章</cite></blockquote><blockquote data-ch="368">您获得了万中无一的S级评定<cite>第 368 章</cite></blockquote></details>
 </section>
 <section id="puzzle" class="fgroup"><h3>解谜结构</h3>
-<p class="note">任务一要找到一个“消失的客人”，任务二要说出“为什么消失”；真相分三层：何普是假的，他不是副本持有者，他是跨虫洞点的通缉犯。</p>
-<h4 id="puzzle-1" data-ch="358">谁是任务玩家</h4>
-<ul class="items"><li data-ch="363"><span class="text">署名请帖来自游戏，不署名请帖在黑市流通。人皮伞（请帖被徐获拿来进门）、马氏夫妇、陈南拿的都是不署名请帖，弗莱最后被证实不是任务玩家；徐获估计十二个客人里本该只有八个任务玩家。</span><span class="ch">第 340、343、350、354、363 章</span></li><li data-ch="362"><span class="text">契约书“契约精神”名义上约束合作，实际上能看出每个人是哪种颜色的玩家；弗莱一面和李超私下结盟，一面把衣柜的事透给了何普。</span><span class="ch">第 342、348、362 章</span></li><li data-ch="358"><span class="text"><span class="tier claim" title="俞帅的说法">说法</span>玩家完成任务不会通知别人：俞帅早就找到了“消失的客人”，却躲在墙里没人知道。</span><span class="ch">第 358 章</span></li></ul>
-<h4 id="puzzle-2" data-ch="356">五年前的分界线</h4>
-<ul class="items"><li data-ch="360"><span class="text">何普和冬先生的合照、何普的雕塑、药剂笔记的批注都停在五年前；佣人也在五年前换了一批。</span><span class="ch">第 341、351–352、360 章</span></li><li data-ch="363"><span class="text">现在的何普口味变了，只讲对称，自恋爱炫耀，连乐器都不会，和五年前那个谦逊的学者判若两人。</span><span class="ch">第 345、360、363 章</span></li><li data-ch="356"><span class="text"><span class="tier guess" title="徐获的推断" tabindex="0">徐获推测</span>冬先生和何普曾是挚友，却处处给现在的何普添堵，专挑何普请来的吃人玩家下手。</span><span class="ch">第 354、356 章</span></li></ul>
-<h4 id="puzzle-3" data-ch="362">古堡里的三个人</h4>
-<ul class="items"><li data-ch="363"><span class="text"><span class="tier guess" title="徐获的推断" tabindex="0">徐获推测</span>冬先生：会变成人蛛、能控制古堡的墙和时间倒流，电锯伤不了他，是有智慧的道具，也是真正的副本持有者。</span><span class="ch">第 345、357、359、363 章</span></li><li data-ch="362"><span class="text">胡珊：玩家，能把尸体和东西变成陶瓷，忠于“主人”，把一部分客人带走了。</span><span class="ch">第 347、358、362 章</span></li><li data-ch="367"><span class="text">何普：通缉犯，披着拟像蛇的蛇皮冒充何普（这张蛇皮能改变容貌，通缉犯常用它换脸，见世界观“通缉犯”），用音乐和幻觉杀人；徐获推断，不署名请帖是他发出去、请外援对付冬先生的。</span><span class="ch">第 357、361、364、367 章</span></li></ul>
-<h4 id="puzzle-4" data-ch="345">陷阱</h4>
-<ul class="items"><li data-ch="345"><span class="text">晚宴的烤全羊剔出人骨，戏弄玩家。</span><span class="ch">第 345 章</span></li><li data-ch="362"><span class="text">衣柜里的尸体人偶会被转移：去三楼硬找只会送命。</span><span class="ch">第 358、362 章</span></li><li data-ch="363"><span class="text">只说出“何普是假的”不够，游戏还要他的身份。</span><span class="ch">第 362–363 章</span></li></ul>
-</section>
-<section id="fates" class="fgroup"><h3>人物结局</h3>
-<ul class="people"><li data-ch="368"><b class="subject"><a href="../people.html?upto=368#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">通关，S 级评定；路上杀了通缉犯人皮伞，堡里杀了马氏夫妇；最后把假何普送到了执法部，暂住 011 区的永星酒店。</span><span class="ch">第 339、353、364、368 章</span></li><li data-ch="350"><b class="subject">方敏</b><span class="text"><span class="tier claim" title="陈图的说法">说法</span>第一晚死去；据陈图说是她先来杀他，被他反杀，尸体又被胡珊做成陶瓷。</span><span class="ch">第 346、350 章</span></li><li data-ch="363"><b class="subject">李超</b><span class="text">夜里上三楼后失踪，契约书上他的名字消失了；游其文他们只看到胡珊把人带走。</span><span class="ch">第 355、362–363 章</span></li><li data-ch="355"><b class="subject">马先生、马太太</b><span class="text">被徐获杀死在别馆，尸体随后不见了；冬先生对外说他们半夜离开了。</span><span class="ch">第 353–355 章</span></li><li data-ch="366"><b class="subject">俞帅</b><span class="text">躲在墙里，最早找到“消失的客人”；通关后离开。</span><span class="ch">第 358、366 章</span></li><li data-ch="366"><b class="subject">游其文、魏兰灯、刘正平</b><span class="text">通关。刘正平先用回程票走了；魏兰灯看似死了又“死而复生”，被游其文扶着离开。</span><span class="ch">第 364–366 章</span></li><li data-ch="366"><b class="subject">陈图、陈南</b><span class="text">没履行把道具给徐获挑的承诺，直接走了；替身镜子在打斗中碎了。</span><span class="ch">第 365–366 章</span></li><li data-ch="366"><b class="subject">弗莱</b><span class="text">非任务玩家，投靠了何普；古堡异变时被楼梯绞进地面，不知死活。</span><span class="ch">第 363–364、366 章</span></li><li data-ch="361"><b class="subject">胡珊</b><span class="text">被游其文冻在冰匣里，结局未交代。</span><span class="ch">第 361 章</span></li><li data-ch="367"><b class="subject"><a href="../people.html?upto=368#person-%E5%81%87%E4%BD%95%E6%99%AE">假何普</a></b><span class="text">被执法部抓获审问。</span><span class="ch">第 367 章</span></li><li data-ch="366"><b class="subject"><a href="../people.html?upto=368#person-%E5%86%AC%E5%85%88%E7%94%9F">冬先生</a></b><span class="text">把古堡变回老旧的样子后不见了。</span><span class="ch">第 366 章</span></li></ul>
+<h4 id="puzzle-1" data-ch="357">谁是任务玩家</h4>
+<ul class="items"><li data-ch="357"><b class="subject">谜面</b><span class="text">十二个客人里，谁拿的才是游戏发的请帖？非任务玩家不受等级限制，进古堡又各有目的。</span><span class="ch">第 340、342、357 章</span></li><li data-ch="362"><b class="subject">线索</b><span class="text">人皮伞、马氏夫妇、陈南拿的都是黑市请帖；契约书“契约精神”名为约束合作，实际能看出每个人的颜色，弗莱一面与李超私下结盟，一面把衣柜的事透给何普。</span><span class="ch">第 338、343、348、350、362 章</span><details class="src"><summary>原文</summary><blockquote>它只能显出每个玩家的颜色分类<cite>第 348 章</cite></blockquote></details></li><li data-ch="362"><b class="subject">谜底</b><span class="text">游其文在音乐会上揭出弗莱是非任务玩家、已投靠假何普；徐获判断，不署名请帖本是假何普招外援用的，屠杀任务玩家取乐和对付冬先生并不冲突。</span><span class="ch">第 357、361–362 章</span></li></ul>
+<h4 id="puzzle-2" data-ch="345">五年前换了一个何普</h4>
+<ul class="items"><li data-ch="345"><b class="subject">谜面</b><span class="text">古堡主人五年前病后不再露面，如今的何普讲究对称、自恋爱炫耀，与传闻里的慈善家对不上。</span><span class="ch">第 336、344–345 章</span></li><li data-ch="360"><b class="subject">线索</b><span class="text">何普与冬先生的合照、何普的雕塑、药剂笔记的批注都停在五年前，笔迹也变了；蜘蛛奖杯的合影显示冬先生和旧何普是挚友，佣人也在五年前换过一批。</span><span class="ch">第 341、351–352、354、360 章</span></li><li data-ch="363"><b class="subject">线索</b><span class="text">徐获在茶厅补全了这一层：五年前的何普醉心艺术和医学，为人谦逊。眼前这个号称爱音乐，却连一两样乐器都不会用。真何普有男爵称号、有交际，冒充者光靠一张假皮瞒不过熟人，只能装病。</span><span class="ch">第 363 章</span></li><li data-ch="363"><b class="subject">谜底</b><span class="text">游其文喊出“你根本不是真正的何普”，俞帅随即被震出墙，众人完成任务一；但游戏不认这个答案，任务二还缺别的。</span><span class="ch">第 362–363 章</span></li></ul>
+<h4 id="puzzle-3" data-ch="357">谁是副本持有者</h4>
+<ul class="items"><li data-ch="357"><b class="subject">谜面</b><span class="text">古堡主人看似理所当然是副本持有者，管家冬先生却处处给他添堵，夜里还化作人蛛杀客人。</span><span class="ch">第 345、354、357 章</span></li><li data-ch="363"><b class="subject">线索</b><span class="text">专对人的电锯伤不了冬先生，说明他不是人，而是有了智慧的道具。他不满现在的何普，却仍留在古堡当管家。何普让客人和尸体全部消失、不给玩家留活路，违背了副本规则。</span><span class="ch">第 357、363 章</span></li><li data-ch="363"><b class="subject">谜底</b><span class="text">徐获认定持有者是更早在古堡里的冬先生，假何普只是后来者；真何普应该已死，假何普可能拿他的生死或尸体要挟冬先生。</span><span class="ch">第 363 章</span><details class="src"><summary>原文</summary><blockquote>虽然明面上来看，古堡的主人更应该是副本持有者<cite>第 363 章</cite></blockquote></details></li></ul>
+<h4 id="puzzle-4" data-ch="363">假何普是谁</h4>
+<ul class="items"><li data-ch="363"><b class="subject">谜面</b><span class="text">揭穿何普是假的还不够，游戏还要知道这个冒充者的身份。</span><span class="ch">第 363 章</span></li><li data-ch="364"><b class="subject">线索</b><span class="text">进副本前碰上的人皮伞就是从别的<a class="term" href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C" title="游戏世界的大区；一个虫洞点下有许多互不相通的世界，被游戏划成分区。">虫洞点</a>逃来、买黑市请帖赴宴的通缉犯；假何普则一直待在古堡里，不必像别的玩家那样离开去做副本。</span><span class="ch">第 338、364 章</span></li><li data-ch="367"><b class="subject">谜底</b><span class="text">徐获的结论是：这人既不是何普，也不是游戏政府的玩家，而是从别的虫洞点逃来的通缉犯。话音一落，游戏就发出了通关提示；执法部后来认出他脸上披的是拟像蛇的蛇皮。</span><span class="ch">第 364、367 章</span></li></ul>
 </section>
 <section id="relations" class="fgroup"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-kill)"></i>杀死</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span><span><i class="dash"></i>某人的说法或推断</span></p>
@@ -292,12 +365,11 @@ h4[id] { scroll-margin-top:16px; }
 <g class="node" data-ch="366"><circle cx="60" cy="60" r="10.0"/><text x="60" y="44.0" class="name">魏兰灯</text></g>
 <g class="node" data-ch="348"><circle cx="60" cy="276.3" r="10.0"/><text x="60" y="260.3" class="name">李超</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li data-ch="339"><span class="text"><a href="../people.html?upto=368#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 人皮伞</span><span class="ch">第 339 章</span></li><li data-ch="353"><span class="text"><a href="../people.html?upto=368#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 马太太</span><span class="ch">第 353 章</span></li><li data-ch="353"><span class="text"><a href="../people.html?upto=368#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 马先生</span><span class="ch">第 353 章</span></li><li data-ch="340"><span class="text">马先生 — 夫妻 — 马太太</span><span class="ch">第 340 章</span></li><li data-ch="350"><span class="text"><span class="tier claim" title="陈图的说法" tabindex="0">陈图说</span>陈图 → 反杀 → 方敏</span><span class="ch">第 350 章</span></li><li data-ch="344"><span class="text">陈图 — 双胞胎 — 陈南</span><span class="ch">第 344 章</span></li><li data-ch="351"><span class="text"><a href="../people.html?upto=368#person-%E5%BE%90%E8%8E%B7">徐获</a> — 押镜结盟 — 陈图</span><span class="ch">第 351 章</span></li><li data-ch="358"><span class="text"><a href="../people.html?upto=368#person-%E5%BE%90%E8%8E%B7">徐获</a> → 逼出墙、做交易 → 俞帅</span><span class="ch">第 358 章</span></li><li data-ch="366"><span class="text">游其文 — 联手 — 魏兰灯</span><span class="ch">第 362、366 章</span></li><li data-ch="361"><span class="text">游其文 → 识破 → 弗莱</span><span class="ch">第 361 章</span></li><li data-ch="364"><span class="text">弗莱 → 投靠 → <a href="../people.html?upto=368#person-%E5%81%87%E4%BD%95%E6%99%AE">何普</a></span><span class="ch">第 362、364 章</span></li><li data-ch="348"><span class="text">李超 — 私下结盟 — 弗莱</span><span class="ch">第 348 章</span></li><li data-ch="344"><span class="text"><a href="../people.html?upto=368#person-%E5%81%87%E4%BD%95%E6%99%AE">何普</a> — 主仆 — 胡珊</span><span class="ch">第 344 章</span></li><li data-ch="359"><span class="text"><a href="../people.html?upto=368#person-%E5%86%AC%E5%85%88%E7%94%9F">冬先生</a> → 吞进墙里 → 胡珊</span><span class="ch">第 359 章</span></li><li data-ch="365"><span class="text"><a href="../people.html?upto=368#person-%E5%86%AC%E5%85%88%E7%94%9F">冬先生</a> — 互相牵制 — <a href="../people.html?upto=368#person-%E5%81%87%E4%BD%95%E6%99%AE">何普</a></span><span class="ch">第 359、365 章</span></li><li data-ch="366"><span class="text"><a href="../people.html?upto=368#person-%E5%BE%90%E8%8E%B7">徐获</a> → 揭穿 → <a href="../people.html?upto=368#person-%E5%81%87%E4%BD%95%E6%99%AE">何普</a></span><span class="ch">第 364、366 章</span></li></ul></details>
+<details class="rel"><summary>文字版</summary><ul class="items"><li data-ch="339"><span class="text"><a href="../people.html?upto=368#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 人皮伞</span><span class="ch">第 339 章</span></li><li data-ch="353"><span class="text"><a href="../people.html?upto=368#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 马太太</span><span class="ch">第 353 章</span></li><li data-ch="353"><span class="text"><a href="../people.html?upto=368#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 马先生</span><span class="ch">第 353 章</span></li><li data-ch="340"><span class="text">马先生 — 夫妻 — 马太太</span><span class="ch">第 340 章</span></li><li data-ch="350"><span class="text"><span class="tier claim" title="陈图的说法" tabindex="0">陈图说</span>陈图 → 反杀 → 方敏</span><span class="ch">第 350 章</span></li><li data-ch="344"><span class="text">陈图 — 双胞胎 — 陈南</span><span class="ch">第 344 章</span></li><li data-ch="351"><span class="text"><a href="../people.html?upto=368#person-%E5%BE%90%E8%8E%B7">徐获</a> — 押镜结盟 — 陈图</span><span class="ch">第 351 章</span></li><li data-ch="358"><span class="text"><a href="../people.html?upto=368#person-%E5%BE%90%E8%8E%B7">徐获</a> → 逼出墙、做交易 → 俞帅</span><span class="ch">第 358 章</span></li><li data-ch="366"><span class="text">游其文 — 联手 — 魏兰灯</span><span class="ch">第 362、366 章</span></li><li data-ch="361"><span class="text">游其文 → 识破 → 弗莱</span><span class="ch">第 361 章</span></li><li data-ch="364"><span class="text">弗莱 → 投靠 → <a href="../people.html?upto=368#person-%E5%81%87%E4%BD%95%E6%99%AE">何普</a></span><span class="ch">第 362、364 章</span></li><li data-ch="348"><span class="text">李超 — 私下结盟 — 弗莱</span><span class="ch">第 348 章</span></li><li data-ch="344"><span class="text"><a href="../people.html?upto=368#person-%E5%81%87%E4%BD%95%E6%99%AE">何普</a> — 主仆 — 胡珊</span><span class="ch">第 344 章</span></li><li data-ch="359"><span class="text"><a href="../people.html?upto=368#person-%E5%86%AC%E5%85%88%E7%94%9F">冬先生</a> → 吞进墙里 → 胡珊</span><span class="ch">第 359 章</span></li><li data-ch="365"><span class="text"><a href="../people.html?upto=368#person-%E5%86%AC%E5%85%88%E7%94%9F">冬先生</a> — 互相牵制 — <a href="../people.html?upto=368#person-%E5%81%87%E4%BD%95%E6%99%AE">何普</a></span><span class="ch">第 359、365 章</span></li><li data-ch="366"><span class="text"><a href="../people.html?upto=368#person-%E5%BE%90%E8%8E%B7">徐获</a> → 揭穿 → <a href="../people.html?upto=368#person-%E5%81%87%E4%BD%95%E6%99%AE">何普</a></span><span class="ch">第 364、366 章</span></li></ul></details>
 </section>
 <section id="threads" class="fgroup"><h3>伏笔与未解</h3>
-<p class="note">截至第 368 章还没有交代的事。</p>
-<ul class="items"><li data-ch="368"><a class="thread-no" href="../threads.html?upto=368#thread-112" title="伏笔总表">#112</a><span class="text">真何普死了，冉英说是被通缉犯弄死的；古堡若无人继承会被政府拍卖，三楼的道具和何普的研究笔记还留在里面，徐获打算留意拍卖。</span><span class="ch">第 368 章</span><details class="src"><summary>原文</summary><blockquote>原来是被通缉犯弄死了<cite>第 368 章</cite></blockquote></details></li><li data-ch="368"><a class="thread-no" href="../threads.html?upto=368#thread-112" title="伏笔总表">#112</a><span class="text"><span class="tier claim" title="冉英的说法" tabindex="0">冉英说</span>冬先生和古堡会怎样，副本还会不会续存。</span><span class="ch">第 368 章</span></li><li data-ch="367"><a class="thread-no" href="../threads.html?upto=368#thread-110" title="伏笔总表">#110</a><span class="text">假何普原本来自哪个虫洞点，他的空间道具为什么引来了执法部的“标记”。</span><span class="ch">第 366–367 章</span></li><li data-ch="366"><a class="thread-no" href="../threads.html?upto=368#thread-109" title="伏笔总表">#109</a><span class="text">冻在冰匣里的胡珊、被楼梯吞掉的弗莱、失踪的李超，结局都没有交代。</span><span class="ch">第 361、363、366 章</span></li><li data-ch="368"><a class="thread-no" href="../threads.html?upto=368#thread-111" title="伏笔总表">#111</a><span class="text">冉英对徐获“有利可图”，要替他申请 011 区的身份证明。</span><span class="ch">第 367–368 章</span></li><li data-ch="368"><a class="thread-no" href="../threads.html?upto=368#thread-113" title="伏笔总表">#113</a><span class="text">新特性“撰写的力量”的备注说，它有时会抵消“模糊记忆”的效果。</span><span class="ch">第 368 章</span></li><li data-ch="338"><a class="thread-no" href="../threads.html?upto=368#thread-108" title="伏笔总表">#108</a><span class="text">雨巷里被人皮伞杀害的那个姑娘；徐获报的名字“黄悦”是从新闻上看来的。</span><span class="ch">第 337–338 章</span></li></ul>
-</section><section id="links" class="fgroup"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E7%BC%BA%E5%B8%AD%E5%89%AF%E6%9C%AC" data-ch="338">每月必须下副本</a><a href="../world.html#world-%E9%80%9A%E5%85%B3%E4%B8%8E%E8%AF%84%E7%BA%A7" data-ch="358">通关与评级</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E4%B8%8D%E5%AE%8C%E5%85%A8%E5%B0%81%E9%97%AD" data-ch="338">副本并不完全封闭</a><a href="../world.html#world-%E5%89%AF%E6%9C%ACBOSS" data-ch="357">副本 BOSS</a><a href="../world.html#world-%E7%BA%A2%E8%89%B2%E7%8E%A9%E5%AE%B6" data-ch="339">红色玩家的饥饿</a><a href="../world.html#world-%E6%B0%B8%E6%98%9F" data-ch="368">永星</a><a href="../world.html#world-011%E5%8C%BA" data-ch="336">011 区</a><a href="../world.html#world-%E9%80%9A%E7%BC%89%E7%8A%AF" data-ch="339">通缉犯</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E6%97%A0%E5%A4%84%E4%B8%8D%E5%9C%A8%E7%9A%84%E7%90%B4%E5%BC%A6" data-ch="338">无处不在的琴弦</a><a href="../items.html#item-%E4%BA%94%E4%BA%94%E5%BC%80%E6%B0%94%E7%AA%97" data-ch="365">五五开气窗</a><a href="../items.html#item-%E7%AA%A5%E6%8E%A2%E4%B9%8B%E7%9C%BC" data-ch="346">窥探之眼</a><a href="../items.html#item-%E7%9B%AE%E6%A0%87%E6%98%8E%E7%A1%AE%E7%9A%84%E7%94%B5%E9%94%AF" data-ch="353">目标明确的电锯</a><a href="../items.html#item-%E8%87%AA%E4%BA%A7%E7%BB%87%E5%B8%83%E7%9A%84%E7%BA%BA%E7%BB%87%E6%9C%BA" data-ch="336">自产织布的纺织机</a><a href="../items.html#item-%E4%BA%BA%E7%9A%AE%E4%BC%9E" data-ch="339">人皮伞</a><a href="../items.html#item-%E6%AD%A3%E4%B9%89%E4%B9%8B%E4%BC%9E" data-ch="339">正义之伞</a><a href="../items.html#item-%E5%A5%91%E7%BA%A6%E7%B2%BE%E7%A5%9E" data-ch="342">契约精神</a><a href="../items.html#item-%E6%9B%BF%E8%BA%AB%E9%95%9C%E5%AD%90" data-ch="351">替身镜子</a><a href="../items.html#item-%E7%A9%BA%E8%85%B9%E7%9A%84%E8%B4%AA%E5%90%83%E8%9B%87" data-ch="368">空腹的贪吃蛇</a></p></section></details>
+<ul class="items"><li data-ch="368"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#112</span><span class="text">冉英说真何普被通缉犯弄死，古堡无人继承会被拍卖，三楼的道具和研究笔记还在里面；冬先生和古堡会怎样、副本是否续存，都没有交代。</span><span class="ch">第 368 章</span></li><li data-ch="367"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#110</span><span class="text">假何普用空间道具引来执法部的“标记”被抓走，他原本来自哪个<a class="term" href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C" title="游戏世界的大区；一个虫洞点下有许多互不相通的世界，被游戏划成分区。">虫洞点</a>，还不清楚。</span><span class="ch">第 366–367 章</span></li><li data-ch="366"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#109</span><span class="text">冻在冰匣里的胡珊、被楼梯吞掉的弗莱和失踪的李超，结局都没有交代。</span><span class="ch">第 361、363、366 章</span></li><li data-ch="368"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#111</span><span class="text">冉英觉得徐获“有利可图”，要替他申请011区的身份证明。</span><span class="ch">第 367–368 章</span></li><li data-ch="368"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#113</span><span class="text">新特性“撰写的力量”的备注说，它有时会抵消“模糊记忆”的效果。</span><span class="ch">第 368 章</span></li><li data-ch="338"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#108</span><span class="text">雨巷里被人皮伞杀害的姑娘身份不明，徐获报出的名字“黄悦”只是从新闻上看来的。</span><span class="ch">第 337–338 章</span></li></ul>
+</section><section id="links" class="fgroup"><h3>本单元涉及的设定、地点与道具</h3><p class="note">设定在世界观页，地点和势力在地理页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E7%BC%BA%E5%B8%AD%E5%89%AF%E6%9C%AC" data-ch="338">每月必须下副本</a><a href="../world.html#world-%E9%80%9A%E5%85%B3%E4%B8%8E%E8%AF%84%E7%BA%A7" data-ch="358">通关与评级</a><a href="../world.html#world-%E5%89%AF%E6%9C%AC%E4%B8%8D%E5%AE%8C%E5%85%A8%E5%B0%81%E9%97%AD" data-ch="338">副本并不完全封闭</a><a href="../world.html#world-%E5%89%AF%E6%9C%ACBOSS" data-ch="357">副本 BOSS</a><a href="../world.html#world-%E7%BA%A2%E8%89%B2%E7%8E%A9%E5%AE%B6" data-ch="339">红色玩家的饥饿</a><a href="../world.html#world-%E9%80%9A%E7%BC%89%E7%8A%AF" data-ch="339">通缉犯</a></p><p class="links fgroup"><b>地点与势力</b><a href="../places.html#place-011%E5%8C%BA" data-ch="336">011 区</a><a href="../places.html#place-%E4%B8%AD%E5%BF%83%E5%9F%8E" data-ch="336">中心城</a><a href="../places.html#place-%E6%9C%88%E5%AD%A3%E8%8A%B1%E5%8F%A4%E5%A0%A1" data-ch="341">月季花古堡</a><a href="../places.html#place-E15%E8%99%AB%E6%B4%9E%E7%82%B9" data-ch="338">E15 虫洞点</a><a href="../places.html#faction-%E6%B0%B8%E6%98%9F" data-ch="368">永星</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E4%BA%94%E4%BA%94%E5%BC%80%E6%B0%94%E7%AA%97" data-ch="365">五五开气窗</a><a href="../items.html#item-%E7%AA%A5%E6%8E%A2%E4%B9%8B%E7%9C%BC" data-ch="346">窥探之眼</a><a href="../items.html#item-%E7%9B%AE%E6%A0%87%E6%98%8E%E7%A1%AE%E7%9A%84%E7%94%B5%E9%94%AF" data-ch="353">目标明确的电锯</a><a href="../items.html#item-%E4%BA%BA%E7%9A%AE%E4%BC%9E" data-ch="339">人皮伞</a><a href="../items.html#item-%E6%AD%A3%E4%B9%89%E4%B9%8B%E4%BC%9E" data-ch="339">正义之伞</a><a href="../items.html#item-%E5%A5%91%E7%BA%A6%E7%B2%BE%E7%A5%9E" data-ch="342">契约精神</a><a href="../items.html#item-%E6%9B%BF%E8%BA%AB%E9%95%9C%E5%AD%90" data-ch="351">替身镜子</a></p></section></details>
 <nav class="units-nav bottom"><a class="prev" href="u0020.html"><small>← 上一单元</small><b>D 级列车之旅（往花园城堡站）</b><small>第 326–335 章</small></a><a class="next" href="u0022.html"><small>下一单元 →</small><b>011 区滞留</b><small>第 369–413 章</small><small class="after" data-beyond="369" hidden>在你的进度之后</small></a></nav><script>
 (function () {
   var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
@@ -323,6 +395,17 @@ h4[id] { scroll-margin-top:16px; }
     else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
     button.textContent = '仍然展开'; status.appendChild(button);
   });
+  if (window.matchMedia('(max-width:640px)').matches) {   // a phone (design reviews 2026-10-06): the graph is wider than
+    doc.querySelectorAll('details.rel').forEach(function (d) { d.open = true; });   // the screen, so the list shows too,
+    doc.querySelectorAll('.graph').forEach(function (g) {   // and the strip starts at the busiest person, not the left edge
+      var svg = g.querySelector('svg'), best = null;
+      if (!svg || !svg.viewBox || !svg.viewBox.baseVal) return;
+      g.querySelectorAll('g.node circle').forEach(function (c) { if (!best || +c.getAttribute('r') > +best.getAttribute('r')) best = c; });
+      if (!best) return;
+      var scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width;
+      g.scrollLeft = Math.max(0, +best.getAttribute('cx') * scale - g.clientWidth / 2);
+    });
+  }
 })();
 </script>
 <footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
@@ -406,5 +489,84 @@ h4[id] { scroll-margin-top:16px; }
     note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
     note.hidden = false; note.scrollIntoView();
   } else if (target) { target.scrollIntoView(); }
+})();
+
+document.addEventListener('toggle', function (e) {
+  var d = e.target;
+  if (!d.open || d.tagName !== 'DETAILS' || d.classList.contains('src') || d.hasAttribute('data-fold')) return;
+  if (d.querySelector(':scope > button.fold-close') || d.getBoundingClientRect().height < window.innerHeight * 0.7) return;
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'fold-close'; b.textContent = '收起 ▲';
+  b.addEventListener('click', function () {
+    d.open = false;
+    var s = d.querySelector(':scope > summary') || d;
+    if (s.getBoundingClientRect().top < 0) s.scrollIntoView({block: 'start'});
+  });
+  d.appendChild(b);
+}, true);
+
+(function () {   // phones (step 7): the contents as a drawer, intros cut to three lines
+  var doc = document, root = doc.documentElement, small = window.matchMedia('(max-width:720px)');
+  var toc = doc.getElementById('toc') || doc.getElementById('jump');
+  if (toc) {
+    root.classList.add('has-toc');
+    var fab = doc.createElement('button'), back = doc.createElement('div'), filter = doc.createElement('input');
+    fab.type = 'button'; fab.className = 'toc-fab'; fab.textContent = '目录'; fab.setAttribute('aria-label', '目录');
+    var lastY = window.scrollY;   // scrolling down it steps aside, scrolling up it comes back (design review 2026-10-06)
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (y > lastY + 8 && y > 240) root.classList.add('fab-away'); else if (y < lastY - 8) root.classList.remove('fab-away');
+      lastY = y;
+    }, {passive: true});
+    back.className = 'toc-backdrop';
+    filter.type = 'search'; filter.className = 'toc-filter'; filter.placeholder = '在目录里找…';
+    toc.insertBefore(filter, toc.firstChild);
+    doc.body.appendChild(back); doc.body.appendChild(fab);
+    var open = function (on) { root.classList.toggle('toc-open', on); if (on && small.matches) filter.focus({preventScroll: true}); };
+    fab.addEventListener('click', function () { open(!root.classList.contains('toc-open')); });
+    back.addEventListener('click', function () { open(false); });
+    toc.addEventListener('click', function (e) { if (e.target.closest('a')) open(false); });
+    doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+    doc.querySelectorAll('a.totop').forEach(function (a) {   // on a phone it opens the contents, so it says so (GPT design review 2026-10-06)
+      a.textContent = '目录';
+      a.addEventListener('click', function (e) { if (small.matches) { e.preventDefault(); open(true); } });
+    });
+    filter.addEventListener('input', function () {   // names and data-keys (other names); a .find-only row shows only on a hit
+      var q = filter.value.replace(/\s/g, '');
+      toc.querySelectorAll('a').forEach(function (a) {
+        a.style.display = !q || (a.textContent + (a.dataset.keys || '')).replace(/\s/g, '').indexOf(q) >= 0 ? '' : 'none';
+      });
+      toc.querySelectorAll('.find-only').forEach(function (r) {
+        r.classList.toggle('found', !!q && Array.prototype.some.call(r.querySelectorAll('a'), function (a) { return a.style.display !== 'none'; }));
+      });
+    });
+  }
+  if (window.matchMedia('(max-width:640px)').matches) {
+    doc.querySelectorAll('.ticket-main > p.hint').forEach(function (p) {
+      if (p.scrollHeight < 90) return;
+      p.classList.add('clamped');
+      var b = doc.createElement('button');
+      b.type = 'button'; b.className = 'hint-more'; b.textContent = '展开说明';
+      b.addEventListener('click', function () { p.classList.remove('clamped'); b.remove(); });
+      p.after(b);
+    });
+  }
+})();
+
+(function () {   // a link into a closed fold opens the folds around its target first (design reviews 2026-10-06)
+  function openTo(id) {
+    var t = id && (document.getElementById(id) || document.getElementById(decodeURIComponent(id)));
+    for (var p = t && t.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a) openTo(a.getAttribute('href').slice(1));
+  }, true);
+  if (location.hash) openTo(location.hash.slice(1));
+  document.querySelectorAll('.graph, .growth').forEach(function (g) {   // a strip wider than the screen fades at its right edge
+    if (g.scrollWidth <= g.clientWidth + 2) return;
+    var check = function () { g.classList.toggle('at-end', g.scrollLeft + g.clientWidth >= g.scrollWidth - 4); };
+    g.classList.add('scroll-fade'); g.addEventListener('scroll', check, {passive: true}); check();
+  });
 })();
 </script></body></html>

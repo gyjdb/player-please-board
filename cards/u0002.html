@@ -1,18 +1,20 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>初审列车 · 单元卡 · 维度之下</title><style>
+<title>初审列车 · 单元卡 · 维度之下</title><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20x%3D%222%22%20y%3D%226%22%20width%3D%2228%22%20height%3D%2220%22%20rx%3D%223%22%20fill%3D%22%23d3a655%22/%3E%3Ccircle%20cx%3D%222%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ctext%20x%3D%2216%22%20y%3D%2221.5%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20text-anchor%3D%22middle%22%20fill%3D%22%2307080b%22%20font-family%3D%22serif%22%3E%E7%BB%B4%3C/text%3E%3C/svg%3E"><meta name="description" content="《玩家请上车》（海晏山 著）的读者整理：按单元写的梗概与解析，世界观、人物、地理、伏笔和道具库，可按读到的章数隐藏后文。"><meta name="theme-color" content="#07080b"><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
   --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
-  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC","Source Han Serif CN","Noto Serif CJK SC","STSong","SimSun",serif;
   --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
-  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace;
+  --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
-  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
-  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380; }
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#85621f; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380;
+  --mind:#7650b0; --space:#17788a; --time:#b25f18; --gold:#a07a10; }
 /* what stays dark in the light theme keeps the dark accents */
-:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
-  --line:#3a404b; --chip:#232830; }
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth, .emblem) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] .banner button.primary { color:#fff; }
 :root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
 * { box-sizing:border-box; }
@@ -21,11 +23,15 @@ body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
   background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
 :root[data-theme="light"] body { background:var(--paper); }
 a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+/* a dense run of names (items in hand, rewards, the units a person is in): ink with a thin red line, not a wall of red (design review 2026-10-06) */
+.quiet a, a.quiet { color:var(--ink); border-bottom:1px solid var(--line); border-bottom-color:color-mix(in srgb, var(--signal) 32%, transparent); }
+.quiet a:hover, a.quiet:hover { color:var(--signal); text-decoration:none; border-bottom-color:var(--signal); }
 main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 
 /* nav: the rail */
 .rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
 .rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; }
+@media (min-width:1100px) { .rail-inner { max-width:1060px; } }   /* brand, links, progress and switches on one line (2026-10-06) */
 .brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
 .brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.12em; margin-left:6px; }   /* so brand, links, progress and switches fit one line at 920px */
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
@@ -48,18 +54,54 @@ details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 @media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
   .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
 .beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
-details.fold[open] > summary { display:none; }
+details.fold[data-fold][open] > summary { display:none; }   /* only the spoiler gate (hero 档案) drops its line once open */
+button.fold-close { display:block; margin:8px 0 2px; font:12.5px var(--sans); color:var(--muted); background:none; border:1px solid var(--line); border-radius:4px; padding:5px 12px; cursor:pointer; }
+button.fold-close:hover { color:var(--brass); border-color:var(--brass); }
+/* phones (step 7, 2026-10-06): one row of page links; intros cut to three lines; a page's contents (#toc, #jump) as
+   a drawer behind a 目录 button, with a filter; long CJK lines may break anywhere */
+button.toc-fab, .toc-backdrop { display:none; }
+input.toc-filter { display:block; width:100%; margin:2px 0 10px; }   /* the contents filter on wide screens too (2026-10-06); its look is the shared search box */
+nav.jump input.toc-filter { max-width:20em; margin:8px 0 6px; }
+.ticket-main p.premise { color:var(--ink); }
+@media (max-width:720px) {
+  html.has-toc button.toc-fab { display:block; position:fixed; right:14px; bottom:max(18px, env(safe-area-inset-bottom)); z-index:41; width:46px; height:46px;
+    padding:0; border:none; border-radius:50%; font-size:0; color:transparent; cursor:pointer; opacity:.94; box-shadow:0 4px 14px rgba(0,0,0,.35);
+    background:linear-gradient(#07080b,#07080b) 50% 16px / 18px 2px no-repeat, linear-gradient(#07080b,#07080b) 50% 22px / 18px 2px no-repeat,
+      linear-gradient(#07080b,#07080b) 50% 28px / 18px 2px no-repeat, #d3a655; transition:transform .2s ease, opacity .2s ease; }
+  html.fab-away:not(.toc-open) button.toc-fab { transform:translateY(90px); opacity:0; }
+  html.has-toc #toc, html.has-toc #jump { position:fixed !important; top:0; right:0; bottom:0; left:auto; width:min(86vw,360px);
+    max-height:none !important; margin:0; z-index:40; overflow:auto; overscroll-behavior:contain; background:var(--card);
+    border:none; border-left:1px solid var(--line); border-radius:0; padding:12px 16px 90px; transform:translateX(105%);
+    transition:transform .2s ease; box-shadow:-8px 0 24px rgba(0,0,0,.35); }
+  html.toc-open #toc, html.toc-open #jump { transform:none; }
+  html.toc-open .toc-backdrop { display:block; position:fixed; inset:0; z-index:39; background:rgba(0,0,0,.45); }
+  html.has-toc input.toc-filter { display:block; width:100%; margin:2px 0 10px; font-size:15px; min-height:40px; }
+}
+@media (max-width:640px) {
+  .rail nav { flex:1 1 100%; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+  .rail nav::-webkit-scrollbar { display:none; }
+  .rail nav a { flex:none; }
+  main { overflow-wrap:anywhere; }
+  .ticket-main p.hint.clamped { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:0; }
+  button.hint-more { background:none; border:none; color:var(--brass); font-size:12.5px; padding:2px 0 6px; cursor:pointer; }
+}
 [hidden] { display:none !important; }
 html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* the 显示出处 and 浅色 switches */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
 .switches { display:inline-flex; gap:8px; }
-.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
-#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.toggle-label { display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--rail-muted); border:1px solid #3a404b; border-radius:14px;
+  padding:4px 11px 4px 5px; cursor:pointer; user-select:none; }
+.toggle-label::before { content:""; flex:none; width:24px; height:14px; border-radius:7px; transition:background .15s;
+  background:radial-gradient(circle at 7px 50%, #8f897d 4px, transparent 4.6px), #262b33; }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail-ink); border-color:#8a7140; }
+#show-src:checked ~ .rail label[for="show-src"]::before, #theme-light:checked ~ .rail label[for="theme-light"]::before {
+  background:radial-gradient(circle at 17px 50%, #07080b 4px, transparent 4.6px), #d3a655; }
+#show-src:focus-visible ~ .rail label[for="show-src"], #theme-light:focus-visible ~ .rail label[for="theme-light"] { outline:2px solid #d3a655; outline-offset:2px; }
 html:not(.js) label[for="theme-light"] { display:none; }
 .ch, sup.cite, details.src, .src-only { display:none; }
-#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main .ch { display:inline-block; text-indent:0; }
 #show-src:checked ~ main sup.cite { display:inline; }
 #show-src:checked ~ main details.src { display:inline; }
 #show-src:checked ~ main .src-only { display:block; }
@@ -69,7 +111,7 @@ html:not(.js) label[for="theme-light"] { display:none; }
 .ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
 sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
 details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
-blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--line); color:color-mix(in srgb, var(--ink) 80%, var(--muted)); font:14.5px/1.75 var(--serif); }
 cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
 
 /* headings and text */
@@ -95,6 +137,12 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 .route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
 .stub-row { font:12px var(--mono); color:var(--muted); }
 .stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+/* a page's counts read like the fields of a ticket stub: a small label over a big number (2026-10-06) */
+.ticket-stub.stats { gap:12px; }
+.ticket-stub.stats .stub-row:not(.src-only) { font:600 24px/1.05 var(--mono); color:var(--ink); }   /* figures in ink; gold kept for its few meanings */
+.ticket-stub.stats .stub-row:not(.src-only) b { display:block; font:500 11.5px/1.4 var(--sans); color:var(--muted); letter-spacing:.12em; margin:0 0 3px; }
+.ticket-stub.stats small { font:500 12px var(--sans); color:var(--muted); margin-left:4px; }
+a.stub-row { display:block; text-decoration:none; } a.stub-row:hover b { color:var(--brass); }   /* a count that jumps to its section */
 .stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
   display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
 .stamp small { font-size:10px; margin-left:1px; }
@@ -107,10 +155,11 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* grade badge */
 .grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.dark-ink { color:#14100a; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
-.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+.tag { text-indent:0; display:inline-block; font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
 /* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
-.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+.seal { flex:none; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
   border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
 .seal.wide { font-size:14px; }
 .seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
@@ -120,35 +169,66 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* the player panel, in the book's 【key：value】 lines */
 .syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
   padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
-.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel .row > span { color:var(--rail-ink); font-weight:600; }
+.syspanel .v-rate { color:var(--brass); } .syspanel .grade { font-size:12px; height:20px; min-width:24px; vertical-align:1px; }   /* gold for evolution; a level in its colour */
+.evo-mind { color:var(--mind); } .evo-space { color:var(--space); } .evo-time { color:var(--time); }
 .syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
 @media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
 .upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
-/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
-.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已否定 (denied or refuted); settled points carry no tag */
+.tier { text-indent:0; display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
 .tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 .tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
 
 .hidden { display:none !important; }
+nav.pagenav { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0 6px; font-size:14px; }
+nav.pagenav > b { color:var(--muted); font-weight:400; font-size:13px; margin-right:2px; }
+nav.pagenav a { padding:3px 11px; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--ink); }
+nav.pagenav a:hover { border-color:var(--brass); color:var(--brass); text-decoration:none; }
+@media (min-width:721px) { nav.pagenav input.toc-filter { display:none; } }
+@media (max-width:720px) {
+  html.has-toc nav.pagenav { display:block; }
+  html.has-toc nav.pagenav > b { display:block; margin:0 0 6px; }
+  html.has-toc nav.pagenav a { display:block; border:none; border-bottom:1px solid var(--line); border-radius:0; background:none; padding:10px 2px; }
+}
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
 @media (max-width:720px) { .totop { display:inline; } }
 footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
 @media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
-  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; }
+  .ticket-stub.stats { flex-direction:row; flex-wrap:wrap; justify-content:flex-start; gap:10px 26px; } .ticket-stub.stats .stub-row.src-only { flex-basis:100%; } }
 
+input[type=search] { font:14px var(--sans); color:var(--ink); background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2714%27%20height%3D%2714%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27round%27%3E%3Ccircle%20cx%3D%2710.5%27%20cy%3D%2710.5%27%20r%3D%276.5%27/%3E%3Cpath%20d%3D%27M20%2020l-4.6-4.6%27/%3E%3C/svg%3E") no-repeat 10px 50%;
+  border:1px solid var(--line); border-radius:6px; padding:6px 10px 6px 31px; min-height:34px; }
+input[type=search]::placeholder { color:var(--muted); }
+input[type=search]:focus, select:focus { outline:none; border-color:var(--brass); box-shadow:0 0 0 2px color-mix(in srgb, var(--brass) 25%, transparent); }
+select { appearance:none; -webkit-appearance:none; font:14px var(--sans); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2710%27%20height%3D%276%27%20viewBox%3D%270%200%2010%206%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M1%201l4%204%204-4%27/%3E%3C/svg%3E") no-repeat right 10px center; padding:6px 30px 6px 10px; min-height:34px; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary { list-style:none; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::-webkit-details-marker { display:none; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::before { content:""; display:inline-block; width:6px; height:6px; margin:0 9px 2px 2px; border-right:1.6px solid currentColor;
+  border-bottom:1.6px solid currentColor; transform:rotate(-45deg); transition:transform .15s ease; opacity:.7; vertical-align:middle; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more)[open] > summary::before { transform:rotate(45deg); margin-bottom:4px; }
+@media (max-width:640px) { .scroll-fade { -webkit-mask-image:linear-gradient(to right, #000 82%, transparent); mask-image:linear-gradient(to right, #000 82%, transparent); }
+  .scroll-fade.at-end { -webkit-mask-image:none; mask-image:none; } }
+p.graph-hint { display:none !important; }
+
+details.section-fold > summary { cursor:pointer; font:600 16px var(--serif); color:var(--muted); margin:14px 0 6px; letter-spacing:.04em; }
+details.section-fold[open] > summary { color:var(--ink); }
 .layer { margin:6px 0 18px; }
-.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; display:flex; align-items:center; gap:4px 12px; }   /* a phone wraps the note, 收起 stays on the right */
 .layer > summary::-webkit-details-marker { display:none; }
-.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
-.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
-.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer > summary b { flex:none; display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { flex:1 1 auto; color:var(--muted); font-size:13px; }
+.layer > summary::after { content:"收起"; flex:none; color:var(--muted); font-size:12px; }
 .layer:not([open]) > summary::after { content:"展开"; }
 section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
 ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
-.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
-ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+a.term { color:inherit; border-bottom:1px dotted var(--muted); text-decoration:none; } a.term:hover { color:var(--signal); border-bottom-color:var(--signal); }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; overflow-wrap:anywhere; }   /* a long name wraps in its column */
+ul.people li { display:grid; grid-template-columns:8.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
 ul.people li > :not(.subject) { grid-column:2; }
 @media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
 .harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
@@ -160,6 +240,9 @@ nav.units-nav a { display:flex; flex-direction:column; background:var(--card); b
 nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
 nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
 nav.units-nav small.after { color:var(--signal); }
+@media (max-width:640px) { nav.units-nav { grid-template-columns:1fr; gap:8px; } nav.units-nav b { font-size:15px; } nav.units-nav a { padding:8px 12px; }
+  nav.units-nav span.none { display:none; } }   /* a phone: one above the other, a long name on one or two lines (design review 2026-10-06) */
+details.about-src { margin:8px 0 2px; } details.about-src > summary { color:var(--muted); font-size:13px; }
 .graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
 @media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
@@ -176,63 +259,51 @@ svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-w
 svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
 details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 .links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
-.links a { margin-right:12px; white-space:nowrap; }
+.links a, .links > span { margin-right:12px; white-space:nowrap; }   /* a name with no item card is a span: same spacing */
+@media (max-width:640px) { .links a, .links > span { white-space:normal; } }   /* a long place name wraps on a phone (u0148) */
 .progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
 .hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+.ticket-main .lede { margin:12px 0 2px; font:500 17px/1.75 var(--serif); color:var(--ink); max-width:40em; }
 nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
 nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，第一个副本结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到第一个副本结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket" id="card" data-first="3" data-end="17"><div class="ticket-main"><div class="stamp-seal"><span class="seal low" data-ch="16" title="评级 C">C</span></div><div class="kicker">副本</div>
-<h1>初审列车</h1><div class="route">第 3 章 ──── 第 16 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="3" hidden>这张卡从第 3 章开始，在你填的进度之后，整张都是剧透。</p></div>
-<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0002</div><div class="stub-row"><b>句数</b>84</div>
-<div class="stub-row"><b>引用</b>47 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 1–17 章正文后撰写。</p>
+<h1>初审列车</h1><div class="route">第 3 章 ──── 第 16 章</div><div class="lede" data-ch="11">刚觉醒的进化者被关进<a class="term" href="../world.html#world-%E5%88%9D%E5%AE%A1%E5%88%97%E8%BD%A6" title="预备玩家乘坐的第一趟列车，乘完才成为正式玩家。">初审列车</a>，要熬过三天三夜才能成为正式玩家；车上混着吃过人的<a class="term" href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B" title="吃过人的玩家，肩后编号是红色。">红色玩家</a>，黑夜里还有扒车的怪物。<span class="ch">第 3、9、11 章</span></div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 3284 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="3" hidden>这张卡从第 3 章开始，在你填的进度之后，整张都是剧透。</p></div>
+<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0002</div><div class="stub-row"><b>句数</b>81</div>
+<div class="stub-row"><b>引用</b>19 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<details class="about-src meta"><summary>出处怎么核对</summary>每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</details><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 1–17 章正文后撰写；2026-10-06 第六步由 Claude 子代理（claude-opus-5-5）改写（GPT 额度用完前第二波写成的两三张也在这批里，没有分开记录），原梗概折为逐幕复盘；2026-10-06 逐幕复盘不再上页面，其中要紧的由 Claude 子代理（claude-opus-5-5）收进剧情梗概和解谜结构。</p>
 <nav class="units-nav top"><a class="prev" href="u0001.html"><small>← 上一单元</small><b>入局前（汀城）</b><small>第 1–2 章</small></a><a class="next" href="u0003.html"><small>下一单元 →</small><b>五维车站（初审后）</b><small>第 17 章</small><small class="after" data-beyond="17" hidden>在你的进度之后</small></a></nav>
-<details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。写到第 16 章，含结局。</span></summary><section id="overview" class="fgroup"><h3>一句话</h3>
-<ul class="items"><li data-ch="9"><span class="text">每个新玩家的第一关：一群刚觉醒、饿得发慌的进化者被关进同一趟列车，熬过三天三夜才能成为正式玩家，车上还混着吃过人的红色玩家。</span><span class="ch">第 3、9 章</span></li><li data-ch="16"><span class="text">按站内分类算副本，系统说它其实不具备副本功能；徐获评 C 级优秀。第 3 章上车，第 16 章到站。</span><span class="ch">第 3、16 章</span><details class="src"><summary>原文</summary><blockquote>您在行车期间的表现被评定为C级优秀<cite>第 16 章</cite></blockquote></details></li></ul>
-</section>
-<section id="harvest" class="harvest" data-ch="17"><h3>徐获的收获</h3><div class="h-rating"><span class="seal low" title="评级 C">C</span><span>评级：C 级优秀<span class="ch">第 16 章</span><details class="src"><summary>原文</summary><blockquote>您在行车期间的表现被评定为C级优秀<cite>第 16 章</cite></blockquote></details></span></div><div class="h-line">成为正式的黑色玩家；奖励一个特性（知情者视角）、两件道具、四种药剂和三张车票。<span class="ch">第 16–17 章</span><details class="src"><summary>原文</summary><blockquote>多了一个特性，两个道具，四种药剂，一个礼包和三张车票<cite>第 17 章</cite></blockquote></details></div><div class="h-line">连喝三瓶进化剂，进化率到 10%（原文作进化度）。<span class="ch">第 17 章</span><details class="src"><summary>原文</summary><blockquote>进化度跳到了10％<cite>第 17 章</cite></blockquote></details></div><p class="links"><b>新特性</b><a href="../hero.html#trait-%E5%8F%8C%E8%85%BF">不会疲劳的双腿</a></p><p class="links"><b>奖励</b><a href="../items.html#item-%E6%AF%9B%E5%8F%91%E7%94%9F%E9%95%BF%E5%89%82">毛发生长剂</a><a href="../items.html#item-%E6%B8%85%E6%B4%81%E5%89%82">清洁剂</a><a href="../items.html#item-%E7%BA%B5%E7%81%AB%E7%8A%AF%E7%9A%84%E5%B7%A5%E5%85%B7">纵火犯的工具</a><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a><a href="../items.html#item-%E8%B6%85%E7%BA%A7%E8%B7%91%E9%9E%8B">超级跑鞋</a></p><p class="note">奖励写到第 17 章清点（下一段的开头）。</p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
+<nav class="jump pagenav" id="jump" aria-label="本页目录"><b>本卡</b><a href="#harvest" data-ch="17">收获</a><a href="#setup" data-ch="3">规则</a><a href="#cast" data-ch="9">人物</a><a href="#summary" data-ch="3">梗概</a><a href="#puzzle" data-ch="3">解谜</a><a href="#relations" data-ch="4">关系</a><a href="#threads" data-ch="9">伏笔</a><a href="#links">设定与道具</a></nav>
+<details class="layer" open><summary><b>概况</b><span>背景与规则、人物。写到第 16 章，含结局。</span></summary><section id="harvest" class="harvest quiet" data-ch="17"><h3>徐获的收获</h3><div class="h-rating"><span class="seal low" title="评级 C">C</span><span>评级：C 级优秀<span class="ch">第 16 章</span><details class="src"><summary>原文</summary><blockquote>您在行车期间的表现被评定为C级优秀<cite>第 16 章</cite></blockquote></details></span></div><div class="h-line">成为正式的黑色玩家；奖励一个特性（知情者视角）、两件道具、四种药剂和三张车票。<span class="ch">第 16–17 章</span><details class="src"><summary>原文</summary><blockquote>多了一个特性，两个道具，四种药剂，一个礼包和三张车票<cite>第 17 章</cite></blockquote></details></div><div class="h-line">连喝三瓶进化剂，进化率到 10%（原文作进化度）。<span class="ch">第 17 章</span><details class="src"><summary>原文</summary><blockquote>进化度跳到了10％<cite>第 17 章</cite></blockquote></details></div><p class="links"><b>新特性</b><a href="../hero.html#trait-%E5%8F%8C%E8%85%BF">不会疲劳的双腿</a></p><p class="links"><b>奖励</b><a href="../items.html#item-%E6%AF%9B%E5%8F%91%E7%94%9F%E9%95%BF%E5%89%82">毛发生长剂</a><a href="../items.html#item-%E6%B8%85%E6%B4%81%E5%89%82">清洁剂</a><a href="../items.html#item-%E7%BA%B5%E7%81%AB%E7%8A%AF%E7%9A%84%E5%B7%A5%E5%85%B7">纵火犯的工具</a><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a><a href="../items.html#item-%E8%B6%85%E7%BA%A7%E8%B7%91%E9%9E%8B">超级跑鞋</a></p><p class="note">奖励写到第 17 章清点（下一段的开头）。</p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
 <section id="setup" class="fgroup"><h3>背景与规则</h3>
-<ul class="items"><li data-ch="2"><span class="text">一个月前，世界各地怪事频发，不少人出现吃人的冲动，体能和感官同时增强，被称为“进化者”。徐获在家里杀了第三个来吃他的进化者，当晚眼前弹出了游戏界面。</span><span class="ch">第 1–2 章</span><details class="src"><summary>原文</summary><blockquote>忽然有人提出“进化者理论”<cite>第 2 章</cite></blockquote></details></li><li data-ch="3"><span class="text">选完职业，玩家被直接传送上初审列车 301 次：从三维点出发，穿过维度裂缝，三天后早上八点抵达五维车站。</span><span class="ch">第 3 章</span><details class="src"><summary>原文</summary><blockquote>本次列车由三维点出发，穿过维度裂缝<cite>第 3 章</cite></blockquote></details></li><li data-ch="4"><span class="text">座位按现实资产分：特等座、一等座、二等座、三等座，越有钱越靠前。每节车厢十二人。</span><span class="ch">第 3–4 章</span><details class="src"><summary>原文</summary><blockquote>特等座、一等座、二等座、三等座，资产越多的人坐的车厢越靠前<cite>第 4 章</cite></blockquote></details></li><li data-ch="3"><span class="text">乘车规则四条：必须消费；不要随意进入其他车厢；晚上八点熄灯；乘务员有驱逐预备玩家的权利。列车会根据玩家的表现分类评级。</span><span class="ch">第 3 章</span><details class="src"><summary>原文</summary><blockquote>四、乘务员有驱逐预备玩家的权利。<cite>第 3 章</cite></blockquote><blockquote>列车将根据进化者在行驶期间的表现分类评级<cite>第 3 章</cite></blockquote></details></li><li data-ch="5"><span class="text">车上的饭很贵：一杯水一百白钞，一碗面三百白钞，但吃了能压住吃人的冲动。</span><span class="ch">第 5 章</span><details class="src"><summary>原文</summary><blockquote>一杯水一百白钞，一碗面三百白钞<cite>第 5 章</cite></blockquote></details></li></ul>
+<ul class="items"><li data-ch="3"><span class="text">徐获选完职业“路人甲”，被传送上<a class="term" href="../world.html#world-%E5%88%9D%E5%AE%A1%E5%88%97%E8%BD%A6" title="预备玩家乘坐的第一趟列车，乘完才成为正式玩家。">初审列车</a>301次：列车从三维点出发，穿过维度裂缝，三天后早上八点抵达五维车站。</span><span class="ch">第 3 章</span><details class="src"><summary>原文</summary><blockquote>本次列车由三维点出发，穿过维度裂缝<cite>第 3 章</cite></blockquote></details></li><li data-ch="9"><span class="text">车上全是刚觉醒、饿得发慌的进化者，彼此闻得到对方身上的“香味”，其中混着吃过人的<a class="term" href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B" title="吃过人的玩家，肩后编号是红色。">红色玩家</a>。</span><span class="ch">第 3、9 章</span></li><li data-ch="4"><span class="text">座位按现实资产分特等座、一等座、二等座、三等座，越有钱越靠前，每节车厢十二人。</span><span class="ch">第 3–4 章</span><details class="src"><summary>原文</summary><blockquote>特等座、一等座、二等座、三等座，资产越多的人坐的车厢越靠前<cite>第 4 章</cite></blockquote></details></li><li data-ch="3"><span class="text">乘车规则四条：必须消费；不要随意进入其他车厢；晚上八点熄灯；乘务员有驱逐预备玩家的权利。列车会按表现分类评级。</span><span class="ch">第 3 章</span><details class="src"><summary>原文</summary><blockquote>四、乘务员有驱逐预备玩家的权利。<cite>第 3 章</cite></blockquote></details></li><li data-ch="5"><span class="text">车上的饭很贵，一杯水一百<a class="term" href="../world.html#world-%E7%99%BD%E9%92%9E" title="游戏里的货币，印着“恒星公司虚拟货币”。">白钞</a>，一碗面三百白钞，吃了却能压住吃人的冲动。</span><span class="ch">第 5 章</span><details class="src"><summary>原文</summary><blockquote>一杯水一百白钞，一碗面三百白钞<cite>第 5 章</cite></blockquote></details></li></ul>
 </section>
-<section id="cast" class="fgroup"><h3>登场人物</h3>
-<p class="note">都在二等座，除非另外注明。没有名字的人物只写外号。</p>
-<ul class="people"><li data-ch="3"><b class="subject"><a href="../people.html?upto=16#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">主角，汀城的临时演员，职业选了“路人甲”；冷静，爱抽烟，身上只有两百白钞。</span><span class="ch">第 2–3 章</span></li><li data-ch="14"><b class="subject"><a href="../people.html?upto=16#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a></b><span class="text">穿百衲衣、刚还俗的小姑娘，坐在徐获旁边，力气大得惊人，功夫底子好。</span><span class="ch">第 4、14 章</span></li><li data-ch="10"><b class="subject"><a href="../people.html?upto=16#person-%E9%9F%A9%E6%95%99%E6%8E%88">韩教授</a>、<a href="../people.html?upto=16#person-%E5%88%98%E4%BD%B3">刘佳</a></b><span class="text">大学教授和他的学生，刘佳是扎马尾的女学生，胆小。</span><span class="ch">第 3、10 章</span></li><li data-ch="4"><b class="subject">李飞</b><span class="text">自称飞跃集团总经理的高管，最先拉人抱团。</span><span class="ch">第 4 章</span></li><li data-ch="4"><b class="subject">陈益</b><span class="text">穿着睡衣、手里还捏着电动牙刷就被传送上车的男人，跟李飞一伙。</span><span class="ch">第 3–4 章</span></li><li data-ch="4"><b class="subject">何洋</b><span class="text">打扮时髦的吊带女，爱看小说，一直在玩手机。</span><span class="ch">第 3–4 章</span></li><li data-ch="10"><b class="subject"><a href="../people.html?upto=16#person-%E7%8E%8B%E5%B0%8F%E6%85%A7">王小慧</a></b><span class="text">三等座的残疾女孩，坐轮椅，第二天被同车厢的人推到二等座门口求收留。</span><span class="ch">第 10 章</span></li><li data-ch="4"><b class="subject"><a href="../people.html?upto=16#person-%E8%81%82%E7%8E%84">聂玄</a></b><span class="text">汀城第一研究所的人，坐在一等座，和徐获在车下就打过照面。</span><span class="ch">第 2、4 章</span></li><li data-ch="4"><b class="subject">没有名字的人</b><span class="text">浓妆大块头女人、系着围裙的中年妇女、穿军装肩章的老人、瓜子脸女人、方脸男人。</span><span class="ch">第 3–4 章</span></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、人物结局、关键关系、伏笔与未解。写到第 16 章，含全部剧透。</span></summary><section id="story" class="fgroup"><h3>剧情梗概</h3>
-<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
-<nav class="arcs"><a href="#story-1" data-ch="3">一、上车（第 3–5 章）</a><a href="#story-2" data-ch="6">二、暗规则（第 6–7 章）</a><a href="#story-3" data-ch="8">三、揪人（第 8–10 章）</a><a href="#story-4" data-ch="11">四、灯亮了（第 11–13 章）</a><a href="#story-5" data-ch="15">五、最后一夜（第 14–16 章）</a></nav>
-<h4 id="story-1" data-ch="3">一、上车（第 3–5 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="3">徐获选了职业“路人甲”，被传送上初审列车 301 次的二等座，车厢里十二个陌生人互相闻得到对方身上的“香味”。<sup class="cite" title="第3章：玩家路人甲将前往初审列车301次">3</sup></span><span class="stmt" data-ch="4">众人很快分成几伙：李飞拉着陈益等人抱团，韩教授带着学生刘佳和何洋，剩下的人各自提防。<sup class="cite" title="本句未附原文">4</sup></span><span class="stmt" data-ch="5">中午开饭，一碗面三百白钞，徐获只点得起一杯水，却把剩下的一张白钞夹进菜单当小费。<sup class="cite" title="第5章：把剩下的一张白钞夹进菜单递还给乘务员">5</sup></span><span class="stmt" data-ch="5">乘务员回了他一张写字的杯垫纸，他转手把这条消息按五十白钞一人卖给了车厢里的人。<sup class="cite" title="本句未附原文">5</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="3">玩家路人甲将前往初审列车301次<cite>第 3 章</cite></blockquote><blockquote data-ch="5">把剩下的一张白钞夹进菜单递还给乘务员<cite>第 5 章</cite></blockquote></details>
-<h4 id="story-2" data-ch="6">二、暗规则（第 6–7 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="6">徐获拿着赚来的钱去一等座找聂玄，两人互换乘务员的纸条，又交易各自发现的隐藏规则。<sup class="cite" title="第6章：徐获和他交换着看了对方的纸张">6</sup></span><span class="stmt" data-ch="7">第一夜熄灯后，列车一阵剧烈颠簸，守门的陈益突然偷袭徐获，被徐获反手杀了；后门那边，瓜子脸女人被咬死。<sup class="cite" title="第7章：徐获确认陈益咽了气，才贴着车窗站起来">7</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="6">徐获和他交换着看了对方的纸张<cite>第 6 章</cite></blockquote><blockquote data-ch="7">徐获确认陈益咽了气，才贴着车窗站起来<cite>第 7 章</cite></blockquote></details>
-<h4 id="story-3" data-ch="8">三、揪人（第 8–10 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="8">天亮后，徐获指出三等座的人自己打不开后门，谁嚷嚷“外面有人进来”谁就是内鬼，当场杀了方脸男人。<sup class="cite" title="第8章：三等车厢的玩家打不开后车门">8</sup></span><span class="stmt" data-ch="8">李飞趁机煽动众人对付徐获，没人跟他。<sup class="cite" title="本句未附原文">8</sup></span><span class="stmt" data-ch="9">三等座一个玩家袭击乘务员，直接被扔下悬崖；聂玄又来通气：一节车厢里红色玩家和普通玩家大约各占一半，而且下车的人不一定都能拿到下一站的车票。<sup class="cite" title="第9章：三等座玩家‘老子天下第一’因袭击乘务员被驱逐；第9章：每个玩家只有一次登上初审列车的机会，但下车的玩家不是每一个都能拿到下一站的车票">9</sup></span><span class="stmt" data-ch="13">三等座的人推来坐轮椅的王小慧求收留，徐获想借她试一试进别的车厢会不会受罚，力排众议开了门，还把反对最凶的李飞推出门外逼他点头。<sup class="cite" title="第10章：徐获便把轮椅往旁边一拉，后揪住他的衣领推向门外">10、13</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="8">三等车厢的玩家打不开后车门<cite>第 8 章</cite></blockquote><blockquote data-ch="9">三等座玩家‘老子天下第一’因袭击乘务员被驱逐<cite>第 9 章</cite></blockquote><blockquote data-ch="9">每个玩家只有一次登上初审列车的机会，但下车的玩家不是每一个都能拿到下一站的车票<cite>第 9 章</cite></blockquote><blockquote data-ch="13">徐获便把轮椅往旁边一拉，后揪住他的衣领推向门外<cite>第 10 章</cite></blockquote></details>
-<h4 id="story-4" data-ch="11">四、灯亮了（第 11–13 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="12">第二夜，黑暗里响起吃人的声音，严嘉鱼循声扑过去，用桌腿捅穿了正在吃人的李飞。<sup class="cite" title="第11章：捅进他肚子里的是严嘉鱼拆下来的桌子腿">11–12</sup></span><span class="stmt" data-ch="11">就在这时，三等座的灯亮了。原来夜里的颠簸是车外的怪物爬上了列车，灯光一闪，怪物撞碎车窗冲进来，把尸体和伤者全拖走了。<sup class="cite" title="第11章：原来夜里的颠簸就是这些怪物上车的动静；第11章：那一闪而过的光芒唤醒了车窗外的怪物">11</sup></span><span class="stmt" data-ch="12">穿军装的老人其实是一直忍着没吃人的红色玩家，这一夜他变得和怪物一样，却在最后救下韩教授，抱着怪物跳出了车窗；何洋从此不见踪影。<sup class="cite" title="第11章：之后就抱着怪物跳了出去">11–12</sup></span><span class="stmt" data-ch="14">徐获在刘佳掌心写字，得知她能夜视、看见浓妆女人抹掉嘴边的血；后半夜他安排严嘉鱼顶替刘佳守门，浓妆女人果然摸黑来杀刘佳，被严嘉鱼用铁桌砸死。<sup class="cite" title="第12章：徐获一边在她掌心划字一边说；第13章：迎接她的不是刘佳柔软的脖子，而是一张厚实的金属大桌">12–14</sup></span><span class="stmt" data-ch="13">天亮一看，三等座整节车厢只剩一块铁片，全灭了。<sup class="cite" title="第13章：三等座全灭他始料未及">13</sup></span></p><details class="src block fgroup"><summary>本段原文 7 处</summary><blockquote data-ch="12">捅进他肚子里的是严嘉鱼拆下来的桌子腿<cite>第 11 章</cite></blockquote><blockquote data-ch="11">原来夜里的颠簸就是这些怪物上车的动静<cite>第 11 章</cite></blockquote><blockquote data-ch="11">那一闪而过的光芒唤醒了车窗外的怪物<cite>第 11 章</cite></blockquote><blockquote data-ch="12">之后就抱着怪物跳了出去<cite>第 11 章</cite></blockquote><blockquote data-ch="14">徐获一边在她掌心划字一边说<cite>第 12 章</cite></blockquote><blockquote data-ch="14">迎接她的不是刘佳柔软的脖子，而是一张厚实的金属大桌<cite>第 13 章</cite></blockquote><blockquote data-ch="13">三等座全灭他始料未及<cite>第 13 章</cite></blockquote></details>
-<h4 id="story-5" data-ch="15">五、最后一夜（第 14–16 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="15">中年妇女拿出火腿肠示好，被徐获闻出不对：她才是最后一个红色玩家。她持刀扑向刘佳，王小慧撞上去用光罩把她弹飞。<sup class="cite" title="第14章：你是最后一个红色玩家；第15章：就在刘佳身边王小慧推了她一把">14–15</sup></span><span class="stmt" data-ch="15">一等座逃过来的红色玩家当场杀了中年妇女，又装死偷袭严嘉鱼，被徐获、严嘉鱼、刘佳和韩教授合力打死，扔下悬崖。<sup class="cite" title="第15章：徐获就在严嘉鱼背后，扯开她的同时将刀刺向男玩家">15</sup></span><span class="stmt" data-ch="16">第三夜，一个巨大的东西追上列车，舌头都伸进了车厢，徐获捂住刘佳的嘴，让她别出声。<sup class="cite" title="第16章：徐获轻按了按刘佳的肩膀，比了个噤声的动作">16</sup></span><span class="stmt" data-ch="16">天亮前列车到站，系统宣布通关。徐获被评为 C 级优秀，是这趟列车存活玩家中综合指数最高的；没吃过人、但杀过人，他成了黑色玩家。<sup class="cite" title="第16章：您在行车期间的表现被评定为C级优秀；第16章：为本次301列车存活玩家中综合指数最高">16</sup></span></p><details class="src block fgroup"><summary>本段原文 6 处</summary><blockquote data-ch="15">你是最后一个红色玩家<cite>第 14 章</cite></blockquote><blockquote data-ch="15">就在刘佳身边王小慧推了她一把<cite>第 15 章</cite></blockquote><blockquote data-ch="15">徐获就在严嘉鱼背后，扯开她的同时将刀刺向男玩家<cite>第 15 章</cite></blockquote><blockquote data-ch="16">徐获轻按了按刘佳的肩膀，比了个噤声的动作<cite>第 16 章</cite></blockquote><blockquote data-ch="16">您在行车期间的表现被评定为C级优秀<cite>第 16 章</cite></blockquote><blockquote data-ch="16">为本次301列车存活玩家中综合指数最高<cite>第 16 章</cite></blockquote></details>
+<section id="cast" class="fgroup"><h3>人物</h3>
+<ul class="people"><li data-ch="15"><b class="subject"><a href="../people.html?upto=16#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a></b><span class="text">穿百衲衣、刚还俗的姑娘，坐在徐获旁边，力气大、功夫底子好，是车厢里最能打的人。她先后打死李飞和浓妆女人，又与徐获合力打死一等座逃来的<a class="term" href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B" title="吃过人的玩家，肩后编号是红色。">红色玩家</a>。</span><span class="ch">第 4、11、13、15 章</span></li><li data-ch="16"><b class="subject"><a href="../people.html?upto=16#person-%E5%88%98%E4%BD%B3">刘佳</a></b><span class="text">韩教授的学生，扎马尾、胆小，却能在黑暗里看见东西，成了揪出红色玩家的眼睛。她两次差点被杀，先后被严嘉鱼、王小慧和徐获救下。</span><span class="ch">第 3、12–13、15–16 章</span></li><li data-ch="16"><b class="subject"><a href="../people.html?upto=16#person-%E9%9F%A9%E6%95%99%E6%8E%88">韩教授</a></b><span class="text">大学教授，带着学生刘佳和何洋，是车厢里另一伙人的主心骨。他被怪物咬伤肩膀，担心自己异变，最后一夜由王小慧守着。</span><span class="ch">第 3–4、11、16 章</span></li><li data-ch="16"><b class="subject"><a href="../people.html?upto=16#person-%E7%8E%8B%E5%B0%8F%E6%85%A7">王小慧</a></b><span class="text">三等座坐轮椅的残疾女孩，被推来求收留，特性是能挡住攻击的光罩。她因换了车厢被扣特性时间，用光罩救下刘佳，最后一夜守着韩教授。</span><span class="ch">第 10、13、15–16 章</span></li><li data-ch="9"><b class="subject"><a href="../people.html?upto=16#person-%E8%81%82%E7%8E%84">聂玄</a></b><span class="text">汀城第一研究所的人，坐在一等座，和徐获交换纸条与隐藏规则。他留下一张金色名片，让徐获下车后联系。</span><span class="ch">第 4、6、9 章</span></li><li data-ch="12"><b class="subject">李飞</b><span class="text">自称飞跃集团总经理的高管，最先拉人抱团，又煽动众人对付徐获。第二夜他在黑暗里吃人，被严嘉鱼捅穿，尸体被怪物拖走。</span><span class="ch">第 4、8、11–12 章</span></li><li data-ch="16"><b class="subject">陈益</b><span class="text">穿着睡衣、捏着电动牙刷就被传送上车的男人，跟李飞一伙。第一夜守门时偷袭徐获，被反手杀死，是红色还是普通玩家没有定论。</span><span class="ch">第 3–4、7、16 章</span></li><li data-ch="13"><b class="subject">穿军装的老人</b><span class="text">肩章上被咬出牙印的老人，其实是一直忍着没吃人的红色玩家。第二夜他变得像怪物，却救下韩教授，抱着怪物跳出车窗，留下一封遗书。</span><span class="ch">第 8、11–13 章</span></li><li data-ch="13"><b class="subject">浓妆女人</b><span class="text">大块头的浓妆女人，是藏在车厢里的红色玩家，被刘佳看见抹掉嘴边的血。她摸黑来杀刘佳，被严嘉鱼用铁桌砸死。</span><span class="ch">第 3、12–13 章</span></li><li data-ch="15"><b class="subject">中年妇女</b><span class="text">系着围裙的中年妇女，拿火腿肠示好，被徐获闻出不对，认定是最后一个红色玩家。她持刀扑向刘佳被光罩弹开，随即被一等座逃来的红色玩家杀死。</span><span class="ch">第 3、14–15 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、关键关系、伏笔与未解。写到第 16 章，含全部剧透。</span></summary><section id="summary" class="fgroup"><h3>剧情梗概</h3>
+<nav class="arcs"><a href="#summary-1" data-ch="3">买来的规则</a><a href="#summary-2" data-ch="7">第一夜</a><a href="#summary-3" data-ch="10">第二夜</a><a href="#summary-4" data-ch="15">第三夜与到站</a></nav>
+<h4 id="summary-1" data-ch="3">买来的规则</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="3">徐获选了职业“路人甲”，被传送上<a class="term" href="../world.html#world-%E5%88%9D%E5%AE%A1%E5%88%97%E8%BD%A6" title="预备玩家乘坐的第一趟列车，乘完才成为正式玩家。">初审列车</a>301次的二等座，同车厢十二个陌生人互相闻得到对方身上的“香味”。<sup class="cite" title="第3章：玩家路人甲将前往初审列车301次">3</sup></span><span class="stmt" data-ch="4">众人很快分成几伙：李飞拉着陈益等人抱团，韩教授带着学生刘佳和何洋，其余人各自提防。<sup class="cite" title="本句未附原文">4</sup></span><span class="stmt" data-ch="5">徐获只有两百<a class="term" href="../world.html#world-%E7%99%BD%E9%92%9E" title="游戏里的货币，印着“恒星公司虚拟货币”。">白钞</a>，点不起面，要了杯水，把剩下的一张夹进菜单当小费，换来乘务员一张写字的杯垫纸。<sup class="cite" title="第 5 章">5</sup></span><span class="stmt" data-ch="6">他把这条消息按五十白钞一人卖给车厢里的人，再拿钱去一等座找聂玄，两人交换纸条和各自发现的隐藏规则。<sup class="cite" title="第6章：徐获和他交换着看了对方的纸张">5–6</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="3">玩家路人甲将前往初审列车301次<cite>第 3 章</cite></blockquote><blockquote data-ch="6">徐获和他交换着看了对方的纸张<cite>第 6 章</cite></blockquote></details>
+<h4 id="summary-2" data-ch="7">第一夜</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="7">第一夜熄灯后列车剧烈颠簸，守门的陈益偷袭徐获，被他反手杀死；后门那边，瓜子脸女人被咬死。<sup class="cite" title="第7章：徐获确认陈益咽了气，才贴着车窗站起来">7</sup></span><span class="stmt" data-ch="8">天亮后方脸男人嚷嚷有人从后门进来又跑了，徐获指出三等座的人打不开这扇门，当场杀了他。<sup class="cite" title="第8章：三等车厢的玩家打不开后车门">8</sup></span><span class="stmt" data-ch="9">李飞趁机煽动众人对付徐获，没人跟他。聂玄又来通气：一节车厢里<a class="term" href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B" title="吃过人的玩家，肩后编号是红色。">红色玩家</a>和普通玩家大约各占一半，活着下车的人也不一定拿得到下一站的车票。<sup class="cite" title="第 8–9 章">8–9</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="7">徐获确认陈益咽了气，才贴着车窗站起来<cite>第 7 章</cite></blockquote><blockquote data-ch="8">三等车厢的玩家打不开后车门<cite>第 8 章</cite></blockquote></details>
+<h4 id="summary-3" data-ch="10">第二夜</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="10">三等座的人推来坐轮椅的王小慧求收留，徐获想借她试试进别的车厢会不会受罚，力排众议开了门，还把反对最凶的李飞推出门外。<sup class="cite" title="第 10 章">10</sup></span><span class="stmt" data-ch="11">第二夜，严嘉鱼循着吃人的声音扑过去，用桌腿捅穿了正在吃人的李飞。<sup class="cite" title="第 11 章">11</sup></span><span class="stmt" data-ch="11">这时三等座亮了灯：夜里的颠簸原来是车外的怪物爬上了列车，灯光唤醒了它们，怪物撞碎车窗，把尸体和伤者全拖走。<sup class="cite" title="第11章：那一闪而过的光芒唤醒了车窗外的怪物">11</sup></span><span class="stmt" data-ch="12">一直忍着没吃人的老人这一夜也变得像怪物，最后却救下韩教授，抱着怪物跳出车窗；何洋从此不见踪影。<sup class="cite" title="第 11–12 章">11–12</sup></span><span class="stmt" data-ch="13">徐获在刘佳掌心写字，得知她能夜视，看见浓妆女人抹掉嘴边的血；后半夜他让严嘉鱼顶替刘佳守门，摸黑来杀刘佳的浓妆女人被铁桌砸死。<sup class="cite" title="第13章：迎接她的不是刘佳柔软的脖子，而是一张厚实的金属大桌">12–13</sup></span><span class="stmt" data-ch="13">天亮一看，三等座整节车厢只剩一块铁片，全灭了。<sup class="cite" title="第 13 章">13</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="11">那一闪而过的光芒唤醒了车窗外的怪物<cite>第 11 章</cite></blockquote><blockquote data-ch="13">迎接她的不是刘佳柔软的脖子，而是一张厚实的金属大桌<cite>第 13 章</cite></blockquote></details>
+<h4 id="summary-4" data-ch="15">第三夜与到站</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="15">中年妇女拿出火腿肠示好，被徐获闻出不对，认定她是最后一个红色玩家；她持刀扑向刘佳，被王小慧的光罩弹飞。<sup class="cite" title="第 14–15 章">14–15</sup></span><span class="stmt" data-ch="15">一等座逃来的红色玩家杀了中年妇女，又装死偷袭严嘉鱼，被众人合力打死、扔下悬崖。<sup class="cite" title="本句未附原文">15</sup></span><span class="stmt" data-ch="16">第三夜一个巨大的东西追上列车，舌头都伸进了车厢，徐获示意刘佳别出声，众人熬到天亮前到站。<sup class="cite" title="第 16 章">16</sup></span><span class="stmt" data-ch="16">徐获被评为C级优秀，是这趟列车存活玩家中综合指数最高的；他没吃过人、却杀过人，成了<a class="term" href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B" title="杀过人的玩家，肩后编号是黑色。">黑色玩家</a>。<sup class="cite" title="第16章：为本次301列车存活玩家中综合指数最高">16</sup></span><span class="stmt" data-ch="16">结算还说他杀了一名红色玩家和一名普通玩家：陈益和方脸男人里，他错杀了一个。<sup class="cite" title="第16章：杀死一名红色玩家和一名普通玩家">7–8、16</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="16">为本次301列车存活玩家中综合指数最高<cite>第 16 章</cite></blockquote><blockquote data-ch="16">杀死一名红色玩家和一名普通玩家<cite>第 16 章</cite></blockquote></details>
 </section>
 <section id="puzzle" class="fgroup"><h3>解谜结构</h3>
-<p class="note">这是一道规则题：写在明面上的规则只有四条，真正决定生死的是没写出来的那几条。</p>
-<h4 id="puzzle-1" data-ch="3">表面规则</h4>
-<ul class="items"><li data-ch="3"><span class="text">必须消费；不要随意进入其他车厢；晚上八点熄灯；乘务员可以驱逐玩家。</span><span class="ch">第 3 章</span><details class="src"><summary>原文</summary><blockquote>三、晚上八点熄灯。<cite>第 3 章</cite></blockquote></details></li><li data-ch="3"><span class="text">列车会根据表现给玩家分类评级。</span><span class="ch">第 3 章</span></li></ul>
-<h4 id="puzzle-2" data-ch="6">隐藏规则</h4>
-<ul class="items"><li data-ch="6"><span class="text">乘务员给的纸条：“晚上保持清醒”“不要开灯”。熄灯不是让人睡觉，灯才是真正的陷阱。</span><span class="ch">第 6 章</span><details class="src"><summary>原文</summary><blockquote>叠好徐获那张“晚上保持清醒”的纸条还给他<cite>第 6 章</cite></blockquote><blockquote>也把那张“不要开灯”递过去<cite>第 6 章</cite></blockquote></details></li><li data-ch="8"><span class="text">低等车厢的人打不开高等车厢的门，除非里面有人开门；只有高等一侧的门外装了门铃。</span><span class="ch">第 6、8 章</span><details class="src"><summary>原文</summary><blockquote>低等车厢不能进入高等车厢，除非有人开门<cite>第 6 章</cite></blockquote></details></li><li data-ch="6"><span class="text"><span class="tier guess" title="徐获的推断">推测</span>点餐可以赊账，但到站时拿什么结算不知道，徐获判断赊账会从评级里扣。</span><span class="ch">第 6 章</span><details class="src"><summary>原文</summary><blockquote>车厢点餐可以赊账<cite>第 6 章</cite></blockquote></details></li><li data-ch="13"><span class="text"><span class="tier claim" title="王小慧的说法" tabindex="0">王小慧说</span>进了别的车厢不会当场出事，但特性时间会缩短三分之一，待到终点就永久扣除。</span><span class="ch">第 13 章</span><details class="src"><summary>原文</summary><blockquote>我违反了列车规定，特性时间缩短三分之一<cite>第 13 章</cite></blockquote></details></li><li data-ch="9"><span class="text">袭击乘务员会被当场扔下列车。</span><span class="ch">第 9 章</span></li></ul>
-<h4 id="puzzle-3" data-ch="8">线索</h4>
-<ul class="items"><li data-ch="8"><span class="text">方脸男人嚷嚷有人从后门进来又跑了，可三等座的人根本打不开这扇门。</span><span class="ch">第 8 章</span><details class="src"><summary>原文</summary><blockquote>你们没发现后门外有个门铃吗<cite>第 8 章</cite></blockquote></details></li><li data-ch="8"><span class="text">瓜子脸女人身上有三处大小不一的咬痕，吃人的不止一个。</span><span class="ch">第 8 章</span></li><li data-ch="12"><span class="text">老人肩章上的牙印朝向不对，是他自己咬的，用来压住吃人的冲动。</span><span class="ch">第 8、12 章</span></li><li data-ch="14"><span class="text">刘佳夜里能看见东西，她看见浓妆女人抹掉嘴边的血，看见中年妇女在吃“零食”。</span><span class="ch">第 12、14 章</span></li><li data-ch="12"><span class="text">三等座开灯后，二等座只被余光扫了一下就引来了好几只怪物；怪物对声音反应迟钝。</span><span class="ch">第 12 章</span><details class="src"><summary>原文</summary><blockquote>是三等座开了灯后<cite>第 12 章</cite></blockquote></details></li></ul>
-<h4 id="puzzle-4" data-ch="7">误导</h4>
-<ul class="items"><li data-ch="7"><span class="text">陈益被反杀前大喊徐获才是血腥玩家。</span><span class="ch">第 7 章</span></li><li data-ch="8"><span class="text">李飞说徐获没有证据就杀人，是为了游戏奖励。</span><span class="ch">第 8 章</span></li><li data-ch="8"><span class="text">刘佳猜是“游戏在帮血腥玩家”，其实是车厢里的人在互相掩护。</span><span class="ch">第 8 章</span></li></ul>
-<h4 id="puzzle-5" data-ch="8">真相</h4>
-<ul class="items"><li data-ch="12"><span class="text"><span class="tier claim" title="聂玄的说法" tabindex="0">聂玄说</span>每节车厢十二人，红色玩家和普通玩家大约各占一半。</span><span class="ch">第 9、12 章</span><details class="src"><summary>原文</summary><blockquote>血腥玩家和普通玩家的人数应该是一比一<cite>第 9 章</cite></blockquote></details></li><li data-ch="8"><span class="text"><span class="tier guess" title="韩教授的推断" tabindex="0">韩教授推测</span>车上的饭能压住普通玩家的饥饿，对吃过人的玩家到了夜里就不管用，所以他们必须在黑暗里吃人。</span><span class="ch">第 8 章</span></li><li data-ch="12"><span class="text"><span class="tier guess" title="徐获的推断" tabindex="0">徐获推测</span>窗外的怪物是上车后没吃到人的红色玩家变的，老人就是例子。</span><span class="ch">第 12 章</span><details class="src"><summary>原文</summary><blockquote>我猜测应该是上车后没有进食的红色玩家才会变异<cite>第 12 章</cite></blockquote></details></li><li data-ch="16"><span class="text">徐获认定为红色玩家而杀掉的陈益和方脸男人，系统结算时说是一个红色玩家、一个普通玩家，他错杀了一个。</span><span class="ch">第 7–8、16 章</span><details class="src"><summary>原文</summary><blockquote>杀死一名红色玩家和一名普通玩家<cite>第 16 章</cite></blockquote></details></li><li data-ch="16"><span class="text">第三夜那个巨大的东西，系统事后称是工作人员失误导致的“D级事件”，并给每人补了一张车票。</span><span class="ch">第 16 章</span><details class="src"><summary>原文</summary><blockquote>由于工作人员的失误，列车遭遇D级事件<cite>第 16 章</cite></blockquote></details></li></ul>
-<h4 id="puzzle-6" data-ch="6">解法</h4>
-<ul class="items"><li data-ch="6"><span class="text">花钱买信息：用小费换乘务员的提示，再拿提示去和一等座交换，拼出隐藏规则。</span><span class="ch">第 5–6 章</span></li><li data-ch="16"><span class="text">守住黑暗：不开灯、不出声、不用手机，把门和破窗堵死。</span><span class="ch">第 7、11、16 章</span></li><li data-ch="13"><span class="text">揪出内鬼：用门铃规则和刘佳的夜视排除嫌疑，再让严嘉鱼这样能打的人守在要害位置。</span><span class="ch">第 8、12–13 章</span></li></ul>
-</section>
-<section id="fates" class="fgroup"><h3>人物结局</h3>
-<ul class="people"><li data-ch="16"><b class="subject"><a href="../people.html?upto=16#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">通关，C 级优秀，成为黑色玩家；这一路没吃过人，杀了陈益和方脸男人。</span><span class="ch">第 7–8、16 章</span><details class="src"><summary>原文</summary><blockquote>没有吃掉任何一个玩家<cite>第 16 章</cite></blockquote></details></li><li data-ch="15"><b class="subject"><a href="../people.html?upto=16#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a></b><span class="text">打死李飞、浓妆女人，又和徐获合力打死一等座的红色玩家；最后一夜和到站时没有再写到她。</span><span class="ch">第 11、13、15 章</span></li><li data-ch="16"><b class="subject"><a href="../people.html?upto=16#person-%E5%88%98%E4%BD%B3">刘佳</a></b><span class="text">两次差点被杀，先后被严嘉鱼、王小慧、徐获救下。</span><span class="ch">第 13、15–16 章</span></li><li data-ch="16"><b class="subject"><a href="../people.html?upto=16#person-%E9%9F%A9%E6%95%99%E6%8E%88">韩教授</a></b><span class="text">被怪物咬伤肩膀、伤口感染，担心自己异变；最后一夜由王小慧守着。</span><span class="ch">第 11、13、16 章</span></li><li data-ch="15"><b class="subject"><a href="../people.html?upto=16#person-%E7%8E%8B%E5%B0%8F%E6%85%A7">王小慧</a></b><span class="text">被收留进二等座，特性是能挡住攻击的光罩，代价是特性时间被扣掉三分之一。</span><span class="ch">第 10、13、15 章</span></li><li data-ch="9"><b class="subject"><a href="../people.html?upto=16#person-%E8%81%82%E7%8E%84">聂玄</a></b><span class="text">一等座，和徐获交换情报，留下金色名片让他下车后联系。</span><span class="ch">第 6、9 章</span><details class="src"><summary>原文</summary><blockquote>顿了顿，他掏出一张金色名片<cite>第 9 章</cite></blockquote></details></li><li data-ch="7"><b class="subject">陈益</b><span class="text">第一夜偷袭徐获，被反杀。</span><span class="ch">第 7 章</span></li><li data-ch="12"><b class="subject">李飞</b><span class="text">第二夜在黑暗里吃人，被严嘉鱼捅穿，被怪物拖走。</span><span class="ch">第 11–12 章</span><details class="src"><summary>原文</summary><blockquote>李飞是严嘉鱼杀的，老人变成了怪物<cite>第 12 章</cite></blockquote></details></li><li data-ch="13"><b class="subject">何洋</b><span class="text">第二夜失踪，刘佳带走了她的背包。</span><span class="ch">第 11、13 章</span></li><li data-ch="15"><b class="subject">没有名字的人</b><span class="text">瓜子脸女人第一夜被咬死；方脸男人被徐获杀死；老人异变后抱着怪物跳车；浓妆女人被严嘉鱼打死；中年妇女被一等座逃来的红色玩家杀死。</span><span class="ch">第 7–8、11、13、15 章</span></li></ul>
+<h4 id="puzzle-1" data-ch="7">灯才是陷阱</h4>
+<ul class="items"><li data-ch="7"><b class="subject">谜面</b><span class="text">规则说晚上八点熄灯，第一夜列车却一阵阵剧烈颠簸；黑暗里的危险从哪里来，又为什么不能开灯？</span><span class="ch">第 3、7 章</span></li><li data-ch="12"><b class="subject">线索</b><span class="text">乘务员的纸条一张写“晚上保持清醒”，一张写“不要开灯”；三等座一亮灯，二等座只被余光扫到就引来好几只怪物，怪物对声音却反应迟钝。</span><span class="ch">第 6、11–12 章</span><details class="src"><summary>原文</summary><blockquote>也把那张“不要开灯”递过去<cite>第 6 章</cite></blockquote></details></li><li data-ch="16"><b class="subject">谜底</b><span class="text">夜里的颠簸是车外怪物爬上列车，灯光会唤醒它们；徐获猜它们是上车后没吃到人的<a class="term" href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B" title="吃过人的玩家，肩后编号是红色。">红色玩家</a>变的，众人于是不开灯、不用手机、堵死门窗守住黑暗。</span><span class="ch">第 11–12、16 章</span><details class="src"><summary>原文</summary><blockquote>我猜测应该是上车后没有进食的红色玩家才会变异<cite>第 12 章</cite></blockquote></details></li></ul>
+<h4 id="puzzle-2" data-ch="8">后门外的人</h4>
+<ul class="items"><li data-ch="8"><b class="subject">谜面</b><span class="text">第一夜守后门的瓜子脸女人被咬死，方脸男人说有人从后门进来又跑了，凶手真是外来的吗？</span><span class="ch">第 7–8 章</span></li><li data-ch="8"><b class="subject">线索</b><span class="text">低等车厢的人打不开高等车厢的门，除非里面有人开门，门铃也只装在高等一侧的门外；瓜子脸女人身上有三处大小不一的咬痕。</span><span class="ch">第 6、8 章</span><details class="src"><summary>原文</summary><blockquote>低等车厢不能进入高等车厢，除非有人开门<cite>第 6 章</cite></blockquote></details></li><li data-ch="16"><b class="subject">谜底</b><span class="text">三等座的人进不来，嚷嚷的人就是内鬼，吃人的也不止一个，徐获当场杀了方脸男人；可结算时系统说他杀的两人一红一普通，他错杀了一个。</span><span class="ch">第 8、16 章</span></li></ul>
+<h4 id="puzzle-3" data-ch="8">谁还在吃人</h4>
+<ul class="items"><li data-ch="8"><b class="subject">谜面</b><span class="text">车上的饭能压住吃人的冲动，为什么夜里还有人吃人？车厢里的红色玩家又是哪几个？</span><span class="ch">第 5、8 章</span></li><li data-ch="14"><b class="subject">线索</b><span class="text">聂玄估计红色玩家和普通玩家约一比一；老人肩章上的牙印朝向不对，像是自己咬的；刘佳能夜视，看见浓妆女人抹掉嘴边的血，也看见中年妇女在吃“零食”。</span><span class="ch">第 8–9、12、14 章</span></li><li data-ch="15"><b class="subject">谜底</b><span class="text">韩教授推断饭对吃过人的玩家到了夜里就不管用；老人是忍着没吃人的红色玩家，浓妆女人和中年妇女则吃过人，徐获让严嘉鱼守住要害，两人先后被除掉。</span><span class="ch">第 8、12–15 章</span></li></ul>
+<h4 id="puzzle-4" data-ch="3">违规的代价</h4>
+<ul class="items"><li data-ch="3"><b class="subject">谜面</b><span class="text">规则要求必须消费、不要随意进入其他车厢，却没说违反了会怎样。</span><span class="ch">第 3 章</span></li><li data-ch="10"><b class="subject">线索</b><span class="text">点餐可以赊账，到站拿什么结算却不知道；三等座一名玩家袭击乘务员，当场被扔下悬崖；徐获收留王小慧，正是想看她进了别的车厢会不会受罚。</span><span class="ch">第 6、9–10 章</span><details class="src"><summary>原文</summary><blockquote>车厢点餐可以赊账<cite>第 6 章</cite></blockquote></details></li><li data-ch="13"><b class="subject">谜底</b><span class="text">王小慧说进别的车厢不会当场出事，但特性时间缩短三分之一，待到终点就永久扣除；徐获则判断赊账会从评级里扣。</span><span class="ch">第 6、13 章</span><details class="src"><summary>原文</summary><blockquote>我违反了列车规定，特性时间缩短三分之一<cite>第 13 章</cite></blockquote></details></li></ul>
 </section>
 <section id="relations" class="fgroup"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-kill)"></i>杀死</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
@@ -271,12 +342,11 @@ h4[id] { scroll-margin-top:16px; }
 <g class="node" data-ch="9"><circle cx="222.9" cy="113.0" r="10.0"/><text x="222.9" y="97.0" class="name">聂玄</text></g>
 <g class="node" data-ch="15"><circle cx="661.3" cy="172.9" r="10.0"/><text x="661.3" y="156.9" class="name">韩教授</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li data-ch="15"><span class="text"><a href="../people.html?upto=16#person-%E5%BE%90%E8%8E%B7">徐获</a> — 搭档 — <a href="../people.html?upto=16#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a></span><span class="ch">第 10–11、13、15 章</span></li><li data-ch="16"><span class="text"><a href="../people.html?upto=16#person-%E5%BE%90%E8%8E%B7">徐获</a> → 暗中通气、救过 → <a href="../people.html?upto=16#person-%E5%88%98%E4%BD%B3">刘佳</a></span><span class="ch">第 12、16 章</span></li><li data-ch="9"><span class="text"><a href="../people.html?upto=16#person-%E5%BE%90%E8%8E%B7">徐获</a> — 交换情报 — <a href="../people.html?upto=16#person-%E8%81%82%E7%8E%84">聂玄</a></span><span class="ch">第 6、9 章</span></li><li data-ch="15"><span class="text"><a href="../people.html?upto=16#person-%E9%9F%A9%E6%95%99%E6%8E%88">韩教授</a> — 师生 — <a href="../people.html?upto=16#person-%E5%88%98%E4%BD%B3">刘佳</a></span><span class="ch">第 3、12、15 章</span></li><li data-ch="4"><span class="text">李飞 — 抱团 — 陈益</span><span class="ch">第 4 章</span></li><li data-ch="10"><span class="text">李飞 — 敌对 — <a href="../people.html?upto=16#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 8、10 章</span></li><li data-ch="7"><span class="text"><a href="../people.html?upto=16#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 陈益</span><span class="ch">第 7 章</span><details class="src"><summary>原文</summary><blockquote>徐获确认陈益咽了气，才贴着车窗站起来<cite>第 7 章</cite></blockquote></details></li><li data-ch="12"><span class="text"><a href="../people.html?upto=16#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a> → 杀死 → 李飞</span><span class="ch">第 11–12 章</span><details class="src"><summary>原文</summary><blockquote>李飞是严嘉鱼杀的，老人变成了怪物<cite>第 12 章</cite></blockquote></details></li><li data-ch="15"><span class="text"><a href="../people.html?upto=16#person-%E7%8E%8B%E5%B0%8F%E6%85%A7">王小慧</a> → 救助 → <a href="../people.html?upto=16#person-%E5%88%98%E4%BD%B3">刘佳</a></span><span class="ch">第 15 章</span></li><li data-ch="10"><span class="text"><a href="../people.html?upto=16#person-%E5%BE%90%E8%8E%B7">徐获</a> → 收留 → <a href="../people.html?upto=16#person-%E7%8E%8B%E5%B0%8F%E6%85%A7">王小慧</a></span><span class="ch">第 10 章</span></li></ul></details>
+<details class="rel"><summary>文字版</summary><ul class="items"><li data-ch="15"><span class="text"><a href="../people.html?upto=16#person-%E5%BE%90%E8%8E%B7">徐获</a> — 搭档 — <a href="../people.html?upto=16#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a></span><span class="ch">第 10–11、13、15 章</span></li><li data-ch="16"><span class="text"><a href="../people.html?upto=16#person-%E5%BE%90%E8%8E%B7">徐获</a> → 暗中通气、救过 → <a href="../people.html?upto=16#person-%E5%88%98%E4%BD%B3">刘佳</a></span><span class="ch">第 12、16 章</span></li><li data-ch="9"><span class="text"><a href="../people.html?upto=16#person-%E5%BE%90%E8%8E%B7">徐获</a> — 交换情报 — <a href="../people.html?upto=16#person-%E8%81%82%E7%8E%84">聂玄</a></span><span class="ch">第 6、9 章</span></li><li data-ch="15"><span class="text"><a href="../people.html?upto=16#person-%E9%9F%A9%E6%95%99%E6%8E%88">韩教授</a> — 师生 — <a href="../people.html?upto=16#person-%E5%88%98%E4%BD%B3">刘佳</a></span><span class="ch">第 3、12、15 章</span></li><li data-ch="4"><span class="text">李飞 — 抱团 — 陈益</span><span class="ch">第 4 章</span></li><li data-ch="10"><span class="text">李飞 — 敌对 — <a href="../people.html?upto=16#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 8、10 章</span></li><li data-ch="7"><span class="text"><a href="../people.html?upto=16#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 陈益</span><span class="ch">第 7 章</span><details class="src"><summary>原文</summary><blockquote>徐获确认陈益咽了气，才贴着车窗站起来<cite>第 7 章</cite></blockquote></details></li><li data-ch="12"><span class="text"><a href="../people.html?upto=16#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a> → 杀死 → 李飞</span><span class="ch">第 11–12 章</span><details class="src"><summary>原文</summary><blockquote>李飞是严嘉鱼杀的，老人变成了怪物<cite>第 12 章</cite></blockquote></details></li><li data-ch="15"><span class="text"><a href="../people.html?upto=16#person-%E7%8E%8B%E5%B0%8F%E6%85%A7">王小慧</a> → 救助 → <a href="../people.html?upto=16#person-%E5%88%98%E4%BD%B3">刘佳</a></span><span class="ch">第 15 章</span></li><li data-ch="10"><span class="text"><a href="../people.html?upto=16#person-%E5%BE%90%E8%8E%B7">徐获</a> → 收留 → <a href="../people.html?upto=16#person-%E7%8E%8B%E5%B0%8F%E6%85%A7">王小慧</a></span><span class="ch">第 10 章</span></li></ul></details>
 </section>
 <section id="threads" class="fgroup"><h3>伏笔与未解</h3>
-<p class="note">截至第 16 章还没有交代的事。</p>
-<ul class="items"><li data-ch="16"><a class="thread-no" href="../threads.html?upto=16#thread-008" title="伏笔总表">#008</a><span class="text">徐获错杀的是陈益还是方脸男人？系统只说一红一普通。</span><span class="ch">第 16 章</span></li><li data-ch="16"><a class="thread-no" href="../threads.html?upto=16#thread-007" title="伏笔总表">#007</a><span class="text">严嘉鱼问徐获“你看起来也不像饿着肚子上车的”，他只回了一句“你猜呢”。系统说他在列车上没吃过人，上车前呢？</span><span class="ch">第 15–16 章</span><details class="src"><summary>原文</summary><blockquote>你看起来也不像饿着肚子上车的<cite>第 15 章</cite></blockquote></details></li><li data-ch="16"><a class="thread-no" href="../threads.html?upto=16#thread-009" title="伏笔总表">#009</a><span class="text">追上列车的巨大怪物是什么，“工作人员的失误”又是什么意思。</span><span class="ch">第 16 章</span></li><li data-ch="9"><a class="thread-no" href="../threads.html?upto=16#thread-005" title="伏笔总表">#005</a><span class="text">聂玄的金色名片和汀城第一研究所：下车后联系他。</span><span class="ch">第 2、9 章</span></li><li data-ch="13"><a class="thread-no" href="../threads.html?upto=16#thread-006" title="伏笔总表">#006</a><span class="text">老人留下一封写着地址的遗书，王小慧说要送到首都；刘佳带走了何洋的背包。</span><span class="ch">第 13 章</span></li><li data-ch="16"><a class="thread-no" href="../threads.html?upto=16#thread-010" title="伏笔总表">#010</a><span class="text">徐获的票夹里有三张单程票：小丑城站、温泉山城站、花园城堡站，下一站去哪儿由他选。</span><span class="ch">第 16 章</span><details class="src"><summary>原文</summary><blockquote>小丑城站、温泉山城站、花园城堡站<cite>第 16 章</cite></blockquote></details></li></ul>
-</section><section id="links" class="fgroup"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E7%BB%B4%E5%BA%A6%E8%A3%82%E7%BC%9D" data-ch="3">维度裂缝</a><a href="../world.html#world-%E5%88%9D%E5%AE%A1%E5%88%97%E8%BD%A6" data-ch="9">初审列车</a><a href="../world.html#world-%E8%BD%A6%E7%A5%A8%E4%B8%8E%E5%89%AF%E6%9C%AC" data-ch="16">车票与回程票</a><a href="../world.html#world-%E7%BC%BA%E5%B8%AD%E5%89%AF%E6%9C%AC" data-ch="16">每月必须下副本</a><a href="../world.html#world-%E9%80%9A%E5%85%B3%E4%B8%8E%E8%AF%84%E7%BA%A7" data-ch="16">通关与评级</a><a href="../world.html#world-%E5%88%97%E8%BD%A6%E8%A7%84%E5%88%99" data-ch="3">列车与乘务员</a><a href="../world.html#world-%E5%88%97%E8%BD%A6%E6%80%AA%E7%89%A9" data-ch="11">夜里的怪物</a><a href="../world.html#world-%E8%81%8C%E4%B8%9A" data-ch="3">职业</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E8%80%85" data-ch="3">进化者、进化率与等级</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E5%89%82" data-ch="16">进化剂</a><a href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B" data-ch="16">红、黑、白玩家与编号</a><a href="../world.html#world-%E7%BA%A2%E8%89%B2%E7%8E%A9%E5%AE%B6" data-ch="8">红色玩家的饥饿</a><a href="../world.html#world-%E7%8E%A9%E5%AE%B6%E6%98%B5%E7%A7%B0" data-ch="3">玩家昵称</a><a href="../world.html#world-%E7%89%B9%E6%80%A7" data-ch="3">特性</a><a href="../world.html#world-%E9%81%93%E5%85%B7%E7%BB%A7%E6%89%BF" data-ch="16">杀人夺宝与无主道具</a><a href="../world.html#world-%E8%8D%AF%E5%89%82" data-ch="16">药剂</a><a href="../world.html#world-%E7%99%BD%E9%92%9E" data-ch="3">白钞</a></p></section></details>
+<ul class="items"><li data-ch="16"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#008</span><span class="text">陈益和方脸男人里，徐获错杀的是哪一个，系统只说一红一普通。</span><span class="ch">第 16 章</span></li><li data-ch="16"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#007</span><span class="text">严嘉鱼说徐获不像饿着肚子上车的，他只回了句“你猜呢”；系统说他在车上没吃过人，上车前如何没有交代。</span><span class="ch">第 15–16 章</span></li><li data-ch="16"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#009</span><span class="text">追上列车的巨大怪物是什么，系统所说“工作人员的失误”导致的D级事件又指什么，都不清楚。</span><span class="ch">第 16 章</span></li><li data-ch="9"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#005</span><span class="text">聂玄留下一张金色名片，让徐获下车后联系他。</span><span class="ch">第 9 章</span></li><li data-ch="13"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#006</span><span class="text">老人留下一封写着地址的遗书，王小慧要把它送到首都，刘佳则带走了何洋的背包。</span><span class="ch">第 13 章</span></li><li data-ch="16"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#010</span><span class="text">徐获的票夹里有小丑城站、温泉山城站、花园城堡站三张单程票，下一站由他自己选。</span><span class="ch">第 16 章</span></li></ul>
+</section><section id="links" class="fgroup"><h3>本单元涉及的设定、地点与道具</h3><p class="note">设定在世界观页，地点和势力在地理页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E7%BB%B4%E5%BA%A6%E8%A3%82%E7%BC%9D" data-ch="3">维度裂缝</a><a href="../world.html#world-%E5%88%9D%E5%AE%A1%E5%88%97%E8%BD%A6" data-ch="9">初审列车</a><a href="../world.html#world-%E8%BD%A6%E7%A5%A8%E4%B8%8E%E5%89%AF%E6%9C%AC" data-ch="16">车票与回程票</a><a href="../world.html#world-%E7%BC%BA%E5%B8%AD%E5%89%AF%E6%9C%AC" data-ch="16">每月必须下副本</a><a href="../world.html#world-%E9%80%9A%E5%85%B3%E4%B8%8E%E8%AF%84%E7%BA%A7" data-ch="16">通关与评级</a><a href="../world.html#world-%E5%88%97%E8%BD%A6%E8%A7%84%E5%88%99" data-ch="3">列车与乘务员</a><a href="../world.html#world-%E5%88%97%E8%BD%A6%E6%80%AA%E7%89%A9" data-ch="11">夜里的怪物</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E8%80%85" data-ch="3">进化者、进化率与等级</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E5%89%82" data-ch="16">进化剂</a><a href="../world.html#world-%E8%81%8C%E4%B8%9A" data-ch="3">职业</a><a href="../world.html#world-%E7%89%B9%E6%80%A7" data-ch="3">特性</a><a href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B" data-ch="16">红、黑、白玩家与编号</a><a href="../world.html#world-%E7%BA%A2%E8%89%B2%E7%8E%A9%E5%AE%B6" data-ch="8">红色玩家的饥饿</a><a href="../world.html#world-%E7%8E%A9%E5%AE%B6%E6%98%B5%E7%A7%B0" data-ch="3">玩家昵称</a><a href="../world.html#world-%E9%81%93%E5%85%B7%E7%BB%A7%E6%89%BF" data-ch="16">杀人夺宝与无主道具</a><a href="../world.html#world-%E8%8D%AF%E5%89%82" data-ch="16">药剂</a><a href="../world.html#world-%E7%99%BD%E9%92%9E" data-ch="3">白钞</a></p><p class="links fgroup"><b>地点与势力</b><a href="../places.html#place-%E4%BA%94%E7%BB%B4%E8%BD%A6%E7%AB%99" data-ch="3">五维车站</a><a href="../places.html#place-%E6%B8%A9%E6%B3%89%E5%B1%B1%E5%9F%8E%E7%AB%99" data-ch="16">温泉山城站</a><a href="../places.html#place-%E5%B0%8F%E4%B8%91%E5%9F%8E%E7%AB%99" data-ch="16">小丑城站</a></p></section></details>
 <nav class="units-nav bottom"><a class="prev" href="u0001.html"><small>← 上一单元</small><b>入局前（汀城）</b><small>第 1–2 章</small></a><a class="next" href="u0003.html"><small>下一单元 →</small><b>五维车站（初审后）</b><small>第 17 章</small><small class="after" data-beyond="17" hidden>在你的进度之后</small></a></nav><script>
 (function () {
   var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
@@ -302,6 +372,17 @@ h4[id] { scroll-margin-top:16px; }
     else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
     button.textContent = '仍然展开'; status.appendChild(button);
   });
+  if (window.matchMedia('(max-width:640px)').matches) {   // a phone (design reviews 2026-10-06): the graph is wider than
+    doc.querySelectorAll('details.rel').forEach(function (d) { d.open = true; });   // the screen, so the list shows too,
+    doc.querySelectorAll('.graph').forEach(function (g) {   // and the strip starts at the busiest person, not the left edge
+      var svg = g.querySelector('svg'), best = null;
+      if (!svg || !svg.viewBox || !svg.viewBox.baseVal) return;
+      g.querySelectorAll('g.node circle').forEach(function (c) { if (!best || +c.getAttribute('r') > +best.getAttribute('r')) best = c; });
+      if (!best) return;
+      var scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width;
+      g.scrollLeft = Math.max(0, +best.getAttribute('cx') * scale - g.clientWidth / 2);
+    });
+  }
 })();
 </script>
 <footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
@@ -385,5 +466,84 @@ h4[id] { scroll-margin-top:16px; }
     note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
     note.hidden = false; note.scrollIntoView();
   } else if (target) { target.scrollIntoView(); }
+})();
+
+document.addEventListener('toggle', function (e) {
+  var d = e.target;
+  if (!d.open || d.tagName !== 'DETAILS' || d.classList.contains('src') || d.hasAttribute('data-fold')) return;
+  if (d.querySelector(':scope > button.fold-close') || d.getBoundingClientRect().height < window.innerHeight * 0.7) return;
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'fold-close'; b.textContent = '收起 ▲';
+  b.addEventListener('click', function () {
+    d.open = false;
+    var s = d.querySelector(':scope > summary') || d;
+    if (s.getBoundingClientRect().top < 0) s.scrollIntoView({block: 'start'});
+  });
+  d.appendChild(b);
+}, true);
+
+(function () {   // phones (step 7): the contents as a drawer, intros cut to three lines
+  var doc = document, root = doc.documentElement, small = window.matchMedia('(max-width:720px)');
+  var toc = doc.getElementById('toc') || doc.getElementById('jump');
+  if (toc) {
+    root.classList.add('has-toc');
+    var fab = doc.createElement('button'), back = doc.createElement('div'), filter = doc.createElement('input');
+    fab.type = 'button'; fab.className = 'toc-fab'; fab.textContent = '目录'; fab.setAttribute('aria-label', '目录');
+    var lastY = window.scrollY;   // scrolling down it steps aside, scrolling up it comes back (design review 2026-10-06)
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (y > lastY + 8 && y > 240) root.classList.add('fab-away'); else if (y < lastY - 8) root.classList.remove('fab-away');
+      lastY = y;
+    }, {passive: true});
+    back.className = 'toc-backdrop';
+    filter.type = 'search'; filter.className = 'toc-filter'; filter.placeholder = '在目录里找…';
+    toc.insertBefore(filter, toc.firstChild);
+    doc.body.appendChild(back); doc.body.appendChild(fab);
+    var open = function (on) { root.classList.toggle('toc-open', on); if (on && small.matches) filter.focus({preventScroll: true}); };
+    fab.addEventListener('click', function () { open(!root.classList.contains('toc-open')); });
+    back.addEventListener('click', function () { open(false); });
+    toc.addEventListener('click', function (e) { if (e.target.closest('a')) open(false); });
+    doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+    doc.querySelectorAll('a.totop').forEach(function (a) {   // on a phone it opens the contents, so it says so (GPT design review 2026-10-06)
+      a.textContent = '目录';
+      a.addEventListener('click', function (e) { if (small.matches) { e.preventDefault(); open(true); } });
+    });
+    filter.addEventListener('input', function () {   // names and data-keys (other names); a .find-only row shows only on a hit
+      var q = filter.value.replace(/\s/g, '');
+      toc.querySelectorAll('a').forEach(function (a) {
+        a.style.display = !q || (a.textContent + (a.dataset.keys || '')).replace(/\s/g, '').indexOf(q) >= 0 ? '' : 'none';
+      });
+      toc.querySelectorAll('.find-only').forEach(function (r) {
+        r.classList.toggle('found', !!q && Array.prototype.some.call(r.querySelectorAll('a'), function (a) { return a.style.display !== 'none'; }));
+      });
+    });
+  }
+  if (window.matchMedia('(max-width:640px)').matches) {
+    doc.querySelectorAll('.ticket-main > p.hint').forEach(function (p) {
+      if (p.scrollHeight < 90) return;
+      p.classList.add('clamped');
+      var b = doc.createElement('button');
+      b.type = 'button'; b.className = 'hint-more'; b.textContent = '展开说明';
+      b.addEventListener('click', function () { p.classList.remove('clamped'); b.remove(); });
+      p.after(b);
+    });
+  }
+})();
+
+(function () {   // a link into a closed fold opens the folds around its target first (design reviews 2026-10-06)
+  function openTo(id) {
+    var t = id && (document.getElementById(id) || document.getElementById(decodeURIComponent(id)));
+    for (var p = t && t.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a) openTo(a.getAttribute('href').slice(1));
+  }, true);
+  if (location.hash) openTo(location.hash.slice(1));
+  document.querySelectorAll('.graph, .growth').forEach(function (g) {   // a strip wider than the screen fades at its right edge
+    if (g.scrollWidth <= g.clientWidth + 2) return;
+    var check = function () { g.classList.toggle('at-end', g.scrollLeft + g.clientWidth >= g.scrollWidth - 4); };
+    g.classList.add('scroll-fade'); g.addEventListener('scroll', check, {passive: true}); check();
+  });
 })();
 </script></body></html>

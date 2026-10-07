@@ -1,18 +1,20 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>009 区（江江与首都安全区） · 单元卡 · 维度之下</title><style>
+<title>009 区（江江与首都安全区） · 单元卡 · 维度之下</title><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20x%3D%222%22%20y%3D%226%22%20width%3D%2228%22%20height%3D%2220%22%20rx%3D%223%22%20fill%3D%22%23d3a655%22/%3E%3Ccircle%20cx%3D%222%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ctext%20x%3D%2216%22%20y%3D%2221.5%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20text-anchor%3D%22middle%22%20fill%3D%22%2307080b%22%20font-family%3D%22serif%22%3E%E7%BB%B4%3C/text%3E%3C/svg%3E"><meta name="description" content="《玩家请上车》（海晏山 著）的读者整理：按单元写的梗概与解析，世界观、人物、地理、伏笔和道具库，可按读到的章数隐藏后文。"><meta name="theme-color" content="#07080b"><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
   --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
-  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC","Source Han Serif CN","Noto Serif CJK SC","STSong","SimSun",serif;
   --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
-  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace;
+  --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
-  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
-  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380; }
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#85621f; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380;
+  --mind:#7650b0; --space:#17788a; --time:#b25f18; --gold:#a07a10; }
 /* what stays dark in the light theme keeps the dark accents */
-:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
-  --line:#3a404b; --chip:#232830; }
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth, .emblem) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] .banner button.primary { color:#fff; }
 :root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
 * { box-sizing:border-box; }
@@ -21,11 +23,15 @@ body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
   background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
 :root[data-theme="light"] body { background:var(--paper); }
 a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+/* a dense run of names (items in hand, rewards, the units a person is in): ink with a thin red line, not a wall of red (design review 2026-10-06) */
+.quiet a, a.quiet { color:var(--ink); border-bottom:1px solid var(--line); border-bottom-color:color-mix(in srgb, var(--signal) 32%, transparent); }
+.quiet a:hover, a.quiet:hover { color:var(--signal); text-decoration:none; border-bottom-color:var(--signal); }
 main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 
 /* nav: the rail */
 .rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
 .rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; }
+@media (min-width:1100px) { .rail-inner { max-width:1060px; } }   /* brand, links, progress and switches on one line (2026-10-06) */
 .brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
 .brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.12em; margin-left:6px; }   /* so brand, links, progress and switches fit one line at 920px */
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
@@ -48,18 +54,54 @@ details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 @media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
   .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
 .beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
-details.fold[open] > summary { display:none; }
+details.fold[data-fold][open] > summary { display:none; }   /* only the spoiler gate (hero 档案) drops its line once open */
+button.fold-close { display:block; margin:8px 0 2px; font:12.5px var(--sans); color:var(--muted); background:none; border:1px solid var(--line); border-radius:4px; padding:5px 12px; cursor:pointer; }
+button.fold-close:hover { color:var(--brass); border-color:var(--brass); }
+/* phones (step 7, 2026-10-06): one row of page links; intros cut to three lines; a page's contents (#toc, #jump) as
+   a drawer behind a 目录 button, with a filter; long CJK lines may break anywhere */
+button.toc-fab, .toc-backdrop { display:none; }
+input.toc-filter { display:block; width:100%; margin:2px 0 10px; }   /* the contents filter on wide screens too (2026-10-06); its look is the shared search box */
+nav.jump input.toc-filter { max-width:20em; margin:8px 0 6px; }
+.ticket-main p.premise { color:var(--ink); }
+@media (max-width:720px) {
+  html.has-toc button.toc-fab { display:block; position:fixed; right:14px; bottom:max(18px, env(safe-area-inset-bottom)); z-index:41; width:46px; height:46px;
+    padding:0; border:none; border-radius:50%; font-size:0; color:transparent; cursor:pointer; opacity:.94; box-shadow:0 4px 14px rgba(0,0,0,.35);
+    background:linear-gradient(#07080b,#07080b) 50% 16px / 18px 2px no-repeat, linear-gradient(#07080b,#07080b) 50% 22px / 18px 2px no-repeat,
+      linear-gradient(#07080b,#07080b) 50% 28px / 18px 2px no-repeat, #d3a655; transition:transform .2s ease, opacity .2s ease; }
+  html.fab-away:not(.toc-open) button.toc-fab { transform:translateY(90px); opacity:0; }
+  html.has-toc #toc, html.has-toc #jump { position:fixed !important; top:0; right:0; bottom:0; left:auto; width:min(86vw,360px);
+    max-height:none !important; margin:0; z-index:40; overflow:auto; overscroll-behavior:contain; background:var(--card);
+    border:none; border-left:1px solid var(--line); border-radius:0; padding:12px 16px 90px; transform:translateX(105%);
+    transition:transform .2s ease; box-shadow:-8px 0 24px rgba(0,0,0,.35); }
+  html.toc-open #toc, html.toc-open #jump { transform:none; }
+  html.toc-open .toc-backdrop { display:block; position:fixed; inset:0; z-index:39; background:rgba(0,0,0,.45); }
+  html.has-toc input.toc-filter { display:block; width:100%; margin:2px 0 10px; font-size:15px; min-height:40px; }
+}
+@media (max-width:640px) {
+  .rail nav { flex:1 1 100%; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+  .rail nav::-webkit-scrollbar { display:none; }
+  .rail nav a { flex:none; }
+  main { overflow-wrap:anywhere; }
+  .ticket-main p.hint.clamped { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:0; }
+  button.hint-more { background:none; border:none; color:var(--brass); font-size:12.5px; padding:2px 0 6px; cursor:pointer; }
+}
 [hidden] { display:none !important; }
 html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* the 显示出处 and 浅色 switches */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
 .switches { display:inline-flex; gap:8px; }
-.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
-#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.toggle-label { display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--rail-muted); border:1px solid #3a404b; border-radius:14px;
+  padding:4px 11px 4px 5px; cursor:pointer; user-select:none; }
+.toggle-label::before { content:""; flex:none; width:24px; height:14px; border-radius:7px; transition:background .15s;
+  background:radial-gradient(circle at 7px 50%, #8f897d 4px, transparent 4.6px), #262b33; }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail-ink); border-color:#8a7140; }
+#show-src:checked ~ .rail label[for="show-src"]::before, #theme-light:checked ~ .rail label[for="theme-light"]::before {
+  background:radial-gradient(circle at 17px 50%, #07080b 4px, transparent 4.6px), #d3a655; }
+#show-src:focus-visible ~ .rail label[for="show-src"], #theme-light:focus-visible ~ .rail label[for="theme-light"] { outline:2px solid #d3a655; outline-offset:2px; }
 html:not(.js) label[for="theme-light"] { display:none; }
 .ch, sup.cite, details.src, .src-only { display:none; }
-#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main .ch { display:inline-block; text-indent:0; }
 #show-src:checked ~ main sup.cite { display:inline; }
 #show-src:checked ~ main details.src { display:inline; }
 #show-src:checked ~ main .src-only { display:block; }
@@ -69,7 +111,7 @@ html:not(.js) label[for="theme-light"] { display:none; }
 .ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
 sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
 details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
-blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--line); color:color-mix(in srgb, var(--ink) 80%, var(--muted)); font:14.5px/1.75 var(--serif); }
 cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
 
 /* headings and text */
@@ -95,6 +137,12 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 .route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
 .stub-row { font:12px var(--mono); color:var(--muted); }
 .stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+/* a page's counts read like the fields of a ticket stub: a small label over a big number (2026-10-06) */
+.ticket-stub.stats { gap:12px; }
+.ticket-stub.stats .stub-row:not(.src-only) { font:600 24px/1.05 var(--mono); color:var(--ink); }   /* figures in ink; gold kept for its few meanings */
+.ticket-stub.stats .stub-row:not(.src-only) b { display:block; font:500 11.5px/1.4 var(--sans); color:var(--muted); letter-spacing:.12em; margin:0 0 3px; }
+.ticket-stub.stats small { font:500 12px var(--sans); color:var(--muted); margin-left:4px; }
+a.stub-row { display:block; text-decoration:none; } a.stub-row:hover b { color:var(--brass); }   /* a count that jumps to its section */
 .stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
   display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
 .stamp small { font-size:10px; margin-left:1px; }
@@ -107,10 +155,11 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* grade badge */
 .grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.dark-ink { color:#14100a; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
-.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+.tag { text-indent:0; display:inline-block; font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
 /* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
-.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+.seal { flex:none; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
   border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
 .seal.wide { font-size:14px; }
 .seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
@@ -120,35 +169,66 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* the player panel, in the book's 【key：value】 lines */
 .syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
   padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
-.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel .row > span { color:var(--rail-ink); font-weight:600; }
+.syspanel .v-rate { color:var(--brass); } .syspanel .grade { font-size:12px; height:20px; min-width:24px; vertical-align:1px; }   /* gold for evolution; a level in its colour */
+.evo-mind { color:var(--mind); } .evo-space { color:var(--space); } .evo-time { color:var(--time); }
 .syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
 @media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
 .upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
-/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
-.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已否定 (denied or refuted); settled points carry no tag */
+.tier { text-indent:0; display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
 .tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 .tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
 
 .hidden { display:none !important; }
+nav.pagenav { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0 6px; font-size:14px; }
+nav.pagenav > b { color:var(--muted); font-weight:400; font-size:13px; margin-right:2px; }
+nav.pagenav a { padding:3px 11px; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--ink); }
+nav.pagenav a:hover { border-color:var(--brass); color:var(--brass); text-decoration:none; }
+@media (min-width:721px) { nav.pagenav input.toc-filter { display:none; } }
+@media (max-width:720px) {
+  html.has-toc nav.pagenav { display:block; }
+  html.has-toc nav.pagenav > b { display:block; margin:0 0 6px; }
+  html.has-toc nav.pagenav a { display:block; border:none; border-bottom:1px solid var(--line); border-radius:0; background:none; padding:10px 2px; }
+}
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
 @media (max-width:720px) { .totop { display:inline; } }
 footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
 @media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
-  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; }
+  .ticket-stub.stats { flex-direction:row; flex-wrap:wrap; justify-content:flex-start; gap:10px 26px; } .ticket-stub.stats .stub-row.src-only { flex-basis:100%; } }
 
+input[type=search] { font:14px var(--sans); color:var(--ink); background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2714%27%20height%3D%2714%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27round%27%3E%3Ccircle%20cx%3D%2710.5%27%20cy%3D%2710.5%27%20r%3D%276.5%27/%3E%3Cpath%20d%3D%27M20%2020l-4.6-4.6%27/%3E%3C/svg%3E") no-repeat 10px 50%;
+  border:1px solid var(--line); border-radius:6px; padding:6px 10px 6px 31px; min-height:34px; }
+input[type=search]::placeholder { color:var(--muted); }
+input[type=search]:focus, select:focus { outline:none; border-color:var(--brass); box-shadow:0 0 0 2px color-mix(in srgb, var(--brass) 25%, transparent); }
+select { appearance:none; -webkit-appearance:none; font:14px var(--sans); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2710%27%20height%3D%276%27%20viewBox%3D%270%200%2010%206%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M1%201l4%204%204-4%27/%3E%3C/svg%3E") no-repeat right 10px center; padding:6px 30px 6px 10px; min-height:34px; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary { list-style:none; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::-webkit-details-marker { display:none; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::before { content:""; display:inline-block; width:6px; height:6px; margin:0 9px 2px 2px; border-right:1.6px solid currentColor;
+  border-bottom:1.6px solid currentColor; transform:rotate(-45deg); transition:transform .15s ease; opacity:.7; vertical-align:middle; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more)[open] > summary::before { transform:rotate(45deg); margin-bottom:4px; }
+@media (max-width:640px) { .scroll-fade { -webkit-mask-image:linear-gradient(to right, #000 82%, transparent); mask-image:linear-gradient(to right, #000 82%, transparent); }
+  .scroll-fade.at-end { -webkit-mask-image:none; mask-image:none; } }
+p.graph-hint { display:none !important; }
+
+details.section-fold > summary { cursor:pointer; font:600 16px var(--serif); color:var(--muted); margin:14px 0 6px; letter-spacing:.04em; }
+details.section-fold[open] > summary { color:var(--ink); }
 .layer { margin:6px 0 18px; }
-.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; display:flex; align-items:center; gap:4px 12px; }   /* a phone wraps the note, 收起 stays on the right */
 .layer > summary::-webkit-details-marker { display:none; }
-.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
-.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
-.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer > summary b { flex:none; display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { flex:1 1 auto; color:var(--muted); font-size:13px; }
+.layer > summary::after { content:"收起"; flex:none; color:var(--muted); font-size:12px; }
 .layer:not([open]) > summary::after { content:"展开"; }
 section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
 ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
-.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
-ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+a.term { color:inherit; border-bottom:1px dotted var(--muted); text-decoration:none; } a.term:hover { color:var(--signal); border-bottom-color:var(--signal); }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; overflow-wrap:anywhere; }   /* a long name wraps in its column */
+ul.people li { display:grid; grid-template-columns:8.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
 ul.people li > :not(.subject) { grid-column:2; }
 @media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
 .harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
@@ -160,6 +240,9 @@ nav.units-nav a { display:flex; flex-direction:column; background:var(--card); b
 nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
 nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
 nav.units-nav small.after { color:var(--signal); }
+@media (max-width:640px) { nav.units-nav { grid-template-columns:1fr; gap:8px; } nav.units-nav b { font-size:15px; } nav.units-nav a { padding:8px 12px; }
+  nav.units-nav span.none { display:none; } }   /* a phone: one above the other, a long name on one or two lines (design review 2026-10-06) */
+details.about-src { margin:8px 0 2px; } details.about-src > summary { color:var(--muted); font-size:13px; }
 .graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
 @media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
@@ -176,46 +259,40 @@ svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-w
 svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
 details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 .links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
-.links a { margin-right:12px; white-space:nowrap; }
+.links a, .links > span { margin-right:12px; white-space:nowrap; }   /* a name with no item card is a span: same spacing */
+@media (max-width:640px) { .links a, .links > span { white-space:normal; } }   /* a long place name wraps on a phone (u0148) */
 .progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
 .hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+.ticket-main .lede { margin:12px 0 2px; font:500 17px/1.75 var(--serif); color:var(--ink); max-width:40em; }
 nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
 nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，第一个副本结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到第一个副本结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket" id="card" data-first="781" data-end="810"><div class="ticket-main"><div class="kicker">主线</div>
-<h1>009 区（江江与首都安全区）</h1><div class="route">第 781 章 ──── 第 810 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="781" hidden>这张卡从第 781 章开始，在你填的进度之后，整张都是剧透。</p></div>
-<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0039</div><div class="stub-row"><b>句数</b>53</div>
-<div class="stub-row"><b>引用</b>58 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 781–810 章正文后撰写。</p>
+<h1>009 区（江江与首都安全区）</h1><div class="route">第 781 章 ──── 第 810 章</div><div class="lede" data-ch="806">徐获在009区缠上能预知死亡的画家江江，追问训练她的人和自己缺失的记忆，被她毒伤后又追到首都安全区，卷进一场炸楼杀人的混乱。<span class="ch">第 785、789–790、799、806 章</span></div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 3284 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="781" hidden>这张卡从第 781 章开始，在你填的进度之后，整张都是剧透。</p></div>
+<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0039</div><div class="stub-row"><b>句数</b>78</div>
+<div class="stub-row"><b>引用</b>25 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<details class="about-src meta"><summary>出处怎么核对</summary>每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</details><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 781–810 章正文后撰写；2026-10-06 第六步由 Claude 子代理（claude-opus-5-5）改写（GPT 额度用完前第二波写成的两三张也在这批里，没有分开记录），原梗概折为逐段复盘。</p>
 <nav class="units-nav top"><a class="prev" href="u0038.html"><small>← 上一单元</small><b>只有一个主人的别墅</b><small>第 768–780 章</small></a><a class="next" href="u0040.html"><small>下一单元 →</small><b>去 011 区的列车（维度风暴）</b><small>第 811–821 章</small><small class="after" data-beyond="811" hidden>在你的进度之后</small></a></nav>
-<details class="layer" open><summary><b>概况</b><span>一句话、登场人物。写到第 810 章，含结局。</span></summary><section id="overview" class="fgroup"><h3>一句话</h3>
-<ul class="items"><li data-ch="810"><span class="text">徐获在 009 区缠上画家江江、逼问“商医生”的事，被她的画廊空间毒伤左臂，后来在首都安全区把她困进精神世界；又和严嘉鱼重逢、救下一批人，坐车离开 009 区。</span><span class="ch">第 781、785、789–790、795、799、801–802、806、810 章</span></li><li data-ch="810"><span class="text">主线，第 781–810 章。第 810 章后半两人上了去 011 区的列车。</span><span class="ch">第 781、810 章</span></li></ul>
-</section>
-<section id="harvest" class="harvest" data-ch="810"><h3>徐获的收获</h3><p class="links"><b>拿到</b><a href="../items.html#item-%E8%BD%A6%E9%92%A5%E5%8C%99">车钥匙</a><a href="../items.html#item-%E7%94%BB%E7%AC%94">画笔</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
-<section id="cast" class="fgroup"><h3>登场人物</h3>
-<p class="note">按出场先后。</p>
-<ul class="people"><li data-ch="789"><b class="subject"><a href="../people.html?upto=810#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲，化名徐知）</b><span class="text">在 009 区化名徐知，追查训练商书铭、江江这些孩子的人。</span><span class="ch">第 785、789 章</span><details class="src"><summary>原文</summary><blockquote>“我叫徐知。”徐获认真看着她的眼睛<cite>第 785 章</cite></blockquote></details></li><li data-ch="801"><b class="subject"><a href="../people.html?upto=810#person-%E6%B1%9F%E6%B1%9F">江江</a></b><span class="text">二十出头的名画家，画能让玩家内心平静，身边保镖接力；本名柳弈，是商氏福利院被领养出国的女孩。她是 C 级玩家，特性能预知人的死亡并画下来，手里有丹青做的八角画廊和画笔。</span><span class="ch">第 781、785、799、801 章</span><details class="src"><summary>原文</summary><blockquote>那名去找周致扬的年轻女人叫江江，是一名名气不小的画家<cite>第 781 章</cite></blockquote><blockquote>另一个移民国外的女孩跟着养父母姓改名柳弈<cite>第 785 章</cite></blockquote></details></li><li data-ch="781"><b class="subject">周致扬</b><span class="text">茂城巨富周家的小儿子，追求江江。</span><span class="ch">第 781 章</span></li><li data-ch="782"><b class="subject">常会长</b><span class="text">茂城玄天玩家组织的会长，戴银色面具。</span><span class="ch">第 782 章</span></li><li data-ch="784"><b class="subject">卞永毅</b><span class="text">侏儒玩家，想搭徐获的顺风车，给他在银河小区借了房子。</span><span class="ch">第 784 章</span><details class="src"><summary>原文</summary><blockquote>对了，大哥你贵姓啊，我叫卞永毅<cite>第 784 章</cite></blockquote></details></li><li data-ch="786"><b class="subject">宋旭</b><span class="text">江江的保镖兼保姆，对她保护过头，处处提防徐获。</span><span class="ch">第 785–786 章</span></li><li data-ch="794"><b class="subject"><a href="../people.html?upto=810#person-%E5%B0%8F%E5%85%83">小元</a></b><span class="text">边境小城里捡垃圾的孤女，快满十岁，管徐获叫“老师”。</span><span class="ch">第 790–791、794 章</span></li><li data-ch="797"><b class="subject">迟楠</b><span class="text">在服务区缠上徐获的女玩家，带着老周、小马、大布几个兄弟，有一副能看人三天运气的命数牌。</span><span class="ch">第 797 章</span><details class="src"><summary>原文</summary><blockquote>自我介绍一下，我叫迟楠<cite>第 797 章</cite></blockquote></details></li><li data-ch="798"><b class="subject"><a href="../people.html?upto=810#person-%E5%B0%8F%E7%B2%89%E7%BA%A2%E5%B8%BD">小粉红帽</a></b><span class="text">粉红帽的游乐园的副本 BOSS，敲一敲唤醒人偶就能叫出来。</span><span class="ch">第 798 章</span></li><li data-ch="803"><b class="subject"><a href="../people.html?upto=810#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a></b><span class="text">刚从随机副本出来，得了一头会偷懒的 A 级道具石狮子“大毛”；和徐获一起去 011 区。</span><span class="ch">第 802–803 章</span><details class="src"><summary>原文</summary><blockquote>你肯定猜不到，它是一件A级道具<cite>第 803 章</cite></blockquote></details></li><li data-ch="810"><b class="subject">何辉</b><span class="text">首都安全区的代表人。</span><span class="ch">第 809–810 章</span><details class="src"><summary>原文</summary><blockquote>我今天是代表首都安全区来的<cite>第 809 章</cite></blockquote></details></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、承接前文、关键关系、伏笔与未解。写到第 810 章，含全部剧透。</span></summary><section id="story" class="fgroup"><h3>剧情梗概</h3>
-<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
-<nav class="arcs"><a href="#story-1" data-ch="781">一、茂城的宴会（第 781–784 章）</a><a href="#story-2" data-ch="785">二、江江的画（第 785–789 章）</a><a href="#story-3" data-ch="791">三、边境小城与小元（第 790–796 章）</a><a href="#story-4" data-ch="797">四、首都的展览（第 796–801 章）</a><a href="#story-5" data-ch="802">五、首都安全区（第 802–810 章）</a></nav>
-<h4 id="story-1" data-ch="781">一、茂城的宴会（第 781–784 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="781">徐获住的酒店里，周家小儿子周致扬宴请玩家组织高层。画家江江也在：她的画在玩家里很有市场，很多人说压力大时看她的画能平静下来，富豪们拿她的画拉拢玩家，痴迷她的玩家自发排班保护她。<sup class="cite" title="第781章：很多玩家反馈自己在承受不了高压的时候看到她的画会平静下来">781</sup></span><span class="stmt" data-ch="783">一伙外区玩家闯进宴会厅，挟持江江，要和酒店主人谈一件被抢走的道具；茂城玄天玩家组织的常会长带人赶到，却不肯为人质让步。徐获测过对方的危险程度，用“真相超越一切”避开道具效果，把江江抢了回来，又用“请坐”把三个人按在椅子上。<sup class="cite" title="第782章：茂城玄天玩家组织将全力绞杀你们；第782章：他将江江抢过来之后">782–783</sup></span><span class="stmt" data-ch="784">江江被保镖送走前，喊他去银河小区找她。徐获下楼时救了一个断腿的小男孩，顺手收了想搭顺风车的侏儒玩家卞永毅，让他在银河小区借来一栋别墅。<sup class="cite" title="第783章：你来银河小区找我，我住在那里，银河小区很安全；第784章：对了，大哥你贵姓啊，我叫卞永毅">783–784</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="781">很多玩家反馈自己在承受不了高压的时候看到她的画会平静下来<cite>第 781 章</cite></blockquote><blockquote data-ch="783">茂城玄天玩家组织将全力绞杀你们<cite>第 782 章</cite></blockquote><blockquote data-ch="783">他将江江抢过来之后<cite>第 782 章</cite></blockquote><blockquote data-ch="784">你来银河小区找我，我住在那里，银河小区很安全<cite>第 783 章</cite></blockquote><blockquote data-ch="784">对了，大哥你贵姓啊，我叫卞永毅<cite>第 784 章</cite></blockquote></details>
-<h4 id="story-2" data-ch="785">二、江江的画（第 785–789 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="785">徐获以“徐知”的名字登门。侦探回信：移民国外的那个女孩改名柳弈，养父母病逝后拜师学画，一年后用在孤儿院用过的名字“江江”出道。<sup class="cite" title="第785章：一年后以曾在孤儿院用过的名字——“江江”出道">785</sup></span><span class="stmt" data-ch="786">江江身边的玩家像一个自发的教团：向她求婚、威胁她的人会被暗杀。她的画室里盖着三十来幅“没画完”的画；院子里种着能看出分区进化程度的虫洞花。<sup class="cite" title="第786章：部分精神依赖江江的玩家对其有奇特的占有欲；第786章：据说是一种可以看出游戏分区进化程度的植物">786</sup></span><span class="stmt" data-ch="788">宋旭想拉拢徐获当保镖，徐获只答应留在 009 区期间保护她。趁他带江江去鬼屋，卞永毅偷看了画室：画的全是她身边人的死状，连他自己挂在栅栏上的样子也在其中；他一出门就被寸头青年杀死，死状和画一模一样。<sup class="cite" title="第787章：不过我逗留在009区的这段时间可以保护你；第788章：和画室里描绘他死亡场景的那幅画如出一辙">787–788</sup></span><span class="stmt" data-ch="789">鬼屋里徐获逼问“商医生”：江江只认商书铭，说他早死了；徐获说出那个移民的男孩一家都死了，又说出自己的来意——小时候在精神病医院治疗，缺失的记忆里有哥哥的死。<sup class="cite" title="第789章：但在这部分缺失记忆中有我兄长的死">788–789</sup></span><span class="stmt" data-ch="789">江江挥笔展开画廊空间，画里的异兽扑出来，她的两个保镖被撕碎；徐获用“亡者之眼”刺中的只是她的幻影。她在他掌心留下一道伤：“留个纪念，你一定要回来找我啊。”<sup class="cite" title="第789章：留个纪念，你一定要回来找我啊">789</sup></span></p><details class="src block fgroup"><summary>本段原文 7 处</summary><blockquote data-ch="785">一年后以曾在孤儿院用过的名字——“江江”出道<cite>第 785 章</cite></blockquote><blockquote data-ch="786">部分精神依赖江江的玩家对其有奇特的占有欲<cite>第 786 章</cite></blockquote><blockquote data-ch="786">据说是一种可以看出游戏分区进化程度的植物<cite>第 786 章</cite></blockquote><blockquote data-ch="788">不过我逗留在009区的这段时间可以保护你<cite>第 787 章</cite></blockquote><blockquote data-ch="788">和画室里描绘他死亡场景的那幅画如出一辙<cite>第 788 章</cite></blockquote><blockquote data-ch="789">但在这部分缺失记忆中有我兄长的死<cite>第 789 章</cite></blockquote><blockquote data-ch="789">留个纪念，你一定要回来找我啊<cite>第 789 章</cite></blockquote></details>
-<h4 id="story-3" data-ch="791">三、边境小城与小元（第 790–796 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="791">徐获借五五开气窗脱身，被抛到边境小城，左臂中毒僵死，只能坐轮椅；网上开始流传袭击江江的通缉令。悬赏平台的卖家告诉他，江江的画笔和画框是制器师丹青的最后作品“八角画廊”，丹青做完就被杀了。<sup class="cite" title="第791章：网上开始流传一张非官方发出来的通缉令；第791章：因为他做成这两件道具后就被杀了">790–791</sup></span><span class="stmt" data-ch="792">捡垃圾的孤女小元替他跑腿买饭。她说小城的女孩一满十岁就会被卖掉，之后常在垃圾堆里看到她们的尸体。<sup class="cite" title="第792章：等到我们十岁的时候就会被送出去">791–792</sup></span><span class="stmt" data-ch="794">徐获照老板给的名单端了人口买卖团伙，把水刀枪交给小元，让她自己决定开不开枪；他又杀了团伙里的玩家兴哥。小元从此叫他老师。<sup class="cite" title="第793章：水刀枪只要有手就能用；第794章：徐获很轻松地解决了人口买卖组织又带着小元回了旅馆">793–794</sup></span><span class="stmt" data-ch="796">他开车带走小元和七个流浪儿，把孩子们送进另一座城的福利院，顺手处理掉一个有问题的老师；再给小元买了非玩家车票，让她去 011 区的月季花古堡找冬先生。<sup class="cite" title="第795章：一共七个孩子，争先恐后地爬上后座；第795章：让他们送你去月季花古堡">795–796</sup></span></p><details class="src block fgroup"><summary>本段原文 7 处</summary><blockquote data-ch="791">网上开始流传一张非官方发出来的通缉令<cite>第 791 章</cite></blockquote><blockquote data-ch="791">因为他做成这两件道具后就被杀了<cite>第 791 章</cite></blockquote><blockquote data-ch="792">等到我们十岁的时候就会被送出去<cite>第 792 章</cite></blockquote><blockquote data-ch="794">水刀枪只要有手就能用<cite>第 793 章</cite></blockquote><blockquote data-ch="794">徐获很轻松地解决了人口买卖组织又带着小元回了旅馆<cite>第 794 章</cite></blockquote><blockquote data-ch="796">一共七个孩子，争先恐后地爬上后座<cite>第 795 章</cite></blockquote><blockquote data-ch="796">让他们送你去月季花古堡<cite>第 795 章</cite></blockquote></details>
-<h4 id="story-4" data-ch="797">四、首都的展览（第 796–801 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="797">江江后天要在首都办展。徐获杀了办假证的墨镜男，拿到两张进安全区用的印花身份证，用“证件美容”换上假脸，开车上路；路上被迟楠一伙缠上。<sup class="cite" title="第796章：不过后天在首都有一场展览；第796章：在里面找到了两张印花身份证">796–797</sup></span><span class="stmt" data-ch="798">他用唤醒人偶叫出小粉红帽，许她一件 C 级道具和十二种限量棒棒糖，换她把一个人拉进她的副本。<sup class="cite" title="第798章：一个小忙，帮我拉一个人进你的副本">798</sup></span><span class="stmt" data-ch="799">展览上，一个丧子的母亲拿着照片当众指控江江的画在杀人；江江承认自己能预知死亡，还说自己会死在这里。楼上突然爆炸，迟楠一伙和黑衣玩家打成一团。<sup class="cite" title="第799章：我只是预知了他的死亡；第799章：我来这里是因为，我会死在这里">799</sup></span><span class="stmt" data-ch="800">江江展开八角画廊，徐获扔出唤醒人偶，却只把两个来帮忙的玩家拉进了副本。画廊里江江说，商书铭不是医生，只是赞助者；徐获打开精神世界，把她困进图书楼。<sup class="cite" title="第799章：商书铭也并不是医生，他只是一个赞助者；第800章：没想到你超级进化过了">799–800</sup></span><span class="stmt" data-ch="801">江江引爆两件道具想同归于尽，徐获护住了她。她说有人去过更高维的时空想改变预知，失败后照样死了；悬赏平台上回答他的人就是她。她不肯说老师是谁，把画笔留给他，约他以后再来 009 区，随即消失。<sup class="cite" title="第801章：没有，但有人去过，他失败了；第801章：你就没有想过在悬赏平台上回答你问题的人是我">801</sup></span></p><details class="src block fgroup"><summary>本段原文 9 处</summary><blockquote data-ch="797">不过后天在首都有一场展览<cite>第 796 章</cite></blockquote><blockquote data-ch="797">在里面找到了两张印花身份证<cite>第 796 章</cite></blockquote><blockquote data-ch="798">一个小忙，帮我拉一个人进你的副本<cite>第 798 章</cite></blockquote><blockquote data-ch="799">我只是预知了他的死亡<cite>第 799 章</cite></blockquote><blockquote data-ch="799">我来这里是因为，我会死在这里<cite>第 799 章</cite></blockquote><blockquote data-ch="800">商书铭也并不是医生，他只是一个赞助者<cite>第 799 章</cite></blockquote><blockquote data-ch="800">没想到你超级进化过了<cite>第 800 章</cite></blockquote><blockquote data-ch="801">没有，但有人去过，他失败了<cite>第 801 章</cite></blockquote><blockquote data-ch="801">你就没有想过在悬赏平台上回答你问题的人是我<cite>第 801 章</cite></blockquote></details>
-<h4 id="story-5" data-ch="802">五、首都安全区（第 802–810 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="802">徐获杀了几个挡路的黑衣玩家，救下被围攻的老周；老周说，他们炸的是拿进化者做实验的政客。画笔原来是 C 级道具“画家的笔”。徐获判断，训练江江的不会是第十七医院那名医生，她的精神状态不够稳定。<sup class="cite" title="第802章：我们杀的是豢养进化者充当试验品的政客；第802章：至少培养出她的人不可能是第十七医院那名医生">802</sup></span><span class="stmt" data-ch="804">他和严嘉鱼重逢。她新得了一头 A 级道具石狮子“大毛”，还进化出喝酒不醉的特性，徐获提醒她可能是二次进化。他把双蛇事件的战利品折成一百万白钞分给她。<sup class="cite" title="第803章：我进化出了一项新的特性，可以干杯不醉；第804章：徐获给了她一百万白钞">802–804</sup></span><span class="stmt" data-ch="807">首都安全区封城。一伙人砸塌了首都政府的办公大楼，其中一人在纸上写下名字再勾掉，隔着多远都能杀人——死法和当初 014 区超级道具事件里按名单死去的精英玩家一样。徐获猜政府护着的是 S 版药剂。<sup class="cite" title="第806章：其中一名玩家抽出一张纸，用笔在上面写着什么；第807章：超级道具事件中被杀掉的精英玩家；第807章：但徐获却觉得可能是S版药剂">805–807</sup></span><span class="stmt" data-ch="808">两人和追杀政府玩家的人交手；政府玩家用细线把那人切碎，从他身上翻出圣剑会的会规手册，杀人的纸却没找到。另外两栋楼倒塌时，他们在废墟里救出近三十人。<sup class="cite" title="第808章：竟然是圣剑会会规手册；第808章：很快就从废墟下救了近三十个人出来">807–808</sup></span><span class="stmt" data-ch="810">首都安全区的代表何辉上门求证，要他们在测谎的文件上签字，被拒绝。徐获从唤醒人偶里放出了误入副本的迟楠一伙，和严嘉鱼启用车票，在车站杀了几个吃人的玩家后上了列车。<sup class="cite" title="第810章：能不能麻烦两位在这张文件上签字；第810章：正是迟楠和她的几个同伴；第810章：和严嘉鱼先后启用了车票">809–810</sup></span></p><details class="src block fgroup"><summary>本段原文 12 处</summary><blockquote data-ch="802">我们杀的是豢养进化者充当试验品的政客<cite>第 802 章</cite></blockquote><blockquote data-ch="802">至少培养出她的人不可能是第十七医院那名医生<cite>第 802 章</cite></blockquote><blockquote data-ch="804">我进化出了一项新的特性，可以干杯不醉<cite>第 803 章</cite></blockquote><blockquote data-ch="804">徐获给了她一百万白钞<cite>第 804 章</cite></blockquote><blockquote data-ch="807">其中一名玩家抽出一张纸，用笔在上面写着什么<cite>第 806 章</cite></blockquote><blockquote data-ch="807">超级道具事件中被杀掉的精英玩家<cite>第 807 章</cite></blockquote><blockquote data-ch="807">但徐获却觉得可能是S版药剂<cite>第 807 章</cite></blockquote><blockquote data-ch="808">竟然是圣剑会会规手册<cite>第 808 章</cite></blockquote><blockquote data-ch="808">很快就从废墟下救了近三十个人出来<cite>第 808 章</cite></blockquote><blockquote data-ch="810">能不能麻烦两位在这张文件上签字<cite>第 810 章</cite></blockquote><blockquote data-ch="810">正是迟楠和她的几个同伴<cite>第 810 章</cite></blockquote><blockquote data-ch="810">和严嘉鱼先后启用了车票<cite>第 810 章</cite></blockquote></details>
-</section>
-<section id="callbacks" class="fgroup"><h3>承接前文</h3>
-<p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
-<ul class="items"><li data-ch="799"><a class="thread-no" href="../threads.html?upto=810#thread-178" title="伏笔总表">#178</a><span class="text">福利院被领养走的孩子：移民国外的女孩就是江江（柳弈）；男孩一家已死。徐获认定她被人训练过，她只承认认识赞助者商书铭。</span><span class="ch">第 785、788、799 章</span><details class="src"><summary>原文</summary><blockquote>一年后以曾在孤儿院用过的名字——“江江”出道<cite>第 785 章</cite></blockquote></details></li><li data-ch="802"><a class="thread-no" href="../threads.html?upto=810#thread-074" title="伏笔总表">#074</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>第七个医生：徐获向江江说出自己缺失的记忆和哥哥的死；最后他判断，训练江江的不是第十七医院那名医生。</span><span class="ch">第 789、802 章</span><details class="src"><summary>原文</summary><blockquote>但在这部分缺失记忆中有我兄长的死<cite>第 789 章</cite></blockquote><blockquote>至少培养出她的人不可能是第十七医院那名医生<cite>第 802 章</cite></blockquote></details></li><li data-ch="799"><a class="thread-no" href="../threads.html?upto=810#thread-173" title="伏笔总表">#173</a><span class="text"><span class="tier claim" title="徐获的说法">说法</span>商氏后人：江江说商书铭早就死了，只是福利院的赞助者；徐获不信，说他还在从孤儿院挑孩子。</span><span class="ch">第 788、799 章</span><details class="src"><summary>原文</summary><blockquote>判断是否培养成功的标准就是看能不能杀掉自己的父母亲人<cite>第 788 章</cite></blockquote></details></li><li data-ch="798"><a class="thread-no" href="../threads.html?upto=810#thread-081" title="伏笔总表">#081</a><span class="text">和游乐园 BOSS 的约定：徐获又用唤醒人偶叫出小粉红帽，拿一件 C 级道具和十二种限量棒棒糖换她帮一次忙。</span><span class="ch">第 798 章</span><details class="src"><summary>原文</summary><blockquote>一个小忙，帮我拉一个人进你的副本<cite>第 798 章</cite></blockquote></details></li><li data-ch="808"><a class="thread-no" href="../threads.html?upto=810#thread-065" title="伏笔总表">#065</a><span class="text">研究所名单泄露：首都有人用一张写名字再勾掉的纸杀人，死法和当年 014 区按名单死去的精英玩家一样，那人身上带着圣剑会会规手册。</span><span class="ch">第 806–808 章</span><details class="src"><summary>原文</summary><blockquote>超级道具事件中被杀掉的精英玩家<cite>第 807 章</cite></blockquote><blockquote>竟然是圣剑会会规手册<cite>第 808 章</cite></blockquote></details></li></ul>
+<nav class="jump pagenav" id="jump" aria-label="本页目录"><b>本卡</b><a href="#harvest" data-ch="810">收获</a><a href="#cast" data-ch="783">人物</a><a href="#summary" data-ch="781">梗概</a><a href="#relations" data-ch="784">关系</a><a href="#threads" data-ch="801">伏笔</a><a href="#callbacks" data-ch="799">承接前文</a><a href="#callbacks-more" data-ch="798">更多承接</a><a href="#links">设定与道具</a></nav>
+<details class="layer" open><summary><b>概况</b><span>人物。写到第 810 章，含结局。</span></summary><section id="harvest" class="harvest quiet" data-ch="810"><h3>徐获的收获</h3><p class="links"><b>拿到</b><a href="../items.html#item-%E8%BD%A6%E9%92%A5%E5%8C%99">车钥匙</a><a href="../items.html#item-%E7%94%BB%E7%AC%94">画笔</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
+<section id="cast" class="fgroup"><h3>人物</h3>
+<ul class="people"><li data-ch="801"><b class="subject"><a href="../people.html?upto=810#person-%E6%B1%9F%E6%B1%9F">江江</a></b><span class="text">二十出头的名画家，本名柳弈，是商氏福利院被领养出国的女孩，能预知人的死亡并画下来，手握八角画廊。她毒伤徐获，在首都被困进他的<a class="term" href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" title="精神力量能外放、干扰到别人时，以精神进化者为内核造出的“世界”。">精神世界</a>，最后留下画笔、随画廊消失，不肯说出老师是谁。</span><span class="ch">第 781、785、789、799、801 章</span></li><li data-ch="799"><b class="subject">宋旭</b><span class="text">江江的保镖兼保姆，对她保护过头，处处提防徐获，又想拉拢他当保镖。他的死状也在江江的画里，展览上有玩家质问江江，既然预知了“宋旭哥”的死，那天为什么还要出去。</span><span class="ch">第 785–788、799 章</span></li><li data-ch="788"><b class="subject">卞永毅</b><span class="text">想搭徐获顺风车的侏儒玩家，替他在银河小区借了一栋别墅。他偷看江江的画室后一出门就被杀，死状和画里一模一样。</span><span class="ch">第 784、787–788 章</span></li><li data-ch="783"><b class="subject">常会长</b><span class="text">茂城玄天玩家组织的会长，戴银色面具，带人赶到被挟持的宴会，却不肯为人质让步。他放话要全力绞杀挟持者，人最后是徐获抢回来的。</span><span class="ch">第 782–783 章</span></li><li data-ch="795"><b class="subject"><a href="../people.html?upto=810#person-%E5%B0%8F%E5%85%83">小元</a></b><span class="text">边境小城里捡垃圾的孤女，快满十岁，替中毒坐轮椅的徐获跑腿，管他叫“老师”。徐获端掉人口买卖团伙后，送她去011区的月季花古堡找冬先生。</span><span class="ch">第 790–791、794–795 章</span></li><li data-ch="810"><b class="subject">迟楠</b><span class="text">在服务区缠上徐获的女玩家，带着老周、小马、大布几个兄弟，有一副能看人三天运气的命数牌。展览混战中误入小粉红帽的副本，三天后被徐获放了出来。</span><span class="ch">第 797、799、810 章</span></li><li data-ch="799"><b class="subject"><a href="../people.html?upto=810#person-%E5%B0%8F%E7%B2%89%E7%BA%A2%E5%B8%BD">小粉红帽</a></b><span class="text">游乐园副本的BOSS，敲一敲唤醒人偶就能叫出来。徐获拿一件C级道具和十二种限量棒棒糖请她把一个人拉进副本，没能拉进江江，只吸进了旁人。</span><span class="ch">第 798–799 章</span></li><li data-ch="810"><b class="subject"><a href="../people.html?upto=810#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a></b><span class="text">与徐获重逢的旧识，刚从<a class="term" href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC" title="不需要车票、毫无征兆、地点随机出现的副本，卷进去的不限于玩家。">随机副本</a>出来，得了会偷懒的A级道具石狮子“大毛”，又进化出喝酒不醉的特性。她和徐获在首都安全区救人，最后一起登上离开009区的列车。</span><span class="ch">第 802–803、808、810 章</span></li><li data-ch="810"><b class="subject">何辉</b><span class="text">首都安全区的代表，事后上门求证，要徐获和严嘉鱼在测谎的文件上签字。两人拒绝了。</span><span class="ch">第 809–810 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、关键关系、伏笔与未解、承接前文、更多承接。写到第 810 章，含全部剧透。</span></summary><section id="summary" class="fgroup"><h3>剧情梗概</h3>
+<nav class="arcs"><a href="#summary-1" data-ch="781">茂城的宴会</a><a href="#summary-2" data-ch="785">江江的画</a><a href="#summary-3" data-ch="791">边境小城</a><a href="#summary-4" data-ch="797">首都的展览</a><a href="#summary-5" data-ch="802">首都安全区</a></nav>
+<h4 id="summary-1" data-ch="781">茂城的宴会</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="781">徐获在茂城的酒店遇上名画家江江：玩家说压力大时看她的画能平静下来，富豪拿她的画拉拢玩家，痴迷她的玩家自发排班保护她。<sup class="cite" title="第781章：很多玩家反馈自己在承受不了高压的时候看到她的画会平静下来">781</sup></span><span class="stmt" data-ch="783">外区玩家闯进宴会挟持江江，玄天玩家组织的常会长不肯为人质让步，徐获避开对方的道具效果，把她抢了回来。<sup class="cite" title="第782章：茂城玄天玩家组织将全力绞杀你们">782–783</sup></span><span class="stmt" data-ch="784">江江被保镖送走前喊他去银河小区找她；他收下想搭顺风车的侏儒玩家卞永毅，在那里借到一栋别墅。<sup class="cite" title="第783章：你来银河小区找我，我住在那里，银河小区很安全">783–784</sup></span></p><details class="src block fgroup"><summary>本段原文 3 处</summary><blockquote data-ch="781">很多玩家反馈自己在承受不了高压的时候看到她的画会平静下来<cite>第 781 章</cite></blockquote><blockquote data-ch="783">茂城玄天玩家组织将全力绞杀你们<cite>第 782 章</cite></blockquote><blockquote data-ch="784">你来银河小区找我，我住在那里，银河小区很安全<cite>第 783 章</cite></blockquote></details>
+<h4 id="summary-2" data-ch="785">江江的画</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="785">侦探回信说，商氏福利院那个移民国外的女孩改名柳弈，养父母病逝后学画，以在孤儿院用过的名字“江江”出道。<sup class="cite" title="第785章：一年后以曾在孤儿院用过的名字——“江江”出道">785</sup></span><span class="stmt" data-ch="787">徐获以“徐知”的名字登门，答应留在009区期间保护她；她身边的玩家像个自发的教团，向她求婚、威胁她的人会被暗杀。<sup class="cite" title="第786章：部分精神依赖江江的玩家对其有奇特的占有欲">785–787</sup></span><span class="stmt" data-ch="786">她的画室里盖着三十来幅“没画完”的画，院子里还种着能看出分区进化程度的虫洞花。<sup class="cite" title="第786章：据说是一种可以看出游戏分区进化程度的植物">786</sup></span><span class="stmt" data-ch="788">卞永毅偷看画室，发现画的全是她身边人的死状，连他自己挂在栅栏上的样子也在其中；他一出门就被杀，死状与画一模一样。<sup class="cite" title="第788章：和画室里描绘他死亡场景的那幅画如出一辙">787–788</sup></span><span class="stmt" data-ch="789">鬼屋里徐获逼问“商医生”，江江只认商书铭，说他早死了；徐获告诉她，那个移民的男孩一家都已死去。<sup class="cite" title="本句未附原文">788–789</sup></span><span class="stmt" data-ch="789">他又说出来意：他小时候在精神病医院治疗，缺失的记忆里有哥哥的死。<sup class="cite" title="第789章：但在这部分缺失记忆中有我兄长的死">789</sup></span><span class="stmt" data-ch="789">江江挥笔展开画廊空间，异兽撕碎了跟来的两名玩家，徐获刺中的只是幻影；她在他掌心留下一道伤，要他一定回来找她。<sup class="cite" title="第789章：留个纪念，你一定要回来找我啊">789</sup></span></p><details class="src block fgroup"><summary>本段原文 6 处</summary><blockquote data-ch="785">一年后以曾在孤儿院用过的名字——“江江”出道<cite>第 785 章</cite></blockquote><blockquote data-ch="787">部分精神依赖江江的玩家对其有奇特的占有欲<cite>第 786 章</cite></blockquote><blockquote data-ch="786">据说是一种可以看出游戏分区进化程度的植物<cite>第 786 章</cite></blockquote><blockquote data-ch="788">和画室里描绘他死亡场景的那幅画如出一辙<cite>第 788 章</cite></blockquote><blockquote data-ch="789">但在这部分缺失记忆中有我兄长的死<cite>第 789 章</cite></blockquote><blockquote data-ch="789">留个纪念，你一定要回来找我啊<cite>第 789 章</cite></blockquote></details>
+<h4 id="summary-3" data-ch="791">边境小城</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="791">徐获借五五开气窗脱身，被抛到边境小城，左臂中毒僵死，网上开始流传他袭击江江的通缉令。<sup class="cite" title="第791章：网上开始流传一张非官方发出来的通缉令">790–791</sup></span><span class="stmt" data-ch="791">悬赏平台的卖家告诉他，江江的画笔和画框是制器师丹青的最后作品“八角画廊”，丹青做完就被杀了。<sup class="cite" title="第791章：因为他做成这两件道具后就被杀了">791</sup></span><span class="stmt" data-ch="794">捡垃圾的孤女小元替他跑腿，说小城的女孩一满十岁就会被卖掉；徐获端掉人口买卖团伙，把水刀枪交给小元，让她自己决定开不开枪。<sup class="cite" title="第792章：等到我们十岁的时候就会被送出去">791–794</sup></span><span class="stmt" data-ch="794">他又杀了团伙里的玩家兴哥，小元从此叫他“老师”。<sup class="cite" title="本句未附原文">794</sup></span><span class="stmt" data-ch="796">他把七个流浪儿送进别城的福利院，又给小元买了非玩家车票，让她去011区的月季花古堡找冬先生。<sup class="cite" title="第795章：让他们送你去月季花古堡">795–796</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="791">网上开始流传一张非官方发出来的通缉令<cite>第 791 章</cite></blockquote><blockquote data-ch="791">因为他做成这两件道具后就被杀了<cite>第 791 章</cite></blockquote><blockquote data-ch="794">等到我们十岁的时候就会被送出去<cite>第 792 章</cite></blockquote><blockquote data-ch="796">让他们送你去月季花古堡<cite>第 795 章</cite></blockquote></details>
+<h4 id="summary-4" data-ch="797">首都的展览</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="797">江江后天要在首都办展，徐获杀了办假证的人，拿到进安全区用的印花身份证，换上假脸赶去；路上又被女玩家迟楠一伙缠上。<sup class="cite" title="第796章：不过后天在首都有一场展览">796–797</sup></span><span class="stmt" data-ch="798">他叫出小粉红帽，许她一件C级道具和十二种限量棒棒糖，换她把一个人拉进她的副本。<sup class="cite" title="第798章：一个小忙，帮我拉一个人进你的副本">798</sup></span><span class="stmt" data-ch="799">展览上，丧子的母亲当众指控江江的画杀人，江江说自己只是预知了死亡，还说她会死在这里；楼上随即爆炸，各方打成一团。<sup class="cite" title="第799章：我来这里是因为，我会死在这里">799</sup></span><span class="stmt" data-ch="800">她展开八角画廊，徐获的人偶没能把她拉进副本；画廊里江江说商书铭不是医生，只是赞助者，徐获便打开<a class="term" href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" title="精神力量能外放、干扰到别人时，以精神进化者为内核造出的“世界”。">精神世界</a>，把她困进图书楼。<sup class="cite" title="第799章：商书铭也并不是医生，他只是一个赞助者">799–800</sup></span><span class="stmt" data-ch="801">江江引爆道具想同归于尽，被徐获护住；她说有人去过更高维的时空想改变预知，失败后照样死了，而她自己预言的死并没有应验。<sup class="cite" title="第801章：没有，但有人去过，他失败了">801</sup></span><span class="stmt" data-ch="801">她承认悬赏平台上回答他的人就是自己，却不肯说老师是谁，留下画笔，约他以后再来009区，随即和画廊一起消失。<sup class="cite" title="第801章：你就没有想过在悬赏平台上回答你问题的人是我">801</sup></span></p><details class="src block fgroup"><summary>本段原文 6 处</summary><blockquote data-ch="797">不过后天在首都有一场展览<cite>第 796 章</cite></blockquote><blockquote data-ch="798">一个小忙，帮我拉一个人进你的副本<cite>第 798 章</cite></blockquote><blockquote data-ch="799">我来这里是因为，我会死在这里<cite>第 799 章</cite></blockquote><blockquote data-ch="800">商书铭也并不是医生，他只是一个赞助者<cite>第 799 章</cite></blockquote><blockquote data-ch="801">没有，但有人去过，他失败了<cite>第 801 章</cite></blockquote><blockquote data-ch="801">你就没有想过在悬赏平台上回答你问题的人是我<cite>第 801 章</cite></blockquote></details>
+<h4 id="summary-5" data-ch="802">首都安全区</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="802">迟楠的同伴老周说，他们炸的是拿进化者做实验的政客。<sup class="cite" title="本句未附原文">802</sup></span><span class="stmt" data-ch="802">江江留下的画笔是C级道具“画家的笔”；徐获判断，培养她的不会是第十七医院那名医生，她的精神状态不够稳定。<sup class="cite" title="第802章：至少培养出她的人不可能是第十七医院那名医生">802</sup></span><span class="stmt" data-ch="804">他和严嘉鱼重逢，她新得了A级道具石狮子“大毛”，又进化出喝酒不醉的特性，徐获提醒她这可能是二次进化；他把双蛇事件的战利品折成一百万<a class="term" href="../world.html#world-%E7%99%BD%E9%92%9E" title="游戏里的货币，印着“恒星公司虚拟货币”。">白钞</a>分给她。<sup class="cite" title="第804章：徐获给了她一百万白钞">802–804</sup></span><span class="stmt" data-ch="807">首都安全区封城，一伙人砸塌政府办公大楼，其中一人在纸上写名字再勾掉，隔着多远都能杀人，死法和014区<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E9%81%93%E5%85%B7" title="维度裂缝最高等级的道具，能超越时间与空间，分动态和静态两种。">超级道具</a>事件里的精英玩家一样。<sup class="cite" title="第807章：超级道具事件中被杀掉的精英玩家">805–807</sup></span><span class="stmt" data-ch="808">政府玩家用细线切碎了那人，从他身上翻出圣剑会会规手册，那张纸却没找到；徐获猜，政府大楼里护着的是S版药剂。<sup class="cite" title="第808章：竟然是圣剑会会规手册">807–808</sup></span><span class="stmt" data-ch="810">两人在倒塌的楼里救出近三十人；首都安全区的代表何辉上门，要他们在测谎文件上签字，被拒绝。<sup class="cite" title="第810章：能不能麻烦两位在这张文件上签字">808–810</sup></span><span class="stmt" data-ch="810">徐获从唤醒人偶里放出误入副本的迟楠一伙，和严嘉鱼启用车票，登上了离开009区的列车。<sup class="cite" title="第810章：和严嘉鱼先后启用了车票">810</sup></span></p><details class="src block fgroup"><summary>本段原文 6 处</summary><blockquote data-ch="802">至少培养出她的人不可能是第十七医院那名医生<cite>第 802 章</cite></blockquote><blockquote data-ch="804">徐获给了她一百万白钞<cite>第 804 章</cite></blockquote><blockquote data-ch="807">超级道具事件中被杀掉的精英玩家<cite>第 807 章</cite></blockquote><blockquote data-ch="808">竟然是圣剑会会规手册<cite>第 808 章</cite></blockquote><blockquote data-ch="810">能不能麻烦两位在这张文件上签字<cite>第 810 章</cite></blockquote><blockquote data-ch="810">和严嘉鱼先后启用了车票<cite>第 810 章</cite></blockquote></details>
 </section>
 <section id="relations" class="fgroup"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-kill)"></i>杀死</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
@@ -257,12 +334,17 @@ h4[id] { scroll-margin-top:16px; }
 <g class="node" data-ch="810"><circle cx="351.9" cy="102.5" r="10.0"/><text x="351.9" y="86.5" class="name">严嘉鱼</text></g>
 <g class="node" data-ch="810"><circle cx="463.1" cy="126.2" r="10.0"/><text x="463.1" y="110.2" class="name">何辉</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li data-ch="801"><span class="text"><a href="../people.html?upto=810#person-%E5%BE%90%E8%8E%B7">徐获</a> → 救下又交手 → <a href="../people.html?upto=810#person-%E6%B1%9F%E6%B1%9F">江江</a></span><span class="ch">第 782、789、801 章</span></li><li data-ch="787"><span class="text">宋旭 → 贴身保护 → <a href="../people.html?upto=810#person-%E6%B1%9F%E6%B1%9F">江江</a></span><span class="ch">第 785、787 章</span></li><li data-ch="784"><span class="text"><a href="../people.html?upto=810#person-%E5%BE%90%E8%8E%B7">徐获</a> → 借住 → 卞永毅</span><span class="ch">第 784 章</span></li><li data-ch="795"><span class="text"><a href="../people.html?upto=810#person-%E5%BE%90%E8%8E%B7">徐获</a> → 收留 → <a href="../people.html?upto=810#person-%E5%B0%8F%E5%85%83">小元</a></span><span class="ch">第 791、795 章</span></li><li data-ch="794"><span class="text"><a href="../people.html?upto=810#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 兴哥</span><span class="ch">第 794 章</span></li><li data-ch="798"><span class="text"><a href="../people.html?upto=810#person-%E5%BE%90%E8%8E%B7">徐获</a> — 交易 — <a href="../people.html?upto=810#person-%E5%B0%8F%E7%B2%89%E7%BA%A2%E5%B8%BD">小粉红帽</a></span><span class="ch">第 798 章</span></li><li data-ch="802"><span class="text"><a href="../people.html?upto=810#person-%E5%BE%90%E8%8E%B7">徐获</a> → 相救 → 老周</span><span class="ch">第 802 章</span></li><li data-ch="810"><span class="text">迟楠 — 同伙 — 老周</span><span class="ch">第 797、810 章</span></li><li data-ch="810"><span class="text"><a href="../people.html?upto=810#person-%E5%BE%90%E8%8E%B7">徐获</a> — 同伴 — <a href="../people.html?upto=810#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a></span><span class="ch">第 804、807、810 章</span></li><li data-ch="810"><span class="text"><a href="../people.html?upto=810#person-%E5%BE%90%E8%8E%B7">徐获</a> → 盘问 → 何辉</span><span class="ch">第 809–810 章</span></li></ul></details>
+<details class="rel"><summary>文字版</summary><ul class="items"><li data-ch="801"><span class="text"><a href="../people.html?upto=810#person-%E5%BE%90%E8%8E%B7">徐获</a> → 救下又交手 → <a href="../people.html?upto=810#person-%E6%B1%9F%E6%B1%9F">江江</a></span><span class="ch">第 782、789、801 章</span></li><li data-ch="787"><span class="text">宋旭 → 贴身保护 → <a href="../people.html?upto=810#person-%E6%B1%9F%E6%B1%9F">江江</a></span><span class="ch">第 785、787 章</span></li><li data-ch="784"><span class="text"><a href="../people.html?upto=810#person-%E5%BE%90%E8%8E%B7">徐获</a> → 借住 → 卞永毅</span><span class="ch">第 784 章</span></li><li data-ch="795"><span class="text"><a href="../people.html?upto=810#person-%E5%BE%90%E8%8E%B7">徐获</a> → 收留 → <a href="../people.html?upto=810#person-%E5%B0%8F%E5%85%83">小元</a></span><span class="ch">第 791、795 章</span></li><li data-ch="794"><span class="text"><a href="../people.html?upto=810#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → 兴哥</span><span class="ch">第 794 章</span></li><li data-ch="798"><span class="text"><a href="../people.html?upto=810#person-%E5%BE%90%E8%8E%B7">徐获</a> — 交易 — <a href="../people.html?upto=810#person-%E5%B0%8F%E7%B2%89%E7%BA%A2%E5%B8%BD">小粉红帽</a></span><span class="ch">第 798 章</span></li><li data-ch="802"><span class="text"><a href="../people.html?upto=810#person-%E5%BE%90%E8%8E%B7">徐获</a> → 相救 → 老周</span><span class="ch">第 802 章</span></li><li data-ch="810"><span class="text">迟楠 — 同伙 — 老周</span><span class="ch">第 797、810 章</span></li><li data-ch="810"><span class="text"><a href="../people.html?upto=810#person-%E5%BE%90%E8%8E%B7">徐获</a> — 同伴 — <a href="../people.html?upto=810#person-%E4%B8%A5%E5%98%89%E9%B1%BC">严嘉鱼</a></span><span class="ch">第 804、807、810 章</span></li><li data-ch="810"><span class="text"><a href="../people.html?upto=810#person-%E5%BE%90%E8%8E%B7">徐获</a> → 盘问 → 何辉</span><span class="ch">第 809–810 章</span></li></ul></details>
 </section>
 <section id="threads" class="fgroup"><h3>伏笔与未解</h3>
-<p class="note">截至第 810 章还没有交代的事。</p>
-<ul class="items"><li data-ch="801"><a class="thread-no" href="../threads.html?upto=810#thread-182" title="伏笔总表">#182</a><span class="text">江江的老师：江江说有人去过更高维的时空想改变预知，失败后照样死了；她不肯说老师是谁，只约徐获以后再来 009 区。</span><span class="ch">第 801 章</span><details class="src"><summary>原文</summary><blockquote>没有，但有人去过，他失败了<cite>第 801 章</cite></blockquote><blockquote>以后有时间来009区找我<cite>第 801 章</cite></blockquote></details></li><li data-ch="808"><a class="thread-no" href="../threads.html?upto=810#thread-183" title="伏笔总表">#183</a><span class="text">写名字就能杀人的纸：追击玩家死后没在他身上找到，不知是被转移了还是政府玩家在说谎。</span><span class="ch">第 806、808 章</span><details class="src"><summary>原文</summary><blockquote>其中一名玩家抽出一张纸，用笔在上面写着什么<cite>第 806 章</cite></blockquote></details></li><li data-ch="810"><a class="thread-no" href="../threads.html?upto=810#thread-184" title="伏笔总表">#184</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>首都政府大楼里护着什么：抢东西的人为它杀了上百人，东西没抢到；徐获猜是 S 版药剂。</span><span class="ch">第 807、810 章</span><details class="src"><summary>原文</summary><blockquote>但徐获却觉得可能是S版药剂<cite>第 807 章</cite></blockquote></details></li></ul>
-</section><section id="links" class="fgroup"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E9%9D%9E%E7%8E%A9%E5%AE%B6%E5%88%97%E8%BD%A6" data-ch="795">非玩家的列车与暂停玩家身份</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96" data-ch="803">超级进化</a><a href="../world.html#world-%E9%81%93%E5%85%B7" data-ch="803">道具</a><a href="../world.html#world-%E5%9C%A3%E5%89%91%E4%BC%9A" data-ch="808">圣剑会</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9" data-ch="786">进化的动植物</a><a href="../world.html#world-009%E5%8C%BA" data-ch="790">009 区</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E4%BA%94%E4%BA%94%E5%BC%80%E6%B0%94%E7%AA%97" data-ch="789">五五开气窗</a><a href="../items.html#item-%E5%94%A4%E9%86%92%E4%BA%BA%E5%81%B6" data-ch="798">唤醒人偶</a><a href="../items.html#item-%E6%B0%B4%E5%88%80%E6%9E%AA" data-ch="792">水刀枪</a><a href="../items.html#item-%E4%BA%A1%E8%80%85%E4%B9%8B%E7%9C%BC" data-ch="789">亡者之眼</a><a href="../items.html#item-%E5%85%AB%E8%A7%92%E7%94%BB%E5%BB%8A" data-ch="791">八角画廊</a><a href="../items.html#item-%E5%91%BD%E6%95%B0%E7%89%8C" data-ch="797">命数牌</a><a href="../items.html#item-%E8%AF%81%E4%BB%B6%E7%BE%8E%E5%AE%B9" data-ch="797">证件美容</a><a href="../items.html#item-%E7%94%BB%E7%AC%94" data-ch="801">画笔</a><a href="../items.html#item-%E5%A4%A7%E6%AF%9B" data-ch="803">大毛</a></p></section></details>
+<ul class="items"><li data-ch="801"><a class="thread-no" href="../threads.html?upto=810#thread-182" title="伏笔总表">#182</a><span class="text">江江说有人去过更高维的时空想改变预知，失败后照样死了；她的老师是谁，她不肯说，只约徐获以后再来009区。</span><span class="ch">第 801 章</span></li><li data-ch="808"><a class="thread-no" href="../threads.html?upto=810#thread-065" title="伏笔总表">#183</a><span class="text">写名字就能杀人的纸没在死者身上找到，是被转移了还是政府玩家在说谎，没有交代。</span><span class="ch">第 806、808 章</span></li><li data-ch="810"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#184</span><span class="text">首都政府大楼里护着什么，抢东西的人为它杀了上百人也没抢到，徐获猜是S版药剂。</span><span class="ch">第 807、810 章</span></li></ul>
+</section>
+<section id="callbacks" class="fgroup"><h3>承接前文</h3>
+<ul class="items"><li data-ch="799"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#178</span><span class="text">商氏福利院那个被领养出国的女孩就是江江（柳弈），移民的男孩一家已死；徐获认定她被人训练过。</span><span class="ch">第 785、788、799 章</span></li><li data-ch="802"><a class="thread-no" href="../threads.html?upto=810#thread-201" title="伏笔总表">#074</a><span class="text">徐获向江江说出自己缺失的记忆和哥哥的死，最后判断训练江江的不是第十七医院那名医生。</span><span class="ch">第 789、802 章</span></li><li data-ch="799"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#173</span><span class="text">徐获觉得商书铭没死、还在从孤儿院挑孩子，江江却说他早死了，只是福利院的赞助者。</span><span class="ch">第 788、799 章</span></li><li data-ch="808"><a class="thread-no" href="../threads.html?upto=810#thread-065" title="伏笔总表">#065</a><span class="text">首都有人用一张写名字再勾掉的纸杀人，死法和当年014区按名单死去的精英玩家一样，那人身上带着圣剑会会规手册。</span><span class="ch">第 806–808 章</span></li></ul>
+</section>
+<section id="callbacks-more" class="fgroup"><details class="section-fold"><summary>更多承接</summary>
+<ul class="items"><li data-ch="798"><a class="thread-no" href="../threads.html?upto=810#thread-081" title="伏笔总表">#081</a><span class="text">徐获又用唤醒人偶叫出小粉红帽，拿一件C级道具和十二种限量棒棒糖换她帮一次忙。</span><span class="ch">第 798 章</span></li></ul>
+</details></section><section id="links" class="fgroup"><h3>本单元涉及的设定、地点与道具</h3><p class="note">设定在世界观页，地点和势力在地理页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E9%9D%9E%E7%8E%A9%E5%AE%B6%E5%88%97%E8%BD%A6" data-ch="795">非玩家的列车与暂停玩家身份</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96" data-ch="803">超级进化</a><a href="../world.html#world-%E9%81%93%E5%85%B7" data-ch="803">道具</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9" data-ch="786">进化的动植物</a></p><p class="links fgroup"><b>地点与势力</b><a href="../places.html#place-009%E5%8C%BA" data-ch="790">009 区</a><a href="../places.html#place-%E8%8C%82%E5%9F%8E" data-ch="785">茂城</a><a href="../places.html#faction-%E5%9C%A3%E5%89%91%E4%BC%9A" data-ch="808">圣剑会</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E4%BA%94%E4%BA%94%E5%BC%80%E6%B0%94%E7%AA%97" data-ch="789">五五开气窗</a><a href="../items.html#item-%E5%94%A4%E9%86%92%E4%BA%BA%E5%81%B6" data-ch="798">唤醒人偶</a><a href="../items.html#item-%E6%B0%B4%E5%88%80%E6%9E%AA" data-ch="792">水刀枪</a><a href="../items.html#item-%E5%85%AB%E8%A7%92%E7%94%BB%E5%BB%8A" data-ch="791">八角画廊</a><a href="../items.html#item-%E5%91%BD%E6%95%B0%E7%89%8C" data-ch="797">命数牌</a><a href="../items.html#item-%E7%94%BB%E7%AC%94" data-ch="801">画笔</a><a href="../items.html#item-%E5%A4%A7%E6%AF%9B" data-ch="803">大毛</a></p></section></details>
 <nav class="units-nav bottom"><a class="prev" href="u0038.html"><small>← 上一单元</small><b>只有一个主人的别墅</b><small>第 768–780 章</small></a><a class="next" href="u0040.html"><small>下一单元 →</small><b>去 011 区的列车（维度风暴）</b><small>第 811–821 章</small><small class="after" data-beyond="811" hidden>在你的进度之后</small></a></nav><script>
 (function () {
   var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
@@ -288,6 +370,17 @@ h4[id] { scroll-margin-top:16px; }
     else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
     button.textContent = '仍然展开'; status.appendChild(button);
   });
+  if (window.matchMedia('(max-width:640px)').matches) {   // a phone (design reviews 2026-10-06): the graph is wider than
+    doc.querySelectorAll('details.rel').forEach(function (d) { d.open = true; });   // the screen, so the list shows too,
+    doc.querySelectorAll('.graph').forEach(function (g) {   // and the strip starts at the busiest person, not the left edge
+      var svg = g.querySelector('svg'), best = null;
+      if (!svg || !svg.viewBox || !svg.viewBox.baseVal) return;
+      g.querySelectorAll('g.node circle').forEach(function (c) { if (!best || +c.getAttribute('r') > +best.getAttribute('r')) best = c; });
+      if (!best) return;
+      var scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width;
+      g.scrollLeft = Math.max(0, +best.getAttribute('cx') * scale - g.clientWidth / 2);
+    });
+  }
 })();
 </script>
 <footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
@@ -371,5 +464,84 @@ h4[id] { scroll-margin-top:16px; }
     note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
     note.hidden = false; note.scrollIntoView();
   } else if (target) { target.scrollIntoView(); }
+})();
+
+document.addEventListener('toggle', function (e) {
+  var d = e.target;
+  if (!d.open || d.tagName !== 'DETAILS' || d.classList.contains('src') || d.hasAttribute('data-fold')) return;
+  if (d.querySelector(':scope > button.fold-close') || d.getBoundingClientRect().height < window.innerHeight * 0.7) return;
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'fold-close'; b.textContent = '收起 ▲';
+  b.addEventListener('click', function () {
+    d.open = false;
+    var s = d.querySelector(':scope > summary') || d;
+    if (s.getBoundingClientRect().top < 0) s.scrollIntoView({block: 'start'});
+  });
+  d.appendChild(b);
+}, true);
+
+(function () {   // phones (step 7): the contents as a drawer, intros cut to three lines
+  var doc = document, root = doc.documentElement, small = window.matchMedia('(max-width:720px)');
+  var toc = doc.getElementById('toc') || doc.getElementById('jump');
+  if (toc) {
+    root.classList.add('has-toc');
+    var fab = doc.createElement('button'), back = doc.createElement('div'), filter = doc.createElement('input');
+    fab.type = 'button'; fab.className = 'toc-fab'; fab.textContent = '目录'; fab.setAttribute('aria-label', '目录');
+    var lastY = window.scrollY;   // scrolling down it steps aside, scrolling up it comes back (design review 2026-10-06)
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (y > lastY + 8 && y > 240) root.classList.add('fab-away'); else if (y < lastY - 8) root.classList.remove('fab-away');
+      lastY = y;
+    }, {passive: true});
+    back.className = 'toc-backdrop';
+    filter.type = 'search'; filter.className = 'toc-filter'; filter.placeholder = '在目录里找…';
+    toc.insertBefore(filter, toc.firstChild);
+    doc.body.appendChild(back); doc.body.appendChild(fab);
+    var open = function (on) { root.classList.toggle('toc-open', on); if (on && small.matches) filter.focus({preventScroll: true}); };
+    fab.addEventListener('click', function () { open(!root.classList.contains('toc-open')); });
+    back.addEventListener('click', function () { open(false); });
+    toc.addEventListener('click', function (e) { if (e.target.closest('a')) open(false); });
+    doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+    doc.querySelectorAll('a.totop').forEach(function (a) {   // on a phone it opens the contents, so it says so (GPT design review 2026-10-06)
+      a.textContent = '目录';
+      a.addEventListener('click', function (e) { if (small.matches) { e.preventDefault(); open(true); } });
+    });
+    filter.addEventListener('input', function () {   // names and data-keys (other names); a .find-only row shows only on a hit
+      var q = filter.value.replace(/\s/g, '');
+      toc.querySelectorAll('a').forEach(function (a) {
+        a.style.display = !q || (a.textContent + (a.dataset.keys || '')).replace(/\s/g, '').indexOf(q) >= 0 ? '' : 'none';
+      });
+      toc.querySelectorAll('.find-only').forEach(function (r) {
+        r.classList.toggle('found', !!q && Array.prototype.some.call(r.querySelectorAll('a'), function (a) { return a.style.display !== 'none'; }));
+      });
+    });
+  }
+  if (window.matchMedia('(max-width:640px)').matches) {
+    doc.querySelectorAll('.ticket-main > p.hint').forEach(function (p) {
+      if (p.scrollHeight < 90) return;
+      p.classList.add('clamped');
+      var b = doc.createElement('button');
+      b.type = 'button'; b.className = 'hint-more'; b.textContent = '展开说明';
+      b.addEventListener('click', function () { p.classList.remove('clamped'); b.remove(); });
+      p.after(b);
+    });
+  }
+})();
+
+(function () {   // a link into a closed fold opens the folds around its target first (design reviews 2026-10-06)
+  function openTo(id) {
+    var t = id && (document.getElementById(id) || document.getElementById(decodeURIComponent(id)));
+    for (var p = t && t.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a) openTo(a.getAttribute('href').slice(1));
+  }, true);
+  if (location.hash) openTo(location.hash.slice(1));
+  document.querySelectorAll('.graph, .growth').forEach(function (g) {   // a strip wider than the screen fades at its right edge
+    if (g.scrollWidth <= g.clientWidth + 2) return;
+    var check = function () { g.classList.toggle('at-end', g.scrollLeft + g.clientWidth >= g.scrollWidth - 4); };
+    g.classList.add('scroll-fade'); g.addEventListener('scroll', check, {passive: true}); check();
+  });
 })();
 </script></body></html>

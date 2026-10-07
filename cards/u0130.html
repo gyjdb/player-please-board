@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A49-033 区（百林会寻仇、水家与圣剑会、诡音骑士团悬赏） · 单元卡 · 维度之下</title><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20x%3D%222%22%20y%3D%226%22%20width%3D%2228%22%20height%3D%2220%22%20rx%3D%223%22%20fill%3D%22%23d3a655%22/%3E%3Ccircle%20cx%3D%222%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ctext%20x%3D%2216%22%20y%3D%2221.5%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20text-anchor%3D%22middle%22%20fill%3D%22%2307080b%22%20font-family%3D%22serif%22%3E%E7%BB%B4%3C/text%3E%3C/svg%3E"><meta name="description" content="《玩家请上车》（海晏山 著）的读者整理：按单元写的梗概与解析，世界观、人物、地理、伏笔和道具库，可按读到的章数隐藏后文。"><meta name="theme-color" content="#07080b"><style>
+:root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
+  --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC","Source Han Serif CN","Noto Serif CJK SC","STSong","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace;
+  --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
+:root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#85621f; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380;
+  --mind:#7650b0; --space:#17788a; --time:#b25f18; --gold:#a07a10; }
+/* what stays dark in the light theme keeps the dark accents */
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth, .emblem) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
+:root[data-theme="light"] .banner button.primary { color:#fff; }
+:root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
+  background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
+:root[data-theme="light"] body { background:var(--paper); }
+a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+/* a dense run of names (items in hand, rewards, the units a person is in): ink with a thin red line, not a wall of red (design review 2026-10-06) */
+.quiet a, a.quiet { color:var(--ink); border-bottom:1px solid var(--line); border-bottom-color:color-mix(in srgb, var(--signal) 32%, transparent); }
+.quiet a:hover, a.quiet:hover { color:var(--signal); text-decoration:none; border-bottom-color:var(--signal); }
+main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
+
+/* nav: the rail */
+.rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
+.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; }
+@media (min-width:1100px) { .rail-inner { max-width:1060px; } }   /* brand, links, progress and switches on one line (2026-10-06) */
+.brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
+.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.12em; margin-left:6px; }   /* so brand, links, progress and switches fit one line at 920px */
+.rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
+.rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
+/* reading progress: one value for the whole site, set in the rail (localStorage wdzx.upto) */
+.rail .progress { margin-left:auto; display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--rail-muted); white-space:nowrap; }
+.rail .progress input { width:5.4em; background:transparent; color:var(--rail-ink); border:1px solid var(--rail-muted); border-radius:3px; padding:5px 6px; font:13px var(--mono); }
+.rail .progress input:invalid { border-color:var(--signal); }
+.has-progress .rail .progress input { border-color:var(--brass); color:var(--brass); }
+.rail .progress button { background:none; border:none; color:var(--rail-muted); font-size:17px; line-height:1; cursor:pointer; padding:4px 6px; }
+.banner { background:var(--card-2); border-bottom:1px solid var(--brass); }
+.banner-inner { max-width:920px; margin:0 auto; padding:10px 16px; font-size:14px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; }
+.banner-inner b { color:var(--brass); }
+.banner button { font:13px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:7px 12px; cursor:pointer; }
+.banner button.primary { background:var(--brass); color:var(--rail); border-color:var(--brass); }
+.progress-status { font-size:13px; color:var(--brass); margin:0 0 6px; }
+.progress-note { font-size:14px; color:var(--muted); margin:0 0 8px; }
+details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+@media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
+  .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
+.beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
+details.fold[data-fold][open] > summary { display:none; }   /* only the spoiler gate (hero 档案) drops its line once open */
+button.fold-close { display:block; margin:8px 0 2px; font:12.5px var(--sans); color:var(--muted); background:none; border:1px solid var(--line); border-radius:4px; padding:5px 12px; cursor:pointer; }
+button.fold-close:hover { color:var(--brass); border-color:var(--brass); }
+/* phones (step 7, 2026-10-06): one row of page links; intros cut to three lines; a page's contents (#toc, #jump) as
+   a drawer behind a 目录 button, with a filter; long CJK lines may break anywhere */
+button.toc-fab, .toc-backdrop { display:none; }
+input.toc-filter { display:block; width:100%; margin:2px 0 10px; }   /* the contents filter on wide screens too (2026-10-06); its look is the shared search box */
+nav.jump input.toc-filter { max-width:20em; margin:8px 0 6px; }
+.ticket-main p.premise { color:var(--ink); }
+@media (max-width:720px) {
+  html.has-toc button.toc-fab { display:block; position:fixed; right:14px; bottom:max(18px, env(safe-area-inset-bottom)); z-index:41; width:46px; height:46px;
+    padding:0; border:none; border-radius:50%; font-size:0; color:transparent; cursor:pointer; opacity:.94; box-shadow:0 4px 14px rgba(0,0,0,.35);
+    background:linear-gradient(#07080b,#07080b) 50% 16px / 18px 2px no-repeat, linear-gradient(#07080b,#07080b) 50% 22px / 18px 2px no-repeat,
+      linear-gradient(#07080b,#07080b) 50% 28px / 18px 2px no-repeat, #d3a655; transition:transform .2s ease, opacity .2s ease; }
+  html.fab-away:not(.toc-open) button.toc-fab { transform:translateY(90px); opacity:0; }
+  html.has-toc #toc, html.has-toc #jump { position:fixed !important; top:0; right:0; bottom:0; left:auto; width:min(86vw,360px);
+    max-height:none !important; margin:0; z-index:40; overflow:auto; overscroll-behavior:contain; background:var(--card);
+    border:none; border-left:1px solid var(--line); border-radius:0; padding:12px 16px 90px; transform:translateX(105%);
+    transition:transform .2s ease; box-shadow:-8px 0 24px rgba(0,0,0,.35); }
+  html.toc-open #toc, html.toc-open #jump { transform:none; }
+  html.toc-open .toc-backdrop { display:block; position:fixed; inset:0; z-index:39; background:rgba(0,0,0,.45); }
+  html.has-toc input.toc-filter { display:block; width:100%; margin:2px 0 10px; font-size:15px; min-height:40px; }
+}
+@media (max-width:640px) {
+  .rail nav { flex:1 1 100%; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+  .rail nav::-webkit-scrollbar { display:none; }
+  .rail nav a { flex:none; }
+  main { overflow-wrap:anywhere; }
+  .ticket-main p.hint.clamped { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:0; }
+  button.hint-more { background:none; border:none; color:var(--brass); font-size:12.5px; padding:2px 0 6px; cursor:pointer; }
+}
+[hidden] { display:none !important; }
+html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
+
+/* the 显示出处 and 浅色 switches */
+.toggle { position:absolute; opacity:0; pointer-events:none; }
+.switches { display:inline-flex; gap:8px; }
+.toggle-label { display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--rail-muted); border:1px solid #3a404b; border-radius:14px;
+  padding:4px 11px 4px 5px; cursor:pointer; user-select:none; }
+.toggle-label::before { content:""; flex:none; width:24px; height:14px; border-radius:7px; transition:background .15s;
+  background:radial-gradient(circle at 7px 50%, #8f897d 4px, transparent 4.6px), #262b33; }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail-ink); border-color:#8a7140; }
+#show-src:checked ~ .rail label[for="show-src"]::before, #theme-light:checked ~ .rail label[for="theme-light"]::before {
+  background:radial-gradient(circle at 17px 50%, #07080b 4px, transparent 4.6px), #d3a655; }
+#show-src:focus-visible ~ .rail label[for="show-src"], #theme-light:focus-visible ~ .rail label[for="theme-light"] { outline:2px solid #d3a655; outline-offset:2px; }
+html:not(.js) label[for="theme-light"] { display:none; }
+.ch, sup.cite, details.src, .src-only { display:none; }
+#show-src:checked ~ main .ch { display:inline-block; text-indent:0; }
+#show-src:checked ~ main sup.cite { display:inline; }
+#show-src:checked ~ main details.src { display:inline; }
+#show-src:checked ~ main .src-only { display:block; }
+#show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ticket-stub.src-only { display:none; }
+#show-src:checked ~ main .ticket-stub.src-only { display:flex; }
+.ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
+sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
+details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--line); color:color-mix(in srgb, var(--ink) 80%, var(--muted)); font:14.5px/1.75 var(--serif); }
+cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
+
+/* headings and text */
+h1, h2, h3, h4 { font-family:var(--serif); }
+h2.sign { display:inline-block; font-size:20px; margin:34px 0 10px; padding:4px 14px; background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-bottom:2px solid var(--signal); border-radius:4px; letter-spacing:.12em; }
+h3 { font-size:19px; margin:26px 0 8px; padding-left:12px; border-left:4px solid var(--signal); }
+h4 { font-size:15px; margin:16px 0 4px; color:var(--brass); letter-spacing:.06em; }
+.note { color:var(--muted); font-size:14px; margin:4px 0; }
+.meta { color:var(--muted); font-size:13px; }
+ul { margin:0; padding-left:20px; } li { margin:6px 0; }
+.chipline { display:flex; flex-wrap:wrap; gap:6px 8px; margin:8px 0; }
+.chipline a, .chip { background:var(--chip); color:var(--ink); border-radius:3px; padding:1px 9px; font-size:13px; white-space:nowrap; }
+
+/* the ticket (page header of a unit card, index entries) */
+.ticket { display:flex; background:linear-gradient(135deg, var(--card-2), var(--card)); border:1px solid var(--line); border-radius:10px; margin:18px 0 8px; position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.ticket-main { flex:1; padding:18px 22px 16px; min-width:0; position:relative; }
+.ticket-stub { width:170px; padding:16px 18px; border-left:2px dashed var(--line); position:relative; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.ticket-stub::before, .ticket-stub::after { content:""; position:absolute; left:-11px; width:20px; height:20px; border-radius:50%; background:var(--paper); border:1px solid var(--line); }
+.ticket-stub::before { top:-11px; } .ticket-stub::after { bottom:-11px; }
+.kicker { font-size:12px; letter-spacing:.3em; color:var(--signal); }
+.ticket h1 { font-size:34px; margin:2px 0 4px; letter-spacing:.06em; }
+.route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
+.stub-row { font:12px var(--mono); color:var(--muted); }
+.stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+/* a page's counts read like the fields of a ticket stub: a small label over a big number (2026-10-06) */
+.ticket-stub.stats { gap:12px; }
+.ticket-stub.stats .stub-row:not(.src-only) { font:600 24px/1.05 var(--mono); color:var(--ink); }   /* figures in ink; gold kept for its few meanings */
+.ticket-stub.stats .stub-row:not(.src-only) b { display:block; font:500 11.5px/1.4 var(--sans); color:var(--muted); letter-spacing:.12em; margin:0 0 3px; }
+.ticket-stub.stats small { font:500 12px var(--sans); color:var(--muted); margin-left:4px; }
+a.stub-row { display:block; text-decoration:none; } a.stub-row:hover b { color:var(--brass); }   /* a count that jumps to its section */
+.stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
+  display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
+.stamp small { font-size:10px; margin-left:1px; }
+
+/* the dark system panel for text the game shows */
+.sys { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px; padding:10px 14px; margin:8px 0; font:14px/1.75 var(--serif); }
+.sys::before { content:"【系统】"; color:var(--brass); margin-right:4px; font-family:var(--sans); font-size:12px; letter-spacing:.1em; }
+.sys b { color:var(--brass); font:600 12px var(--sans); margin-right:6px; }
+
+/* grade badge */
+.grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
+  color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.dark-ink { color:#14100a; }
+.grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
+.tag { text-indent:0; display:inline-block; font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+/* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
+.seal { flex:none; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
+.seal.wide { font-size:14px; }
+.seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
+.seal.mid { color:var(--ink); } .seal.low { color:var(--muted); }
+.seal.none { width:34px; height:26px; border:1px dashed var(--line); border-radius:4px; transform:none; color:var(--muted); font:13px var(--sans); }
+:root[data-theme="light"] .seal.top { color:#a07a10; }
+/* the player panel, in the book's 【key：value】 lines */
+.syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
+  padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel .row > span { color:var(--rail-ink); font-weight:600; }
+.syspanel .v-rate { color:var(--brass); } .syspanel .grade { font-size:12px; height:20px; min-width:24px; vertical-align:1px; }   /* gold for evolution; a level in its colour */
+.evo-mind { color:var(--mind); } .evo-space { color:var(--space); } .evo-time { color:var(--time); }
+.syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+@media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
+.upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已否定 (denied or refuted); settled points carry no tag */
+.tier { text-indent:0; display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+.tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
+.tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
+
+.hidden { display:none !important; }
+nav.pagenav { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0 6px; font-size:14px; }
+nav.pagenav > b { color:var(--muted); font-weight:400; font-size:13px; margin-right:2px; }
+nav.pagenav a { padding:3px 11px; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--ink); }
+nav.pagenav a:hover { border-color:var(--brass); color:var(--brass); text-decoration:none; }
+@media (min-width:721px) { nav.pagenav input.toc-filter { display:none; } }
+@media (max-width:720px) {
+  html.has-toc nav.pagenav { display:block; }
+  html.has-toc nav.pagenav > b { display:block; margin:0 0 6px; }
+  html.has-toc nav.pagenav a { display:block; border:none; border-bottom:1px solid var(--line); border-radius:0; background:none; padding:10px 2px; }
+}
+.totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
+@media (max-width:720px) { .totop { display:inline; } }
+footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
+@media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; }
+  .ticket-stub.stats { flex-direction:row; flex-wrap:wrap; justify-content:flex-start; gap:10px 26px; } .ticket-stub.stats .stub-row.src-only { flex-basis:100%; } }
+
+input[type=search] { font:14px var(--sans); color:var(--ink); background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2714%27%20height%3D%2714%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27round%27%3E%3Ccircle%20cx%3D%2710.5%27%20cy%3D%2710.5%27%20r%3D%276.5%27/%3E%3Cpath%20d%3D%27M20%2020l-4.6-4.6%27/%3E%3C/svg%3E") no-repeat 10px 50%;
+  border:1px solid var(--line); border-radius:6px; padding:6px 10px 6px 31px; min-height:34px; }
+input[type=search]::placeholder { color:var(--muted); }
+input[type=search]:focus, select:focus { outline:none; border-color:var(--brass); box-shadow:0 0 0 2px color-mix(in srgb, var(--brass) 25%, transparent); }
+select { appearance:none; -webkit-appearance:none; font:14px var(--sans); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2710%27%20height%3D%276%27%20viewBox%3D%270%200%2010%206%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M1%201l4%204%204-4%27/%3E%3C/svg%3E") no-repeat right 10px center; padding:6px 30px 6px 10px; min-height:34px; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary { list-style:none; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::-webkit-details-marker { display:none; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::before { content:""; display:inline-block; width:6px; height:6px; margin:0 9px 2px 2px; border-right:1.6px solid currentColor;
+  border-bottom:1.6px solid currentColor; transform:rotate(-45deg); transition:transform .15s ease; opacity:.7; vertical-align:middle; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more)[open] > summary::before { transform:rotate(45deg); margin-bottom:4px; }
+@media (max-width:640px) { .scroll-fade { -webkit-mask-image:linear-gradient(to right, #000 82%, transparent); mask-image:linear-gradient(to right, #000 82%, transparent); }
+  .scroll-fade.at-end { -webkit-mask-image:none; mask-image:none; } }
+p.graph-hint { display:none !important; }
+
+details.section-fold > summary { cursor:pointer; font:600 16px var(--serif); color:var(--muted); margin:14px 0 6px; letter-spacing:.04em; }
+details.section-fold[open] > summary { color:var(--ink); }
+.layer { margin:6px 0 18px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; display:flex; align-items:center; gap:4px 12px; }   /* a phone wraps the note, 收起 stays on the right */
+.layer > summary::-webkit-details-marker { display:none; }
+.layer > summary b { flex:none; display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { flex:1 1 auto; color:var(--muted); font-size:13px; }
+.layer > summary::after { content:"收起"; flex:none; color:var(--muted); font-size:12px; }
+.layer:not([open]) > summary::after { content:"展开"; }
+section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
+ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
+ul.people li:last-child { border-bottom:none; }
+.thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
+a.term { color:inherit; border-bottom:1px dotted var(--muted); text-decoration:none; } a.term:hover { color:var(--signal); border-bottom-color:var(--signal); }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; overflow-wrap:anywhere; }   /* a long name wraps in its column */
+ul.people li { display:grid; grid-template-columns:8.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+ul.people li > :not(.subject) { grid-column:2; }
+@media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
+.harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
+.harvest .h-rating { display:flex; align-items:center; gap:12px; font-size:15.5px; } .harvest .h-line { margin:6px 0; font-size:15.5px; }
+.stamp-seal { position:absolute; top:12px; right:16px; transform:scale(1.5); transform-origin:top right; }
+small.diff { font-size:11px; color:var(--muted); margin-left:4px; letter-spacing:0; }
+nav.units-nav { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+nav.units-nav a { display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 14px; color:var(--ink); }
+nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
+nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
+nav.units-nav small.after { color:var(--signal); }
+@media (max-width:640px) { nav.units-nav { grid-template-columns:1fr; gap:8px; } nav.units-nav b { font-size:15px; } nav.units-nav a { padding:8px 12px; }
+  nav.units-nav span.none { display:none; } }   /* a phone: one above the other, a long name on one or two lines (design review 2026-10-06) */
+details.about-src { margin:8px 0 2px; } details.about-src > summary { color:var(--muted); font-size:13px; }
+.graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
+@media (max-width:640px) { .graph-hint { display:block; } }
+p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
+details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
+@media (max-width:640px) { .graph svg { min-width:720px; } }
+.legend { display:flex; flex-wrap:wrap; gap:4px 14px; margin:6px 0 2px; font-size:13px; color:var(--muted); }
+.legend span { display:inline-flex; align-items:center; gap:6px; }
+.legend i { display:inline-block; width:22px; height:0; border-top:3px solid; }
+.legend i.dash { border-top-style:dashed; border-color:var(--muted); }
+svg { width:100%; height:auto; display:block; }
+svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
+svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
+svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
+details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+.links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
+.links a, .links > span { margin-right:12px; white-space:nowrap; }   /* a name with no item card is a span: same spacing */
+@media (max-width:640px) { .links a, .links > span { white-space:normal; } }   /* a long place name wraps on a phone (u0148) */
+.progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
+.hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+.ticket-main .lede { margin:12px 0 2px; font:500 17px/1.75 var(--serif); color:var(--ink); max-width:40em; }
+nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
+nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
+nav.arcs a:hover { color:var(--signal); }
+h4[id] { scroll-margin-top:16px; }
+</style></head>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，第一个副本结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到第一个副本结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
+<div class="ticket" id="card" data-first="2877" data-end="2890"><div class="ticket-main"><div class="kicker">主线</div>
+<h1>A49-033 区（百林会寻仇、水家与圣剑会、诡音骑士团悬赏）</h1><div class="route">第 2877 章 ──── 第 2890 章</div><div class="lede" data-ch="2887">刚通关“小隔间”的徐获留在圣剑会盘踞的 A49-033 区，先遭百林会寻仇、命案嫁祸，又被诡音骑士团悬赏身份，只能在各方试探中周旋。<span class="ch">第 2877、2882–2883、2885、2887 章</span></div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 3284 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="2877" hidden>这张卡从第 2877 章开始，在你填的进度之后，整张都是剧透。</p></div>
+<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0130</div><div class="stub-row"><b>句数</b>172</div>
+<div class="stub-row"><b>引用</b>19 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<details class="about-src meta"><summary>出处怎么核对</summary>每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</details><p class="meta src-only">撰写：claude-opus-5-5 (claude-code subagent)，读第 2877–2890 章正文后撰写；2026-10-06 第六步由 Claude 子代理（claude-opus-5-5）改写（GPT 额度用完前第二波写成的两三张也在这批里，没有分开记录），原梗概折为逐段复盘；2026-10-06 逐幕复盘不再上页面，其中要紧的由 Claude 子代理（claude-opus-5-5）收进剧情梗概和解谜结构。</p>
+<nav class="units-nav top"><a class="prev" href="u0129.html"><small>← 上一单元</small><b>小隔间</b><small>第 2838–2876 章</small></a><a class="next" href="u0131.html"><small>下一单元 →</small><b>国王宝座</b><small>第 2891–2914 章</small><small class="after" data-beyond="2891" hidden>在你的进度之后</small></a></nav>
+<nav class="jump pagenav" id="jump" aria-label="本页目录"><b>本卡</b><a href="#harvest" data-ch="2890">收获</a><a href="#cast" data-ch="2879">人物</a><a href="#summary" data-ch="2877">梗概</a><a href="#relations" data-ch="2877">关系</a><a href="#threads" data-ch="2878">伏笔</a><a href="#callbacks" data-ch="2879">承接前文</a><a href="#callbacks-more" data-ch="2878">更多承接</a><a href="#links">设定与道具</a></nav>
+<details class="layer" open><summary><b>概况</b><span>人物。写到第 2890 章，含结局。</span></summary><section id="harvest" class="harvest quiet" data-ch="2890"><h3>徐获的收获</h3><div class="h-line">小隔间里，章医生借自己的学生把第三个益智球送到他手上：解开后是一支标着 P7S 的绿色针剂，针筒里藏着一枚极小的装置，被童年人格取出捏碎。出了副本，他还是决定不用这支药剂：章医生在游戏里行走多年，从没被人抓到尾巴，没必要冒这个险。书虫照约定发来一张车票，他没要，改要完美药剂的线索；书虫给的地点清单上，S 版药剂竟然排到了 P10S。<span class="ch">第 2867、2878 章</span><details class="src"><summary>原文</summary><blockquote>除了在药剂上找到了P7S的标签<cite>第 2867 章</cite></blockquote><blockquote>关于完美药剂，他的确不打算使用<cite>第 2878 章</cite></blockquote><blockquote>S版药剂竟然排序到了P10S<cite>第 2878 章</cite></blockquote></details></div><div class="h-line">仍是 B 级：在 033 区和圣剑会交手时，他的屏蔽道具被打碎、身体状态暴露，对方看出他只是 B 级玩家，却已把精神和空间开发到很多同样进化的 A 级玩家都达不到的程度。他自己也快要升 A 级了。<span class="ch">第 2884、2887 章</span><details class="src"><summary>原文</summary><blockquote>没了道具的掩饰，徐获的身体状态暴露在其他人视野中<cite>第 2884 章</cite></blockquote><blockquote>徐获快要升A级，014区中肯定也有不少人要到A级了<cite>第 2887 章</cite></blockquote></details></div><p class="links"><b>拿到</b><a href="../items.html#item-%E6%9D%83%E5%A8%81">权威</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
+<section id="cast" class="fgroup"><h3>人物</h3>
+<p class="note">徐获在 033 区仍用化名余知。金飞雪始终没有露面，只在别人口中出现。</p>
+<ul class="people"><li data-ch="2879"><b class="subject"><a href="../people.html?upto=2890#person-%E4%B9%A6%E8%99%AB">书虫</a></b><span class="text">消息极灵通的“书虫”，照停售 AS-01CL 号矿石的约定给了徐获完美药剂的线索和章医生的底细，又开价要他揭穿圣剑会聚会里的一名游戏政府技术人员。被问怎么知道徐获在 033 区，他再没回复。</span><span class="ch">第 2878–2879 章</span></li><li data-ch="2883"><b class="subject">奈恩·范肖</b><span class="text">范肖家族成员，白蔻说他是何普的侄子；他在 033 区残杀两家人后被圣剑会公开处刑，徐获当众打听他的身份，成了后来被怀疑的由头。他受刑前号召族人去杀更多的人，最终受刑而死。</span><span class="ch">第 2879–2880、2883 章</span></li><li data-ch="2885"><b class="subject">百林会的副会长们</b><span class="text">百林会为开荒副本里的损失派人寻仇，徐获打上总部，几名副会长带人围攻仍拿不下，反死了十多人。执法队到场后他们派 A 级玩家协助围捕，最后只能留在废墟上，商量先报告会长。</span><span class="ch">第 2877、2882–2883、2885 章</span></li><li data-ch="2885"><b class="subject">水少爷</b><span class="text">033 区水家的人，水家的钱撑着分区政府对玩家组织的扶持，圣剑会的工厂也是水家给的。他为争取石三九的生意喝退执法队和圣剑会，限三天查清命案，又亲自去圣剑会交代此事。</span><span class="ch">第 2884–2885 章</span></li><li data-ch="2888"><b class="subject"><a href="../people.html?upto=2890#person-%E7%9F%B3%E4%B8%89%E4%B9%9D">石三九</a></b><span class="text">徐获在三分之一游戏里结识的朋友，时间进化者，来 033 区和水家谈生意，认出徐获后替他解围。他答应借时间道具，又和璞玉一起放烟雾弹，把诡音骑士团的悬赏搅成了笑话。</span><span class="ch">第 2885–2886、2888 章</span></li><li data-ch="2889"><b class="subject"><a href="../people.html?upto=2890#person-%E9%87%91%E9%A3%9E%E9%9B%AA">金飞雪</a></b><span class="text">诡音骑士团团长，徐获认定交易所命案是他嫁祸，想借圣剑会的手除掉自己，随后的匿名悬赏也被点破出自诡音骑士团。华瀚说他替肯菲娜家族办事，掌权人欧力随即下令舍弃了他。</span><span class="ch">第 2885、2888–2889 章</span></li><li data-ch="2888"><b class="subject"><a href="../people.html?upto=2890#person-%E8%81%82%E7%8E%84">聂玄</a></b><span class="text">014 区特防部的人，和徐获商定把非游戏场地模拟仪器运回 014 区布防，自己也上了悬赏名单。特防部抢先点破悬赏人是诡音骑士团，又派人在别的分区伪造徐获的行踪。</span><span class="ch">第 2887–2888 章</span></li><li data-ch="2889"><b class="subject"><a href="../people.html?upto=2890#person-%E5%8D%8E%E7%80%9A%C2%B7%E7%BB%B4%E5%B0%94%E7%BA%B3">华瀚·维尔纳</a></b><span class="text">坐镇 011 区的<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E7%8E%A9%E5%AE%B6" title="游戏里最顶尖、非常稀有的一批玩家。">超级玩家</a>，徐获托他防着金飞雪，他只回了句“知道了”。随后他独闯肯菲娜家族的分红宴，逼掌权人答应不让族人出现在 E27 <a class="term" href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C" title="游戏世界的大区；一个虫洞点下有许多互不相通的世界，被游戏划成分区。">虫洞点</a>，说金飞雪必死无疑。</span><span class="ch">第 2886–2889 章</span></li><li data-ch="2889"><b class="subject"><a href="../people.html?upto=2890#person-%E6%AC%A7%E5%8A%9B%C2%B7%E8%82%AF%E8%8F%B2%E5%A8%9C">欧力·肯菲娜</a></b><span class="text">A 级虫洞点某分区第一玩家家族肯菲娜家族的掌权人，被华瀚当众逼迫后答应不再干涉 E27 虫洞点。事后他下令舍弃金飞雪，断言华瀚活不了多久，又吩咐人去看看华瀚选中的年轻人。</span><span class="ch">第 2888–2889 章</span></li><li data-ch="2890"><b class="subject"><a href="../people.html?upto=2890#person-%E6%BC%86%E8%80%81">漆老</a></b><span class="text">圣剑会的副会长，看起来十分好说话的老者，登门约徐获散步，劝他加入圣剑会。徐获表明对圣剑会的宏图霸业毫无兴趣，反问劝说不成要怎么处置他。</span><span class="ch">第 2890 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、关键关系、伏笔与未解、承接前文、更多承接。写到第 2890 章，含全部剧透。</span></summary><section id="summary" class="fgroup"><h3>剧情梗概</h3>
+<nav class="arcs"><a href="#summary-1" data-ch="2877">百林会上门</a><a href="#summary-2" data-ch="2878">章医生与书虫</a><a href="#summary-4" data-ch="2879">处刑与命案</a><a href="#summary-5" data-ch="2882">打上百林会</a><a href="#summary-6" data-ch="2883">执法队与圣剑会</a><a href="#summary-7" data-ch="2885">水家与石三九</a><a href="#summary-8" data-ch="2887">十亿悬赏</a><a href="#summary-9" data-ch="2889">华瀚登门</a><a href="#summary-10" data-ch="2890">漆老来访</a></nav>
+<h4 id="summary-1" data-ch="2877">百林会上门</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="2877">徐获通关“小隔间”后住进永星酒店，百林会因开荒副本死了不少人前来寻仇，派人伪装身份、端着动了手脚的水果上门。<sup class="cite" title="本句未附原文">2877</sup></span><span class="stmt" data-ch="2877">他用好运骰子测出来人是“大凶”，把对方困进容器道具，问出是百林会所派；守在外面的只有十三个人。<sup class="cite" title="第2877章：“百林……”对方条件反射地开口">2877</sup></span><span class="stmt" data-ch="2877">他掷骰子立下规矩：今天只杀这一个，百林会识趣收手就此了结，否则他就登门拜访。<sup class="cite" title="第2877章：今天杀你一个人，如果百林会识趣收手">2877</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="2877">“百林……”对方条件反射地开口<cite>第 2877 章</cite></blockquote><blockquote data-ch="2877">今天杀你一个人，如果百林会识趣收手<cite>第 2877 章</cite></blockquote></details>
+<h4 id="summary-2" data-ch="2878">章医生与书虫</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="2878">特性“主场视角”写下的旁白点破，小隔间里那支对应他<a class="term" href="../world.html#world-%E8%BF%9B%E5%8C%96%E8%80%85" title="进化者身体进化的程度，用百分比表示。">进化率</a>的 S 版药剂，是章医生特意让徒弟送来的，像在明着宣告一直关注他。<sup class="cite" title="第2878章：章医生拿出了一支对应他进化率的S版药剂">2877–2878</sup></span><span class="stmt" data-ch="2878">童年人格已取出药里藏的装置，他仍搁置这支药；旁白还写到出副本时有个“熟人”近身即退，他首先怀疑诡音骑士团。<sup class="cite" title="本句未附原文">2878</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="2878">章医生拿出了一支对应他进化率的S版药剂<cite>第 2878 章</cite></blockquote></details>
+<p class="prose fgroup"><span class="stmt" data-ch="2878">“书虫”照先前停售 AS-01CL 号矿石的约定回了信，徐获推掉通往恒星医药秘密实验室的车票，改要完美药剂的线索。<sup class="cite" title="本句未附原文">2878</sup></span><span class="stmt" data-ch="2879">书虫发来按版本标注的地址清单，S 版药剂竟排到了 P10S；徐获由此推想，往后的药剂不能再一针提升 10% 的进化率了。<sup class="cite" title="第2878章：S版药剂竟然排序到了P10S">2878–2879</sup></span><span class="stmt" data-ch="2879">他又请书虫查章医生；按书虫的回复，章医生是维度裂缝游戏的超 S 级通缉犯，三十年前已是已知精神力数值最高的人，还能剪除别人的记忆。<sup class="cite" title="第 2879 章">2879</sup></span><span class="stmt" data-ch="2879">更多数据要拿交易来换：圣剑会近期在 033 区聚会，书虫要徐获查出其中一名游戏政府技术人员的身份并揭穿他。<sup class="cite" title="第2879章：我希望你能查出他的身份并揭穿他">2879</sup></span><span class="stmt" data-ch="2879">问他怎么知道自己在 033 区，书虫不再回复；徐获怀疑他是游戏的管理人员之一，却想不通他为何不直接告诉圣剑会。<sup class="cite" title="本句未附原文">2879</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="2879">S版药剂竟然排序到了P10S<cite>第 2878 章</cite></blockquote><blockquote data-ch="2879">我希望你能查出他的身份并揭穿他<cite>第 2879 章</cite></blockquote></details>
+<h4 id="summary-4" data-ch="2879">处刑与命案</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="2879">徐获决定先留在 033 区看看圣剑会，恰逢全城直播处刑范肖家族的奈恩·范肖，此人长得像何普。<sup class="cite" title="本句未附原文">2879</sup></span><span class="stmt" data-ch="2880">他当街联系白蔻打听，白蔻说范肖家族以杀人为乐，奈恩是何普的侄子；奈恩在 033 区残杀两家人，受刑前还号召族人去杀更多的人。<sup class="cite" title="第2879章：他是何普的侄子，就家族基因来说">2879–2880</sup></span><span class="stmt" data-ch="2881">随后他在交易所的秘密拍卖上花两亿五千万<a class="term" href="../world.html#world-%E7%99%BD%E9%92%9E" title="游戏里的货币，印着“恒星公司虚拟货币”。">白钞</a>拿下 A 级道具“权威”，它能在三分钟内达成持有者说出的话。<sup class="cite" title="第 2881 章">2881</sup></span><span class="stmt" data-ch="2883">他刚走出交易所，拍下哨子“不可倾听的乐声”的研究人员就七窍流血暴毙，哨子也不见了。<sup class="cite" title="第 2881、2883 章">2881、2883</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="2880">他是何普的侄子，就家族基因来说<cite>第 2879 章</cite></blockquote></details>
+<h4 id="summary-5" data-ch="2882">打上百林会</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="2882">回到酒店，百林会又围了上来；徐获让人转告会长自己马上登门，转眼到了百林会总部，建在活水上的整片别墅区随即垮塌下沉。<sup class="cite" title="本句未附原文">2881–2882</sup></span><span class="stmt" data-ch="2882">他举起“权威”喝一声“站好！”把众人压回地面，再放开<a class="term" href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" title="精神力量能外放、干扰到别人时，以精神进化者为内核造出的“世界”。">精神世界</a>、扯出空间切线；几名副会长围攻许久，他只受了轻伤，百林会却死了十多人。<sup class="cite" title="第2882章：可徐获在这么多人围攻之下只是受了轻伤，他们却死了十多个人">2882</sup></span><span class="stmt" data-ch="2882">有年轻玩家喊问有什么仇怨，徐获答：出了副本还不罢手，就该想到会被反杀。<sup class="cite" title="本句未附原文">2882</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="2882">可徐获在这么多人围攻之下只是受了轻伤，他们却死了十多个人<cite>第 2882 章</cite></blockquote></details>
+<h4 id="summary-6" data-ch="2883">执法队与圣剑会</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="2883">执法队带着圣剑会成员赶到：研究人员像受刑一样被活活痛死，徐获看处刑时当众打听奈恩，被感情机器人记下，于是被怀疑是范肖家族成员。<sup class="cite" title="第2883章：我们现在怀疑你是范肖家族成员">2883</sup></span><span class="stmt" data-ch="2883">徐获说范肖家族没这么聪明，劝他们另查；对方不肯退，百林会也派 A 级玩家配合围捕。<sup class="cite" title="本句未附原文">2883</sup></span><span class="stmt" data-ch="2884">他用精神世界罩住半个首都，几个人格在门户间穿梭，圣剑会和百林会的人能杀就杀，执法队只被砍断手脚、留了活口。<sup class="cite" title="本句未附原文">2883–2884</sup></span><span class="stmt" data-ch="2884">圣剑会玩家打碎他的屏蔽道具，才发现他只是 B 级；见他天赋高、家底厚，疑心是大家族培养的天才，备好了非游戏场地模拟仪器，却犹豫要不要杀他。<sup class="cite" title="第2884章：“B级玩家？”没了道具的掩饰">2884</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="2883">我们现在怀疑你是范肖家族成员<cite>第 2883 章</cite></blockquote><blockquote data-ch="2884">“B级玩家？”没了道具的掩饰<cite>第 2884 章</cite></blockquote></details>
+<h4 id="summary-7" data-ch="2885">水家与石三九</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="2885">水家的水少爷这时赶到，训斥执法队案子没查清就贸然抓人；徐获亮出玉石徽章，同来的客人认出了他，正是在三分之一游戏里结识的石三九。<sup class="cite" title="本句未附原文">2884–2885</sup></span><span class="stmt" data-ch="2885">水家的生意在 033 区数一数二，圣剑会的工厂也是水家给的；水少爷正要争取石三九的生意，当即赔罪，限执法队三天查清命案。<sup class="cite" title="第 2885 章">2885</sup></span><span class="stmt" data-ch="2885">按水少爷的说法，死去的研究人员是圣剑会旗下的人；徐获由此判断，有人借命案嫁祸，想借圣剑会的手杀他，他对石三九说十有八九是金飞雪。<sup class="cite" title="第2885章：十有八九是金飞雪吧">2885</sup></span><span class="stmt" data-ch="2885">在徐获看来，窦胜男和力力死后金飞雪迟迟没动手，是不信窦胜男临死传出的数据，这次要逼他拿出看家本领。<sup class="cite" title="本句未附原文">2885</sup></span><span class="stmt" data-ch="2886">石三九提醒，金飞雪和 A 级<a class="term" href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C" title="游戏世界的大区；一个虫洞点下有许多互不相通的世界，被游戏划成分区。">虫洞点</a>的某个家族关系很近，说不定能弄来克制时间进化的超维仪器；他答应向哥哥借时间道具，借不到就把自己的给徐获。<sup class="cite" title="本句未附原文">2885–2886</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="2885">十有八九是金飞雪吧<cite>第 2885 章</cite></blockquote></details>
+<h4 id="summary-8" data-ch="2887">十亿悬赏</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="2887">徐获担心金飞雪顺着范肖家族查到何普和 011 区，自己又回不了 014 区，只好把运仪器布防的事托给白蔻和聂玄。<sup class="cite" title="本句未附原文">2886–2887</sup></span><span class="stmt" data-ch="2887">他还托华瀚·维尔纳：金飞雪若敢去 011 区，就把人彻底留下；华瀚隔了很久才回了句“知道了”。<sup class="cite" title="本句未附原文">2887</sup></span><span class="stmt" data-ch="2887">命案还没查清，维度之下就出现匿名悬赏，贴出徐获现在的样貌、两次击杀窦胜男的影像和白蔻扮成蝴蝶夫人的视频。徐获明白，对方认出了“生命本源”的效果，联想到了雨果之死。<sup class="cite" title="本句未附原文">2887</sup></span><span class="stmt" data-ch="2888">悬赏很快补上他在 011 区的本来面目，赏金从三亿白钞涨到十亿，只要照片和影像里那些人的身份信息，聂玄、画女、邓博士也在其中。<sup class="cite" title="第2887章：悬赏的金额也从一开始的三亿白钞提高到了十亿">2887–2888</sup></span><span class="stmt" data-ch="2888">特防部抢先点破悬赏人就是诡音骑士团，又派人在别的分区伪造徐获的行踪；徐获却料定金飞雪一定会等到 014 区融合时出现。<sup class="cite" title="第2888章：金飞雪一定会等到014区融合时出现">2888</sup></span><span class="stmt" data-ch="2888">011 区把他的真名、年龄、等级和疑似三向<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96" title="进化者的身体进化到一定程度后发生的质变，也叫二次进化。">超级进化</a>零碎卖了出去，可冒充者和石三九、璞玉放的烟雾弹一齐涌来，悬赏很快成了笑话，不久就消失了。<sup class="cite" title="本句未附原文">2888</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="2888">悬赏的金额也从一开始的三亿白钞提高到了十亿<cite>第 2887 章</cite></blockquote><blockquote data-ch="2888">金飞雪一定会等到014区融合时出现<cite>第 2888 章</cite></blockquote></details>
+<h4 id="summary-9" data-ch="2889">华瀚登门</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="2889">肯菲娜家族是某 A 级虫洞点分区的第一玩家家族，分红宴上华瀚·维尔纳独自走进大厅，定住满堂族人，只留掌权人欧力·肯菲娜能动。<sup class="cite" title="本句未附原文">2888–2889</sup></span><span class="stmt" data-ch="2889">欧力说金飞雪不是肯菲娜家族的人，华瀚说重要的是金飞雪替这个家族办事，上回趁他不在去 011 区大闹的也是肯菲娜家族的人。欧力搬出家族元老的身份相威胁，华瀚回说在那之前他这一支会断子绝孙。<sup class="cite" title="第2889章：重要的是他为肯菲娜家族办事">2889</sup></span><span class="stmt" data-ch="2889">欧力答应不让族人出现在 E27 虫洞点，华瀚丢下一句金飞雪必死无疑便离开了。<sup class="cite" title="第2889章：我不希望看到任何肯菲娜家族的人出现在E27虫洞点">2889</sup></span><span class="stmt" data-ch="2889">欧力随即下令舍弃金飞雪，却不许去教训 011 区：在他看来，华瀚活不了多久，不值得和快死的疯狗纠缠；他还吩咐人去看看华瀚选中的那个年轻人。<sup class="cite" title="第2889章：华瀚·维尔纳活不了多久">2889</sup></span><span class="stmt" data-ch="2889">维度之下的风向随之一变，诡音骑士团的战力被公开，有人说金飞雪的特性已能比肩<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E7%8E%A9%E5%AE%B6" title="游戏里最顶尖、非常稀有的一批玩家。">超级玩家</a>，还有人专门去挑衅团员。<sup class="cite" title="本句未附原文">2889</sup></span></p><details class="src block fgroup"><summary>本段原文 3 处</summary><blockquote data-ch="2889">重要的是他为肯菲娜家族办事<cite>第 2889 章</cite></blockquote><blockquote data-ch="2889">我不希望看到任何肯菲娜家族的人出现在E27虫洞点<cite>第 2889 章</cite></blockquote><blockquote data-ch="2889">华瀚·维尔纳活不了多久<cite>第 2889 章</cite></blockquote></details>
+<h4 id="summary-10" data-ch="2890">漆老来访</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="2890">徐获明白双方已互揭底牌，眼下最好的准备是提升进化率；他正想把圣剑会的事放一放、去找完美药剂，圣剑会副会长漆老亲自登门。<sup class="cite" title="本句未附原文">2890</sup></span><span class="stmt" data-ch="2890">漆老说圣剑会的初衷是为力量弱小者争取安居乐业的地方，新旧圣剑会对他们都一样，劝徐获加入。<sup class="cite" title="本句未附原文">2890</sup></span><span class="stmt" data-ch="2890">在徐获看来，新旧圣剑会都是想换自己来定规则、控制游戏世界，而维度裂缝这个游戏本来就不该存在。<sup class="cite" title="第2890章：维度裂缝这个游戏本来不应该存在">2890</sup></span><span class="stmt" data-ch="2890">他直说对圣剑会的宏图霸业毫无兴趣，和圣剑会结仇却是真的，反问劝说不成圣剑会打算怎么处置他。<sup class="cite" title="本句未附原文">2890</sup></span><span class="stmt" data-ch="2890">圣剑会还在权衡有没有必要杀他，眼下愿意拿一些成员的性命换他的友谊。<sup class="cite" title="第2890章：圣剑会愿意用一些成员的性命换取他的友谊">2890</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="2890">维度裂缝这个游戏本来不应该存在<cite>第 2890 章</cite></blockquote><blockquote data-ch="2890">圣剑会愿意用一些成员的性命换取他的友谊<cite>第 2890 章</cite></blockquote></details>
+</section>
+<section id="relations" class="fgroup"><h3>关键关系</h3>
+<p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-kill)"></i>杀死</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
+<p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-ally)"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-enemy)"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-kill)"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-other)"/></marker>
+</defs>
+<g class="edge" data-ch="2877"><title>百林会 → 派人伪装身份送来动了手脚的水果 → 徐获（第 2877 章）</title><path d="M469.0,321.0 Q485.6,261.1 481.3,211.1" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="2882"><title>徐获 → 打上总部，杀了十多人 → 百林会（第 2882 章）</title><path d="M480.3,199.1 Q463.7,259.0 468.0,309.0" fill="none" style="stroke:var(--rel-kill)" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge" data-ch="2879"><title>书虫 → 透露章医生的底细，开价要揭穿游戏政府的人 → 徐获（第 2879 章）</title><path d="M362.3,205.0 Q421.3,202.1 468.3,199.7" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="2883"><title>执法队 → 疑为范肖家族成员，带圣剑会围捕 → 徐获（第 2883 章）</title><path d="M425.0,60 Q452.6,129.6 475.9,187.9" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="2884"><title>徐获 → 在精神世界和空间体带里大开杀戒 → 圣剑会（第 2884 章）</title><path d="M480.3,199.1 Q395.6,152.3 321.5,111.3" fill="none" style="stroke:var(--rel-kill)" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge" data-ch="2885"><title>水少爷 → 喝退执法队和圣剑会，接到水家庄园 → 徐获（第 2884–2885 章）</title><path d="M515.4,60 Q497.9,129.6 483.2,187.5" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="2888"><title>石三九 → 认出老友解围，放烟雾弹搅乱悬赏 → 徐获（第 2885、2888 章）</title><path d="M597.4,95.0 Q538.9,147.1 489.3,191.1" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="2885"><title>水家 → 提供工厂，出钱扶持在 033 区扎根 → 圣剑会（第 2885 章）</title><path d="M185.5,60 Q248.2,82.8 299.7,101.4" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="2889"><title>诡音骑士团 → 匿名悬赏查身份 → 徐获（第 2887、2889 章）</title><path d="M632.9,182.6 Q556.6,190.8 492.2,197.8" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="2888"><title>聂玄 → 商定运回仪器布防，派人伪造行踪 → 徐获（第 2887–2888 章）</title><path d="M615.9,273.7 Q548.1,236.4 490.8,204.9" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="2887"><title>徐获 → 托付防备金飞雪 → 华瀚·维尔纳（第 2887 章）</title><path d="M480.3,199.1 Q416.7,267.6 361.3,327.3" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="2889"><title>华瀚·维尔纳 → 闯进分红宴，以断子绝孙相逼 → 欧力·肯菲娜（第 2889 章）</title><path d="M353.1,336.1 Q300.1,378.1 256.5,412.6" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="2889"><title>金飞雪 → 替肯菲娜家族办事 → 肯菲娜家族（第 2889 章）</title><path d="M139.2,420 Q99.6,420.0 72.0,420.0" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="2889"><title>欧力·肯菲娜 → 下令舍弃 → 金飞雪（第 2889 章）</title><path d="M247.1,420 Q193.1,420.0 151.2,420.0" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="2890"><title>漆老 → 登门劝说加入圣剑会 → 徐获（第 2890 章）</title><path d="M555.2,347.8 Q517.8,273.4 485.7,209.8" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<text x="478.1" y="281.6" class="elabel" style="fill:var(--rel-enemy)" data-ch="2877">派人伪装身份送来动了手脚的水果</text>
+<text x="469.7" y="258.7" class="elabel" style="fill:var(--rel-kill)" data-ch="2882">打上总部，杀了十多人</text>
+<text x="422.6" y="232.0" class="elabel" style="fill:var(--rel-other)" data-ch="2879">透露章医生的底细，开价要揭穿游戏政府的人</text>
+<text x="452.6" y="133.6" class="elabel" style="fill:var(--rel-enemy)" data-ch="2883">疑为范肖家族成员，带圣剑会围捕</text>
+<text x="395.6" y="156.3" class="elabel" style="fill:var(--rel-kill)" data-ch="2884">在精神世界和空间体带里大开杀戒</text>
+<text x="486.5" y="112.9" class="elabel" style="fill:var(--rel-ally)" data-ch="2885">喝退执法队和圣剑会，接到水家庄园</text>
+<text x="584.2" y="145.5" class="elabel" style="fill:var(--rel-ally)" data-ch="2888">认出老友解围，放烟雾弹搅乱悬赏</text>
+<text x="262.0" y="119.4" class="elabel" style="fill:var(--rel-ally)" data-ch="2885">提供工厂，出钱扶持在 033 区扎根</text>
+<text x="556.6" y="194.8" class="elabel" style="fill:var(--rel-enemy)" data-ch="2889">匿名悬赏查身份</text>
+<text x="552.5" y="213.1" class="elabel" style="fill:var(--rel-ally)" data-ch="2888">商定运回仪器布防，派人伪造行踪</text>
+<text x="359.5" y="295.0" class="elabel" style="fill:var(--rel-ally)" data-ch="2887">托付防备金飞雪</text>
+<text x="300.1" y="382.1" class="elabel" style="fill:var(--rel-enemy)" data-ch="2889">闯进分红宴，以断子绝孙相逼</text>
+<text x="99.6" y="450.0" class="elabel" style="fill:var(--rel-ally)" data-ch="2889">替肯菲娜家族办事</text>
+<text x="193.1" y="424.0" class="elabel" style="fill:var(--rel-other)" data-ch="2889">下令舍弃</text>
+<text x="550.0" y="305.9" class="elabel" style="fill:var(--rel-other)" data-ch="2890">登门劝说加入圣剑会</text>
+<g class="node" data-ch="2877"><circle cx="480.3" cy="199.1" r="14.6"/><text x="480.3" y="178.5" class="name">徐获</text></g>
+<g class="node" data-ch="2877"><circle cx="469.0" cy="321.0" r="10.8"/><text x="469.0" y="304.2" class="name">百林会</text></g>
+<g class="node" data-ch="2884"><circle cx="311.0" cy="105.5" r="10.8"/><text x="311.0" y="88.7" class="name">圣剑会</text></g>
+<g class="node" data-ch="2887"><circle cx="353.1" cy="336.1" r="10.8"/><text x="353.1" y="319.3" class="name">华瀚·维尔纳</text></g>
+<g class="node" data-ch="2889"><circle cx="247.1" cy="420" r="10.8"/><text x="247.1" y="403.2" class="name">欧力·肯菲娜</text></g>
+<g class="node" data-ch="2889"><circle cx="139.2" cy="420" r="10.8"/><text x="139.2" y="403.2" class="name">金飞雪</text></g>
+<g class="node" data-ch="2879"><circle cx="362.3" cy="205.0" r="10.0"/><text x="362.3" y="189.0" class="name">书虫</text></g>
+<g class="node" data-ch="2883"><circle cx="425.0" cy="60" r="10.0"/><text x="425.0" y="44.0" class="name">执法队</text></g>
+<g class="node" data-ch="2885"><circle cx="515.4" cy="60" r="10.0"/><text x="515.4" y="44.0" class="name">水少爷</text></g>
+<g class="node" data-ch="2888"><circle cx="597.4" cy="95.0" r="10.0"/><text x="597.4" y="79.0" class="name">石三九</text></g>
+<g class="node" data-ch="2885"><circle cx="185.5" cy="60" r="10.0"/><text x="185.5" y="44.0" class="name">水家</text></g>
+<g class="node" data-ch="2889"><circle cx="632.9" cy="182.6" r="10.0"/><text x="632.9" y="166.6" class="name">诡音骑士团</text></g>
+<g class="node" data-ch="2888"><circle cx="615.9" cy="273.7" r="10.0"/><text x="615.9" y="257.7" class="name">聂玄</text></g>
+<g class="node" data-ch="2889"><circle cx="60" cy="420" r="10.0"/><text x="60" y="404.0" class="name">肯菲娜家族</text></g>
+<g class="node" data-ch="2890"><circle cx="555.2" cy="347.8" r="10.0"/><text x="555.2" y="331.8" class="name">漆老</text></g>
+</svg></div>
+<details class="rel"><summary>文字版</summary><ul class="items"><li data-ch="2877"><span class="text">百林会 → 派人伪装身份送来动了手脚的水果 → <a href="../people.html?upto=2890#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 2877 章</span></li><li data-ch="2882"><span class="text"><a href="../people.html?upto=2890#person-%E5%BE%90%E8%8E%B7">徐获</a> → 打上总部，杀了十多人 → 百林会</span><span class="ch">第 2882 章</span></li><li data-ch="2879"><span class="text"><a href="../people.html?upto=2890#person-%E4%B9%A6%E8%99%AB">书虫</a> → 透露章医生的底细，开价要揭穿游戏政府的人 → <a href="../people.html?upto=2890#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 2879 章</span></li><li data-ch="2883"><span class="text">执法队 → 疑为范肖家族成员，带圣剑会围捕 → <a href="../people.html?upto=2890#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 2883 章</span></li><li data-ch="2884"><span class="text"><a href="../people.html?upto=2890#person-%E5%BE%90%E8%8E%B7">徐获</a> → 在精神世界和空间体带里大开杀戒 → 圣剑会</span><span class="ch">第 2884 章</span></li><li data-ch="2885"><span class="text">水少爷 → 喝退执法队和圣剑会，接到水家庄园 → <a href="../people.html?upto=2890#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 2884–2885 章</span></li><li data-ch="2888"><span class="text"><a href="../people.html?upto=2890#person-%E7%9F%B3%E4%B8%89%E4%B9%9D">石三九</a> → 认出老友解围，放烟雾弹搅乱悬赏 → <a href="../people.html?upto=2890#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 2885、2888 章</span></li><li data-ch="2885"><span class="text">水家 → 提供工厂，出钱扶持在 033 区扎根 → 圣剑会</span><span class="ch">第 2885 章</span></li><li data-ch="2889"><span class="text">诡音骑士团 → 匿名悬赏查身份 → <a href="../people.html?upto=2890#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 2887、2889 章</span></li><li data-ch="2888"><span class="text"><a href="../people.html?upto=2890#person-%E8%81%82%E7%8E%84">聂玄</a> → 商定运回仪器布防，派人伪造行踪 → <a href="../people.html?upto=2890#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 2887–2888 章</span></li><li data-ch="2887"><span class="text"><a href="../people.html?upto=2890#person-%E5%BE%90%E8%8E%B7">徐获</a> → 托付防备金飞雪 → <a href="../people.html?upto=2890#person-%E5%8D%8E%E7%80%9A%C2%B7%E7%BB%B4%E5%B0%94%E7%BA%B3">华瀚·维尔纳</a></span><span class="ch">第 2887 章</span></li><li data-ch="2889"><span class="text"><a href="../people.html?upto=2890#person-%E5%8D%8E%E7%80%9A%C2%B7%E7%BB%B4%E5%B0%94%E7%BA%B3">华瀚·维尔纳</a> → 闯进分红宴，以断子绝孙相逼 → <a href="../people.html?upto=2890#person-%E6%AC%A7%E5%8A%9B%C2%B7%E8%82%AF%E8%8F%B2%E5%A8%9C">欧力·肯菲娜</a></span><span class="ch">第 2889 章</span></li><li data-ch="2889"><span class="text"><a href="../people.html?upto=2890#person-%E9%87%91%E9%A3%9E%E9%9B%AA">金飞雪</a> → 替肯菲娜家族办事 → 肯菲娜家族</span><span class="ch">第 2889 章</span></li><li data-ch="2889"><span class="text"><a href="../people.html?upto=2890#person-%E6%AC%A7%E5%8A%9B%C2%B7%E8%82%AF%E8%8F%B2%E5%A8%9C">欧力·肯菲娜</a> → 下令舍弃 → <a href="../people.html?upto=2890#person-%E9%87%91%E9%A3%9E%E9%9B%AA">金飞雪</a></span><span class="ch">第 2889 章</span></li><li data-ch="2890"><span class="text"><a href="../people.html?upto=2890#person-%E6%BC%86%E8%80%81">漆老</a> → 登门劝说加入圣剑会 → <a href="../people.html?upto=2890#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 2890 章</span></li></ul></details>
+</section>
+<section id="threads" class="fgroup"><h3>伏笔与未解</h3>
+<p class="note">截至第 2890 章还没有交代的事。</p>
+<ul class="items"><li data-ch="2890"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#567</span><span class="text">书虫开价要徐获在圣剑会的聚会上揭穿一名游戏政府技术人员，徐获后来打算先把圣剑会的事放一放，这人是谁、交易做不做都没有交代。</span><span class="ch">第 2879、2890 章</span></li><li data-ch="2879"><a class="thread-no" href="../threads.html?upto=2890#thread-546" title="伏笔总表">#546</a><span class="text">书虫怎么知道徐获在 A49-033 区，为何要揭穿潜进圣剑会的游戏政府人员却不直接告诉圣剑会，都没有答案，徐获怀疑他是游戏的管理人员之一。</span><span class="ch">第 2879 章</span></li><li data-ch="2885"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#566</span><span class="text">交易所命案的凶手是谁、“不可倾听的乐声”落在谁手里仍未查明；徐获认定是金飞雪嫁祸，出副本时盯上他的那个“熟人”却始终没有露面。</span><span class="ch">第 2878、2881、2883、2885 章</span></li><li data-ch="2889"><a class="thread-no" href="../threads.html?upto=2890#thread-146" title="伏笔总表">#146</a><span class="text">徐获料定金飞雪会等到 014 区融合时出现，来的可能不止诡音骑士团；被肯菲娜家族舍弃、又被各路仇家盯上的金飞雪下一步会怎么做，还没有交代。</span><span class="ch">第 2888–2889 章</span></li><li data-ch="2889"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#570</span><span class="text">欧力·肯菲娜吩咐人去看看华瀚选中的那个年轻人，派谁去、看过之后要做什么，没有交代。</span><span class="ch">第 2889 章</span></li><li data-ch="2889"><a class="thread-no" href="../threads.html?upto=2890#thread-190" title="伏笔总表">#190</a><span class="text">欧力断言华瀚·维尔纳活不了多久，他还剩多少时间、身后 011 区会怎样，没有交代。</span><span class="ch">第 2889 章</span></li><li data-ch="2889"><a class="thread-no" href="../threads.html?upto=2890#thread-535" title="伏笔总表">#535</a><span class="text">欧力警告华瀚别像以前一样玩火自焚，华瀚从前出过什么事，没有交代。</span><span class="ch">第 2889 章</span></li><li data-ch="2887"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#569</span><span class="text">徐获坚持在 014 区安全区留一台非游戏场地模拟仪器，照常运行也不放诱饵，只说另有安排，打算怎么用没有交代。</span><span class="ch">第 2887 章</span></li><li data-ch="2885"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#565</span><span class="text">百林会会长回来后会怎么报复，被困进容器道具的那名百林会玩家下落如何，他说徐获的同伴都被抓了是真是假，都没有交代。</span><span class="ch">第 2877、2885 章</span></li><li data-ch="2890"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#563</span><span class="text">徐获直说与圣剑会结了仇、将来势必敌对，问劝说不成圣剑会打算怎么处置他，漆老还没有回答。</span><span class="ch">第 2890 章</span></li><li data-ch="2881"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#568</span><span class="text">“权威”玺印底下刻着一朵认不出的花，旁边落款“夏至”，这落款的含义和玺印出自谁手都没有交代。</span><span class="ch">第 2881 章</span></li><li data-ch="2888"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#525</span><span class="text">画女还留在马戏城里，严嘉鱼和白蔻都没有她的消息，悬赏里她的脸时时在变，她怎样了没有交代。</span><span class="ch">第 2878、2888 章</span></li><li data-ch="2878"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#522</span><span class="text">严嘉鱼和白蔻同样没有大毛的消息，它后来怎样没有交代。</span><span class="ch">第 2878 章</span></li><li data-ch="2878"><a class="thread-no" href="../threads.html?upto=2890#thread-201" title="伏笔总表">#201</a><span class="text">章医生为什么拿得出对应徐获<a class="term" href="../world.html#world-%E8%BF%9B%E5%8C%96%E8%80%85" title="进化者身体进化的程度，用百分比表示。">进化率</a>的 S 版药剂、药里的装置做什么用、游戏里有没有别的完美进化者，都没有交代。</span><span class="ch">第 2878 章</span></li><li data-ch="2878"><a class="thread-no" href="../threads.html?upto=2890#thread-371" title="伏笔总表">#371</a><span class="text">书虫说的轨道边恒星医药秘密实验室，和某分区那处恒星医药没来得及撤走的旧实验场，徐获都没有去，里面有什么还不知道。</span><span class="ch">第 2878 章</span></li><li data-ch="2887"><a class="thread-no" href="../threads.html?upto=2890#thread-042" title="伏笔总表">#042</a><span class="text">014 区多处出现能量波动、副本随时可能诞生，融合什么时候到来、会引来哪些外区玩家，没有交代。</span><span class="ch">第 2887 章</span></li><li data-ch="2878"><a class="thread-no" href="../threads.html?upto=2890#thread-051" title="伏笔总表">#051</a><span class="text">提箱人仍销声匿迹，<a class="term" href="../world.html#world-%E5%89%AF%E6%9C%AC%E6%8E%88%E6%9D%83%E4%B9%A6" title="游戏发给促成新副本、与副本契合度高的玩家，凭它可以成为副本的权限持有者。">副本授权书</a>遗失后也没掀起风浪，他会不会找上门，没有交代。</span><span class="ch">第 2878 章</span></li></ul>
+</section>
+<section id="callbacks" class="fgroup"><h3>承接前文</h3>
+<ul class="items"><li data-ch="2888"><a class="thread-no" href="../threads.html?upto=2890#thread-146" title="伏笔总表">#146</a><span class="text">诡音骑士团的报复终于来了：徐获认定交易所命案是金飞雪嫁祸，随后的匿名悬赏也被特防部点破出自诡音骑士团，起因是窦胜男被杀。</span><span class="ch">第 2885、2888 章</span><details class="src"><summary>原文</summary><blockquote>言明悬赏的人其实就是诡音骑士团<cite>第 2888 章</cite></blockquote></details></li><li data-ch="2879"><a class="thread-no" href="../threads.html?upto=2890#thread-201" title="伏笔总表">#201</a><span class="text">书虫说章医生是维度裂缝游戏的超 S 级通缉犯，三十年前已是已知精神力数值最高的人；小隔间那支 S 版药剂也是他让徒弟送来的。</span><span class="ch">第 2878–2879 章</span></li><li data-ch="2882"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#565</span><span class="text">百林会为开荒副本里的损失来寻仇，徐获困住上门的人，又打上百林会总部，杀了十多人。</span><span class="ch">第 2877、2882 章</span></li><li data-ch="2886"><a class="thread-no" href="../threads.html?upto=2890#thread-031" title="伏笔总表">#031</a><span class="text">圣剑会在外名声不好，在扎根的 033 区却标榜犯罪必究；石三九说它靠水家成了这里的话事人，却被一些势力半孤立。</span><span class="ch">第 2880、2885–2886 章</span></li></ul>
+</section>
+<section id="callbacks-more" class="fgroup"><details class="section-fold"><summary>更多承接</summary>
+<ul class="items"><li data-ch="2878"><a class="thread-no" href="../threads.html?upto=2890#thread-201" title="伏笔总表">#201</a><span class="text">“主场视角”写到，徐获开始反思自己什么时候又被章医生盯上，是因为郑玉慈、益智球，还是更早。</span><span class="ch">第 2878 章</span></li><li data-ch="2878"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#562</span><span class="text">童年人格已取出 S 版药剂里藏的装置，徐获仍决定搁置这支药，章医生多年没被抓到尾巴，没必要冒这个险。</span><span class="ch">第 2878 章</span></li><li data-ch="2879"><a class="thread-no" href="../threads.html?upto=2890#thread-546" title="伏笔总表">#546</a><span class="text">“书虫”照约定回了信，徐获疑心他当初要 AS-01CL 号矿石停售，就是知道徐获认识璞玉。</span><span class="ch">第 2878–2879 章</span></li><li data-ch="2878"><a class="thread-no" href="../threads.html?upto=2890#thread-371" title="伏笔总表">#371</a><span class="text">徐获早猜过轨道两侧的空间可能被游戏利用，可那里是掺着超维空间力量的混乱空间，他闯不了，于是没要书虫的车票。</span><span class="ch">第 2878 章</span></li><li data-ch="2878"><a class="thread-no" href="../threads.html?upto=2890#thread-036" title="伏笔总表">#036</a><span class="text">书虫的完美药剂线索按地址标着版本，有些地方武博士露过行踪，S 版药剂排到了 P10S。</span><span class="ch">第 2878 章</span></li><li data-ch="2878"><a class="thread-no" href="../threads.html?upto=2890#thread-185" title="伏笔总表">#185</a><span class="text">好运骰子离得越近预测越明朗，徐获琢磨预知道具是基于现实的预判，还是借曲线时间回溯过来的展示。</span><span class="ch">第 2877–2878 章</span></li><li data-ch="2880"><a class="thread-no" href="../threads.html?upto=2890#thread-031" title="伏笔总表">#031</a><span class="text">集信终端上说，圣剑会在 033 区真正的总部是一座武器工业园区；本区玩家则说，处刑法刚立时处死最多的就是圣剑会玩家。</span><span class="ch">第 2879–2880 章</span><details class="src"><summary>原文</summary><blockquote>处刑法最初立法的时候，杀的最多的就是圣剑会玩家<cite>第 2880 章</cite></blockquote></details></li><li data-ch="2890"><a class="thread-no" href="../threads.html?upto=2890#thread-031" title="伏笔总表">#031</a><span class="text">副会长漆老说，圣剑会的初衷是为力量弱小者争取安居乐业的空间，新旧圣剑会对他们都一样，多一个人加入就少一个人反对。</span><span class="ch">第 2890 章</span></li><li data-ch="2890"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#563</span><span class="text">圣剑会副会长漆老亲自登门劝徐获加入，圣剑会还在权衡要不要杀他，愿意拿一些成员的性命换他的友谊。</span><span class="ch">第 2890 章</span></li><li data-ch="2889"><a class="thread-no" href="../threads.html?upto=2890#thread-146" title="伏笔总表">#146</a><span class="text">石三九听说金飞雪和 A 级<a class="term" href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C" title="游戏世界的大区；一个虫洞点下有许多互不相通的世界，被游戏划成分区。">虫洞点</a>的某个家族关系很近；华瀚找上的正是肯菲娜家族，掌权人欧力最后下令舍弃金飞雪。</span><span class="ch">第 2886、2889 章</span></li><li data-ch="2888"><a class="thread-no" href="../threads.html?upto=2890#thread-146" title="伏笔总表">#146</a><span class="text">徐获猜金飞雪迟迟不露面，是在确认他操控时间力量是不是全靠道具。</span><span class="ch">第 2888 章</span></li><li data-ch="2887"><a class="thread-no" href="../threads.html?upto=2890#thread-042" title="伏笔总表">#042</a><span class="text">徐获快升 A 级，014 区也有不少人要到 A 级，融合近在眼前；国家打算届时把重要人员转移到三个半废的分区，他弄来的仪器要运回去布防。</span><span class="ch">第 2887 章</span></li><li data-ch="2889"><a class="thread-no" href="../threads.html?upto=2890#thread-190" title="伏笔总表">#190</a><span class="text">徐获托华瀚·维尔纳防着金飞雪，华瀚只回了句“知道了”，转身就闯进肯菲娜家族的分红宴；欧力猜那个三向进化的年轻人就是华瀚选的继承人。</span><span class="ch">第 2887–2889 章</span></li><li data-ch="2886"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#442</span><span class="text">水少爷叫石三九“三十九少”，水家千方百计要和石家做生意；石三九是时间进化者，有个哥哥，说诡音骑士团不敢闯到他家里去。</span><span class="ch">第 2885–2886 章</span></li><li data-ch="2886"><a class="thread-no" href="../threads.html?upto=2890#thread-023" title="伏笔总表">#023</a><span class="text">石三九听说卡门·菲尔德当年收到过加入无车票分区的邀请，最后闹得不可收拾，人也死了。</span><span class="ch">第 2886 章</span></li><li data-ch="2886"><a class="thread-no" href="../threads.html?upto=2890#thread-552" title="伏笔总表">#552</a><span class="text">石三九听说真正掌握游戏权限的家族都在无车票游戏分区，派出来管 A 级以下虫洞点的只算边沿人士。</span><span class="ch">第 2886 章</span></li><li data-ch="2887"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#308</span><span class="text">白蔻时间进化无果后干脆放弃，徐获提出把那块<a class="term" href="../world.html#world-%E6%AC%A1%E7%B1%BB%E7%9F%B3" title="能让别的物质发生质变的石头，附近的矿石会变成次类石。">原生石</a>继续借给她，她说“不借白不借”。</span><span class="ch">第 2887 章</span></li><li data-ch="2888"><a class="thread-no" href="../threads.html?upto=2890#thread-132" title="伏笔总表">#132</a><span class="text">邓博士也上了诡音骑士团的悬赏，很快被挖出是恒星医药的前员工；徐获打算请华瀚照看月季花古堡，把他和孟存安排到别处。</span><span class="ch">第 2886、2888 章</span></li></ul>
+</details></section><section id="links" class="fgroup"><h3>本单元涉及的设定、地点与道具</h3><p class="note">设定在世界观页，地点和势力在地理页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E7%BB%B4%E5%BA%A6%E8%BD%A8%E9%81%93" data-ch="2878">维度轨道</a><a href="../world.html#world-%E5%AE%8C%E7%BE%8E%E8%BF%9B%E5%8C%96%E5%89%82" data-ch="2878">完美进化剂与武博士</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96" data-ch="2889">超级进化</a><a href="../world.html#world-A%E7%BA%A7%E8%99%AB%E6%B4%9E%E7%82%B9" data-ch="2886">A 级虫洞点与无车票分区</a><a href="../world.html#world-%E9%80%9A%E7%BC%89%E7%8A%AF" data-ch="2879">通缉犯</a></p><p class="links fgroup"><b>地点与势力</b><a href="../places.html#place-014%E5%8C%BA" data-ch="2887">014 区</a><a href="../places.html#place-A49-033%E5%8C%BA" data-ch="2877">A49-033 区</a><a href="../places.html#place-033%E5%8C%BA%E4%BA%A4%E6%98%93%E6%89%80" data-ch="2880">交易所（A49-033 区）</a><a href="../places.html#faction-%E5%9C%A3%E5%89%91%E4%BC%9A" data-ch="2879">圣剑会</a><a href="../places.html#faction-%E8%AF%A1%E9%9F%B3%E9%AA%91%E5%A3%AB%E5%9B%A2" data-ch="2886">诡音骑士团</a><a href="../places.html#faction-%E6%81%92%E6%98%9F%E5%8C%BB%E8%8D%AF" data-ch="2878">恒星医药</a><a href="../places.html#faction-%E7%99%BE%E6%9E%97%E4%BC%9A" data-ch="2877">百林会</a><a href="../places.html#faction-%E6%B0%B4%E5%AE%B6" data-ch="2884">水家（A49-033 区）</a><a href="../places.html#faction-%E8%82%AF%E8%8F%B2%E5%A8%9C%E5%AE%B6%E6%97%8F" data-ch="2888">肯菲娜家族</a><a href="../places.html#faction-%E8%8C%83%E8%82%96%E5%AE%B6%E6%97%8F" data-ch="2879">范肖家族</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E5%A4%A7%E6%AF%9B" data-ch="2878">大毛</a><a href="../items.html#item-%E7%9B%8A%E6%99%BA%E7%90%83" data-ch="2878">益智球</a><a href="../items.html#item-%E7%94%9F%E5%91%BD%E6%9C%AC%E6%BA%90" data-ch="2887">生命本源</a><a href="../items.html#item-%E5%A5%BD%E8%BF%90%E9%AA%B0%E5%AD%90" data-ch="2877">好运骰子</a><a href="../items.html#item-%E4%B8%8D%E5%8F%AF%E5%80%BE%E5%90%AC%E7%9A%84%E4%B9%90%E5%A3%B0" data-ch="2881">不可倾听的乐声</a><a href="../items.html#item-%E6%9D%83%E5%A8%81" data-ch="2881">权威</a></p></section></details>
+<nav class="units-nav bottom"><a class="prev" href="u0129.html"><small>← 上一单元</small><b>小隔间</b><small>第 2838–2876 章</small></a><a class="next" href="u0131.html"><small>下一单元 →</small><b>国王宝座</b><small>第 2891–2914 章</small><small class="after" data-beyond="2891" hidden>在你的进度之后</small></a></nav><script>
+(function () {
+  var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
+  var status = doc.getElementById('wdzx-status'), beyond = doc.querySelector('p.beyond'), box = doc.getElementById('wdzx-upto');
+  var layers = doc.querySelectorAll('details.layer'), peek = false;
+  var button = doc.createElement('button'); button.type = 'button'; button.className = 'peek';
+  button.addEventListener('click', function () {
+    if (peek) { box.dispatchEvent(new Event('input')); return; }   // the shared script puts the marks back and sends the event
+    peek = true;
+    doc.querySelectorAll('main .hidden').forEach(function (el) { el.classList.remove('hidden'); });
+    layers.forEach(function (d) { d.hidden = false; });
+    status.textContent = '已展开全部，含你进度之后的内容。'; button.textContent = '按进度收起'; status.appendChild(button);
+  });
+  doc.addEventListener('wdzx:progress', function (e) {
+    var n = e.detail, before = n < first, mid = !before && n < end;
+    peek = false;
+    if (beyond) beyond.hidden = true;
+    layers.forEach(function (d) { d.hidden = before; });
+    if (n === Infinity) return;
+    status.hidden = false;
+    if (before) status.textContent = '这张卡从第 ' + first + ' 章开始，在你的进度（第 ' + n + ' 章）之后，整张都是剧透，先收起了。';
+    else if (mid) status.textContent = '你读到第 ' + n + ' 章，这张卡写到第 ' + end + ' 章：之后的句子、评级和收获已藏起。';
+    else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
+    button.textContent = '仍然展开'; status.appendChild(button);
+  });
+  if (window.matchMedia('(max-width:640px)').matches) {   // a phone (design reviews 2026-10-06): the graph is wider than
+    doc.querySelectorAll('details.rel').forEach(function (d) { d.open = true; });   // the screen, so the list shows too,
+    doc.querySelectorAll('.graph').forEach(function (g) {   // and the strip starts at the busiest person, not the left edge
+      var svg = g.querySelector('svg'), best = null;
+      if (!svg || !svg.viewBox || !svg.viewBox.baseVal) return;
+      g.querySelectorAll('g.node circle').forEach(function (c) { if (!best || +c.getAttribute('r') > +best.getAttribute('r')) best = c; });
+      if (!best) return;
+      var scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width;
+      g.scrollLeft = Math.max(0, +best.getAttribute('cx') * scale - g.clientWidth / 2);
+    });
+  }
+})();
+</script>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
+</main><script>
+(function () {
+  var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;
+  var box = doc.getElementById('wdzx-upto'), clear = doc.getElementById('wdzx-clear'), banner = doc.getElementById('wdzx-banner');
+  var status = doc.getElementById('wdzx-status'), note = doc.getElementById('wdzx-note');
+  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('max') || Infinity;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function valid(n) { return n >= 1 && n <= reach; }
+  if (root.classList.contains('local')) {   // the Datasette database exists only on this machine
+    var nav = doc.querySelector('.rail nav'), db = doc.createElement('a');
+    db.href = nav.dataset.db; db.textContent = '数据库'; nav.appendChild(db);
+  }
+  if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
+  var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
+  saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
+  if (saved) box.value = saved;   // the box is the reader's own chapter; a card's ?upto only widens what this page shows
+  function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function shown() { var n = current(); return query ? Math.max(n < Infinity ? n : 0, query) : n; }
+  function apply() {
+    var mine = current(), n = shown(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', mine < Infinity);
+    banner.hidden = chosen;
+    if (!off) {
+      doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
+      doc.querySelectorAll('[data-until]').forEach(function (el) {   // an earlier state: shown before that chapter only
+        el.classList.toggle('hidden', n >= +el.dataset.until || +(el.dataset.ch || 0) > n);
+      });
+      doc.querySelectorAll('[data-first]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.first > n); });
+      doc.querySelectorAll('.fgroup').forEach(function (g) { g.classList.toggle('hidden', !g.querySelector('[data-ch]:not(.hidden)')); });
+      doc.querySelectorAll('.fsection').forEach(function (s) {
+        s.classList.toggle('hidden', !!s.querySelector('[data-first]') && !s.querySelector('[data-first]:not(.hidden), article:not([data-first])'));
+      });
+      doc.querySelectorAll('.upto-full').forEach(function (el) {
+        var cut = n < +el.dataset.last; el.classList.toggle('hidden', cut); el.nextElementSibling.style.display = cut ? 'inline' : '';
+      });
+      doc.querySelectorAll('[data-asof]').forEach(function (el) { el.textContent = '截至第 ' + Math.min(n, +el.dataset.asof) + ' 章'; });
+    }
+    doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
+    doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
+    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
+      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
+    });
+    status.hidden = n === Infinity;
+    status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : n !== mine ? '按这张单元卡显示到第 ' + n + ' 章；' + (mine < Infinity ? '你的进度仍是第 ' + mine + ' 章。' : '你还没填进度，在页头填了章号后以它为准。')
+      : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
+  }
+  function changed() {
+    if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
+    var n = current();
+    put(KEY, n < Infinity ? String(n) : null);
+    if (n < Infinity) put(SEEN, '1');
+    query = 0;
+    if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
+    note.hidden = true; apply();
+  }
+  box.addEventListener('input', changed);
+  clear.addEventListener('click', function () { box.value = ''; changed(); });
+  banner.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.choice === 'fill') { box.focus(); return; }
+      if (b.dataset.choice === 'start' && valid(+b.dataset.chapter)) {
+        box.value = b.dataset.chapter; changed();
+        note.textContent = '还没开始读：先只显示到第 ' + b.dataset.chapter + ' 章，第一个副本结束的地方。读起来以后，在页头改成你读到的章就行。';
+        note.hidden = false; return;
+      }
+      put(SEEN, '1'); apply();
+    });
+  });
+  apply();
+  var hash = location.hash.slice(1);   // ids are percent-encoded names (person-%E7%94%B2), so try the hash as it is first
+  var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
+  if (target && !off && target.closest('.hidden')) {
+    var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
+    var upto = shown(), why = upto !== current() ? '按这张单元卡的章号（第 ' + upto + ' 章）' : '按你的进度（读到第 ' + upto + ' 章）';
+    note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
+    note.hidden = false; note.scrollIntoView();
+  } else if (target) { target.scrollIntoView(); }
+})();
+
+document.addEventListener('toggle', function (e) {
+  var d = e.target;
+  if (!d.open || d.tagName !== 'DETAILS' || d.classList.contains('src') || d.hasAttribute('data-fold')) return;
+  if (d.querySelector(':scope > button.fold-close') || d.getBoundingClientRect().height < window.innerHeight * 0.7) return;
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'fold-close'; b.textContent = '收起 ▲';
+  b.addEventListener('click', function () {
+    d.open = false;
+    var s = d.querySelector(':scope > summary') || d;
+    if (s.getBoundingClientRect().top < 0) s.scrollIntoView({block: 'start'});
+  });
+  d.appendChild(b);
+}, true);
+
+(function () {   // phones (step 7): the contents as a drawer, intros cut to three lines
+  var doc = document, root = doc.documentElement, small = window.matchMedia('(max-width:720px)');
+  var toc = doc.getElementById('toc') || doc.getElementById('jump');
+  if (toc) {
+    root.classList.add('has-toc');
+    var fab = doc.createElement('button'), back = doc.createElement('div'), filter = doc.createElement('input');
+    fab.type = 'button'; fab.className = 'toc-fab'; fab.textContent = '目录'; fab.setAttribute('aria-label', '目录');
+    var lastY = window.scrollY;   // scrolling down it steps aside, scrolling up it comes back (design review 2026-10-06)
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (y > lastY + 8 && y > 240) root.classList.add('fab-away'); else if (y < lastY - 8) root.classList.remove('fab-away');
+      lastY = y;
+    }, {passive: true});
+    back.className = 'toc-backdrop';
+    filter.type = 'search'; filter.className = 'toc-filter'; filter.placeholder = '在目录里找…';
+    toc.insertBefore(filter, toc.firstChild);
+    doc.body.appendChild(back); doc.body.appendChild(fab);
+    var open = function (on) { root.classList.toggle('toc-open', on); if (on && small.matches) filter.focus({preventScroll: true}); };
+    fab.addEventListener('click', function () { open(!root.classList.contains('toc-open')); });
+    back.addEventListener('click', function () { open(false); });
+    toc.addEventListener('click', function (e) { if (e.target.closest('a')) open(false); });
+    doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+    doc.querySelectorAll('a.totop').forEach(function (a) {   // on a phone it opens the contents, so it says so (GPT design review 2026-10-06)
+      a.textContent = '目录';
+      a.addEventListener('click', function (e) { if (small.matches) { e.preventDefault(); open(true); } });
+    });
+    filter.addEventListener('input', function () {   // names and data-keys (other names); a .find-only row shows only on a hit
+      var q = filter.value.replace(/\s/g, '');
+      toc.querySelectorAll('a').forEach(function (a) {
+        a.style.display = !q || (a.textContent + (a.dataset.keys || '')).replace(/\s/g, '').indexOf(q) >= 0 ? '' : 'none';
+      });
+      toc.querySelectorAll('.find-only').forEach(function (r) {
+        r.classList.toggle('found', !!q && Array.prototype.some.call(r.querySelectorAll('a'), function (a) { return a.style.display !== 'none'; }));
+      });
+    });
+  }
+  if (window.matchMedia('(max-width:640px)').matches) {
+    doc.querySelectorAll('.ticket-main > p.hint').forEach(function (p) {
+      if (p.scrollHeight < 90) return;
+      p.classList.add('clamped');
+      var b = doc.createElement('button');
+      b.type = 'button'; b.className = 'hint-more'; b.textContent = '展开说明';
+      b.addEventListener('click', function () { p.classList.remove('clamped'); b.remove(); });
+      p.after(b);
+    });
+  }
+})();
+
+(function () {   // a link into a closed fold opens the folds around its target first (design reviews 2026-10-06)
+  function openTo(id) {
+    var t = id && (document.getElementById(id) || document.getElementById(decodeURIComponent(id)));
+    for (var p = t && t.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a) openTo(a.getAttribute('href').slice(1));
+  }, true);
+  if (location.hash) openTo(location.hash.slice(1));
+  document.querySelectorAll('.graph, .growth').forEach(function (g) {   // a strip wider than the screen fades at its right edge
+    if (g.scrollWidth <= g.clientWidth + 2) return;
+    var check = function () { g.classList.toggle('at-end', g.scrollLeft + g.clientWidth >= g.scrollWidth - 4); };
+    g.classList.add('scroll-fade'); g.addEventListener('scroll', check, {passive: true}); check();
+  });
+})();
+</script></body></html>

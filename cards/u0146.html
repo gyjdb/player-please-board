@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B02-001 区（卡门先生故乡与菲尔德家族） · 单元卡 · 维度之下</title><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20x%3D%222%22%20y%3D%226%22%20width%3D%2228%22%20height%3D%2220%22%20rx%3D%223%22%20fill%3D%22%23d3a655%22/%3E%3Ccircle%20cx%3D%222%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ctext%20x%3D%2216%22%20y%3D%2221.5%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20text-anchor%3D%22middle%22%20fill%3D%22%2307080b%22%20font-family%3D%22serif%22%3E%E7%BB%B4%3C/text%3E%3C/svg%3E"><meta name="description" content="《玩家请上车》（海晏山 著）的读者整理：按单元写的梗概与解析，世界观、人物、地理、伏笔和道具库，可按读到的章数隐藏后文。"><meta name="theme-color" content="#07080b"><style>
+:root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
+  --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC","Source Han Serif CN","Noto Serif CJK SC","STSong","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace;
+  --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
+:root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#85621f; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380;
+  --mind:#7650b0; --space:#17788a; --time:#b25f18; --gold:#a07a10; }
+/* what stays dark in the light theme keeps the dark accents */
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth, .emblem) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
+:root[data-theme="light"] .banner button.primary { color:#fff; }
+:root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
+  background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
+:root[data-theme="light"] body { background:var(--paper); }
+a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+/* a dense run of names (items in hand, rewards, the units a person is in): ink with a thin red line, not a wall of red (design review 2026-10-06) */
+.quiet a, a.quiet { color:var(--ink); border-bottom:1px solid var(--line); border-bottom-color:color-mix(in srgb, var(--signal) 32%, transparent); }
+.quiet a:hover, a.quiet:hover { color:var(--signal); text-decoration:none; border-bottom-color:var(--signal); }
+main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
+
+/* nav: the rail */
+.rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
+.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; }
+@media (min-width:1100px) { .rail-inner { max-width:1060px; } }   /* brand, links, progress and switches on one line (2026-10-06) */
+.brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
+.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.12em; margin-left:6px; }   /* so brand, links, progress and switches fit one line at 920px */
+.rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
+.rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
+/* reading progress: one value for the whole site, set in the rail (localStorage wdzx.upto) */
+.rail .progress { margin-left:auto; display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--rail-muted); white-space:nowrap; }
+.rail .progress input { width:5.4em; background:transparent; color:var(--rail-ink); border:1px solid var(--rail-muted); border-radius:3px; padding:5px 6px; font:13px var(--mono); }
+.rail .progress input:invalid { border-color:var(--signal); }
+.has-progress .rail .progress input { border-color:var(--brass); color:var(--brass); }
+.rail .progress button { background:none; border:none; color:var(--rail-muted); font-size:17px; line-height:1; cursor:pointer; padding:4px 6px; }
+.banner { background:var(--card-2); border-bottom:1px solid var(--brass); }
+.banner-inner { max-width:920px; margin:0 auto; padding:10px 16px; font-size:14px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; }
+.banner-inner b { color:var(--brass); }
+.banner button { font:13px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:7px 12px; cursor:pointer; }
+.banner button.primary { background:var(--brass); color:var(--rail); border-color:var(--brass); }
+.progress-status { font-size:13px; color:var(--brass); margin:0 0 6px; }
+.progress-note { font-size:14px; color:var(--muted); margin:0 0 8px; }
+details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+@media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
+  .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
+.beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
+details.fold[data-fold][open] > summary { display:none; }   /* only the spoiler gate (hero 档案) drops its line once open */
+button.fold-close { display:block; margin:8px 0 2px; font:12.5px var(--sans); color:var(--muted); background:none; border:1px solid var(--line); border-radius:4px; padding:5px 12px; cursor:pointer; }
+button.fold-close:hover { color:var(--brass); border-color:var(--brass); }
+/* phones (step 7, 2026-10-06): one row of page links; intros cut to three lines; a page's contents (#toc, #jump) as
+   a drawer behind a 目录 button, with a filter; long CJK lines may break anywhere */
+button.toc-fab, .toc-backdrop { display:none; }
+input.toc-filter { display:block; width:100%; margin:2px 0 10px; }   /* the contents filter on wide screens too (2026-10-06); its look is the shared search box */
+nav.jump input.toc-filter { max-width:20em; margin:8px 0 6px; }
+.ticket-main p.premise { color:var(--ink); }
+@media (max-width:720px) {
+  html.has-toc button.toc-fab { display:block; position:fixed; right:14px; bottom:max(18px, env(safe-area-inset-bottom)); z-index:41; width:46px; height:46px;
+    padding:0; border:none; border-radius:50%; font-size:0; color:transparent; cursor:pointer; opacity:.94; box-shadow:0 4px 14px rgba(0,0,0,.35);
+    background:linear-gradient(#07080b,#07080b) 50% 16px / 18px 2px no-repeat, linear-gradient(#07080b,#07080b) 50% 22px / 18px 2px no-repeat,
+      linear-gradient(#07080b,#07080b) 50% 28px / 18px 2px no-repeat, #d3a655; transition:transform .2s ease, opacity .2s ease; }
+  html.fab-away:not(.toc-open) button.toc-fab { transform:translateY(90px); opacity:0; }
+  html.has-toc #toc, html.has-toc #jump { position:fixed !important; top:0; right:0; bottom:0; left:auto; width:min(86vw,360px);
+    max-height:none !important; margin:0; z-index:40; overflow:auto; overscroll-behavior:contain; background:var(--card);
+    border:none; border-left:1px solid var(--line); border-radius:0; padding:12px 16px 90px; transform:translateX(105%);
+    transition:transform .2s ease; box-shadow:-8px 0 24px rgba(0,0,0,.35); }
+  html.toc-open #toc, html.toc-open #jump { transform:none; }
+  html.toc-open .toc-backdrop { display:block; position:fixed; inset:0; z-index:39; background:rgba(0,0,0,.45); }
+  html.has-toc input.toc-filter { display:block; width:100%; margin:2px 0 10px; font-size:15px; min-height:40px; }
+}
+@media (max-width:640px) {
+  .rail nav { flex:1 1 100%; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+  .rail nav::-webkit-scrollbar { display:none; }
+  .rail nav a { flex:none; }
+  main { overflow-wrap:anywhere; }
+  .ticket-main p.hint.clamped { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:0; }
+  button.hint-more { background:none; border:none; color:var(--brass); font-size:12.5px; padding:2px 0 6px; cursor:pointer; }
+}
+[hidden] { display:none !important; }
+html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
+
+/* the 显示出处 and 浅色 switches */
+.toggle { position:absolute; opacity:0; pointer-events:none; }
+.switches { display:inline-flex; gap:8px; }
+.toggle-label { display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--rail-muted); border:1px solid #3a404b; border-radius:14px;
+  padding:4px 11px 4px 5px; cursor:pointer; user-select:none; }
+.toggle-label::before { content:""; flex:none; width:24px; height:14px; border-radius:7px; transition:background .15s;
+  background:radial-gradient(circle at 7px 50%, #8f897d 4px, transparent 4.6px), #262b33; }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail-ink); border-color:#8a7140; }
+#show-src:checked ~ .rail label[for="show-src"]::before, #theme-light:checked ~ .rail label[for="theme-light"]::before {
+  background:radial-gradient(circle at 17px 50%, #07080b 4px, transparent 4.6px), #d3a655; }
+#show-src:focus-visible ~ .rail label[for="show-src"], #theme-light:focus-visible ~ .rail label[for="theme-light"] { outline:2px solid #d3a655; outline-offset:2px; }
+html:not(.js) label[for="theme-light"] { display:none; }
+.ch, sup.cite, details.src, .src-only { display:none; }
+#show-src:checked ~ main .ch { display:inline-block; text-indent:0; }
+#show-src:checked ~ main sup.cite { display:inline; }
+#show-src:checked ~ main details.src { display:inline; }
+#show-src:checked ~ main .src-only { display:block; }
+#show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ticket-stub.src-only { display:none; }
+#show-src:checked ~ main .ticket-stub.src-only { display:flex; }
+.ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
+sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
+details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--line); color:color-mix(in srgb, var(--ink) 80%, var(--muted)); font:14.5px/1.75 var(--serif); }
+cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
+
+/* headings and text */
+h1, h2, h3, h4 { font-family:var(--serif); }
+h2.sign { display:inline-block; font-size:20px; margin:34px 0 10px; padding:4px 14px; background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-bottom:2px solid var(--signal); border-radius:4px; letter-spacing:.12em; }
+h3 { font-size:19px; margin:26px 0 8px; padding-left:12px; border-left:4px solid var(--signal); }
+h4 { font-size:15px; margin:16px 0 4px; color:var(--brass); letter-spacing:.06em; }
+.note { color:var(--muted); font-size:14px; margin:4px 0; }
+.meta { color:var(--muted); font-size:13px; }
+ul { margin:0; padding-left:20px; } li { margin:6px 0; }
+.chipline { display:flex; flex-wrap:wrap; gap:6px 8px; margin:8px 0; }
+.chipline a, .chip { background:var(--chip); color:var(--ink); border-radius:3px; padding:1px 9px; font-size:13px; white-space:nowrap; }
+
+/* the ticket (page header of a unit card, index entries) */
+.ticket { display:flex; background:linear-gradient(135deg, var(--card-2), var(--card)); border:1px solid var(--line); border-radius:10px; margin:18px 0 8px; position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.ticket-main { flex:1; padding:18px 22px 16px; min-width:0; position:relative; }
+.ticket-stub { width:170px; padding:16px 18px; border-left:2px dashed var(--line); position:relative; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.ticket-stub::before, .ticket-stub::after { content:""; position:absolute; left:-11px; width:20px; height:20px; border-radius:50%; background:var(--paper); border:1px solid var(--line); }
+.ticket-stub::before { top:-11px; } .ticket-stub::after { bottom:-11px; }
+.kicker { font-size:12px; letter-spacing:.3em; color:var(--signal); }
+.ticket h1 { font-size:34px; margin:2px 0 4px; letter-spacing:.06em; }
+.route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
+.stub-row { font:12px var(--mono); color:var(--muted); }
+.stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+/* a page's counts read like the fields of a ticket stub: a small label over a big number (2026-10-06) */
+.ticket-stub.stats { gap:12px; }
+.ticket-stub.stats .stub-row:not(.src-only) { font:600 24px/1.05 var(--mono); color:var(--ink); }   /* figures in ink; gold kept for its few meanings */
+.ticket-stub.stats .stub-row:not(.src-only) b { display:block; font:500 11.5px/1.4 var(--sans); color:var(--muted); letter-spacing:.12em; margin:0 0 3px; }
+.ticket-stub.stats small { font:500 12px var(--sans); color:var(--muted); margin-left:4px; }
+a.stub-row { display:block; text-decoration:none; } a.stub-row:hover b { color:var(--brass); }   /* a count that jumps to its section */
+.stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
+  display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
+.stamp small { font-size:10px; margin-left:1px; }
+
+/* the dark system panel for text the game shows */
+.sys { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px; padding:10px 14px; margin:8px 0; font:14px/1.75 var(--serif); }
+.sys::before { content:"【系统】"; color:var(--brass); margin-right:4px; font-family:var(--sans); font-size:12px; letter-spacing:.1em; }
+.sys b { color:var(--brass); font:600 12px var(--sans); margin-right:6px; }
+
+/* grade badge */
+.grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
+  color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.dark-ink { color:#14100a; }
+.grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
+.tag { text-indent:0; display:inline-block; font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+/* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
+.seal { flex:none; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
+.seal.wide { font-size:14px; }
+.seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
+.seal.mid { color:var(--ink); } .seal.low { color:var(--muted); }
+.seal.none { width:34px; height:26px; border:1px dashed var(--line); border-radius:4px; transform:none; color:var(--muted); font:13px var(--sans); }
+:root[data-theme="light"] .seal.top { color:#a07a10; }
+/* the player panel, in the book's 【key：value】 lines */
+.syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
+  padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel .row > span { color:var(--rail-ink); font-weight:600; }
+.syspanel .v-rate { color:var(--brass); } .syspanel .grade { font-size:12px; height:20px; min-width:24px; vertical-align:1px; }   /* gold for evolution; a level in its colour */
+.evo-mind { color:var(--mind); } .evo-space { color:var(--space); } .evo-time { color:var(--time); }
+.syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+@media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
+.upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已否定 (denied or refuted); settled points carry no tag */
+.tier { text-indent:0; display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+.tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
+.tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
+
+.hidden { display:none !important; }
+nav.pagenav { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0 6px; font-size:14px; }
+nav.pagenav > b { color:var(--muted); font-weight:400; font-size:13px; margin-right:2px; }
+nav.pagenav a { padding:3px 11px; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--ink); }
+nav.pagenav a:hover { border-color:var(--brass); color:var(--brass); text-decoration:none; }
+@media (min-width:721px) { nav.pagenav input.toc-filter { display:none; } }
+@media (max-width:720px) {
+  html.has-toc nav.pagenav { display:block; }
+  html.has-toc nav.pagenav > b { display:block; margin:0 0 6px; }
+  html.has-toc nav.pagenav a { display:block; border:none; border-bottom:1px solid var(--line); border-radius:0; background:none; padding:10px 2px; }
+}
+.totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
+@media (max-width:720px) { .totop { display:inline; } }
+footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
+@media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; }
+  .ticket-stub.stats { flex-direction:row; flex-wrap:wrap; justify-content:flex-start; gap:10px 26px; } .ticket-stub.stats .stub-row.src-only { flex-basis:100%; } }
+
+input[type=search] { font:14px var(--sans); color:var(--ink); background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2714%27%20height%3D%2714%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27round%27%3E%3Ccircle%20cx%3D%2710.5%27%20cy%3D%2710.5%27%20r%3D%276.5%27/%3E%3Cpath%20d%3D%27M20%2020l-4.6-4.6%27/%3E%3C/svg%3E") no-repeat 10px 50%;
+  border:1px solid var(--line); border-radius:6px; padding:6px 10px 6px 31px; min-height:34px; }
+input[type=search]::placeholder { color:var(--muted); }
+input[type=search]:focus, select:focus { outline:none; border-color:var(--brass); box-shadow:0 0 0 2px color-mix(in srgb, var(--brass) 25%, transparent); }
+select { appearance:none; -webkit-appearance:none; font:14px var(--sans); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2710%27%20height%3D%276%27%20viewBox%3D%270%200%2010%206%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M1%201l4%204%204-4%27/%3E%3C/svg%3E") no-repeat right 10px center; padding:6px 30px 6px 10px; min-height:34px; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary { list-style:none; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::-webkit-details-marker { display:none; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::before { content:""; display:inline-block; width:6px; height:6px; margin:0 9px 2px 2px; border-right:1.6px solid currentColor;
+  border-bottom:1.6px solid currentColor; transform:rotate(-45deg); transition:transform .15s ease; opacity:.7; vertical-align:middle; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more)[open] > summary::before { transform:rotate(45deg); margin-bottom:4px; }
+@media (max-width:640px) { .scroll-fade { -webkit-mask-image:linear-gradient(to right, #000 82%, transparent); mask-image:linear-gradient(to right, #000 82%, transparent); }
+  .scroll-fade.at-end { -webkit-mask-image:none; mask-image:none; } }
+p.graph-hint { display:none !important; }
+
+details.section-fold > summary { cursor:pointer; font:600 16px var(--serif); color:var(--muted); margin:14px 0 6px; letter-spacing:.04em; }
+details.section-fold[open] > summary { color:var(--ink); }
+.layer { margin:6px 0 18px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; display:flex; align-items:center; gap:4px 12px; }   /* a phone wraps the note, 收起 stays on the right */
+.layer > summary::-webkit-details-marker { display:none; }
+.layer > summary b { flex:none; display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { flex:1 1 auto; color:var(--muted); font-size:13px; }
+.layer > summary::after { content:"收起"; flex:none; color:var(--muted); font-size:12px; }
+.layer:not([open]) > summary::after { content:"展开"; }
+section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
+ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
+ul.people li:last-child { border-bottom:none; }
+.thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
+a.term { color:inherit; border-bottom:1px dotted var(--muted); text-decoration:none; } a.term:hover { color:var(--signal); border-bottom-color:var(--signal); }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; overflow-wrap:anywhere; }   /* a long name wraps in its column */
+ul.people li { display:grid; grid-template-columns:8.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+ul.people li > :not(.subject) { grid-column:2; }
+@media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
+.harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
+.harvest .h-rating { display:flex; align-items:center; gap:12px; font-size:15.5px; } .harvest .h-line { margin:6px 0; font-size:15.5px; }
+.stamp-seal { position:absolute; top:12px; right:16px; transform:scale(1.5); transform-origin:top right; }
+small.diff { font-size:11px; color:var(--muted); margin-left:4px; letter-spacing:0; }
+nav.units-nav { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+nav.units-nav a { display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 14px; color:var(--ink); }
+nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
+nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
+nav.units-nav small.after { color:var(--signal); }
+@media (max-width:640px) { nav.units-nav { grid-template-columns:1fr; gap:8px; } nav.units-nav b { font-size:15px; } nav.units-nav a { padding:8px 12px; }
+  nav.units-nav span.none { display:none; } }   /* a phone: one above the other, a long name on one or two lines (design review 2026-10-06) */
+details.about-src { margin:8px 0 2px; } details.about-src > summary { color:var(--muted); font-size:13px; }
+.graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
+@media (max-width:640px) { .graph-hint { display:block; } }
+p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
+details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
+@media (max-width:640px) { .graph svg { min-width:720px; } }
+.legend { display:flex; flex-wrap:wrap; gap:4px 14px; margin:6px 0 2px; font-size:13px; color:var(--muted); }
+.legend span { display:inline-flex; align-items:center; gap:6px; }
+.legend i { display:inline-block; width:22px; height:0; border-top:3px solid; }
+.legend i.dash { border-top-style:dashed; border-color:var(--muted); }
+svg { width:100%; height:auto; display:block; }
+svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
+svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
+svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
+details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+.links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
+.links a, .links > span { margin-right:12px; white-space:nowrap; }   /* a name with no item card is a span: same spacing */
+@media (max-width:640px) { .links a, .links > span { white-space:normal; } }   /* a long place name wraps on a phone (u0148) */
+.progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
+.hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+.ticket-main .lede { margin:12px 0 2px; font:500 17px/1.75 var(--serif); color:var(--ink); max-width:40em; }
+nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
+nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
+nav.arcs a:hover { color:var(--signal); }
+h4[id] { scroll-margin-top:16px; }
+</style></head>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，第一个副本结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到第一个副本结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
+<div class="ticket" id="card" data-first="3105" data-end="3129"><div class="ticket-main"><div class="kicker">主线</div>
+<h1>B02-001 区（卡门先生故乡与菲尔德家族）</h1><div class="route">第 3105 章 ──── 第 3129 章</div><div class="lede" data-ch="3129">徐获在卡门·菲尔德的故乡完成空间突破，拿到卡门藏在镜中的遗物；菲尔德家族先拉拢后赶客，卡门的外孙凯罗尔突然回家把他带走。<span class="ch">第 3115–3116、3122、3127、3129 章</span></div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 3284 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="3105" hidden>这张卡从第 3105 章开始，在你填的进度之后，整张都是剧透。</p></div>
+<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0146</div><div class="stub-row"><b>句数</b>164</div>
+<div class="stub-row"><b>引用</b>8 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<details class="about-src meta"><summary>出处怎么核对</summary>每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</details><p class="meta src-only">撰写：claude-opus-5-5 (claude-code subagent)，读第 3105–3129 章正文后撰写；2026-10-06 第六步由 Claude 子代理（claude-opus-5-5）改写（GPT 额度用完前第二波写成的两三张也在这批里，没有分开记录），原梗概折为逐段复盘；2026-10-06 逐幕复盘不再上页面，其中要紧的由 Claude 子代理（claude-opus-5-5）收进剧情梗概和解谜结构。</p>
+<nav class="units-nav top"><a class="prev" href="u0145.html"><small>← 上一单元</small><b>025 区（公开审理与奇女士复仇）</b><small>第 3101–3104 章</small></a><a class="next" href="u0147.html"><small>下一单元 →</small><b>不开放遗址（引力漩涡与战斗天使残骸）</b><small>第 3130–3149 章</small><small class="after" data-beyond="3130" hidden>在你的进度之后</small></a></nav>
+<nav class="jump pagenav" id="jump" aria-label="本页目录"><b>本卡</b><a href="#harvest" data-ch="3129">收获</a><a href="#cast" data-ch="3122">人物</a><a href="#summary" data-ch="3105">梗概</a><a href="#relations" data-ch="3107">关系</a><a href="#threads" data-ch="3122">伏笔</a><a href="#callbacks" data-ch="3105">承接前文</a><a href="#callbacks-more" data-ch="3105">更多承接</a><a href="#links">设定与道具</a></nav>
+<details class="layer" open><summary><b>概况</b><span>人物。写到第 3129 章，含结局。</span></summary><section id="harvest" class="harvest quiet" data-ch="3129"><h3>徐获的收获</h3><div class="h-line">到 B02-001 区，进化率已是 90%，再服进化剂身体进化也不会有翻天覆地的变化；在一处被毁掉的分区里的战斗遗址，他借混乱空间静坐两天，空间进化突破了一层：切实掌控的范围超过一万米，游丝能相互呼应、蔓延到控制范围以外，还组出一个小小的万花筒世界。<span class="ch">第 3109、3115–3116 章</span><details class="src"><summary>原文</summary><blockquote>他现在的进化率已经达到了90％<cite>第 3109 章</cite></blockquote></details></div><div class="h-line">在菲尔德庄园，他从一块次类石上看出人体也能当成空间体来理解，能接上人体内的空间射线：误碰他的李德被割伤脏器，他随即用空间力量给李德做了手术。<span class="ch">第 3119–3120 章</span><details class="src"><summary>原文</summary><blockquote>他完成了空间力量实质化，对空间射线的掌控更上一层楼<cite>第 3120 章</cite></blockquote></details></div><p class="links"><b>拿到</b><a href="../items.html#item-%E5%A4%A9%E4%BD%BF%E7%9A%84%E7%9C%BC%E7%9D%9B">天使的眼睛</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
+<section id="cast" class="fgroup"><h3>人物</h3>
+<ul class="people"><li data-ch="3122"><b class="subject"><a href="../people.html?upto=3129#person-%E5%8D%A1%E9%97%A8%C2%B7%E8%8F%B2%E5%B0%94%E5%BE%B7">卡门·菲尔德</a></b><span class="text">已故的<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E7%8E%A9%E5%AE%B6" title="游戏里最顶尖、非常稀有的一批玩家。">超级玩家</a>，故乡奉为“启明星”的英雄；徐获循着他的笔记、遗址和遗物寻找进化的启发。他藏在镜中的精神力量向徐获演了一场争斗，最后化成一枚异常沉重的石子落到徐获手里。</span><span class="ch">第 3106、3108、3112、3121–3122 章</span></li><li data-ch="3127"><b class="subject">代汀·菲尔德</b><span class="text">菲尔德家族推出竞选分区总执政官的年轻女人，号称卡门之孙，其实是卡门第三任妻子再嫁后所生儿子的女儿，没有菲尔德的血脉。晚宴前跟在当家人身边露面。</span><span class="ch">第 3106–3107、3127 章</span></li><li data-ch="3129"><b class="subject">李德</b><span class="text">在展馆结识的高个子玩家，邀徐获同去遗址，一路看不起菲尔德家族，转述了有人出卖卡门的传闻。在卡门的房间里误触徐获、被空间射线割伤脏器，由徐获缝好，晚宴后随众人离开庄园。</span><span class="ch">第 3111、3118–3120、3129 章</span></li><li data-ch="3129"><b class="subject">崔坦</b><span class="text">李德的同伴，看出徐获的游丝像劳伦斯·李的空间线，也打听到当家人是卡门的堂兄。晚宴后和李德一同离开庄园。</span><span class="ch">第 3111、3116、3127、3129 章</span></li><li data-ch="3126"><b class="subject"><a href="../people.html?upto=3129#person-%E6%A3%AE%E6%A3%AE%C2%B7%E8%8F%B2%E5%B0%94%E5%BE%B7">森森·菲尔德</a>（森森）</b><span class="text">同去遗址的女玩家，到庄园才承认姓菲尔德，管卡门叫祖父却和他没有血缘，负责带众人看卡门的遗物。她暗中用特性观察徐获，向七叔报告看不透他，猜祖父留下的东西不是给家里的。</span><span class="ch">第 3111、3118、3124、3126 章</span></li><li data-ch="3129"><b class="subject">七叔</b><span class="text">菲尔德家的中年男人，镜中空间被划开后和森森一起闯进来，问徐获有没有收获，又许诺家族不吝帮助。徐获走后，他向当家人确认徐获进过匣镜、可能已拿走卡门留下的东西。</span><span class="ch">第 3122–3124、3129 章</span></li><li data-ch="3129"><b class="subject">菲尔德家的当家人</b><span class="text">菲尔德家现在主事的老者，崔坦听说他是卡门的堂兄，凯罗尔叫他伯祖父；晚宴上让徐获坐在自己下手。他准凯罗尔带徐获去不开放遗址，事后断定徐获就是 E27-014 区横空出世的天才，说卡门的东西家里没人能继承，只能给外人。</span><span class="ch">第 3127–3129 章</span></li><li data-ch="3128"><b class="subject">满手珠宝的中年男人</b><span class="text">打扮夸张的来客，两秒就让庄园屏障全部瘫痪，闯进来说都是老熟人、要见见别的客人。他被七叔请去见家主，晚宴上没有露面，身份不明。</span><span class="ch">第 3128 章</span></li><li data-ch="3129"><b class="subject"><a href="../people.html?upto=3129#person-%E5%87%AF%E7%BD%97%E5%B0%94%C2%B7%E8%8F%B2%E5%B0%94%E5%BE%B7">凯罗尔·菲尔德</a></b><span class="text">卡门的外孙，传闻被家族放逐到偏远<a class="term" href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C" title="游戏世界的大区；一个虫洞点下有许多互不相通的世界，被游戏划成分区。">虫洞点</a>；听说家里找到能比肩外祖父的空间进化者，他突然回家，在晚宴上当众讥讽族人。他揽下陪同的差事，和徐获一起传送离开，说要带他去不开放遗址。</span><span class="ch">第 3107、3129 章</span></li><li data-ch="3129"><b class="subject">主桌上的那位女士</b><span class="text">坐在主桌的菲尔德族人，管卡门叫父亲，凯罗尔讥讽她是菲尔德家收养的、不是他外祖父收养的。徐获走后，她坚持要他交出卡门留下的东西，被当家人说不该插手。</span><span class="ch">第 3129 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、关键关系、伏笔与未解、承接前文、更多承接。写到第 3129 章，含全部剧透。</span></summary><section id="summary" class="fgroup"><h3>剧情梗概</h3>
+<nav class="arcs"><a href="#summary-1" data-ch="3105">英雄的故乡</a><a href="#summary-3" data-ch="3109">卡门的笔记</a><a href="#summary-4" data-ch="3112">混乱空间里的突破</a><a href="#summary-5" data-ch="3117">庄园与镜子</a><a href="#summary-7" data-ch="3122">试探与赶客</a><a href="#summary-9" data-ch="3128">晚宴</a></nav>
+<h4 id="summary-1" data-ch="3105">英雄的故乡</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="3105">徐获来到卡门·菲尔德的故乡 B02-001。满城都是卡门和他的<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E9%81%93%E5%85%B7" title="维度裂缝最高等级的道具，能超越时间与空间，分动态和静态两种。">超级道具</a>战斗天使的纪念品，他手里已有天使的牙齿、一只眼睛和指骨改成的“重力骨戒”。<sup class="cite" title="本句未附原文">3105</sup></span><span class="stmt" data-ch="3107">他此行最想看的是卡门留下的战斗遗址：卡门身兼多重<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96" title="进化者的身体进化到一定程度后发生的质变，也叫二次进化。">超级进化</a>，力量也许还留在混乱空间那样的地方，直面它们或许能有新的感悟。<sup class="cite" title="本句未附原文">3107</sup></span><span class="stmt" data-ch="3106">城里人把卡门捧成保住家乡的完美英雄；徐获在 014 区的混乱空间里见识过他随性、傲气的一面，只说他应该是个幽默的人。<sup class="cite" title="本句未附原文">3106</sup></span><span class="stmt" data-ch="3106">菲尔德战斗遗址延伸到好几个大区，邻近分区多被夷平或抹去番号，卡门的故乡却从没遭过大规模袭击；徐获怀疑是家族出了力、更强的势力介入，还是这场防御战本身就有猫腻。<sup class="cite" title="本句未附原文">3106</sup></span><span class="stmt" data-ch="3111">维度之下也几乎查不到那一战的经过，他觉得这场牵涉好几个<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E7%8E%A9%E5%AE%B6" title="游戏里最顶尖、非常稀有的一批玩家。">超级玩家</a>的战争，不会只是简单的入侵。<sup class="cite" title="本句未附原文">3110–3111</sup></span><span class="stmt" data-ch="3111">这期间 025 区拿<a class="term" href="../world.html#world-%E9%80%80%E5%8C%96" title="进化者适应不了进化，长出动物特征或身体机能逐渐丧失。">退化</a>玩家做实验的事越闹越大。卷进这件事的丁香仍无音讯，只有一个陌生账号通过维度之下传话：她平安，但暂时失去了行动自由。<sup class="cite" title="本句未附原文">3111</sup></span></p>
+<p class="prose fgroup"><span class="stmt" data-ch="3107">菲尔德家族眼下推出代汀竞选分区总执政官，简介写着卡门之孙，她其实是卡门第三任妻子再嫁后所生儿子的女儿，并不延续菲尔德的血脉。<sup class="cite" title="第3107章：实际上不延续菲尔德家族的血脉">3106–3107</sup></span><span class="stmt" data-ch="3107">卡门真正的外孙凯罗尔却远在偏远<a class="term" href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C" title="游戏世界的大区；一个虫洞点下有许多互不相通的世界，被游戏划成分区。">虫洞点</a>当行政长官，传闻是被家族放逐；徐获由此看出，卡门之死在家族里掀起的风波也许一直没停。<sup class="cite" title="本句未附原文">3107</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="3107">实际上不延续菲尔德家族的血脉<cite>第 3107 章</cite></blockquote></details>
+<h4 id="summary-3" data-ch="3109">卡门的笔记</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="3109">展馆投影着卡门青年时写在小说上的心得，“时间很像虫子”“世界立方”“休眠认知”之类没头没尾，旁人看不懂，徐获却从中认出了时间、空间、精神和身体进化的感悟。<sup class="cite" title="本句未附原文">3108–3109</sup></span><span class="stmt" data-ch="3109">他的<a class="term" href="../world.html#world-%E8%BF%9B%E5%8C%96%E8%80%85" title="进化者身体进化的程度，用百分比表示。">进化率</a>已到 90%，再服进化剂也难有大的改变，需要的是质变；他把“世界立方”理解成把整个世界看作由空间射线相连的空间体，想试试空间能否像曲线时间那样触之生变。<sup class="cite" title="本句未附原文">3109</sup></span><span class="stmt" data-ch="3109">“休眠认知”旁还补着“双胞胎”“照镜子”“空间折叠”几个词，徐获猜不出这是精神错乱、多重人格，还是精神进化的某种感悟。<sup class="cite" title="本句未附原文">3109</sup></span></p>
+<h4 id="summary-4" data-ch="3112">混乱空间里的突破</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="3112">他与在展馆结识的玩家李德、崔坦结伴，又遇上女玩家森森，几人同去一处超级道具造成的混乱空间遗址，据说那里保留着卡门做出的空间体。<sup class="cite" title="本句未附原文">3111–3112</sup></span><span class="stmt" data-ch="3113">遗址里无人操控也会偶然生成万花筒游丝，徐获由此看出空间力量之间可以自行连通；可他试了几千次，仍勾不动控制范围外的空间，觉得自己走进了死胡同。<sup class="cite" title="本句未附原文">3112–3113</sup></span><span class="stmt" data-ch="3115">遗址方怕他引发崩溃，关闭了当天的参观，同行的人却都不肯走；他盘坐两天，游丝成倍增多、连上周围的空间体，最终连几千米外也被游丝扎透。<sup class="cite" title="本句未附原文">3114–3115</sup></span><span class="stmt" data-ch="3116">突破后他能切实掌控的范围超过一万米，范围内的游丝会互相呼应着生成，但他只能控制大致范围；范围外生成的游丝不受他控制，一旦失控就会像能源弹一样爆炸。<sup class="cite" title="第3116章：首先他能切实控制的范围已经超过了一万米">3116</sup></span><span class="stmt" data-ch="3116">收手后，菲尔德家族和分区政府的人前来道贺，请“徐先生”去庄园赴宴，还暗示他与卡门有缘的话，或许能进几处不对外开放的遗址。<sup class="cite" title="本句未附原文">3116</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="3116">首先他能切实控制的范围已经超过了一万米<cite>第 3116 章</cite></blockquote></details>
+<h4 id="summary-5" data-ch="3117">庄园与镜子</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="3117">菲尔德家族把同行的玩家一并请进庄园；当晚徐获练习时，游丝毁掉一片树林、削平林外的小山，菲尔德族人没有阻拦，只在旁看出他还是不能精准打击的新手。<sup class="cite" title="本句未附原文">3117</sup></span><span class="stmt" data-ch="3118">李德转述一则传闻：当年菲尔德家族没被那场战争波及，是因为家族里有人出卖了卡门。可这个家族靠的是财力、人力和与游戏政府的关系，这说法更像阴谋论。<sup class="cite" title="本句未附原文">3118</sup></span><span class="stmt" data-ch="3118">森森这才承认自己姓菲尔德，管卡门叫祖父，带众人参观卡门住过的地方。<sup class="cite" title="本句未附原文">3118</sup></span><span class="stmt" data-ch="3120">徐获拿着卡门把玩过的<a class="term" href="../world.html#world-%E6%AC%A1%E7%B1%BB%E7%9F%B3" title="原生石附近的矿石质变而成的石头，也叫演变石。">次类石</a>出神时，李德伸手拍他，被空间射线割伤脏器；徐获几分钟内用空间力量把伤口缝好，而进这间屋子以前，他还控制不了人体内的射线。<sup class="cite" title="本句未附原文">3119–3120</sup></span></p>
+<p class="prose fgroup"><span class="stmt" data-ch="3121">他在一面镜子深处看见一个小人影，敲了敲镜面，人影便从镜中爬了出来；徐获判断这是卡门留下的一团精神力量，它展示时空、重力和身体控制来表明身份，又把其他人都送了出去。<sup class="cite" title="本句未附原文">3120–3121</sup></span><span class="stmt" data-ch="3121">人影吹出黑烟演了一场戏：小人们够不着头顶的眼睛，一部分戴上眼睛面具与其余小人厮杀，面具小人每输一次，时间就回溯一次，直到它们胜出、被眼睛吞下。<sup class="cite" title="第3121章：戴面具的小人又一次输了，然后时间回溯">3121</sup></span><span class="stmt" data-ch="3122">徐获想，若有曲线时间介入，面具小人的胜利就成了必然，卡门的死似乎也是；可掌控游戏的势力若能用曲线时间，就不会抓不到武博士。<sup class="cite" title="本句未附原文">3122</sup></span><span class="stmt" data-ch="3122">人影最后把自己折叠、坍缩，变成一枚石子落到徐获手里：有时空属性，能量不强，握在手里却异常沉重。<sup class="cite" title="第3122章：握在手里却异常沉重">3122</sup></span><span class="stmt" data-ch="3122">森森和一名菲尔德家的中年男人随即划开黑色空间闯进来，问他有没有收获，徐获只答“难说”。<sup class="cite" title="本句未附原文">3122</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="3121">戴面具的小人又一次输了，然后时间回溯<cite>第 3121 章</cite></blockquote><blockquote data-ch="3122">握在手里却异常沉重<cite>第 3122 章</cite></blockquote></details>
+<h4 id="summary-7" data-ch="3122">试探与赶客</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="3122">徐获不喜欢菲尔德家的态度：他们自己拿不到卡门遗物里的东西，便慷慨邀请各方玩家，又不甘心好处落到外人手里，时时盯着。<sup class="cite" title="本句未附原文">3122</sup></span><span class="stmt" data-ch="3123">那名中年男人许诺家族不会吝惜帮助，徐获只说需要时会开口。<sup class="cite" title="本句未附原文">3123</sup></span><span class="stmt" data-ch="3124">森森在走廊上向被她称作七叔的这名男人报告：她用特性也看不出徐获的情绪变化；他能触动匣镜，精神方面必定二次进化过，祖父也许真留下了重要的东西，只是不是留给家里的。<sup class="cite" title="第3124章：祖父可能真的留下了很重要的东西，只是不是留给我们的而已">3124</sup></span><span class="stmt" data-ch="3125">卡门的影像里，年轻的他一边练重力一边说重力是鸡肋，比不上引力；他最出名的超级进化里却没有引力，徐获推断他没能练成，由此想到镜中人影最后几秒那奇怪的状态。<sup class="cite" title="本句未附原文">3124–3125</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="3124">祖父可能真的留下了很重要的东西，只是不是留给我们的而已<cite>第 3124 章</cite></blockquote></details>
+<p class="prose fgroup"><span class="stmt" data-ch="3126">家族答应晚宴后安排他去不对外开放的遗址；徐获想起纸役师说天使零件会相互吸引，不知菲尔德家能否察觉他手里的零件，只说要考虑一下。<sup class="cite" title="本句未附原文">3126</sup></span><span class="stmt" data-ch="3126">森森也承认和卡门没有血缘：家里称卡门为祖父的人至少三分之二不是他儿女的血脉，有的还是卡门死后才被“收养”到他名下的。<sup class="cite" title="第3126章：我和祖父的确没有血缘关系">3126</sup></span><span class="stmt" data-ch="3127">晚宴前堡楼被封锁，家族里一个傲气的年轻人强闯屏障叫阵，长辈却不出面；徐获看出菲尔德家已放弃拉拢、是在赶客，笑说吃完晚饭就走。<sup class="cite" title="第3127章：菲尔德家想赶客，我们吃了晚饭就走吧">3127</sup></span></p><details class="src block fgroup"><summary>本段原文 2 处</summary><blockquote data-ch="3126">我和祖父的确没有血缘关系<cite>第 3126 章</cite></blockquote><blockquote data-ch="3127">菲尔德家想赶客，我们吃了晚饭就走吧<cite>第 3127 章</cite></blockquote></details>
+<h4 id="summary-9" data-ch="3128">晚宴</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="3128">一个满手珠宝的中年男人两秒就瘫痪了庄园屏障，自称老熟人闯了进来；庄园外还等着别的人，都是冲着徐获来抢人才的。<sup class="cite" title="本句未附原文">3128</sup></span><span class="stmt" data-ch="3128">晚宴上徐获坐在当家人下手，崔坦听说这位老者是卡门的堂兄。菲尔德族人几乎不和他们交谈；徐获看出这个家族比维尔纳家族更有凝聚力，底牌也不止一个超级玩家，没全力支持卡门那一战也就说得通。<sup class="cite" title="本句未附原文">3127–3128</sup></span><span class="stmt" data-ch="3129">卡门的外孙凯罗尔这时突然回家，当众讥讽族人逼得他母亲闭门不出、把他赶到 E 级虫洞点，又说要亲自带徐获去不开放遗址，免得家里又拿外祖父的遗物做人情。<sup class="cite" title="本句未附原文">3129</sup></span><span class="stmt" data-ch="3129">当家人顺势让他陪同，徐获向满厅的人道谢、说了声“后会有期”，随凯罗尔传送离开。<sup class="cite" title="本句未附原文">3129</sup></span><span class="stmt" data-ch="3129">客人走后，七叔向当家人确认徐获进过匣镜、可能已拿走卡门留下的东西；当家人断定他就是 E27-014 区横空出世的天才，说家里没人能继承，只能给外人，主桌上一位女士却坚持要他交出来。<sup class="cite" title="第3129章：他应该是E27-014区横空出世的那名天才无疑了">3129</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="3129">他应该是E27-014区横空出世的那名天才无疑了<cite>第 3129 章</cite></blockquote></details>
+</section>
+<section id="relations" class="fgroup"><h3>关键关系</h3>
+<p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
+<p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-ally)"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-enemy)"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-kill)"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-other)"/></marker>
+</defs>
+<g class="edge" data-ch="3111"><title>李德 — 同伴 — 崔坦（第 3111 章）</title><path d="M339.7,88.9 Q281.3,74.5 234.5,62.9" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="3126"><title>李德 → 邀同去遗址，提醒别上菲尔德家的当 → 徐获（第 3111、3126 章）</title><path d="M339.7,88.9 Q365.9,160.7 404.3,212.5" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="3120"><title>徐获 → 误伤后用空间力量缝好伤口 → 李德（第 3119–3120 章）</title><path d="M411.4,222.1 Q385.2,150.3 346.8,98.5" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="3127"><title>菲尔德家族 → 请进庄园，试探后赶客 → 徐获（第 3116、3127 章）</title><path d="M369.8,371.4 Q390.6,296.8 408.2,233.7" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="3124"><title>森森·菲尔德 → 带看卡门遗物，暗中用特性观察 → 徐获（第 3118、3124 章）</title><path d="M228.6,235.3 Q320.0,228.7 399.4,223.0" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="3124"><title>七叔 — 叔侄 — 森森·菲尔德（第 3124 章）</title><path d="M86.8,247.2 Q157.7,241.2 216.6,236.3" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="3122"><title>卡门·菲尔德 → 镜中人影留下讯息和石子 → 徐获（第 3121–3122 章）</title><path d="M569.4,278.9 Q490.4,250.5 422.7,226.2" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="3127"><title>头发五颜六色的年轻人 → 强闯封锁叫阵 → 徐获（第 3127 章）</title><path d="M504.9,93.3 Q458.1,157.7 418.4,212.4" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="3128"><title>满手珠宝的中年男人 → 瘫痪庄园屏障闯入 → 菲尔德家族（第 3128 章）</title><path d="M252.0,420 Q310.9,395.7 358.7,376.0" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="3129"><title>凯罗尔·菲尔德 — 祖孙 — 卡门·菲尔德（第 3107、3129 章）</title><path d="M476.9,339.0 Q523.1,308.9 559.3,285.4" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="3129"><title>凯罗尔·菲尔德 → 当众讥讽，指责逼走母子 → 菲尔德家族（第 3129 章）</title><path d="M476.9,339.0 Q423.4,355.2 381.3,367.9" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="3129"><title>凯罗尔·菲尔德 → 亲自带去不开放遗址 → 徐获（第 3129 章）</title><path d="M476.9,339.0 Q444.1,280.6 417.3,232.6" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="3107"><title>代汀·菲尔德 — 名义上的祖孙 — 卡门·菲尔德（第 3106–3107 章）</title><path d="M700,306.7 Q634.7,292.8 581.1,281.4" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2"/></g>
+<text x="281.3" y="78.5" class="elabel" style="fill:var(--rel-ally)" data-ch="3111">同伴</text>
+<text x="357.1" y="135.0" class="elabel" style="fill:var(--rel-ally)" data-ch="3126">邀同去遗址，提醒别上菲尔德家的当</text>
+<text x="355.5" y="115.3" class="elabel" style="fill:var(--rel-ally)" data-ch="3120">误伤后用空间力量缝好伤口</text>
+<text x="393.1" y="291.8" class="elabel" style="fill:var(--rel-other)" data-ch="3127">请进庄园，试探后赶客</text>
+<text x="332.8" y="257.8" class="elabel" style="fill:var(--rel-other)" data-ch="3124">带看卡门遗物，暗中用特性观察</text>
+<text x="157.7" y="245.2" class="elabel" style="fill:var(--rel-other)" data-ch="3124">叔侄</text>
+<text x="495.8" y="239.4" class="elabel" style="fill:var(--rel-other)" data-ch="3122">镜中人影留下讯息和石子</text>
+<text x="458.1" y="161.7" class="elabel" style="fill:var(--rel-enemy)" data-ch="3127">强闯封锁叫阵</text>
+<text x="320.8" y="423.7" class="elabel" style="fill:var(--rel-enemy)" data-ch="3128">瘫痪庄园屏障闯入</text>
+<text x="543.0" y="319.2" class="elabel" style="fill:var(--rel-other)" data-ch="3129">祖孙</text>
+<text x="450.2" y="378.3" class="elabel" style="fill:var(--rel-enemy)" data-ch="3129">当众讥讽，指责逼走母子</text>
+<text x="466.8" y="271.8" class="elabel" style="fill:var(--rel-ally)" data-ch="3129">亲自带去不开放遗址</text>
+<text x="619.0" y="293.5" class="elabel" style="fill:var(--rel-other)" data-ch="3107">名义上的祖孙</text>
+<g class="node" data-ch="3120"><circle cx="411.4" cy="222.1" r="13.3"/><text x="411.4" y="202.8" class="name">徐获</text></g>
+<g class="node" data-ch="3111"><circle cx="339.7" cy="88.9" r="11.5"/><text x="339.7" y="71.4" class="name">李德</text></g>
+<g class="node" data-ch="3127"><circle cx="369.8" cy="371.4" r="11.5"/><text x="369.8" y="353.9" class="name">菲尔德家族</text></g>
+<g class="node" data-ch="3107"><circle cx="569.4" cy="278.9" r="11.5"/><text x="569.4" y="261.4" class="name">卡门·菲尔德</text></g>
+<g class="node" data-ch="3129"><circle cx="476.9" cy="339.0" r="11.5"/><text x="476.9" y="321.5" class="name">凯罗尔·菲尔德</text></g>
+<g class="node" data-ch="3124"><circle cx="228.6" cy="235.3" r="10.8"/><text x="228.6" y="218.5" class="name">森森·菲尔德</text></g>
+<g class="node" data-ch="3111"><circle cx="222.9" cy="60" r="10.0"/><text x="222.9" y="44.0" class="name">崔坦</text></g>
+<g class="node" data-ch="3124"><circle cx="86.8" cy="247.2" r="10.0"/><text x="86.8" y="231.2" class="name">七叔</text></g>
+<g class="node" data-ch="3127"><circle cx="504.9" cy="93.3" r="10.0"/><text x="504.9" y="77.3" class="name">头发五颜六色的年轻人</text></g>
+<g class="node" data-ch="3128"><circle cx="252.0" cy="420" r="10.0"/><text x="252.0" y="404.0" class="name">满手珠宝的中年男人</text></g>
+<g class="node" data-ch="3107"><circle cx="700" cy="306.7" r="10.0"/><text x="700" y="290.7" class="name">代汀·菲尔德</text></g>
+</svg></div>
+<details class="rel"><summary>文字版</summary><ul class="items"><li data-ch="3111"><span class="text">李德 — 同伴 — 崔坦</span><span class="ch">第 3111 章</span></li><li data-ch="3126"><span class="text">李德 → 邀同去遗址，提醒别上菲尔德家的当 → <a href="../people.html?upto=3129#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 3111、3126 章</span></li><li data-ch="3120"><span class="text"><a href="../people.html?upto=3129#person-%E5%BE%90%E8%8E%B7">徐获</a> → 误伤后用空间力量缝好伤口 → 李德</span><span class="ch">第 3119–3120 章</span></li><li data-ch="3127"><span class="text">菲尔德家族 → 请进庄园，试探后赶客 → <a href="../people.html?upto=3129#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 3116、3127 章</span></li><li data-ch="3124"><span class="text"><a href="../people.html?upto=3129#person-%E6%A3%AE%E6%A3%AE%C2%B7%E8%8F%B2%E5%B0%94%E5%BE%B7">森森·菲尔德</a> → 带看卡门遗物，暗中用特性观察 → <a href="../people.html?upto=3129#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 3118、3124 章</span></li><li data-ch="3124"><span class="text">七叔 — 叔侄 — <a href="../people.html?upto=3129#person-%E6%A3%AE%E6%A3%AE%C2%B7%E8%8F%B2%E5%B0%94%E5%BE%B7">森森·菲尔德</a></span><span class="ch">第 3124 章</span></li><li data-ch="3122"><span class="text"><a href="../people.html?upto=3129#person-%E5%8D%A1%E9%97%A8%C2%B7%E8%8F%B2%E5%B0%94%E5%BE%B7">卡门·菲尔德</a> → 镜中人影留下讯息和石子 → <a href="../people.html?upto=3129#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 3121–3122 章</span></li><li data-ch="3127"><span class="text">头发五颜六色的年轻人 → 强闯封锁叫阵 → <a href="../people.html?upto=3129#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 3127 章</span></li><li data-ch="3128"><span class="text">满手珠宝的中年男人 → 瘫痪庄园屏障闯入 → 菲尔德家族</span><span class="ch">第 3128 章</span></li><li data-ch="3129"><span class="text"><a href="../people.html?upto=3129#person-%E5%87%AF%E7%BD%97%E5%B0%94%C2%B7%E8%8F%B2%E5%B0%94%E5%BE%B7">凯罗尔·菲尔德</a> — 祖孙 — <a href="../people.html?upto=3129#person-%E5%8D%A1%E9%97%A8%C2%B7%E8%8F%B2%E5%B0%94%E5%BE%B7">卡门·菲尔德</a></span><span class="ch">第 3107、3129 章</span></li><li data-ch="3129"><span class="text"><a href="../people.html?upto=3129#person-%E5%87%AF%E7%BD%97%E5%B0%94%C2%B7%E8%8F%B2%E5%B0%94%E5%BE%B7">凯罗尔·菲尔德</a> → 当众讥讽，指责逼走母子 → 菲尔德家族</span><span class="ch">第 3129 章</span></li><li data-ch="3129"><span class="text"><a href="../people.html?upto=3129#person-%E5%87%AF%E7%BD%97%E5%B0%94%C2%B7%E8%8F%B2%E5%B0%94%E5%BE%B7">凯罗尔·菲尔德</a> → 亲自带去不开放遗址 → <a href="../people.html?upto=3129#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 3129 章</span></li><li data-ch="3107"><span class="text">代汀·菲尔德 — 名义上的祖孙 — <a href="../people.html?upto=3129#person-%E5%8D%A1%E9%97%A8%C2%B7%E8%8F%B2%E5%B0%94%E5%BE%B7">卡门·菲尔德</a></span><span class="ch">第 3106–3107 章</span></li></ul></details>
+</section>
+<section id="threads" class="fgroup"><h3>伏笔与未解</h3>
+<ul class="items"><li data-ch="3122"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#610</span><span class="text">镜中人影那场戏里的眼睛代表游戏、游戏政府还是别的什么，卡门是否预知了自己的死，游戏方是否掌握曲线时间，都还只是徐获的猜测。</span><span class="ch">第 3121–3122 章</span></li><li data-ch="3125"><a class="thread-no" href="../threads.html?upto=3129#thread-611" title="伏笔总表">#611</a><span class="text">卡门留下的石子有时空属性、能量不强却重得出奇，徐获想到卡门没练成的引力时也想起了人影最后的状态；石子是什么、和引力有没有关系，还没有交代。</span><span class="ch">第 3122、3124–3125 章</span></li><li data-ch="3128"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#612</span><span class="text">两秒瘫痪庄园屏障、自称老熟人的珠宝中年男人是谁，和菲尔德家是什么交情，晚宴上为何不见人，都没有交代。</span><span class="ch">第 3128 章</span></li><li data-ch="3129"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#613</span><span class="text">七叔认为徐获已拿走卡门留下的东西，当家人说只能给外人，主桌上的女士却要他交出来，家族之后会怎么做还不知道。</span><span class="ch">第 3129 章</span></li><li data-ch="3128"><a class="thread-no" href="../threads.html?upto=3129#thread-023" title="伏笔总表">#023</a><span class="text">卡门那一战后故乡为何没遭报复、家族为何得以保全，是李德转述的有人出卖卡门，还是徐获推想的家族本就没全力支持他，仍无定论。</span><span class="ch">第 3106、3118、3128 章</span></li><li data-ch="3129"><a class="thread-no" href="../threads.html?upto=3129#thread-023" title="伏笔总表">#023</a><span class="text">凯罗尔说母亲被家族逼得闭门不出、自己被赶到 E 级<a class="term" href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C" title="游戏世界的大区；一个虫洞点下有许多互不相通的世界，被游戏划成分区。">虫洞点</a>，缘由没有交代。</span><span class="ch">第 3129 章</span></li><li data-ch="3126"><a class="thread-no" href="../threads.html?upto=3129#thread-149" title="伏笔总表">#149</a><span class="text">纸役师说战斗天使的零件会被“命运”吸引、相互靠拢，徐获手里的零件之间是否真有这种吸引，菲尔德家能否察觉，还不清楚。</span><span class="ch">第 3126 章</span></li></ul>
+</section>
+<section id="callbacks" class="fgroup"><h3>承接前文</h3>
+<ul class="items"><li data-ch="3120"><a class="thread-no" href="../threads.html?upto=3129#thread-082" title="伏笔总表">#082</a><span class="text">徐获在混乱空间遗址里看出空间力量能自行连通，静坐两天后掌控范围超过一万米，又在卡门的房间里学会用空间力量缝合人体伤口。</span><span class="ch">第 3112、3115–3116、3119–3120 章</span></li><li data-ch="3105"><a class="thread-no" href="../threads.html?upto=3129#thread-339" title="伏笔总表">#339</a><span class="text">徐获手里已有天使的牙齿、一只眼睛和重力骨戒，他算出这件<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E9%81%93%E5%85%B7" title="维度裂缝最高等级的道具，能超越时间与空间，分动态和静态两种。">超级道具</a>至少集齐了时间、空间和重力属性，眼睛用的是整块“时间起点”<a class="term" href="../world.html#world-%E6%AC%A1%E7%B1%BB%E7%9F%B3" title="能让别的物质发生质变的石头，附近的矿石会变成次类石。">原生石</a>。</span><span class="ch">第 3105 章</span></li><li data-ch="3126"><a class="thread-no" href="../threads.html?upto=3129#thread-023" title="伏笔总表">#023</a><span class="text">菲尔德家族在故乡几十年没让自家人任要职，如今推出没有菲尔德血脉的代汀竞选总执政官，家里称卡门为祖父的人也多半不是他的血脉。</span><span class="ch">第 3106–3107、3126 章</span></li><li data-ch="3129"><a class="thread-no" href="../threads.html?upto=3129#thread-488" title="伏笔总表">#488</a><span class="text">凯罗尔听说家里找到能比肩外祖父的空间进化者，赶回来当众带走徐获，免得家里又拿外祖父的遗物做人情。</span><span class="ch">第 3129 章</span></li></ul>
+</section>
+<section id="callbacks-more" class="fgroup"><details class="section-fold"><summary>更多承接</summary>
+<ul class="items"><li data-ch="3111"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#608</span><span class="text">丁香仍没有消息，只有一个陌生账号通过维度之下告诉徐获，她没事，但短时间内不能自由活动。</span><span class="ch">第 3111 章</span></li><li data-ch="3111"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#606</span><span class="text">025 区拿<a class="term" href="../world.html#world-%E9%80%80%E5%8C%96" title="进化者适应不了进化，长出动物特征或身体机能逐渐丧失。">退化</a>玩家做实验的事闹大，其他分区也掀出一些购买退化玩家的人，各方势力开始角斗。</span><span class="ch">第 3111 章</span></li><li data-ch="3111"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#609</span><span class="text">维度之下几乎查不到卡门那一战的战斗情况，徐获不知是规模太大，还是有人刻意为之。</span><span class="ch">第 3111 章</span></li><li data-ch="3129"><a class="thread-no" href="../threads.html?upto=3129#thread-023" title="伏笔总表">#023</a><span class="text">凯罗尔远在偏远<a class="term" href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C" title="游戏世界的大区；一个虫洞点下有许多互不相通的世界，被游戏划成分区。">虫洞点</a>当行政长官，传闻是被家族放逐，他在晚宴上自己说是被赶到了 E 级虫洞点。</span><span class="ch">第 3107、3129 章</span></li><li data-ch="3128"><a class="thread-no" href="../threads.html?upto=3129#thread-023" title="伏笔总表">#023</a><span class="text">李德转述有人出卖卡门、家族才得以保全的传闻；徐获见过菲尔德族人后推想，卡门只是家族的底牌之一，家族没全力支持他那一战也说得通。</span><span class="ch">第 3118、3128 章</span></li><li data-ch="3110"><a class="thread-no" href="../threads.html?upto=3129#thread-023" title="伏笔总表">#023</a><span class="text">据讲解的仿真人说，001 区当年濒临崩溃时，卡门带着不到三十人的队伍打退侵略者，经全区投票得了“启明星”的称号。</span><span class="ch">第 3110 章</span></li><li data-ch="3105"><a class="thread-no" href="../threads.html?upto=3129#thread-149" title="伏笔总表">#149</a><span class="text">徐获如今觉得，纸役师说拿到战斗天使最核心的部分、能洞悉命运，多半是时间力量的干扰让他窥见了未来。</span><span class="ch">第 3105 章</span></li><li data-ch="3125"><a class="thread-no" href="../threads.html?upto=3129#thread-082" title="伏笔总表">#082</a><span class="text">卡门在教学影像里说，特性是<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96" title="进化者的身体进化到一定程度后发生的质变，也叫二次进化。">超级进化</a>的媒介和辅助，理论上所有特性最终都能演变成超级进化力量。</span><span class="ch">第 3125 章</span></li><li data-ch="3111"><a class="thread-no" href="../threads.html?upto=3129#thread-036" title="伏笔总表">#036</a><span class="text">森森说完美药剂越往后越难找，一旦开始完美进化，游戏政府卖的进化剂就不再适用，她家找来前面几支后便放弃了。</span><span class="ch">第 3111 章</span></li><li data-ch="3122"><a class="thread-no" href="../threads.html?upto=3129#thread-185" title="伏笔总表">#185</a><span class="text">徐获把卡门笔记里的“时间像虫”和南瓜城的曲线时间网联系起来，又从镜中演示的时间回溯怀疑游戏方掌握了曲线时间。</span><span class="ch">第 3109、3122 章</span></li><li data-ch="3125"><a class="thread-no" href="../threads.html?upto=3129#thread-530" title="伏笔总表">#530</a><span class="text">徐获认为把特性用得出神入化的大概只有提箱人和卡门，但提箱人那种黑色力量很难想象是特性进化来的。</span><span class="ch">第 3125 章</span></li></ul>
+</details></section><section id="links" class="fgroup"><h3>本单元涉及的设定、地点与道具</h3><p class="note">设定在世界观页，地点和势力在地理页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E8%B6%85%E7%BB%B4" data-ch="3114">超维空间与超维仪器</a><a href="../world.html#world-%E7%BB%B4%E5%BA%A6%E8%BD%A8%E9%81%93" data-ch="3114">维度轨道</a><a href="../world.html#world-%E5%AE%8C%E7%BE%8E%E8%BF%9B%E5%8C%96%E5%89%82" data-ch="3111">完美进化剂与武博士</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96" data-ch="3107">超级进化</a><a href="../world.html#world-%E6%9B%B2%E7%BA%BF%E6%97%B6%E9%97%B4" data-ch="3122">曲线时间与时间场地</a><a href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" data-ch="3121">精神进化与精神世界</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E7%8E%A9%E5%AE%B6" data-ch="3125">超级玩家</a><a href="../world.html#world-%E9%80%80%E5%8C%96" data-ch="3111">退化与养老</a><a href="../world.html#world-%E7%89%B9%E6%80%A7" data-ch="3125">特性</a><a href="../world.html#world-%E9%81%93%E5%85%B7" data-ch="3119">道具</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E9%81%93%E5%85%B7" data-ch="3105">超级道具</a><a href="../world.html#world-%E8%87%AA%E4%B8%BB%E9%81%93%E5%85%B7" data-ch="3118">有自主能力的道具</a></p><p class="links fgroup"><b>地点与势力</b><a href="../places.html#place-%E8%8F%B2%E5%B0%94%E5%BE%B7%E6%88%98%E6%96%97%E9%81%97%E5%9D%80" data-ch="3106">菲尔德战斗遗址（战斗天使遗迹）</a><a href="../places.html#faction-%E6%B8%B8%E6%88%8F%E6%94%BF%E5%BA%9C" data-ch="3107">游戏政府</a><a href="../places.html#faction-%E8%8F%B2%E5%B0%94%E5%BE%B7%E5%AE%B6%E6%97%8F" data-ch="3106">菲尔德家族</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E5%A4%A9%E4%BD%BF%E7%9A%84%E7%89%99%E9%BD%BF" data-ch="3105">天使的牙齿</a><a href="../items.html#item-%E8%8F%B2%E5%B0%94%E5%BE%B7%E6%88%98%E6%96%97%E5%A4%A9%E4%BD%BF" data-ch="3105">菲尔德战斗天使</a><a href="../items.html#item-%E5%A4%A9%E4%BD%BF%E7%9A%84%E9%A3%9F%E6%8C%87" data-ch="3105">天使的食指</a><a href="../items.html#item-%E5%8C%A3%E9%95%9C" data-ch="3122">匣镜</a></p></section></details>
+<nav class="units-nav bottom"><a class="prev" href="u0145.html"><small>← 上一单元</small><b>025 区（公开审理与奇女士复仇）</b><small>第 3101–3104 章</small></a><a class="next" href="u0147.html"><small>下一单元 →</small><b>不开放遗址（引力漩涡与战斗天使残骸）</b><small>第 3130–3149 章</small><small class="after" data-beyond="3130" hidden>在你的进度之后</small></a></nav><script>
+(function () {
+  var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
+  var status = doc.getElementById('wdzx-status'), beyond = doc.querySelector('p.beyond'), box = doc.getElementById('wdzx-upto');
+  var layers = doc.querySelectorAll('details.layer'), peek = false;
+  var button = doc.createElement('button'); button.type = 'button'; button.className = 'peek';
+  button.addEventListener('click', function () {
+    if (peek) { box.dispatchEvent(new Event('input')); return; }   // the shared script puts the marks back and sends the event
+    peek = true;
+    doc.querySelectorAll('main .hidden').forEach(function (el) { el.classList.remove('hidden'); });
+    layers.forEach(function (d) { d.hidden = false; });
+    status.textContent = '已展开全部，含你进度之后的内容。'; button.textContent = '按进度收起'; status.appendChild(button);
+  });
+  doc.addEventListener('wdzx:progress', function (e) {
+    var n = e.detail, before = n < first, mid = !before && n < end;
+    peek = false;
+    if (beyond) beyond.hidden = true;
+    layers.forEach(function (d) { d.hidden = before; });
+    if (n === Infinity) return;
+    status.hidden = false;
+    if (before) status.textContent = '这张卡从第 ' + first + ' 章开始，在你的进度（第 ' + n + ' 章）之后，整张都是剧透，先收起了。';
+    else if (mid) status.textContent = '你读到第 ' + n + ' 章，这张卡写到第 ' + end + ' 章：之后的句子、评级和收获已藏起。';
+    else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
+    button.textContent = '仍然展开'; status.appendChild(button);
+  });
+  if (window.matchMedia('(max-width:640px)').matches) {   // a phone (design reviews 2026-10-06): the graph is wider than
+    doc.querySelectorAll('details.rel').forEach(function (d) { d.open = true; });   // the screen, so the list shows too,
+    doc.querySelectorAll('.graph').forEach(function (g) {   // and the strip starts at the busiest person, not the left edge
+      var svg = g.querySelector('svg'), best = null;
+      if (!svg || !svg.viewBox || !svg.viewBox.baseVal) return;
+      g.querySelectorAll('g.node circle').forEach(function (c) { if (!best || +c.getAttribute('r') > +best.getAttribute('r')) best = c; });
+      if (!best) return;
+      var scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width;
+      g.scrollLeft = Math.max(0, +best.getAttribute('cx') * scale - g.clientWidth / 2);
+    });
+  }
+})();
+</script>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
+</main><script>
+(function () {
+  var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;
+  var box = doc.getElementById('wdzx-upto'), clear = doc.getElementById('wdzx-clear'), banner = doc.getElementById('wdzx-banner');
+  var status = doc.getElementById('wdzx-status'), note = doc.getElementById('wdzx-note');
+  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('max') || Infinity;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function valid(n) { return n >= 1 && n <= reach; }
+  if (root.classList.contains('local')) {   // the Datasette database exists only on this machine
+    var nav = doc.querySelector('.rail nav'), db = doc.createElement('a');
+    db.href = nav.dataset.db; db.textContent = '数据库'; nav.appendChild(db);
+  }
+  if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
+  var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
+  saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
+  if (saved) box.value = saved;   // the box is the reader's own chapter; a card's ?upto only widens what this page shows
+  function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function shown() { var n = current(); return query ? Math.max(n < Infinity ? n : 0, query) : n; }
+  function apply() {
+    var mine = current(), n = shown(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', mine < Infinity);
+    banner.hidden = chosen;
+    if (!off) {
+      doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
+      doc.querySelectorAll('[data-until]').forEach(function (el) {   // an earlier state: shown before that chapter only
+        el.classList.toggle('hidden', n >= +el.dataset.until || +(el.dataset.ch || 0) > n);
+      });
+      doc.querySelectorAll('[data-first]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.first > n); });
+      doc.querySelectorAll('.fgroup').forEach(function (g) { g.classList.toggle('hidden', !g.querySelector('[data-ch]:not(.hidden)')); });
+      doc.querySelectorAll('.fsection').forEach(function (s) {
+        s.classList.toggle('hidden', !!s.querySelector('[data-first]') && !s.querySelector('[data-first]:not(.hidden), article:not([data-first])'));
+      });
+      doc.querySelectorAll('.upto-full').forEach(function (el) {
+        var cut = n < +el.dataset.last; el.classList.toggle('hidden', cut); el.nextElementSibling.style.display = cut ? 'inline' : '';
+      });
+      doc.querySelectorAll('[data-asof]').forEach(function (el) { el.textContent = '截至第 ' + Math.min(n, +el.dataset.asof) + ' 章'; });
+    }
+    doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
+    doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
+    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
+      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
+    });
+    status.hidden = n === Infinity;
+    status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : n !== mine ? '按这张单元卡显示到第 ' + n + ' 章；' + (mine < Infinity ? '你的进度仍是第 ' + mine + ' 章。' : '你还没填进度，在页头填了章号后以它为准。')
+      : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
+  }
+  function changed() {
+    if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
+    var n = current();
+    put(KEY, n < Infinity ? String(n) : null);
+    if (n < Infinity) put(SEEN, '1');
+    query = 0;
+    if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
+    note.hidden = true; apply();
+  }
+  box.addEventListener('input', changed);
+  clear.addEventListener('click', function () { box.value = ''; changed(); });
+  banner.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.choice === 'fill') { box.focus(); return; }
+      if (b.dataset.choice === 'start' && valid(+b.dataset.chapter)) {
+        box.value = b.dataset.chapter; changed();
+        note.textContent = '还没开始读：先只显示到第 ' + b.dataset.chapter + ' 章，第一个副本结束的地方。读起来以后，在页头改成你读到的章就行。';
+        note.hidden = false; return;
+      }
+      put(SEEN, '1'); apply();
+    });
+  });
+  apply();
+  var hash = location.hash.slice(1);   // ids are percent-encoded names (person-%E7%94%B2), so try the hash as it is first
+  var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
+  if (target && !off && target.closest('.hidden')) {
+    var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
+    var upto = shown(), why = upto !== current() ? '按这张单元卡的章号（第 ' + upto + ' 章）' : '按你的进度（读到第 ' + upto + ' 章）';
+    note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
+    note.hidden = false; note.scrollIntoView();
+  } else if (target) { target.scrollIntoView(); }
+})();
+
+document.addEventListener('toggle', function (e) {
+  var d = e.target;
+  if (!d.open || d.tagName !== 'DETAILS' || d.classList.contains('src') || d.hasAttribute('data-fold')) return;
+  if (d.querySelector(':scope > button.fold-close') || d.getBoundingClientRect().height < window.innerHeight * 0.7) return;
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'fold-close'; b.textContent = '收起 ▲';
+  b.addEventListener('click', function () {
+    d.open = false;
+    var s = d.querySelector(':scope > summary') || d;
+    if (s.getBoundingClientRect().top < 0) s.scrollIntoView({block: 'start'});
+  });
+  d.appendChild(b);
+}, true);
+
+(function () {   // phones (step 7): the contents as a drawer, intros cut to three lines
+  var doc = document, root = doc.documentElement, small = window.matchMedia('(max-width:720px)');
+  var toc = doc.getElementById('toc') || doc.getElementById('jump');
+  if (toc) {
+    root.classList.add('has-toc');
+    var fab = doc.createElement('button'), back = doc.createElement('div'), filter = doc.createElement('input');
+    fab.type = 'button'; fab.className = 'toc-fab'; fab.textContent = '目录'; fab.setAttribute('aria-label', '目录');
+    var lastY = window.scrollY;   // scrolling down it steps aside, scrolling up it comes back (design review 2026-10-06)
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (y > lastY + 8 && y > 240) root.classList.add('fab-away'); else if (y < lastY - 8) root.classList.remove('fab-away');
+      lastY = y;
+    }, {passive: true});
+    back.className = 'toc-backdrop';
+    filter.type = 'search'; filter.className = 'toc-filter'; filter.placeholder = '在目录里找…';
+    toc.insertBefore(filter, toc.firstChild);
+    doc.body.appendChild(back); doc.body.appendChild(fab);
+    var open = function (on) { root.classList.toggle('toc-open', on); if (on && small.matches) filter.focus({preventScroll: true}); };
+    fab.addEventListener('click', function () { open(!root.classList.contains('toc-open')); });
+    back.addEventListener('click', function () { open(false); });
+    toc.addEventListener('click', function (e) { if (e.target.closest('a')) open(false); });
+    doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+    doc.querySelectorAll('a.totop').forEach(function (a) {   // on a phone it opens the contents, so it says so (GPT design review 2026-10-06)
+      a.textContent = '目录';
+      a.addEventListener('click', function (e) { if (small.matches) { e.preventDefault(); open(true); } });
+    });
+    filter.addEventListener('input', function () {   // names and data-keys (other names); a .find-only row shows only on a hit
+      var q = filter.value.replace(/\s/g, '');
+      toc.querySelectorAll('a').forEach(function (a) {
+        a.style.display = !q || (a.textContent + (a.dataset.keys || '')).replace(/\s/g, '').indexOf(q) >= 0 ? '' : 'none';
+      });
+      toc.querySelectorAll('.find-only').forEach(function (r) {
+        r.classList.toggle('found', !!q && Array.prototype.some.call(r.querySelectorAll('a'), function (a) { return a.style.display !== 'none'; }));
+      });
+    });
+  }
+  if (window.matchMedia('(max-width:640px)').matches) {
+    doc.querySelectorAll('.ticket-main > p.hint').forEach(function (p) {
+      if (p.scrollHeight < 90) return;
+      p.classList.add('clamped');
+      var b = doc.createElement('button');
+      b.type = 'button'; b.className = 'hint-more'; b.textContent = '展开说明';
+      b.addEventListener('click', function () { p.classList.remove('clamped'); b.remove(); });
+      p.after(b);
+    });
+  }
+})();
+
+(function () {   // a link into a closed fold opens the folds around its target first (design reviews 2026-10-06)
+  function openTo(id) {
+    var t = id && (document.getElementById(id) || document.getElementById(decodeURIComponent(id)));
+    for (var p = t && t.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a) openTo(a.getAttribute('href').slice(1));
+  }, true);
+  if (location.hash) openTo(location.hash.slice(1));
+  document.querySelectorAll('.graph, .growth').forEach(function (g) {   // a strip wider than the screen fades at its right edge
+    if (g.scrollWidth <= g.clientWidth + 2) return;
+    var check = function () { g.classList.toggle('at-end', g.scrollLeft + g.clientWidth >= g.scrollWidth - 4); };
+    g.classList.add('scroll-fade'); g.addEventListener('scroll', check, {passive: true}); check();
+  });
+})();
+</script></body></html>

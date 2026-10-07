@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>三向超级进化 · 维度之下</title><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20x%3D%222%22%20y%3D%226%22%20width%3D%2228%22%20height%3D%2220%22%20rx%3D%223%22%20fill%3D%22%23d3a655%22/%3E%3Ccircle%20cx%3D%222%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ctext%20x%3D%2216%22%20y%3D%2221.5%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20text-anchor%3D%22middle%22%20fill%3D%22%2307080b%22%20font-family%3D%22serif%22%3E%E7%BB%B4%3C/text%3E%3C/svg%3E"><meta name="description" content="《玩家请上车》（海晏山 著）的读者整理：按单元写的梗概与解析，世界观、人物、地理、伏笔和道具库，可按读到的章数隐藏后文。"><meta name="theme-color" content="#07080b"><style>
+:root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
+  --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC","Source Han Serif CN","Noto Serif CJK SC","STSong","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace;
+  --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
+:root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#85621f; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380;
+  --mind:#7650b0; --space:#17788a; --time:#b25f18; --gold:#a07a10; }
+/* what stays dark in the light theme keeps the dark accents */
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth, .emblem) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
+:root[data-theme="light"] .banner button.primary { color:#fff; }
+:root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
+  background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
+:root[data-theme="light"] body { background:var(--paper); }
+a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+/* a dense run of names (items in hand, rewards, the units a person is in): ink with a thin red line, not a wall of red (design review 2026-10-06) */
+.quiet a, a.quiet { color:var(--ink); border-bottom:1px solid var(--line); border-bottom-color:color-mix(in srgb, var(--signal) 32%, transparent); }
+.quiet a:hover, a.quiet:hover { color:var(--signal); text-decoration:none; border-bottom-color:var(--signal); }
+main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
+
+/* nav: the rail */
+.rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
+.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; }
+@media (min-width:1100px) { .rail-inner { max-width:1060px; } }   /* brand, links, progress and switches on one line (2026-10-06) */
+.brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
+.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.12em; margin-left:6px; }   /* so brand, links, progress and switches fit one line at 920px */
+.rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
+.rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
+/* reading progress: one value for the whole site, set in the rail (localStorage wdzx.upto) */
+.rail .progress { margin-left:auto; display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--rail-muted); white-space:nowrap; }
+.rail .progress input { width:5.4em; background:transparent; color:var(--rail-ink); border:1px solid var(--rail-muted); border-radius:3px; padding:5px 6px; font:13px var(--mono); }
+.rail .progress input:invalid { border-color:var(--signal); }
+.has-progress .rail .progress input { border-color:var(--brass); color:var(--brass); }
+.rail .progress button { background:none; border:none; color:var(--rail-muted); font-size:17px; line-height:1; cursor:pointer; padding:4px 6px; }
+.banner { background:var(--card-2); border-bottom:1px solid var(--brass); }
+.banner-inner { max-width:920px; margin:0 auto; padding:10px 16px; font-size:14px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; }
+.banner-inner b { color:var(--brass); }
+.banner button { font:13px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:7px 12px; cursor:pointer; }
+.banner button.primary { background:var(--brass); color:var(--rail); border-color:var(--brass); }
+.progress-status { font-size:13px; color:var(--brass); margin:0 0 6px; }
+.progress-note { font-size:14px; color:var(--muted); margin:0 0 8px; }
+details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+@media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
+  .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
+.beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
+details.fold[data-fold][open] > summary { display:none; }   /* only the spoiler gate (hero 档案) drops its line once open */
+button.fold-close { display:block; margin:8px 0 2px; font:12.5px var(--sans); color:var(--muted); background:none; border:1px solid var(--line); border-radius:4px; padding:5px 12px; cursor:pointer; }
+button.fold-close:hover { color:var(--brass); border-color:var(--brass); }
+/* phones (step 7, 2026-10-06): one row of page links; intros cut to three lines; a page's contents (#toc, #jump) as
+   a drawer behind a 目录 button, with a filter; long CJK lines may break anywhere */
+button.toc-fab, .toc-backdrop { display:none; }
+input.toc-filter { display:block; width:100%; margin:2px 0 10px; }   /* the contents filter on wide screens too (2026-10-06); its look is the shared search box */
+nav.jump input.toc-filter { max-width:20em; margin:8px 0 6px; }
+.ticket-main p.premise { color:var(--ink); }
+@media (max-width:720px) {
+  html.has-toc button.toc-fab { display:block; position:fixed; right:14px; bottom:max(18px, env(safe-area-inset-bottom)); z-index:41; width:46px; height:46px;
+    padding:0; border:none; border-radius:50%; font-size:0; color:transparent; cursor:pointer; opacity:.94; box-shadow:0 4px 14px rgba(0,0,0,.35);
+    background:linear-gradient(#07080b,#07080b) 50% 16px / 18px 2px no-repeat, linear-gradient(#07080b,#07080b) 50% 22px / 18px 2px no-repeat,
+      linear-gradient(#07080b,#07080b) 50% 28px / 18px 2px no-repeat, #d3a655; transition:transform .2s ease, opacity .2s ease; }
+  html.fab-away:not(.toc-open) button.toc-fab { transform:translateY(90px); opacity:0; }
+  html.has-toc #toc, html.has-toc #jump { position:fixed !important; top:0; right:0; bottom:0; left:auto; width:min(86vw,360px);
+    max-height:none !important; margin:0; z-index:40; overflow:auto; overscroll-behavior:contain; background:var(--card);
+    border:none; border-left:1px solid var(--line); border-radius:0; padding:12px 16px 90px; transform:translateX(105%);
+    transition:transform .2s ease; box-shadow:-8px 0 24px rgba(0,0,0,.35); }
+  html.toc-open #toc, html.toc-open #jump { transform:none; }
+  html.toc-open .toc-backdrop { display:block; position:fixed; inset:0; z-index:39; background:rgba(0,0,0,.45); }
+  html.has-toc input.toc-filter { display:block; width:100%; margin:2px 0 10px; font-size:15px; min-height:40px; }
+}
+@media (max-width:640px) {
+  .rail nav { flex:1 1 100%; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+  .rail nav::-webkit-scrollbar { display:none; }
+  .rail nav a { flex:none; }
+  main { overflow-wrap:anywhere; }
+  .ticket-main p.hint.clamped { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:0; }
+  button.hint-more { background:none; border:none; color:var(--brass); font-size:12.5px; padding:2px 0 6px; cursor:pointer; }
+}
+[hidden] { display:none !important; }
+html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
+
+/* the 显示出处 and 浅色 switches */
+.toggle { position:absolute; opacity:0; pointer-events:none; }
+.switches { display:inline-flex; gap:8px; }
+.toggle-label { display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--rail-muted); border:1px solid #3a404b; border-radius:14px;
+  padding:4px 11px 4px 5px; cursor:pointer; user-select:none; }
+.toggle-label::before { content:""; flex:none; width:24px; height:14px; border-radius:7px; transition:background .15s;
+  background:radial-gradient(circle at 7px 50%, #8f897d 4px, transparent 4.6px), #262b33; }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail-ink); border-color:#8a7140; }
+#show-src:checked ~ .rail label[for="show-src"]::before, #theme-light:checked ~ .rail label[for="theme-light"]::before {
+  background:radial-gradient(circle at 17px 50%, #07080b 4px, transparent 4.6px), #d3a655; }
+#show-src:focus-visible ~ .rail label[for="show-src"], #theme-light:focus-visible ~ .rail label[for="theme-light"] { outline:2px solid #d3a655; outline-offset:2px; }
+html:not(.js) label[for="theme-light"] { display:none; }
+.ch, sup.cite, details.src, .src-only { display:none; }
+#show-src:checked ~ main .ch { display:inline-block; text-indent:0; }
+#show-src:checked ~ main sup.cite { display:inline; }
+#show-src:checked ~ main details.src { display:inline; }
+#show-src:checked ~ main .src-only { display:block; }
+#show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ticket-stub.src-only { display:none; }
+#show-src:checked ~ main .ticket-stub.src-only { display:flex; }
+.ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
+sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
+details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--line); color:color-mix(in srgb, var(--ink) 80%, var(--muted)); font:14.5px/1.75 var(--serif); }
+cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
+
+/* headings and text */
+h1, h2, h3, h4 { font-family:var(--serif); }
+h2.sign { display:inline-block; font-size:20px; margin:34px 0 10px; padding:4px 14px; background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-bottom:2px solid var(--signal); border-radius:4px; letter-spacing:.12em; }
+h3 { font-size:19px; margin:26px 0 8px; padding-left:12px; border-left:4px solid var(--signal); }
+h4 { font-size:15px; margin:16px 0 4px; color:var(--brass); letter-spacing:.06em; }
+.note { color:var(--muted); font-size:14px; margin:4px 0; }
+.meta { color:var(--muted); font-size:13px; }
+ul { margin:0; padding-left:20px; } li { margin:6px 0; }
+.chipline { display:flex; flex-wrap:wrap; gap:6px 8px; margin:8px 0; }
+.chipline a, .chip { background:var(--chip); color:var(--ink); border-radius:3px; padding:1px 9px; font-size:13px; white-space:nowrap; }
+
+/* the ticket (page header of a unit card, index entries) */
+.ticket { display:flex; background:linear-gradient(135deg, var(--card-2), var(--card)); border:1px solid var(--line); border-radius:10px; margin:18px 0 8px; position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.ticket-main { flex:1; padding:18px 22px 16px; min-width:0; position:relative; }
+.ticket-stub { width:170px; padding:16px 18px; border-left:2px dashed var(--line); position:relative; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.ticket-stub::before, .ticket-stub::after { content:""; position:absolute; left:-11px; width:20px; height:20px; border-radius:50%; background:var(--paper); border:1px solid var(--line); }
+.ticket-stub::before { top:-11px; } .ticket-stub::after { bottom:-11px; }
+.kicker { font-size:12px; letter-spacing:.3em; color:var(--signal); }
+.ticket h1 { font-size:34px; margin:2px 0 4px; letter-spacing:.06em; }
+.route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
+.stub-row { font:12px var(--mono); color:var(--muted); }
+.stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+/* a page's counts read like the fields of a ticket stub: a small label over a big number (2026-10-06) */
+.ticket-stub.stats { gap:12px; }
+.ticket-stub.stats .stub-row:not(.src-only) { font:600 24px/1.05 var(--mono); color:var(--ink); }   /* figures in ink; gold kept for its few meanings */
+.ticket-stub.stats .stub-row:not(.src-only) b { display:block; font:500 11.5px/1.4 var(--sans); color:var(--muted); letter-spacing:.12em; margin:0 0 3px; }
+.ticket-stub.stats small { font:500 12px var(--sans); color:var(--muted); margin-left:4px; }
+a.stub-row { display:block; text-decoration:none; } a.stub-row:hover b { color:var(--brass); }   /* a count that jumps to its section */
+.stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
+  display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
+.stamp small { font-size:10px; margin-left:1px; }
+
+/* the dark system panel for text the game shows */
+.sys { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px; padding:10px 14px; margin:8px 0; font:14px/1.75 var(--serif); }
+.sys::before { content:"【系统】"; color:var(--brass); margin-right:4px; font-family:var(--sans); font-size:12px; letter-spacing:.1em; }
+.sys b { color:var(--brass); font:600 12px var(--sans); margin-right:6px; }
+
+/* grade badge */
+.grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
+  color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.dark-ink { color:#14100a; }
+.grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
+.tag { text-indent:0; display:inline-block; font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+/* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
+.seal { flex:none; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
+.seal.wide { font-size:14px; }
+.seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
+.seal.mid { color:var(--ink); } .seal.low { color:var(--muted); }
+.seal.none { width:34px; height:26px; border:1px dashed var(--line); border-radius:4px; transform:none; color:var(--muted); font:13px var(--sans); }
+:root[data-theme="light"] .seal.top { color:#a07a10; }
+/* the player panel, in the book's 【key：value】 lines */
+.syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
+  padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel .row > span { color:var(--rail-ink); font-weight:600; }
+.syspanel .v-rate { color:var(--brass); } .syspanel .grade { font-size:12px; height:20px; min-width:24px; vertical-align:1px; }   /* gold for evolution; a level in its colour */
+.evo-mind { color:var(--mind); } .evo-space { color:var(--space); } .evo-time { color:var(--time); }
+.syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+@media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
+.upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已否定 (denied or refuted); settled points carry no tag */
+.tier { text-indent:0; display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+.tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
+.tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
+
+.hidden { display:none !important; }
+nav.pagenav { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0 6px; font-size:14px; }
+nav.pagenav > b { color:var(--muted); font-weight:400; font-size:13px; margin-right:2px; }
+nav.pagenav a { padding:3px 11px; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--ink); }
+nav.pagenav a:hover { border-color:var(--brass); color:var(--brass); text-decoration:none; }
+@media (min-width:721px) { nav.pagenav input.toc-filter { display:none; } }
+@media (max-width:720px) {
+  html.has-toc nav.pagenav { display:block; }
+  html.has-toc nav.pagenav > b { display:block; margin:0 0 6px; }
+  html.has-toc nav.pagenav a { display:block; border:none; border-bottom:1px solid var(--line); border-radius:0; background:none; padding:10px 2px; }
+}
+.totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
+@media (max-width:720px) { .totop { display:inline; } }
+footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
+@media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; }
+  .ticket-stub.stats { flex-direction:row; flex-wrap:wrap; justify-content:flex-start; gap:10px 26px; } .ticket-stub.stats .stub-row.src-only { flex-basis:100%; } }
+
+input[type=search] { font:14px var(--sans); color:var(--ink); background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2714%27%20height%3D%2714%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27round%27%3E%3Ccircle%20cx%3D%2710.5%27%20cy%3D%2710.5%27%20r%3D%276.5%27/%3E%3Cpath%20d%3D%27M20%2020l-4.6-4.6%27/%3E%3C/svg%3E") no-repeat 10px 50%;
+  border:1px solid var(--line); border-radius:6px; padding:6px 10px 6px 31px; min-height:34px; }
+input[type=search]::placeholder { color:var(--muted); }
+input[type=search]:focus, select:focus { outline:none; border-color:var(--brass); box-shadow:0 0 0 2px color-mix(in srgb, var(--brass) 25%, transparent); }
+select { appearance:none; -webkit-appearance:none; font:14px var(--sans); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2710%27%20height%3D%276%27%20viewBox%3D%270%200%2010%206%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M1%201l4%204%204-4%27/%3E%3C/svg%3E") no-repeat right 10px center; padding:6px 30px 6px 10px; min-height:34px; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary { list-style:none; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::-webkit-details-marker { display:none; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::before { content:""; display:inline-block; width:6px; height:6px; margin:0 9px 2px 2px; border-right:1.6px solid currentColor;
+  border-bottom:1.6px solid currentColor; transform:rotate(-45deg); transition:transform .15s ease; opacity:.7; vertical-align:middle; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more)[open] > summary::before { transform:rotate(45deg); margin-bottom:4px; }
+@media (max-width:640px) { .scroll-fade { -webkit-mask-image:linear-gradient(to right, #000 82%, transparent); mask-image:linear-gradient(to right, #000 82%, transparent); }
+  .scroll-fade.at-end { -webkit-mask-image:none; mask-image:none; } }
+p.graph-hint { display:none !important; }
+
+.evo-intros { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:14px; margin:14px 0 8px; }
+.evo-intro { background:var(--card); border:1px solid var(--line); border-top:3px solid var(--brass); border-radius:6px; padding:10px 16px 12px; }
+.evo-intro h3 { margin:2px 0 2px; font:600 19px var(--serif); }
+.evo-intro .when { font-size:12.5px; color:var(--muted); }
+.evo-intro p.para { font-size:15px; line-height:1.8; margin:8px 0; }
+.evo-intro a.more { font-size:14px; }
+article.essay { max-width:46em; }
+article.essay p.para { text-indent:2em; }
+article.essay .meta { color:var(--muted); font-size:13px; margin:0 0 6px; }
+p.see { font-size:14px; color:var(--muted); } p.see a { margin:0 3px; }
+
+.prose { margin:6px 0 4px; }
+.prose p.para { margin:8px 0; line-height:1.85; font-size:15.5px; }
+.prose b.lead { color:var(--brass); font-weight:600; margin-right:8px; letter-spacing:.06em; }
+.prose b.lead.kicker { font:600 12.5px var(--sans); border:1px solid var(--line); border-radius:3px; padding:0 6px; vertical-align:1px; }
+.prose .tier { margin:0 4px 0 2px; }
+p.prose-cut { margin:6px 0 0; font-size:13px; color:var(--signal); }
+.prose-fallback { display:none; }
+.has-prose.all-cut > .prose-fallback { display:block; }
+p.prose-cut .all { display:none; }
+.has-prose.all-cut:has(> .prose-fallback) > p.prose-cut .some { display:none; }
+.has-prose.all-cut:has(> .prose-fallback) > p.prose-cut .all { display:inline; }
+</style></head>
+<body data-progress="off"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../novel"><a href="index.html">首页</a><a href="hero.html">主角</a><a href="world.html">世界观</a><a href="people.html">人物</a><a href="places.html">地理</a><a href="threads.html">伏笔</a><a href="items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，第一个副本结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到第一个副本结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
+<div class="ticket" id="evo-top"><div class="ticket-main"><div class="kicker">专题</div><h1>三向超级进化</h1>
+<div class="route"><span data-asof="3284">写到第 3284 章</span></div>
+<p class="hint">这一页写全书，不按页头填的进度隐藏，含后文剧情。段末的章号勾选“显示出处”后出现。</p>
+<div class="prose"><p class="para" data-ch="3264">超级进化是进化者的身体进化到一定程度后的质变。按力量的方向，常分身体、空间、时间、精神几种，一个人可以兼有两三个方向；时间、空间、精神三向兼有的极其罕见，徐获之前的上一位是卡门·菲尔德。下面三篇按徐获得到它们的先后排列，讲他怎样认识、学会并用好这三种力量。三者的关系，他在第 3264 章有过一个体会：精神力量属于玩家本人，时间和空间的力量只能借用；相同的是，三者都无边无际。<span class="ch">第 289、1180、1570、2829、2890、3264 章</span></p></div></div></div>
+<nav class="jump pagenav" id="jump" aria-label="本页目录"><b>本页</b><a href="#evo-intros">三段介绍</a><a href="#evo-%E7%B2%BE%E7%A5%9E%E5%90%91">精神向超级进化</a><a href="#evo-%E7%A9%BA%E9%97%B4%E5%90%91">空间向超级进化</a><a href="#evo-%E6%97%B6%E9%97%B4%E5%90%91">时间向超级进化</a></nav>
+<div class="evo-intros" id="evo-intros"><section class="evo-intro"><h3>精神向</h3><span class="when">第 303 章起</span><div class="prose"><p class="para" data-ch="2527">人在梦里，很少怀疑眼前的一切是假的。精神向的进化者以自己为中心展开一片“精神世界”，被拉进来的人看到、听到、碰到的，都可能出自他的想象；站在外面的人，却看得清里面真正发生了什么。一般而言，它改变的是人，不是真的现实。徐获刚得到它时，就有人说精神方向的二次进化是没用的，只能自己跟自己玩。唐广博把精神进化分成四步，最后一步才触及现实：精神力量筑起的壁垒以假乱真，看破了幻象也不一定破得了。<span class="ch">第 303、1186、1465、1495、2527 章</span></p></div><a class="more" href="#evo-%E7%B2%BE%E7%A5%9E%E5%90%91">读全文：精神向超级进化（约 3700 字）</a></section><section class="evo-intro"><h3>空间向</h3><span class="when">第 881 章起</span><div class="prose"><p class="para" data-ch="2909">白蔻说，可以把空间想成一种实在的东西，像空气一样挤压着里面的一切；找到它、学会控制它，就能移动其中的任何物体。徐获把这种没有形态的力量想象成一根根线，叫作“空间射线”。把线叠密是屏障，扭紧是利刃，再一层层压下去，最后压成细如游丝、把光折射成万千彩色的“万花筒世界”。徐获后来认为，这已经是人能达到的极限，却不是终点：空间之上，还有维度更高的“超维”。<span class="ch">第 842、1921、2262、2527、2909 章</span></p></div><a class="more" href="#evo-%E7%A9%BA%E9%97%B4%E5%90%91">读全文：空间向超级进化（约 4700 字）</a></section><section class="evo-intro"><h3>时间向</h3><span class="when">第 1674 章起</span><div class="prose"><p class="para" data-ch="3265">空间可以拨动、叠加、压缩，时间却改不了。华瀚·维尔纳说，时间力量只能借用，既不能控制它的流速，也不能改变它的形态。时间向的进化者能做的，是从别处引来流速不同的时间，让它落在指定的地方：落在人身上，人可能一瞬间老去几十年，也可能被定在原地。这是极少见、也最险的方向，走岔了可能送命。时间能不能倒流，书里各人说法不一；能让一小片地方暂时回到过去的“曲线时间”确实存在，可借它改写过去，徐获也怀疑行不通。<span class="ch">第 1570、1677、1780、2039–2040、2104、2167、2267、2396、3079、3265 章</span></p></div><a class="more" href="#evo-%E6%97%B6%E9%97%B4%E5%90%91">读全文：时间向超级进化（约 3200 字）</a></section></div><p class="see">相关设定见世界观：<a href="world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96">超级进化</a>、<a href="world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96">精神进化与精神世界</a>、<a href="world.html#world-%E6%97%B6%E7%A9%BA%E5%B0%84%E7%BA%BF">时空射线与时间力量</a>、<a href="world.html#world-%E6%9B%B2%E7%BA%BF%E6%97%B6%E9%97%B4">曲线时间与时间场地</a>、<a href="world.html#world-%E8%B6%85%E7%BB%B4">超维空间与超维仪器</a>。</p>
+<section class="part" id="evo-%E7%B2%BE%E7%A5%9E%E5%90%91"><h2 class="sign">精神向超级进化</h2><a class="totop" href="#evo-top">回到页首</a><article class="essay"><p class="meta">第 303 章起 · 约 3700 字 · 他的特性见<a href="hero.html#trait-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96">主角页</a></p><div class="prose"><p class="para" data-ch="2527">精神向是徐获的第一个超级进化方向，始于第 303 章。它的核心是“精神世界”：精神力量能放到体外、影响到别人时，以进化者自己为中心形成的一片“世界”。被拉进来的人看到、听到、碰到的，都可能是他造出来的；但一般而言，精神力量改变的是人，不是真的现实，站在范围外的人能清楚看见里面真正发生了什么。徐获的精神世界起初是一座地下圆塔，后来成了一座图书楼，入口是一扇寻常的门。他在精神世界覆盖的范围里可以随处开门，一步跨到别处。精神向后来的种种本事，干扰、控制、具化、锚、防线，都建在这片世界上。<span class="ch">第 303、399、405、880、1465、1495、1633、2527 章</span></p><p class="para" data-ch="399">第一次进化发生在一场大雾里。他被困在一处精神污染地，几次下到自己意识里的圆塔，看见圆桌边坐着另外三个影子：少年的他守着一副扑克，青年的他握着匕首，童年的他只是一团没有面孔的黑影，抱着一块黑色薄片。黑色一度要吞掉整座塔，他翻开自己面前的白壳书，把另外三个人格压了下去，才算掌控了自己的精神世界。这些扑克、匕首、薄片和书，就是各个人格的“具化物”，按白蔻后来的说法，它们是精神的象征，被毁掉时本人也会受冲击。他判断这次进化的方向是精神控制，并用这片新得的世界把困在雾里的人一批批带了出来。副本里的小姑娘却嘲笑他，说所有超级进化里，精神方向的二次进化是没用的，只能自己跟自己玩。<span class="ch">第 299、302–303、305、399 章</span></p><p class="para" data-ch="1645">刚开始的精神世界确实不大能用。黑暗空间降临时，他发现自己能把精神力量放出去，却控制不了物体，离开那片黑暗做媒介，就不能直接作用于人。很长一段时间里，他要靠道具，才能干扰精神状态本来就不好的玩家。转折在进化率升到 30% 以后，外放精神世界忽然变得顺手，他先用道具扰乱一个偷袭者的精神，再把对方拉进了自己的世界。他持有的随机副本第十七医院也帮了忙：那是一处能干扰人精神的特殊场地，即使他的精神力量还放不出去，在医院里也能影响进来的人。这时的精神世界也有明显的破绽。被拉进来的人其实仍能使用道具，只是幻觉让他们以为用不了，一旦识破，就不容易再上当。把人拉进来还需要一个陷入的过程，对方在这之前可以用合适的道具强行突破，而精神世界被强行突破时，施术的人会遭到反噬。<span class="ch">第 315、464、473、500、641、1645 章</span></p><p class="para" data-ch="2003">这一阶段的能力，书里叫“精神干扰”：精神力量对人的作用还浅，先影响视觉和听觉，变强后才及触觉和感知，效果还要看对方的精神强度，进化率越高的玩家越难影响。想用精神力量直接伤人，就得“具化”，把精神世界里想出来的东西凝成能模拟武器的实物，具化到一定程度，敌我双方都看得见，也能造成真实的伤害。第 1185 章，唐广博给他做催眠治疗，他在找回的童年记忆里撞进章医生留下的一道精神门户，从门户进去、从蜂巢般的出口出来，完成了第三次精神进化，随后第一次把具化物凝成了能杀人的利器。按唐广博的说法，精神进化要经过四次量变：知道这个概念，拓展出能影响他人的精神世界，让具化物有实质攻击力，最后用精神力量影响现实、以假乱真。<span class="ch">第 1185–1186、1465、2003 章</span></p><p class="para" data-ch="1505">能具化，并不等于强。白蔻在白金之眼和他对练。他想闯进她精神世界的第三层，被具化的精神力量击中，吐了血，干扰留下的眩晕也迟迟不退。更让他在意的是，他真切感到了一种不来自具化物、在精神世界层面上的纯力量碾压，这才意识到具化之外还有另一层境界。白蔻告诉他，精神进化有范围和深度两个方向：同一份力量用在一个人身上可以使出全力，多一个人就要分摊出去，一对多时干扰就会减弱；她认为能具化的人，精神世界本该轻松覆盖半径千米以上。她要他先扩大范围，哪怕感知粗糙一些。徐获照鲜花城郑老的笔记，把精神力量分散成点、再用线串成网，练会了“撒网”，减轻了覆盖大片地方的负担。在 026 区，他把较精准的控制范围推到七八百米，又学会了“绝对精神世界”，在五十米内对每个人施加同等强度的干扰。他还借空间射线在精神世界里叠出层层屏障，做成“混淆屏障”，叠到十层时，他站在别人面前，对方也察觉不到。<span class="ch">第 1465、1470–1471、1496、1505 章</span></p><p class="para" data-ch="2221">从干扰到“控制”，是另一道坎。徐获后来想明白，控制是干扰的质变：把需要循序渐进的干扰压缩到一瞬间完成，在那一瞬让对方服从。第 1645 章他有了这种领悟，却只能用短暂的强制命令影响精神不强的玩家，对方进化率一高，效果就减弱。神女后来在叩问殿教他，把精神力量刻意集中成几个点，几点合起来能达到他平常干扰强度的数倍，他凭这个极短地控住过一名 A 级玩家。但面对 A 级玩家，控制的时间太短，也下不了复杂的命令。<span class="ch">第 1493、1645、2219、2221 章</span></p><p class="para" data-ch="2037">真正改变他用法的，是和郑玉慈那一场死战。一直被他压着的童年影子人格在战斗中回到体内，他发现自己能直接调动身边二十米内的精神力量，不必具化，就能像用空间力量一样攻防。这只是具化的一个中间阶段，但负担更小、覆盖更大，也没有道具和特性的使用限制。回到古堡后，他接纳了童年人格，找回了全部童年记忆，四个人格的具化物不再互相压制，精神力量整体翻倍，可具化的范围从二十米扩到两百米，在这个范围里他能均等地干扰每一个人。他借鉴鲜花城见过的镜面世界，造出“镜面精神世界”。在里面，人像图书楼里的墙一样能穿过任何物体，存在感被模糊，连道具都可能拿不稳。它比图书楼更难挣脱，适合在小范围里强行控制，精神类干扰仪器在里面也会打折扣。代价同样存在：白蔻早就警告过他，无节制地使用精神力量、再借外力高耗输出，会头疼、出现幻觉，最终可能精神分裂；他也确实在回 011 区的列车上头痛、流鼻血。<span class="ch">第 1906、2002–2003、2011、2035–2037 章</span></p><p class="para" data-ch="2185">他第一次在精神上吃大亏，是对窦胜男。她的长鞭拦腰斩断了他精神世界里的图书楼，他瞬间失去视觉、听觉和思考能力，此后很久都放不开精神世界。养伤时，他从童年人格那里弄懂了“锚”：精神进化者从自己的精神世界投向别处的一小股精神力量，存在时间有限，投出后就不受投锚的人控制。他推想能做到这一步的人一定极少，以此闻名的窦胜男也只在紧要关头才用。原来当初童年人格就在窦胜男的精神世界里留过一个锚，交手时借它混进她的精神力量，悄悄靠近，还偷走了她一块具化物。童年人格还说了一句话：意志薄弱的人，锚才有用。<span class="ch">第 2166–2167、2170、2184–2185 章</span></p><p class="para" data-ch="2827">后来，他在一处地下空间的幻觉里找回了被章医生删改的记忆，青年、少年、童年三个人格先后融进他的身体。精神核心随之重建，旋转楼梯和图书楼重新升起，外围又立起几十上百座环形图书楼，房间能像抽屉一样抽出、与别处交换，核心世界扩大了千倍不止。在流金城为曾小姐做精神治疗时，他第一次在精神世界的碰撞里用上“镜面空间”，也就是古堡里造出的镜面精神世界，经过这次进化，强度和范围都增加了。它是精神世界向深处的一次进化，能让世界里的人与物反过来，原本能被穿过的从物品变成了人，是更深一层的干扰，强度远超对方承受时，会直接让人崩溃。曾小姐就因此受了重创。他由此认为，在实力相当的精神对抗里，锁定对方的自主意识打开镜面空间，就等于致命一击。但它并非必中：他对窦胜男用了两次，第一次让她痛得失控坠向湖面，第二次她一瞬间就挣脱了。<span class="ch">第 2037、2719–2720、2824、2827 章</span></p><p class="para" data-ch="3020">再往后，他碰到的是“精神防线”。唐广博告诉过他，人脑有一层防线，不管一个人精神强弱，都很难攻破，仪器穿不透它，精神干扰也看不到它背后的记忆；精神进化者展开自己的核心世界，某种程度上就是自己打开了防线。在“倒映”副本里，一个擅长突破防线的人闯进他的图书楼，他才真切体会到这句话的分量，回家后照那片场地另造了一个核心，外表像原来核心的镜像，只有他自己能进出，叫“倒影空间”。他在梦里看见无数个过去的自己叠在一起，觉得这就是防线的样子：一个人的阅历和认知叠加起来，既是意识，也是防御。摸到防线之后，借着场地的加持，他轻易就影响了几个人：穿过防线拿不到对方的记忆，却能让干扰和控制所需的时间大幅缩短，要杀一个人也容易得多。他自己的判断是，进化没到登峰造极，想轻易突破别人的防线，只能借助场地。他也能向别人投锚了，可在庄禾身上追加一个小小的指令，锚就失控了，精神力量一离手，后面会发生什么，他管不了。<span class="ch">第 2979、3006、3012–3014、3016、3020 章</span></p><p class="para" data-ch="3264">注射 P8S、进化率突破 90% 之后，大脑的余量宽了，他用起精神力量轻松了许多。到第 3151 章，他的精神范围已能覆盖整座城市；在朱诺家族的庄园，他的精神力一爆发就笼罩了整座庄园，穿透了干扰封锁墙，墙外有人痛苦倒地，有人突然拔刀砍向同伴。他也有被压住的时候。在卡门·菲尔德留下的一处精神场地里，一股不属于他的绝望把他冻在原地，精神世界根本放不开，最后靠游戏物品“引力场”搅散周围的精神能量，才带人脱身。最近一次突破在第 3264 章：他闯进卡门刻意留下的一片精神空间，在那里见到了章医生的身影，觉得精神世界的枷锁又解开了一层。他由此认为，精神力量和时间、空间力量不同，属于玩家自己；所谓精神世界的上限，只是人以为的上限，人只引动了其中的点滴。<span class="ch">第 3090–3091、3147–3148、3151、3203、3264 章</span></p><p class="para" data-ch="3284">到第 3284 章，徐获能让精神世界覆盖一座城市，在近身范围不经具化直接攻防，用镜面空间重创对手；有场地加持时，还能穿过别人的精神防线，让干扰和控制所需的时间大幅缩短。他自认直接的精神攻击和精神强控都远非从前可比，可对多人时干扰仍会被分摊，别人的记忆他读不到，锚也还不能随心所欲地用来控制人，面对更强的精神力量，他也会被压得放不开世界。他的三个人格虽已融进身体，童年人格仍有自己的主意，许多关键的进步，也离不开白蔻、神女、唐广博的指点，第十七医院、倒映副本这样的场地，以及进化率的提升。<span class="ch">第 1470、2003、2221、2824、3006、3013、3020、3147、3151、3284 章</span></p></div></article></section><section class="part" id="evo-%E7%A9%BA%E9%97%B4%E5%90%91"><h2 class="sign">空间向超级进化</h2><a class="totop" href="#evo-top">回到页首</a><article class="essay"><p class="meta">第 881 章起 · 约 4700 字 · 他的特性见<a href="hero.html#trait-%E7%A9%BA%E9%97%B4%E8%BF%9B%E5%8C%96">主角页</a></p><div class="prose"><p class="para" data-ch="2527">空间向是徐获的第二个超级进化方向，始于第 881 章。他的这门能力，靠的是对“空间射线”的感知和操作。时空力量本来没有具体形态，徐获把它想象成一根根便于理解、也便于操控的线，这就是射线；线是感知中的样子，拨动它引起的移物、阻挡和切割，却是真实的效果。白蔻教他时换过一种说法：可以把空间想象成一种实质的东西，像空气一样包裹、挤压着里面的一切，找到它、学会控制它，就能移动其中的物体。徐获后来的屏障、利刃、空间体和游丝，都是把这些线拨动、叠密、压缩出来的结构。<span class="ch">第 842、881、2262、2527 章</span></p><p class="para" data-ch="1119">第一次碰到射线，是在友谊园植物园。他用精神力量覆盖白蔻给的机械手套，那是一件放大力量的器械，一遍遍开关园里的舱门，直到线条与他服药后体内的阻滞感对上频率，他才不但看得见线，还碰得到线。他顺着线挤过一道缝隙，到了五百多米外，但这是因为植物园本来就是压缩过的空间，他只是找到了它的频率。此后一段时间，他对射线只能“拨动”，或者从线与线的缝隙里穿过，还移不动远处的东西。感知的范围也不等于操作的范围，就像浪头，高处打下来有力，到了沙滩边只剩一点余波。他感觉得到空间的边界，却拨不动那里的一片树叶。<span class="ch">第 881、1119 章</span></p><p class="para" data-ch="1680">真正看到射线能做什么，是在小河城与康先生交手。地面和建筑都没有动，一道无形的尖刃却刺穿了他的右肩；他放开精神世界去看，才发现周围的射线全都拧结成股，像炸开的冰凌一样斜刺出来。康先生本人并没有空间进化，他借助的是一件叫“正方体空间”的仪器，一个拇指大、大的套着小的透明正方体。康先生死后，徐获拿到了它。仪器一到手，周围原本分布均匀、难以改变的射线就变得粗细不一、疏密不同。他轻轻拂动一股，状态相近的射线一起波动，连成一条通道。飞箭射进覆盖范围，射线泛起波动，他闭着眼也知道箭从哪里来，就像身在水中的人察觉石子落水的涟漪；他抬手一抓，拢起的射线便成了一道临时屏障。但仪器给的是条件，不是全部本事。仪器的覆盖范围撒出去容易、收回来难，他试着往回收，最多也只能稳定在三百米左右。在布局复杂的地方，同样五百米左右的范围，准确感知会缩到三百五十米左右。他能改变通道里射线的状态，却碰不到物体内部的射线，和白蔻不借道具就能隔空控物相去甚远。康先生曾用射线利刃直接破坏高级空间道具，过了很久徐获仍做不到；康先生已死，他凭的是什么道具或仪器，也无从知道。<span class="ch">第 1119–1121、1131、1175、1680 章</span></p><p class="para" data-ch="1229">不靠仪器、自己握住射线，是在第 1228 章。薛朗用射线切开了他精神世界的门，他的影子人格趁机抓住了那些线，此后他能直接拨动射线，一步跨出四百多米，或者隔空拔下树叶。用射线把一根树枝拔起来，只是从外面施力；树枝里也有自己的射线，乱得像一团毛线，和空间里的线互不相干。他想远远地把线穿进去，试了几次都不成，便改为直接用手碰，终于从一个点接上了手里那截树枝内的线，这截十厘米长的树枝随即由他从内部控制，五指一合就碎成了木屑。之后他才把这种操作慢慢移到远处。这种拆解只能把大的变小，改不了形状，能拆的东西不超过一人大小；花草、桌椅、玻璃和纸张可以，金属、精密加工的箱盒和道具不行。这时他自己的掌控范围约五百米。<span class="ch">第 1228–1229 章</span></p><p class="para" data-ch="2256">拆得了东西，射线本身却伤不了人。他攻防用的，是把射线变密：一片地方的射线密集起来，是挡在前面的空间屏障；再让它们扭结起来，就是能切割的射线利刃。两者原理相同，利刃多了扭结这一步，也更难。白蔻指点他时说，掌控空间的高下不在规模，而在能不能完全掌控，他用一个小时学会了“加固”，即在极短时间里完成多次扭结，代价是覆盖的地方变小。旧圣剑会的宫女士则示范过另一种用法：把屏障做成一层套一层的正方体，再往小里压。他学会以后，注射 P5S 时能压到近二十层，压过的正方体一松开，释放的力量足以把房间里的桌椅吹倒，威力大约相当于一枚微型炸弹。<span class="ch">第 1229、1535、1682、1920–1921、2205、2256 章</span></p><p class="para" data-ch="2117">他也试过往细处走。在南市的混乱空间里，他看到卡门·菲尔德留下的战斗回溯，才知道射线还能再分。此前他一直把一根射线当成最小的单位，就像人看得见一粒灰尘，却看不见灰尘更细的结构。学会细分后，物体内部能感知到的线成倍增加，他隔着百来米就把半座神殿从里面拽成了碎石。可宫女士那样直接改变物体内部射线排列的本事，他始终学不会：照理说线分得越细，越容易和物体内部的线接上，可线一进入物体，就像裹了一层外套，物体内部的射线又更复杂，反而更难同化。后来在和城的战斗遗址，他回想劳伦斯·李那种像无数菱形薄片叠成、折射着彩光的射线，试着把线拆细、换方向编织再聚拢，结果都失去了控制。试过两次，他认定这条路走不通，往后要从更大的尺度入手，空间进化也就此停在瓶颈。<span class="ch">第 1680、1682、2115、2117 章</span></p><p class="para" data-ch="2267">让他走出瓶颈的是三分之一游戏。游戏场地深处有一个斜放的巨型正方体，里面的空间体不断崩解重组，多成了露出菱形面的多面体，状态接近劳伦斯·李的空间力量，却极不稳定。一次时间力量卷入，里面的变化有的放慢、有的加快，他才看清那是一种高度压缩过的空间力量。按书里的比方，他以前的操作像同时摆弄许多根杠杆，再把它们排成屏障或正方体；这里的力量则像许多根杠杆合成了一根，外形不变，能撬动的却多出数倍到数百倍。出了游戏，他一拨射线，屏障便碎成许多薄刃，组成一个由利刃构成的多面体，切开墙壁和加固过的金属门都很轻易。这样的多面体他最多同时造五个，彼此不能隔得太远，相撞时还会连锁破坏。<span class="ch">第 2256、2262、2267 章</span></p><p class="para" data-ch="2344">同一场游戏也让他失去了空间能力。他在第三场输掉的“未来”，正是他的空间进化力量。此后他一调动空间力量，身边就会出现一层紧贴身体的屏障，把他和外界的射线隔开，这是寄生在他体内的超级仪器水魔方。它锁住了他的空间能力，也是一层很强的防御，连特性“永远不死的路人甲”都挡不住的空间体，也伤不到屏障里的他。华瀚看过后说，水魔方是时间与空间力量的结合体，外力强拆他未必受得住，最好是进化到能自然控制或消解它的程度。<span class="ch">第 2309–2311、2343–2344 章</span></p><p class="para" data-ch="2917">被封期间，他在一处超级副本场地里看到了空间进化的完整过程。场地里的一栋栋矮楼像前人留下的课堂，射线在里面放慢速度，一步步演示：线收拢成屏障，屏障加固成利刃，利刃层层压缩，像把积木压得极小、成千上万块塞进拳头大的地方，成为“空间体”。许多空间体再压成“超级空间体”，超级空间体排成细带，上万条带又压成一个指头大的多面体，到这一步，空间力量才第一次能被肉眼看见。多面体再连成细带，便是最后的形态，像一缕游丝。徐获把它叫作“万花筒世界”，因为层层折叠的多面体会把光折射成千万道彩光，看上去像万花筒里的图案；它指的是压到极致的空间结构，不是幻象。后来他说得更准确：多面体连成的细带，也就是“游丝”，是万花筒世界最小的单位。<span class="ch">第 2527、2530、2917 章</span></p><p class="para" data-ch="2555">场地给的帮助只在场地里有效。两缕游丝般的空间力量穿过水魔方钻进他的身体，暂时压住了它，他能控制的射线却也被限制在那栋楼里。借着场地，他只用一丝射线就能转动一个完整的超级空间体，还把空间体一个、十个、上百个地拆开再拼回去。到了下一栋楼，他花半天勉强做出一个只有轮廓的多面体，却还连不成多面体带，也就是说，那时他还造不出万花筒世界的一个基础单位。离开场地后，压住水魔方的力量消失，屏障又恢复了。<span class="ch">第 2528–2531、2555 章</span></p><p class="para" data-ch="2957">他右手食指里的力量另有来历。他从夜游副本的禁区空间逃出后，背上多了一缕从体内延伸出来的细光，力量温和而微弱。那片空间的状态让他认为，那样的空间力量玩家不可能凭自身掌握。水魔方随即要把这缕游丝封起来，两股力量在他体内冲撞，最后平衡下来，一起附在他的心脏上，他从此不敢再动用空间力量。后来提箱人一掌打在他心口，水魔方被震出，游丝贯穿了心脏，水魔方释放的力量又护住了心脏。两者回不到心脏，也离不开他的身体，最终转移到右手食指上，重新平衡。这缕游丝是超维空间力量，维度比一般空间力量更高，常人接触即死。第 2709 章，空间进化随之解封；他能借控制空间力量去触发手指里的超维力量，用食指一点，矿石就原地消解，京市一战中，金飞雪的匕首连同他本人也是这样消散的。但这股力量他只能触发，不能直接控制，缩到手指上的水魔方也不再能充当屏障。<span class="ch">第 2611–2612、2673、2702、2705–2706、2709、2957 章</span></p><p class="para" data-ch="3074">解封后，他的空间控制范围由半径两千米左右扩大到将近八千米。在国王宝藏里注射 P7S 之后，他第一次凭自己把空间力量压成肉眼可见的多面体，又连成一条多面体带，宝库里金属和矿石的微光透过它折射开来，形成一个微小的万花筒世界。魔术师寄来的小正方体与“正方体空间”合成了超级仪器“超正方体空间”，据魔术师在回信里说，原先那件缺了一块，久留一处会生出吞噬活物的空间缝隙，合起来才免去这个问题。借它辅助，他能切实操控的范围再扩大一半，能控制的游丝也多了几条，只是射线之间并不真的隔绝，几条游丝不能相互交叉。一缕游丝解构时释放的力量，夷平过一座山；在挑战岛，他也用一缕游丝炸开了围困他们的空间墙，倾泻出来的力量四处冲撞，他自己也被割伤。游丝由层层压缩的空间构成，若不循序渐进地拆开，力量就会骤然释放出来。<span class="ch">第 2711、2909、2917、3074 章</span></p><p class="para" data-ch="3117">量的积累很慢，他花了两年多时间，也只把操控范围扩大到万米左右；进化率到了 90% 以后，药剂也只能带来量变。转机在 001 区菲尔德家族开放的一处战斗遗址。那片混乱空间里会自行生成游丝，一闪即逝，没有人操控，还会避开相对稳定的空间体。他托着四条游丝静坐两天，游丝忽然成倍增多，连接上附近的空间体，空间体里的射线随即把力量传到更远处，游丝铺满了整片混乱空间，结成一张以他为中心、柔软而有弹性的网。此后他切实控制的范围超过一万米，范围内的每一缕射线都能随意掌控。但这不等于能控制每一缕游丝：那些相互呼应生成的游丝，他只能控制出现的大致范围；万米之外生成的游丝，他既感觉不到，也控制不了。一缕游丝失控，爆发的能量堪比一枚不小的能源弹，所以他当时先从源头逐一拆解，源头散了，呼应生成的游丝也随之消失。随后他又从近处把游丝一组组拼成弧形菱面体，连起来时，旁观的人仿佛看到了一个小小的万花筒世界；不过混乱空间是特殊场地，会放大对空间力量的控制，在外面的稳定空间里要难得多。<span class="ch">第 3109、3112–3117 章</span></p><p class="para" data-ch="3227">同一时期，他开始把空间力量用在人身上。在菲尔德庄园，他对着阳光看一块次类石，忽然觉得自己的身体也能像这块矿石一样拆成空间体。这时李德碰了他一下，他接上了李德体内的射线，李德的脏器当场被割伤；他随即用空间力量给李德做了手术，很快缝合了伤口。在朱诺家族的婚礼上，他用游丝接上几个人体内的射线，把人定在原地，旁人想用仪器把人救走，人一脱离他的掌控就像积木一样塌碎。威克斯家主连忙喝令旁人别动。一般的射线定不住人，只有接上人体内的射线才行，这比切线、屏障和压缩体更深一层。后来他隔空为一名通缉犯修补内脏，伤口很快闭合，但那人已有组织缺失，缝合后能否活下来并不确定。<span class="ch">第 3119–3120、3196、3227 章</span></p><p class="para" data-ch="3264">最近的变化来自精神进化。他在卡门留下的精神空间里突破了精神上限，对空间的感知也跟着改变。以前他觉得空间由直线组成，屏障、利刃、空间体都是直线的叠加，力量连成一个整体，范围一大，杀伤就难以控制得准。现在他觉得空间是线段，可以从一个点连到另一个点。他用一丝射线连上一片雪花状的空间体，再绕过去连上另一片，轻轻一拨，两片都改变了方向。这种连接能否解决大范围控制不准的问题，书中还没有交代。<span class="ch">第 3264 章</span></p><p class="para" data-ch="3284">到第 3284 章，徐获能在万米以上的范围内随意拨动射线，把它们叠成屏障、扭成利刃、压成空间体，再压成肉眼可见的游丝，也能接上人体内的射线定住人或为人缝合。不过他的万花筒世界还只是雏形，相互呼应生成的游丝只能控制出现的大致范围，一缕失控就会爆发，手指里的超维力量也只能触发，不能驾驭。几次关键的进步，都借助了特殊场地、仪器或药剂。吉恩·安德森认为他在空间进化上已达到超级玩家的水平；徐获想过让空间也像曲线时间那样“触之生变”，在他看来，这方面的集大成者是劳伦斯·李：那种射线一击中人，就能让人体内的射线崩溃。<span class="ch">第 2709、3109、3116、3144、3185、3196、3284 章</span></p></div></article></section><section class="part" id="evo-%E6%97%B6%E9%97%B4%E5%90%91"><h2 class="sign">时间向超级进化</h2><a class="totop" href="#evo-top">回到页首</a><article class="essay"><p class="meta">第 1674 章起 · 约 3200 字 · 他的特性见<a href="hero.html#trait-%E6%97%B6%E9%97%B4%E8%BF%9B%E5%8C%96">主角页</a></p><div class="prose"><p class="para" data-ch="2267">时间向是徐获的第三个超级进化方向，始于第 1674 章。和空间一样，他把时间感知为一根根线，叫“时间射线”；这种线状也只是进化者理解时间的方式，时间本身是什么形态，没有人知道。不同的是，空间力量可以被他拨动、叠加、压缩，时间却改不了。他能做的，是从别处“借”来流速不同的时间，让它落在指定的地方：落在人身上，人会在一瞬间老去、碎成飞灰，或者被定在原地。时间向的成长，就是从看见这种力量，到学会借，再到学会让借来的时间落得准。<span class="ch">第 1674、1676、1886、2039–2040、2165、2267 章</span></p><p class="para" data-ch="1681">第一次看见时间射线，是在南市的混乱空间里。他取出“天使的眼睛”，这件道具的力量一接上那里的时间，原本模糊的感觉就清晰起来：时间射线像稀疏的雨，从天上一道道垂下来，贯穿整片空间，每一根都带着轻微的弧度。他伸手轻轻一拂，光线明暗飞快变化，已经离开的人又出现在街上，那是被截留下来的过去。他也见到了时间射线的杀伤力：一名玩家站着死去，他一拨射线，尸体就碎成了灰。混乱空间里还保存着卡门·菲尔德两百年前战斗的片段，卡门用时间射线把满殿宝石化成粉末，事后嘀咕了一句“这周围就没有时间流动小一点的维度空间吗”。徐获由此推断，时间射线能连到这个空间以外的时间，两边流速不同，被击中的人会在一瞬间走过几十年。他学着卡门把一条射线分成十条，借“天使的眼睛”记录下一颗石子飞起落地的五秒，可这本是道具自带的作用，他只是把它从随机变成了可控。那时的他能感知时间射线，却不能干涉它，更挡不住它。<span class="ch">第 1674、1676、1679、1681 章</span></p><p class="para" data-ch="1919">此后一段时间，他要拨动时间射线，仍得借“天使的眼睛”或原生石。在 011 区深山的一座宅院里，他借道具让时间射线连接到隔壁房间，分辨出状态不同的房间，找到了出口。到白金之眼，读了白蔻收集的资料后，他不借道具也能勉强触动射线，再后来能让射线之间发出震鸣。有一次他让穿过自己身体的所有射线一起颤动，正要去连别处的时间，白蔻一把抓住他：别把自己和时间射线同化，否则改变流速的时候，连命也会搭进去。白蔻还告诉他，让时间静止、用流速差杀人都是较高级的用法；许多道具有使用时限，把时间射线连上去就能干扰它们，这才是进化之初可以先学的。<span class="ch">第 1886、1899、1901、1903、1915、1918–1919 章</span></p><p class="para" data-ch="2044">真正纠正他方向的，是华瀚·维尔纳。华瀚说，时间是一体的，一个空间里的时间基本一样，分成射线只是为了便于理解；时间力量只能借用，不能掌控，既改变不了流速，也改变不了形态。他还提醒，精神和空间进化走岔了还能回头，时间进化走岔了，可能连命都要搭进去；徐获同时进化空间，思路已经被空间带偏了。徐获在练功用的场所道具“时间盒子”里验证了这番话：一个个院子里的射线疏密不同，其实是每个院子装着不同的时间。他明白自己一直照空间进化的路子去细分射线，这是走错了，该分辨的是不同空间之间的时间，而不是把一个空间里的时间切得更细。<span class="ch">第 2039–2040、2043–2044 章</span></p><p class="para" data-ch="2107">在武博士留下的南瓜城里，他第一次亲手拨动了“曲线时间”。那是一座时间场地，城里叠着来自不同空间的时间。他在一个节点上轻轻一拨，全城的射线都起了涟漪；再把一条射线往后拨，一个路人便退回刚走出小食店的那一刻，又走了一遍。他由此想通了超级道具“人生的三秒”为什么能回到三秒之前：它捕捉到了曲线时间，一种不总是向前走、能让一小片地方暂时回到过去的时间。曲线时间或许存在于所有空间，只是很少和正常的时间相交，要借特别的媒介才抓得住。南瓜城的时间塔就是更大的媒介。他走到离塔两千米处，再拨动一条射线，像有一滴新的雨顺着射线落下，迅速扩到一丈之内，范围里的一切都慢了下来。这回引来的不是城里已有的时间，而是别处的时间力量。他也发现，这种力量不像精神和空间那样一突破就能随心使用，得每天反复练熟，否则会伤到自己。<span class="ch">第 2102、2104、2106–2107 章</span></p><p class="para" data-ch="2343">借来的时间很快用在了实战里。围杀窦胜男时，他引来别处空间的时间力量偷袭，她在一两秒间就老了几十岁。三分之一游戏的空间监狱又给了他一次飞跃。那里的时间力量化成了有形的细流，他叠起比从前强十几倍的空间屏障也挡不住，细流一穿而过。逃避时他发觉，每股细流都是一种时间，看似纤细，里面却像有洪流；而对时间来说，空间和距离并不重要，他隔着一段距离轻轻一拨，就让一股细流改了方向。出来以后，他的时间力量从几缕射线变成了洪流，不借道具，隔着千米就能把一个人定住，覆盖近十米。只是这时引来的时间还是随机的，引之前很难判断它和这里的流速差多少。<span class="ch">第 2165、2167、2264–2265、2267、2343 章</span></p><p class="para" data-ch="2735">华瀚后来给他上了一课。不借道具，他能在周围千米左右任意引动时间，一次覆盖十米左右，华瀚却说他施展得还粗糙。徐获看出了华瀚的不同：几种流速的时间共处一地，几乎没有间隙，各自覆盖的范围都控制得很准，华瀚还能在其中自由行走，靠的是精准地给自己留出通道。华瀚的评语是：能引动时间力量还算不上操控，能让它按自己的想法落下才算。又跟着学了几天，他能把时间力量收在离身一米左右，这是大范围引动时间时，自己还能在其中行走的关键。华瀚也郑重告诫他：任何情况下都别被时间力量捕捉到，被高流速的时间贯穿，人就不再有主动性，只是被它裹挟的一粒沙尘。在有超维空间力量强控的分区，一定要避免引动高流速的时间，一旦受干扰，可能死在自己手上。<span class="ch">第 2732、2735 章</span></p><p class="para" data-ch="3165">到了白金之眼一战，他对时间的控制范围更大、也精细得多，已能布成防御带，挡住提箱人突然靠近。在华瀚的庄园里，他又开始同时控制几种流速完全不同的时间，只是几种一起用时，控制的范围会大大缩小。挑战岛的尸墙是一处特殊场地，他在那里也感觉到了曲线时间，拨动一具尸体上的曲线时间，那人死前的情形就完整重现；他沿着尸墙一段段回溯下去，看到武博士把一枚红色矿石钥匙丢在了那里。回溯过的那段曲线时间随即消失。<span class="ch">第 2923、3079–3080、3165 章</span></p><p class="para" data-ch="3263">曲线时间他真正握在手里，是在“你有一个选择”的星辰空间里。那里不时有曲线时间冒出来，所过之处，时间倒退几秒到十几秒。他在地上刻数字，记下它出现的时间和间隔，摸到了它起始时的动向，然后伸手一握，周围的一切倒流回去，他自己却没有丢失记忆。后来在冰山空间，他借空间震荡察觉到另一个空间，又一次抓住曲线时间，让时间倒回了三秒前。这两次都发生在副本里的特殊场地，不等于他能随时回到任意时刻。<span class="ch">第 3254–3255、3263 章</span></p><p class="para" data-ch="3269">星辰空间还让他学会了从不同方向引动时间。时间通常像雨一样自上而下贯穿整个空间，进化者能操控的最大范围，也就是能杀伤的范围；他让时间横过来，只要对方还在他的感知范围里，距离就不再是限制。时间一旦引出，仍会穿过整个空间，长度收束不了，也截不停。对手对付他的办法是超维空间仪器，这是装着更高维空间力量的仪器，能封锁时间进化。杜家用它封锁蓝鹭小岛时，他引来十几道时间力量穿透外围的屏障，时间射线随之变向、分散，乱飞的射线把杜家的人纷纷定住，他自己也有两次是靠游戏物品“引力场”才躲过。杜家人看出，他的时间力量和他们认识的时间进化不一样，在他们看来，就连卡门·菲尔德也不能随意改变时间力量的方向。<span class="ch">第 3257、3265、3268–3269 章</span></p><p class="para" data-ch="3284">回到 011 区，华瀚听说他能从不同方向引动时间，并不意外，只告诫他，每个超级进化者的路都不同，他要比别人更小心。华瀚又教他控制“时间共振”：引动一处的时间射线，带起周围射线同频震颤，能隔空破坏对时间敏感的道具，只是打击不分敌我，他很少用。照华瀚的说法，超维仪器的材料里有原生石“时间起点”，让封锁区里的时间射线震动起来，有一成机会毁掉仪器；后果他也说得直白，运气好，仪器原地熄火，运气差，就会满天乱飞，到时得跑快点。徐获担心共振会打破手指里水魔方和超维游丝的平衡，华瀚判断，以他现在的程度，还破坏不了水魔方的结构。<span class="ch">第 3283–3284 章</span></p><p class="para" data-ch="3284">到第 3284 章，徐获能在千米范围里不借道具引动时间，同时调用几种流速，让时间从不同方向落下，把人定住或使人瞬间衰老，也能借曲线时间在特殊场地里让周围倒流几秒。可他借来的仍是别处的时间，改变不了时间本身。引出的时间收不住长度，也截不停，超维仪器还能让它变向乱飞，反过来威胁他自己。几次关键的进步，靠的是“天使的眼睛”、时间盒子、时间塔这样的道具，南市、南瓜城、空间监狱、星辰空间这样的场地，以及白蔻和华瀚的指点。<span class="ch">第 2040、2732、3165、3257、3263、3265、3268、3284 章</span></p></div></article></section>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
+</main><script>
+(function () {
+  var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;
+  var box = doc.getElementById('wdzx-upto'), clear = doc.getElementById('wdzx-clear'), banner = doc.getElementById('wdzx-banner');
+  var status = doc.getElementById('wdzx-status'), note = doc.getElementById('wdzx-note');
+  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('max') || Infinity;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function valid(n) { return n >= 1 && n <= reach; }
+  if (root.classList.contains('local')) {   // the Datasette database exists only on this machine
+    var nav = doc.querySelector('.rail nav'), db = doc.createElement('a');
+    db.href = nav.dataset.db; db.textContent = '数据库'; nav.appendChild(db);
+  }
+  if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
+  var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
+  saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
+  if (saved) box.value = saved;   // the box is the reader's own chapter; a card's ?upto only widens what this page shows
+  function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function shown() { var n = current(); return query ? Math.max(n < Infinity ? n : 0, query) : n; }
+  function apply() {
+    var mine = current(), n = shown(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', mine < Infinity);
+    banner.hidden = chosen;
+    if (!off) {
+      doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
+      doc.querySelectorAll('[data-until]').forEach(function (el) {   // an earlier state: shown before that chapter only
+        el.classList.toggle('hidden', n >= +el.dataset.until || +(el.dataset.ch || 0) > n);
+      });
+      doc.querySelectorAll('[data-first]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.first > n); });
+      doc.querySelectorAll('.fgroup').forEach(function (g) { g.classList.toggle('hidden', !g.querySelector('[data-ch]:not(.hidden)')); });
+      doc.querySelectorAll('.fsection').forEach(function (s) {
+        s.classList.toggle('hidden', !!s.querySelector('[data-first]') && !s.querySelector('[data-first]:not(.hidden), article:not([data-first])'));
+      });
+      doc.querySelectorAll('.upto-full').forEach(function (el) {
+        var cut = n < +el.dataset.last; el.classList.toggle('hidden', cut); el.nextElementSibling.style.display = cut ? 'inline' : '';
+      });
+      doc.querySelectorAll('[data-asof]').forEach(function (el) { el.textContent = '截至第 ' + Math.min(n, +el.dataset.asof) + ' 章'; });
+    }
+    doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
+    doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
+    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
+      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
+    });
+    status.hidden = n === Infinity;
+    status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : n !== mine ? '按这张单元卡显示到第 ' + n + ' 章；' + (mine < Infinity ? '你的进度仍是第 ' + mine + ' 章。' : '你还没填进度，在页头填了章号后以它为准。')
+      : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
+  }
+  function changed() {
+    if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
+    var n = current();
+    put(KEY, n < Infinity ? String(n) : null);
+    if (n < Infinity) put(SEEN, '1');
+    query = 0;
+    if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
+    note.hidden = true; apply();
+  }
+  box.addEventListener('input', changed);
+  clear.addEventListener('click', function () { box.value = ''; changed(); });
+  banner.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.choice === 'fill') { box.focus(); return; }
+      if (b.dataset.choice === 'start' && valid(+b.dataset.chapter)) {
+        box.value = b.dataset.chapter; changed();
+        note.textContent = '还没开始读：先只显示到第 ' + b.dataset.chapter + ' 章，第一个副本结束的地方。读起来以后，在页头改成你读到的章就行。';
+        note.hidden = false; return;
+      }
+      put(SEEN, '1'); apply();
+    });
+  });
+  apply();
+  var hash = location.hash.slice(1);   // ids are percent-encoded names (person-%E7%94%B2), so try the hash as it is first
+  var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
+  if (target && !off && target.closest('.hidden')) {
+    var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
+    var upto = shown(), why = upto !== current() ? '按这张单元卡的章号（第 ' + upto + ' 章）' : '按你的进度（读到第 ' + upto + ' 章）';
+    note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
+    note.hidden = false; note.scrollIntoView();
+  } else if (target) { target.scrollIntoView(); }
+})();
+
+document.addEventListener('toggle', function (e) {
+  var d = e.target;
+  if (!d.open || d.tagName !== 'DETAILS' || d.classList.contains('src') || d.hasAttribute('data-fold')) return;
+  if (d.querySelector(':scope > button.fold-close') || d.getBoundingClientRect().height < window.innerHeight * 0.7) return;
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'fold-close'; b.textContent = '收起 ▲';
+  b.addEventListener('click', function () {
+    d.open = false;
+    var s = d.querySelector(':scope > summary') || d;
+    if (s.getBoundingClientRect().top < 0) s.scrollIntoView({block: 'start'});
+  });
+  d.appendChild(b);
+}, true);
+
+(function () {   // phones (step 7): the contents as a drawer, intros cut to three lines
+  var doc = document, root = doc.documentElement, small = window.matchMedia('(max-width:720px)');
+  var toc = doc.getElementById('toc') || doc.getElementById('jump');
+  if (toc) {
+    root.classList.add('has-toc');
+    var fab = doc.createElement('button'), back = doc.createElement('div'), filter = doc.createElement('input');
+    fab.type = 'button'; fab.className = 'toc-fab'; fab.textContent = '目录'; fab.setAttribute('aria-label', '目录');
+    var lastY = window.scrollY;   // scrolling down it steps aside, scrolling up it comes back (design review 2026-10-06)
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (y > lastY + 8 && y > 240) root.classList.add('fab-away'); else if (y < lastY - 8) root.classList.remove('fab-away');
+      lastY = y;
+    }, {passive: true});
+    back.className = 'toc-backdrop';
+    filter.type = 'search'; filter.className = 'toc-filter'; filter.placeholder = '在目录里找…';
+    toc.insertBefore(filter, toc.firstChild);
+    doc.body.appendChild(back); doc.body.appendChild(fab);
+    var open = function (on) { root.classList.toggle('toc-open', on); if (on && small.matches) filter.focus({preventScroll: true}); };
+    fab.addEventListener('click', function () { open(!root.classList.contains('toc-open')); });
+    back.addEventListener('click', function () { open(false); });
+    toc.addEventListener('click', function (e) { if (e.target.closest('a')) open(false); });
+    doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+    doc.querySelectorAll('a.totop').forEach(function (a) {   // on a phone it opens the contents, so it says so (GPT design review 2026-10-06)
+      a.textContent = '目录';
+      a.addEventListener('click', function (e) { if (small.matches) { e.preventDefault(); open(true); } });
+    });
+    filter.addEventListener('input', function () {   // names and data-keys (other names); a .find-only row shows only on a hit
+      var q = filter.value.replace(/\s/g, '');
+      toc.querySelectorAll('a').forEach(function (a) {
+        a.style.display = !q || (a.textContent + (a.dataset.keys || '')).replace(/\s/g, '').indexOf(q) >= 0 ? '' : 'none';
+      });
+      toc.querySelectorAll('.find-only').forEach(function (r) {
+        r.classList.toggle('found', !!q && Array.prototype.some.call(r.querySelectorAll('a'), function (a) { return a.style.display !== 'none'; }));
+      });
+    });
+  }
+  if (window.matchMedia('(max-width:640px)').matches) {
+    doc.querySelectorAll('.ticket-main > p.hint').forEach(function (p) {
+      if (p.scrollHeight < 90) return;
+      p.classList.add('clamped');
+      var b = doc.createElement('button');
+      b.type = 'button'; b.className = 'hint-more'; b.textContent = '展开说明';
+      b.addEventListener('click', function () { p.classList.remove('clamped'); b.remove(); });
+      p.after(b);
+    });
+  }
+})();
+
+(function () {   // a link into a closed fold opens the folds around its target first (design reviews 2026-10-06)
+  function openTo(id) {
+    var t = id && (document.getElementById(id) || document.getElementById(decodeURIComponent(id)));
+    for (var p = t && t.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a) openTo(a.getAttribute('href').slice(1));
+  }, true);
+  if (location.hash) openTo(location.hash.slice(1));
+  document.querySelectorAll('.graph, .growth').forEach(function (g) {   // a strip wider than the screen fades at its right edge
+    if (g.scrollWidth <= g.clientWidth + 2) return;
+    var check = function () { g.classList.toggle('at-end', g.scrollLeft + g.clientWidth >= g.scrollWidth - 4); };
+    g.classList.add('scroll-fade'); g.addEventListener('scroll', check, {passive: true}); check();
+  });
+})();
+</script></body></html>

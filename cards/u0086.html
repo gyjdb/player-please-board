@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>流浪的梅丽莎 · 单元卡 · 维度之下</title><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20x%3D%222%22%20y%3D%226%22%20width%3D%2228%22%20height%3D%2220%22%20rx%3D%223%22%20fill%3D%22%23d3a655%22/%3E%3Ccircle%20cx%3D%222%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ctext%20x%3D%2216%22%20y%3D%2221.5%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20text-anchor%3D%22middle%22%20fill%3D%22%2307080b%22%20font-family%3D%22serif%22%3E%E7%BB%B4%3C/text%3E%3C/svg%3E"><meta name="description" content="《玩家请上车》（海晏山 著）的读者整理：按单元写的梗概与解析，世界观、人物、地理、伏笔和道具库，可按读到的章数隐藏后文。"><meta name="theme-color" content="#07080b"><style>
+:root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
+  --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
+  --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC","Source Han Serif CN","Noto Serif CJK SC","STSong","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace;
+  --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
+:root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#85621f; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380;
+  --mind:#7650b0; --space:#17788a; --time:#b25f18; --gold:#a07a10; }
+/* what stays dark in the light theme keeps the dark accents */
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth, .emblem) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
+:root[data-theme="light"] .banner button.primary { color:#fff; }
+:root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
+  background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
+:root[data-theme="light"] body { background:var(--paper); }
+a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+/* a dense run of names (items in hand, rewards, the units a person is in): ink with a thin red line, not a wall of red (design review 2026-10-06) */
+.quiet a, a.quiet { color:var(--ink); border-bottom:1px solid var(--line); border-bottom-color:color-mix(in srgb, var(--signal) 32%, transparent); }
+.quiet a:hover, a.quiet:hover { color:var(--signal); text-decoration:none; border-bottom-color:var(--signal); }
+main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
+
+/* nav: the rail */
+.rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
+.rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; }
+@media (min-width:1100px) { .rail-inner { max-width:1060px; } }   /* brand, links, progress and switches on one line (2026-10-06) */
+.brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
+.brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.12em; margin-left:6px; }   /* so brand, links, progress and switches fit one line at 920px */
+.rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
+.rail nav a { color:var(--rail-muted); font-size:14px; padding:8px 8px; border-bottom:2px solid transparent; }
+.rail nav a.on, .rail nav a:hover { color:var(--rail-ink); border-bottom-color:var(--signal); text-decoration:none; }
+/* reading progress: one value for the whole site, set in the rail (localStorage wdzx.upto) */
+.rail .progress { margin-left:auto; display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--rail-muted); white-space:nowrap; }
+.rail .progress input { width:5.4em; background:transparent; color:var(--rail-ink); border:1px solid var(--rail-muted); border-radius:3px; padding:5px 6px; font:13px var(--mono); }
+.rail .progress input:invalid { border-color:var(--signal); }
+.has-progress .rail .progress input { border-color:var(--brass); color:var(--brass); }
+.rail .progress button { background:none; border:none; color:var(--rail-muted); font-size:17px; line-height:1; cursor:pointer; padding:4px 6px; }
+.banner { background:var(--card-2); border-bottom:1px solid var(--brass); }
+.banner-inner { max-width:920px; margin:0 auto; padding:10px 16px; font-size:14px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; }
+.banner-inner b { color:var(--brass); }
+.banner button { font:13px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:7px 12px; cursor:pointer; }
+.banner button.primary { background:var(--brass); color:var(--rail); border-color:var(--brass); }
+.progress-status { font-size:13px; color:var(--brass); margin:0 0 6px; }
+.progress-note { font-size:14px; color:var(--muted); margin:0 0 8px; }
+details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+@media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
+  .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
+.beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
+details.fold[data-fold][open] > summary { display:none; }   /* only the spoiler gate (hero 档案) drops its line once open */
+button.fold-close { display:block; margin:8px 0 2px; font:12.5px var(--sans); color:var(--muted); background:none; border:1px solid var(--line); border-radius:4px; padding:5px 12px; cursor:pointer; }
+button.fold-close:hover { color:var(--brass); border-color:var(--brass); }
+/* phones (step 7, 2026-10-06): one row of page links; intros cut to three lines; a page's contents (#toc, #jump) as
+   a drawer behind a 目录 button, with a filter; long CJK lines may break anywhere */
+button.toc-fab, .toc-backdrop { display:none; }
+input.toc-filter { display:block; width:100%; margin:2px 0 10px; }   /* the contents filter on wide screens too (2026-10-06); its look is the shared search box */
+nav.jump input.toc-filter { max-width:20em; margin:8px 0 6px; }
+.ticket-main p.premise { color:var(--ink); }
+@media (max-width:720px) {
+  html.has-toc button.toc-fab { display:block; position:fixed; right:14px; bottom:max(18px, env(safe-area-inset-bottom)); z-index:41; width:46px; height:46px;
+    padding:0; border:none; border-radius:50%; font-size:0; color:transparent; cursor:pointer; opacity:.94; box-shadow:0 4px 14px rgba(0,0,0,.35);
+    background:linear-gradient(#07080b,#07080b) 50% 16px / 18px 2px no-repeat, linear-gradient(#07080b,#07080b) 50% 22px / 18px 2px no-repeat,
+      linear-gradient(#07080b,#07080b) 50% 28px / 18px 2px no-repeat, #d3a655; transition:transform .2s ease, opacity .2s ease; }
+  html.fab-away:not(.toc-open) button.toc-fab { transform:translateY(90px); opacity:0; }
+  html.has-toc #toc, html.has-toc #jump { position:fixed !important; top:0; right:0; bottom:0; left:auto; width:min(86vw,360px);
+    max-height:none !important; margin:0; z-index:40; overflow:auto; overscroll-behavior:contain; background:var(--card);
+    border:none; border-left:1px solid var(--line); border-radius:0; padding:12px 16px 90px; transform:translateX(105%);
+    transition:transform .2s ease; box-shadow:-8px 0 24px rgba(0,0,0,.35); }
+  html.toc-open #toc, html.toc-open #jump { transform:none; }
+  html.toc-open .toc-backdrop { display:block; position:fixed; inset:0; z-index:39; background:rgba(0,0,0,.45); }
+  html.has-toc input.toc-filter { display:block; width:100%; margin:2px 0 10px; font-size:15px; min-height:40px; }
+}
+@media (max-width:640px) {
+  .rail nav { flex:1 1 100%; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+  .rail nav::-webkit-scrollbar { display:none; }
+  .rail nav a { flex:none; }
+  main { overflow-wrap:anywhere; }
+  .ticket-main p.hint.clamped { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:0; }
+  button.hint-more { background:none; border:none; color:var(--brass); font-size:12.5px; padding:2px 0 6px; cursor:pointer; }
+}
+[hidden] { display:none !important; }
+html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
+
+/* the 显示出处 and 浅色 switches */
+.toggle { position:absolute; opacity:0; pointer-events:none; }
+.switches { display:inline-flex; gap:8px; }
+.toggle-label { display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--rail-muted); border:1px solid #3a404b; border-radius:14px;
+  padding:4px 11px 4px 5px; cursor:pointer; user-select:none; }
+.toggle-label::before { content:""; flex:none; width:24px; height:14px; border-radius:7px; transition:background .15s;
+  background:radial-gradient(circle at 7px 50%, #8f897d 4px, transparent 4.6px), #262b33; }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail-ink); border-color:#8a7140; }
+#show-src:checked ~ .rail label[for="show-src"]::before, #theme-light:checked ~ .rail label[for="theme-light"]::before {
+  background:radial-gradient(circle at 17px 50%, #07080b 4px, transparent 4.6px), #d3a655; }
+#show-src:focus-visible ~ .rail label[for="show-src"], #theme-light:focus-visible ~ .rail label[for="theme-light"] { outline:2px solid #d3a655; outline-offset:2px; }
+html:not(.js) label[for="theme-light"] { display:none; }
+.ch, sup.cite, details.src, .src-only { display:none; }
+#show-src:checked ~ main .ch { display:inline-block; text-indent:0; }
+#show-src:checked ~ main sup.cite { display:inline; }
+#show-src:checked ~ main details.src { display:inline; }
+#show-src:checked ~ main .src-only { display:block; }
+#show-src:checked ~ main details.src[open], #show-src:checked ~ main details.src.block { display:block; }
+.ticket-stub.src-only { display:none; }
+#show-src:checked ~ main .ticket-stub.src-only { display:flex; }
+.ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
+sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
+details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--line); color:color-mix(in srgb, var(--ink) 80%, var(--muted)); font:14.5px/1.75 var(--serif); }
+cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
+
+/* headings and text */
+h1, h2, h3, h4 { font-family:var(--serif); }
+h2.sign { display:inline-block; font-size:20px; margin:34px 0 10px; padding:4px 14px; background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-bottom:2px solid var(--signal); border-radius:4px; letter-spacing:.12em; }
+h3 { font-size:19px; margin:26px 0 8px; padding-left:12px; border-left:4px solid var(--signal); }
+h4 { font-size:15px; margin:16px 0 4px; color:var(--brass); letter-spacing:.06em; }
+.note { color:var(--muted); font-size:14px; margin:4px 0; }
+.meta { color:var(--muted); font-size:13px; }
+ul { margin:0; padding-left:20px; } li { margin:6px 0; }
+.chipline { display:flex; flex-wrap:wrap; gap:6px 8px; margin:8px 0; }
+.chipline a, .chip { background:var(--chip); color:var(--ink); border-radius:3px; padding:1px 9px; font-size:13px; white-space:nowrap; }
+
+/* the ticket (page header of a unit card, index entries) */
+.ticket { display:flex; background:linear-gradient(135deg, var(--card-2), var(--card)); border:1px solid var(--line); border-radius:10px; margin:18px 0 8px; position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.ticket-main { flex:1; padding:18px 22px 16px; min-width:0; position:relative; }
+.ticket-stub { width:170px; padding:16px 18px; border-left:2px dashed var(--line); position:relative; display:flex; flex-direction:column; justify-content:center; gap:4px; }
+.ticket-stub::before, .ticket-stub::after { content:""; position:absolute; left:-11px; width:20px; height:20px; border-radius:50%; background:var(--paper); border:1px solid var(--line); }
+.ticket-stub::before { top:-11px; } .ticket-stub::after { bottom:-11px; }
+.kicker { font-size:12px; letter-spacing:.3em; color:var(--signal); }
+.ticket h1 { font-size:34px; margin:2px 0 4px; letter-spacing:.06em; }
+.route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
+.stub-row { font:12px var(--mono); color:var(--muted); }
+.stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+/* a page's counts read like the fields of a ticket stub: a small label over a big number (2026-10-06) */
+.ticket-stub.stats { gap:12px; }
+.ticket-stub.stats .stub-row:not(.src-only) { font:600 24px/1.05 var(--mono); color:var(--ink); }   /* figures in ink; gold kept for its few meanings */
+.ticket-stub.stats .stub-row:not(.src-only) b { display:block; font:500 11.5px/1.4 var(--sans); color:var(--muted); letter-spacing:.12em; margin:0 0 3px; }
+.ticket-stub.stats small { font:500 12px var(--sans); color:var(--muted); margin-left:4px; }
+a.stub-row { display:block; text-decoration:none; } a.stub-row:hover b { color:var(--brass); }   /* a count that jumps to its section */
+.stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
+  display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
+.stamp small { font-size:10px; margin-left:1px; }
+
+/* the dark system panel for text the game shows */
+.sys { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px; padding:10px 14px; margin:8px 0; font:14px/1.75 var(--serif); }
+.sys::before { content:"【系统】"; color:var(--brass); margin-right:4px; font-family:var(--sans); font-size:12px; letter-spacing:.1em; }
+.sys b { color:var(--brass); font:600 12px var(--sans); margin-right:6px; }
+
+/* grade badge */
+.grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
+  color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.dark-ink { color:#14100a; }
+.grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
+.tag { text-indent:0; display:inline-block; font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+/* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
+.seal { flex:none; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
+.seal.wide { font-size:14px; }
+.seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
+.seal.mid { color:var(--ink); } .seal.low { color:var(--muted); }
+.seal.none { width:34px; height:26px; border:1px dashed var(--line); border-radius:4px; transform:none; color:var(--muted); font:13px var(--sans); }
+:root[data-theme="light"] .seal.top { color:#a07a10; }
+/* the player panel, in the book's 【key：value】 lines */
+.syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
+  padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel .row > span { color:var(--rail-ink); font-weight:600; }
+.syspanel .v-rate { color:var(--brass); } .syspanel .grade { font-size:12px; height:20px; min-width:24px; vertical-align:1px; }   /* gold for evolution; a level in its colour */
+.evo-mind { color:var(--mind); } .evo-space { color:var(--space); } .evo-time { color:var(--time); }
+.syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
+@media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
+.upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已否定 (denied or refuted); settled points carry no tag */
+.tier { text-indent:0; display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+.tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
+.tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
+
+.hidden { display:none !important; }
+nav.pagenav { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0 6px; font-size:14px; }
+nav.pagenav > b { color:var(--muted); font-weight:400; font-size:13px; margin-right:2px; }
+nav.pagenav a { padding:3px 11px; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--ink); }
+nav.pagenav a:hover { border-color:var(--brass); color:var(--brass); text-decoration:none; }
+@media (min-width:721px) { nav.pagenav input.toc-filter { display:none; } }
+@media (max-width:720px) {
+  html.has-toc nav.pagenav { display:block; }
+  html.has-toc nav.pagenav > b { display:block; margin:0 0 6px; }
+  html.has-toc nav.pagenav a { display:block; border:none; border-bottom:1px solid var(--line); border-radius:0; background:none; padding:10px 2px; }
+}
+.totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
+@media (max-width:720px) { .totop { display:inline; } }
+footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
+@media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; }
+  .ticket-stub.stats { flex-direction:row; flex-wrap:wrap; justify-content:flex-start; gap:10px 26px; } .ticket-stub.stats .stub-row.src-only { flex-basis:100%; } }
+
+input[type=search] { font:14px var(--sans); color:var(--ink); background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2714%27%20height%3D%2714%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27round%27%3E%3Ccircle%20cx%3D%2710.5%27%20cy%3D%2710.5%27%20r%3D%276.5%27/%3E%3Cpath%20d%3D%27M20%2020l-4.6-4.6%27/%3E%3C/svg%3E") no-repeat 10px 50%;
+  border:1px solid var(--line); border-radius:6px; padding:6px 10px 6px 31px; min-height:34px; }
+input[type=search]::placeholder { color:var(--muted); }
+input[type=search]:focus, select:focus { outline:none; border-color:var(--brass); box-shadow:0 0 0 2px color-mix(in srgb, var(--brass) 25%, transparent); }
+select { appearance:none; -webkit-appearance:none; font:14px var(--sans); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2710%27%20height%3D%276%27%20viewBox%3D%270%200%2010%206%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M1%201l4%204%204-4%27/%3E%3C/svg%3E") no-repeat right 10px center; padding:6px 30px 6px 10px; min-height:34px; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary { list-style:none; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::-webkit-details-marker { display:none; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::before { content:""; display:inline-block; width:6px; height:6px; margin:0 9px 2px 2px; border-right:1.6px solid currentColor;
+  border-bottom:1.6px solid currentColor; transform:rotate(-45deg); transition:transform .15s ease; opacity:.7; vertical-align:middle; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more)[open] > summary::before { transform:rotate(45deg); margin-bottom:4px; }
+@media (max-width:640px) { .scroll-fade { -webkit-mask-image:linear-gradient(to right, #000 82%, transparent); mask-image:linear-gradient(to right, #000 82%, transparent); }
+  .scroll-fade.at-end { -webkit-mask-image:none; mask-image:none; } }
+p.graph-hint { display:none !important; }
+
+details.section-fold > summary { cursor:pointer; font:600 16px var(--serif); color:var(--muted); margin:14px 0 6px; letter-spacing:.04em; }
+details.section-fold[open] > summary { color:var(--ink); }
+.layer { margin:6px 0 18px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; display:flex; align-items:center; gap:4px 12px; }   /* a phone wraps the note, 收起 stays on the right */
+.layer > summary::-webkit-details-marker { display:none; }
+.layer > summary b { flex:none; display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { flex:1 1 auto; color:var(--muted); font-size:13px; }
+.layer > summary::after { content:"收起"; flex:none; color:var(--muted); font-size:12px; }
+.layer:not([open]) > summary::after { content:"展开"; }
+section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
+ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
+ul.people li:last-child { border-bottom:none; }
+.thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
+a.term { color:inherit; border-bottom:1px dotted var(--muted); text-decoration:none; } a.term:hover { color:var(--signal); border-bottom-color:var(--signal); }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; overflow-wrap:anywhere; }   /* a long name wraps in its column */
+ul.people li { display:grid; grid-template-columns:8.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+ul.people li > :not(.subject) { grid-column:2; }
+@media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
+.harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
+.harvest .h-rating { display:flex; align-items:center; gap:12px; font-size:15.5px; } .harvest .h-line { margin:6px 0; font-size:15.5px; }
+.stamp-seal { position:absolute; top:12px; right:16px; transform:scale(1.5); transform-origin:top right; }
+small.diff { font-size:11px; color:var(--muted); margin-left:4px; letter-spacing:0; }
+nav.units-nav { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+nav.units-nav a { display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 14px; color:var(--ink); }
+nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
+nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
+nav.units-nav small.after { color:var(--signal); }
+@media (max-width:640px) { nav.units-nav { grid-template-columns:1fr; gap:8px; } nav.units-nav b { font-size:15px; } nav.units-nav a { padding:8px 12px; }
+  nav.units-nav span.none { display:none; } }   /* a phone: one above the other, a long name on one or two lines (design review 2026-10-06) */
+details.about-src { margin:8px 0 2px; } details.about-src > summary { color:var(--muted); font-size:13px; }
+.graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
+@media (max-width:640px) { .graph-hint { display:block; } }
+p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
+details.src.block { margin:0 0 10px; } details.src.block > summary { margin-left:2em; }
+.graph { border:1px solid var(--line); border-radius:8px; margin:8px 0; background:var(--paper); overflow-x:auto; }
+@media (max-width:640px) { .graph svg { min-width:720px; } }
+.legend { display:flex; flex-wrap:wrap; gap:4px 14px; margin:6px 0 2px; font-size:13px; color:var(--muted); }
+.legend span { display:inline-flex; align-items:center; gap:6px; }
+.legend i { display:inline-block; width:22px; height:0; border-top:3px solid; }
+.legend i.dash { border-top-style:dashed; border-color:var(--muted); }
+svg { width:100%; height:auto; display:block; }
+svg .node circle { fill:var(--node); stroke:var(--paper); stroke-width:2; }
+svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:4px; }
+svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
+details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
+.links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
+.links a, .links > span { margin-right:12px; white-space:nowrap; }   /* a name with no item card is a span: same spacing */
+@media (max-width:640px) { .links a, .links > span { white-space:normal; } }   /* a long place name wraps on a phone (u0148) */
+.progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
+.hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+.ticket-main .lede { margin:12px 0 2px; font:500 17px/1.75 var(--serif); color:var(--ink); max-width:40em; }
+nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
+nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
+nav.arcs a:hover { color:var(--signal); }
+h4[id] { scroll-margin-top:16px; }
+</style></head>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，第一个副本结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到第一个副本结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
+<div class="ticket" id="card" data-first="1803" data-end="1887"><div class="ticket-main"><div class="stamp-seal"><span class="seal top" data-ch="1876" title="评级 S">S</span></div><div class="kicker">副本 · <span class="grade" style="background:#2f6fb5">B</span><small class="diff">副本难度</small></div>
+<h1>流浪的梅丽莎</h1><div class="route">第 1803 章 ──── 第 1887 章</div><div class="lede" data-ch="1803">徐获来到被黄沙与黑荆棘病逼向灭绝的010区，寻找近十年唯一的新生儿梅丽莎；这个失踪的孩子，被视为整个分区最后的希望。<span class="ch">第 1803 章</span></div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 3284 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="1803" hidden>这张卡从第 1803 章开始，在你填的进度之后，整张都是剧透。</p></div>
+<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0086</div><div class="stub-row"><b>句数</b>254</div>
+<div class="stub-row"><b>引用</b>4 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<details class="about-src meta"><summary>出处怎么核对</summary>每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</details><p class="meta src-only">撰写：claude-opus-5-5 (claude-code subagent)，读第 1803–1831 章正文后撰写前段；claude-opus-5-5 (claude-code subagent)，读第 1832–1862 章正文后续写中段；claude-opus-5-5 (claude-code subagent)，读第 1863–1887 章正文后续完全卡；2026-10-06 第六步由 gpt-6.1-sol（Codex，ultra）改写，原梗概折为逐幕复盘，Claude 写入核对；2026-10-06 逐幕复盘不再上页面，其中要紧的由 Claude 子代理（claude-opus-5-5）收进剧情梗概和解谜结构。</p>
+<nav class="units-nav top"><a class="prev" href="u0085.html"><small>← 上一单元</small><b>去 010 区（涌沙站）的 B 级列车（异种雨）</b><small>第 1797–1802 章</small></a><a class="next" href="u0087.html"><small>下一单元 →</small><b>去 011 区的列车（完美药剂与人头草原）</b><small>第 1888–1891 章</small><small class="after" data-beyond="1888" hidden>在你的进度之后</small></a></nav>
+<nav class="jump pagenav" id="jump" aria-label="本页目录"><b>本卡</b><a href="#harvest" data-ch="1887">收获</a><a href="#setup" data-ch="1803">规则</a><a href="#cast" data-ch="1867">人物</a><a href="#summary" data-ch="1804">梗概</a><a href="#puzzle" data-ch="1808">解谜</a><a href="#relations" data-ch="1819">关系</a><a href="#threads" data-ch="1863">伏笔</a><a href="#callbacks" data-ch="1811">承接前文</a><a href="#callbacks-more" data-ch="1810">更多承接</a><a href="#links">设定与道具</a></nav>
+<details class="layer" open><summary><b>概况</b><span>背景与规则、人物。写到第 1887 章，含结局。</span></summary><section id="harvest" class="harvest quiet" data-ch="1887"><h3>徐获的收获</h3><div class="h-rating"><span class="seal top" title="评级 S">S</span><span>评级：S 级<span class="ch">第 1876 章</span><details class="src"><summary>原文</summary><blockquote>因此您此次的评级为S<cite>第 1876 章</cite></blockquote></details></span></div><div class="h-line">找到梅丽莎并让她得到 010 区大部分玩家的认可、回归家园，评 S；这是越级打的 B 级副本，加上 C 级阶段的成绩，他由 C 级升为 B 级。<span class="ch">第 1876 章</span><details class="src"><summary>原文</summary><blockquote>合并此次越级B级副本获得的S级评级<cite>第 1876 章</cite></blockquote></details></div><div class="h-line">通关奖励：两次主要特性升级，“撰写的强度”升为“超强聚焦”，“遗忘开关”升为“记忆闪回”；A 级道具“其乐融融的氛围”、两件 B 级道具、50 份基因药剂、7 张车票、一百万白钞，药剂里一半以上是风险很高的特制基因药剂。<span class="ch">第 1876–1877 章</span><details class="src"><summary>原文</summary><blockquote>“撰写的强度”升级为“超强聚焦”<cite>第 1877 章</cite></blockquote><blockquote>升级后的名字为“记忆闪回”<cite>第 1877 章</cite></blockquote></details></div><div class="h-line">不到十个副本就升了级，另得一份升级礼包：A 级道具“打伞必下雨”、空间仪器“玻璃房子”、一次性道具“疾病诱发”、一份暂停玩家身份生效书、恒星医药集团商城权限和一张“鱼宴”的邀请函，行李舱扩大一百立方，借阅证和维度之下账号也升了级。<span class="ch">第 1876–1878 章</span><details class="src"><summary>原文</summary><blockquote>行李舱扩大了一百个立方<cite>第 1877 章</cite></blockquote></details></div><p class="links"><b>奖励</b><a href="../items.html#item-%E5%85%B6%E4%B9%90%E8%9E%8D%E8%9E%8D%E7%9A%84%E6%B0%9B%E5%9B%B4">其乐融融的氛围</a><a href="../items.html#item-%E6%89%93%E4%BC%9E%E5%BF%85%E4%B8%8B%E9%9B%A8">打伞必下雨</a><a href="../items.html#item-%E7%8E%BB%E7%92%83%E6%88%BF%E5%AD%90">玻璃房子</a><a href="../items.html#item-%E7%96%BE%E7%97%85%E8%AF%B1%E5%8F%91">疾病诱发</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
+<section id="setup" class="fgroup"><h3>背景与规则</h3>
+<ul class="items"><li data-ch="1803"><span class="text">“流浪的梅丽莎”是B级副本，可选择黑方或白方获取各自背景；徐获选白方，任务是找到梅丽莎并让她回家，时间不限，但须注意与出身分区的时间差。</span><span class="ch">第 1803 章</span><details class="src"><summary>原文</summary><blockquote>寻找“梅丽莎”并让其回家<cite>第 1803 章</cite></blockquote></details></li><li data-ch="1803"><span class="text">按白方背景，010区遭黄沙和异种群重创，黑荆棘病夺走居民的寿命与生育能力，梅丽莎是近十年唯一的新生儿。</span><span class="ch">第 1803 章</span></li><li data-ch="1808"><span class="text">梅丽莎在CK12遭袭后失踪，而该安全区两年前已经消失，原址与许多旧城一样埋在沙下。</span><span class="ch">第 1803、1805、1808 章</span></li><li data-ch="1823"><span class="text">010区幸存者分散在不同营地，沙海中心等主要安全区受外区玩家控制，搜寻孩子必须面对各安全区的隔阂与敌对。</span><span class="ch">第 1808、1820–1821、1823 章</span></li><li data-ch="1857"><span class="text">徐获后来从两名黑方玩家口中问出，他们的通关任务是杀死梅丽莎，双方寻找的是同一个孩子，目标却相反。</span><span class="ch">第 1857 章</span></li></ul>
+</section>
+<section id="cast" class="fgroup"><h3>人物</h3>
+<ul class="people"><li data-ch="1872"><b class="subject"><a href="../people.html?upto=1887#person-%E6%A8%8A%E4%BA%91%E9%B8%BF">樊云鸿</a></b><span class="text">独居七年的010区幸存者，随徐获离开老家，为最初寻找安全区提供线索。搬到明日安全区后遭遇沙海偷袭，临终在徐获的<a class="term" href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" title="精神力量能外放、干扰到别人时，以精神进化者为内核造出的“世界”。">精神世界</a>里看过外面的世界。</span><span class="ch">第 1803–1804、1871–1872 章</span></li><li data-ch="1870"><b class="subject"><a href="../people.html?upto=1887#person-%E9%82%93%E5%8D%9A%E5%A3%AB">邓博士</a></b><span class="text">身在月季花古堡的药剂研究者，提供乔伊斯的去向，并替徐获化验异种样本。仍在尝试接续黑荆棘药剂的研究，又提出把梅丽莎带出010区做实验。</span><span class="ch">第 1809、1811、1849、1866、1870 章</span></li><li data-ch="1885"><b class="subject">高大维</b><span class="text">护着常守节的010区年轻玩家，被徐获抓住后交代安全区情况，随后随队同行。最终来到收复后的沙海中心，接受常守节的托付，成为梅丽莎的保护人。</span><span class="ch">第 1815、1821、1824、1885 章</span></li><li data-ch="1887"><b class="subject">灯下黑</b><span class="text">寻找“东方灯塔”的外区B级玩家，认出徐获后倒戈，成为寻找梅丽莎和夺回沙海中心的帮手。最终通关灯塔副本，与小辉一同离开010区。</span><span class="ch">第 1818–1820、1884–1885、1887 章</span></li><li data-ch="1885"><b class="subject"><a href="../people.html?upto=1887#person-%E5%B8%B8%E5%AE%88%E8%8A%82">常守节</a></b><span class="text">已退出游戏的010区前玩家，掌握乔伊斯留下的暗号，也是寻找梅丽莎与追查编号异种的关键引路人。最终回到自己参与建造的沙海中心，把梅丽莎认作孩子，并将保护她的责任托给高大维。</span><span class="ch">第 1821、1823、1840、1866–1867、1870、1885 章</span></li><li data-ch="1887"><b class="subject">小辉（光辉使者）</b><span class="text">同做梅丽莎副本的外区年轻玩家，自称白方，加入徐获的搜寻队伍。与徐获同时通关，协助夺城后与灯下黑一同离开。</span><span class="ch">第 1828、1862–1863、1876、1885、1887 章</span></li><li data-ch="1887"><b class="subject"><a href="../people.html?upto=1887#person-%E7%B2%89%E5%A4%B4%E5%8F%91">粉头发</a></b><span class="text">因女友之死迁怒010区的外区玩家，在极地安全区滥杀并抢走假孩子，一度扬言杀光当地人。最终通关灯塔副本，放弃临走前继续杀人的打算，留下联络方式邀徐获以后合作。</span><span class="ch">第 1856、1861、1864、1883、1887 章</span></li><li data-ch="1867"><b class="subject"><a href="../people.html?upto=1887#person-%E4%B9%94%E4%BC%8A%E6%96%AF%E5%8D%9A%E5%A3%AB">乔伊斯博士</a></b><span class="text">恒星医药出身的药剂学博士，在CK12留下胚胎研究报告和寻找梅丽莎的暗号。已死，遗骸从实验室中被找到，他曾以自身实验追查黑荆棘病的病根，具体死因仍未查明。</span><span class="ch">第 1845、1854、1864、1866–1867 章</span></li><li data-ch="1887"><b class="subject">梅丽莎</b><span class="text">副本要寻找的新生儿，被放进地下休眠仓，携带遏制黑荆棘病的突变基因与致病缺陷，需要防护服保护。最终获010区玩家投票接纳，交由廖孝宜所在安全区抚养、其他安全区共同监督，徐获又给她留下护身仪器。</span><span class="ch">第 1868–1871、1875–1876、1887 章</span></li><li data-ch="1885"><b class="subject">廖孝宜</b><span class="text">明日安全区的负责人，坚持公开梅丽莎的真实情况，并主持是否留下、由谁抚养的投票。最终接过梅丽莎，又在沙海中心楼顶插旗，宣布安全区回归010区。</span><span class="ch">第 1871、1873–1876、1885 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、关键关系、伏笔与未解、承接前文、更多承接。写到第 1887 章，含全部剧透。</span></summary><section id="summary" class="fgroup"><h3>剧情梗概</h3>
+<nav class="arcs"><a href="#summary-1" data-ch="1804">从孩子找起</a><a href="#summary-2" data-ch="1824">被避而不谈的博士</a><a href="#summary-3" data-ch="1835">逼出隐藏的线索</a><a href="#summary-4" data-ch="1846">实验留下了什么</a><a href="#summary-6" data-ch="1848">拿假孩子寻找真人</a><a href="#summary-7" data-ch="1866">沙下的梅丽莎</a><a href="#summary-8" data-ch="1871">希望的边界</a><a href="#summary-9" data-ch="1874">让一个孩子回家</a><a href="#summary-10" data-ch="1879">夺回沙海</a><a href="#summary-11" data-ch="1887">临别所见</a></nav>
+<h4 id="summary-1" data-ch="1804">从孩子找起</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="1804">徐获在荒城遇到独居多年的樊云鸿，触发“流浪的梅丽莎”并选择白方；他答应带樊云鸿去安全区，先从梅丽莎失踪的CK12找起。<sup class="cite" title="本句未附原文">1803–1804</sup></span><span class="stmt" data-ch="1808">旧安全区大多已被黄沙吞没，沿着地图寻找没有结果，他转而接触仍活着的010区人。<sup class="cite" title="本句未附原文">1804–1808</sup></span><span class="stmt" data-ch="1810">地下商场里的老者为保护孩子，故意把年龄报大；最小的孩子即使用了邓博士送来的药剂，仍在徐获为他营造的庆典幻境之后死去。<sup class="cite" title="本句未附原文">1808–1810</sup></span><span class="stmt" data-ch="1811">药剂又带出一条线索。邓博士被逼着透露，他和同事来010区，是想查清黑荆棘病为何让人不能生育；团队里有人提过让正常人与<a class="term" href="../world.html#world-%E9%80%80%E5%8C%96" title="进化者适应不了进化，长出动物特征或身体机能逐渐丧失。">退化</a>者精卵交互，方案没获批准，在他看来这毫无底线。徐获问是否已有人这么做，邓博士没有否认，只说给药剂的朋友跟一名黑蛇刺青的玩家去了对方营地做实验。<sup class="cite" title="本句未附原文">1810–1811</sup></span></p>
+<h4 id="summary-2" data-ch="1824">被避而不谈的博士</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="1824">徐获循线在吃人玩家占据的安全区找到常守节。这名010区老玩家长期奔走，执意挽救家园，却在同胞中处处受冷待。<sup class="cite" title="本句未附原文">1817、1821、1823–1824</sup></span><span class="stmt" data-ch="1825">常守节只说那名恒星医药的研究员因缺少材料去了极地安全区，徐获便带他同行；途中结识的灯下黑、伍哥和卷耳，也在寻找各自副本的出口。<sup class="cite" title="本句未附原文">1820–1821、1824–1825</sup></span><span class="stmt" data-ch="1830">极地玩家口中的异种繁育实验，使徐获怀疑常守节与博士参与了突破人性底线的研究。<sup class="cite" title="本句未附原文">1829–1830</sup></span><span class="stmt" data-ch="1832">他暗中跟踪费先，听见元先生吩咐把找乔伊斯博士的人引去CK22。明知是被支开，他仍要去查，因为手里那枚编号芯片也可能出自早年带编号的安全区。<sup class="cite" title="本句未附原文">1830、1832</sup></span></p>
+<h4 id="summary-3" data-ch="1835">逼出隐藏的线索</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="1835">CK22没有博士的踪迹，反有外区玩家趁异种袭击偷袭队伍，伍哥一方死了一名同伴。<sup class="cite" title="本句未附原文">1832–1835</sup></span><span class="stmt" data-ch="1840">这伙人当夜又来邀众人入伙，徐获答应同行，任他们把自己当成肥羊；沙暴中他佯装落败，把常守节交到管他叫叔叔的高大维手中。<sup class="cite" title="本句未附原文">1835–1840</sup></span><span class="stmt" data-ch="1843">以为性命将尽的常守节终于托付遗愿，说出藏着乔伊斯定位器的地方，徐获救下两人后拿到了这件仪器。<sup class="cite" title="本句未附原文">1839–1840、1843</sup></span><span class="stmt" data-ch="1842">常守节也承认，博士曾利用退化人和异种尝试培育后代，辗转多处始终未成；徐获认为接纳过他们的安全区也可能参与，失败后才一同闭口不提。<sup class="cite" title="本句未附原文">1841–1842</sup></span><span class="stmt" data-ch="1843">定位器指向CK12，而博士最后停留的安全区恰在两年前消失，寻找博士的路重新回到了梅丽莎失踪的地方。<sup class="cite" title="本句未附原文">1843</sup></span></p>
+<h4 id="summary-4" data-ch="1846">实验留下了什么</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="1846">CK12实验室里只剩乔伊斯的工作证和几具难辨的尸骨，终端已被人取走，一件不旧的婴儿服让徐获怀疑这里有过孩子。<sup class="cite" title="本句未附原文">1845–1846</sup></span><span class="stmt" data-ch="1847">定位信号不在尸骨旁，而在城外的异种身上；徐获取出嵌在腿骨里的芯片，拿到博士的报告与留信。<sup class="cite" title="本句未附原文">1846–1847</sup></span><span class="stmt" data-ch="1849">这些异种能被容纳活人的道具收起，邓博士又验出它们原是孩子，博士的繁育实验并非全无成果。<sup class="cite" title="本句未附原文">1847、1849</sup></span></p>
+<p class="prose fgroup"><span class="stmt" data-ch="1854">后来解出的胚胎报告显示，博士用人造子宫培育退化人的卵子与正常人的精子，93号偶然突变出遏制黑荆棘病的基因，却同时带有容易致病的缺陷，无法稳定复制。<sup class="cite" title="本句未附原文">1854</sup></span></p>
+<h4 id="summary-6" data-ch="1848">拿假孩子寻找真人</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="1848">为了让知情人主动出现，徐获请小粉红帽伪装成带有异种特征的新生儿，并私下把真相告诉常守节。<sup class="cite" title="本句未附原文">1847–1848</sup></span><span class="stmt" data-ch="1851">常守节明知消息会引来杀戮，仍为假孩子作保；徐获以交出孩子为条件，要求各安全区找来CK12的幸存玩家。<sup class="cite" title="本句未附原文">1849–1851</sup></span><span class="stmt" data-ch="1858">沙海玩家与各方通关玩家随后卷入争夺。徐获从袭击孩子的人口中问出，黑方任务是杀死梅丽莎；找到的CK12知情人却站在沙海一方，还骂博士“应该给死在他实验中的010区人陪葬”。<sup class="cite" title="本句未附原文">1855–1858</sup></span><span class="stmt" data-ch="1858">一路同行的粉头发也趁乱毁楼滥杀，还抢走“孩子”拎上楼顶要挟众人。<sup class="cite" title="本句未附原文">1856、1858</sup></span><span class="stmt" data-ch="1861">瓦加击中假孩子后迟迟不能通关，骗局随之暴露；徐获救回装死的小粉红帽，承认自己用她作饵，仍没有得到真正孩子的下落。<sup class="cite" title="本句未附原文">1859–1861</sup></span><span class="stmt" data-ch="1861">常守节也将计就计，借这场混乱让同胞转头追杀沙海玩家。<sup class="cite" title="本句未附原文">1855、1858、1861</sup></span></p>
+<h4 id="summary-7" data-ch="1866">沙下的梅丽莎</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="1866">离开极地后，常守节点破徐获把旧编号芯片冒充博士遗物，是想另查编号异种；他仍拿沙海关押的活样本作筹码，不肯立即交出全部线索。<sup class="cite" title="本句未附原文">1863–1866</sup></span><span class="stmt" data-ch="1866">徐获把定位器指向的异种拿出来，邓博士确认它正是93号，常守节才承认自己与乔伊斯约有暗号。<sup class="cite" title="本句未附原文">1866</sup></span><span class="stmt" data-ch="1867">芯片里的视频随后解出。乔伊斯说，010区环境剧变时地下一种矿石起了变化，突来的大剂量放射元素才是黑荆棘病的病根，这种元素如今已经消散。他拿矿石模拟当年环境验证，自己也染上了病。<sup class="cite" title="本句未附原文">1866–1867</sup></span><span class="stmt" data-ch="1867">博士留信中的基因编码与休眠仓图纸，使两人锁定沙下的一条移动路线；徐获实测同类休眠仓的速度，推算位置，再扩大搜索。<sup class="cite" title="本句未附原文">1866–1867</sup></span><span class="stmt" data-ch="1870">搜索中众人又遇到沙海玩家，同行的曾兆死去；他们改往回找，终于挖出一座受污染的休眠仓，里面的女孩苏醒后，衣服标签上正印着“梅丽莎”。<sup class="cite" title="本句未附原文">1867–1870</sup></span></p>
+<h4 id="summary-8" data-ch="1871">希望的边界</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="1871">找到梅丽莎不等于找到了延续人口的办法：她保留部分退化人的特征，也携带遏制黑荆棘病的基因，徐获判断致病缺陷使她难以生育，连健康长大都需要精细防护。<sup class="cite" title="本句未附原文">1869–1871</sup></span><span class="stmt" data-ch="1871">邓博士主张把她带出010区当实验体，徐获却要先给孩子找一个能长期照顾她的归宿；常守节认下实验失败，推荐在同胞中有威望的廖孝宜。<sup class="cite" title="本句未附原文">1870–1871</sup></span><span class="stmt" data-ch="1872">他们赶去时，廖孝宜的明日安全区已遭报复性袭击，刚在那里落脚的樊云鸿失血濒死。<sup class="cite" title="本句未附原文">1871–1872</sup></span><span class="stmt" data-ch="1874">徐获用<a class="term" href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" title="精神力量能外放、干扰到别人时，以精神进化者为内核造出的“世界”。">精神世界</a>让他看了一次向往的外部生活，却没能救回这个自己带出荒城的人，随后赶往光耀安全区救出廖孝宜等人。<sup class="cite" title="本句未附原文">1872–1874</sup></span></p>
+<h4 id="summary-9" data-ch="1874">让一个孩子回家</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="1874">廖孝宜拒绝隐瞒梅丽莎不能繁衍的事实来凝聚人心：同胞有权知道真相，分区的出路可以继续找，孩子仍应被接纳。<sup class="cite" title="本句未附原文">1874</sup></span><span class="stmt" data-ch="1876">徐获担心她日后沦为实验体甚至食物，廖孝宜则坚持不能以虚假的希望耗掉整个分区的十年，两人把安置问题交给各安全区共同决定。<sup class="cite" title="本句未附原文">1874–1876</sup></span><span class="stmt" data-ch="1875">梅丽莎扑向每一个肯接住她的人，让久未见过孩子的玩家露出笑容；廖孝宜随后公开她的来历、身体缺陷和抚养代价。<sup class="cite" title="本句未附原文">1875</sup></span><span class="stmt" data-ch="1876">超过五分之四的玩家愿意养育她，第二轮投票选定廖孝宜的明日安全区，并由其他安全区定期探望、检查，防止孩子被当作实验品。<sup class="cite" title="本句未附原文">1876</sup></span><span class="stmt" data-ch="1876">梅丽莎拿了徐获的糖，却转身扑进廖孝宜怀里；获得多数010区玩家认可、回归家园后，徐获以S级通关并升为B级，小辉也完成了任务。<sup class="cite" title="本句未附原文">1876</sup></span></p>
+<h4 id="summary-10" data-ch="1879">夺回沙海</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="1879">通关后，徐获仍要去沙海寻找编号异种，也打算帮滞留玩家离开；010区众人则趁机筹划夺回被外区吃人玩家占据的安全区。<sup class="cite" title="本句未附原文">1879</sup></span><span class="stmt" data-ch="1883">他找到了一头活异种和追查来源的笔记，调查仍未指向幕后的人；粉头发在徐获劝说下，把对女友死亡的愤怒转向他认定拿010区做实验的游戏政府。<sup class="cite" title="本句未附原文">1881–1883</sup></span><span class="stmt" data-ch="1884">为完成灯下黑等人的“点亮东方的灯塔”，徐获让夺城与共同的旗帜成为象征，又散布010区掌握通关方法、出了A级玩家的消息，动摇外区玩家的斗志。<sup class="cite" title="本句未附原文">1882–1884</sup></span><span class="stmt" data-ch="1885">他穿上遮蔽身份与进化程度的套装冒充那名A级玩家，和同伴守住最高大楼；010区许诺不再追究愿意罢手的人，沙海一方逐渐失去支持。<sup class="cite" title="本句未附原文">1884–1885</sup></span><span class="stmt" data-ch="1885">廖孝宜最终登顶插旗，宣布沙海重归010区，灯下黑等人通关，夏哥带人逃走；梅丽莎与常守节也被接到这座夺回的城市。<sup class="cite" title="本句未附原文">1885</sup></span></p>
+<h4 id="summary-11" data-ch="1887">临别所见</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="1887">庆功时，徐获眼前短暂出现繁荣的城市与一名戴呼吸罩的女子，他怀疑自己预见了010区和梅丽莎的未来，但触发原因与景象是否可靠都未明。<sup class="cite" title="本句未附原文">1886–1887</sup></span><span class="stmt" data-ch="1887">离开前，他带梅丽莎散步，教她辨认危险，送上一条遇袭会展开屏障的仪器项链，随后用车票离开010区。<sup class="cite" title="本句未附原文">1887</sup></span></p>
+</section>
+<section id="puzzle" class="fgroup"><h3>解谜结构</h3>
+<h4 id="puzzle-1" data-ch="1846">乔伊斯留下的藏身路线</h4>
+<ul class="items"><li data-ch="1846"><b class="subject">谜面</b><span class="text">常守节始终没有说尽乔伊斯博士的下落，而CK12实验室只留下尸骨、胚胎和一件婴儿服，梅丽莎究竟被藏在哪里？</span><span class="ch">第 1843、1845–1846 章</span></li><li data-ch="1867"><b class="subject">线索</b><span class="text">常守节托付的定位器指向一头异种，腿骨里的芯片保存着博士留信，邓博士确认它是93号后，常守节把致病基因R-5FH的编码译成六个顺序坐标，并从视频角落的休眠仓图纸认出地下避难的约定。</span><span class="ch">第 1839、1843、1846–1847、1866–1867 章</span><details class="src"><summary>原文</summary><blockquote>编码应该就是提示，翻译过来可以代表六个有顺序的坐标<cite>第 1867 章</cite></blockquote></details></li><li data-ch="1869"><b class="subject">谜底</b><span class="text">徐获购买同类休眠仓实测沙下移动速度，估算两年间走到的路线区段，向前搜寻无果后往回查，终于用检测仪找到休眠仓，女孩苏醒后，衣领上的品牌名正是梅丽莎。</span><span class="ch">第 1867–1869 章</span></li></ul>
+<h4 id="puzzle-2" data-ch="1857">唯一的新生儿能否救010区</h4>
+<ul class="items"><li data-ch="1857"><b class="subject">谜面</b><span class="text">白方背景把梅丽莎称作010区的希望，黑方背景却说她的缺陷基因可能使010区灭种，这个孩子究竟能不能恢复同胞的生育能力？</span><span class="ch">第 1803、1857 章</span></li><li data-ch="1870"><b class="subject">线索</b><span class="text">博士的报告显示，人造子宫培育出了<a class="term" href="../world.html#world-%E9%80%80%E5%8C%96" title="进化者适应不了进化，长出动物特征或身体机能逐渐丧失。">退化</a>人的卵子与正常人的精子结合的胚胎，93号偶然产生遏制黑荆棘病的突变，却无法复制且携带致病缺陷，邓博士确认梅丽莎也带有同样的O9基因。</span><span class="ch">第 1854、1866、1870 章</span><details class="src"><summary>原文</summary><blockquote>她也携带着遏制黑荆棘病的O9基因<cite>第 1870 章</cite></blockquote></details></li><li data-ch="1871"><b class="subject">谜底</b><span class="text">徐获判断缺陷基因使梅丽莎很难孕育下一代，邓博士也认为她的父母与出生条件不可复制，她仍可能提供研制药剂的线索，但黑方所说的后代灭种只是需要长期验证的推论。</span><span class="ch">第 1870–1871 章</span></li></ul>
+<h4 id="puzzle-3" data-ch="1857">争抢孩子的人要什么</h4>
+<ul class="items"><li data-ch="1857"><b class="subject">谜面</b><span class="text">徐获宣称找到了随异种群流浪的新生儿，各方都来争抢，却有外区玩家直接攻击孩子，他们的通关目标为何不同？</span><span class="ch">第 1851、1856–1857 章</span></li><li data-ch="1857"><b class="subject">线索</b><span class="text">徐获实际让小粉红帽伪装成异种孩子，借消息引出原CK12玩家，又审问专门杀孩子的袭击者，查明白方须找到梅丽莎并让她回家，黑方则须杀死她。</span><span class="ch">第 1803、1847–1849、1851、1857 章</span></li><li data-ch="1861"><b class="subject">谜底</b><span class="text">瓦加射穿假新生儿后没有迎来通关，说明她不是黑方要杀的梅丽莎，小粉红帽其实只在装死，徐获救回她并公开骗局，确认引来的CK12知情人在沙海一方，仍未找到真孩子。</span><span class="ch">第 1857、1859–1861 章</span></li></ul>
+<h4 id="puzzle-4" data-ch="1808">梅丽莎怎样回家</h4>
+<ul class="items"><li data-ch="1808"><b class="subject">谜面</b><span class="text">CK12早已消失，任务却要求梅丽莎“回家”，只把她带回一个安全区是否就算完成？</span><span class="ch">第 1803、1808 章</span></li><li data-ch="1876"><b class="subject">线索</b><span class="text">徐获把通关关键转向同胞是否愿意接纳她，廖孝宜公开孩子难以承担繁衍希望、又需要昂贵照料的情况，仍有超过五分之四的玩家投票同意养育。</span><span class="ch">第 1871、1874–1876 章</span></li><li data-ch="1876"><b class="subject">谜底</b><span class="text">明日安全区获选抚养梅丽莎，其他安全区共同监督，孩子扑进廖孝宜怀里后徐获收到S级通关公告，确认“回家”完成于获得010区大部分玩家的认可。</span><span class="ch">第 1876 章</span><details class="src"><summary>原文</summary><blockquote>并让她获得了010区大部分玩家的认可，成功回归家园<cite>第 1876 章</cite></blockquote></details></li></ul>
+<h4 id="puzzle-5" data-ch="1846">没有灯塔的灯塔任务</h4>
+<ul class="items"><li data-ch="1846"><b class="subject">谜面</b><span class="text">灯下黑和伍哥等人的任务是“点亮东方的灯塔”，沙漠里却找不到实体灯塔，扶持精神领袖或寻找新生儿也没有给出确定答案。</span><span class="ch">第 1820、1825、1846 章</span></li><li data-ch="1883"><b class="subject">线索</b><span class="text">徐获认为梅丽莎难以承担恢复人口的希望，转而抓住沙海安全区对大部分安全区偏东、又是010区人共同心病的线索，提出以旗帜争夺凝聚注意，让夺城成为有象征意义的事件。</span><span class="ch">第 1870、1882–1883 章</span></li><li data-ch="1887"><b class="subject">谜底</b><span class="text">廖孝宜登上最高楼，插旗并宣布沙海安全区重归010区，灯下黑和卷耳等人随即通关，粉头发离开前也承认自己完成了同一个灯塔副本。</span><span class="ch">第 1885、1887 章</span></li></ul>
+</section>
+<section id="relations" class="fgroup"><h3>关键关系</h3>
+<p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-kill)"></i>杀死</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
+<p class="graph-hint">← 图较宽，可左右拖动 →</p><div class="graph"><svg viewBox="0 0 760 480" role="img" aria-label="关键关系图"><defs>
+<marker id="card-arrow-ally" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-ally)"/></marker>
+<marker id="card-arrow-enemy" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-enemy)"/></marker>
+<marker id="card-arrow-kill" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-kill)"/></marker>
+<marker id="card-arrow-other" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-other)"/></marker>
+</defs>
+<g class="edge" data-ch="1830"><title>邓博士 — 好友，收过对方给的药剂 — 乔伊斯博士（第 1809、1811、1830 章）</title><path d="M132.1,60 Q182.8,103.7 224.4,139.5" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="1819"><title>灯下黑 → 认出路人甲后倒戈相助 → 徐获（第 1818–1819 章）</title><path d="M554.1,145.2 Q522.3,213.2 495.6,270.3" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="1840"><title>高大维 — 叔侄相称，相依为命 — 常守节（第 1815、1821、1839–1840 章）</title><path d="M380.9,60 Q372.1,118.2 365.2,164.6" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="1866"><title>常守节 — 战友，定过三套暗号 — 乔伊斯博士（第 1821、1866 章）</title><path d="M363.4,176.5 Q298.4,161.9 245.2,149.9" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2"/></g>
+<g class="edge" data-ch="1866"><title>徐获 → 带在身边当信物，逼出乔伊斯留下的暗号 → 常守节（第 1822、1864、1866 章）</title><path d="M490.5,281.2 Q426.9,228.8 372.7,184.1" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="1851"><title>徐获 → 花一百一十万白钞请来扮新生儿 → 小粉红帽（第 1847、1851 章）</title><path d="M490.5,281.2 Q470.9,350.4 454.5,408.1" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="1860"><title>瓦加 → 当成新生儿射穿后背 → 小粉红帽（第 1859–1860 章）</title><path d="M531.2,420 Q491.2,419.8 463.2,419.7" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="1860"><title>徐获 → 困进塌楼，刺穿后切碎 → 瓦加（第 1860 章）</title><path d="M490.5,281.2 Q510.9,350.6 527.8,408.5" fill="none" style="stroke:var(--rel-kill)" stroke-width="2.2" marker-end="url(#card-arrow-kill)"/></g>
+<g class="edge" data-ch="1870"><title>乔伊斯博士 → 装进休眠仓埋入沙下 → 梅丽莎（第 1867、1870 章）</title><path d="M233.5,147.3 Q269.9,207.2 300.1,256.8" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="1876"><title>徐获 → 从沙下挖出，送还 010 区 → 梅丽莎（第 1868、1876 章）</title><path d="M490.5,281.2 Q398.4,274.1 318.3,268.0" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="1885"><title>常守节 → 认作自己的孩子 → 梅丽莎（第 1870、1885 章）</title><path d="M363.4,176.5 Q334.9,221.8 312.7,256.9" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="1885"><title>廖孝宜 → 接到明日安全区抚养 → 梅丽莎（第 1876、1885 章）</title><path d="M178.2,359.1 Q242.2,313.1 296.6,274.1" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<g class="edge" data-ch="1885"><title>廖孝宜 → 带 010 区玩家夺回 → 沙海安全区（第 1882、1885 章）</title><path d="M178.2,359.1 Q126.7,389.6 85.5,413.9" fill="none" style="stroke:var(--rel-enemy)" stroke-width="2.2" marker-end="url(#card-arrow-enemy)"/></g>
+<g class="edge" data-ch="1883"><title>徐获 → 劝把对 010 区的仇转向游戏政府 → 粉头发（第 1864、1883 章）</title><path d="M490.5,281.2 Q561.6,253.2 621.5,229.7" fill="none" style="stroke:var(--rel-other)" stroke-width="2.2" marker-end="url(#card-arrow-other)"/></g>
+<g class="edge" data-ch="1872"><title>徐获 → 带出荒城，临终陪在身边 → 樊云鸿（第 1803–1804、1872 章）</title><path d="M490.5,281.2 Q559.4,311.9 617.2,337.8" fill="none" style="stroke:var(--rel-ally)" stroke-width="2.2" marker-end="url(#card-arrow-ally)"/></g>
+<text x="182.8" y="107.7" class="elabel" style="fill:var(--rel-ally)" data-ch="1830">好友，收过对方给的药剂</text>
+<text x="522.3" y="217.2" class="elabel" style="fill:var(--rel-ally)" data-ch="1819">认出路人甲后倒戈相助</text>
+<text x="372.1" y="122.2" class="elabel" style="fill:var(--rel-ally)" data-ch="1840">叔侄相称，相依为命</text>
+<text x="294.9" y="181.5" class="elabel" style="fill:var(--rel-ally)" data-ch="1866">战友，定过三套暗号</text>
+<text x="460.0" y="239.3" class="elabel" style="fill:var(--rel-other)" data-ch="1866">带在身边当信物，逼出乔伊斯留下的暗号</text>
+<text x="470.9" y="354.4" class="elabel" style="fill:var(--rel-other)" data-ch="1851">花一百一十万白钞请来扮新生儿</text>
+<text x="491.1" y="449.8" class="elabel" style="fill:var(--rel-enemy)" data-ch="1860">当成新生儿射穿后背</text>
+<text x="518.2" y="379.6" class="elabel" style="fill:var(--rel-kill)" data-ch="1860">困进塌楼，刺穿后切碎</text>
+<text x="269.9" y="211.2" class="elabel" style="fill:var(--rel-other)" data-ch="1870">装进休眠仓埋入沙下</text>
+<text x="386.1" y="293.3" class="elabel" style="fill:var(--rel-ally)" data-ch="1876">从沙下挖出，送还 010 区</text>
+<text x="370.5" y="217.9" class="elabel" style="fill:var(--rel-ally)" data-ch="1885">认作自己的孩子</text>
+<text x="242.2" y="317.1" class="elabel" style="fill:var(--rel-ally)" data-ch="1885">接到明日安全区抚养</text>
+<text x="94.9" y="382.1" class="elabel" style="fill:var(--rel-enemy)" data-ch="1885">带 010 区玩家夺回</text>
+<text x="613.8" y="264.7" class="elabel" style="fill:var(--rel-other)" data-ch="1883">劝把对 010 区的仇转向游戏政府</text>
+<text x="536.3" y="323.2" class="elabel" style="fill:var(--rel-ally)" data-ch="1872">带出荒城，临终陪在身边</text>
+<g class="node" data-ch="1819"><circle cx="490.5" cy="281.2" r="13.3"/><text x="490.5" y="261.9" class="name">徐获</text></g>
+<g class="node" data-ch="1840"><circle cx="363.4" cy="176.5" r="12.0"/><text x="363.4" y="158.5" class="name">常守节</text></g>
+<g class="node" data-ch="1870"><circle cx="306.3" cy="267.1" r="12.0"/><text x="306.3" y="249.1" class="name">梅丽莎</text></g>
+<g class="node" data-ch="1830"><circle cx="233.5" cy="147.3" r="11.5"/><text x="233.5" y="129.8" class="name">乔伊斯博士</text></g>
+<g class="node" data-ch="1851"><circle cx="451.2" cy="419.6" r="10.8"/><text x="451.2" y="402.8" class="name">小粉红帽</text></g>
+<g class="node" data-ch="1860"><circle cx="531.2" cy="420" r="10.8"/><text x="531.2" y="403.2" class="name">瓦加</text></g>
+<g class="node" data-ch="1885"><circle cx="178.2" cy="359.1" r="10.8"/><text x="178.2" y="342.3" class="name">廖孝宜</text></g>
+<g class="node" data-ch="1830"><circle cx="132.1" cy="60" r="10.0"/><text x="132.1" y="44.0" class="name">邓博士</text></g>
+<g class="node" data-ch="1819"><circle cx="554.1" cy="145.2" r="10.0"/><text x="554.1" y="129.2" class="name">灯下黑</text></g>
+<g class="node" data-ch="1840"><circle cx="380.9" cy="60" r="10.0"/><text x="380.9" y="44.0" class="name">高大维</text></g>
+<g class="node" data-ch="1885"><circle cx="75.2" cy="420" r="10.0"/><text x="75.2" y="404.0" class="name">沙海安全区</text></g>
+<g class="node" data-ch="1883"><circle cx="632.7" cy="225.3" r="10.0"/><text x="632.7" y="209.3" class="name">粉头发</text></g>
+<g class="node" data-ch="1872"><circle cx="628.2" cy="342.7" r="10.0"/><text x="628.2" y="326.7" class="name">樊云鸿</text></g>
+</svg></div>
+<details class="rel"><summary>文字版</summary><ul class="items"><li data-ch="1830"><span class="text"><a href="../people.html?upto=1887#person-%E9%82%93%E5%8D%9A%E5%A3%AB">邓博士</a> — 好友，收过对方给的药剂 — <a href="../people.html?upto=1887#person-%E4%B9%94%E4%BC%8A%E6%96%AF%E5%8D%9A%E5%A3%AB">乔伊斯博士</a></span><span class="ch">第 1809、1811、1830 章</span></li><li data-ch="1819"><span class="text">灯下黑 → 认出路人甲后倒戈相助 → <a href="../people.html?upto=1887#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 1818–1819 章</span></li><li data-ch="1840"><span class="text">高大维 — 叔侄相称，相依为命 — <a href="../people.html?upto=1887#person-%E5%B8%B8%E5%AE%88%E8%8A%82">常守节</a></span><span class="ch">第 1815、1821、1839–1840 章</span></li><li data-ch="1866"><span class="text"><a href="../people.html?upto=1887#person-%E5%B8%B8%E5%AE%88%E8%8A%82">常守节</a> — 战友，定过三套暗号 — <a href="../people.html?upto=1887#person-%E4%B9%94%E4%BC%8A%E6%96%AF%E5%8D%9A%E5%A3%AB">乔伊斯博士</a></span><span class="ch">第 1821、1866 章</span></li><li data-ch="1866"><span class="text"><a href="../people.html?upto=1887#person-%E5%BE%90%E8%8E%B7">徐获</a> → 带在身边当信物，逼出乔伊斯留下的暗号 → <a href="../people.html?upto=1887#person-%E5%B8%B8%E5%AE%88%E8%8A%82">常守节</a></span><span class="ch">第 1822、1864、1866 章</span></li><li data-ch="1851"><span class="text"><a href="../people.html?upto=1887#person-%E5%BE%90%E8%8E%B7">徐获</a> → 花一百一十万白钞请来扮新生儿 → <a href="../people.html?upto=1887#person-%E5%B0%8F%E7%B2%89%E7%BA%A2%E5%B8%BD">小粉红帽</a></span><span class="ch">第 1847、1851 章</span></li><li data-ch="1860"><span class="text">瓦加 → 当成新生儿射穿后背 → <a href="../people.html?upto=1887#person-%E5%B0%8F%E7%B2%89%E7%BA%A2%E5%B8%BD">小粉红帽</a></span><span class="ch">第 1859–1860 章</span></li><li data-ch="1860"><span class="text"><a href="../people.html?upto=1887#person-%E5%BE%90%E8%8E%B7">徐获</a> → 困进塌楼，刺穿后切碎 → 瓦加</span><span class="ch">第 1860 章</span></li><li data-ch="1870"><span class="text"><a href="../people.html?upto=1887#person-%E4%B9%94%E4%BC%8A%E6%96%AF%E5%8D%9A%E5%A3%AB">乔伊斯博士</a> → 装进休眠仓埋入沙下 → 梅丽莎</span><span class="ch">第 1867、1870 章</span></li><li data-ch="1876"><span class="text"><a href="../people.html?upto=1887#person-%E5%BE%90%E8%8E%B7">徐获</a> → 从沙下挖出，送还 010 区 → 梅丽莎</span><span class="ch">第 1868、1876 章</span></li><li data-ch="1885"><span class="text"><a href="../people.html?upto=1887#person-%E5%B8%B8%E5%AE%88%E8%8A%82">常守节</a> → 认作自己的孩子 → 梅丽莎</span><span class="ch">第 1870、1885 章</span></li><li data-ch="1885"><span class="text">廖孝宜 → 接到明日安全区抚养 → 梅丽莎</span><span class="ch">第 1876、1885 章</span></li><li data-ch="1885"><span class="text">廖孝宜 → 带 010 区玩家夺回 → 沙海安全区</span><span class="ch">第 1882、1885 章</span></li><li data-ch="1883"><span class="text"><a href="../people.html?upto=1887#person-%E5%BE%90%E8%8E%B7">徐获</a> → 劝把对 010 区的仇转向游戏政府 → <a href="../people.html?upto=1887#person-%E7%B2%89%E5%A4%B4%E5%8F%91">粉头发</a></span><span class="ch">第 1864、1883 章</span></li><li data-ch="1872"><span class="text"><a href="../people.html?upto=1887#person-%E5%BE%90%E8%8E%B7">徐获</a> → 带出荒城，临终陪在身边 → <a href="../people.html?upto=1887#person-%E6%A8%8A%E4%BA%91%E9%B8%BF">樊云鸿</a></span><span class="ch">第 1803–1804、1872 章</span></li></ul></details>
+</section>
+<section id="threads" class="fgroup"><h3>伏笔与未解</h3>
+<ul class="items"><li data-ch="1867"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#364</span><span class="text">乔伊斯博士的具体死因、他为何未被CK12玩家带走，以及实验室终端被谁取走，仍未查明。</span><span class="ch">第 1845、1864、1866–1867 章</span></li><li data-ch="1863"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#363</span><span class="text">隐身跟踪者看见假孩子露出的异种小脚便追来，徐获觉得其恶意数字眼熟，而小辉又透露瓦加曾秘密出城，跟踪者是否就是瓦加仍未明说。</span><span class="ch">第 1844、1847、1849、1863 章</span></li><li data-ch="1887"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#361</span><span class="text">粉头发称女友并非死于沙海玩家之手，却未交代凶手，也没有承认杨老大之死出自自己之手，他留给徐获的合作邀约尚未落实。</span><span class="ch">第 1880、1883、1887 章</span></li><li data-ch="1882"><a class="thread-no" href="../threads.html?upto=1887#thread-318" title="伏笔总表">#318</a><span class="text">常守节怀疑CKX编号异种是被人为投放的，沙海玩家多年调查仍未找到源头，徐获虽取得活样本，投放者与目的依旧不明。</span><span class="ch">第 1848、1881–1882 章</span></li><li data-ch="1887"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#367</span><span class="text">徐获怀疑自己预见了010区和梅丽莎的未来，却无法重现那幅繁荣城市与高挑女子的景象，触发原因和女子身份仍不清楚。</span><span class="ch">第 1886–1887 章</span></li><li data-ch="1879"><a class="thread-no" href="../threads.html?upto=1887#thread-366" title="伏笔总表">#366</a><span class="text">升级礼包中的“鱼宴”邀请函是一张绘有循环吞鱼图案的特制车票，维度之下有人高价求购，宴会究竟是什么场合仍无说明。</span><span class="ch">第 1877、1879 章</span></li><li data-ch="1875"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#365</span><span class="text">邓博士正尝试接续乔伊斯的基因药剂研究，并提议带走梅丽莎做实验，药剂能否研制成功、他的提议是否会再被考虑仍未明。</span><span class="ch">第 1866–1867、1870–1871、1875 章</span></li></ul>
+</section>
+<section id="callbacks" class="fgroup"><h3>承接前文</h3>
+<ul class="items"><li data-ch="1882"><a class="thread-no" href="../threads.html?upto=1887#thread-318" title="伏笔总表">#318</a><span class="text">徐获沿智慧异种芯片的编号追到010区，最终从沙海玩家的调查笔记中找到线索，取走仍被圈养的编号异种。</span><span class="ch">第 1832、1848、1881–1882 章</span></li><li data-ch="1870"><a class="thread-no" href="../threads.html?upto=1887#thread-132" title="伏笔总表">#132</a><span class="text">邓博士将徐获带来的异种判作93号样本，开始比对乔伊斯留下的药剂，并在见到梅丽莎后提出把她带出010区研究。</span><span class="ch">第 1866、1870 章</span></li><li data-ch="1811"><a class="thread-no" href="../threads.html?upto=1887#thread-034" title="伏笔总表">#034</a><span class="text">邓博士承认曾随恒星医药调查黑荆棘病，又说团队提出过正常人与<a class="term" href="../world.html#world-%E9%80%80%E5%8C%96" title="进化者适应不了进化，长出动物特征或身体机能逐渐丧失。">退化</a>人的精卵交互实验，但方案未获批准。</span><span class="ch">第 1810–1811 章</span></li><li data-ch="1887"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#361</span><span class="text">粉头发在徐获劝说后把女友之死追责到游戏政府，通关灯塔副本后留下联络方式，提出日后可能与徐获合作。</span><span class="ch">第 1883、1887 章</span></li></ul>
+</section>
+<section id="callbacks-more" class="fgroup"><details class="section-fold"><summary>更多承接</summary>
+<ul class="items"><li data-ch="1810"><a class="thread-no" href="../threads.html?upto=1887#thread-318" title="伏笔总表">#318</a><span class="text">徐获向玉鸟市老者打听旧安全区，但老者对CKX开头的编号没有印象，指出灾难后的幸存者营地可能已经改名。</span><span class="ch">第 1810 章</span></li><li data-ch="1835"><a class="thread-no" href="../threads.html?upto=1887#thread-318" title="伏笔总表">#318</a><span class="text">徐获到CK22搜寻与芯片相似的编号，却只发现以当地安全区番号开头的异种骨骼编号。</span><span class="ch">第 1832、1835 章</span></li><li data-ch="1848"><a class="thread-no" href="../threads.html?upto=1887#thread-318" title="伏笔总表">#318</a><span class="text">据常守节回忆，CKX编号异种从第一次大规模异种潮便已出现，010区人曾给其他异种编号以混淆目标，取出的芯片却会在解析时自毁。</span><span class="ch">第 1848 章</span></li><li data-ch="1865"><a class="thread-no" href="../threads.html?upto=1887#thread-318" title="伏笔总表">#318</a><span class="text">常守节识破徐获把旧编号混入实验室线索，带众人找到CKW编号芯片，又以沙海中心仍有活样本与他谈条件。</span><span class="ch">第 1863–1865 章</span></li><li data-ch="1811"><a class="thread-no" href="../threads.html?upto=1887#thread-132" title="伏笔总表">#132</a><span class="text">邓博士在冬先生的逼问下交代黑荆棘药剂来自故友，并以故友曾投奔黑蛇刺青玩家的消息，给徐获提供了寻找乔伊斯的起点。</span><span class="ch">第 1809–1811 章</span></li><li data-ch="1866"><a class="thread-no" href="../threads.html?upto=1887#thread-132" title="伏笔总表">#132</a><span class="text">邓博士化验出那些<a class="term" href="../world.html#world-%E9%80%80%E5%8C%96" title="进化者适应不了进化，长出动物特征或身体机能逐渐丧失。">退化</a>样本都是人类孩子，又指出其中一份携带严重致病基因，徐获随后把乔伊斯的遗骸送给他研究。</span><span class="ch">第 1849、1854–1855、1866 章</span></li><li data-ch="1843"><a class="thread-no" href="../threads.html?upto=1887#thread-034" title="伏笔总表">#034</a><span class="text">徐获追问恒星医药是否参与摧毁010区、制造异种和黑荆棘病，以及乔伊斯留下是否出于愧疚，常守节没有正面回答。</span><span class="ch">第 1843 章</span></li><li data-ch="1881"><a class="thread-no" href="../threads.html?upto=1887#thread-034" title="伏笔总表">#034</a><span class="text">恒星医药商城售卖人造子宫、药用异种尸体及基因突变试用药，沙海调查笔记又圈出数处恒星实验室，使徐获怀疑废弃分区才是其异种实验场。</span><span class="ch">第 1878、1881 章</span></li><li data-ch="1847"><a class="thread-no" href="../threads.html?upto=1887#thread-081" title="伏笔总表">#081</a><span class="text">徐获再次通过“唤醒人偶”请出小粉红帽，以一百一十万<a class="term" href="../world.html#world-%E7%99%BD%E9%92%9E" title="游戏里的货币，印着“恒星公司虚拟货币”。">白钞</a>换她答应扮成异种模样的新生儿。</span><span class="ch">第 1847 章</span></li><li data-ch="1862"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#361</span><span class="text">粉头发跟入队伍后承认“死前遗愿”只是随口编造，又在极地安全区滥杀并企图当众毁掉新生儿，直到被卷耳强行带出城。</span><span class="ch">第 1837–1838、1843、1856、1861–1862 章</span></li></ul>
+</details></section><section id="links" class="fgroup"><h3>本单元涉及的设定、地点与道具</h3><p class="note">设定在世界观页，地点和势力在地理页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E7%BC%BA%E5%B8%AD%E5%89%AF%E6%9C%AC" data-ch="1825">每月必须下副本</a><a href="../world.html#world-%E9%9D%9E%E7%8E%A9%E5%AE%B6%E5%88%97%E8%BD%A6" data-ch="1840">非玩家的列车与暂停玩家身份</a><a href="../world.html#world-%E5%BC%82%E7%A7%8D%E5%8C%96" data-ch="1811">异种与异种化</a><a href="../world.html#world-%E7%89%B9%E6%80%A7" data-ch="1877">特性</a><a href="../world.html#world-D%E7%BA%A7%E6%9D%83%E9%99%90" data-ch="1876">升级与权限</a><a href="../world.html#world-%E8%8D%AF%E5%89%82" data-ch="1878">药剂</a></p><p class="links fgroup"><b>地点与势力</b><a href="../places.html#place-010%E5%8C%BA" data-ch="1803">C33-010 区</a><a href="../places.html#place-%E7%8E%89%E9%B8%9F%E5%B8%82" data-ch="1806">玉鸟市</a><a href="../places.html#place-%E6%9E%81%E5%9C%B0%E5%AE%89%E5%85%A8%E5%8C%BA" data-ch="1821">极地安全区</a><a href="../places.html#place-%E6%B2%99%E6%B5%B7%E5%AE%89%E5%85%A8%E5%8C%BA" data-ch="1808">沙海安全区（沙海中心）</a><a href="../places.html#place-%E6%98%8E%E6%97%A5%E5%AE%89%E5%85%A8%E5%8C%BA" data-ch="1853">明日安全区</a><a href="../places.html#place-%E5%85%89%E8%80%80%E5%AE%89%E5%85%A8%E5%8C%BA" data-ch="1872">光耀安全区</a><a href="../places.html#faction-%E6%81%92%E6%98%9F%E5%8C%BB%E8%8D%AF" data-ch="1810">恒星医药</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E5%94%A4%E9%86%92%E4%BA%BA%E5%81%B6" data-ch="1847">唤醒人偶</a></p></section></details>
+<nav class="units-nav bottom"><a class="prev" href="u0085.html"><small>← 上一单元</small><b>去 010 区（涌沙站）的 B 级列车（异种雨）</b><small>第 1797–1802 章</small></a><a class="next" href="u0087.html"><small>下一单元 →</small><b>去 011 区的列车（完美药剂与人头草原）</b><small>第 1888–1891 章</small><small class="after" data-beyond="1888" hidden>在你的进度之后</small></a></nav><script>
+(function () {
+  var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
+  var status = doc.getElementById('wdzx-status'), beyond = doc.querySelector('p.beyond'), box = doc.getElementById('wdzx-upto');
+  var layers = doc.querySelectorAll('details.layer'), peek = false;
+  var button = doc.createElement('button'); button.type = 'button'; button.className = 'peek';
+  button.addEventListener('click', function () {
+    if (peek) { box.dispatchEvent(new Event('input')); return; }   // the shared script puts the marks back and sends the event
+    peek = true;
+    doc.querySelectorAll('main .hidden').forEach(function (el) { el.classList.remove('hidden'); });
+    layers.forEach(function (d) { d.hidden = false; });
+    status.textContent = '已展开全部，含你进度之后的内容。'; button.textContent = '按进度收起'; status.appendChild(button);
+  });
+  doc.addEventListener('wdzx:progress', function (e) {
+    var n = e.detail, before = n < first, mid = !before && n < end;
+    peek = false;
+    if (beyond) beyond.hidden = true;
+    layers.forEach(function (d) { d.hidden = before; });
+    if (n === Infinity) return;
+    status.hidden = false;
+    if (before) status.textContent = '这张卡从第 ' + first + ' 章开始，在你的进度（第 ' + n + ' 章）之后，整张都是剧透，先收起了。';
+    else if (mid) status.textContent = '你读到第 ' + n + ' 章，这张卡写到第 ' + end + ' 章：之后的句子、评级和收获已藏起。';
+    else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
+    button.textContent = '仍然展开'; status.appendChild(button);
+  });
+  if (window.matchMedia('(max-width:640px)').matches) {   // a phone (design reviews 2026-10-06): the graph is wider than
+    doc.querySelectorAll('details.rel').forEach(function (d) { d.open = true; });   // the screen, so the list shows too,
+    doc.querySelectorAll('.graph').forEach(function (g) {   // and the strip starts at the busiest person, not the left edge
+      var svg = g.querySelector('svg'), best = null;
+      if (!svg || !svg.viewBox || !svg.viewBox.baseVal) return;
+      g.querySelectorAll('g.node circle').forEach(function (c) { if (!best || +c.getAttribute('r') > +best.getAttribute('r')) best = c; });
+      if (!best) return;
+      var scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width;
+      g.scrollLeft = Math.max(0, +best.getAttribute('cx') * scale - g.clientWidth / 2);
+    });
+  }
+})();
+</script>
+<footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
+</main><script>
+(function () {
+  var KEY = 'wdzx.upto', SEEN = 'wdzx.seen', doc = document, root = doc.documentElement;
+  var box = doc.getElementById('wdzx-upto'), clear = doc.getElementById('wdzx-clear'), banner = doc.getElementById('wdzx-banner');
+  var status = doc.getElementById('wdzx-status'), note = doc.getElementById('wdzx-note');
+  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('max') || Infinity;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function valid(n) { return n >= 1 && n <= reach; }
+  if (root.classList.contains('local')) {   // the Datasette database exists only on this machine
+    var nav = doc.querySelector('.rail nav'), db = doc.createElement('a');
+    db.href = nav.dataset.db; db.textContent = '数据库'; nav.appendChild(db);
+  }
+  if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
+  var saved = parseInt(get(KEY), 10), query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
+  saved = valid(saved) ? saved : 0; query = valid(query) ? query : 0;
+  if (saved) box.value = saved;   // the box is the reader's own chapter; a card's ?upto only widens what this page shows
+  function current() { var n = parseInt(box.value, 10); return valid(n) ? n : Infinity; }
+  function shown() { var n = current(); return query ? Math.max(n < Infinity ? n : 0, query) : n; }
+  function apply() {
+    var mine = current(), n = shown(), chosen = n < Infinity || get(SEEN) === '1';
+    root.classList.toggle('has-progress', mine < Infinity);
+    banner.hidden = chosen;
+    if (!off) {
+      doc.querySelectorAll('[data-ch]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.ch > n); });
+      doc.querySelectorAll('[data-until]').forEach(function (el) {   // an earlier state: shown before that chapter only
+        el.classList.toggle('hidden', n >= +el.dataset.until || +(el.dataset.ch || 0) > n);
+      });
+      doc.querySelectorAll('[data-first]').forEach(function (el) { el.classList.toggle('hidden', +el.dataset.first > n); });
+      doc.querySelectorAll('.fgroup').forEach(function (g) { g.classList.toggle('hidden', !g.querySelector('[data-ch]:not(.hidden)')); });
+      doc.querySelectorAll('.fsection').forEach(function (s) {
+        s.classList.toggle('hidden', !!s.querySelector('[data-first]') && !s.querySelector('[data-first]:not(.hidden), article:not([data-first])'));
+      });
+      doc.querySelectorAll('.upto-full').forEach(function (el) {
+        var cut = n < +el.dataset.last; el.classList.toggle('hidden', cut); el.nextElementSibling.style.display = cut ? 'inline' : '';
+      });
+      doc.querySelectorAll('[data-asof]').forEach(function (el) { el.textContent = '截至第 ' + Math.min(n, +el.dataset.asof) + ' 章'; });
+    }
+    doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
+    doc.querySelectorAll('details[data-fold]').forEach(function (d) { if (chosen) d.open = true; });
+    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
+      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
+    });
+    status.hidden = n === Infinity;
+    status.textContent = n === Infinity ? '' : off ? '你的进度是第 ' + n + ' 章；本页不按进度隐藏内容。'
+      : n !== mine ? '按这张单元卡显示到第 ' + n + ' 章；' + (mine < Infinity ? '你的进度仍是第 ' + mine + ' 章。' : '你还没填进度，在页头填了章号后以它为准。')
+      : '按你的进度显示到第 ' + n + ' 章，之后的内容已藏起。';
+    doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));
+  }
+  function changed() {
+    if (box.value && !valid(parseInt(box.value, 10))) return;   // wait for a chapter within the range
+    var n = current();
+    put(KEY, n < Infinity ? String(n) : null);
+    if (n < Infinity) put(SEEN, '1');
+    query = 0;
+    if (/[?&]upto=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);
+    note.hidden = true; apply();
+  }
+  box.addEventListener('input', changed);
+  clear.addEventListener('click', function () { box.value = ''; changed(); });
+  banner.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.choice === 'fill') { box.focus(); return; }
+      if (b.dataset.choice === 'start' && valid(+b.dataset.chapter)) {
+        box.value = b.dataset.chapter; changed();
+        note.textContent = '还没开始读：先只显示到第 ' + b.dataset.chapter + ' 章，第一个副本结束的地方。读起来以后，在页头改成你读到的章就行。';
+        note.hidden = false; return;
+      }
+      put(SEEN, '1'); apply();
+    });
+  });
+  apply();
+  var hash = location.hash.slice(1);   // ids are percent-encoded names (person-%E7%94%B2), so try the hash as it is first
+  var target = hash ? doc.getElementById(hash) || doc.getElementById(decodeURIComponent(hash)) : null;
+  if (target && !off && target.closest('.hidden')) {
+    var name = target.dataset.name || (target.querySelector('h3, h4') || target).textContent.trim();
+    var upto = shown(), why = upto !== current() ? '按这张单元卡的章号（第 ' + upto + ' 章）' : '按你的进度（读到第 ' + upto + ' 章）';
+    note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
+    note.hidden = false; note.scrollIntoView();
+  } else if (target) { target.scrollIntoView(); }
+})();
+
+document.addEventListener('toggle', function (e) {
+  var d = e.target;
+  if (!d.open || d.tagName !== 'DETAILS' || d.classList.contains('src') || d.hasAttribute('data-fold')) return;
+  if (d.querySelector(':scope > button.fold-close') || d.getBoundingClientRect().height < window.innerHeight * 0.7) return;
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'fold-close'; b.textContent = '收起 ▲';
+  b.addEventListener('click', function () {
+    d.open = false;
+    var s = d.querySelector(':scope > summary') || d;
+    if (s.getBoundingClientRect().top < 0) s.scrollIntoView({block: 'start'});
+  });
+  d.appendChild(b);
+}, true);
+
+(function () {   // phones (step 7): the contents as a drawer, intros cut to three lines
+  var doc = document, root = doc.documentElement, small = window.matchMedia('(max-width:720px)');
+  var toc = doc.getElementById('toc') || doc.getElementById('jump');
+  if (toc) {
+    root.classList.add('has-toc');
+    var fab = doc.createElement('button'), back = doc.createElement('div'), filter = doc.createElement('input');
+    fab.type = 'button'; fab.className = 'toc-fab'; fab.textContent = '目录'; fab.setAttribute('aria-label', '目录');
+    var lastY = window.scrollY;   // scrolling down it steps aside, scrolling up it comes back (design review 2026-10-06)
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (y > lastY + 8 && y > 240) root.classList.add('fab-away'); else if (y < lastY - 8) root.classList.remove('fab-away');
+      lastY = y;
+    }, {passive: true});
+    back.className = 'toc-backdrop';
+    filter.type = 'search'; filter.className = 'toc-filter'; filter.placeholder = '在目录里找…';
+    toc.insertBefore(filter, toc.firstChild);
+    doc.body.appendChild(back); doc.body.appendChild(fab);
+    var open = function (on) { root.classList.toggle('toc-open', on); if (on && small.matches) filter.focus({preventScroll: true}); };
+    fab.addEventListener('click', function () { open(!root.classList.contains('toc-open')); });
+    back.addEventListener('click', function () { open(false); });
+    toc.addEventListener('click', function (e) { if (e.target.closest('a')) open(false); });
+    doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+    doc.querySelectorAll('a.totop').forEach(function (a) {   // on a phone it opens the contents, so it says so (GPT design review 2026-10-06)
+      a.textContent = '目录';
+      a.addEventListener('click', function (e) { if (small.matches) { e.preventDefault(); open(true); } });
+    });
+    filter.addEventListener('input', function () {   // names and data-keys (other names); a .find-only row shows only on a hit
+      var q = filter.value.replace(/\s/g, '');
+      toc.querySelectorAll('a').forEach(function (a) {
+        a.style.display = !q || (a.textContent + (a.dataset.keys || '')).replace(/\s/g, '').indexOf(q) >= 0 ? '' : 'none';
+      });
+      toc.querySelectorAll('.find-only').forEach(function (r) {
+        r.classList.toggle('found', !!q && Array.prototype.some.call(r.querySelectorAll('a'), function (a) { return a.style.display !== 'none'; }));
+      });
+    });
+  }
+  if (window.matchMedia('(max-width:640px)').matches) {
+    doc.querySelectorAll('.ticket-main > p.hint').forEach(function (p) {
+      if (p.scrollHeight < 90) return;
+      p.classList.add('clamped');
+      var b = doc.createElement('button');
+      b.type = 'button'; b.className = 'hint-more'; b.textContent = '展开说明';
+      b.addEventListener('click', function () { p.classList.remove('clamped'); b.remove(); });
+      p.after(b);
+    });
+  }
+})();
+
+(function () {   // a link into a closed fold opens the folds around its target first (design reviews 2026-10-06)
+  function openTo(id) {
+    var t = id && (document.getElementById(id) || document.getElementById(decodeURIComponent(id)));
+    for (var p = t && t.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a) openTo(a.getAttribute('href').slice(1));
+  }, true);
+  if (location.hash) openTo(location.hash.slice(1));
+  document.querySelectorAll('.graph, .growth').forEach(function (g) {   // a strip wider than the screen fades at its right edge
+    if (g.scrollWidth <= g.clientWidth + 2) return;
+    var check = function () { g.classList.toggle('at-end', g.scrollLeft + g.clientWidth >= g.scrollWidth - 4); };
+    g.classList.add('scroll-fade'); g.addEventListener('scroll', check, {passive: true}); check();
+  });
+})();
+</script></body></html>

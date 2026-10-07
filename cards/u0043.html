@@ -1,18 +1,20 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>友谊天长地久 · 单元卡 · 维度之下</title><style>
+<title>友谊天长地久 · 单元卡 · 维度之下</title><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20x%3D%222%22%20y%3D%226%22%20width%3D%2228%22%20height%3D%2220%22%20rx%3D%223%22%20fill%3D%22%23d3a655%22/%3E%3Ccircle%20cx%3D%222%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ctext%20x%3D%2216%22%20y%3D%2221.5%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20text-anchor%3D%22middle%22%20fill%3D%22%2307080b%22%20font-family%3D%22serif%22%3E%E7%BB%B4%3C/text%3E%3C/svg%3E"><meta name="description" content="《玩家请上车》（海晏山 著）的读者整理：按单元写的梗概与解析，世界观、人物、地理、伏笔和道具库，可按读到的章数隐藏后文。"><meta name="theme-color" content="#07080b"><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
   --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
-  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC","Source Han Serif CN","Noto Serif CJK SC","STSong","SimSun",serif;
   --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
-  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace;
+  --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
-  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
-  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380; }
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#85621f; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380;
+  --mind:#7650b0; --space:#17788a; --time:#b25f18; --gold:#a07a10; }
 /* what stays dark in the light theme keeps the dark accents */
-:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
-  --line:#3a404b; --chip:#232830; }
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth, .emblem) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] .banner button.primary { color:#fff; }
 :root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
 * { box-sizing:border-box; }
@@ -21,11 +23,15 @@ body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
   background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
 :root[data-theme="light"] body { background:var(--paper); }
 a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+/* a dense run of names (items in hand, rewards, the units a person is in): ink with a thin red line, not a wall of red (design review 2026-10-06) */
+.quiet a, a.quiet { color:var(--ink); border-bottom:1px solid var(--line); border-bottom-color:color-mix(in srgb, var(--signal) 32%, transparent); }
+.quiet a:hover, a.quiet:hover { color:var(--signal); text-decoration:none; border-bottom-color:var(--signal); }
 main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 
 /* nav: the rail */
 .rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
 .rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; }
+@media (min-width:1100px) { .rail-inner { max-width:1060px; } }   /* brand, links, progress and switches on one line (2026-10-06) */
 .brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
 .brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.12em; margin-left:6px; }   /* so brand, links, progress and switches fit one line at 920px */
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
@@ -48,18 +54,54 @@ details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 @media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
   .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
 .beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
-details.fold[open] > summary { display:none; }
+details.fold[data-fold][open] > summary { display:none; }   /* only the spoiler gate (hero 档案) drops its line once open */
+button.fold-close { display:block; margin:8px 0 2px; font:12.5px var(--sans); color:var(--muted); background:none; border:1px solid var(--line); border-radius:4px; padding:5px 12px; cursor:pointer; }
+button.fold-close:hover { color:var(--brass); border-color:var(--brass); }
+/* phones (step 7, 2026-10-06): one row of page links; intros cut to three lines; a page's contents (#toc, #jump) as
+   a drawer behind a 目录 button, with a filter; long CJK lines may break anywhere */
+button.toc-fab, .toc-backdrop { display:none; }
+input.toc-filter { display:block; width:100%; margin:2px 0 10px; }   /* the contents filter on wide screens too (2026-10-06); its look is the shared search box */
+nav.jump input.toc-filter { max-width:20em; margin:8px 0 6px; }
+.ticket-main p.premise { color:var(--ink); }
+@media (max-width:720px) {
+  html.has-toc button.toc-fab { display:block; position:fixed; right:14px; bottom:max(18px, env(safe-area-inset-bottom)); z-index:41; width:46px; height:46px;
+    padding:0; border:none; border-radius:50%; font-size:0; color:transparent; cursor:pointer; opacity:.94; box-shadow:0 4px 14px rgba(0,0,0,.35);
+    background:linear-gradient(#07080b,#07080b) 50% 16px / 18px 2px no-repeat, linear-gradient(#07080b,#07080b) 50% 22px / 18px 2px no-repeat,
+      linear-gradient(#07080b,#07080b) 50% 28px / 18px 2px no-repeat, #d3a655; transition:transform .2s ease, opacity .2s ease; }
+  html.fab-away:not(.toc-open) button.toc-fab { transform:translateY(90px); opacity:0; }
+  html.has-toc #toc, html.has-toc #jump { position:fixed !important; top:0; right:0; bottom:0; left:auto; width:min(86vw,360px);
+    max-height:none !important; margin:0; z-index:40; overflow:auto; overscroll-behavior:contain; background:var(--card);
+    border:none; border-left:1px solid var(--line); border-radius:0; padding:12px 16px 90px; transform:translateX(105%);
+    transition:transform .2s ease; box-shadow:-8px 0 24px rgba(0,0,0,.35); }
+  html.toc-open #toc, html.toc-open #jump { transform:none; }
+  html.toc-open .toc-backdrop { display:block; position:fixed; inset:0; z-index:39; background:rgba(0,0,0,.45); }
+  html.has-toc input.toc-filter { display:block; width:100%; margin:2px 0 10px; font-size:15px; min-height:40px; }
+}
+@media (max-width:640px) {
+  .rail nav { flex:1 1 100%; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+  .rail nav::-webkit-scrollbar { display:none; }
+  .rail nav a { flex:none; }
+  main { overflow-wrap:anywhere; }
+  .ticket-main p.hint.clamped { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:0; }
+  button.hint-more { background:none; border:none; color:var(--brass); font-size:12.5px; padding:2px 0 6px; cursor:pointer; }
+}
 [hidden] { display:none !important; }
 html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* the 显示出处 and 浅色 switches */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
 .switches { display:inline-flex; gap:8px; }
-.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
-#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.toggle-label { display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--rail-muted); border:1px solid #3a404b; border-radius:14px;
+  padding:4px 11px 4px 5px; cursor:pointer; user-select:none; }
+.toggle-label::before { content:""; flex:none; width:24px; height:14px; border-radius:7px; transition:background .15s;
+  background:radial-gradient(circle at 7px 50%, #8f897d 4px, transparent 4.6px), #262b33; }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail-ink); border-color:#8a7140; }
+#show-src:checked ~ .rail label[for="show-src"]::before, #theme-light:checked ~ .rail label[for="theme-light"]::before {
+  background:radial-gradient(circle at 17px 50%, #07080b 4px, transparent 4.6px), #d3a655; }
+#show-src:focus-visible ~ .rail label[for="show-src"], #theme-light:focus-visible ~ .rail label[for="theme-light"] { outline:2px solid #d3a655; outline-offset:2px; }
 html:not(.js) label[for="theme-light"] { display:none; }
 .ch, sup.cite, details.src, .src-only { display:none; }
-#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main .ch { display:inline-block; text-indent:0; }
 #show-src:checked ~ main sup.cite { display:inline; }
 #show-src:checked ~ main details.src { display:inline; }
 #show-src:checked ~ main .src-only { display:block; }
@@ -69,7 +111,7 @@ html:not(.js) label[for="theme-light"] { display:none; }
 .ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
 sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
 details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
-blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--line); color:color-mix(in srgb, var(--ink) 80%, var(--muted)); font:14.5px/1.75 var(--serif); }
 cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
 
 /* headings and text */
@@ -95,6 +137,12 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 .route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
 .stub-row { font:12px var(--mono); color:var(--muted); }
 .stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+/* a page's counts read like the fields of a ticket stub: a small label over a big number (2026-10-06) */
+.ticket-stub.stats { gap:12px; }
+.ticket-stub.stats .stub-row:not(.src-only) { font:600 24px/1.05 var(--mono); color:var(--ink); }   /* figures in ink; gold kept for its few meanings */
+.ticket-stub.stats .stub-row:not(.src-only) b { display:block; font:500 11.5px/1.4 var(--sans); color:var(--muted); letter-spacing:.12em; margin:0 0 3px; }
+.ticket-stub.stats small { font:500 12px var(--sans); color:var(--muted); margin-left:4px; }
+a.stub-row { display:block; text-decoration:none; } a.stub-row:hover b { color:var(--brass); }   /* a count that jumps to its section */
 .stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
   display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
 .stamp small { font-size:10px; margin-left:1px; }
@@ -107,10 +155,11 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* grade badge */
 .grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.dark-ink { color:#14100a; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
-.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+.tag { text-indent:0; display:inline-block; font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
 /* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
-.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+.seal { flex:none; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
   border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
 .seal.wide { font-size:14px; }
 .seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
@@ -120,35 +169,66 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* the player panel, in the book's 【key：value】 lines */
 .syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
   padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
-.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel .row > span { color:var(--rail-ink); font-weight:600; }
+.syspanel .v-rate { color:var(--brass); } .syspanel .grade { font-size:12px; height:20px; min-width:24px; vertical-align:1px; }   /* gold for evolution; a level in its colour */
+.evo-mind { color:var(--mind); } .evo-space { color:var(--space); } .evo-time { color:var(--time); }
 .syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
 @media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
 .upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
-/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
-.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已否定 (denied or refuted); settled points carry no tag */
+.tier { text-indent:0; display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
 .tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 .tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
 
 .hidden { display:none !important; }
+nav.pagenav { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0 6px; font-size:14px; }
+nav.pagenav > b { color:var(--muted); font-weight:400; font-size:13px; margin-right:2px; }
+nav.pagenav a { padding:3px 11px; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--ink); }
+nav.pagenav a:hover { border-color:var(--brass); color:var(--brass); text-decoration:none; }
+@media (min-width:721px) { nav.pagenav input.toc-filter { display:none; } }
+@media (max-width:720px) {
+  html.has-toc nav.pagenav { display:block; }
+  html.has-toc nav.pagenav > b { display:block; margin:0 0 6px; }
+  html.has-toc nav.pagenav a { display:block; border:none; border-bottom:1px solid var(--line); border-radius:0; background:none; padding:10px 2px; }
+}
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
 @media (max-width:720px) { .totop { display:inline; } }
 footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
 @media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
-  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; }
+  .ticket-stub.stats { flex-direction:row; flex-wrap:wrap; justify-content:flex-start; gap:10px 26px; } .ticket-stub.stats .stub-row.src-only { flex-basis:100%; } }
 
+input[type=search] { font:14px var(--sans); color:var(--ink); background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2714%27%20height%3D%2714%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27round%27%3E%3Ccircle%20cx%3D%2710.5%27%20cy%3D%2710.5%27%20r%3D%276.5%27/%3E%3Cpath%20d%3D%27M20%2020l-4.6-4.6%27/%3E%3C/svg%3E") no-repeat 10px 50%;
+  border:1px solid var(--line); border-radius:6px; padding:6px 10px 6px 31px; min-height:34px; }
+input[type=search]::placeholder { color:var(--muted); }
+input[type=search]:focus, select:focus { outline:none; border-color:var(--brass); box-shadow:0 0 0 2px color-mix(in srgb, var(--brass) 25%, transparent); }
+select { appearance:none; -webkit-appearance:none; font:14px var(--sans); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2710%27%20height%3D%276%27%20viewBox%3D%270%200%2010%206%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M1%201l4%204%204-4%27/%3E%3C/svg%3E") no-repeat right 10px center; padding:6px 30px 6px 10px; min-height:34px; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary { list-style:none; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::-webkit-details-marker { display:none; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::before { content:""; display:inline-block; width:6px; height:6px; margin:0 9px 2px 2px; border-right:1.6px solid currentColor;
+  border-bottom:1.6px solid currentColor; transform:rotate(-45deg); transition:transform .15s ease; opacity:.7; vertical-align:middle; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more)[open] > summary::before { transform:rotate(45deg); margin-bottom:4px; }
+@media (max-width:640px) { .scroll-fade { -webkit-mask-image:linear-gradient(to right, #000 82%, transparent); mask-image:linear-gradient(to right, #000 82%, transparent); }
+  .scroll-fade.at-end { -webkit-mask-image:none; mask-image:none; } }
+p.graph-hint { display:none !important; }
+
+details.section-fold > summary { cursor:pointer; font:600 16px var(--serif); color:var(--muted); margin:14px 0 6px; letter-spacing:.04em; }
+details.section-fold[open] > summary { color:var(--ink); }
 .layer { margin:6px 0 18px; }
-.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; display:flex; align-items:center; gap:4px 12px; }   /* a phone wraps the note, 收起 stays on the right */
 .layer > summary::-webkit-details-marker { display:none; }
-.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
-.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
-.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer > summary b { flex:none; display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { flex:1 1 auto; color:var(--muted); font-size:13px; }
+.layer > summary::after { content:"收起"; flex:none; color:var(--muted); font-size:12px; }
 .layer:not([open]) > summary::after { content:"展开"; }
 section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
 ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
-.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
-ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+a.term { color:inherit; border-bottom:1px dotted var(--muted); text-decoration:none; } a.term:hover { color:var(--signal); border-bottom-color:var(--signal); }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; overflow-wrap:anywhere; }   /* a long name wraps in its column */
+ul.people li { display:grid; grid-template-columns:8.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
 ul.people li > :not(.subject) { grid-column:2; }
 @media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
 .harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
@@ -160,6 +240,9 @@ nav.units-nav a { display:flex; flex-direction:column; background:var(--card); b
 nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
 nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
 nav.units-nav small.after { color:var(--signal); }
+@media (max-width:640px) { nav.units-nav { grid-template-columns:1fr; gap:8px; } nav.units-nav b { font-size:15px; } nav.units-nav a { padding:8px 12px; }
+  nav.units-nav span.none { display:none; } }   /* a phone: one above the other, a long name on one or two lines (design review 2026-10-06) */
+details.about-src { margin:8px 0 2px; } details.about-src > summary { color:var(--muted); font-size:13px; }
 .graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
 @media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
@@ -176,68 +259,51 @@ svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-w
 svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
 details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 .links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
-.links a { margin-right:12px; white-space:nowrap; }
+.links a, .links > span { margin-right:12px; white-space:nowrap; }   /* a name with no item card is a span: same spacing */
+@media (max-width:640px) { .links a, .links > span { white-space:normal; } }   /* a long place name wraps on a phone (u0148) */
 .progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
 .hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+.ticket-main .lede { margin:12px 0 2px; font:500 17px/1.75 var(--serif); color:var(--ink); max-width:40em; }
 nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
 nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，第一个副本结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到第一个副本结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket" id="card" data-first="862" data-end="889"><div class="ticket-main"><div class="stamp-seal"><span class="seal top wide" data-ch="884" title="评级 SS">SS</span></div><div class="kicker">副本 · <span class="grade" style="background:#1f7f86">D</span><small class="diff">副本难度</small></div>
-<h1>友谊天长地久</h1><div class="route">第 862 章 ──── 第 889 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="862" hidden>这张卡从第 862 章开始，在你填的进度之后，整张都是剧透。</p></div>
-<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0043</div><div class="stub-row"><b>句数</b>68</div>
-<div class="stub-row"><b>引用</b>55 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 862–889 章正文后撰写。</p>
+<h1>友谊天长地久</h1><div class="route">第 862 章 ──── 第 889 章</div><div class="lede" data-ch="867">徐获化名余丛参加两两对抗的真人秀，赛制逼人互相坑害，他却必须找出副本认可的“纯洁友谊”才能通关。<span class="ch">第 863–865、867 章</span></div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 3284 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="862" hidden>这张卡从第 862 章开始，在你填的进度之后，整张都是剧透。</p></div>
+<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0043</div><div class="stub-row"><b>句数</b>96</div>
+<div class="stub-row"><b>引用</b>33 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<details class="about-src meta"><summary>出处怎么核对</summary>每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</details><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 862–889 章正文后撰写；2026-10-06 第六步由 Claude 子代理（claude-opus-5-5）改写（GPT 额度用完前第二波写成的两三张也在这批里，没有分开记录），原梗概折为逐幕复盘；2026-10-06 逐幕复盘不再上页面，其中要紧的由 Claude 子代理（claude-opus-5-5）收进剧情梗概和解谜结构。</p>
 <nav class="units-nav top"><a class="prev" href="u0042.html"><small>← 上一单元</small><b>去海上大世界的列车</b><small>第 855–861 章</small></a><a class="next" href="u0044.html"><small>下一单元 →</small><b>去 W37 基地站的列车</b><small>第 890–896 章</small><small class="after" data-beyond="890" hidden>在你的进度之后</small></a></nav>
-<details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。写到第 889 章，含结局。</span></summary><section id="overview" class="fgroup"><h3>一句话</h3>
-<ul class="items"><li data-ch="887"><span class="text">D 级副本“友谊天长地久”：徐获化名余丛，在两两对抗的真人秀里第二次超级进化，靠刘晓晓舍命相助拿到双 S、升为 C 级，又杀了暗算他的甘一，被烙上印记。</span><span class="ch">第 862、864、881、883–885、887 章</span></li><li data-ch="889"><span class="text">D 级副本，第 862–889 章。第 862 章前半还在列车上，第 884 章通关，第 885–889 章仍在友谊园里（杀甘一、结算、告别刘晓晓）。</span><span class="ch">第 862、884、889 章</span></li></ul>
-</section>
-<section id="harvest" class="harvest" data-ch="889"><h3>徐获的收获</h3><div class="h-rating"><span class="seal top wide" title="评级 SS">SS</span><span>评级：双 S（高于 S 的隐藏评级）<span class="ch">第 884 章</span><details class="src"><summary>原文</summary><blockquote>因此获得高于S超级评级的隐藏版评级双S评级<cite>第 884 章</cite></blockquote></details></span></div><div class="h-line">由 D 级升为 C 级。<span class="ch">第 884 章</span><details class="src"><summary>原文</summary><blockquote>可由D级玩家升至C级玩家<cite>第 884 章</cite></blockquote></details></div><div class="h-line">不会疲劳的双腿升为全能人才，好朋友来打分升为感情色彩。<span class="ch">第 888 章</span></div><div class="h-line">在友谊园植物园的压缩空间里完成空间向的第二次超级进化。<span class="ch">第 881 章</span><details class="src"><summary>原文</summary><blockquote>他开始了以掌握空间力量为方向的超级进化<cite>第 881 章</cite></blockquote></details></div><p class="links"><b>奖励</b><a href="../items.html#item-%E4%B8%89%E7%99%BE%E5%85%AD%E5%8D%81%E6%AC%A1%E9%98%B2%E5%BE%A1">三百六十次防御</a><a href="../items.html#item-%E5%8E%BB%E5%BE%80%E7%9B%AE%E7%9A%84%E5%9C%B0">去往目的地</a><a href="../items.html#item-%E6%89%AD%E5%8A%A8%E6%BB%91%E8%BD%AE">扭动滑轮</a><a href="../items.html#item-%E6%A0%BC%E5%A4%96%E9%AB%98%E6%B8%A9">格外高温</a><a href="../items.html#item-%E7%BB%85%E5%A3%AB%E7%9A%84%E5%A7%BF%E6%80%81">绅士的姿态</a><a href="../items.html#item-%E8%96%9B%E5%AE%9A%E8%B0%94%E7%9A%84%E5%B0%8F%E5%88%80">薛定谔的小刀</a><a href="../items.html#item-%E9%97%A8%E9%93%83">门铃</a></p><p class="links"><b>另外拿到</b><a href="../items.html#item-%E7%9F%AD%E5%89%91">短剑</a><a href="../items.html#item-%E4%B8%8D%E8%BF%9B%E5%88%99%E5%81%9C">不进则停</a><a href="../items.html#item-%E5%BF%83%E8%84%8F%E7%9A%84%E7%A9%BA%E7%BC%BA">心脏的空缺</a><a href="../items.html#item-%E6%8D%89%E8%BF%B7%E8%97%8F%E7%AB%8B%E6%9F%9C">捉迷藏立柜</a><a href="../items.html#item-%E6%B0%B8%E6%81%92%E7%83%99%E5%8D%B0">永恒烙印</a><a href="../items.html#item-%E7%94%9F%E6%AD%BB%E4%B9%8B%E5%8C%A3">生死之匣</a><a href="../items.html#item-%E7%B2%BE%E5%87%86%E5%91%BD%E4%B8%AD">精准命中</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
+<nav class="jump pagenav" id="jump" aria-label="本页目录"><b>本卡</b><a href="#harvest" data-ch="889">收获</a><a href="#setup" data-ch="863">规则</a><a href="#cast" data-ch="877">人物</a><a href="#summary" data-ch="863">梗概</a><a href="#puzzle" data-ch="865">解谜</a><a href="#relations" data-ch="877">关系</a><a href="#threads" data-ch="881">伏笔</a><a href="#callbacks" data-ch="881">承接前文</a><a href="#callbacks-more" data-ch="877">更多承接</a><a href="#links">设定与道具</a></nav>
+<details class="layer" open><summary><b>概况</b><span>背景与规则、人物。写到第 889 章，含结局。</span></summary><section id="harvest" class="harvest quiet" data-ch="889"><h3>徐获的收获</h3><div class="h-rating"><span class="seal top wide" title="评级 SS">SS</span><span>双 S（高于 S 的隐藏评级）<span class="ch">第 884 章</span><details class="src"><summary>原文</summary><blockquote>因此获得高于S超级评级的隐藏版评级双S评级<cite>第 884 章</cite></blockquote></details></span></div><div class="h-line">由 D 级升为 C 级。<span class="ch">第 884 章</span><details class="src"><summary>原文</summary><blockquote>可由D级玩家升至C级玩家<cite>第 884 章</cite></blockquote></details></div><div class="h-line">不会疲劳的双腿升为全能人才，好朋友来打分升为感情色彩。<span class="ch">第 888 章</span></div><div class="h-line">在友谊园植物园的压缩空间里完成空间向的第二次超级进化。<span class="ch">第 881 章</span><details class="src"><summary>原文</summary><blockquote>他开始了以掌握空间力量为方向的超级进化<cite>第 881 章</cite></blockquote></details></div><p class="links"><b>奖励</b><a href="../items.html#item-%E4%B8%89%E7%99%BE%E5%85%AD%E5%8D%81%E6%AC%A1%E9%98%B2%E5%BE%A1">三百六十次防御</a><a href="../items.html#item-%E5%8E%BB%E5%BE%80%E7%9B%AE%E7%9A%84%E5%9C%B0">去往目的地</a><a href="../items.html#item-%E6%89%AD%E5%8A%A8%E6%BB%91%E8%BD%AE">扭动滑轮</a><a href="../items.html#item-%E6%A0%BC%E5%A4%96%E9%AB%98%E6%B8%A9">格外高温</a><a href="../items.html#item-%E7%BB%85%E5%A3%AB%E7%9A%84%E5%A7%BF%E6%80%81">绅士的姿态</a><a href="../items.html#item-%E8%96%9B%E5%AE%9A%E8%B0%94%E7%9A%84%E5%B0%8F%E5%88%80">薛定谔的小刀</a><a href="../items.html#item-%E9%97%A8%E9%93%83">门铃</a></p><p class="links"><b>另外拿到</b><a href="../items.html#item-%E4%B8%8D%E8%BF%9B%E5%88%99%E5%81%9C">不进则停</a><a href="../items.html#item-%E5%BF%83%E8%84%8F%E7%9A%84%E7%A9%BA%E7%BC%BA">心脏的空缺</a><a href="../items.html#item-%E6%8D%89%E8%BF%B7%E8%97%8F%E7%AB%8B%E6%9F%9C">捉迷藏立柜</a><a href="../items.html#item-%E6%B0%B8%E6%81%92%E7%83%99%E5%8D%B0">永恒烙印</a><a href="../items.html#item-%E7%94%9F%E6%AD%BB%E4%B9%8B%E5%8C%A3">生死之匣</a><a href="../items.html#item-%E7%B2%BE%E5%87%86%E5%91%BD%E4%B8%AD">精准命中</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
 <section id="setup" class="fgroup"><h3>背景与规则</h3>
-<ul class="items"><li data-ch="863"><span class="text">副本设在海上大世界，一座经济超前、外来人口占多数的海岛城市，号称欢迎任何人来定居、共享友谊；任务是“获得友谊”，时间七天，备注“纯洁的友谊才能称为友谊”。</span><span class="ch">第 862–863 章</span><details class="src"><summary>原文</summary><blockquote>【副本任务：获得友谊。】<cite>第 863 章</cite></blockquote><blockquote>【备注：纯洁的友谊才能称为友谊。】<cite>第 863 章</cite></blockquote></details></li><li data-ch="865"><span class="text">场地是真人秀“你好我也好”的友谊园：一个银色方块拼成的室内广场，地板下是养着食人鱼和巨型变异鱼的海。参加者 381 人，大半是想拿到定居权的普通人，最后只选出一部分评分入围。</span><span class="ch">第 863–865 章</span><details class="src"><summary>原文</summary><blockquote>参加节目的人数也达到了前所未有的三百八十一<cite>第 863 章</cite></blockquote></details></li><li data-ch="864"><span class="text">三色对抗赛：随机配对的两人各选一只球，黑球是给队友选危险任务（75%），白球是较安全的任务（25%），黄球是和对方同难度（50%）；颜色不同时，由拿到更危险任务的那一方去做，相同则随机一人；两人都选黄球又都愿意，可以一起做一个白球任务。第一次选的难度就是以后的下限。</span><span class="ch">第 864 章</span><details class="src"><summary>原文</summary><blockquote>黑球代表为队友选择一个危险任务，白球代表为队友选择一个危险较低的任务<cite>第 864 章</cite></blockquote></details></li><li data-ch="867"><span class="text">广场上不许杀人：谁动手，脚下的地板就会打开，把他和周围的人一起扔进海里喂鱼。历险任务由海上大世界的孩子出题，场地有动物园、植物园、海洋馆、博物馆、标本室和手术室，任务中途不能弃权。</span><span class="ch">第 865、867 章</span><details class="src"><summary>原文</summary><blockquote>怎么能杀死自己未来的朋友呢<cite>第 865 章</cite></blockquote></details></li></ul>
+<ul class="items"><li data-ch="863"><span class="text">D级副本设在海岛城市海上大世界，任务是七天内“获得友谊”，备注写明纯洁的友谊才能称为友谊。</span><span class="ch">第 862–863 章</span><details class="src"><summary>原文</summary><blockquote>【备注：纯洁的友谊才能称为友谊。】<cite>第 863 章</cite></blockquote></details></li><li data-ch="865"><span class="text">场地是真人秀“你好我也好”的友谊园，地板下是养着食人鱼和变异鱼的海；三百八十一名参加者大半是想拿定居权的普通人，进去后只有友谊诞生才会开门。</span><span class="ch">第 863–865 章</span><details class="src"><summary>原文</summary><blockquote>友谊园只有在友谊诞生的时候才会重新打开<cite>第 864 章</cite></blockquote></details></li><li data-ch="864"><span class="text">每轮随机配对的两人隔着屏幕各选一球：黑球给队友选危险任务（75%），白球选较安全的任务（25%），黄球与对方同难度（50%）。</span><span class="ch">第 864 章</span><details class="src"><summary>原文</summary><blockquote>黑球代表为队友选择一个危险任务，白球代表为队友选择一个危险较低的任务<cite>第 864 章</cite></blockquote></details></li><li data-ch="864"><span class="text">颜色不同时由分到较高危险的一方去做，相同则随机一人；两人都选黄球又都愿意，可以一起做一个白球任务；以后每轮的选择都不得低于第一次的危险程度。</span><span class="ch">第 864 章</span></li><li data-ch="867"><span class="text">广场上不许杀人，动手者脚下的地板会打开，连同周围的人一起扔进海里；历险任务由本地孩子出题，中途不能弃权。</span><span class="ch">第 865、867 章</span></li><li data-ch="882"><span class="text">第四轮起改由先抽到的人自己挑队友，没人愿意与之组队的，由节目随机指派。</span><span class="ch">第 882 章</span></li></ul>
 </section>
-<section id="cast" class="fgroup"><h3>登场人物</h3>
-<p class="note">按出场先后。</p>
-<ul class="people"><li data-ch="884"><b class="subject"><a href="../people.html?upto=889#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲，化名余丛）</b><span class="text">化名余丛，一次次选白球示好；在植物园里第二次超级进化，靠刘晓晓的舍命相救拿到双 S，升为 C 级。</span><span class="ch">第 864、881、884 章</span><details class="src"><summary>原文</summary><blockquote>徐获在上面写下了“余丛”<cite>第 864 章</cite></blockquote></details></li><li data-ch="881"><b class="subject"><a href="../people.html?upto=889#person-%E8%82%96%E5%90%91%E6%9E%97">肖向林</a></b><span class="text">在车站兜售药剂的玩家，报名用的是真名“肖永”；第二轮和队友进去做整容任务后没再回来。</span><span class="ch">第 864、881 章</span><details class="src"><summary>原文</summary><blockquote>余光扫到旁边肖向林写下的却是“肖永”<cite>第 864 章</cite></blockquote></details></li><li data-ch="873"><b class="subject"><a href="../people.html?upto=889#person-%E6%B8%B8%E5%9B%9B">游四</a></b><span class="text">戒酒戒到烟瘾上身的玩家，为了要孩子在戒酒；话多但仗义。</span><span class="ch">第 872–873 章</span></li><li data-ch="877"><b class="subject">沙加</b><span class="text">爱打坐的玩家，精神向超级进化过，在车上救过蒲东海一车厢的人；第一轮黑球任务五分钟就回来了。</span><span class="ch">第 871、877 章</span></li><li data-ch="887"><b class="subject"><a href="../people.html?upto=889#person-%E5%BA%84%E6%A2%A6%E7%94%9C">庄梦甜</a></b><span class="text">车上那个挑事的漂亮女玩家，职业是催眠师，手表是她的催眠道具；和甘一联手暗算徐获。</span><span class="ch">第 864、876、887 章</span></li><li data-ch="887"><b class="subject"><a href="../people.html?upto=889#person-%E7%94%98%E4%B8%80">甘一</a></b><span class="text">断了两根手指的玩家，职业是超市老板，C 级；自称圣剑会的人，一心要杀徐获。</span><span class="ch">第 864、886–887 章</span></li><li data-ch="877"><b class="subject">刘晓晓</b><span class="text">和同性伴侣一起来的普通人，老家的国家经历过两次屠杀，女性被逼着一再生育；伴侣第一轮就死了。</span><span class="ch">第 863、877 章</span></li><li data-ch="888"><b class="subject">雨衣男</b><span class="text">满脸伤疤、长发遮眼的雨衣男，不爱跟人接触；最后特意告诉徐获，甘一不是圣剑会的人。</span><span class="ch">第 872、888 章</span></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、人物结局、承接前文、关键关系、伏笔与未解。写到第 889 章，含全部剧透。</span></summary><section id="story" class="fgroup"><h3>剧情梗概</h3>
-<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
-<nav class="arcs"><a href="#story-1" data-ch="862">一、到站（第 862–864 章）</a><a href="#story-2" data-ch="866">二、第一轮（第 865–871 章）</a><a href="#story-3" data-ch="874">三、第一夜（第 872–875 章）</a><a href="#story-4" data-ch="876">四、第二轮（第 875–878 章）</a><a href="#story-5" data-ch="880">五、植物园里的空间（第 878–881 章）</a><a href="#story-6" data-ch="883">六、双 S（第 882–884 章）</a><a href="#story-7" data-ch="885">七、甘一（第 885–887 章）</a><a href="#story-8" data-ch="888">八、结算与告别（第 888–889 章）</a></nav>
-<h4 id="story-1" data-ch="862">一、到站（第 862–864 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="862">列车上最后一夜，徐获躲进空车厢里的 101 号紧急避难才睡了个安稳觉；天亮只剩四个人活着，列车没停就把他送上了开往海上大世界的观光车。<sup class="cite" title="第862章：便将将“101号紧急避难”放置在车厢内">862</sup></span><span class="stmt" data-ch="864">车上的普通人大多是报名来“搏一把”的，刘晓晓和她的伴侣就是为了逃离家乡。到了友谊园，主持人宣布这次改为随机配对，想退出的人已经出不去了。<sup class="cite" title="第864章：友谊园只有在友谊诞生的时候才会重新打开">863–864</sup></span><span class="stmt" data-ch="864">徐获报名写的是“余丛”；同车来的游四、庄梦甜、甘一、沙加、蒲东海也都在。<sup class="cite" title="第864章：先后看到了游四和女玩家庄梦甜，断指玩家甘一和打坐玩家沙加">864</sup></span></p><details class="src block fgroup"><summary>本段原文 3 处</summary><blockquote data-ch="862">便将将“101号紧急避难”放置在车厢内<cite>第 862 章</cite></blockquote><blockquote data-ch="864">友谊园只有在友谊诞生的时候才会重新打开<cite>第 864 章</cite></blockquote><blockquote data-ch="864">先后看到了游四和女玩家庄梦甜，断指玩家甘一和打坐玩家沙加<cite>第 864 章</cite></blockquote></details>
-<h4 id="story-2" data-ch="866">二、第一轮（第 865–871 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="866">轮空的人刚被围着恭喜就被人割了喉，动手的玩家和周围几个人随即连地板一起掉进海里，被巨型变异鱼杀死。第一组 73 号说好选白球却改了黄球，164 号临时换成黑球，73 号在植物园里被巨蟒吞了。<sup class="cite" title="第865章：那名轮空的人脖子上鲜血喷溅">865–866</sup></span><span class="stmt" data-ch="869">徐获和队友 64 号都选白球，抽中他去动物园做“爬虫鉴赏”：斩了巨蟒，放翻蜥蜴，收了一条四眼红蛇，又用拔牙吓服了一群会钓鱼的白猴，让它们带路去找出口。<sup class="cite" title="第867章：他抽取的地点是动物园，任务是爬虫鉴赏；第869章：一分钟后，徐获牵着一串吃糖的猴子去找舱门">867–869</sup></span><span class="stmt" data-ch="871">路上遇到的女玩家嫌同伴想甩掉自己，当场捏断了她的脖子；几人在舱门前又被一个抢道的玩家暗算。徐获第二个回到广场，游四第三个。沙加和同组的 29 号说好一起选黄球，对方临时换成黑球，于是沙加被扔上手术台当“被手术者”，醒来削掉了一屋医生的脑袋，五分钟就回来了。<sup class="cite" title="第871章：沙加这边是黄球，对面却换成了黑球；第871章：被舱体送走的沙加不到五分钟又回到了广场上">869–871</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="866">那名轮空的人脖子上鲜血喷溅<cite>第 865 章</cite></blockquote><blockquote data-ch="869">他抽取的地点是动物园，任务是爬虫鉴赏<cite>第 867 章</cite></blockquote><blockquote data-ch="869">一分钟后，徐获牵着一串吃糖的猴子去找舱门<cite>第 869 章</cite></blockquote><blockquote data-ch="871">沙加这边是黄球，对面却换成了黑球<cite>第 871 章</cite></blockquote><blockquote data-ch="871">被舱体送走的沙加不到五分钟又回到了广场上<cite>第 871 章</cite></blockquote></details>
-<h4 id="story-3" data-ch="874">三、第一夜（第 872–875 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="874">甘一拿出“运势牌”想暗算徐获，徐获和沙加联手反制，三人在精神世界里过了一招——三个人都是精神向超级进化。游四怀疑车上砍人头的是庄梦甜。<sup class="cite" title="第873章：“运势牌。”甘一拿出一副扑克牌大小的金色牌；第874章：老实说我怀疑在车上砍人头的就是她">873–874</sup></span><span class="stmt" data-ch="875">第一轮过后还剩 297 人。夜里友谊园只熄了灯，没人管他们。徐获问肖向林愿不愿做朋友，两人都答应了，还是没通关——友谊不是说说就算。<sup class="cite" title="第875章：“很遗憾，没通关。”徐获不怎么意外地说">874–875</sup></span></p><details class="src block fgroup"><summary>本段原文 3 处</summary><blockquote data-ch="874">“运势牌。”甘一拿出一副扑克牌大小的金色牌<cite>第 873 章</cite></blockquote><blockquote data-ch="874">老实说我怀疑在车上砍人头的就是她<cite>第 874 章</cite></blockquote><blockquote data-ch="875">“很遗憾，没通关。”徐获不怎么意外地说<cite>第 875 章</cite></blockquote></details>
-<h4 id="story-4" data-ch="876">四、第二轮（第 875–878 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="876">64 号选黑球，徐获照样选白球，被送进海洋馆给变异食人鲨涂色。他把第十七医院雨果断手上的病菌做成的药剂放进水里，十二头食人鲨全被毒成了黑色。<sup class="cite" title="第876章：徐获已经被进出舱传送到了海洋馆中">875–876</sup></span><span class="stmt" data-ch="877">18 号玩家拿一个普通人做挡箭牌，逼 64 号误杀，64 号被扔进海里死了。刘晓晓的伴侣死在第一轮，她第二轮轮空，徐获给了她吃的和药剂。她说家乡的国家经历两次屠杀后女性很少，她们是逃出来的。<sup class="cite" title="第877章：我们的国家经历过两次屠杀，女性很少">877</sup></span><span class="stmt" data-ch="878">主持人暗示，装成乐于助人的“好人”并不是获得友谊的标准；徐获也判断，节目评出的“友谊”未必就是副本要的“纯洁友谊”。<sup class="cite" title="第867章：达成节目的“友谊”判定不一定能通关">867、878</sup></span></p><details class="src block fgroup"><summary>本段原文 3 处</summary><blockquote data-ch="876">徐获已经被进出舱传送到了海洋馆中<cite>第 876 章</cite></blockquote><blockquote data-ch="877">我们的国家经历过两次屠杀，女性很少<cite>第 877 章</cite></blockquote><blockquote data-ch="878">达成节目的“友谊”判定不一定能通关<cite>第 867 章</cite></blockquote></details>
-<h4 id="story-5" data-ch="880">五、植物园里的空间（第 878–881 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="880">第三轮徐获和庄梦甜一起选黄球，去植物园画风景画。脚下的整片林子是悬空的藤蔓，会捕人；庄梦甜中途不见了。山的朝向、出口的位置不停变化，检索器只显示一件道具——整个植物园在一件大型道具里，空间被压缩过。<sup class="cite" title="第880章：这意味着他正处在一个大型道具的内部">878–880</sup></span><span class="stmt" data-ch="881">他借白蔻给的机械手套放大精神力量，连开了百余扇门，注射完美药剂后的阻滞感和空间里的线条“对上了频率”，他第二次超级进化成功，开始掌握空间，从压缩空间的缝隙里走了出来。<sup class="cite" title="第881章：当然，这也代表他第二次超级进化成功了；第881章：他开始了以掌握空间力量为方向的超级进化">881</sup></span><span class="stmt" data-ch="881">第三轮结束只剩 77 人。刘晓晓又轮空，有人想杀她腾名额，被沙加拦下；肖向林没有回来。<sup class="cite" title="第881章：肖向林没回来，不知道他是通关了还是死了">881</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="880">这意味着他正处在一个大型道具的内部<cite>第 880 章</cite></blockquote><blockquote data-ch="881">当然，这也代表他第二次超级进化成功了<cite>第 881 章</cite></blockquote><blockquote data-ch="881">他开始了以掌握空间力量为方向的超级进化<cite>第 881 章</cite></blockquote><blockquote data-ch="881">肖向林没回来，不知道他是通关了还是死了<cite>第 881 章</cite></blockquote></details>
-<h4 id="story-6" data-ch="883">六、双 S（第 882–884 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="883">第四轮改成由先抽到的人自己挑队友。18 号靠道具操纵随机，从没去做过任务，这轮又害死了一个普通人。轮到徐获，一大群人抢着和他组队，他说自己有伤、要找能共担风险的朋友，最后挑了刘晓晓。<sup class="cite" title="第883章：我想找一位可以和我共担风险的朋友">882–883</sup></span><span class="stmt" data-ch="884">庄梦甜、甘一、18 号和 27 号同时扑向刘晓晓，想断他通关的路；游四和沙加拦人，徐获借空间力量来回穿梭，切断庄梦甜一只手、扭断甘一的两根手指，把她护了下来。<sup class="cite" title="第883章：他拔出“亡者之眼”，先切断了庄梦甜一只手；第884章：扭断了他的无名指和小指">883–884</sup></span><span class="stmt" data-ch="884">水下任务里徐获渐渐放慢速度，被巨齿章鱼缠住，刘晓晓掀开隐身衣，拿他给的短剑去刺章鱼：“你来吃我啊！”通关提示随即响起：他得到了一份来自弱小者、可以为他牺牲生命的纯洁友谊，评级双 S，由 D 级升为 C 级。<sup class="cite" title="第884章：由于您在本次副本中得到了一份可以为您牺牲生命的纯洁友谊；第884章：可由D级玩家升至C级玩家">884</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="883">我想找一位可以和我共担风险的朋友<cite>第 883 章</cite></blockquote><blockquote data-ch="884">他拔出“亡者之眼”，先切断了庄梦甜一只手<cite>第 883 章</cite></blockquote><blockquote data-ch="884">扭断了他的无名指和小指<cite>第 884 章</cite></blockquote><blockquote data-ch="884">由于您在本次副本中得到了一份可以为您牺牲生命的纯洁友谊<cite>第 884 章</cite></blockquote><blockquote data-ch="884">可由D级玩家升至C级玩家<cite>第 884 章</cite></blockquote></details>
-<h4 id="story-7" data-ch="885">七、甘一（第 885–887 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="885">徐获回到广场，先拧断了昨夜偷袭他的人的脖子，又在庄梦甜和甘一联手时抹了庄梦甜的脖子，把甘一钉在墙上。<sup class="cite" title="第885章：用空间力量提升速度从他们身边经过时，抹了庄梦甜的脖子">885</sup></span><span class="stmt" data-ch="887">甘一用“生死之匣”困住他、骂他为莉莉夫人（即公爵夫人）卖命，其实早已陷在徐获一层套一层的精神幻境里。徐获追问写名杀人的纸是谁的，甘一只说自己是受雇办事。<sup class="cite" title="第886章：我想知道用鲜血和名字杀人的那种纸质道具是谁的">886–887</sup></span><span class="stmt" data-ch="887">甘一临死用“永恒烙印”在徐获脸上留下六边形印记，说所有圣剑会会徒都会来杀他；徐获一剑捅穿了他的心脏。遗物里有一张“精准命中”：一次性 A 级道具，写上名字、用上血，就能杀死空间里任何一个人。<sup class="cite" title="第887章：有……印记……任何……圣剑会会徒……杀之而后快；第887章：一次性A级道具，血液和名字可以定位一个空间中任何一个独立人">887</sup></span><span class="stmt" data-ch="887">这时又有两名玩家在一起做任务时“获得友谊”通关：大家不再只顾通关后，反倒有了共患难的心思。徐获把从偷袭者身上找到的非玩家车票给了刘晓晓。<sup class="cite" title="第887章：徐获把非玩家车票给了晓晓">887</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="885">用空间力量提升速度从他们身边经过时，抹了庄梦甜的脖子<cite>第 885 章</cite></blockquote><blockquote data-ch="887">我想知道用鲜血和名字杀人的那种纸质道具是谁的<cite>第 886 章</cite></blockquote><blockquote data-ch="887">有……印记……任何……圣剑会会徒……杀之而后快<cite>第 887 章</cite></blockquote><blockquote data-ch="887">一次性A级道具，血液和名字可以定位一个空间中任何一个独立人<cite>第 887 章</cite></blockquote><blockquote data-ch="887">徐获把非玩家车票给了晓晓<cite>第 887 章</cite></blockquote></details>
-<h4 id="story-8" data-ch="888">八、结算与告别（第 888–889 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="888">雨衣男特意来告诉徐获，甘一不是圣剑会的人，带剑形徽章或纹身的不一定是会徒，却不肯说他怎么知道。<sup class="cite" title="第888章：你杀的那个人不是圣剑会的">888</sup></span><span class="stmt" data-ch="888">奖励有 B 级道具三百六十次防御、三件 C 级道具、特殊道具“去往目的地”“绅士的姿态”；主要特性升为“全能人才”，延伸特性升为“感情色彩”，能看出别人对他好恶的颜色。<sup class="cite" title="第888章：感情色彩：精细版延伸特性“好朋友来打分”">888</sup></span><span class="stmt" data-ch="889">升 C 级后能拿到其他虫洞点的车票，悬赏平台跨区交易不限次，还开通了玩家交流平台“维度之下”；升级礼包是一件能进出半开放分区的穿越门户“门铃”。<sup class="cite" title="第889章：玩家可以拿到其他虫洞点的车票；第889章：价值三百万白钞且限量供应的穿越门户——门铃">889</sup></span><span class="stmt" data-ch="889">离开前，刘晓晓来还短剑、问他的名字，徐获让她留着短剑，又给了些钱：“你就当我是个普普通通的路人甲吧。”<sup class="cite" title="第889章：你就当我是个普普通通的路人甲吧">889</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="888">你杀的那个人不是圣剑会的<cite>第 888 章</cite></blockquote><blockquote data-ch="888">感情色彩：精细版延伸特性“好朋友来打分”<cite>第 888 章</cite></blockquote><blockquote data-ch="889">玩家可以拿到其他虫洞点的车票<cite>第 889 章</cite></blockquote><blockquote data-ch="889">价值三百万白钞且限量供应的穿越门户——门铃<cite>第 889 章</cite></blockquote><blockquote data-ch="889">你就当我是个普普通通的路人甲吧<cite>第 889 章</cite></blockquote></details>
+<section id="cast" class="fgroup"><h3>人物</h3>
+<ul class="people"><li data-ch="889"><b class="subject">刘晓晓</b><span class="text">和同性伴侣一起逃离家乡来参赛的普通人，伴侣第一轮就死了；第四轮被徐获挑作队友，在水下掀开隐身衣替他引开章鱼，让他得到纯洁的友谊。她活了下来，拿到徐获给的非玩家车票和短剑。</span><span class="ch">第 863、877、883–884、887、889 章</span></li><li data-ch="887"><b class="subject"><a href="../people.html?upto=889#person-%E7%94%98%E4%B8%80">甘一</a></b><span class="text">断了两根手指的C级玩家，职业是超市老板，自称圣剑会的人，在友谊园里屡次暗算徐获。他被徐获捅穿心脏，临死在徐获脸上烙下印记，遗物里有一张“精准命中”。</span><span class="ch">第 864、873、886–887 章</span></li><li data-ch="885"><b class="subject"><a href="../people.html?upto=889#person-%E5%BA%84%E6%A2%A6%E7%94%9C">庄梦甜</a></b><span class="text">车上那个挑事的漂亮女玩家，职业是催眠师，手表是她的催眠道具，和甘一联手对付徐获。她先被切断一只手，后来被徐获抹了脖子。</span><span class="ch">第 864、876、883、885 章</span></li><li data-ch="888"><b class="subject"><a href="../people.html?upto=889#person-%E6%B8%B8%E5%9B%9B">游四</a></b><span class="text">为了要孩子在戒酒、戒到烟瘾上身的玩家，话多但仗义，屡次帮徐获拦人。到徐获离开时他还没通关，和沙加约好下一轮一起选。</span><span class="ch">第 872–873、883、888 章</span></li><li data-ch="888"><b class="subject"><a href="../people.html?upto=889#person-%E6%B2%99%E5%8A%A0">沙加</a></b><span class="text">爱打坐、精神向<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96" title="进化者的身体进化到一定程度后发生的质变，也叫二次进化。">超级进化</a>过的玩家，和徐获联手反制甘一，又拦下想杀刘晓晓腾名额的人。到徐获离开时他还没通关。</span><span class="ch">第 871、873、881、883、888 章</span></li><li data-ch="881"><b class="subject"><a href="../people.html?upto=889#person-%E8%82%96%E5%90%91%E6%9E%97">肖向林</a></b><span class="text">在车站兜售药剂的玩家，报名用的是真名“肖永”，和徐获互相答应做朋友也没通关。第二轮做整容任务后再没回来，是死是通关不知道。</span><span class="ch">第 864、875、881 章</span><details class="src"><summary>原文</summary><blockquote>余光扫到旁边肖向林写下的却是“肖永”<cite>第 864 章</cite></blockquote></details></li><li data-ch="877"><b class="subject">64 号</b><span class="text">第一轮和徐获同选白球的队友，第二轮却改选黑球，把危险任务推给徐获。他被18号设计误杀普通人，掉进海里死了。</span><span class="ch">第 867、875、877 章</span></li><li data-ch="885"><b class="subject">18 号</b><span class="text">第一局就选黑球、此后从没轮到做任务的玩家，徐获判断他多半靠道具影响随机结果，他还设计害死了64号。他联手扑向刘晓晓被挡下，之后忌惮徐获，主动找人组队。</span><span class="ch">第 877、882–883、885 章</span></li><li data-ch="888"><b class="subject">雨衣男</b><span class="text">满脸伤疤、长发遮眼、不爱跟人接触的玩家。徐获离开前，他特意告诉徐获甘一不是圣剑会的人，却不肯说依据。</span><span class="ch">第 872、888 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、关键关系、伏笔与未解、承接前文、更多承接。写到第 889 章，含全部剧透。</span></summary><section id="summary" class="fgroup"><h3>剧情梗概</h3>
+<nav class="arcs"><a href="#summary-1" data-ch="863">进园</a><a href="#summary-2" data-ch="867">友谊的标准</a><a href="#summary-3" data-ch="879">植物园里的超级进化</a><a href="#summary-4" data-ch="883">弱者的友谊</a><a href="#summary-5" data-ch="885">清算与告别</a></nav>
+<h4 id="summary-1" data-ch="863">进园</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="863">徐获熬过列车上的最后一夜，被送进海上大世界的副本“友谊天长地久”，要在七天内获得副本认可的纯洁友谊。<sup class="cite" title="本句未附原文">862–863</sup></span><span class="stmt" data-ch="864">副本借真人秀“你好我也好”进行，参加者大半是想拿定居权的普通人；他化名余丛报名，同车来的游四、庄梦甜、断指玩家甘一、沙加等玩家也都在场。<sup class="cite" title="第864章：徐获在上面写下了“余丛”">863–864</sup></span><span class="stmt" data-ch="866">第一轮就有人说好选白球、临场改成黑球，队友只得去做危险任务；广场上也有人杀人，连同周围的人一起被扔进海里喂鱼。<sup class="cite" title="本句未附原文">865–866</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="864">徐获在上面写下了“余丛”<cite>第 864 章</cite></blockquote></details>
+<h4 id="summary-2" data-ch="867">友谊的标准</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="869">徐获先选白球示好，队友64号也选白球，他抽中动物园的任务，斩蟒、收蛇、驯服猴群后第二个回到广场。<sup class="cite" title="第869章：一分钟后，徐获牵着一串吃糖的猴子去找舱门">867–869</sup></span><span class="stmt" data-ch="867">他很早就怀疑节目评的“友谊”不等于副本要的纯洁友谊：比赛前不给评分标准，任务又不许弃权，完成任务被放在建立友谊之上。<sup class="cite" title="第867章：达成节目的“友谊”判定不一定能通关">867</sup></span><span class="stmt" data-ch="875">第一夜甘一用“运势牌”暗算他，被他和沙加联手反制，三人在<a class="term" href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" title="精神力量能外放、干扰到别人时，以精神进化者为内核造出的“世界”。">精神世界</a>里过了一招，原来都是精神向的<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96" title="进化者的身体进化到一定程度后发生的质变，也叫二次进化。">超级进化</a>者。徐获和肖向林互相答应做朋友，也没有通关。<sup class="cite" title="第875章：“很遗憾，没通关。”徐获不怎么意外地说">873–875</sup></span><span class="stmt" data-ch="875">保护普通人完成任务的玩家也都回到了广场，单靠展示善意、救人一命同样行不通。<sup class="cite" title="本句未附原文">875</sup></span><span class="stmt" data-ch="876">第二轮64号改选黑球，徐获照样选白球，说那是交朋友的诚意；他被送进海洋馆，用第十七医院带出的病菌药剂毒翻了十二头食人鲨。<sup class="cite" title="第875章：要交到朋友，当然要展示诚意，白球就是我的诚意">875–876</sup></span><span class="stmt" data-ch="877">等他回来，64号已被18号设计误杀普通人，掉进海里死了。<sup class="cite" title="本句未附原文">877</sup></span><span class="stmt" data-ch="877">刘晓晓的伴侣死在第一轮，她第二轮轮空，徐获给了她吃的和药剂；她说家乡经历两次屠杀，女性很少，她们是逃出来的。<sup class="cite" title="第877章：我们的国家经历过两次屠杀，女性很少">877</sup></span><span class="stmt" data-ch="878">主持人又暗示，伪装成乐于助人、舍己救人的“好人”也不是获得友谊的标准；两轮过去，还没有一个人获得友谊。<sup class="cite" title="本句未附原文">878</sup></span></p><details class="src block fgroup"><summary>本段原文 5 处</summary><blockquote data-ch="869">一分钟后，徐获牵着一串吃糖的猴子去找舱门<cite>第 869 章</cite></blockquote><blockquote data-ch="867">达成节目的“友谊”判定不一定能通关<cite>第 867 章</cite></blockquote><blockquote data-ch="875">“很遗憾，没通关。”徐获不怎么意外地说<cite>第 875 章</cite></blockquote><blockquote data-ch="876">要交到朋友，当然要展示诚意，白球就是我的诚意<cite>第 875 章</cite></blockquote><blockquote data-ch="877">我们的国家经历过两次屠杀，女性很少<cite>第 877 章</cite></blockquote></details>
+<h4 id="summary-3" data-ch="879">植物园里的超级进化</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="879">第三轮他和庄梦甜商量好同选黄球，一起去植物园画风景画，庄梦甜中途不见了。<sup class="cite" title="本句未附原文">878–879</sup></span><span class="stmt" data-ch="880">地图上的出口一直在正西方，他四面找遍也找不到，检索器只显示一件道具：整座植物园在一件大型道具内部。<sup class="cite" title="第880章：这意味着他正处在一个大型道具的内部">880</sup></span><span class="stmt" data-ch="881">他借白蔻给的机械手套放大精神力量，连开百余扇门，发现服用完美药剂后的阻滞感和空间里的线条重合了。<sup class="cite" title="第881章：体表线条似乎和他服用药剂后产生的那种阻滞感重合了">881</sup></span><span class="stmt" data-ch="881">频率接上后阻滞感消失，他完成以空间为方向的第二次超级进化，挤过压缩空间的缝隙，回到边界找到了出口。<sup class="cite" title="第881章：当然，这也代表他第二次超级进化成功了">881</sup></span><span class="stmt" data-ch="882">第三轮后只剩七十七人，肖向林没有回来；轮空的刘晓晓险些被人杀掉腾名额，被沙加拦下。<sup class="cite" title="第881章：肖向林没回来，不知道他是通关了还是死了">881–882</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="880">这意味着他正处在一个大型道具的内部<cite>第 880 章</cite></blockquote><blockquote data-ch="881">体表线条似乎和他服用药剂后产生的那种阻滞感重合了<cite>第 881 章</cite></blockquote><blockquote data-ch="881">当然，这也代表他第二次超级进化成功了<cite>第 881 章</cite></blockquote><blockquote data-ch="882">肖向林没回来，不知道他是通关了还是死了<cite>第 881 章</cite></blockquote></details>
+<h4 id="summary-4" data-ch="883">弱者的友谊</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="883">第四轮改由先抽到的人自己挑队友，一大群人抢着和徐获组队，他说自己有伤、要找能共担风险的朋友，挑了刘晓晓。<sup class="cite" title="第883章：我想找一位可以和我共担风险的朋友">882–883</sup></span><span class="stmt" data-ch="884">庄梦甜、甘一、18号和27号同时扑向刘晓晓，想断他通关的路。游四和沙加帮着拦人，徐获借空间力量来回穿梭，切断庄梦甜一只手，把她护了下来。<sup class="cite" title="第883章：他拔出“亡者之眼”，先切断了庄梦甜一只手">883–884</sup></span><span class="stmt" data-ch="884">他给刘晓晓防护服、隐身衣、毒剂和短剑，两人同选黄球进了水下任务。<sup class="cite" title="本句未附原文">884</sup></span><span class="stmt" data-ch="884">徐获在水下渐渐放慢速度，被巨齿章鱼裹住；本可躲在隐身衣里的刘晓晓掀开隐身衣，持短剑刺向章鱼，喊它来吃自己。<sup class="cite" title="第884章：她猛地掀开身上的隐身衣">884</sup></span><span class="stmt" data-ch="884">通关提示随即响起：他得到一份来自弱小者、可以为他牺牲生命的纯洁友谊，评级是高于S的双S，由D级升为C级。<sup class="cite" title="第884章：由于您在本次副本中得到了一份可以为您牺牲生命的纯洁友谊">884</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="883">我想找一位可以和我共担风险的朋友<cite>第 883 章</cite></blockquote><blockquote data-ch="884">他拔出“亡者之眼”，先切断了庄梦甜一只手<cite>第 883 章</cite></blockquote><blockquote data-ch="884">她猛地掀开身上的隐身衣<cite>第 884 章</cite></blockquote><blockquote data-ch="884">由于您在本次副本中得到了一份可以为您牺牲生命的纯洁友谊<cite>第 884 章</cite></blockquote></details>
+<h4 id="summary-5" data-ch="885">清算与告别</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="885">回到广场后，徐获拧断了前一夜偷袭他的人的脖子，又在庄梦甜和甘一联手时抹了庄梦甜的脖子。<sup class="cite" title="第885章：用空间力量提升速度从他们身边经过时，抹了庄梦甜的脖子">885</sup></span><span class="stmt" data-ch="886">甘一的实力并不像看上去那么弱：他在011区被阿希斯·维尔纳打爆过几件高级道具，又在月季花古堡被白蔻抓住，以两根手指为代价才脱身。<sup class="cite" title="第886章：又用了一件高级道具才以两根手指的代价脱身">886</sup></span><span class="stmt" data-ch="886">甘一用“生死之匣”困他，其实早陷进他的精神幻境；徐获追问用鲜血和名字杀人的纸质道具是谁的，甘一只说自己拿钱办事。<sup class="cite" title="第886章：我想知道用鲜血和名字杀人的那种纸质道具是谁的">886</sup></span><span class="stmt" data-ch="887">病菌侵蚀下甘一想自尽，临死用“永恒烙印”在徐获脸上留下印记，说所有圣剑会会徒都会来杀他；徐获赶在他自杀前捅穿了他的心脏。<sup class="cite" title="第887章：闪现在甘一面前，赶在对方自杀前捅穿了他的心脏">886–887</sup></span><span class="stmt" data-ch="887">甘一的遗物里正有一张“精准命中”：一次性A级道具，用血和名字就能定位、杀死同一空间里的人。<sup class="cite" title="第887章：一次性A级道具，血液和名字可以定位一个空间中任何一个独立人">887</sup></span><span class="stmt" data-ch="887">这时又有两名玩家在一起做任务时获得友谊；徐获把从偷袭者身上找到的非玩家车票给了刘晓晓。<sup class="cite" title="第887章：徐获把非玩家车票给了晓晓">887</sup></span><span class="stmt" data-ch="888">雨衣男特意告诉他，甘一不是圣剑会的人，带剑形徽章或纹身的不一定是会徒，却不肯说依据。<sup class="cite" title="第 888 章">888</sup></span><span class="stmt" data-ch="889">升到C级后，他能拿到其他<a class="term" href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C" title="游戏世界的大区；一个虫洞点下有许多互不相通的世界，被游戏划成分区。">虫洞点</a>的车票，开通了玩家交流平台“维度之下”；延伸特性升为“感情色彩”，能看出别人对他的好恶。<sup class="cite" title="第 888–889 章">888–889</sup></span><span class="stmt" data-ch="889">离开前刘晓晓来还短剑、问他的名字，徐获让她留着短剑，只说自己是个普普通通的路人甲。<sup class="cite" title="第 889 章">889</sup></span></p><details class="src block fgroup"><summary>本段原文 6 处</summary><blockquote data-ch="885">用空间力量提升速度从他们身边经过时，抹了庄梦甜的脖子<cite>第 885 章</cite></blockquote><blockquote data-ch="886">又用了一件高级道具才以两根手指的代价脱身<cite>第 886 章</cite></blockquote><blockquote data-ch="886">我想知道用鲜血和名字杀人的那种纸质道具是谁的<cite>第 886 章</cite></blockquote><blockquote data-ch="887">闪现在甘一面前，赶在对方自杀前捅穿了他的心脏<cite>第 887 章</cite></blockquote><blockquote data-ch="887">一次性A级道具，血液和名字可以定位一个空间中任何一个独立人<cite>第 887 章</cite></blockquote><blockquote data-ch="887">徐获把非玩家车票给了晓晓<cite>第 887 章</cite></blockquote></details>
 </section>
 <section id="puzzle" class="fgroup"><h3>解谜结构</h3>
-<p class="note">节目要的是看人互相残杀，副本要的是“纯洁的友谊”，两者不是一回事。</p>
-<h4 id="puzzle-1" data-ch="878">节目的“友谊”和副本的“友谊”</h4>
-<ul class="items"><li data-ch="882"><span class="text">节目的赛制逼人互相坑害：黑球把风险推给队友，广场上杀人又会连坐，普通人很难活过一轮，四轮后只剩几十人。</span><span class="ch">第 865、872、882 章</span></li><li data-ch="878"><span class="text">互相答应做朋友不算，只会保护普通人的“好人”也不算，结伴来的刘晓晓两人彼此牺牲也没被认可；徐获猜，节目评出的友谊和副本要的纯洁友谊不是一回事。</span><span class="ch">第 867、875、878 章</span><details class="src"><summary>原文</summary><blockquote>达成节目的“友谊”判定不一定能通关<cite>第 867 章</cite></blockquote></details></li></ul>
-<h4 id="puzzle-2" data-ch="884">纯洁的友谊</h4>
-<ul class="items"><li data-ch="884"><span class="text">徐获通关，是因为一个毫无反抗之力的弱者自愿为比她强得多的人牺牲；这份来自弱小者的友谊让他拿到了高于 S 的双 S。</span><span class="ch">第 883–884 章</span><details class="src"><summary>原文</summary><blockquote>且尤为珍贵的是它来自弱小者<cite>第 884 章</cite></blockquote></details></li><li data-ch="887"><span class="text">后来又有玩家在一起完成任务时通关：通关无望后，大家有了一起活到副本结束的心思，才有了共患难的条件。</span><span class="ch">第 887 章</span><details class="src"><summary>原文</summary><blockquote>反而到了通关无望的时候，有了相互帮忙活到副本结束的想法<cite>第 887 章</cite></blockquote></details></li></ul>
-<h4 id="puzzle-3" data-ch="881">植物园的空间</h4>
-<ul class="items"><li data-ch="881"><span class="text">植物园在一件大型道具里，空间被压缩过：六百米能走的距离在外面看小得多，出口看着不停换方向，其实一直离得不远。</span><span class="ch">第 880–881 章</span><details class="src"><summary>原文</summary><blockquote>植物园的空间是压缩过的<cite>第 881 章</cite></blockquote></details></li></ul>
-</section>
-<section id="fates" class="fgroup"><h3>人物结局</h3>
-<p class="note">截至第 889 章。</p>
-<ul class="people"><li data-ch="887"><b class="subject"><a href="../people.html?upto=889#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲，化名余丛）</b><span class="text">双 S 通关，升为 C 级；脸上多了圣剑会的永恒烙印。</span><span class="ch">第 884、887 章</span></li><li data-ch="885"><b class="subject"><a href="../people.html?upto=889#person-%E5%BA%84%E6%A2%A6%E7%94%9C">庄梦甜</a></b><span class="text">被徐获抹了脖子。</span><span class="ch">第 885 章</span></li><li data-ch="887"><b class="subject"><a href="../people.html?upto=889#person-%E7%94%98%E4%B8%80">甘一</a></b><span class="text">被徐获捅穿心脏，死前给他烙上印记。</span><span class="ch">第 887 章</span></li><li data-ch="877"><b class="subject">64 号</b><span class="text">被 18 号设计误杀普通人，掉进海里死了。</span><span class="ch">第 877 章</span></li><li data-ch="888"><b class="subject">蒲东海</b><span class="text">第一轮就死了。</span><span class="ch">第 888 章</span><details class="src"><summary>原文</summary><blockquote>并且很信任他的蒲东海已经在第一轮死了<cite>第 888 章</cite></blockquote></details></li><li data-ch="881"><b class="subject"><a href="../people.html?upto=889#person-%E8%82%96%E5%90%91%E6%9E%97">肖向林</a></b><span class="text">第二轮进去做整容任务后再没回来，是死是通关不知道。</span><span class="ch">第 881 章</span></li><li data-ch="889"><b class="subject">刘晓晓</b><span class="text">活了下来，拿着徐获给的非玩家车票和短剑。</span><span class="ch">第 887、889 章</span></li><li data-ch="888"><b class="subject"><a href="../people.html?upto=889#person-%E6%B8%B8%E5%9B%9B">游四</a>、沙加、雨衣男</b><span class="text">到徐获离开时还没通关，游四和沙加约好下一轮一起选。</span><span class="ch">第 888 章</span></li></ul>
-</section>
-<section id="callbacks" class="fgroup"><h3>承接前文</h3>
-<p class="note">前面单元留下的人和线头，在这一段有了下文。</p>
-<ul class="items"><li data-ch="887"><a class="thread-no" href="../threads.html?upto=889#thread-183" title="伏笔总表">#183</a><span class="text">写名字就能杀人的纸：它叫“精准命中”，一次性 A 级道具，一个玩家一生只能用一次，写上第一个名字后有效三十分钟；徐获从甘一的遗物里拿到了一张。</span><span class="ch">第 887 章</span><details class="src"><summary>原文</summary><blockquote>除此之外，他的道具栏中还有一张“精准命中”<cite>第 887 章</cite></blockquote><blockquote>此外，任何玩家一生仅能使用一次此道具<cite>第 887 章</cite></blockquote></details></li><li data-ch="888"><a class="thread-no" href="../threads.html?upto=889#thread-194" title="伏笔总表">#194</a><span class="text">断指玩家：他叫甘一，C 级，职业是超市老板；在友谊园里屡次暗算徐获，被徐获杀死，临死给他烙上印记。雨衣男说他其实不是圣剑会的人。</span><span class="ch">第 864、887–888 章</span><details class="src"><summary>原文</summary><blockquote>闪现在甘一面前，赶在对方自杀前捅穿了他的心脏<cite>第 887 章</cite></blockquote><blockquote>你杀的那个人不是圣剑会的<cite>第 888 章</cite></blockquote></details></li><li data-ch="881"><a class="thread-no" href="../threads.html?upto=889#thread-195" title="伏笔总表">#195</a><span class="text">徐获身上的阻滞感：那不是后遗症，而是他和空间里的“线条”频率没对上；在植物园对上之后，阻滞感消失，他完成了空间向的超级进化。</span><span class="ch">第 881 章</span><details class="src"><summary>原文</summary><blockquote>体表线条似乎和他服用药剂后产生的那种阻滞感重合了<cite>第 881 章</cite></blockquote></details></li><li data-ch="887"><a class="thread-no" href="../threads.html?upto=889#thread-193" title="伏笔总表">#193</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>792 次列车：庄梦甜的职业是催眠师，手表是催眠道具；同车厢吃过布丁的人里只有徐获被影响得最重，他因此把原因归到完美药剂上。</span><span class="ch">第 877、887 章</span><details class="src"><summary>原文</summary><blockquote>同一节车厢，都吃过布丁的，只有徐获受到的影响较大<cite>第 877 章</cite></blockquote></details></li><li data-ch="888"><a class="thread-no" href="../threads.html?upto=889#thread-031" title="伏笔总表">#031</a><span class="text">圣剑会的来头：甘一临死说所有圣剑会会徒都会追杀带印记的人；雨衣男却说，带剑形徽章或纹身的不一定是圣剑会的人。</span><span class="ch">第 887–888 章</span><details class="src"><summary>原文</summary><blockquote>不是带着剑形徽章或者有剑形纹身的人就是圣剑会的人<cite>第 888 章</cite></blockquote></details></li></ul>
+<h4 id="puzzle-1" data-ch="867">什么才算纯洁的友谊</h4>
+<ul class="items"><li data-ch="867"><b class="subject">谜面</b><span class="text">副本只认纯洁的友谊，节目却用全民投票的特征打分，又不公布评分标准；什么样的友谊才能通关？</span><span class="ch">第 863–864、867 章</span></li><li data-ch="878"><b class="subject">线索</b><span class="text">徐获和肖向林互相答应做朋友没有通关，保护普通人的玩家也没通关；主持人暗示伪装成乐于助人、舍己救人的“好人”不算，徐获据此认定节目的友谊不等于副本的友谊。</span><span class="ch">第 867、875、878 章</span><details class="src"><summary>原文</summary><blockquote>达成节目的“友谊”判定不一定能通关<cite>第 867 章</cite></blockquote></details></li><li data-ch="887"><b class="subject">谜底</b><span class="text">通关来自一个毫无反抗之力的弱者自愿为强者赴死：刘晓晓掀开隐身衣替徐获引开章鱼，这份友谊因来自弱小者而得了双S；后来别的玩家在通关无望、互相帮着活下去时，也获得了友谊。</span><span class="ch">第 884、887 章</span><details class="src"><summary>原文</summary><blockquote>且尤为珍贵的是它来自弱小者<cite>第 884 章</cite></blockquote></details></li></ul>
+<h4 id="puzzle-2" data-ch="865">三色球怎么选</h4>
+<ul class="items"><li data-ch="865"><b class="subject">谜面</b><span class="text">双方看不到彼此的选择，黑球能把危险推给队友，第一次选的难度又是以后的下限；怎么选才能既活命又交到朋友？</span><span class="ch">第 864–865 章</span></li><li data-ch="866"><b class="subject">线索</b><span class="text">同选白球最保险，同选黄球且都愿意还能一起做白球任务；可说好选白球的人常在最后关头改成黑球，第一组就这样死了一个。</span><span class="ch">第 864、866 章</span><details class="src"><summary>原文</summary><blockquote>原本164号客人准备选的是白球<cite>第 866 章</cite></blockquote></details></li><li data-ch="884"><b class="subject">谜底</b><span class="text">徐获每轮都先选白球，把它当作交朋友的诚意，除非和队友商量好，否则不改；队友改黑球他就自己扛下任务，最后和刘晓晓同选黄球一起下水。</span><span class="ch">第 867、875–876、884 章</span><details class="src"><summary>原文</summary><blockquote>除非和队友商量好，否则我只会选白球<cite>第 876 章</cite></blockquote></details></li></ul>
+<h4 id="puzzle-3" data-ch="880">植物园的出口</h4>
+<ul class="items"><li data-ch="880"><b class="subject">谜面</b><span class="text">第三轮的植物园里，地图上的出口一直在正西方，徐获四面找遍也找不到，像是出口在躲着人走。</span><span class="ch">第 879–880 章</span></li><li data-ch="880"><b class="subject">线索</b><span class="text">检索器只显示一件道具；他走过的范围已是动物园的两倍多，<a class="term" href="../world.html#world-%E7%B2%BE%E7%A5%9E%E8%BF%9B%E5%8C%96" title="精神力量能外放、干扰到别人时，以精神进化者为内核造出的“世界”。">精神世界</a>里连开三道门却只从树上移到树下，力量明显受到压制。</span><span class="ch">第 880 章</span><details class="src"><summary>原文</summary><blockquote>这意味着他正处在一个大型道具的内部<cite>第 880 章</cite></blockquote></details></li><li data-ch="881"><b class="subject">谜底</b><span class="text">植物园在一件大型道具内部，空间被压缩过，他以为跑出很远，出口其实一直不远；他把阻滞感与空间线条的频率对上，第二次<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96" title="进化者的身体进化到一定程度后发生的质变，也叫二次进化。">超级进化</a>成功，挤过压缩空间的缝隙后回到边界，找到了出口。</span><span class="ch">第 881 章</span><details class="src"><summary>原文</summary><blockquote>植物园的空间是压缩过的<cite>第 881 章</cite></blockquote></details></li></ul>
 </section>
 <section id="relations" class="fgroup"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-kill)"></i>杀死</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
@@ -271,12 +337,17 @@ h4[id] { scroll-margin-top:16px; }
 <g class="node" data-ch="888"><circle cx="559.4" cy="75.0" r="10.0"/><text x="559.4" y="59.0" class="name">游四</text></g>
 <g class="node" data-ch="877"><circle cx="616.1" cy="315.3" r="10.0"/><text x="616.1" y="299.3" class="name">蒲东海</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li data-ch="884"><span class="text">刘晓晓 → 水下为他扑向章鱼 → <a href="../people.html?upto=889#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 884 章</span></li><li data-ch="889"><span class="text"><a href="../people.html?upto=889#person-%E5%BE%90%E8%8E%B7">徐获</a> → 护住她、留下短剑和车票 → 刘晓晓</span><span class="ch">第 883、887、889 章</span></li><li data-ch="885"><span class="text"><a href="../people.html?upto=889#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → <a href="../people.html?upto=889#person-%E5%BA%84%E6%A2%A6%E7%94%9C">庄梦甜</a></span><span class="ch">第 885 章</span></li><li data-ch="887"><span class="text"><a href="../people.html?upto=889#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → <a href="../people.html?upto=889#person-%E7%94%98%E4%B8%80">甘一</a></span><span class="ch">第 887 章</span></li><li data-ch="883"><span class="text"><a href="../people.html?upto=889#person-%E5%BE%90%E8%8E%B7">徐获</a> — 联手 — 沙加</span><span class="ch">第 873、883 章</span></li><li data-ch="888"><span class="text"><a href="../people.html?upto=889#person-%E6%B8%B8%E5%9B%9B">游四</a> — 同伴 — 沙加</span><span class="ch">第 883、888 章</span></li><li data-ch="883"><span class="text"><a href="../people.html?upto=889#person-%E7%94%98%E4%B8%80">甘一</a> — 联手暗算徐获 — <a href="../people.html?upto=889#person-%E5%BA%84%E6%A2%A6%E7%94%9C">庄梦甜</a></span><span class="ch">第 874、883 章</span></li><li data-ch="877"><span class="text">沙加 — 朋友 — 蒲东海</span><span class="ch">第 871、877 章</span></li></ul></details>
+<details class="rel"><summary>文字版</summary><ul class="items"><li data-ch="884"><span class="text">刘晓晓 → 水下为他扑向章鱼 → <a href="../people.html?upto=889#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 884 章</span></li><li data-ch="889"><span class="text"><a href="../people.html?upto=889#person-%E5%BE%90%E8%8E%B7">徐获</a> → 护住她、留下短剑和车票 → 刘晓晓</span><span class="ch">第 883、887、889 章</span></li><li data-ch="885"><span class="text"><a href="../people.html?upto=889#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → <a href="../people.html?upto=889#person-%E5%BA%84%E6%A2%A6%E7%94%9C">庄梦甜</a></span><span class="ch">第 885 章</span></li><li data-ch="887"><span class="text"><a href="../people.html?upto=889#person-%E5%BE%90%E8%8E%B7">徐获</a> → 杀死 → <a href="../people.html?upto=889#person-%E7%94%98%E4%B8%80">甘一</a></span><span class="ch">第 887 章</span></li><li data-ch="883"><span class="text"><a href="../people.html?upto=889#person-%E5%BE%90%E8%8E%B7">徐获</a> — 联手 — <a href="../people.html?upto=889#person-%E6%B2%99%E5%8A%A0">沙加</a></span><span class="ch">第 873、883 章</span></li><li data-ch="888"><span class="text"><a href="../people.html?upto=889#person-%E6%B8%B8%E5%9B%9B">游四</a> — 同伴 — <a href="../people.html?upto=889#person-%E6%B2%99%E5%8A%A0">沙加</a></span><span class="ch">第 883、888 章</span></li><li data-ch="883"><span class="text"><a href="../people.html?upto=889#person-%E7%94%98%E4%B8%80">甘一</a> — 联手暗算徐获 — <a href="../people.html?upto=889#person-%E5%BA%84%E6%A2%A6%E7%94%9C">庄梦甜</a></span><span class="ch">第 874、883 章</span></li><li data-ch="877"><span class="text"><a href="../people.html?upto=889#person-%E6%B2%99%E5%8A%A0">沙加</a> — 朋友 — 蒲东海</span><span class="ch">第 871、877 章</span></li></ul></details>
 </section>
 <section id="threads" class="fgroup"><h3>伏笔与未解</h3>
-<p class="note">截至第 889 章还没有交代的事。</p>
-<ul class="items"><li data-ch="888"><a class="thread-no" href="../threads.html?upto=889#thread-196" title="伏笔总表">#196</a><span class="text">雨衣男：他怎么认得出谁是圣剑会的人，为什么特意告诉徐获甘一不是。</span><span class="ch">第 888 章</span><details class="src"><summary>原文</summary><blockquote>我不能告诉你我的判断依据，不过我说的是真话<cite>第 888 章</cite></blockquote></details></li><li data-ch="888"><a class="thread-no" href="../threads.html?upto=889#thread-197" title="伏笔总表">#197</a><span class="text">永恒烙印：甘一说所有圣剑会会徒见到这个印记都会追杀，徐获想拿它反过来钓圣剑会的人，演员的面具已经报废，得找道具洗掉。</span><span class="ch">第 887–888 章</span><details class="src"><summary>原文</summary><blockquote>只要我带着这个印记，就可以源源不断地钓出圣剑会玩家<cite>第 887 章</cite></blockquote></details></li><li data-ch="881"><a class="thread-no" href="../threads.html?upto=889#thread-198" title="伏笔总表">#198</a><span class="text">肖向林去了哪：他第二轮做整容任务后没回来，是通关了还是死了。</span><span class="ch">第 881 章</span><details class="src"><summary>原文</summary><blockquote>肖向林没回来，不知道他是通关了还是死了<cite>第 881 章</cite></blockquote></details></li></ul>
-</section><section id="links" class="fgroup"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E9%80%9A%E5%85%B3%E4%B8%8E%E8%AF%84%E7%BA%A7" data-ch="884">通关与评级</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96" data-ch="881">超级进化</a><a href="../world.html#world-D%E7%BA%A7%E6%9D%83%E9%99%90" data-ch="889">升级与权限</a><a href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C" data-ch="889">游戏世界与虫洞点</a><a href="../world.html#world-%E5%9C%A3%E5%89%91%E4%BC%9A" data-ch="887">圣剑会</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9" data-ch="868">进化的动植物</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E6%BC%94%E5%91%98%E7%9A%84%E9%9D%A2%E5%85%B7" data-ch="887">演员的面具</a><a href="../items.html#item-%E5%90%8C%E7%B1%BB%E6%A3%80%E7%B4%A2%E5%99%A8" data-ch="880">同类检索器</a><a href="../items.html#item-%E6%9C%BA%E6%A2%B0%E6%89%8B%E5%A5%97" data-ch="881">机械手套</a><a href="../items.html#item-%E8%BF%90%E5%8A%BF%E7%89%8C" data-ch="873">运势牌</a><a href="../items.html#item-%E7%9F%AD%E5%89%91" data-ch="884">短剑</a><a href="../items.html#item-%E9%9A%90%E8%BA%AB%E8%A1%A3" data-ch="884">隐身衣</a><a href="../items.html#item-%E7%94%9F%E6%AD%BB%E4%B9%8B%E5%8C%A3" data-ch="886">生死之匣</a><a href="../items.html#item-%E6%B0%B8%E6%81%92%E7%83%99%E5%8D%B0" data-ch="887">永恒烙印</a><a href="../items.html#item-%E7%B2%BE%E5%87%86%E5%91%BD%E4%B8%AD" data-ch="887">精准命中</a><a href="../items.html#item-%E4%B8%89%E7%99%BE%E5%85%AD%E5%8D%81%E6%AC%A1%E9%98%B2%E5%BE%A1" data-ch="888">三百六十次防御</a><a href="../items.html#item-%E5%8E%BB%E5%BE%80%E7%9B%AE%E7%9A%84%E5%9C%B0" data-ch="888">去往目的地</a><a href="../items.html#item-%E7%BB%85%E5%A3%AB%E7%9A%84%E5%A7%BF%E6%80%81" data-ch="888">绅士的姿态</a><a href="../items.html#item-%E9%97%A8%E9%93%83" data-ch="889">门铃</a></p></section></details>
+<ul class="items"><li data-ch="888"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#196</span><span class="text">雨衣男怎么认得出谁是圣剑会的人，为什么特意告诉徐获甘一不是，他不肯说。</span><span class="ch">第 888 章</span></li><li data-ch="888"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#197</span><span class="text">甘一说圣剑会会徒见到永恒烙印都会追杀，徐获想拿它反钓圣剑会的人，演员的面具已经报废，得另找道具洗掉。</span><span class="ch">第 887–888 章</span><details class="src"><summary>原文</summary><blockquote>只要我带着这个印记，就可以源源不断地钓出圣剑会玩家<cite>第 887 章</cite></blockquote></details></li><li data-ch="881"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#198</span><span class="text">肖向林第二轮做整容任务后没有回来，是通关了还是死了，没有交代。</span><span class="ch">第 881 章</span></li></ul>
+</section>
+<section id="callbacks" class="fgroup"><h3>承接前文</h3>
+<ul class="items"><li data-ch="888"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#194</span><span class="text">断指玩家叫甘一，C级，职业是超市老板；他在友谊园屡次暗算徐获，被杀前给徐获烙上印记，雨衣男却说他不是圣剑会的人。</span><span class="ch">第 864、887–888 章</span></li><li data-ch="887"><a class="thread-no" href="../threads.html?upto=889#thread-065" title="伏笔总表">#183</a><span class="text">写名字就能杀人的纸叫“精准命中”，一次性A级道具，每个玩家一生只能用一次，徐获从甘一的遗物里得到一张。</span><span class="ch">第 887 章</span><details class="src"><summary>原文</summary><blockquote>此外，任何玩家一生仅能使用一次此道具<cite>第 887 章</cite></blockquote></details></li><li data-ch="881"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#195</span><span class="text">徐获服药后的阻滞感不是后遗症，而是他与空间线条的频率没对上，在植物园对上后，他完成了空间向<a class="term" href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96" title="进化者的身体进化到一定程度后发生的质变，也叫二次进化。">超级进化</a>。</span><span class="ch">第 881 章</span></li><li data-ch="888"><a class="thread-no" href="../threads.html?upto=889#thread-031" title="伏笔总表">#031</a><span class="text">甘一临死说所有圣剑会会徒都会追杀带印记的人，雨衣男却说带剑形徽章或纹身的不一定是圣剑会的人。</span><span class="ch">第 887–888 章</span><details class="src"><summary>原文</summary><blockquote>不是带着剑形徽章或者有剑形纹身的人就是圣剑会的人<cite>第 888 章</cite></blockquote></details></li></ul>
+</section>
+<section id="callbacks-more" class="fgroup"><details class="section-fold"><summary>更多承接</summary>
+<ul class="items"><li data-ch="877"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#193</span><span class="text">庄梦甜是催眠师，徐获肯定她有催眠类道具或特性；792次列车上同吃布丁的人里只有他受影响最重，他把原因归到完美药剂上。</span><span class="ch">第 876–877 章</span></li></ul>
+</details></section><section id="links" class="fgroup"><h3>本单元涉及的设定、地点与道具</h3><p class="note">设定在世界观页，地点和势力在地理页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E9%80%9A%E5%85%B3%E4%B8%8E%E8%AF%84%E7%BA%A7" data-ch="884">通关与评级</a><a href="../world.html#world-%E8%B6%85%E7%BA%A7%E8%BF%9B%E5%8C%96" data-ch="881">超级进化</a><a href="../world.html#world-D%E7%BA%A7%E6%9D%83%E9%99%90" data-ch="889">升级与权限</a><a href="../world.html#world-%E6%B8%B8%E6%88%8F%E4%B8%96%E7%95%8C" data-ch="889">游戏世界与虫洞点</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9" data-ch="868">进化的动植物</a></p><p class="links fgroup"><b>地点与势力</b><a href="../places.html#place-%E6%B5%B7%E4%B8%8A%E5%A4%A7%E4%B8%96%E7%95%8C" data-ch="862">海上大世界</a><a href="../places.html#faction-%E5%9C%A3%E5%89%91%E4%BC%9A" data-ch="887">圣剑会</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E6%BC%94%E5%91%98%E7%9A%84%E9%9D%A2%E5%85%B7" data-ch="887">演员的面具</a><a href="../items.html#item-%E5%90%8C%E7%B1%BB%E6%A3%80%E7%B4%A2%E5%99%A8" data-ch="880">同类检索器</a><a href="../items.html#item-%E8%BF%90%E5%8A%BF%E7%89%8C" data-ch="873">运势牌</a><a href="../items.html#item-%E7%94%9F%E6%AD%BB%E4%B9%8B%E5%8C%A3" data-ch="886">生死之匣</a><a href="../items.html#item-%E6%B0%B8%E6%81%92%E7%83%99%E5%8D%B0" data-ch="887">永恒烙印</a><a href="../items.html#item-%E7%B2%BE%E5%87%86%E5%91%BD%E4%B8%AD" data-ch="887">精准命中</a></p></section></details>
 <nav class="units-nav bottom"><a class="prev" href="u0042.html"><small>← 上一单元</small><b>去海上大世界的列车</b><small>第 855–861 章</small></a><a class="next" href="u0044.html"><small>下一单元 →</small><b>去 W37 基地站的列车</b><small>第 890–896 章</small><small class="after" data-beyond="890" hidden>在你的进度之后</small></a></nav><script>
 (function () {
   var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
@@ -302,6 +373,17 @@ h4[id] { scroll-margin-top:16px; }
     else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
     button.textContent = '仍然展开'; status.appendChild(button);
   });
+  if (window.matchMedia('(max-width:640px)').matches) {   // a phone (design reviews 2026-10-06): the graph is wider than
+    doc.querySelectorAll('details.rel').forEach(function (d) { d.open = true; });   // the screen, so the list shows too,
+    doc.querySelectorAll('.graph').forEach(function (g) {   // and the strip starts at the busiest person, not the left edge
+      var svg = g.querySelector('svg'), best = null;
+      if (!svg || !svg.viewBox || !svg.viewBox.baseVal) return;
+      g.querySelectorAll('g.node circle').forEach(function (c) { if (!best || +c.getAttribute('r') > +best.getAttribute('r')) best = c; });
+      if (!best) return;
+      var scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width;
+      g.scrollLeft = Math.max(0, +best.getAttribute('cx') * scale - g.clientWidth / 2);
+    });
+  }
 })();
 </script>
 <footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
@@ -385,5 +467,84 @@ h4[id] { scroll-margin-top:16px; }
     note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
     note.hidden = false; note.scrollIntoView();
   } else if (target) { target.scrollIntoView(); }
+})();
+
+document.addEventListener('toggle', function (e) {
+  var d = e.target;
+  if (!d.open || d.tagName !== 'DETAILS' || d.classList.contains('src') || d.hasAttribute('data-fold')) return;
+  if (d.querySelector(':scope > button.fold-close') || d.getBoundingClientRect().height < window.innerHeight * 0.7) return;
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'fold-close'; b.textContent = '收起 ▲';
+  b.addEventListener('click', function () {
+    d.open = false;
+    var s = d.querySelector(':scope > summary') || d;
+    if (s.getBoundingClientRect().top < 0) s.scrollIntoView({block: 'start'});
+  });
+  d.appendChild(b);
+}, true);
+
+(function () {   // phones (step 7): the contents as a drawer, intros cut to three lines
+  var doc = document, root = doc.documentElement, small = window.matchMedia('(max-width:720px)');
+  var toc = doc.getElementById('toc') || doc.getElementById('jump');
+  if (toc) {
+    root.classList.add('has-toc');
+    var fab = doc.createElement('button'), back = doc.createElement('div'), filter = doc.createElement('input');
+    fab.type = 'button'; fab.className = 'toc-fab'; fab.textContent = '目录'; fab.setAttribute('aria-label', '目录');
+    var lastY = window.scrollY;   // scrolling down it steps aside, scrolling up it comes back (design review 2026-10-06)
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (y > lastY + 8 && y > 240) root.classList.add('fab-away'); else if (y < lastY - 8) root.classList.remove('fab-away');
+      lastY = y;
+    }, {passive: true});
+    back.className = 'toc-backdrop';
+    filter.type = 'search'; filter.className = 'toc-filter'; filter.placeholder = '在目录里找…';
+    toc.insertBefore(filter, toc.firstChild);
+    doc.body.appendChild(back); doc.body.appendChild(fab);
+    var open = function (on) { root.classList.toggle('toc-open', on); if (on && small.matches) filter.focus({preventScroll: true}); };
+    fab.addEventListener('click', function () { open(!root.classList.contains('toc-open')); });
+    back.addEventListener('click', function () { open(false); });
+    toc.addEventListener('click', function (e) { if (e.target.closest('a')) open(false); });
+    doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+    doc.querySelectorAll('a.totop').forEach(function (a) {   // on a phone it opens the contents, so it says so (GPT design review 2026-10-06)
+      a.textContent = '目录';
+      a.addEventListener('click', function (e) { if (small.matches) { e.preventDefault(); open(true); } });
+    });
+    filter.addEventListener('input', function () {   // names and data-keys (other names); a .find-only row shows only on a hit
+      var q = filter.value.replace(/\s/g, '');
+      toc.querySelectorAll('a').forEach(function (a) {
+        a.style.display = !q || (a.textContent + (a.dataset.keys || '')).replace(/\s/g, '').indexOf(q) >= 0 ? '' : 'none';
+      });
+      toc.querySelectorAll('.find-only').forEach(function (r) {
+        r.classList.toggle('found', !!q && Array.prototype.some.call(r.querySelectorAll('a'), function (a) { return a.style.display !== 'none'; }));
+      });
+    });
+  }
+  if (window.matchMedia('(max-width:640px)').matches) {
+    doc.querySelectorAll('.ticket-main > p.hint').forEach(function (p) {
+      if (p.scrollHeight < 90) return;
+      p.classList.add('clamped');
+      var b = doc.createElement('button');
+      b.type = 'button'; b.className = 'hint-more'; b.textContent = '展开说明';
+      b.addEventListener('click', function () { p.classList.remove('clamped'); b.remove(); });
+      p.after(b);
+    });
+  }
+})();
+
+(function () {   // a link into a closed fold opens the folds around its target first (design reviews 2026-10-06)
+  function openTo(id) {
+    var t = id && (document.getElementById(id) || document.getElementById(decodeURIComponent(id)));
+    for (var p = t && t.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a) openTo(a.getAttribute('href').slice(1));
+  }, true);
+  if (location.hash) openTo(location.hash.slice(1));
+  document.querySelectorAll('.graph, .growth').forEach(function (g) {   // a strip wider than the screen fades at its right edge
+    if (g.scrollWidth <= g.clientWidth + 2) return;
+    var check = function () { g.classList.toggle('at-end', g.scrollLeft + g.clientWidth >= g.scrollWidth - 4); };
+    g.classList.add('scroll-fade'); g.addEventListener('scroll', check, {passive: true}); check();
+  });
 })();
 </script></body></html>

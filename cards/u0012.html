@@ -1,18 +1,20 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>小花红红大楼 · 单元卡 · 维度之下</title><style>
+<title>小花红红大楼 · 单元卡 · 维度之下</title><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20x%3D%222%22%20y%3D%226%22%20width%3D%2228%22%20height%3D%2220%22%20rx%3D%223%22%20fill%3D%22%23d3a655%22/%3E%3Ccircle%20cx%3D%222%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2216%22%20r%3D%223.5%22%20fill%3D%22%2307080b%22/%3E%3Ctext%20x%3D%2216%22%20y%3D%2221.5%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20text-anchor%3D%22middle%22%20fill%3D%22%2307080b%22%20font-family%3D%22serif%22%3E%E7%BB%B4%3C/text%3E%3C/svg%3E"><meta name="description" content="《玩家请上车》（海晏山 著）的读者整理：按单元写的梗概与解析，世界观、人物、地理、伏笔和道具库，可按读到的章数隐藏后文。"><meta name="theme-color" content="#07080b"><style>
 :root { color-scheme:dark; --paper:#0e1014; --card:#171a20; --card-2:#1c2028; --ink:#e7e1d5; --muted:#9a948a; --line:#2b3039;
   --chip:#232830; --signal:#e0594d; --brass:#d3a655; --rail:#07080b; --rail-ink:#ece6d9; --rail-muted:#8f897d; --node:#7d9bd1;
   --rel-ally:#4fbf7f; --rel-enemy:#f0904f; --rel-kill:#ef5a4f; --rel-other:#8d95a3;
-  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC","Source Han Serif CN","Noto Serif CJK SC","STSong","SimSun",serif;
   --sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
-  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace; }
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,Menlo,monospace;
+  --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
-  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#96702a; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
-  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380; }
+  --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#85621f; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
+  --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380;
+  --mind:#7650b0; --space:#17788a; --time:#b25f18; --gold:#a07a10; }
 /* what stays dark in the light theme keeps the dark accents */
-:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
-  --line:#3a404b; --chip:#232830; }
+:root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth, .emblem) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
+  --line:#3a404b; --chip:#232830; --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
 :root[data-theme="light"] .banner button.primary { color:#fff; }
 :root[data-theme="light"] .ticket { box-shadow:0 8px 24px rgba(80,60,20,.14); }
 * { box-sizing:border-box; }
@@ -21,11 +23,15 @@ body { margin:0; color:var(--ink); font:16px/1.8 var(--sans);
   background:radial-gradient(1200px 500px at 50% -120px, #1a2030 0%, transparent 70%), var(--paper); background-attachment:fixed; }
 :root[data-theme="light"] body { background:var(--paper); }
 a { color:var(--signal); text-decoration:none; } a:hover { text-decoration:underline; }
+/* a dense run of names (items in hand, rewards, the units a person is in): ink with a thin red line, not a wall of red (design review 2026-10-06) */
+.quiet a, a.quiet { color:var(--ink); border-bottom:1px solid var(--line); border-bottom-color:color-mix(in srgb, var(--signal) 32%, transparent); }
+.quiet a:hover, a.quiet:hover { color:var(--signal); text-decoration:none; border-bottom-color:var(--signal); }
 main { max-width:920px; margin:0 auto; padding:24px 16px 72px; }
 
 /* nav: the rail */
 .rail { background:var(--rail); color:var(--rail-ink); border-bottom:3px solid var(--signal); }
 .rail-inner { max-width:920px; margin:0 auto; padding:10px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; }
+@media (min-width:1100px) { .rail-inner { max-width:1060px; } }   /* brand, links, progress and switches on one line (2026-10-06) */
 .brand { font-family:var(--serif); font-weight:700; font-size:19px; letter-spacing:.14em; color:var(--rail-ink); text-decoration:none !important; }
 .brand small { font-family:var(--sans); font-weight:400; font-size:12px; color:var(--rail-muted); letter-spacing:.12em; margin-left:6px; }   /* so brand, links, progress and switches fit one line at 920px */
 .rail nav { display:flex; gap:0; flex-wrap:wrap; margin:0 -8px; }
@@ -48,18 +54,54 @@ details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 @media (max-width:640px) { .rail .progress input { min-height:38px; width:5.2em; } .rail .progress button { min-height:38px; }
   .banner button { min-height:42px; } .toggle-label { padding:9px 12px; } }
 .beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
-details.fold[open] > summary { display:none; }
+details.fold[data-fold][open] > summary { display:none; }   /* only the spoiler gate (hero 档案) drops its line once open */
+button.fold-close { display:block; margin:8px 0 2px; font:12.5px var(--sans); color:var(--muted); background:none; border:1px solid var(--line); border-radius:4px; padding:5px 12px; cursor:pointer; }
+button.fold-close:hover { color:var(--brass); border-color:var(--brass); }
+/* phones (step 7, 2026-10-06): one row of page links; intros cut to three lines; a page's contents (#toc, #jump) as
+   a drawer behind a 目录 button, with a filter; long CJK lines may break anywhere */
+button.toc-fab, .toc-backdrop { display:none; }
+input.toc-filter { display:block; width:100%; margin:2px 0 10px; }   /* the contents filter on wide screens too (2026-10-06); its look is the shared search box */
+nav.jump input.toc-filter { max-width:20em; margin:8px 0 6px; }
+.ticket-main p.premise { color:var(--ink); }
+@media (max-width:720px) {
+  html.has-toc button.toc-fab { display:block; position:fixed; right:14px; bottom:max(18px, env(safe-area-inset-bottom)); z-index:41; width:46px; height:46px;
+    padding:0; border:none; border-radius:50%; font-size:0; color:transparent; cursor:pointer; opacity:.94; box-shadow:0 4px 14px rgba(0,0,0,.35);
+    background:linear-gradient(#07080b,#07080b) 50% 16px / 18px 2px no-repeat, linear-gradient(#07080b,#07080b) 50% 22px / 18px 2px no-repeat,
+      linear-gradient(#07080b,#07080b) 50% 28px / 18px 2px no-repeat, #d3a655; transition:transform .2s ease, opacity .2s ease; }
+  html.fab-away:not(.toc-open) button.toc-fab { transform:translateY(90px); opacity:0; }
+  html.has-toc #toc, html.has-toc #jump { position:fixed !important; top:0; right:0; bottom:0; left:auto; width:min(86vw,360px);
+    max-height:none !important; margin:0; z-index:40; overflow:auto; overscroll-behavior:contain; background:var(--card);
+    border:none; border-left:1px solid var(--line); border-radius:0; padding:12px 16px 90px; transform:translateX(105%);
+    transition:transform .2s ease; box-shadow:-8px 0 24px rgba(0,0,0,.35); }
+  html.toc-open #toc, html.toc-open #jump { transform:none; }
+  html.toc-open .toc-backdrop { display:block; position:fixed; inset:0; z-index:39; background:rgba(0,0,0,.45); }
+  html.has-toc input.toc-filter { display:block; width:100%; margin:2px 0 10px; font-size:15px; min-height:40px; }
+}
+@media (max-width:640px) {
+  .rail nav { flex:1 1 100%; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+  .rail nav::-webkit-scrollbar { display:none; }
+  .rail nav a { flex:none; }
+  main { overflow-wrap:anywhere; }
+  .ticket-main p.hint.clamped { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:0; }
+  button.hint-more { background:none; border:none; color:var(--brass); font-size:12.5px; padding:2px 0 6px; cursor:pointer; }
+}
 [hidden] { display:none !important; }
 html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
 /* the 显示出处 and 浅色 switches */
 .toggle { position:absolute; opacity:0; pointer-events:none; }
 .switches { display:inline-flex; gap:8px; }
-.toggle-label { display:inline-block; font-size:12px; color:var(--rail-muted); border:1px solid var(--rail-muted); border-radius:3px; padding:6px 12px; cursor:pointer; user-select:none; }
-#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail); background:var(--brass); border-color:var(--brass); }
+.toggle-label { display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--rail-muted); border:1px solid #3a404b; border-radius:14px;
+  padding:4px 11px 4px 5px; cursor:pointer; user-select:none; }
+.toggle-label::before { content:""; flex:none; width:24px; height:14px; border-radius:7px; transition:background .15s;
+  background:radial-gradient(circle at 7px 50%, #8f897d 4px, transparent 4.6px), #262b33; }
+#show-src:checked ~ .rail label[for="show-src"], #theme-light:checked ~ .rail label[for="theme-light"] { color:var(--rail-ink); border-color:#8a7140; }
+#show-src:checked ~ .rail label[for="show-src"]::before, #theme-light:checked ~ .rail label[for="theme-light"]::before {
+  background:radial-gradient(circle at 17px 50%, #07080b 4px, transparent 4.6px), #d3a655; }
+#show-src:focus-visible ~ .rail label[for="show-src"], #theme-light:focus-visible ~ .rail label[for="theme-light"] { outline:2px solid #d3a655; outline-offset:2px; }
 html:not(.js) label[for="theme-light"] { display:none; }
 .ch, sup.cite, details.src, .src-only { display:none; }
-#show-src:checked ~ main .ch { display:inline-block; }
+#show-src:checked ~ main .ch { display:inline-block; text-indent:0; }
 #show-src:checked ~ main sup.cite { display:inline; }
 #show-src:checked ~ main details.src { display:inline; }
 #show-src:checked ~ main .src-only { display:block; }
@@ -69,7 +111,7 @@ html:not(.js) label[for="theme-light"] { display:none; }
 .ch { font:12px/1.6 var(--mono); color:var(--muted); background:var(--chip); border-radius:3px; padding:0 6px; margin-left:6px; }
 sup.cite { font:10px var(--mono); color:var(--brass); margin:0 2px 0 1px; }
 details.src > summary { display:inline; cursor:pointer; font-size:12px; color:var(--brass); margin-left:6px; }
-blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--brass); color:var(--muted); font:14px/1.7 var(--serif); }
+blockquote { margin:6px 0 6px 2px; padding:4px 12px; border-left:3px solid var(--line); color:color-mix(in srgb, var(--ink) 80%, var(--muted)); font:14.5px/1.75 var(--serif); }
 cite { display:block; font:11px var(--mono); color:var(--muted); font-style:normal; }
 
 /* headings and text */
@@ -95,6 +137,12 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 .route { font:13px var(--mono); color:var(--muted); letter-spacing:.04em; }
 .stub-row { font:12px var(--mono); color:var(--muted); }
 .stub-row b { font-family:var(--sans); color:var(--ink); font-weight:600; margin-right:6px; }
+/* a page's counts read like the fields of a ticket stub: a small label over a big number (2026-10-06) */
+.ticket-stub.stats { gap:12px; }
+.ticket-stub.stats .stub-row:not(.src-only) { font:600 24px/1.05 var(--mono); color:var(--ink); }   /* figures in ink; gold kept for its few meanings */
+.ticket-stub.stats .stub-row:not(.src-only) b { display:block; font:500 11.5px/1.4 var(--sans); color:var(--muted); letter-spacing:.12em; margin:0 0 3px; }
+.ticket-stub.stats small { font:500 12px var(--sans); color:var(--muted); margin-left:4px; }
+a.stub-row { display:block; text-decoration:none; } a.stub-row:hover b { color:var(--brass); }   /* a count that jumps to its section */
 .stamp { position:absolute; top:12px; right:14px; width:54px; height:54px; border:3px double var(--signal); border-radius:50%; color:var(--signal);
   display:flex; align-items:center; justify-content:center; font:700 22px var(--serif); transform:rotate(-14deg); opacity:.85; }
 .stamp small { font-size:10px; margin-left:1px; }
@@ -107,10 +155,11 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* grade badge */
 .grade { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:22px; padding:0 6px; border-radius:3px;
   color:#fff; font:700 13px var(--mono); vertical-align:2px; }
+.grade.dark-ink { color:#14100a; }
 .grade.none { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:400; font-size:11px; }
-.tag { display:inline-block; font-size:12px; color:var(--brass); border:1px solid var(--brass); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
+.tag { text-indent:0; display:inline-block; font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:3px; padding:0 6px; margin-left:6px; vertical-align:2px; }
 /* a dungeon rating: a seal (S and up gold), or a neutral dashed sign when there is none */
-.seal { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+.seal { flex:none; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
   border:3px double currentColor; font:700 16px var(--serif); transform:rotate(-12deg); letter-spacing:-.02em; }
 .seal.wide { font-size:14px; }
 .seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
@@ -120,35 +169,66 @@ ul { margin:0; padding-left:20px; } li { margin:6px 0; }
 /* the player panel, in the book's 【key：value】 lines */
 .syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
   padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
-.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel span { color:var(--brass); font-weight:600; }
+.syspanel .row { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .syspanel .row > span { color:var(--rail-ink); font-weight:600; }
+.syspanel .v-rate { color:var(--brass); } .syspanel .grade { font-size:12px; height:20px; min-width:24px; vertical-align:1px; }   /* gold for evolution; a level in its colour */
+.evo-mind { color:var(--mind); } .evo-space { color:var(--space); } .evo-time { color:var(--time); }
 .syspanel.extra { border-left-style:dashed; margin-top:6px; font-size:14px; }
 @media (max-width:640px) { .syspanel .row { white-space:normal; overflow:visible; text-overflow:clip; } }   /* a long line wraps, not "…" */
 .upto-cut { display:none; }   /* "起" replaces "至第 N 章，M 个单元" only while the reader's chapter cuts the span */
-/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已推翻 (refuted); settled points carry no tag */
-.tier { display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
+/* how sure a point is: 说法 (someone says so), 推测 (inferred), 已否定 (denied or refuted); settled points carry no tag */
+.tier { text-indent:0; display:inline-block; font-size:12px; line-height:1.45; padding:0 6px; margin-right:6px; border:1px solid; border-radius:4px; vertical-align:1px; letter-spacing:.05em; }
 .tier.claim { color:var(--brass); } .tier.guess { color:var(--muted); border-style:dashed; } .tier.over { color:var(--signal); }
 .tier[tabindex] { cursor:help; } .tier[tabindex]:focus { outline:none; } .tier[tabindex]:focus::after { content:" · " attr(title); }   /* who says so, on a tap */
 
 .hidden { display:none !important; }
+nav.pagenav { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0 6px; font-size:14px; }
+nav.pagenav > b { color:var(--muted); font-weight:400; font-size:13px; margin-right:2px; }
+nav.pagenav a { padding:3px 11px; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--ink); }
+nav.pagenav a:hover { border-color:var(--brass); color:var(--brass); text-decoration:none; }
+@media (min-width:721px) { nav.pagenav input.toc-filter { display:none; } }
+@media (max-width:720px) {
+  html.has-toc nav.pagenav { display:block; }
+  html.has-toc nav.pagenav > b { display:block; margin:0 0 6px; }
+  html.has-toc nav.pagenav a { display:block; border:none; border-bottom:1px solid var(--line); border-radius:0; background:none; padding:10px 2px; }
+}
 .totop { display:none; font-size:13px; margin-left:12px; }   /* back to the contents, on phones */
 @media (max-width:720px) { .totop { display:inline; } }
 footer { color:var(--muted); font-size:12px; margin-top:40px; border-top:1px dashed var(--line); padding-top:10px; }
 @media (max-width:640px) { .ticket { flex-direction:column; } .ticket-stub { width:auto; border-left:none; border-top:2px dashed var(--line); }
-  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; } }
+  .ticket-stub::before, .ticket-stub::after { display:none; } .ticket h1 { font-size:28px; } .stamp { width:46px; height:46px; font-size:18px; }
+  .ticket-stub.stats { flex-direction:row; flex-wrap:wrap; justify-content:flex-start; gap:10px 26px; } .ticket-stub.stats .stub-row.src-only { flex-basis:100%; } }
 
+input[type=search] { font:14px var(--sans); color:var(--ink); background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2714%27%20height%3D%2714%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27round%27%3E%3Ccircle%20cx%3D%2710.5%27%20cy%3D%2710.5%27%20r%3D%276.5%27/%3E%3Cpath%20d%3D%27M20%2020l-4.6-4.6%27/%3E%3C/svg%3E") no-repeat 10px 50%;
+  border:1px solid var(--line); border-radius:6px; padding:6px 10px 6px 31px; min-height:34px; }
+input[type=search]::placeholder { color:var(--muted); }
+input[type=search]:focus, select:focus { outline:none; border-color:var(--brass); box-shadow:0 0 0 2px color-mix(in srgb, var(--brass) 25%, transparent); }
+select { appearance:none; -webkit-appearance:none; font:14px var(--sans); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  background:var(--card) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2710%27%20height%3D%276%27%20viewBox%3D%270%200%2010%206%27%20fill%3D%27none%27%20stroke%3D%27%238f897d%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M1%201l4%204%204-4%27/%3E%3C/svg%3E") no-repeat right 10px center; padding:6px 30px 6px 10px; min-height:34px; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary { list-style:none; cursor:pointer; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::-webkit-details-marker { display:none; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more) > summary::before { content:""; display:inline-block; width:6px; height:6px; margin:0 9px 2px 2px; border-right:1.6px solid currentColor;
+  border-bottom:1.6px solid currentColor; transform:rotate(-45deg); transition:transform .15s ease; opacity:.7; vertical-align:middle; }
+details:is(.row-fold, .more-known, .rel, .more-units, .hint, .fold, .stage, .section-fold, .versions, .about-src, .held-more)[open] > summary::before { transform:rotate(45deg); margin-bottom:4px; }
+@media (max-width:640px) { .scroll-fade { -webkit-mask-image:linear-gradient(to right, #000 82%, transparent); mask-image:linear-gradient(to right, #000 82%, transparent); }
+  .scroll-fade.at-end { -webkit-mask-image:none; mask-image:none; } }
+p.graph-hint { display:none !important; }
+
+details.section-fold > summary { cursor:pointer; font:600 16px var(--serif); color:var(--muted); margin:14px 0 6px; letter-spacing:.04em; }
+details.section-fold[open] > summary { color:var(--ink); }
 .layer { margin:6px 0 18px; }
-.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; }
+.layer > summary { cursor:pointer; list-style:none; margin:30px 0 4px; display:flex; align-items:center; gap:4px 12px; }   /* a phone wraps the note, 收起 stays on the right */
 .layer > summary::-webkit-details-marker { display:none; }
-.layer > summary b { display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
-.layer > summary span { color:var(--muted); font-size:13px; margin-left:10px; }
-.layer > summary::after { content:"收起"; float:right; color:var(--muted); font-size:12px; margin-top:12px; }
+.layer > summary b { flex:none; display:inline-block; font:700 20px var(--serif); letter-spacing:.16em; padding:4px 16px; background:var(--rail); color:var(--rail-ink); border-radius:4px; }
+.layer > summary span { flex:1 1 auto; color:var(--muted); font-size:13px; }
+.layer > summary::after { content:"收起"; flex:none; color:var(--muted); font-size:12px; }
 .layer:not([open]) > summary::after { content:"展开"; }
 section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:2px 22px 14px; margin:14px 0; }
 ul.people { list-style:none; padding-left:0; } ul.people li { border-bottom:1px dashed var(--line); padding:7px 0; margin:0; }
 ul.people li:last-child { border-bottom:none; }
 .thread-no { font:600 12px var(--mono); color:var(--brass); margin-right:8px; }
-.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; }
-ul.people li { display:grid; grid-template-columns:7.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
+a.term { color:inherit; border-bottom:1px dotted var(--muted); text-decoration:none; } a.term:hover { color:var(--signal); border-bottom-color:var(--signal); }
+.subject { display:inline-block; min-width:7.5em; margin-right:10px; font-family:var(--serif); font-weight:700; overflow-wrap:anywhere; }   /* a long name wraps in its column */
+ul.people li { display:grid; grid-template-columns:8.5em 1fr; column-gap:10px; } ul.people li > .subject { min-width:0; margin:0; }
 ul.people li > :not(.subject) { grid-column:2; }
 @media (max-width:640px) { ul.people li { display:block; } ul.people li > .subject { display:block; } }
 .harvest { border-left:3px solid var(--brass); } .harvest h3 { border:none; padding:0; }
@@ -160,6 +240,9 @@ nav.units-nav a { display:flex; flex-direction:column; background:var(--card); b
 nav.units-nav a:hover { border-color:var(--signal); text-decoration:none; } nav.units-nav a.next { text-align:right; }
 nav.units-nav small { color:var(--muted); font-size:12px; } nav.units-nav b { font-family:var(--serif); font-size:16px; }
 nav.units-nav small.after { color:var(--signal); }
+@media (max-width:640px) { nav.units-nav { grid-template-columns:1fr; gap:8px; } nav.units-nav b { font-size:15px; } nav.units-nav a { padding:8px 12px; }
+  nav.units-nav span.none { display:none; } }   /* a phone: one above the other, a long name on one or two lines (design review 2026-10-06) */
+details.about-src { margin:8px 0 2px; } details.about-src > summary { color:var(--muted); font-size:13px; }
 .graph-hint { display:none; font-size:12px; color:var(--muted); margin:4px 0 0; }
 @media (max-width:640px) { .graph-hint { display:block; } }
 p.prose { text-indent:2em; line-height:2; margin:6px 0 4px; font-family:var(--serif); font-size:16.5px; }
@@ -176,63 +259,55 @@ svg text { text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-w
 svg .name { font:600 14px var(--serif); fill:var(--ink); } svg .elabel { font-size:12px; }
 details.rel > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 .links { margin:8px 0; } .links b { display:inline-block; min-width:3em; margin-right:8px; color:var(--brass); font-weight:600; }
-.links a { margin-right:12px; white-space:nowrap; }
+.links a, .links > span { margin-right:12px; white-space:nowrap; }   /* a name with no item card is a span: same spacing */
+@media (max-width:640px) { .links a, .links > span { white-space:normal; } }   /* a long place name wraps on a phone (u0148) */
 .progress-status button.peek { font:12px var(--sans); background:var(--chip); color:var(--ink); border:1px solid var(--line); border-radius:4px; padding:3px 10px; margin-left:8px; cursor:pointer; }
 .hint { margin:10px 0 0; font-size:14px; color:var(--muted); }
+.ticket-main .lede { margin:12px 0 2px; font:500 17px/1.75 var(--serif); color:var(--ink); max-width:40em; }
 nav.arcs { display:flex; flex-wrap:wrap; gap:4px 16px; margin:4px 0 8px; font-size:13.5px; }
 nav.arcs a { color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--line); }
 nav.arcs a:hover { color:var(--signal); }
 h4[id] { scroll-margin-top:16px; }
 </style></head>
-<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="990" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 990 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用。还没开始读的话，只露出到第 16 章的开头。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，只露出开头">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
+<body data-progress="on"><input type="checkbox" id="show-src" class="toggle"><input type="checkbox" id="theme-light" class="toggle"><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(b){try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}})})(document.getElementById('show-src'));(function(t){var r=document.documentElement;function set(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme')}try{t.checked=localStorage.getItem('wdzx.theme')==='light'}catch(e){}set();t.addEventListener('change',function(){set();try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document.getElementById('theme-light'))</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html">维度之下<small>《玩家请上车》设定库</small></a><nav data-db="../../novel"><a href="../index.html">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><label for="show-src" class="toggle-label">显示出处</label><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，第一个副本结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到第一个副本结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
 <div class="ticket" id="card" data-first="185" data-end="219"><div class="ticket-main"><div class="stamp-seal"><span class="seal none" data-ch="219" title="随机副本">—</span></div><div class="kicker">副本 · <span class="grade" style="background:#1f7f86">D</span><small class="diff">副本难度</small></div>
-<h1>小花红红大楼</h1><div class="route">第 185 章 ──── 第 219 章</div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 990 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="185" hidden>这张卡从第 185 章开始，在你填的进度之后，整张都是剧透。</p></div>
-<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0012</div><div class="stub-row"><b>句数</b>94</div>
-<div class="stub-row"><b>引用</b>70 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
-<p class="meta">每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</p><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 185–219 章正文后撰写。</p>
+<h1>小花红红大楼</h1><div class="route">第 185 章 ──── 第 219 章</div><div class="lede" data-ch="189">徐获和追杀他的玩家、一百多名普通人一起被吸进废弃科研大楼，必须每六小时坐电梯下一层，在变异动植物中熬满九十小时。<span class="ch">第 185–186、189 章</span></div><p class="hint">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、道具库写到第 3284 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="185" hidden>这张卡从第 185 章开始，在你填的进度之后，整张都是剧透。</p></div>
+<div class="ticket-stub src-only"><div class="stub-row"><b>单元</b>u0012</div><div class="stub-row"><b>句数</b>108</div>
+<div class="stub-row"><b>引用</b>5 处已核对</div><div class="stub-row"><b>版本</b>card_v1</div></div></div>
+<details class="about-src meta"><summary>出处怎么核对</summary>每句都记了出自哪几章，关键句附原文、由程序逐字核对；勾选页首“显示出处”查看。在页头填了读到第几章，卡上那一章以后的句子、评级和收获会藏起来。</details><p class="meta src-only">撰写：claude-opus-5-5 (claude-code session)，读第 185–219 章正文后撰写；2026-10-06 第六步由 Claude 子代理（claude-opus-5-5）改写（GPT 额度用完前第二波写成的两三张也在这批里，没有分开记录），原梗概折为逐幕复盘；2026-10-06 逐幕复盘不再上页面，其中要紧的由 Claude 子代理（claude-opus-5-5）收进剧情梗概和解谜结构。</p>
 <nav class="units-nav top"><a class="prev" href="u0011.html"><small>← 上一单元</small><b>汀城（讲故事的女人之后）</b><small>第 177–184 章</small></a><a class="next" href="u0013.html"><small>下一单元 →</small><b>汀城（小花红红大楼之后）</b><small>第 220–221 章</small><small class="after" data-beyond="220" hidden>在你的进度之后</small></a></nav>
-<details class="layer" open><summary><b>概况</b><span>一句话、背景与规则、登场人物。写到第 219 章，含结局。</span></summary><section id="overview" class="fgroup"><h3>一句话</h3>
-<ul class="items"><li data-ch="198"><span class="text">一百九十五个人被大雾吸进一栋废弃的十五层科研大楼，每六小时必须坐电梯下一层；电梯里、楼层里、楼外都有变异动植物，最要命的规则藏在电梯本身。</span><span class="ch">第 185、191、198 章</span></li><li data-ch="219"><span class="text">D 级随机副本。第 185 章雨夜追逐中被吸入，任务是在大楼里待满九十小时；第 219 章通关，随机副本不参与评级。</span><span class="ch">第 185、219 章</span><details class="src"><summary>原文</summary><blockquote>玩家路人甲已进入“小花红红大楼”，默认参与该D级随机副本<cite>第 185 章</cite></blockquote><blockquote>恭喜玩家路人甲成功通关“小花红红大楼”副本<cite>第 219 章</cite></blockquote></details></li></ul>
-</section>
-<section id="harvest" class="harvest" data-ch="219"><h3>徐获的收获</h3><div class="h-rating"><span class="seal none" title="不评级">—</span><span>评级：不评级（随机副本）<span class="ch">第 219 章</span><details class="src"><summary>原文</summary><blockquote>该副本为随机副本，无法参与玩家评级<cite>第 219 章</cite></blockquote></details></span></div><div class="h-line">奖励延伸特性“五五开”、道具营养小红盆和药剂。<span class="ch">第 219 章</span><details class="src"><summary>原文</summary><blockquote>您将获得新特性“五五开”<cite>第 219 章</cite></blockquote></details></div><p class="links"><b>奖励</b><a href="../items.html#item-%E8%90%A5%E5%85%BB%E5%B0%8F%E7%BA%A2%E7%9B%86">营养小红盆</a></p><p class="links"><b>另外拿到</b><a href="../items.html#item-%E8%83%BD%E9%87%8F%E8%83%B6%E5%9B%8A">能量胶囊</a><a href="../items.html#item-%E6%A4%8D%E7%89%A9%E8%90%A5%E5%85%BB%E5%89%82">植物营养剂</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
+<nav class="jump pagenav" id="jump" aria-label="本页目录"><b>本卡</b><a href="#harvest" data-ch="219">收获</a><a href="#setup" data-ch="185">规则</a><a href="#cast" data-ch="212">人物</a><a href="#summary" data-ch="185">梗概</a><a href="#puzzle" data-ch="185">解谜</a><a href="#relations" data-ch="190">关系</a><a href="#threads" data-ch="196">伏笔</a><a href="#links">设定与道具</a></nav>
+<details class="layer" open><summary><b>概况</b><span>背景与规则、人物。写到第 219 章，含结局。</span></summary><section id="harvest" class="harvest quiet" data-ch="219"><h3>徐获的收获</h3><div class="h-rating"><span class="seal none" title="不评级">—</span><span>不评级（随机副本）<span class="ch">第 219 章</span><details class="src"><summary>原文</summary><blockquote>该副本为随机副本，无法参与玩家评级<cite>第 219 章</cite></blockquote></details></span></div><div class="h-line">奖励延伸特性“五五开”、道具营养小红盆和药剂。<span class="ch">第 219 章</span><details class="src"><summary>原文</summary><blockquote>您将获得新特性“五五开”<cite>第 219 章</cite></blockquote></details></div><p class="links"><b>奖励</b><a href="../items.html#item-%E8%90%A5%E5%85%BB%E5%B0%8F%E7%BA%A2%E7%9B%86">营养小红盆</a></p><p class="links"><b>另外拿到</b><a href="../items.html#item-%E8%83%BD%E9%87%8F%E8%83%B6%E5%9B%8A">能量胶囊</a><a href="../items.html#item-%E8%A7%A3%E6%AF%92%E5%89%82">解毒剂</a><a href="../items.html#item-%E6%A4%8D%E7%89%A9%E8%90%A5%E5%85%BB%E5%89%82">植物营养剂</a><a href="../items.html#item-%E6%B8%85%E6%B4%81%E5%89%82">清洁剂</a><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a></p><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section>
 <section id="setup" class="fgroup"><h3>背景与规则</h3>
-<ul class="items"><li data-ch="185"><span class="text">系统给的背景：小花红红科研基地运行十五年，培育出至少十五株变种植物和十五只变种动物；因经营不善被迫关闭，创始人郝教授宣称掌握了进化的最大秘密，要去拉恒星医药研究集团的投资，此后五年再没露面。</span><span class="ch">第 185 章</span><details class="src"><summary>原文</summary><blockquote>至少培育出了十五株变种植物和十五只变种动物<cite>第 185 章</cite></blockquote><blockquote>在绝境中宣称自己掌握了进化的最大秘密<cite>第 185 章</cite></blockquote></details></li><li data-ch="185"><span class="text">任务只有一条：在小花红红大楼待满九十小时。</span><span class="ch">第 185 章</span><details class="src"><summary>原文</summary><blockquote>副本任务：在小花红红大楼待满九十小时<cite>第 185 章</cite></blockquote></details></li><li data-ch="186"><span class="text">众人落在十五楼。楼里没有楼梯，十五部电梯都停在“15”；窗玻璃全都向屋里碎开，窗外是看不透的大雾。</span><span class="ch">第 185–186 章</span></li><li data-ch="191"><span class="text">每过六小时，十五部电梯同时开门，广播要求所有人坐电梯去下一层。每部电梯核载十三人，十五部正好一百九十五人。</span><span class="ch">第 188–189、191 章</span><details class="src"><summary>原文</summary><blockquote>小花红红大楼十五楼即将关闭，请所有人员进入电梯前往十四楼<cite>第 189 章</cite></blockquote></details></li><li data-ch="200"><span class="text">被卷进来的有十多名自由玩家组织的玩家（谷雨、郑良等人追徐获时一起被吸入）、蒋艺华和大治，其余一百多人是普通人，其中还藏着两名没亮身份的玩家。</span><span class="ch">第 186、200 章</span></li></ul>
+<ul class="items"><li data-ch="185"><span class="text">游戏给的背景：小花红红科研基地运行十五年，培育出至少十五株变种植物和十五只变种动物；关闭后，创始人郝教授宣称掌握了进化的最大秘密，去找恒星医药研究集团投资，此后再没露面。</span><span class="ch">第 185 章</span></li><li data-ch="185"><span class="text">这是D级<a class="term" href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC" title="不需要车票、毫无征兆、地点随机出现的副本，卷进去的不限于玩家。">随机副本</a>，任务只有一条：在小花红红大楼待满九十小时。</span><span class="ch">第 185 章</span></li><li data-ch="186"><span class="text">众人落在十五楼，楼里没有楼梯，十五部电梯都停在“15”；窗玻璃全都朝屋里碎开，窗外是看不透的大雾。</span><span class="ch">第 185–186 章</span></li><li data-ch="191"><span class="text">每过六小时，十五部电梯同时开门，广播要求所有人坐电梯去下一层；每部电梯核载十三人，十五部正好一百九十五人。</span><span class="ch">第 188–189、191 章</span></li><li data-ch="200"><span class="text">被卷进来的有追徐获的自由玩家组织十几人、蒋艺华和大治，其余一百多人是普通人，其中还藏着两名没亮身份的玩家。</span><span class="ch">第 186、200 章</span></li></ul>
 </section>
-<section id="cast" class="fgroup"><h3>登场人物</h3>
-<p class="note">按出场先后。</p>
-<ul class="people"><li data-ch="186"><b class="subject"><a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">带着一队追兵绕圈时被吸进副本，一进来就被旧邻居郑良一伙围住。</span><span class="ch">第 185–186 章</span></li><li data-ch="190"><b class="subject"><a href="../people.html?upto=219#person-%E9%83%91%E8%89%AF">郑良</a>、<a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a></b><span class="text">郑良悬赏追徐获，谷雨开车追在后面，都被卷了进来；郑良能短距离瞬移。</span><span class="ch">第 185–186、190 章</span></li><li data-ch="188"><b class="subject">铁哥、张彪</b><span class="text">谷雨组织里的胡茬玩家和嘴角带痣的玩家，一路和徐获作对。</span><span class="ch">第 186、188 章</span></li><li data-ch="204"><b class="subject">小八、魏彬</b><span class="text">穿骷髅头短袖的小八（白色玩家）和眼镜玩家魏彬，谷雨一派；魏彬对毒气有耐受力。</span><span class="ch">第 188、200、204 章</span></li><li data-ch="198"><b class="subject"><a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a></b><span class="text">组织里较年长的眼镜玩家，冷静狠辣，身边跟着吴昆、孙茂等同伴，玻璃瓶里的药剂能让变异动物迟钝。</span><span class="ch">第 190–191、198 章</span></li><li data-ch="215"><b class="subject">蒋艺华、大治</b><span class="text">设伏徐获的卖花姑娘和她的外国壮汉同伴。她能看见能量值、用“买朵花”让对方愣住；他的纸牌能变出猛兽，用多了就虚弱。</span><span class="ch">第 192、195、215 章</span></li><li data-ch="200"><b class="subject">康弘</b><span class="text">背着背包、带着普通人归拢食物的中年人，其实是隐藏的黑色玩家。</span><span class="ch">第 189、200 章</span></li><li data-ch="200"><b class="subject">陈书</b><span class="text">自称登山运动员的高挑女子，其实是隐藏的 E 级白色玩家。</span><span class="ch">第 189、200 章</span><details class="src"><summary>原文</summary><blockquote>我叫陈书，E级玩家<cite>第 200 章</cite></blockquote></details></li><li data-ch="218"><b class="subject">有钱小姑娘</b><span class="text">一开始就说要花一两千万请徐获保她出去的普通人，活到了最后。</span><span class="ch">第 187、218 章</span></li></ul>
-</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、人物结局、关键关系、伏笔与未解。写到第 219 章，含全部剧透。</span></summary><section id="story" class="fgroup"><h3>剧情梗概</h3>
-<p class="note">打开页首的“显示出处”，可以看到每句出自哪几章、原文怎么写。</p>
-<nav class="arcs"><a href="#story-1" data-ch="185">一、十五楼（第 185–189 章）</a><a href="#story-2" data-ch="191">二、一层一层往下（第 190–196 章）</a><a href="#story-3" data-ch="197">三、电梯游戏（第 196–204 章）</a><a href="#story-4" data-ch="206">四、巨型食人花（第 205–210 章）</a><a href="#story-5" data-ch="211">五、十三楼（第 211–215 章）</a><a href="#story-6" data-ch="216">六、最后一夜（第 216–219 章）</a></nav>
-<h4 id="story-1" data-ch="185">一、十五楼（第 185–189 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="185">郑良悬赏两万白钞追徐获，一行人在雨后的马路上撞进一片大雾，连人带车被吸进了随机副本。<sup class="cite" title="第185章：谁追上他我给两万白钞">185</sup></span><span class="stmt" data-ch="187">郑良一伙在十五楼围住徐获，徐获隔空点燃一张桌子震住了他们。铁哥强行扒开电梯门，一朵肉色的食人花从电梯井里扑出来咬住了他的头。<sup class="cite" title="第186章：张裂开抓住铁哥的脑袋">186–187</sup></span><span class="stmt" data-ch="189">徐获查看十五楼：办公室被清空了，洗手间很干净，说明以前的人没在这层待多久。他主张封窗不封电梯：十五部电梯、每部核载十三人、将近两百人，不会是巧合。<sup class="cite" title="第188章：每部电梯的核载人数正常是十三人，这里加上玩家有将近两百人">188–189</sup></span><span class="stmt" data-ch="189">六小时一到，十五部电梯同时开门，广播让所有人去十四楼。<sup class="cite" title="第189章：小花红红大楼十五楼即将关闭，请所有人员进入电梯前往十四楼">189</sup></span></p><details class="src block fgroup"><summary>本段原文 4 处</summary><blockquote data-ch="185">谁追上他我给两万白钞<cite>第 185 章</cite></blockquote><blockquote data-ch="187">张裂开抓住铁哥的脑袋<cite>第 186 章</cite></blockquote><blockquote data-ch="189">每部电梯的核载人数正常是十三人，这里加上玩家有将近两百人<cite>第 188 章</cite></blockquote><blockquote data-ch="189">小花红红大楼十五楼即将关闭，请所有人员进入电梯前往十四楼<cite>第 189 章</cite></blockquote></details>
-<h4 id="story-2" data-ch="191">二、一层一层往下（第 190–196 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="191">十四楼是蛛卵培养室，天花板上爬满半米长的吸血蜘蛛，灯光一亮就扑下来。靠徐获放火和大治的纸牌老虎才清掉，四十七人被吸干，其中有三名玩家。<sup class="cite" title="第190章：上面爬满了巨型黑色蜘蛛；第191章：整个十四楼被蜘蛛杀死的人数达到了四十七个">190–191</sup></span><span class="stmt" data-ch="191">徐获清点人数，发现少了十五个：有一部电梯的人根本没下到十四楼。<sup class="cite" title="第191章：从十五楼下来的人共计是一百九十五个">191</sup></span><span class="stmt" data-ch="193">卖花姑娘为伏击的事送来三颗能量胶囊赔罪。戴文谦的同伴吴昆拿手机拍电梯井，被一道影子削掉了半个脑袋，玩家就此分成要不要下楼的两派。<sup class="cite" title="第193章：杀死吴昆的变异动物不可能只待在电梯井里">192–193</sup></span><span class="stmt" data-ch="194">十三楼是封闭的植物培养室，一盆绿植的毒粉当场毒死一人。徐获装了一推车变异植物；戴文谦约他：到十楼人数还不变，就合作。<sup class="cite" title="第194章：如果到了十楼这里的人数不变，我们不妨合作">193–194</sup></span><span class="stmt" data-ch="194">十二楼满地被砍碎的尸体。有人想从窗户爬下去，戴文谦当众割了他的喉管。<sup class="cite" title="第194章：当着众人的面割了他的喉管">194</sup></span><span class="stmt" data-ch="196">十一楼的地板是菌丝结成的，蘑菇长在一层溶解尸体的“果冻”上。徐获从尸体旁捞出一本笔记和一支刻着“郝”字的笔：笔记写小丑城的地下世界是菌类的天堂，只要拿到恒星医药集团的资助就能改写进化植物的历史。<sup class="cite" title="第196章：小丑城的地下世界对人类来说是禁地；第196章：这不会就是游戏介绍中提到的郝教授吧">195–196</sup></span></p><details class="src block fgroup"><summary>本段原文 8 处</summary><blockquote data-ch="191">上面爬满了巨型黑色蜘蛛<cite>第 190 章</cite></blockquote><blockquote data-ch="191">整个十四楼被蜘蛛杀死的人数达到了四十七个<cite>第 191 章</cite></blockquote><blockquote data-ch="191">从十五楼下来的人共计是一百九十五个<cite>第 191 章</cite></blockquote><blockquote data-ch="193">杀死吴昆的变异动物不可能只待在电梯井里<cite>第 193 章</cite></blockquote><blockquote data-ch="194">如果到了十楼这里的人数不变，我们不妨合作<cite>第 194 章</cite></blockquote><blockquote data-ch="194">当着众人的面割了他的喉管<cite>第 194 章</cite></blockquote><blockquote data-ch="196">小丑城的地下世界对人类来说是禁地<cite>第 196 章</cite></blockquote><blockquote data-ch="196">这不会就是游戏介绍中提到的郝教授吧<cite>第 196 章</cite></blockquote></details>
-<h4 id="story-3" data-ch="197">三、电梯游戏（第 196–204 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="197">徐获带蒋艺华、大治钻进电梯井回到十二楼，遇上一只镰足像刀的大螳螂，他把蒋艺华从镰刀下救出来，拆下螳螂的镰足当武器。<sup class="cite" title="第197章：徐获出现在了蒋艺华身侧，长剑一挥，便将大螳螂拦腰斩断">196–197</sup></span><span class="stmt" data-ch="198">他向两人点破：这是个电梯游戏，真正的危险在电梯里；从十五楼到十四楼失踪的十五个人，是被选中的一部电梯。他又把螳螂尸体丢进十三楼，看那里会不会引来变异动物。<sup class="cite" title="第198章：这个副本是个电梯游戏">198</sup></span><span class="stmt" data-ch="200">十楼，铁哥提议抽签派人下楼探路，徐获不参与，转而和戴文谦打赌：看哪部电梯被挑中，赢的人拿下一层的电梯分配权。他顺手点破康弘和陈书是隐藏的玩家。<sup class="cite" title="第200章：“赌谁的运气好。”徐获道；第200章：康弘跟着也亮了编号，他是黑色编号">199–200</sup></span><span class="stmt" data-ch="201">这次分坐十二部电梯。徐获那部被猛地拉回十五楼，厢顶打开，管道里有东西爬到跟前又退了回去；另有两部电梯的人整个消失，其中有玩家汪成。戴文谦认输。<sup class="cite" title="第201章：电梯不是朝下，而是猛一个提速快速上升；第201章：戴文谦正色打量了一下徐获，“这把你赢了">201</sup></span><span class="stmt" data-ch="203">九楼的铁皮箱里泡着人造的“美人鱼”异种。众人得出规律：与楼层数对应的电梯安全，多出来的随机遇袭，徐获的电梯没事，唯一的差别是他带着的变异植物。<sup class="cite" title="第202章：戴文谦指了指美人鱼腰部的缝合痕迹，“人造美人鱼；第203章：与楼层对应的电梯数不会遭到袭击，多出的电梯则不分人数多少随机遇袭">202–203</sup></span><span class="stmt" data-ch="204">戴文谦说最简单的办法是每层留下或杀掉十三个人。徐获选了另一条路：故意让一部电梯超载当靶子，由他、戴文谦二人、蒋艺华、郑良、魏彬和志愿者一起进去。<sup class="cite" title="第203章：每一层留下十三个人，或者杀掉十三个人；第203章：反正你和你的朋友进去就行了">203–204</sup></span><span class="stmt" data-ch="205">他回十三楼取出一盆没有名字、没有分类的紫色小花，游戏说明写的是“不明植物”。铁哥几人跟着上去搬花，被十三楼突然喷出的金色毒粉呛了下来。<sup class="cite" title="第204章：不明植物：没有名字，没有分类">204–205</sup></span></p><details class="src block fgroup"><summary>本段原文 11 处</summary><blockquote data-ch="197">徐获出现在了蒋艺华身侧，长剑一挥，便将大螳螂拦腰斩断<cite>第 197 章</cite></blockquote><blockquote data-ch="198">这个副本是个电梯游戏<cite>第 198 章</cite></blockquote><blockquote data-ch="200">“赌谁的运气好。”徐获道<cite>第 200 章</cite></blockquote><blockquote data-ch="200">康弘跟着也亮了编号，他是黑色编号<cite>第 200 章</cite></blockquote><blockquote data-ch="201">电梯不是朝下，而是猛一个提速快速上升<cite>第 201 章</cite></blockquote><blockquote data-ch="201">戴文谦正色打量了一下徐获，“这把你赢了<cite>第 201 章</cite></blockquote><blockquote data-ch="203">戴文谦指了指美人鱼腰部的缝合痕迹，“人造美人鱼<cite>第 202 章</cite></blockquote><blockquote data-ch="203">与楼层对应的电梯数不会遭到袭击，多出的电梯则不分人数多少随机遇袭<cite>第 203 章</cite></blockquote><blockquote data-ch="204">每一层留下十三个人，或者杀掉十三个人<cite>第 203 章</cite></blockquote><blockquote data-ch="204">反正你和你的朋友进去就行了<cite>第 203 章</cite></blockquote><blockquote data-ch="205">不明植物：没有名字，没有分类<cite>第 204 章</cite></blockquote></details>
-<h4 id="story-4" data-ch="206">四、巨型食人花（第 205–210 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="206">超载电梯被拉上十五楼，透明黏液灌满电梯，把人裹成茧拖进管道。徐获含着砍头魔斧头的碎片破茧而出，落在一间巨大的玻璃花房里。<sup class="cite" title="第205章：水一样的透明黏液">205–206</sup></span><span class="stmt" data-ch="206">花房中央是一株比电梯井里大十几倍的食人花，叶片上挂满人茧。徐获救出戴文谦，两人再救郑良、蒋艺华；十七个人里死了六个。<sup class="cite" title="第206章：徐获用剑破开外面的膜壳，弯折的枝叶抬高时戴文谦从里面滑了出来">206</sup></span><span class="stmt" data-ch="208">密丛里全是变异动物，一行人逃进郝教授的“假日小屋”，打开高亮灯才逼退它们，剩下七人。小屋暗格里升起一柜三四十支药剂，徐获多拿了三支植物营养剂，又把分到的那支解毒剂打给了受伤的普通人。<sup class="cite" title="第207章：旁边有个“假日小屋”的挂牌；第208章：柜子里摆满了颜色不一的少说三四十支药剂">207–208</sup></span><span class="stmt" data-ch="208">郝教授的培育日记说，这种食人花的根受电击才会喷毒粉。徐获推断整栋大楼都被这株食人花包裹着，楼外也有食人花在活动。<sup class="cite" title="第208章：那种食人花的根只有在受到电击的情况下才会喷出毒粉">208</sup></span><span class="stmt" data-ch="209">楼里剩下的人分成两派：铁哥一派要每层让老弱先死，还一脚踢死一个出主意的中年人；谷雨、康弘、陈书、小八、大治护着普通人。大治把台灯扔出窗外，楼下毫无动静。<sup class="cite" title="第209章：铁哥抬脚将他踢飞出去；第209章：却见他抄起手边矮柜上的台灯朝窗外扔去">209</sup></span><span class="stmt" data-ch="210">七楼他们捡到死去玩家的无主道具。花房里的巨型食人花突然朝大楼涌去，徐获一行趁乱冲到楼下，面前一红一绿两扇门，徐获选红门，戴文谦选绿门。<sup class="cite" title="第210章：一个选的是绿色门，一个选的是红色门">210</sup></span></p><details class="src block fgroup"><summary>本段原文 8 处</summary><blockquote data-ch="206">水一样的透明黏液<cite>第 205 章</cite></blockquote><blockquote data-ch="206">徐获用剑破开外面的膜壳，弯折的枝叶抬高时戴文谦从里面滑了出来<cite>第 206 章</cite></blockquote><blockquote data-ch="208">旁边有个“假日小屋”的挂牌<cite>第 207 章</cite></blockquote><blockquote data-ch="208">柜子里摆满了颜色不一的少说三四十支药剂<cite>第 208 章</cite></blockquote><blockquote data-ch="208">那种食人花的根只有在受到电击的情况下才会喷出毒粉<cite>第 208 章</cite></blockquote><blockquote data-ch="209">铁哥抬脚将他踢飞出去<cite>第 209 章</cite></blockquote><blockquote data-ch="209">却见他抄起手边矮柜上的台灯朝窗外扔去<cite>第 209 章</cite></blockquote><blockquote data-ch="210">一个选的是绿色门，一个选的是红色门<cite>第 210 章</cite></blockquote></details>
-<h4 id="story-5" data-ch="211">五、十三楼（第 211–215 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="211">红门通向一楼大厅，徐获斩杀堵门的饿狼，顺着电梯井把众人送上十三楼。谷雨带着一批人从电梯井爬上来：铁哥逼人从七楼窗外探路，食人花随即破窗而入。<sup class="cite" title="第211章：突然有食人花破窗而入，一口气拖走了七八个人">211</sup></span><span class="stmt" data-ch="212">戴文谦从绿门进了郝教授的卧室，魏彬重伤，他丢了一件道具。铁哥爬上来后，他先把人按在地上砸，最后拧断了铁哥的脖子。活下来的不足五十人。<sup class="cite" title="第212章：戴文谦拧断了铁哥的脖子">211–212</sup></span><span class="stmt" data-ch="212">徐获回放手机录像：除了晚上十点到凌晨四点，十三楼都是安全的。<sup class="cite" title="第212章：除了晚上十点到第二天凌晨四点这段时间，其他时间十三楼应该是安全的">212</sup></span><span class="stmt" data-ch="216">七楼花藤上的脓包里爬出肉虫，钻进电梯井底的通道。徐获和戴文谦决定“送那株食人花一份大礼”：接电线、磨利风扇叶片，拴在肉虫身上放进通道。<sup class="cite" title="第213章：“电梯井下有通道。”徐获和戴文谦几乎同时说道；第214章：送那株食人花一份大礼">213–214、216</sup></span><span class="stmt" data-ch="215">夜里徐获独自下楼查看，在二楼碰上戴文谦。戴文谦说同是 014 区的玩家不必自相残杀，打算带着好条件加入国家队；徐获答应不在官方面前乱说。<sup class="cite" title="第215章：在没有任何一个人成为高级玩家的情况下，加入国家队是最明智的选择">214–215</sup></span><span class="stmt" data-ch="215">张彪带着十来人溜出楼外，找回一包包保质期十年的零食。徐获和戴文谦都没吃。<sup class="cite" title="第215章：这是我们在楼外发现的">214–215</sup></span></p><details class="src block fgroup"><summary>本段原文 7 处</summary><blockquote data-ch="211">突然有食人花破窗而入，一口气拖走了七八个人<cite>第 211 章</cite></blockquote><blockquote data-ch="212">戴文谦拧断了铁哥的脖子<cite>第 212 章</cite></blockquote><blockquote data-ch="212">除了晚上十点到第二天凌晨四点这段时间，其他时间十三楼应该是安全的<cite>第 212 章</cite></blockquote><blockquote data-ch="216">“电梯井下有通道。”徐获和戴文谦几乎同时说道<cite>第 213 章</cite></blockquote><blockquote data-ch="216">送那株食人花一份大礼<cite>第 214 章</cite></blockquote><blockquote data-ch="215">在没有任何一个人成为高级玩家的情况下，加入国家队是最明智的选择<cite>第 215 章</cite></blockquote><blockquote data-ch="215">这是我们在楼外发现的<cite>第 215 章</cite></blockquote></details>
-<h4 id="story-6" data-ch="216">六、最后一夜（第 216–219 章）</h4>
-<p class="prose fgroup"><span class="stmt" data-ch="216">黄昏时张彪又带人出了楼，随后一群比楼里凶猛得多的异种追着电梯冲上十三楼，张彪被咬住肩膀滚了出来。徐获拉下电闸，众人把事先准备的水泼进电梯井，接连电下电梯，再合力杀光冲出来的异种。<sup class="cite" title="第216章：电梯门打开，率先滚出来的便是被咬住肩膀的张彪；第216章：徐获已经上前一步拉下了电线总开关">216</sup></span><span class="stmt" data-ch="218">康弘被多头异种咬烂了双腿。十三楼的通风口开始颤动：不是异种，是食人花。众人从卡在两层之间的电梯爬上十五楼，吊在后面的一串人连累大治差点被拖下去，蒋艺华用“买束花”让他们松了手。<sup class="cite" title="第217章：而受伤最严重的则是康弘；第217章：不是异种，是食人花">217–218</sup></span><span class="stmt" data-ch="218">深夜康弘死了。将近两百人，只剩二十多个。<sup class="cite" title="第218章：康弘死了。”深夜，守在他身边的陈书忽然道；第218章：从十三楼逃出来的加上玩家只剩二十多个人">218</sup></span><span class="stmt" data-ch="219">凌晨四点前，徐获回满地毒粉的十三楼取回那盆紫色小花，随即收到通关通知：新特性“五五开”、道具“营养小红盆”、药剂六份。<sup class="cite" title="第219章：恭喜玩家路人甲成功通关“小花红红大楼”副本；第219章：您将获得新特性“五五开”">219</sup></span><span class="stmt" data-ch="219">回到雾里的马路，画女在等他，告诉他唐广博在车那边；他避开所有人回了家，把紫色小花种进营养小红盆。吴组长打来电话：本该出来的玩家少了两个。<sup class="cite" title="第219章：很快打好了一行字：“你后爸在车那边；第219章：这次本来应该出来的玩家少了两个">219</sup></span></p><details class="src block fgroup"><summary>本段原文 10 处</summary><blockquote data-ch="216">电梯门打开，率先滚出来的便是被咬住肩膀的张彪<cite>第 216 章</cite></blockquote><blockquote data-ch="216">徐获已经上前一步拉下了电线总开关<cite>第 216 章</cite></blockquote><blockquote data-ch="218">而受伤最严重的则是康弘<cite>第 217 章</cite></blockquote><blockquote data-ch="218">不是异种，是食人花<cite>第 217 章</cite></blockquote><blockquote data-ch="218">康弘死了。”深夜，守在他身边的陈书忽然道<cite>第 218 章</cite></blockquote><blockquote data-ch="218">从十三楼逃出来的加上玩家只剩二十多个人<cite>第 218 章</cite></blockquote><blockquote data-ch="219">恭喜玩家路人甲成功通关“小花红红大楼”副本<cite>第 219 章</cite></blockquote><blockquote data-ch="219">您将获得新特性“五五开”<cite>第 219 章</cite></blockquote><blockquote data-ch="219">很快打好了一行字：“你后爸在车那边<cite>第 219 章</cite></blockquote><blockquote data-ch="219">这次本来应该出来的玩家少了两个<cite>第 219 章</cite></blockquote></details>
+<section id="cast" class="fgroup"><h3>人物</h3>
+<ul class="people"><li data-ch="218"><b class="subject"><a href="../people.html?upto=219#person-%E9%83%91%E8%89%AF">郑良</a>、<a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a></b><span class="text">自由玩家组织的人，郑良悬赏追徐获，谷雨开车追在后面，一起被吸进大楼；谷雨后来带人护着普通人。两人都撑到了最后一夜。</span><span class="ch">第 185–186、209、218 章</span></li><li data-ch="212"><b class="subject">铁哥</b><span class="text">组织里的胡茬玩家，一路与徐获作对，主张每层让老弱先死，又逼人从窗外探路，引来了破窗的食人花。被戴文谦拧断脖子。</span><span class="ch">第 186、209、211–212 章</span></li><li data-ch="218"><b class="subject">张彪</b><span class="text">组织里嘴角带痣的玩家，两次带人溜出楼外找食物，第二次引来一群凶猛的异种追上十三楼。他被咬伤肩膀，撑到了最后一夜。</span><span class="ch">第 186、214–216、218 章</span></li><li data-ch="218"><b class="subject"><a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a></b><span class="text">组织里较年长的眼镜玩家，冷静狠辣，与徐获打赌电梯、合作对付食人花，私下表示要带着好条件加入国家队。他撑到了最后一夜。</span><span class="ch">第 190、194、201、214–215、218 章</span></li><li data-ch="218"><b class="subject">蒋艺华、大治</b><span class="text">设伏徐获的卖花姑娘和她的外国壮汉同伴，后来跟着他钻电梯井、进超载电梯；她能看见能量值，他的纸牌能变出猛兽。两人都撑到了最后一夜。</span><span class="ch">第 192、195–196、204、218 章</span></li><li data-ch="213"><b class="subject">魏彬</b><span class="text">谷雨一派的眼镜玩家，对毒气有耐受力，进了超载电梯，后来跟戴文谦走绿门受了重伤。此后原文没再提到他。</span><span class="ch">第 200、204、211–213 章</span></li><li data-ch="218"><b class="subject">康弘</b><span class="text">带着普通人归拢食物的中年人，被徐获点破是隐藏的<a class="term" href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B" title="杀过人的玩家，肩后编号是黑色。">黑色玩家</a>，自愿进超载电梯。双腿被异种咬烂，死在十五楼。</span><span class="ch">第 189、200、203、217–218 章</span></li><li data-ch="218"><b class="subject">陈书</b><span class="text">自称登山运动员的高挑女子，被徐获点破是隐藏的E级<a class="term" href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B" title="既没吃过人也没杀过人的玩家，肩后编号是白色。">白色玩家</a>，和谷雨等人一起护着普通人。她撑到了最后一夜。</span><span class="ch">第 189、200、209、218 章</span></li><li data-ch="218"><b class="subject">有钱小姑娘</b><span class="text">一开始就说要花一两千万请徐获保她出去的普通人。她活到了最后，还说出去后想当玩家。</span><span class="ch">第 187、218 章</span></li></ul>
+</section></details><details class="layer" open><summary><b>解析</b><span>剧情梗概、解谜结构、关键关系、伏笔与未解。写到第 219 章，含全部剧透。</span></summary><section id="summary" class="fgroup"><h3>剧情梗概</h3>
+<nav class="arcs"><a href="#summary-1" data-ch="185">十五楼</a><a href="#summary-2" data-ch="191">少了一部电梯</a><a href="#summary-3" data-ch="198">电梯游戏</a><a href="#summary-4" data-ch="206">花房里的食人花</a><a href="#summary-5" data-ch="212">守住十三楼</a><a href="#summary-6" data-ch="216">最后一夜</a></nav>
+<h4 id="summary-1" data-ch="185">十五楼</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="185">徐获在雨后的马路上截住了伏击他的卖花姑娘和壮汉同伴，悬赏追他的郑良一伙也开车赶到。马路上忽然起了大雾，所有人连人带车被吸进<a class="term" href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC" title="不需要车票、毫无征兆、地点随机出现的副本，卷进去的不限于玩家。">随机副本</a>“小花红红大楼”。<sup class="cite" title="本句未附原文">185</sup></span><span class="stmt" data-ch="187">郑良一伙在十五楼围住徐获，他隔空点燃一张桌子震住了他们；铁哥强扒电梯门，被电梯井里扑出的食人花咬住了头。<sup class="cite" title="本句未附原文">186–187</sup></span><span class="stmt" data-ch="189">徐获从清空的办公室看出以前的人没在这层久留，主张封窗不封电梯：十五部电梯、每部十三人、将近两百人，不会是巧合。<sup class="cite" title="本句未附原文">188–189</sup></span></p>
+<h4 id="summary-2" data-ch="191">少了一部电梯</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="191">十四楼是吸血蜘蛛的培养室，靠徐获放火、那名壮汉的纸牌老虎才清掉，四十七人被吸干。<sup class="cite" title="本句未附原文">190–191</sup></span><span class="stmt" data-ch="192">卖花姑娘送来三颗能量胶囊，为伏击的事向徐获赔罪。<sup class="cite" title="本句未附原文">192</sup></span><span class="stmt" data-ch="193">清点时少了十五人：有一部电梯根本没到十四楼。又有人拍电梯井时被影子削掉半个脑袋，玩家分成了要不要下楼的两派。<sup class="cite" title="本句未附原文">191、193</sup></span><span class="stmt" data-ch="194">十三楼是封闭的植物培养室，徐获装了一推车变异植物；十二楼有人想爬窗逃走，戴文谦当众割了他的喉。<sup class="cite" title="本句未附原文">193–194</sup></span><span class="stmt" data-ch="196">十一楼菌丝下的尸体旁有一支刻着“郝”字的笔和一本笔记，写着小丑城地下是菌类的天堂，只要拿到恒星医药的资助就能改写进化植物的历史。<sup class="cite" title="本句未附原文">195–196</sup></span></p>
+<h4 id="summary-3" data-ch="198">电梯游戏</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="198">徐获带卖花姑娘蒋艺华和壮汉大治钻电梯井回到十二楼，拆下大螳螂的镰足当武器，并向两人点破：这是电梯游戏，真正的危险在电梯里。<sup class="cite" title="本句未附原文">196–198</sup></span><span class="stmt" data-ch="200">他和戴文谦打赌哪部电梯会被挑中，赌下一层的电梯分配权，又顺手点破康弘、陈书是隐藏的玩家。<sup class="cite" title="本句未附原文">199–200</sup></span><span class="stmt" data-ch="201">这一轮他那部电梯被拉回十五楼，管道里的东西爬到跟前又退了回去；另有两部电梯的人整个消失，戴文谦认输。<sup class="cite" title="本句未附原文">201</sup></span><span class="stmt" data-ch="203">众人由此得出规律：与楼层数对应的电梯安全，多出来的随机遇袭；徐获那部躲过一劫，唯一的差别是带着十三楼的植物。<sup class="cite" title="第203章：与楼层对应的电梯数不会遭到袭击，多出的电梯则不分人数多少随机遇袭">202–203</sup></span><span class="stmt" data-ch="204">戴文谦说最简单的办法是每层留下或杀掉十三个人；徐获选了另一条路，故意让一部电梯超载当靶子，由他和几名玩家、志愿者同进。<sup class="cite" title="本句未附原文">203–204</sup></span><span class="stmt" data-ch="204">进去前他回十三楼取出一盆紫色小花，游戏说明只写着“不明植物”。<sup class="cite" title="本句未附原文">204</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="203">与楼层对应的电梯数不会遭到袭击，多出的电梯则不分人数多少随机遇袭<cite>第 203 章</cite></blockquote></details>
+<h4 id="summary-4" data-ch="206">花房里的食人花</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="206">超载电梯被拉回十五楼，黏液灌满电梯，把人裹成茧拖进管道；徐获破茧而出，落进一座巨大的玻璃花房。<sup class="cite" title="本句未附原文">205–206</sup></span><span class="stmt" data-ch="206">花房中央是一株巨型食人花，叶片上挂满人茧；他救出戴文谦、郑良、蒋艺华等人，十七人里死了六个。<sup class="cite" title="本句未附原文">206</sup></span><span class="stmt" data-ch="208">众人逃进郝教授的假日小屋，靠高亮灯逼退变异动物，找到一柜药剂；徐获把分到的解毒剂打给了受伤的普通人。<sup class="cite" title="本句未附原文">207–208</sup></span><span class="stmt" data-ch="208">小屋里的照片和日记说明，大楼得名于这株食人花，它的根受电击才会喷毒粉；徐获推断整栋楼都被它裹着，楼外也有食人花活动。<sup class="cite" title="本句未附原文">207–208</sup></span><span class="stmt" data-ch="209">楼里剩下的人这时分成两派，铁哥一派要每层让老弱先死，谷雨、康弘、陈书等人护着普通人。<sup class="cite" title="本句未附原文">209</sup></span><span class="stmt" data-ch="211">巨型食人花忽然涌向大楼，一行人趁乱冲到楼下的红绿两扇门前，徐获走红门回到一楼大厅，戴文谦走绿门进了郝教授的卧室。<sup class="cite" title="本句未附原文">210–211</sup></span></p>
+<h4 id="summary-5" data-ch="212">守住十三楼</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="212">徐获顺着电梯井把众人送上十三楼；铁哥逼人从窗外探路，引来破窗的食人花，随后被戴文谦拧断脖子，活下来的不足五十人。<sup class="cite" title="本句未附原文">211–212</sup></span><span class="stmt" data-ch="212">回放录像后，徐获确认十三楼只有晚上十点到凌晨四点危险，其余时间都可以躲。<sup class="cite" title="第212章：除了晚上十点到第二天凌晨四点这段时间，其他时间十三楼应该是安全的">212</sup></span><span class="stmt" data-ch="214">他和戴文谦把接了电线、绑着利刃的肉虫放进电梯井底的通道，“送那株食人花一份大礼”。<sup class="cite" title="本句未附原文">213–214</sup></span><span class="stmt" data-ch="215">夜里戴文谦说同为014区的玩家不必自相残杀，他打算带着好条件加入国家队；徐获答应不在官方面前乱说。<sup class="cite" title="本句未附原文">214–215</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="212">除了晚上十点到第二天凌晨四点这段时间，其他时间十三楼应该是安全的<cite>第 212 章</cite></blockquote></details>
+<h4 id="summary-6" data-ch="216">最后一夜</h4>
+<p class="prose fgroup"><span class="stmt" data-ch="216">张彪出楼找食物，引来一群更凶的异种追着电梯冲上十三楼；徐获拉下电闸，众人往电梯井泼水，电下电梯，再合力杀光冲出的异种。<sup class="cite" title="本句未附原文">216</sup></span><span class="stmt" data-ch="218">食人花又从十三楼的通风口逼近，众人爬上十五楼；康弘双腿被咬烂，深夜死去，将近两百人只剩二十多个。<sup class="cite" title="本句未附原文">217–218</sup></span><span class="stmt" data-ch="219">凌晨四点前，徐获回十三楼取回那盆紫色小花，随即通关，得到新特性“五五开”、道具“营养小红盆”和药剂。<sup class="cite" title="本句未附原文">219</sup></span><span class="stmt" data-ch="219">回到雾里的马路，吴组长打来电话：本该出来的玩家少了两个。<sup class="cite" title="第219章：这次本来应该出来的玩家少了两个">219</sup></span></p><details class="src block fgroup"><summary>本段原文 1 处</summary><blockquote data-ch="219">这次本来应该出来的玩家少了两个<cite>第 219 章</cite></blockquote></details>
 </section>
 <section id="puzzle" class="fgroup"><h3>解谜结构</h3>
-<p class="note">表面上是一层层往下打怪、熬满九十小时，真正决定生死的是电梯的规则，和包裹整栋大楼的那株巨型食人花。</p>
-<h4 id="puzzle-1" data-ch="191">规则</h4>
-<ul class="items"><li data-ch="191"><span class="text">待满九十小时；十五层楼，每层六小时，电梯每六小时开一次，只能往下一层走。</span><span class="ch">第 185、191 章</span></li><li data-ch="191"><span class="text">十五部电梯，每部核载十三人，总人数一百九十五。</span><span class="ch">第 188、191 章</span></li></ul>
-<h4 id="puzzle-2" data-ch="198">线索</h4>
-<ul class="items"><li data-ch="218"><span class="text">十五楼电梯门上的血手印有从外拍的、也有从里扒的，整栋楼数十五楼最多；窗玻璃都向屋内碎开。</span><span class="ch">第 186、189、218 章</span><details class="src"><summary>原文</summary><blockquote>整栋大楼只有十五楼的电梯门上血手印最多<cite>第 218 章</cite></blockquote></details></li><li data-ch="198"><span class="text">从十五楼下到十四楼，少了一部电梯的十五个人，其中那部是超载的。</span><span class="ch">第 191、198 章</span><details class="src"><summary>原文</summary><blockquote>从十五楼到十四楼的时候，失踪了十五个人<cite>第 198 章</cite></blockquote></details></li><li data-ch="203"><span class="text">十三楼干干净净，没有变异动物活动过的痕迹；带着十三楼植物的电梯被拉上去也没遇袭。</span><span class="ch">第 194、203 章</span><details class="src"><summary>原文</summary><blockquote>其他都一样，除了我从十三楼带下来的变异植物<cite>第 203 章</cite></blockquote></details></li><li data-ch="212"><span class="text">十三楼只在晚上十点到凌晨四点喷毒粉；日记写食人花的根受电击才喷毒粉。</span><span class="ch">第 208、212 章</span></li><li data-ch="219"><span class="text"><span class="tier guess" title="徐获的推断" tabindex="0">徐获推测</span>“小花红红”开出的花不是红色；那株紫色不明植物的根是红的，出了副本后红色还在消退。</span><span class="ch">第 185、219 章</span><details class="src"><summary>原文</summary><blockquote>花根上的红色部分比在副本中减少了一截<cite>第 219 章</cite></blockquote></details></li></ul>
-<h4 id="puzzle-3" data-ch="193">误导</h4>
-<ul class="items"><li data-ch="193"><span class="text">越高越安全、待在十五楼就没事。</span><span class="ch">第 189、193 章</span></li><li data-ch="211"><span class="text">大治扔出的台灯落地毫无动静，让人以为能从窗外下楼；结果引来了楼外的食人花。</span><span class="ch">第 209、211 章</span></li><li data-ch="212"><span class="text">戴文谦以为红绿两扇门里有一扇是陷阱，其实两扇门只是通向不同地方。</span><span class="ch">第 211–212 章</span><details class="src"><summary>原文</summary><blockquote>那两扇门不是陷阱<cite>第 212 章</cite></blockquote></details></li><li data-ch="218"><span class="text"><span class="tier guess" title="徐获的推断">推测</span>以为熬到一楼就安全；徐获推测不管多少人到一楼，最后都要面对异种。</span><span class="ch">第 218 章</span></li></ul>
-<h4 id="puzzle-4" data-ch="206">真相</h4>
-<ul class="items"><li data-ch="206"><span class="text"><span class="tier guess" title="徐获的推断" tabindex="0">徐获推测</span>与楼层数对应的电梯是安全的，多出来的、超载的电梯会被拉回十五楼，里面的人被管道里的巨型食人花裹走；楼层和电梯里应该有感应人数的设备。</span><span class="ch">第 203、206 章</span><details class="src"><summary>原文</summary><blockquote>楼层和电梯里应该都有感应设备，以此来判断人数<cite>第 206 章</cite></blockquote></details></li><li data-ch="208"><span class="text">“小花红红”指的是一株养在玻璃花房里的巨型食人花，它的根茎钻进通风管道，花藤裹住了整栋大楼。</span><span class="ch">第 206–208 章</span><details class="src"><summary>原文</summary><blockquote>大楼的外面应该也有食人花在活动<cite>第 208 章</cite></blockquote></details></li><li data-ch="219"><span class="text"><span class="tier guess" title="徐获的推断">推测</span>徐获后来又推测，“小花红红”的名字其实来自那株根是红色、花是紫色的不明植物。</span><span class="ch">第 219 章</span><details class="src"><summary>原文</summary><blockquote>这符合小花红红大楼的命名来源<cite>第 219 章</cite></blockquote></details></li></ul>
-<h4 id="puzzle-5" data-ch="204">解法</h4>
-<ul class="items"><li data-ch="204"><span class="text">每层只坐和楼层数一样多的电梯；实在多出人来，就故意让一部电梯超载当靶子，由玩家同行。</span><span class="ch">第 203–204 章</span></li><li data-ch="217"><span class="text">白天躲在十三楼，晚上十点到凌晨四点转移到别的楼层；最后一夜退到十五楼、切断花藤、电死爬上来的异种。</span><span class="ch">第 212、214、217 章</span></li></ul>
-</section>
-<section id="fates" class="fgroup"><h3>人物结局</h3>
-<ul class="people"><li data-ch="219"><b class="subject"><a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a>（路人甲）</b><span class="text">通关，随机副本不评级；得到延伸特性“五五开”、道具“营养小红盆”和药剂，带出了那盆紫色不明植物。</span><span class="ch">第 219 章</span><details class="src"><summary>原文</summary><blockquote>恭喜玩家路人甲成功通关“小花红红大楼”副本<cite>第 219 章</cite></blockquote></details></li><li data-ch="219"><b class="subject"><a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a>、<a href="../people.html?upto=219#person-%E9%83%91%E8%89%AF">郑良</a>、小八、陈书、蒋艺华、大治、<a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a>、张彪</b><span class="text">都撑到了最后一夜；吴组长说本该出来的玩家少了两个，原文还没交代是谁。</span><span class="ch">第 217–219 章</span></li><li data-ch="213"><b class="subject">魏彬</b><span class="text">跟戴文谦进了绿门，在卧室里碰上变异动物、又被食人花追上，受了重伤，小腿缺了一大块肉；第 213 章以后原文没再提到他。</span><span class="ch">第 211–213 章</span></li><li data-ch="218"><b class="subject">康弘</b><span class="text">双腿被异种咬烂，两瓶解毒剂都无效，死在十五楼。</span><span class="ch">第 217–218 章</span></li><li data-ch="212"><b class="subject">铁哥</b><span class="text">逼人探路引来食人花，被戴文谦拧断脖子。</span><span class="ch">第 211–212 章</span></li><li data-ch="193"><b class="subject">吴昆</b><span class="text">拍电梯井时被一道影子削掉半个脑袋。</span><span class="ch">第 193 章</span></li><li data-ch="201"><b class="subject">汪成</b><span class="text">所在的电梯被拉回十五楼，人没了，只留下打斗痕迹和血。</span><span class="ch">第 201 章</span></li><li data-ch="196"><b class="subject">郝教授</b><span class="text"><span class="tier guess" title="蒋艺华的推断">推测</span>十一楼菌丝下那具刻着“郝”字笔的尸体，蒋艺华猜就是他。</span><span class="ch">第 196 章</span></li><li data-ch="218"><b class="subject">普通人</b><span class="text">将近两百人，到最后一夜只剩二十多个；有钱小姑娘活了下来，还说出去后想当玩家。</span><span class="ch">第 218 章</span></li></ul>
+<h4 id="puzzle-1" data-ch="191">电梯游戏</h4>
+<ul class="items"><li data-ch="191"><b class="subject">谜面</b><span class="text">每六小时必须坐电梯下一层，十五部电梯正好装下所有人，可每次下楼都有人连电梯一起消失，危险到底在哪？</span><span class="ch">第 188–189、191 章</span></li><li data-ch="203"><b class="subject">线索</b><span class="text">从十五楼到十四楼少的那部电梯是超载的；从十楼去九楼时有三部电梯被拉回十五楼，两部的人整个消失，徐获那部却没事，唯一的差别是带着十三楼的植物。</span><span class="ch">第 191、201、203 章</span></li><li data-ch="206"><b class="subject">谜底</b><span class="text">与楼层数对应的电梯数安全，多出的随机遇袭，超载也可能是条件；被挑中的电梯被拉回十五楼，人被管道里的巨型食人花裹走。徐获因此让一部电梯故意超载当靶子，由玩家同行。</span><span class="ch">第 203–204、206 章</span></li></ul>
+<h4 id="puzzle-2" data-ch="209">能不能逃出大楼</h4>
+<ul class="items"><li data-ch="209"><b class="subject">谜面</b><span class="text">窗外只有大雾，楼下似乎没有动静，从窗户或楼外逃走是不是更安全？</span><span class="ch">第 186、194、209 章</span></li><li data-ch="218"><b class="subject">线索</b><span class="text">十五楼的玻璃全朝屋里碎开，说明攻击来自外面；整栋楼十五楼电梯门上的血手印最多；日记写食人花的根钻进通风管道，徐获推断整栋楼被它包裹着。</span><span class="ch">第 186、206、208、218 章</span><details class="src"><summary>原文</summary><blockquote>全都是朝屋里溅开的，这说明攻击来自外面<cite>第 186 章</cite></blockquote></details></li><li data-ch="218"><b class="subject">谜底</b><span class="text">大治扔出的台灯落地无声，只是误导：铁哥逼人爬窗探路引来破窗的食人花，张彪出楼又引来更凶的异种；徐获判断不管多少人到一楼，最后都要面对异种。</span><span class="ch">第 209、211、216、218 章</span></li></ul>
+<h4 id="puzzle-3" data-ch="208">躲在十三楼</h4>
+<ul class="items"><li data-ch="211"><b class="subject">谜面</b><span class="text">楼层一层比一层危险，有没有一层可以长期藏身？</span><span class="ch">第 193、211 章</span></li><li data-ch="208"><b class="subject">线索</b><span class="text">十三楼干干净净，没有变异动物活动的痕迹，带着那里的植物的电梯也没遇袭；日记写食人花的根受电击才喷毒粉。</span><span class="ch">第 194、203、208 章</span></li><li data-ch="218"><b class="subject">谜底</b><span class="text">录像显示十三楼只在晚上十点到凌晨四点喷毒粉；众人白天躲在这里、夜里转移，最后一夜拉闸泼水电死冲上来的异种，再退到十五楼熬到结束。</span><span class="ch">第 212、216–218 章</span></li></ul>
+<h4 id="puzzle-4" data-ch="185">小花红红是什么</h4>
+<ul class="items"><li data-ch="185"><b class="subject">谜面</b><span class="text">背景说郝教授掌握了进化的最大秘密，大楼为什么叫“小花红红”？</span><span class="ch">第 185 章</span></li><li data-ch="219"><b class="subject">线索</b><span class="text">照片背后写着“与小花红红留影”，合影的却是一株裸色的食人花；那盆不明植物根是红的、花是紫的，出副本后根上的红色还在消退，画女见过叶子全红的同种花。</span><span class="ch">第 207、219 章</span><details class="src"><summary>原文</summary><blockquote>紫色小花的根部是红色的，开出的花却是紫色的<cite>第 219 章</cite></blockquote></details></li><li data-ch="219"><b class="subject">谜底</b><span class="text">众人起初认定名字来自花房里的巨型食人花；徐获后来推测，名字其实来自那盆根红花紫的不明植物，没有定论。</span><span class="ch">第 207、219 章</span></li></ul>
 </section>
 <section id="relations" class="fgroup"><h3>关键关系</h3>
 <p class="legend"><span><i style="border-color:var(--rel-ally)"></i>同伴</span><span><i style="border-color:var(--rel-enemy)"></i>冲突</span><span><i style="border-color:var(--rel-kill)"></i>杀死</span><span><i style="border-color:var(--rel-other)"></i>其他往来</span><span>→ 箭头从做事的一方指向承受的一方</span></p>
@@ -279,12 +354,11 @@ h4[id] { scroll-margin-top:16px; }
 <g class="node" data-ch="218"><circle cx="624.6" cy="60" r="10.0"/><text x="624.6" y="44.0" class="name">康弘</text></g>
 <g class="node" data-ch="204"><circle cx="477.6" cy="420" r="10.0"/><text x="477.6" y="404.0" class="name">魏彬</text></g>
 </svg></div>
-<details class="rel"><summary>逐条看</summary><ul class="items"><li data-ch="215"><span class="text"><a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a> — 打赌·互相牵制 — <a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a></span><span class="ch">第 200、206、215 章</span></li><li data-ch="212"><span class="text"><a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a> → 拧断脖子 → 铁哥</span><span class="ch">第 212 章</span></li><li data-ch="198"><span class="text"><a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a> — 同伴 — 孙茂</span><span class="ch">第 198 章</span></li><li data-ch="218"><span class="text">蒋艺华 — 同伙 — 大治</span><span class="ch">第 195、218 章</span></li><li data-ch="197"><span class="text"><a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a> — 化敌为友 — 蒋艺华</span><span class="ch">第 192、197 章</span></li><li data-ch="217"><span class="text"><a href="../people.html?upto=219#person-%E9%83%91%E8%89%AF">郑良</a> — 旧仇·并肩 — <a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 185、217 章</span></li><li data-ch="214"><span class="text"><a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a> — 合作 — <a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 195、214 章</span></li><li data-ch="203"><span class="text">铁哥 — 一伙 — 张彪</span><span class="ch">第 199、203 章</span></li><li data-ch="209"><span class="text">铁哥 — 两派 — <a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span><span class="ch">第 209 章</span></li><li data-ch="218"><span class="text">陈书 → 救命 → 康弘</span><span class="ch">第 217–218 章</span></li><li data-ch="190"><span class="text"><a href="../people.html?upto=219#person-%E9%83%91%E8%89%AF">郑良</a> → 救命 → <a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span><span class="ch">第 190 章</span></li><li data-ch="204"><span class="text">魏彬 → 试毒气 → <a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 204 章</span></li></ul></details>
+<details class="rel"><summary>文字版</summary><ul class="items"><li data-ch="215"><span class="text"><a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a> — 打赌·互相牵制 — <a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a></span><span class="ch">第 200、206、215 章</span></li><li data-ch="212"><span class="text"><a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a> → 拧断脖子 → 铁哥</span><span class="ch">第 212 章</span></li><li data-ch="198"><span class="text"><a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a> — 同伴 — 孙茂</span><span class="ch">第 198 章</span></li><li data-ch="218"><span class="text">蒋艺华 — 同伙 — 大治</span><span class="ch">第 195、218 章</span></li><li data-ch="197"><span class="text"><a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a> — 化敌为友 — 蒋艺华</span><span class="ch">第 192、197 章</span></li><li data-ch="217"><span class="text"><a href="../people.html?upto=219#person-%E9%83%91%E8%89%AF">郑良</a> — 旧仇·并肩 — <a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 185、217 章</span></li><li data-ch="214"><span class="text"><a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a> — 合作 — <a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 195、214 章</span></li><li data-ch="203"><span class="text">铁哥 — 一伙 — 张彪</span><span class="ch">第 199、203 章</span></li><li data-ch="209"><span class="text">铁哥 — 两派 — <a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span><span class="ch">第 209 章</span></li><li data-ch="218"><span class="text">陈书 → 救命 → 康弘</span><span class="ch">第 217–218 章</span></li><li data-ch="190"><span class="text"><a href="../people.html?upto=219#person-%E9%83%91%E8%89%AF">郑良</a> → 救命 → <a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span><span class="ch">第 190 章</span></li><li data-ch="204"><span class="text">魏彬 → 试毒气 → <a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a></span><span class="ch">第 204 章</span></li></ul></details>
 </section>
 <section id="threads" class="fgroup"><h3>伏笔与未解</h3>
-<p class="note">截至第 219 章还没有交代的事。</p>
-<ul class="items"><li data-ch="219"><a class="thread-no" href="../threads.html?upto=219#thread-061" title="伏笔总表">#061</a><span class="text">本该从副本出来的玩家少了两个，吴组长来问徐获。</span><span class="ch">第 219 章</span><details class="src"><summary>原文</summary><blockquote>这次本来应该出来的玩家少了两个<cite>第 219 章</cite></blockquote></details></li><li data-ch="219"><a class="thread-no" href="../threads.html?upto=219#thread-058" title="伏笔总表">#058</a><span class="text">那盆紫色不明植物：根是红的、花是紫的，出副本后红色还在消退；画女见过叶子全红的同种花，却想不起在哪。</span><span class="ch">第 204、219 章</span><details class="src"><summary>原文</summary><blockquote>不过我见过一样的，但是别人的花叶子都是红色的<cite>第 219 章</cite></blockquote></details></li><li data-ch="196"><a class="thread-no" href="../threads.html?upto=219#thread-057" title="伏笔总表">#057</a><span class="text"><span class="tier guess" title="徐获的推断">推测</span>郝教授说的“进化的最大秘密”没有揭开，徐获直觉和完美进化药剂有关；恒星医药集团又一次出现。</span><span class="ch">第 185、196 章</span><details class="src"><summary>原文</summary><blockquote>徐获直觉与完美进化药剂有关<cite>第 196 章</cite></blockquote></details></li><li data-ch="196"><a class="thread-no" href="../threads.html?upto=219#thread-018" title="伏笔总表">#018</a><span class="text">笔记里的小丑城地下世界，据说藏着能防御利器的菌丝。</span><span class="ch">第 196 章</span><details class="src"><summary>原文</summary><blockquote>小丑城的地下世界对人类来说是禁地<cite>第 196 章</cite></blockquote></details></li><li data-ch="215"><a class="thread-no" href="../threads.html?upto=219#thread-060" title="伏笔总表">#060</a><span class="text">戴文谦打算带着好条件加入国家队，徐获答应不在官方面前乱说。</span><span class="ch">第 215 章</span><details class="src"><summary>原文</summary><blockquote>在没有任何一个人成为高级玩家的情况下，加入国家队是最明智的选择<cite>第 215 章</cite></blockquote></details></li><li data-ch="216"><a class="thread-no" href="../threads.html?upto=219#thread-059" title="伏笔总表">#059</a><span class="text"><span class="tier claim" title="张彪的说法">说法</span>自由玩家组织的老大乔哥，据张彪说是 D 级玩家；谷雨对组织的信念已经动摇。</span><span class="ch">第 212、216 章</span><details class="src"><summary>原文</summary><blockquote>就是我们自由玩家组织的老大<cite>第 216 章</cite></blockquote></details></li><li data-ch="219"><a class="thread-no" href="../threads.html?upto=219#thread-055" title="伏笔总表">#055</a><span class="text">徐获出副本时，唐广博就在副本入口的车旁。</span><span class="ch">第 219 章</span></li></ul>
-</section><section id="links" class="fgroup"><h3>本单元涉及的设定与道具</h3><p class="note">设定在世界观页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC%E5%85%A5%E5%8F%A3" data-ch="185">随机副本的入口与大雾</a><a href="../world.html#world-%E7%89%B9%E6%80%A7" data-ch="215">特性</a><a href="../world.html#world-%E9%81%93%E5%85%B7%E7%BB%A7%E6%89%BF" data-ch="210">杀人夺宝与无主道具</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9" data-ch="196">进化的动植物</a><a href="../world.html#world-014%E5%8C%BA%E5%89%8D%E9%80%94" data-ch="214">014 区的前途</a><a href="../world.html#world-%E5%85%AC%E5%BC%80%E6%B8%B8%E6%88%8F" data-ch="216">游戏公开与玩家部门</a><a href="../world.html#world-%E7%8E%A9%E5%AE%B6%E4%BA%92%E5%8A%A9" data-ch="212">玩家的互助组织</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E8%A7%A3%E6%AF%92%E5%89%82" data-ch="198">解毒剂</a><a href="../items.html#item-%E8%83%BD%E9%87%8F%E8%83%B6%E5%9B%8A" data-ch="192">能量胶囊</a><a href="../items.html#item-%E6%A4%8D%E7%89%A9%E8%90%A5%E5%85%BB%E5%89%82" data-ch="208">植物营养剂</a><a href="../items.html#item-%E8%90%A5%E5%85%BB%E5%B0%8F%E7%BA%A2%E7%9B%86" data-ch="219">营养小红盆</a></p></section></details>
+<ul class="items"><li data-ch="219"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#061</span><span class="text">吴组长说本该从副本出来的玩家少了两个，是谁、怎么回事没有交代。</span><span class="ch">第 219 章</span></li><li data-ch="219"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#058</span><span class="text">那盆紫色不明植物出副本后根上的红色还在消退，画女见过叶子全红的同种花，却想不起在哪。</span><span class="ch">第 204、219 章</span></li><li data-ch="196"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#057</span><span class="text">郝教授说的“进化的最大秘密”没有揭开，徐获直觉与完美进化药剂有关，恒星医药集团又一次出现。</span><span class="ch">第 185、196 章</span></li><li data-ch="196"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#018</span><span class="text">笔记里说小丑城的地下世界是菌类的天堂，据说藏着能防御利器的菌丝。</span><span class="ch">第 196 章</span></li><li data-ch="215"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#060</span><span class="text">戴文谦打算带着好条件加入国家队，徐获答应不在官方面前乱说。</span><span class="ch">第 215 章</span></li><li data-ch="216"><span class="thread-no" title="只在本单元出现的线头，不在伏笔总表里">#059</span><span class="text">据张彪说，自由玩家组织的老大乔哥是D级玩家；谷雨对组织的信念已经动摇。</span><span class="ch">第 212、216 章</span></li><li data-ch="219"><a class="thread-no" href="../threads.html?upto=219#thread-055" title="伏笔总表">#055</a><span class="text">徐获出副本时，唐广博就在副本入口的车旁。</span><span class="ch">第 219 章</span></li></ul>
+</section><section id="links" class="fgroup"><h3>本单元涉及的设定、地点与道具</h3><p class="note">设定在世界观页，地点和势力在地理页，道具在道具库，点进去看完整说明。</p><p class="links fgroup"><b>设定</b><a href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC%E5%85%A5%E5%8F%A3" data-ch="185">随机副本的入口与大雾</a><a href="../world.html#world-%E7%89%B9%E6%80%A7" data-ch="215">特性</a><a href="../world.html#world-%E9%81%93%E5%85%B7%E7%BB%A7%E6%89%BF" data-ch="210">杀人夺宝与无主道具</a><a href="../world.html#world-%E8%BF%9B%E5%8C%96%E7%9A%84%E5%8A%A8%E6%A4%8D%E7%89%A9" data-ch="196">进化的动植物</a></p><p class="links fgroup"><b>地点与势力</b><a href="../places.html#place-014%E5%8C%BA" data-ch="214">014 区</a><a href="../places.html#faction-%E8%87%AA%E7%94%B1%E7%8E%A9%E5%AE%B6%E7%BB%84%E7%BB%87" data-ch="212">自由玩家组织</a></p><p class="links fgroup"><b>道具</b><a href="../items.html#item-%E8%A7%A3%E6%AF%92%E5%89%82" data-ch="198">解毒剂</a><a href="../items.html#item-%E8%83%BD%E9%87%8F%E8%83%B6%E5%9B%8A" data-ch="192">能量胶囊</a><a href="../items.html#item-%E8%90%A5%E5%85%BB%E5%B0%8F%E7%BA%A2%E7%9B%86" data-ch="219">营养小红盆</a></p></section></details>
 <nav class="units-nav bottom"><a class="prev" href="u0011.html"><small>← 上一单元</small><b>汀城（讲故事的女人之后）</b><small>第 177–184 章</small></a><a class="next" href="u0013.html"><small>下一单元 →</small><b>汀城（小花红红大楼之后）</b><small>第 220–221 章</small><small class="after" data-beyond="220" hidden>在你的进度之后</small></a></nav><script>
 (function () {
   var doc = document, card = doc.getElementById('card'), first = +card.dataset.first, end = +card.dataset.end;
@@ -310,6 +384,17 @@ h4[id] { scroll-margin-top:16px; }
     else { status.textContent = '这张卡写到第 ' + end + ' 章，在你的进度之内。'; return; }
     button.textContent = '仍然展开'; status.appendChild(button);
   });
+  if (window.matchMedia('(max-width:640px)').matches) {   // a phone (design reviews 2026-10-06): the graph is wider than
+    doc.querySelectorAll('details.rel').forEach(function (d) { d.open = true; });   // the screen, so the list shows too,
+    doc.querySelectorAll('.graph').forEach(function (g) {   // and the strip starts at the busiest person, not the left edge
+      var svg = g.querySelector('svg'), best = null;
+      if (!svg || !svg.viewBox || !svg.viewBox.baseVal) return;
+      g.querySelectorAll('g.node circle').forEach(function (c) { if (!best || +c.getAttribute('r') > +best.getAttribute('r')) best = c; });
+      if (!best) return;
+      var scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width;
+      g.scrollLeft = Math.max(0, +best.getAttribute('cx') * scale - g.clientWidth / 2);
+    });
+  }
 })();
 </script>
 <footer>维度之下：名字取自小说里的同名网站。这是《玩家请上车》（海晏山 著）的读者整理，梗概和说明由 AI 辅助撰写，引用的原文片段版权归原作者。章号与原文默认隐藏，勾选“显示出处”后出现；页头填的“读到第几章”全站通用；点“浅色”换成浅色版。这些选择浏览器都会记住。</footer>
@@ -393,5 +478,84 @@ h4[id] { scroll-margin-top:16px; }
     note.textContent = '你要看的“' + name + '”' + why + '还没出现；改大章号或清除进度就能看到。';
     note.hidden = false; note.scrollIntoView();
   } else if (target) { target.scrollIntoView(); }
+})();
+
+document.addEventListener('toggle', function (e) {
+  var d = e.target;
+  if (!d.open || d.tagName !== 'DETAILS' || d.classList.contains('src') || d.hasAttribute('data-fold')) return;
+  if (d.querySelector(':scope > button.fold-close') || d.getBoundingClientRect().height < window.innerHeight * 0.7) return;
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'fold-close'; b.textContent = '收起 ▲';
+  b.addEventListener('click', function () {
+    d.open = false;
+    var s = d.querySelector(':scope > summary') || d;
+    if (s.getBoundingClientRect().top < 0) s.scrollIntoView({block: 'start'});
+  });
+  d.appendChild(b);
+}, true);
+
+(function () {   // phones (step 7): the contents as a drawer, intros cut to three lines
+  var doc = document, root = doc.documentElement, small = window.matchMedia('(max-width:720px)');
+  var toc = doc.getElementById('toc') || doc.getElementById('jump');
+  if (toc) {
+    root.classList.add('has-toc');
+    var fab = doc.createElement('button'), back = doc.createElement('div'), filter = doc.createElement('input');
+    fab.type = 'button'; fab.className = 'toc-fab'; fab.textContent = '目录'; fab.setAttribute('aria-label', '目录');
+    var lastY = window.scrollY;   // scrolling down it steps aside, scrolling up it comes back (design review 2026-10-06)
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      if (y > lastY + 8 && y > 240) root.classList.add('fab-away'); else if (y < lastY - 8) root.classList.remove('fab-away');
+      lastY = y;
+    }, {passive: true});
+    back.className = 'toc-backdrop';
+    filter.type = 'search'; filter.className = 'toc-filter'; filter.placeholder = '在目录里找…';
+    toc.insertBefore(filter, toc.firstChild);
+    doc.body.appendChild(back); doc.body.appendChild(fab);
+    var open = function (on) { root.classList.toggle('toc-open', on); if (on && small.matches) filter.focus({preventScroll: true}); };
+    fab.addEventListener('click', function () { open(!root.classList.contains('toc-open')); });
+    back.addEventListener('click', function () { open(false); });
+    toc.addEventListener('click', function (e) { if (e.target.closest('a')) open(false); });
+    doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+    doc.querySelectorAll('a.totop').forEach(function (a) {   // on a phone it opens the contents, so it says so (GPT design review 2026-10-06)
+      a.textContent = '目录';
+      a.addEventListener('click', function (e) { if (small.matches) { e.preventDefault(); open(true); } });
+    });
+    filter.addEventListener('input', function () {   // names and data-keys (other names); a .find-only row shows only on a hit
+      var q = filter.value.replace(/\s/g, '');
+      toc.querySelectorAll('a').forEach(function (a) {
+        a.style.display = !q || (a.textContent + (a.dataset.keys || '')).replace(/\s/g, '').indexOf(q) >= 0 ? '' : 'none';
+      });
+      toc.querySelectorAll('.find-only').forEach(function (r) {
+        r.classList.toggle('found', !!q && Array.prototype.some.call(r.querySelectorAll('a'), function (a) { return a.style.display !== 'none'; }));
+      });
+    });
+  }
+  if (window.matchMedia('(max-width:640px)').matches) {
+    doc.querySelectorAll('.ticket-main > p.hint').forEach(function (p) {
+      if (p.scrollHeight < 90) return;
+      p.classList.add('clamped');
+      var b = doc.createElement('button');
+      b.type = 'button'; b.className = 'hint-more'; b.textContent = '展开说明';
+      b.addEventListener('click', function () { p.classList.remove('clamped'); b.remove(); });
+      p.after(b);
+    });
+  }
+})();
+
+(function () {   // a link into a closed fold opens the folds around its target first (design reviews 2026-10-06)
+  function openTo(id) {
+    var t = id && (document.getElementById(id) || document.getElementById(decodeURIComponent(id)));
+    for (var p = t && t.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a) openTo(a.getAttribute('href').slice(1));
+  }, true);
+  if (location.hash) openTo(location.hash.slice(1));
+  document.querySelectorAll('.graph, .growth').forEach(function (g) {   // a strip wider than the screen fades at its right edge
+    if (g.scrollWidth <= g.clientWidth + 2) return;
+    var check = function () { g.classList.toggle('at-end', g.scrollLeft + g.clientWidth >= g.scrollWidth - 4); };
+    g.classList.add('scroll-fade'); g.addEventListener('scroll', check, {passive: true}); check();
+  });
 })();
 </script></body></html>
