@@ -11,7 +11,7 @@
 :root[data-theme="light"] { color-scheme:light; --paper:#f2ece0; --card:#fbf8f2; --card-2:#f4efe5; --ink:#1f1c18; --muted:#6f675c;
   --line:#dccfb9; --chip:#ece3d2; --signal:#b8322a; --brass:#85621f; --rail:#262c36; --rail-ink:#ece6d9; --rail-muted:#a9a293; --node:#3f6fb5;
   --rel-ally:#2e8b57; --rel-enemy:#c4621d; --rel-kill:#c8372d; --rel-other:#6b7380;
-  --mind:#7650b0; --space:#17788a; --time:#b25f18; --gold:#a07a10; }
+  --mind:#7650b0; --space:#136e7e; --time:#9c5212; --gold:#a07a10; }
 /* what stays dark in the light theme keeps the dark accents */
 :root[data-theme="light"] :is(.rail, h2.sign, .sys, .syspanel, .growth, .emblem, .board) { --ink:#e7e1d5; --muted:#9a948a; --brass:#d3a655; --signal:#e0594d;
   --line:#3a404b; --chip:#232830; --mind:#b79be0; --space:#6cc3d3; --time:#ec9a55; --gold:#e9c46a; }
@@ -74,6 +74,12 @@ details.fold > summary { cursor:pointer; color:var(--muted); font-size:13px; }
 .beyond { margin:10px 0 0; font-size:14px; color:var(--signal); border:1px dashed var(--signal); border-radius:6px; padding:6px 10px; }
 button.fold-close { display:block; margin:8px 0 2px; font:12.5px var(--sans); color:var(--muted); background:none; border:1px solid var(--line); border-radius:4px; padding:5px 12px; cursor:pointer; }
 button.fold-close:hover { color:var(--brass); border-color:var(--brass); }
+/* a word's one line on a tap (TIP_JS): dark like the rail in either theme */
+.tip-pop { position:fixed; z-index:60; max-width:min(320px, calc(100vw - 16px)); padding:10px 12px 8px; border:1px solid #3a404b; border-radius:6px;
+  background:#14171d; color:#e7e1d5; font:13.5px/1.65 var(--sans); box-shadow:0 8px 20px rgba(0,0,0,.45); }
+.tip-pop p { margin:0; }
+.tip-pop a { display:inline-block; margin-top:4px; padding:3px 0; color:#d3a655; font-size:13px; }
+main :is(span.thread-no, .tier)[role=button] { cursor:pointer; }
 /* phones (step 7, 2026-10-06): one row of page links; intros cut to three lines; a page's contents (#toc, #jump) as
    a drawer behind a 目录 button, with a filter; long CJK lines may break anywhere. The drawer is shut from the first
    paint (html.js is set before the page is parsed; site review 2026-10-17: keyed on has-toc, which the script at the
@@ -203,7 +209,7 @@ a.stub-row { display:block; text-decoration:none; } a.stub-row:hover b { color:v
 .seal.top { color:#e9c46a; background:radial-gradient(circle, rgba(233,196,106,.18), rgba(233,196,106,.04)); box-shadow:0 0 12px rgba(233,196,106,.25); }
 .seal.mid { color:var(--ink); } .seal.low { color:var(--muted); }
 .seal.none { width:34px; height:26px; border:1px dashed var(--line); border-radius:4px; transform:none; color:var(--muted); font:13px var(--sans); }
-:root[data-theme="light"] .seal.top { color:#a07a10; }
+:root[data-theme="light"] .seal.top { color:#85621f; }   /* 5.3:1 on the card (audit 2026-10-30: #a07a10 was 3.7) */
 /* the player panel, in the book's 【key：value】 lines */
 .syspanel { background:var(--rail); color:var(--rail-ink); border:1px solid var(--line); border-left:3px solid var(--brass); border-radius:6px;
   padding:8px 14px; margin:10px 0 0; font:15px/1.85 var(--serif); }
@@ -329,9 +335,9 @@ details.how p, details.how ul { margin:6px 0 0; }
 .vitrine .ledge { align-self:stretch; height:9px; margin:16px -6px 0; position:relative;
   background:linear-gradient(180deg, rgba(200,228,240,.5), rgba(200,228,240,.12) 45%, rgba(0,0,0,.45)); border-top:1px solid rgba(225,242,250,.7); }
 .vitrine .plate { align-self:stretch; display:flex; flex-direction:column; align-items:center; margin:0 -6px; padding:5px 6px 4px; position:relative; z-index:1;
-  background:linear-gradient(180deg, #c9a35a, #8f6d31); box-shadow:inset 0 1px 0 rgba(255,240,200,.45), inset 0 -1px 0 rgba(0,0,0,.35); }
+  background:linear-gradient(180deg, #c9a35a, #9a7838); box-shadow:inset 0 1px 0 rgba(255,240,200,.45), inset 0 -1px 0 rgba(0,0,0,.35); }
 .vitrine .t-name { font:700 13.5px/1.35 var(--serif); letter-spacing:.02em; color:#24180a; text-shadow:0 1px 0 rgba(255,236,190,.4); text-wrap:balance; }
-.vitrine .t-ch { font:400 10.5px/1.4 var(--mono); color:#3d2c12; }
+.vitrine .t-ch { font:400 10.5px/1.4 var(--mono); color:#1a1206; }   /* 4.5:1 down the plate's lower half (audit 2026-10-30) */
 .vitrine .t-row { display:flex; align-items:center; justify-content:center; gap:4px; max-width:100%; }
 .vitrine .t-pre { flex:none; font:600 10px/1.4 var(--sans); color:#5a1d10; border:1px solid currentColor; border-radius:2px; padding:0 3px; }
 .vitrine a.tile:hover .t-art { transform:translateY(-2px); }
@@ -409,6 +415,7 @@ details.how p, details.how ul { margin:6px 0 0; }
 @media (max-width:640px) { .route-map .end { font-size:14px; letter-spacing:.1em; } .route-map .tick { font-size:11px; } .route-map .tick i { display:none; } }
 .essay a.ref { color:inherit; text-decoration:none; border-bottom:1px dotted color-mix(in srgb, var(--signal) 55%, transparent); }   /* first mention of a person or item */
 .essay a.ref:hover { color:var(--signal); }
+.evo-intros > h2.vh { position:absolute; width:1px; height:1px; margin:-1px; padding:0; border:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }   /* for the outline: h1 then the cards' h3 (audit 2026-10-30) */
 .evo-intros { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:14px; margin:14px 0 8px; }
 .evo-intro { background:var(--card); border:1px solid var(--line); border-top:3px solid var(--brass); border-radius:6px; padding:10px 16px 12px; }
 .evo-intro h3 { margin:2px 0 2px; font:600 19px var(--serif); }
@@ -457,8 +464,8 @@ p.prose-cut .all { display:none; }
 article.essay .part:first-child h2.sign { margin-top:22px; }
 @media (min-width:1024px) { .essay-meta { max-width:52em; } }
 </style></head>
-<body data-progress="off"><a class="skip-link" href="#content">跳到正文</a><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(r){try{if(localStorage.getItem('wdzx.theme')==='light')r.setAttribute('data-theme','light')}catch(e){}})(document.documentElement);(function(r){var v=null;try{v=localStorage.getItem('wdzx.upto')}catch(e){}var c=document.body.dataset.progress!=='off'&&v!=='latest'&&(/^\d+$/.test(v||'')||/[?&]upto=\d/.test(location.search))?'progress-pending':'progress-settling';r.classList.add(c);document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){r.classList.remove(c)},2000)})})(document.documentElement)</script><div class="rail"><div class="rail-inner"><a class="brand" href="index.html"><img class="brand-mark" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22wdzx-ib%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23EAD49A%22/%3E%3Cstop%20offset%3D%22.5%22%20stop-color%3D%22%23B8924F%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%237A5A29%22/%3E%3C/linearGradient%3E%3CradialGradient%20id%3D%22wdzx-ig%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23FFF1C4%22/%3E%3Cstop%20offset%3D%22.35%22%20stop-color%3D%22%23F2CF7A%22/%3E%3Cstop%20offset%3D%22.6%22%20stop-color%3D%22%23E9B95A%22%20stop-opacity%3D%22.45%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23E9B95A%22%20stop-opacity%3D%220%22/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect%20x%3D%221.5%22%20y%3D%221.5%22%20width%3D%2229%22%20height%3D%2229%22%20rx%3D%227%22%20fill%3D%22%23132326%22%20stroke%3D%22%232C1B08%22%20stroke-width%3D%221%22/%3E%3Cpath%20d%3D%22M4.5%2028.5%20V15%20A11.5%2011.5%200%200%201%2027.5%2015%20V28.5%20Z%22%20fill%3D%22url%28%23wdzx-ib%29%22/%3E%3Cpath%20d%3D%22M8%2028.5%20V15.5%20A8%208%200%200%201%2024%2015.5%20V28.5%20Z%22%20fill%3D%22%23070C0D%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2217.5%22%20r%3D%226.2%22%20fill%3D%22url%28%23wdzx-ig%29%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2217.5%22%20r%3D%222.4%22%20fill%3D%22%23FFF4D2%22/%3E%3Cpath%20d%3D%22M10.2%2028.5%20L13%2023.6%20M21.8%2028.5%20L19%2023.6%22%20stroke%3D%22url%28%23wdzx-ib%29%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E" alt="" width="22" height="22">维度之下<small>《玩家请上车》设定库</small></a><nav aria-label="全站" data-db="../novel"><a href="index.html" class="on">首页</a><a href="hero.html">主角</a><a href="world.html">世界观</a><a href="people.html">人物</a><a href="places.html">地理</a><a href="threads.html">伏笔</a><a href="items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" min="1" max="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><input type="checkbox" id="show-src" class="toggle"><label for="show-src" class="toggle-label">显示出处</label><input type="checkbox" id="theme-light" class="toggle"><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span><script>(function(d){var r=d.documentElement,b=d.getElementById('show-src'),t=d.getElementById('theme-light');try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}if(!b.disabled)b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}});t.checked=r.getAttribute('data-theme')==='light';t.addEventListener('change',function(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme');try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}})})(document)</script></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，开篇的初审列车结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到开篇的初审列车结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main><span id="content" tabindex="-1"></span>
-<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p><script>(function(){var b=document.getElementById('wdzx-upto'),s=document.getElementById('wdzx-status'),v=null;try{v=localStorage.getItem('wdzx.upto')}catch(e){}var r=+b.getAttribute('max')||Infinity,m=parseInt(v,10),q=parseInt(new URLSearchParams(location.search).get('upto'),10);q=q>=1&&q<=r?q:0;var n=v==='latest'||m>r?0:Math.max(m>=1?m:0,q);if(n){s.textContent='你的进度是第 '+n+' 章；本页不按进度隐藏内容。';s.hidden=false}})()</script>
+<body data-progress="off"><a class="skip-link" href="#content">跳到正文</a><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(r){try{if(localStorage.getItem('wdzx.theme')==='light')r.setAttribute('data-theme','light')}catch(e){}})(document.documentElement);(function(r){var v=null;try{v=localStorage.getItem('wdzx.upto')}catch(e){}var c=document.body.dataset.progress!=='off'&&v!=='latest'&&(/^\d+$/.test(v||'')||/[?&]upto=\d/.test(location.search))?'progress-pending':'progress-settling';r.classList.add(c);document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){r.classList.remove(c)},2000)})})(document.documentElement)</script><div class="rail"><div class="rail-inner"><a class="brand" href="index.html"><img class="brand-mark" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22wdzx-ib%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23EAD49A%22/%3E%3Cstop%20offset%3D%22.5%22%20stop-color%3D%22%23B8924F%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%237A5A29%22/%3E%3C/linearGradient%3E%3CradialGradient%20id%3D%22wdzx-ig%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23FFF1C4%22/%3E%3Cstop%20offset%3D%22.35%22%20stop-color%3D%22%23F2CF7A%22/%3E%3Cstop%20offset%3D%22.6%22%20stop-color%3D%22%23E9B95A%22%20stop-opacity%3D%22.45%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23E9B95A%22%20stop-opacity%3D%220%22/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect%20x%3D%221.5%22%20y%3D%221.5%22%20width%3D%2229%22%20height%3D%2229%22%20rx%3D%227%22%20fill%3D%22%23132326%22%20stroke%3D%22%232C1B08%22%20stroke-width%3D%221%22/%3E%3Cpath%20d%3D%22M4.5%2028.5%20V15%20A11.5%2011.5%200%200%201%2027.5%2015%20V28.5%20Z%22%20fill%3D%22url%28%23wdzx-ib%29%22/%3E%3Cpath%20d%3D%22M8%2028.5%20V15.5%20A8%208%200%200%201%2024%2015.5%20V28.5%20Z%22%20fill%3D%22%23070C0D%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2217.5%22%20r%3D%226.2%22%20fill%3D%22url%28%23wdzx-ig%29%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2217.5%22%20r%3D%222.4%22%20fill%3D%22%23FFF4D2%22/%3E%3Cpath%20d%3D%22M10.2%2028.5%20L13%2023.6%20M21.8%2028.5%20L19%2023.6%22%20stroke%3D%22url%28%23wdzx-ib%29%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E" alt="" width="22" height="22">维度之下<small>《玩家请上车》设定库</small></a><nav aria-label="全站" data-db="../novel"><a href="index.html" class="on">首页</a><a href="hero.html">主角</a><a href="world.html">世界观</a><a href="people.html">人物</a><a href="places.html">地理</a><a href="threads.html">伏笔</a><a href="items.html">道具库</a></nav><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" autocomplete="off" min="1" max="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><input type="checkbox" id="show-src" class="toggle" autocomplete="off"><label for="show-src" class="toggle-label">显示出处</label><input type="checkbox" id="theme-light" class="toggle" autocomplete="off"><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span><script>(function(d){var r=d.documentElement,b=d.getElementById('show-src'),t=d.getElementById('theme-light');try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}if(!b.disabled)b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}});t.checked=r.getAttribute('data-theme')==='light';t.addEventListener('change',function(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme');try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}});function sync(){var l=false,s=null;try{l=localStorage.getItem('wdzx.theme')==='light';s=localStorage.getItem('wdzx.show-src')}catch(e){}if(l)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme');t.checked=l;if(!b.disabled)b.checked=s==='1'}window.addEventListener('pageshow',function(e){if(e.persisted)sync()});window.addEventListener('storage',function(e){if(e.key===null||e.key==='wdzx.theme'||e.key==='wdzx.show-src')sync()})})(document)</script></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，开篇的初审列车结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到开篇的初审列车结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main><span id="content" tabindex="-1"></span>
+<p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p><script>(function(){var b=document.getElementById('wdzx-upto'),s=document.getElementById('wdzx-status'),v=null;try{v=localStorage.getItem('wdzx.upto')}catch(e){}var r=+b.getAttribute('max')||Infinity,m=parseInt(v,10),q=new URLSearchParams(location.search).get('upto');q=/^\d+$/.test(q||'')&&+q>=1&&+q<=r?+q:0;var n=v==='latest'||m>r?0:Math.max(m>=1?m:0,q);if(n){s.textContent='你的进度是第 '+n+' 章；本页不按进度隐藏内容。';s.hidden=false}})()</script>
 <header class="board topic" id="xuhuo-top"><div class="board-top"><span class="board-tag">专题</span><span class="board-asof rticket"><a class="rt" href="#wdzx-upto" title="点这里改你读到的章"><span class="rt-k">通票</span><span class="rt-v">全书</span></a><small class="rt-reach">资料写到第 3284 章</small></span></div><div class="board-main"><h1 class="board-title">徐获其人</h1></div><p class="board-line">一篇人物论：徐获怎样拿主意、下手和停手、待人，怎样接纳又提防自己的几个人格，前后变了什么。</p><p class="board-line warn">本页写全书，含剧透，内容不随阅读进度隐藏。勾选“显示出处”可查看段末章号。</p></header>
 <p class="essay-meta">约 6600 字，分 7 部分。他的档案、特性和副本履历见<a href="hero.html">主角页</a>，三种超级进化怎样练成见<a href="evolution.html">专题《三向超级进化》</a>，各单元的经过见单元卡。</p>
 <nav class="jump pagenav" id="jump" aria-label="本页目录"><b>本页</b><a href="#xuhuo-%E8%B7%AF%E4%BA%BA%E7%94%B2">路人甲</a><a href="#xuhuo-%E4%B8%A4%E5%9C%BA%E8%B5%8C%E5%B1%80">两场赌局</a><a href="#xuhuo-%E6%9D%80%E4%B8%8E%E4%B8%8D%E6%9D%80">杀与不杀</a><a href="#xuhuo-%E8%BA%AB%E8%BE%B9%E7%9A%84%E4%BA%BA">身边的人</a><a href="#xuhuo-%E5%9C%86%E6%A1%8C%E8%BE%B9%E7%9A%84%E5%9B%9B%E4%B8%AA%E4%BA%BA">圆桌边的四个人</a><a href="#xuhuo-%E4%BB%8E%E8%B7%AF%E4%BA%BA%E7%94%B2%E5%88%B0%E2%80%9CX%E2%80%9D">从路人甲到“X”</a><a href="#xuhuo-%E5%8F%A6%E4%B8%80%E6%9D%A1%E8%B7%AF">另一条路</a></nav>
@@ -497,11 +504,15 @@ article.essay .part:first-child h2.sign { margin-top:22px; }
     db.href = nav.dataset.db; db.textContent = '数据库'; nav.appendChild(db);
   }
   if (get(KEY) === null && get('upto') !== null) { put(KEY, get('upto')); put('upto', null); }   // the key before 2026-10-01
-  var saved = get(KEY), mode = 'none', mine = Infinity;   // the reader's state: none, chapter (read to mine), latest
-  if (saved === LATEST || parseInt(saved, 10) > reach) mode = LATEST;   // a chapter past this page's last one: caught up here
-  else if (valid(parseInt(saved, 10))) { mode = 'chapter'; mine = parseInt(saved, 10); }
-  var query = parseInt(new URLSearchParams(location.search).get('upto'), 10);
-  query = valid(query) ? query : 0;
+  var mode = 'none', mine = Infinity;   // the reader's state: none, chapter (read to mine), latest
+  function load() {   // read again when the browser brings back a kept page, or another tab saves (code review 2026-10-30)
+    var saved = get(KEY); mode = 'none'; mine = Infinity;
+    if (saved === LATEST || parseInt(saved, 10) > reach) mode = LATEST;   // a chapter past this page's last one: caught up here
+    else if (valid(parseInt(saved, 10))) { mode = 'chapter'; mine = parseInt(saved, 10); }
+  }
+  load();
+  var query = new URLSearchParams(location.search).get('upto');   // digits only: 1202abc or 1202.9 is no chapter
+  query = /^\d+$/.test(query || '') && valid(+query) ? +query : 0;
   function shown() { return mode === LATEST ? Infinity : mode === 'chapter' ? Math.max(mine, query) : query || Infinity; }
   function said() { return mode === 'chapter' ? '第 ' + mine + ' 章' : mode === LATEST ? '“已追平”' : '“未设”'; }
   function mark(why) {   // a value that is not a chapter: red, the reason on hover; '' clears it
@@ -537,9 +548,6 @@ article.essay .part:first-child h2.sign { margin-top:22px; }
       doc.querySelectorAll('[data-asof]').forEach(function (el) { el.textContent = '截至第 ' + Math.min(n, +el.dataset.asof) + ' 章'; });
     }
     doc.querySelectorAll('[data-beyond]').forEach(function (el) { el.hidden = !(n < +el.dataset.beyond); });
-    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
-      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
-    });
     var waived = mode === LATEST && query && !off;   // caught up: a card's chapter does not hold this page back
     status.hidden = n === Infinity && !waived;
     status.textContent = waived ? '你已追平，全部显示；单元卡带来的章号不限制本页。' : n === Infinity ? ''
@@ -562,6 +570,11 @@ article.essay .part:first-child h2.sign { margin-top:22px; }
     });
     root.classList.remove('progress-pending', 'progress-settling');   // the shell's first script hid the chapter marks until
     doc.dispatchEvent(new CustomEvent('wdzx:progress', {detail: n}));   // now; a page's script measures them as they will show
+    // counted after the pages' own scripts have moved and folded their rows (code review 2026-10-30: the hero's
+    // 在手 count missed the rows its fold brought back when the chapter went up)
+    if (!off) doc.querySelectorAll('[data-count]').forEach(function (el) {
+      var c = 0; doc.querySelectorAll(el.dataset.count).forEach(function (x) { if (!x.closest('.hidden')) c++; }); el.textContent = c;
+    });
   }
   function set(next, chapter, start) {   // a new state, from the box, × or the banner
     mode = next; mine = next === 'chapter' ? chapter : Infinity;
@@ -613,6 +626,10 @@ article.essay .part:first-child h2.sign { margin-top:22px; }
     });
   });
   apply();
+  status.setAttribute('role', 'status'); note.setAttribute('role', 'status');   // later changes are read out, not the first fill
+  function again() { load(); note.hidden = true; fill(); apply(); }
+  window.addEventListener('pageshow', function (e) { if (e.persisted) again(); });   // back to a page the browser kept
+  window.addEventListener('storage', function (e) { if (e.key === KEY || e.key === null) again(); });   // another tab
   function byId(id) {   // ids are percent-encoded names (person-%E7%94%B2), so try the hash as it is first
     try { return id ? doc.getElementById(id) || doc.getElementById(decodeURIComponent(id)) : null; } catch (e) { return null; }
   }
@@ -650,6 +667,7 @@ document.addEventListener('toggle', function (e) {
   b.addEventListener('click', function () {
     d.open = false;
     var s = d.querySelector(':scope > summary') || d;
+    s.focus({preventScroll: true});   // the button went with the fold: the keyboard back on its line (code review 2026-10-30)
     if (s.getBoundingClientRect().top < 0) s.scrollIntoView({block: 'start'});
   });
   d.appendChild(b);
@@ -663,6 +681,7 @@ document.addEventListener('toggle', function (e) {
     requestAnimationFrame(function () { requestAnimationFrame(function () { root.classList.add('toc-ready'); }); });
     var fab = doc.createElement('button'), back = doc.createElement('div'), filter = doc.createElement('input');
     fab.type = 'button'; fab.className = 'toc-fab'; fab.textContent = '目录'; fab.setAttribute('aria-label', '目录');
+    fab.setAttribute('aria-controls', toc.id); fab.setAttribute('aria-expanded', 'false');
     var lastY = window.scrollY;   // scrolling down it steps aside, scrolling up it comes back (design review 2026-10-06)
     window.addEventListener('scroll', function () {
       var y = window.scrollY;
@@ -670,14 +689,30 @@ document.addEventListener('toggle', function (e) {
       lastY = y;
     }, {passive: true});
     back.className = 'toc-backdrop';
-    filter.type = 'search'; filter.className = 'toc-filter'; filter.placeholder = '在目录里找…';
+    filter.type = 'search'; filter.className = 'toc-filter'; filter.placeholder = '在目录里找…'; filter.setAttribute('aria-label', '在目录里找');
     if (toc.querySelectorAll('a').length >= 10) toc.insertBefore(filter, toc.firstChild);   // a short contents needs no filter (site review 2026-10-17)
     doc.body.appendChild(back); doc.body.appendChild(fab);
-    var open = function (on) { root.classList.toggle('toc-open', on); };   // no focus on the filter: a phone's keyboard covered the contents
+    // the keyboard goes into the drawer and stays there until it shuts, then goes back to the button (design review
+    // 2026-10-30: 19 tabs to reach the contents); its first link, not the filter: a phone's keyboard covered the contents
+    var stops = function () {
+      return [].filter.call(toc.querySelectorAll('a[href], input, button, summary'), function (x) { return x.getClientRects().length; }).concat(fab);
+    };
+    var open = function (on) {
+      var was = root.classList.contains('toc-open');
+      root.classList.toggle('toc-open', on); fab.setAttribute('aria-expanded', on ? 'true' : 'false');
+      if (on && !was && small.matches) { var first = toc.querySelector('a[href]:not(.hidden)'); if (first) first.focus({preventScroll: true}); }
+      else if (!on && was && toc.contains(doc.activeElement)) fab.focus({preventScroll: true});
+    };
     fab.addEventListener('click', function () { open(!root.classList.contains('toc-open')); });
     back.addEventListener('click', function () { open(false); });
     toc.addEventListener('click', function (e) { if (e.target.closest('a')) open(false); });
-    doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+    doc.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { open(false); return; }
+      if (e.key !== 'Tab' || !root.classList.contains('toc-open') || !small.matches) return;
+      var all = stops(), at = all.indexOf(doc.activeElement);
+      e.preventDefault();
+      all[e.shiftKey ? (at <= 0 ? all.length - 1 : at - 1) : (at < 0 || at === all.length - 1 ? 0 : at + 1)].focus();
+    });
     doc.querySelectorAll('a.totop').forEach(function (a) {   // on a phone it opens the contents, so it says so (GPT design review 2026-10-06)
       a.textContent = '目录';
       a.addEventListener('click', function (e) { if (small.matches) { e.preventDefault(); open(true); } });
@@ -698,6 +733,9 @@ document.addEventListener('toggle', function (e) {
       toc.querySelectorAll('.find-only').forEach(function (r) {
         r.classList.toggle('found', !!q && Array.prototype.some.call(r.querySelectorAll('a'), function (a) { return a.style.display !== 'none' && !a.classList.contains('hidden'); }));
       });
+    });
+    doc.addEventListener('wdzx:progress', function () {   // names change with the chapter: a search kept in the box runs again
+      if (filter.value) filter.dispatchEvent(new Event('input'));
     });
   }
   if (window.matchMedia('(max-width:640px)').matches) {
@@ -798,5 +836,60 @@ document.addEventListener('toggle', function (e) {
     opened.forEach(function (d) { d.open = false; }); shelves.forEach(function (s) { s.classList.add('shelved'); });
     opened = []; shelves = [];
   });
+})();
+
+(function () {
+  var doc = document, pop = null, from = null;
+  var SEL = 'main a.term[title], main .thread-no[title], main .tier[title]';
+  doc.querySelectorAll('main span.thread-no[title], main .tier[title]').forEach(function (s) {
+    if (!s.hasAttribute('tabindex')) s.tabIndex = 0;
+    s.setAttribute('role', 'button');
+  });
+  doc.querySelectorAll(SEL).forEach(function (t) { t.setAttribute('aria-expanded', 'false'); });
+  function shut(back) {
+    if (!pop) return;
+    var t = from; pop.remove(); pop = null; from = null;
+    t.setAttribute('aria-expanded', 'false'); t.removeAttribute('aria-controls');
+    if (back) t.focus({preventScroll: true});
+  }
+  function way(t) {
+    var h = t.getAttribute('href');
+    return !h ? '' : t.classList.contains('term') ? '去世界观看全文 ›' : /threads\.html/.test(h) ? '去伏笔页看这一条 ›' : '去那张卡看 ›';
+  }
+  function show(t) {
+    shut(false);
+    from = t; pop = doc.createElement('div'); pop.className = 'tip-pop'; pop.id = 'tip-pop';
+    pop.setAttribute('role', 'dialog'); pop.setAttribute('aria-label', t.textContent.trim());
+    var line = doc.createElement('p'), title = t.getAttribute('title');   // a thread number's title says only 伏笔总表
+    line.textContent = /^伏笔总表/.test(title) ? '伏笔总表里有这一条，前后怎样接上都写在那里' + title.slice(4) + '。' : title;
+    pop.appendChild(line);
+    if (way(t)) { var a = doc.createElement('a'); a.href = t.getAttribute('href'); a.textContent = way(t); pop.appendChild(a); }
+    doc.body.appendChild(pop); place();
+    if (!pop) return;   // the word was out of sight: place() shut it again
+    t.setAttribute('aria-expanded', 'true'); t.setAttribute('aria-controls', 'tip-pop');
+    var go = pop.querySelector('a'); if (go && doc.activeElement === t) go.focus({preventScroll: true});
+  }
+  function place() {   // under the word (over it near the bottom), kept there while the page scrolls and lays out the
+    if (!pop) return;    // long sections above it (content-visibility); a word scrolled out of sight takes its note along
+    var r = from.getBoundingClientRect(), vw = doc.documentElement.clientWidth, h = pop.offsetHeight;
+    if (r.bottom < 0 || r.top > window.innerHeight) { shut(false); return; }
+    var below = r.bottom + 6 + h <= window.innerHeight || r.top < h + 6;
+    pop.style.left = Math.max(8, Math.min(r.left, vw - pop.offsetWidth - 8)) + 'px';
+    pop.style.top = (below ? r.bottom + 6 : r.top - h - 6) + 'px';
+  }
+  window.addEventListener('scroll', place, {passive: true, capture: true});
+  doc.addEventListener('click', function (e) {
+    var t = e.target.closest && e.target.closest(SEL);
+    if (t && !(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)) {   // a new tab or window: the link as before
+      e.preventDefault(); if (t === from) shut(false); else show(t); return;
+    }
+    if (pop && !pop.contains(e.target)) shut(false);
+  });
+  doc.addEventListener('keydown', function (e) {
+    var t = e.target.closest && e.target.closest(SEL);
+    if (t && t.tagName !== 'A' && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); if (t === from) shut(true); else show(t); }
+    else if (e.key === 'Escape' && pop) shut(true);
+  });
+  window.addEventListener('resize', function () { shut(false); });
 })();
 </script></body></html>
