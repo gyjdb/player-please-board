@@ -148,10 +148,16 @@ nav.jump input.toc-filter { max-width:20em; margin:8px 0 6px; }
   .rail-me[data-state="chapter"] .me-pill { border-color:var(--brass); color:var(--brass); }
   .rail-me[data-state="none"] .me-pill { color:var(--rail-muted); }
   .rail-me:focus-visible { outline:none; } .rail-me:focus-visible .me-pill { outline:2px solid #d3a655; outline-offset:2px; }
-  .rail-tools { display:flex; flex:1 1 100%; flex-wrap:wrap; align-items:center; gap:2px 14px; padding:4px 0 8px; border-top:1px solid rgba(255,255,255,.08); }
+  .rail-tools { display:flex; flex:1 1 100%; flex-wrap:wrap; align-items:center; gap:2px 10px; padding:4px 0 8px; border-top:1px solid rgba(255,255,255,.08); }
   html.js:not(.tools-open) .rail-tools { display:none; }
   .rail .progress { margin-left:0; }
   .rail .progress input { font-size:16px; }   /* 16px: a phone does not zoom the page into a box it focuses */
+  /* the box and both switches in one row from 360 wide (2026-10-31: they wrapped below 400 once × took 44px): the box
+     narrower, the gaps tighter; 显示出处 reads 出处 below 400 wide, and below 360 读到第 is left to screen readers */
+  .rail .progress input { width:4.4em; }
+  .rail .progress button { margin-left:2px; }
+  .rail-tools .switches { gap:6px; }
+  .rail-tools .toggle-label { padding-right:9px; }
   .rail nav { flex:1 1 0; min-width:0; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; margin:0 0 0 -2px; }
   .rail nav::-webkit-scrollbar { display:none; }
   .rail nav a { flex:none; }
@@ -164,6 +170,8 @@ nav.jump input.toc-filter { max-width:20em; margin:8px 0 6px; }
   .ticket-main p.hint.clamped { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:0; }
   button.hint-more { background:none; border:none; color:var(--brass); font-size:12.5px; padding:2px 0 4px; min-height:30px; cursor:pointer; }
 }
+@media (max-width:399px) { .rail-tools .sw-long { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; } }
+@media (max-width:359px) { .rail-tools .progress > label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; } }
 [hidden] { display:none !important; }
 html:not(.js) [data-until] { display:none; }   /* an earlier name or state: without script the page shows the latest */
 
@@ -680,6 +688,7 @@ figure.mech figcaption { margin:0 0 12px; }
 figure.mech-wide { max-width:760px; } figure.mech-wide .mech-box svg { max-width:none; }   /* the table's labels are 12px at 720 */
 :where(.mech-box) svg text { text-anchor:start; stroke:none; stroke-width:0; paint-order:normal; }   /* the card graph's halo and centring, off */
 figure.mech p.mech-note { margin:8px 0 0; font-size:14px; line-height:1.7; color:var(--muted); max-width:none; }
+.mech-n { display:none; }   /* a diagram's narrow drawing, for phones (below) */
 @media print { figure.mech { break-inside:avoid; } }
 /* the card's end (site review 2026-10-30, D5; 2026-10-31): the next station as a ticket on a board like the header's,
    drawn as the header's reading ticket is (amber outline, a dashed perforation notched at both ends), its stub a piece
@@ -733,14 +742,263 @@ a.end-board:focus-visible { outline:2px solid var(--amber); outline-offset:6px; 
   figure.mech { margin:24px -22px 26px; padding:12px 16px 10px; border-left:0; border-right:0; border-radius:0; }   /* to the section's edges */
   .mech-box { overflow-x:auto; margin:0 -16px; }
   .mech-box svg { min-width:var(--mech-min, 420px); }
+  figure.mech.has-n .mech-box { overflow-x:visible; margin:0; }   /* a narrow drawing of its own: whole, no sideways scroll (2026-10-31) */
+  figure.mech.has-n .mech-w { display:none; } figure.mech.has-n .mech-n { display:block; }
+  figure.mech.has-n .mech-n svg { min-width:0; max-width:440px; }
   .mech-t { font-size:17px; } .mech-sub { font-size:14.5px; }
   .station .board-line { text-align:left; }
 }
 @media (max-width:360px) { .st-name.mid, .st-name > .mid { font-size:26px; letter-spacing:.04em; } }   /* 冯姓后人与朱诺家族 on one line at 320 */
 </style></head>
-<body data-progress="on"><a class="skip-link" href="#content">跳到正文</a><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(r){try{if(localStorage.getItem('wdzx.theme')==='light')r.setAttribute('data-theme','light')}catch(e){}})(document.documentElement);(function(r){var v=null,s=null;try{v=localStorage.getItem('wdzx.upto');s=localStorage.getItem('wdzx.start')}catch(e){}var c=document.body.dataset.progress!=='off'&&v!=='latest'&&(/^\d+$/.test(v||'')||/[?&]upto=\d/.test(location.search))?'progress-pending':'progress-settling';r.classList.add(c);if(v==='latest'||parseInt(v,10)>=1&&s!==v)r.classList.add('upto-set');document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){r.classList.remove(c)},2000)})})(document.documentElement)</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html"><img class="brand-mark" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22wdzx-ib%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23EAD49A%22/%3E%3Cstop%20offset%3D%22.5%22%20stop-color%3D%22%23B8924F%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%237A5A29%22/%3E%3C/linearGradient%3E%3CradialGradient%20id%3D%22wdzx-ig%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23FFF1C4%22/%3E%3Cstop%20offset%3D%22.35%22%20stop-color%3D%22%23F2CF7A%22/%3E%3Cstop%20offset%3D%22.6%22%20stop-color%3D%22%23E9B95A%22%20stop-opacity%3D%22.45%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23E9B95A%22%20stop-opacity%3D%220%22/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect%20x%3D%221.5%22%20y%3D%221.5%22%20width%3D%2229%22%20height%3D%2229%22%20rx%3D%227%22%20fill%3D%22%23132326%22%20stroke%3D%22%232C1B08%22%20stroke-width%3D%221%22/%3E%3Cpath%20d%3D%22M4.5%2028.5%20V15%20A11.5%2011.5%200%200%201%2027.5%2015%20V28.5%20Z%22%20fill%3D%22url%28%23wdzx-ib%29%22/%3E%3Cpath%20d%3D%22M8%2028.5%20V15.5%20A8%208%200%200%201%2024%2015.5%20V28.5%20Z%22%20fill%3D%22%23070C0D%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2217.5%22%20r%3D%226.2%22%20fill%3D%22url%28%23wdzx-ig%29%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2217.5%22%20r%3D%222.4%22%20fill%3D%22%23FFF4D2%22/%3E%3Cpath%20d%3D%22M10.2%2028.5%20L13%2023.6%20M21.8%2028.5%20L19%2023.6%22%20stroke%3D%22url%28%23wdzx-ib%29%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E" alt="" width="22" height="22"><span class="brand-name">维度之下</span><small>《玩家请上车》设定库</small></a><nav aria-label="全站" data-db="../../novel"><a href="../index.html" class="on">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><button type="button" class="rail-me" id="wdzx-me" aria-expanded="false" aria-controls="wdzx-tools"><span class="me-pill"><span class="vh">阅读进度：</span><span class="me-v">未设进度</span></span></button><div class="rail-tools" id="wdzx-tools"><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="number" autocomplete="off" min="1" max="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><input type="checkbox" id="show-src" class="toggle" disabled tabindex="-1" aria-label="显示出处（本页不可用）"><span class="toggle-label off" aria-disabled="true" title="本卡只标本单元的章节范围，不附逐句的章号和原文；人物、伏笔、主角等页可以显示出处">显示出处</span><input type="checkbox" id="theme-light" class="toggle" autocomplete="off"><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span><script>(function(d){var r=d.documentElement,b=d.getElementById('show-src'),t=d.getElementById('theme-light');function me(s,m){var e=d.getElementById('wdzx-me');if(!e)return;e.setAttribute('data-state',s);e.querySelector('.me-v').textContent=s==='latest'?'已追平':s==='chapter'?'第 '+m+' 章':'未设进度'}window.wdzxMe=me;var u=null;try{u=localStorage.getItem('wdzx.upto')}catch(e){}var x=+d.getElementById('wdzx-upto').getAttribute('max')||Infinity,m=parseInt(u,10);me(u==='latest'||m>x?'latest':m>=1?'chapter':'none',m);try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}if(!b.disabled)b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}});t.checked=r.getAttribute('data-theme')==='light';t.addEventListener('change',function(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme');try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}});function sync(){var l=false,s=null;try{l=localStorage.getItem('wdzx.theme')==='light';s=localStorage.getItem('wdzx.show-src')}catch(e){}if(l)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme');t.checked=l;if(!b.disabled)b.checked=s==='1'}window.addEventListener('pageshow',function(e){if(e.persisted)sync()});window.addEventListener('storage',function(e){if(e.key===null||e.key==='wdzx.theme'||e.key==='wdzx.show-src')sync()})})(document)</script></div></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，开篇的初审列车结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到开篇的初审列车结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main><span id="content" tabindex="-1"></span>
+<body data-progress="on"><a class="skip-link" href="#content">跳到正文</a><script>document.documentElement.classList.add('js');if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))document.documentElement.classList.add('local');(function(r){try{if(localStorage.getItem('wdzx.theme')==='light')r.setAttribute('data-theme','light')}catch(e){}})(document.documentElement);(function(r){var v=null,s=null;try{v=localStorage.getItem('wdzx.upto');s=localStorage.getItem('wdzx.start')}catch(e){}var c=document.body.dataset.progress!=='off'&&v!=='latest'&&(/^\d+$/.test(v||'')||/[?&]upto=\d/.test(location.search))?'progress-pending':'progress-settling';r.classList.add(c);if(v==='latest'||parseInt(v,10)>=1&&s!==v)r.classList.add('upto-set');document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){r.classList.remove(c)},2000)})})(document.documentElement)</script><div class="rail"><div class="rail-inner"><a class="brand" href="../index.html"><img class="brand-mark" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22wdzx-ib%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23EAD49A%22/%3E%3Cstop%20offset%3D%22.5%22%20stop-color%3D%22%23B8924F%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%237A5A29%22/%3E%3C/linearGradient%3E%3CradialGradient%20id%3D%22wdzx-ig%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23FFF1C4%22/%3E%3Cstop%20offset%3D%22.35%22%20stop-color%3D%22%23F2CF7A%22/%3E%3Cstop%20offset%3D%22.6%22%20stop-color%3D%22%23E9B95A%22%20stop-opacity%3D%22.45%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23E9B95A%22%20stop-opacity%3D%220%22/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect%20x%3D%221.5%22%20y%3D%221.5%22%20width%3D%2229%22%20height%3D%2229%22%20rx%3D%227%22%20fill%3D%22%23132326%22%20stroke%3D%22%232C1B08%22%20stroke-width%3D%221%22/%3E%3Cpath%20d%3D%22M4.5%2028.5%20V15%20A11.5%2011.5%200%200%201%2027.5%2015%20V28.5%20Z%22%20fill%3D%22url%28%23wdzx-ib%29%22/%3E%3Cpath%20d%3D%22M8%2028.5%20V15.5%20A8%208%200%200%201%2024%2015.5%20V28.5%20Z%22%20fill%3D%22%23070C0D%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2217.5%22%20r%3D%226.2%22%20fill%3D%22url%28%23wdzx-ig%29%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2217.5%22%20r%3D%222.4%22%20fill%3D%22%23FFF4D2%22/%3E%3Cpath%20d%3D%22M10.2%2028.5%20L13%2023.6%20M21.8%2028.5%20L19%2023.6%22%20stroke%3D%22url%28%23wdzx-ib%29%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E" alt="" width="22" height="22"><span class="brand-name">维度之下</span><small>《玩家请上车》设定库</small></a><nav aria-label="全站" data-db="../../novel"><a href="../index.html" class="on">首页</a><a href="../hero.html">主角</a><a href="../world.html">世界观</a><a href="../people.html">人物</a><a href="../places.html">地理</a><a href="../threads.html">伏笔</a><a href="../items.html">道具库</a></nav><button type="button" class="rail-me" id="wdzx-me" aria-expanded="false" aria-controls="wdzx-tools"><span class="me-pill"><span class="vh">阅读进度：</span><span class="me-v">未设进度</span></span></button><div class="rail-tools" id="wdzx-tools"><span class="progress"><label for="wdzx-upto">读到第</label><input id="wdzx-upto" type="text" autocomplete="off" data-reach="3284" inputmode="numeric" placeholder="全部"><span>章</span><button type="button" id="wdzx-clear" title="清除进度" aria-label="清除进度">×</button></span><span class="switches"><input type="checkbox" id="show-src" class="toggle" disabled tabindex="-1" aria-label="显示出处（本页不可用）"><span class="toggle-label off" aria-disabled="true" title="本卡只标本单元的章节范围，不附逐句的章号和原文；人物、伏笔、主角等页可以显示出处"><span class="sw-long">显示</span>出处</span><input type="checkbox" id="theme-light" class="toggle" autocomplete="off"><label for="theme-light" class="toggle-label" title="换成浅色版；再点一下回到深色">浅色</label></span><script>(function(d){var r=d.documentElement,b=d.getElementById('show-src'),t=d.getElementById('theme-light');function me(s,m){var e=d.getElementById('wdzx-me');if(!e)return;e.setAttribute('data-state',s);e.querySelector('.me-v').textContent=s==='latest'?'已追平':s==='chapter'?'第 '+m+' 章':'未设进度'}window.wdzxMe=me;var u=null;try{u=localStorage.getItem('wdzx.upto')}catch(e){}var x=+d.getElementById('wdzx-upto').getAttribute('data-reach')||Infinity,m=parseInt(u,10);me(u==='latest'||m>x?'latest':m>=1?'chapter':'none',m);try{var v=localStorage.getItem('wdzx.show-src');if(v===null){v=localStorage.getItem('show-src');if(v!==null){localStorage.setItem('wdzx.show-src',v);localStorage.removeItem('show-src')}}if(!b.disabled)b.checked=v==='1'}catch(e){}b.addEventListener('change',function(){try{localStorage.setItem('wdzx.show-src',b.checked?'1':'0')}catch(e){}});t.checked=r.getAttribute('data-theme')==='light';t.addEventListener('change',function(){if(t.checked)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme');try{localStorage.setItem('wdzx.theme',t.checked?'light':'dark')}catch(e){}});function sync(){var l=false,s=null;try{l=localStorage.getItem('wdzx.theme')==='light';s=localStorage.getItem('wdzx.show-src')}catch(e){}if(l)r.setAttribute('data-theme','light');else r.removeAttribute('data-theme');t.checked=l;if(!b.disabled)b.checked=s==='1'}window.addEventListener('pageshow',function(e){if(e.persisted)sync()});window.addEventListener('storage',function(e){if(e.key===null||e.key==='wdzx.theme'||e.key==='wdzx.show-src')sync()})})(document)</script></div></div></div><div class="banner" id="wdzx-banner" hidden><div class="banner-inner"><span><b>全站写到第 3284 章，处处是剧透。</b>读到一半的话，先在页头填你读到第几章，之后的内容会藏起来，全站通用（世界观、地理、道具库和专题写全书，不藏）。还没开始读的话，先只显示到第 16 章，开篇的初审列车结束的地方。</span><button type="button" class="primary" data-choice="fill">填我读到的章</button><button type="button" data-choice="start" data-chapter="16" title="按第 16 章显示，到开篇的初审列车结束">还没开始读</button><button type="button" data-choice="all">已追平 / 不怕剧透</button></div></div><main><span id="content" tabindex="-1"></span>
 <p class="progress-status" id="wdzx-status" hidden></p><p class="progress-note" id="wdzx-note" hidden></p>
-<header class="board station" id="card" data-first="185" data-last="219" data-end="219" data-reward="在下一站的开头"><div class="board-top"><span class="board-tag">副本</span><span class="st-grade"><span class="grade" style="background:#1f7f86">D</span></span><span class="board-asof rticket"><a class="rt" href="#wdzx-upto" title="点这里改你读到的章"><span class="rt-k">通票</span><span class="rt-v">全书</span></a><small class="rt-reach">资料写到第 3284 章</small></span></div><div class="st-sign"><h1 class="st-name">小花红红大楼</h1><span class="st-full" hidden>小花红红大楼</span><p class="st-where"><a class="st-code" href="../places.html#place-014%E5%8C%BA">014 区</a><span><i>›</i><a href="../places.html#place-%E4%BA%AC%E5%B8%82">京市</a></span></p></div><div class="route" aria-label="前后单元"><span class="you" hidden><b></b></span><ol class="stops"><li class="stop far" data-from="146" data-to="176"><i class="dot"></i><a class="nm" href="u0010.html"><span class="ar">◂</span><span class="nm-full">讲故事的女人</span></a><a class="unread" href="u0010.html" title="在你的进度之后">◂ 未读</a><small>副本 <span class="grade" style="background:#6f675c">E</span></small></li><li class="stop near" data-from="177" data-to="184"><i class="dot"></i><a class="nm" href="u0011.html"><span class="ar">◂</span><span class="nm-full">京市（讲故事的女人之后）</span><span class="nm-short">讲故事的女人之后</span></a><a class="unread" href="u0011.html" title="在你的进度之后">◂ 未读</a><small>主线</small></li><li class="stop here" data-from="185" data-to="219"><i class="dot"></i><span class="nm">本站</span><small>第 185–219 章</small></li><li class="stop near" data-from="220" data-to="221"><i class="dot"></i><a class="nm" href="u0013.html"><span class="nm-full">汀城（小花红红大楼之后）</span><span class="nm-short">小花红红大楼之后</span><span class="ar">▸</span></a><a class="unread" href="u0013.html" title="在你的进度之后">未读 ▸</a><small>主线</small></li><li class="stop far" data-from="222" data-to="240"><i class="dot"></i><a class="nm" href="u0014.html"><span class="nm-full">三十天</span><span class="ar">▸</span></a><a class="unread" href="u0014.html" title="在你的进度之后">未读 ▸</a><small>副本 <span class="grade" style="background:#6f675c">E</span></small></li></ol></div><p class="st-lede" data-ch="187">被郑良一伙追着跑时马路起了大雾，徐获和追兵、一百多名普通人被吸进废弃的小花红红大楼；要待满九十小时，十五楼却没有楼梯，电梯井里长着食人花。</p><p class="board-line">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、地理、道具库写到第 3284 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="185" hidden>这张卡从第 185 章开始，在你填的进度之后，整张都是剧透。</p></header><div id="cv-body"><aside class="cv-rail"><nav class="jump pagenav" id="jump" aria-label="本页目录"><b>本卡</b><a href="#harvest" data-ch="219">收获</a><a href="#setup" data-ch="185">规则</a><a href="#puzzle" data-ch="185">解谜</a><a href="#cast" data-ch="185">人物</a><a href="#summary" data-ch="185">经过</a><a href="#relations" data-ch="190">关系</a><a href="#threads" data-ch="196">伏笔</a><a href="#links" data-ch="185">设定与道具</a></nav><div class="rail-slip"><section id="harvest" class="harvest cv slip quiet" data-ch="219"><h2 class="slip-h">徐获的收获</h2><div class="h-rating"><span class="seal none" title="不评级">—</span><span>不评级（随机副本）</span></div><div class="s-row"><b>特性</b><div class="links"><span class="up">新增 <a href="../hero.html#trait-%E4%BA%94%E4%BA%94%E5%BC%80">五五开</a></span></div></div><div class="s-row"><b>道具</b><div class="links"><a href="../items.html#item-%E8%90%A5%E5%85%BB%E5%B0%8F%E7%BA%A2%E7%9B%86">营养小红盆</a><small class="s-also">另外拿到</small><a href="../items.html#item-%E8%83%BD%E9%87%8F%E8%83%B6%E5%9B%8A">能量胶囊</a><a href="../items.html#item-%E8%A7%A3%E6%AF%92%E5%89%82">解毒剂</a><a href="../items.html#item-%E6%A4%8D%E7%89%A9%E8%90%A5%E5%85%BB%E5%89%82">植物营养剂</a><a href="../items.html#item-%E6%B8%85%E6%B4%81%E5%89%82">清洁剂</a><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a></div></div><details class="slip-more"><summary>结算经过</summary><div class="h-line">奖励延伸特性“五五开”、道具营养小红盆和药剂。</div></details><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section></div></aside><div class="cv-main"><section id="setup" class="cv fgroup"><h2 class="sign cv-sign">背景与规则</h2><ul class="cv-list"><li data-ch="185"><span class="text">游戏给的背景：小花红红科研基地运行十五年，培育出至少十五株变种植物和十五只变种动物；关闭后，创始人郝教授宣称掌握了进化的最大秘密，去找恒星医药研究集团投资，此后再没露面。</span></li><li data-ch="185"><span class="text">这是D级<a class="term" href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC" title="不需要车票、毫无征兆、地点随机出现的副本，卷进去的不限于玩家。">随机副本</a>，任务只有一条：在小花红红大楼待满九十小时。</span></li><li data-ch="186"><span class="text">众人落在十五楼，楼里没有楼梯，十五部电梯都停在“15”；窗玻璃全都朝屋里碎开，窗外是看不透的大雾。</span></li><li data-ch="191"><span class="text">每过六小时，十五部电梯同时开门，广播要求所有人坐电梯去下一层；每部电梯核载十三人，十五部正好一百九十五人。</span></li><li data-ch="200"><span class="text">被卷进来的有谷雨他们组织里追徐获的十几人、蒋艺华和大治，其余一百多人是普通人，其中还藏着两名没亮身份的玩家。</span></li></ul></section><section id="puzzle" class="cv fgroup"><h2 class="sign cv-sign">解谜</h2><p class="note">每一组先给谜面和线索，谜底点“揭开”再看：线索够的话，可以先自己想一想。</p><div class="cases"><article class="case fgroup" data-ch="191"><h3>电梯游戏</h3><div class="cf-row" data-ch="191"><b>谜面</b><p><span data-ch="191">每六小时必须坐电梯下一层，十五部电梯正好装下所有人，可从十五楼下到十四楼时，有一部电梯里的十五个人不见了，危险到底在哪？</span></p></div><div class="cf-row" data-ch="203"><b>线索</b><p><span data-ch="203">从十五楼到十四楼少的那部电梯是超载的；从十楼去九楼时有三部电梯被拉回十五楼，两部的人整个消失，徐获那部却没事，唯一的差别是带着十三楼的植物。</span></p></div><details class="cf-answer" data-ch="206"><summary><span class="cf-o">揭开谜底</span><span class="cf-c">收起谜底</span></summary><p><span data-ch="206">与楼层数对应的电梯数安全，多出的随机遇袭，超载也可能是条件；被挑中的电梯被拉回十五楼，人被管道里的巨型食人花裹走。徐获因此让一部电梯故意超载当靶子，由玩家同行。</span></p></details></article><article class="case fgroup" data-ch="209"><h3>能不能逃出大楼</h3><div class="cf-row" data-ch="209"><b>谜面</b><p><span data-ch="209">窗外只有大雾，楼下似乎没有动静，从窗户或楼外逃走是不是更安全？</span></p></div><div class="cf-row" data-ch="218"><b>线索</b><p><span data-ch="218">十五楼的玻璃全朝屋里碎开，说明攻击来自外面；整栋楼十五楼电梯门上的血手印最多；戴文谦认为食人花的根是从通风管道钻进大楼的，徐获更推断整栋楼都被它包裹着。</span></p></div><details class="cf-answer" data-ch="218"><summary><span class="cf-o">揭开谜底</span><span class="cf-c">收起谜底</span></summary><p><span data-ch="218">大治扔出的台灯落地“砰”的一声，楼下却毫无动静，让铁哥一伙看到了希望；可他们逼人爬窗探路，就引来了破窗的食人花，张彪出楼又引来更凶的异种。徐获判断不管多少人到一楼，最后都要面对异种。</span></p></details></article><article class="case fgroup" data-ch="208"><h3>躲在十三楼</h3><div class="cf-row" data-ch="211"><b>谜面</b><p><span data-ch="211">楼层一层比一层危险，有没有一层可以长期藏身？</span></p></div><div class="cf-row" data-ch="208"><b>线索</b><p><span data-ch="208">十三楼干干净净，没有变异动物活动的痕迹，带着那里的植物的电梯也没遇袭；日记写食人花的根受电击才喷毒粉。</span></p></div><details class="cf-answer" data-ch="218"><summary><span class="cf-o">揭开谜底</span><span class="cf-c">收起谜底</span></summary><p><span data-ch="218">徐获看过录像，判断十三楼只在晚上十点到凌晨四点会喷毒粉，其余时间暂时安全；众人白天躲在这里、夜里转移。最后一夜拉闸泼水毁掉电梯、合力杀掉冲上来的异种，食人花又从通风管道逼近，众人退到十五楼熬到结束。</span></p></details></article><article class="case fgroup" data-ch="185"><h3>小花红红是什么</h3><div class="cf-row" data-ch="185"><b>谜面</b><p><span data-ch="185">背景说郝教授掌握了进化的最大秘密，大楼为什么叫“小花红红”？</span></p></div><div class="cf-row" data-ch="219"><b>线索</b><p><span data-ch="219">照片背后写着“与小花红红留影”，合影的却是一株裸色的食人花；那盆不明植物根是红的、花是紫的，出副本后根上的红色还在消退，画女见过叶子全红的同种花。</span></p></div><details class="cf-answer" data-ch="219"><summary><span class="cf-o">揭开谜底</span><span class="cf-c">收起谜底</span></summary><p><span data-ch="219">众人起初认定名字来自花房里的巨型食人花；徐获后来推测，名字其实来自那盆根红花紫的不明植物，没有定论。</span></p></details></article></div></section><section id="cast" class="cv fgroup"><h2 class="sign cv-sign">人物</h2><div class="pp-grid"><div class="pp" data-ch="185"><div class="pp-early" data-until="218"><b class="pp-name"><a href="../people.html?upto=219#person-%E9%83%91%E8%89%AF">郑良</a>、<a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a></b><p class="pp-id">徐获的旧邻居，谷雨的同伴。</p><p class="pp-id">从京市来的大明星，也是玩家。</p><ul class="pp-ties"><li data-ch="190"><span class="text"><a href="../people.html?upto=219#person-%E9%83%91%E8%89%AF">郑良</a> → 救命 → <a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span></li><li data-ch="209"><span class="text">铁哥 — 两派 — <a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span></li><li data-ch="214"><span class="text"><a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a> — 合作 — <a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a></span></li><li data-ch="217"><span class="text"><a href="../people.html?upto=219#person-%E9%83%91%E8%89%AF">郑良</a> — 旧仇·并肩 — <a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a></span></li></ul></div><div data-ch="218"><b class="pp-name"><a href="../people.html?upto=219#person-%E9%83%91%E8%89%AF">郑良</a>、<a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a></b><p>自由玩家组织的人，郑良悬赏追徐获，谷雨开车追在后面，一起被吸进大楼；谷雨后来带人护着普通人。两人都撑到了最后一夜。</p></div></div><div class="pp" data-ch="187"><div class="pp-early" data-until="212"><b class="pp-name">铁哥</b><p class="pp-id">谷雨他们组织里的胡茬玩家，进了大楼就要找徐获算账；他用铁片撬开电梯门，被电梯井里伸出的肉色吸盘裹住了头，众人合力才把他拉出来。</p><ul class="pp-ties"><li data-ch="203"><span class="text">铁哥 — 一伙 — 张彪</span></li><li data-ch="209"><span class="text">铁哥 — 两派 — <a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span></li><li data-ch="212"><span class="text"><a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a> → 拧断脖子 → 铁哥</span></li></ul></div><div data-ch="212"><b class="pp-name">铁哥</b><p>组织里的胡茬玩家，一路与徐获作对，带着自己那一派商量每层挑人去死，又逼人从窗外探路，引来了破窗的食人花。被戴文谦拧断脖子。</p></div></div><div class="pp" data-ch="187"><div class="pp-early" data-until="218"><b class="pp-name">嘴角带痣的玩家</b><p class="pp-id">组织里嘴角带痣的玩家，附和铁哥，说他们有十多个人，副本只要待九十个小时，碰上变异动物也对付得了；普通人求玩家别丢下他们，他说玩家没有义务保护他们。</p><ul class="pp-ties"><li data-ch="203"><span class="text">铁哥 — 一伙 — 张彪</span></li></ul></div><div data-ch="218"><b class="pp-name">张彪</b><p>组织里嘴角带痣的玩家。任务要人在楼里待满九十小时，他却和光头玩家两次带人溜出大楼找食物，第二次引来一群凶猛的异种追上十三楼；他被咬伤肩膀，撑到了最后一夜。</p></div></div><div class="pp" data-ch="190"><div class="pp-early" data-until="218"><b class="pp-name"><span data-until="194">戴文谦</span><a data-ch="194" href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a></b><p class="pp-id">组织里较年长的眼镜玩家；徐获走进电梯时，他也走进了另一部，说从电梯下去还有活路，被逼到跳楼就只有死了。</p><p class="pp-id" data-ch="194">郑良那伙人里较年长的眼镜玩家，冷静狠辣；玻璃瓶里的药剂能让变异动物迟钝。</p><ul class="pp-ties"><li data-ch="198"><span class="text"><a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a> — 同伴 — 孙茂</span></li><li data-ch="212"><span class="text"><a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a> → 拧断脖子 → 铁哥</span></li><li data-ch="215"><span class="text"><a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a> — 打赌·互相牵制 — <a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a></span></li></ul></div><div data-ch="218"><b class="pp-name"><a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a></b><p>组织里较年长的眼镜玩家，冷静狠辣，与徐获打赌电梯、合作对付食人花；他说眼下加入国家队最明智，徐获猜他想先争取个好条件。他撑到了最后一夜。</p></div></div><div class="pp" data-ch="192"><div class="pp-early" data-until="218"><b class="pp-name">卖花姑娘和壮汉同伴</b><p class="pp-id">被徐获一路追上、截住的卖花姑娘和她的壮汉同伴，跟他一起被卷进了副本；她讨了徐获的饮料给同伴喝，又塞给他三颗能量胶囊赔罪。</p><ul class="pp-ties"><li data-ch="197"><span class="text"><a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a> — 化敌为友 — 蒋艺华</span></li><li data-ch="218"><span class="text">蒋艺华 — 同伙 — 大治</span></li></ul></div><div data-ch="218"><b class="pp-name">蒋艺华、大治</b><p>设伏徐获的卖花姑娘和她的外国壮汉同伴，后来跟着徐获钻电梯井。她能看见能量值，他的纸牌能变出猛兽；她随徐获挤进了超载电梯，他留在楼里，两人都熬过了最后一夜。</p></div></div><div class="pp" data-ch="188"><div class="pp-early" data-until="213"><b class="pp-name">魏彬</b><p class="pp-id">组织里的眼镜玩家，众人商量怎么防备时，他提议把电梯门封起来，又贴着电梯缝使劲闻了闻，说至少里面没有毒气。</p><ul class="pp-ties"><li data-ch="204"><span class="text">魏彬 → 试毒气 → <a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a></span></li></ul></div><div data-ch="213"><b class="pp-name">魏彬</b><p>谷雨一派的眼镜玩家，对毒气有耐受力，进了超载电梯，后来跟戴文谦走绿门受了重伤。此后原文没再提到他。</p></div></div><div class="pp" data-ch="189"><div class="pp-early" data-until="218"><b class="pp-name">康弘</b><p class="pp-id">背着背包的中年人，劝被卷进来的普通人别乱走、别乱碰东西，又带头把大家带进来的食物归拢起来分。</p><ul class="pp-ties"><li data-ch="218"><span class="text">陈书 → 救命 → 康弘</span></li></ul></div><div data-ch="218"><b class="pp-name">康弘</b><p>带着普通人归拢食物的中年人，被徐获点破是隐藏的<a class="term" href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B" title="杀过人的玩家，肩后编号是黑色。">黑色玩家</a>，自愿进超载电梯。双腿被异种咬烂，死在十五楼。</p></div></div><div class="pp" data-ch="189"><div class="pp-early" data-until="218"><b class="pp-name">高挑的女人</b><p class="pp-id">和普通人待在一起的高挑女人，自称登山运动员，体力好，分食物时不要自己那份，请康弘多给身边哺乳期的妈妈一点。</p><ul class="pp-ties"><li data-ch="218"><span class="text">陈书 → 救命 → 康弘</span></li></ul></div><div data-ch="218"><b class="pp-name">陈书</b><p>自称登山运动员的高挑女子，被徐获点破是隐藏的E级<a class="term" href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B" title="既没吃过人也没杀过人的玩家，肩后编号是白色。">白色玩家</a>，和谷雨等人一起护着普通人。她撑到了最后一夜。</p></div></div><div class="pp" data-ch="189"><div class="pp-early" data-until="218"><b class="pp-name">有钱小姑娘</b><p class="pp-id">被卷进大楼的普通人小姑娘，求玩家们千万别丢下他们，说她家很有钱；她跑到徐获面前，说只要能保她出去，给一千万、两千万都行，之后一直跟在他身后。</p></div><div data-ch="218"><b class="pp-name">有钱小姑娘</b><p>一开始就说要花一两千万请徐获保她出去的普通人。她活到了最后，还说出去后想当玩家。</p></div></div></div></section><section id="summary" class="cv fgroup"><h2 class="sign cv-sign">经过</h2><nav class="arcs"><a href="#summary-1" data-ch="185">十五楼</a><a href="#summary-2" data-ch="191">少了一部电梯</a><a href="#summary-3" data-ch="198">电梯游戏</a><a href="#summary-4" data-ch="206">花房里的食人花</a><a href="#summary-5" data-ch="212">守住十三楼</a><a href="#summary-6" data-ch="216">最后一夜</a></nav><h3 id="summary-1" class="act" data-ch="185">十五楼</h3><p class="cv-prose"><span data-ch="185">徐获在雨后的马路上截住了伏击他的卖花姑娘和壮汉同伴，悬赏追他的郑良一伙也开车赶到。马路上忽然起了大雾，所有人连人带车被吸进<a class="term" href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC" title="不需要车票、毫无征兆、地点随机出现的副本，卷进去的不限于玩家。">随机副本</a>“小花红红大楼”。</span><span data-ch="187">郑良一伙在十五楼围住徐获，他隔空点燃一张桌子震住了他们；铁哥强扒电梯门，被电梯井里扑出的食人花咬住了头。</span><span data-ch="189">徐获从清空的办公室看出以前的人没在这层久留，主张封窗不封电梯：十五部电梯、每部十三人、将近两百人，不会是巧合。</span></p><h3 id="summary-2" class="act" data-ch="191">少了一部电梯</h3><p class="cv-prose"><span data-ch="191">十四楼是吸血蜘蛛的培养室，靠徐获放火、那名壮汉的纸牌老虎才清掉，四十七人被吸干。</span><span data-ch="192">卖花姑娘送来三颗能量胶囊，为伏击的事向徐获赔罪。</span><span data-ch="193">清点时少了十五人：有一部电梯的人根本没下到十四楼。又有人拍电梯井时被影子削掉半个脑袋，玩家分成了要不要下楼的两派。</span><span data-ch="194">十三楼是封闭的植物培养室，徐获装了一推车变异植物；十二楼有人想爬窗逃走，戴文谦当众割了他的喉。</span><span data-ch="196">十一楼菌丝下的尸体旁有一支刻着“郝”字的笔和一本笔记，写着小丑城地下是菌类的天堂，只要拿到恒星医药的资助就能改写进化植物的历史。</span></p><h3 id="summary-3" class="act" data-ch="198">电梯游戏</h3><p class="cv-prose"><span data-ch="198">徐获带卖花姑娘蒋艺华和壮汉大治钻电梯井回到十二楼，拆下大螳螂的镰足当武器，并向两人点破：这是电梯游戏，真正的危险在电梯里。</span><span data-ch="200">他和戴文谦打赌哪部电梯会被挑中，赌下一层的电梯分配权，又顺手点破康弘、陈书是隐藏的玩家。</span><span data-ch="201">这一轮他那部电梯被拉回十五楼，管道里的东西爬到跟前又退了回去；另有两部电梯的人整个消失，戴文谦认输。</span><span data-ch="203">众人由此得出规律：与楼层数对应的电梯安全，多出来的随机遇袭；徐获那部躲过一劫，唯一的差别是带着十三楼的植物。</span><span data-ch="204">戴文谦说最简单的办法是每层留下或杀掉十三个人；徐获选了另一条路，故意让一部电梯超载当靶子，由他和几名玩家、志愿者同进。</span><span data-ch="204">进去前他回十三楼取出一盆紫色小花，游戏说明只写着“不明植物”。</span></p><h3 id="summary-4" class="act" data-ch="206">花房里的食人花</h3><p class="cv-prose"><span data-ch="206">超载电梯被拉回十五楼，黏液灌满电梯，把人裹成茧拖进管道；徐获破茧而出，落进一座巨大的玻璃花房。</span><span data-ch="206">花房中央是一株巨型食人花，叶片上挂满人茧；他救出戴文谦、郑良、蒋艺华等人，十七人里死了六个。</span><span data-ch="208">众人逃进郝教授的假日小屋，靠高亮灯逼退变异动物，找到一柜药剂；徐获把分到的解毒剂打给了受伤的普通人。</span><span data-ch="208">小屋里一张与食人花的合影背后写着“与小花红红留影”，魏彬看了以为大楼就得名于这种食人花；日记则写着它的根受电击才会喷毒粉。徐获推断整栋楼都被它裹着，楼外也有食人花活动。</span><span data-ch="209">楼里剩下的人这时分成两派，铁哥一派商量每层挑人去死，康弘质问他们是不是要先让老弱妇孺去死；谷雨、康弘、陈书等人护着普通人。</span><span data-ch="211">巨型食人花忽然涌向大楼，一行人趁乱冲到楼下的红绿两扇门前，徐获走红门回到一楼大厅，戴文谦走绿门进了郝教授的卧室。</span></p><h3 id="summary-5" class="act" data-ch="212">守住十三楼</h3><p class="cv-prose"><span data-ch="212">徐获顺着电梯井把众人送上十三楼；铁哥逼人从窗外探路，引来破窗的食人花，随后被戴文谦拧断脖子，活下来的不足五十人。</span><span data-ch="212">回放录像后，徐获判断十三楼暂时可以躲：除了晚上十点到凌晨四点，其余时间应该是安全的。</span><span data-ch="214">他和戴文谦把接了电线、绑着利刃的肉虫放进电梯井底的通道，“送那株食人花一份大礼”：戴文谦说，杀不杀得死它是其次，要是它进驻大楼吃光变异动物、再堵住电梯井，这个副本迟早玩完。</span><span data-ch="215">夜里戴文谦说同为014区的玩家不必自相残杀，在没人成为高级玩家之前，加入国家队最明智；徐获猜他想先争取个好条件，答应不在官方面前乱说。</span></p><h3 id="summary-6" class="act" data-ch="216">最后一夜</h3><p class="cv-prose"><span data-ch="216">张彪出楼找食物，引来一群更凶的异种追着电梯冲上十三楼；徐获拉下电闸，众人往电梯井泼水，电下电梯，再合力杀光冲出的异种。</span><span data-ch="218">食人花又从十三楼的通风口逼近，众人爬上十五楼；康弘双腿被咬烂，深夜死去，将近两百人只剩二十多个。</span><span data-ch="219">凌晨四点前，徐获回十三楼取回那盆紫色小花，随即通关，得到新特性“五五开”、道具“营养小红盆”和药剂。</span><span data-ch="219">回到雾里的马路，吴组长打来电话：本该出来的玩家少了两个。</span></p></section><section id="relations" class="cv fgroup"><h2 class="sign cv-sign">关系</h2><p class="legend"><span data-ch="190"><i style="border-color:var(--rel-ally)"></i>同伴</span><span data-ch="209"><i style="border-color:var(--rel-enemy)"></i>冲突</span><span data-ch="212"><i style="border-color:var(--rel-kill)"></i>杀死</span><span data-ch="215"><i style="border-color:var(--rel-other)"></i>其他往来</span><span data-ch="190">→ 箭头从做事的一方指向承受的一方</span></p><div class="cv-graph"><svg viewBox="0 0 900 560" role="img" aria-label="关系图"><defs>
+<header class="board station" id="card" data-first="185" data-last="219" data-end="219" data-reward="在下一站的开头"><div class="board-top"><span class="board-tag">副本</span><span class="st-grade"><span class="grade" style="background:#1f7f86">D</span></span><span class="board-asof rticket"><a class="rt" href="#wdzx-upto" title="点这里改你读到的章"><span class="rt-k">通票</span><span class="rt-v">全书</span></a><small class="rt-reach">资料写到第 3284 章</small></span></div><div class="st-sign"><h1 class="st-name">小花红红大楼</h1><span class="st-full" hidden>小花红红大楼</span><p class="st-where"><a class="st-code" href="../places.html#place-014%E5%8C%BA">014 区</a><span><i>›</i><a href="../places.html#place-%E4%BA%AC%E5%B8%82">京市</a></span></p></div><div class="route" aria-label="前后单元"><span class="you" hidden><b></b></span><ol class="stops"><li class="stop far" data-from="146" data-to="176"><i class="dot"></i><a class="nm" href="u0010.html"><span class="ar">◂</span><span class="nm-full">讲故事的女人</span></a><a class="unread" href="u0010.html" title="在你的进度之后">◂ 未读</a><small>副本 <span class="grade" style="background:#6f675c">E</span></small></li><li class="stop near" data-from="177" data-to="184"><i class="dot"></i><a class="nm" href="u0011.html"><span class="ar">◂</span><span class="nm-full">京市（讲故事的女人之后）</span><span class="nm-short">讲故事的女人之后</span></a><a class="unread" href="u0011.html" title="在你的进度之后">◂ 未读</a><small>主线</small></li><li class="stop here" data-from="185" data-to="219"><i class="dot"></i><span class="nm">本站</span><small>第 185–219 章</small></li><li class="stop near" data-from="220" data-to="221"><i class="dot"></i><a class="nm" href="u0013.html"><span class="nm-full">汀城（小花红红大楼之后）</span><span class="nm-short">小花红红大楼之后</span><span class="ar">▸</span></a><a class="unread" href="u0013.html" title="在你的进度之后">未读 ▸</a><small>主线</small></li><li class="stop far" data-from="222" data-to="240"><i class="dot"></i><a class="nm" href="u0014.html"><span class="nm-full">三十天</span><span class="ar">▸</span></a><a class="unread" href="u0014.html" title="在你的进度之后">未读 ▸</a><small>副本 <span class="grade" style="background:#6f675c">E</span></small></li></ol></div><p class="st-lede" data-ch="187">被郑良一伙追着跑时马路起了大雾，徐获和追兵、一百多名普通人被吸进废弃的小花红红大楼；要待满九十小时，十五楼却没有楼梯，电梯井里长着食人花。</p><p class="board-line">没读过前文？游戏设定见<a href="../world.html">世界观</a>，这里不重复解释。注意：世界观、地理、道具库写到第 3284 章，含本卡之后的剧情，不按进度隐藏。</p><p class="beyond" data-beyond="185" hidden>这张卡从第 185 章开始，在你填的进度之后，整张都是剧透。</p></header><div id="cv-body"><aside class="cv-rail"><nav class="jump pagenav" id="jump" aria-label="本页目录"><b>本卡</b><a href="#harvest" data-ch="219">收获</a><a href="#analysis" data-ch="191">解析</a><a href="#recap" data-ch="185">速览</a><a href="#cast" data-ch="185">人物</a><a href="#relations" data-ch="190">关系</a><a href="#threads" data-ch="196">伏笔</a><a href="#links" data-ch="185">设定与道具</a></nav><div class="rail-slip"><section id="harvest" class="harvest cv slip quiet" data-ch="219"><h2 class="slip-h">徐获的收获</h2><div class="h-rating"><span class="seal none" title="不评级">—</span><span>不评级（随机副本）</span></div><div class="s-row"><b>特性</b><div class="links"><span class="up">新增 <a href="../hero.html#trait-%E4%BA%94%E4%BA%94%E5%BC%80">五五开</a></span></div></div><div class="s-row"><b>道具</b><div class="links"><a href="../items.html#item-%E8%90%A5%E5%85%BB%E5%B0%8F%E7%BA%A2%E7%9B%86">营养小红盆</a><small class="s-also">另外拿到</small><a href="../items.html#item-%E8%83%BD%E9%87%8F%E8%83%B6%E5%9B%8A">能量胶囊</a><a href="../items.html#item-%E8%A7%A3%E6%AF%92%E5%89%82">解毒剂</a><a href="../items.html#item-%E6%A4%8D%E7%89%A9%E8%90%A5%E5%85%BB%E5%89%82">植物营养剂</a><a href="../items.html#item-%E6%B8%85%E6%B4%81%E5%89%82">清洁剂</a><a href="../items.html#item-%E8%87%AA%E6%84%88%E5%89%82">自愈剂</a></div></div><details class="slip-more"><summary>结算经过</summary><div class="h-line">奖励延伸特性“五五开”、道具营养小红盆和药剂。</div></details><p class="note">特性和等级的来龙去脉见<a href="../hero.html">主角页</a>。</p></section></div></aside><div class="cv-main"><section id="analysis" class="cv fgroup"><h2 class="sign cv-sign">解析</h2><p class="an-title" data-ch="191">电梯游戏</p><p class="note" data-ch="191">不想看解析，可以直接看<a href="#recap">经过速览</a>。</p><h3 class="act" data-ch="191">少了的十五个人</h3><p class="cv-prose an" data-ch="191">十四楼的吸血蜘蛛清干净以后，徐获清点人数，少了十五个。死人堆里没有他们。十四楼的窗户全封死了，一层楼一眼望得到头。他走到电梯前敲了敲，后面的电梯厢又不见了。</p><p class="cv-prose an" data-ch="191">这是个<a class="term" href="../world.html#world-%E9%9A%8F%E6%9C%BA%E5%89%AF%E6%9C%AC" title="不需要车票、毫无征兆、地点随机出现的副本，卷进去的不限于玩家。">随机副本</a>，徐获、一路追他的十几名玩家和一百多个普通人，一起被吸进了废弃的小花红红大楼，任务只有一句：在楼里待满九十小时。众人落在十五楼，楼里没有楼梯，十五部电梯都停在“15”，每部核载十三人，加起来正好装下所有人。每过六小时，十五部电梯同时开门，广播催众人下一层。一层六小时，九十小时正好对上十五层楼。</p><p class="cv-prose an" data-ch="198">数目对得这么齐，徐获不信是巧合。十五楼的电梯门上有从里面扒门缝的血手印，他断定以前有人回到过十五楼。少掉的人里，有个下楼时硬挤徐获那部满员电梯、被他踢出去的男人。徐获对一起卷进来的卖花姑娘蒋艺华和她的壮汉同伴大治说，这是个“电梯游戏”，那十五个人根本没下到十四楼：可能是那部电梯超载了，也可能每下一层，本来就只留得下少一部电梯的人。</p><p class="cv-prose an" data-ch="198">追他的那伙人里，较年长的眼镜玩家戴文谦约过徐获：到了十楼人数还不变，两人就合作。蒋艺华这下听懂了：戴文谦用不着等到十楼，每下一层先减掉一部电梯的人就行。她打了个冷战：“那到一楼还能剩下多少人？”</p><h3 class="act" data-ch="200">十楼的赌局</h3><p class="cv-prose an" data-ch="200">到了十楼，剩下的人正好装满十部电梯，照徐获的猜测，下到九楼只有九部安全。徐获找戴文谦赌运气：十部里看哪一部被挑中，两人谁的电梯被挑中，谁就拿下一层的电梯分配权。他的推车里装着几盆从十三楼植物培养室搬来的花。十三楼干干净净，没有一点动物糟蹋过的痕迹，他猜是这些植物起了作用。</p><p class="cv-prose an" data-ch="203">戴文谦要趁这一轮把人分散，试出准确的规律，本来正好装满十部的人，分坐了十二部。徐获这部除了推车，只有蒋艺华、大治和几个普通人。</p><p class="cv-prose an" data-ch="201">电梯门一关，徐获就知道踩中了陷阱：电梯没往下走，猛一提速往上冲，眨眼回到十五楼。门没开，厢顶朝两边打开，井顶就在两三米外。侧边管道里窸窸窣窣有东西过来，气味很冲，徐获让众人捂住口鼻。那声音到了电梯边，眼看要越过电梯厢，忽然没了。几秒后厢顶合上，电梯直落九楼。戴文谦打量着他：“这把你赢了。”</p><p class="cv-prose an" data-ch="203">另有两部电梯的人整个不见了，带着玩家的那部，厢里还留着打斗的痕迹和几点血。徐获把账摆出来：十二部下到九楼，被拉回十五楼的正好三部，有满载的，也有人少的。他的结论是，下到第几层，就只有几部电梯安全，多出几部，就有几部随机遇袭，跟坐了多少人无关。三部里只有他这部全身而退，唯一的差别是推车上那几盆十三楼的花（见图）。蒋艺华对植物敏感，直觉管道里来的是变异植物。</p><figure class="mech has-n" data-ch="203"><figcaption><span class="mech-no">图</span><span class="mech-t">下到第几层，就只有几部电梯安全</span><span class="mech-sub">十楼下九楼那一轮：多出几部，就有几部随机被拉回十五楼，跟坐了多少人无关。</span></figcaption><div class="mech-box"><div class="mech-w"><svg xmlns="http://www.w3.org/2000/svg" class="u0012d" viewBox="0 0 720 362" width="720" height="362" role="img" aria-labelledby="u0012d-t u0012d-d">
+<title id="u0012d-t">下到第几层，就只有几部电梯安全</title>
+<desc id="u0012d-d">小花红红大楼的剖面示意，只画十五楼、十楼、九楼三层和用到的十二部电梯，十一到十四楼省略。十楼下九楼那一轮，十二部电梯一起往下：九部径直下到九楼，安全，正好是楼层数。多出的三部先被拉回十五楼，有满载的，也有人少的，再落回九楼：其中两部的人不见了，徐获那部带着十三楼的花，没事。下到第几层，就只有几部电梯安全，多出几部，就有几部随机遇袭，跟坐了多少人无关。</desc>
+<style>
+.u0012d{--_ink:var(--ink,#e9dfc9);--_mu:var(--muted,#8b8578);--_pa:var(--paper,#0e1014);--_br:var(--brass,#c9a45c);--_rd:var(--oxblood,#8f3b2e);--_tl:var(--verdigris,#6e9883);--_rdT:color-mix(in srgb,var(--_rd) 62%,var(--_ink));--_bo:.16}
+@media (prefers-color-scheme:light){.u0012d:root{--_ink:var(--ink,#2a2620);--_mu:var(--muted,#6f675c);--_pa:var(--paper,#f2ece0);--_br:var(--brass,#85621f);--_rd:var(--oxblood,#8f3b2e);--_tl:var(--verdigris,#3d6e62);--_rdT:var(--_rd);--_bo:.12}}
+:root[data-theme=light] .u0012d{--_ink:var(--ink,#2a2620);--_mu:var(--muted,#6f675c);--_pa:var(--paper,#f2ece0);--_br:var(--brass,#85621f);--_rd:var(--oxblood,#8f3b2e);--_tl:var(--verdigris,#3d6e62);--_rdT:var(--_rd);--_bo:.12}
+:root[data-theme=dark] .u0012d{--_ink:var(--ink,#e9dfc9);--_mu:var(--muted,#8b8578);--_pa:var(--paper,#0e1014);--_br:var(--brass,#c9a45c);--_rd:var(--oxblood,#8f3b2e);--_tl:var(--verdigris,#6e9883);--_rdT:color-mix(in srgb,var(--_rd) 62%,var(--_ink));--_bo:.16}
+.u0012d:root{background:var(--_pa)}
+.u0012d text{font-family:var(--sans,"Microsoft YaHei","PingFang SC",sans-serif);font-size:24px;fill:var(--_ink);stroke:none}
+.u0012d [text-anchor=start]{text-anchor:start}.u0012d [text-anchor=middle]{text-anchor:middle}.u0012d [text-anchor=end]{text-anchor:end}
+.u0012d .b{font-weight:700}
+.u0012d .br{fill:var(--_br)}
+.u0012d .rd{fill:var(--_rdT)}
+.u0012d .tl{fill:var(--_tl)}
+.u0012d .slab{stroke:var(--_mu);stroke-width:1.2;stroke-opacity:.6}
+.u0012d .dot{fill:var(--_mu)}
+.u0012d .go{fill:var(--_ink)}
+.u0012d .safe{fill:var(--_tl);fill-opacity:.38;stroke:var(--_tl);stroke-width:2}
+.u0012d .door-s{stroke:var(--_tl);stroke-width:1.6}
+.u0012d .lost{fill:none;stroke:var(--_rdT);stroke-width:2}
+.u0012d .xx{fill:none;stroke:var(--_rdT);stroke-linecap:round}
+.u0012d .xu{fill:var(--_br);fill-opacity:calc(var(--_bo)*1.2);stroke:var(--_br);stroke-width:2.4}
+.u0012d .pot{fill:var(--_br)}
+.u0012d .stem{fill:none;stroke:var(--_br);stroke-linecap:round}
+.u0012d .petal{fill:var(--_br)}
+.u0012d .eye{fill:var(--_pa)}
+.u0012d .a-tl{stroke:var(--_tl);fill:none;stroke-linecap:round}
+.u0012d .h-tl{fill:var(--_tl)}
+.u0012d .a-rd{stroke:var(--_rdT);fill:none;stroke-linecap:round;stroke-linejoin:round}
+.u0012d .h-rd{fill:var(--_rdT)}
+.u0012d .brk{fill:none;stroke:var(--_tl);stroke-width:1.6}
+.u0012d .brk-r{fill:none;stroke:var(--_rdT);stroke-width:1.6}
+.u0012d .lead{stroke:var(--_br);stroke-width:1.4}
+</style>
+<line class="slab" x1="68" y1="26" x2="690" y2="26"/>
+<line class="slab" x1="68" y1="168" x2="690" y2="168"/>
+<line class="slab" x1="68" y1="269" x2="690" y2="269"/>
+<text class="b" x="60" y="34.2" text-anchor="end">15楼</text>
+<text class="b" x="60" y="176.2" text-anchor="end">10楼</text>
+<text class="b" x="60" y="277.2" text-anchor="end">9楼</text>
+<circle class="dot" cx="34" cy="66" r="2.4"/>
+<circle class="dot" cx="34" cy="82" r="2.4"/>
+<circle class="dot" cx="34" cy="98" r="2.4"/>
+<circle class="go" cx="98" cy="168" r="4.2"/>
+<line class="a-tl" style="stroke-width:2.6" x1="98" y1="174.2" x2="98" y2="204.1"/>
+<path class="h-tl" d="M98,212 L91.5,203.6 L104.5,203.6 Z"/>
+<rect class="safe" x="79" y="214" width="38" height="50" rx="4"/>
+<line class="door-s" x1="98" y1="218" x2="98" y2="260"/>
+<circle class="go" cx="146" cy="168" r="4.2"/>
+<line class="a-tl" style="stroke-width:2.6" x1="146" y1="174.2" x2="146" y2="204.1"/>
+<path class="h-tl" d="M146,212 L139.5,203.6 L152.5,203.6 Z"/>
+<rect class="safe" x="127" y="214" width="38" height="50" rx="4"/>
+<line class="door-s" x1="146" y1="218" x2="146" y2="260"/>
+<circle class="go" cx="194" cy="168" r="4.2"/>
+<line class="a-tl" style="stroke-width:2.6" x1="194" y1="174.2" x2="194" y2="204.1"/>
+<path class="h-tl" d="M194,212 L187.5,203.6 L200.5,203.6 Z"/>
+<rect class="safe" x="175" y="214" width="38" height="50" rx="4"/>
+<line class="door-s" x1="194" y1="218" x2="194" y2="260"/>
+<circle class="go" cx="242" cy="168" r="4.2"/>
+<line class="a-tl" style="stroke-width:2.6" x1="242" y1="174.2" x2="242" y2="204.1"/>
+<path class="h-tl" d="M242,212 L235.5,203.6 L248.5,203.6 Z"/>
+<rect class="safe" x="223" y="214" width="38" height="50" rx="4"/>
+<line class="door-s" x1="242" y1="218" x2="242" y2="260"/>
+<circle class="go" cx="290" cy="168" r="4.2"/>
+<line class="a-tl" style="stroke-width:2.6" x1="290" y1="174.2" x2="290" y2="204.1"/>
+<path class="h-tl" d="M290,212 L283.5,203.6 L296.5,203.6 Z"/>
+<rect class="safe" x="271" y="214" width="38" height="50" rx="4"/>
+<line class="door-s" x1="290" y1="218" x2="290" y2="260"/>
+<circle class="go" cx="338" cy="168" r="4.2"/>
+<line class="a-tl" style="stroke-width:2.6" x1="338" y1="174.2" x2="338" y2="204.1"/>
+<path class="h-tl" d="M338,212 L331.5,203.6 L344.5,203.6 Z"/>
+<rect class="safe" x="319" y="214" width="38" height="50" rx="4"/>
+<line class="door-s" x1="338" y1="218" x2="338" y2="260"/>
+<circle class="go" cx="386" cy="168" r="4.2"/>
+<line class="a-tl" style="stroke-width:2.6" x1="386" y1="174.2" x2="386" y2="204.1"/>
+<path class="h-tl" d="M386,212 L379.5,203.6 L392.5,203.6 Z"/>
+<rect class="safe" x="367" y="214" width="38" height="50" rx="4"/>
+<line class="door-s" x1="386" y1="218" x2="386" y2="260"/>
+<circle class="go" cx="434" cy="168" r="4.2"/>
+<line class="a-tl" style="stroke-width:2.6" x1="434" y1="174.2" x2="434" y2="204.1"/>
+<path class="h-tl" d="M434,212 L427.5,203.6 L440.5,203.6 Z"/>
+<rect class="safe" x="415" y="214" width="38" height="50" rx="4"/>
+<line class="door-s" x1="434" y1="218" x2="434" y2="260"/>
+<circle class="go" cx="482" cy="168" r="4.2"/>
+<line class="a-tl" style="stroke-width:2.6" x1="482" y1="174.2" x2="482" y2="204.1"/>
+<path class="h-tl" d="M482,212 L475.5,203.6 L488.5,203.6 Z"/>
+<rect class="safe" x="463" y="214" width="38" height="50" rx="4"/>
+<line class="door-s" x1="482" y1="218" x2="482" y2="260"/>
+<circle class="go" cx="521" cy="168" r="4.2"/>
+<path class="a-rd" style="stroke-width:2.8" d="M521,163.8 V36.5 A9,9 0 0 1 539,36.5 V203.4"/>
+<path class="h-rd" d="M539,212 L532,202.9 L546,202.9 Z"/>
+<path class="h-rd" d="M521,85.6 L514,94.7 L528,94.7 Z"/>
+<circle class="go" cx="569" cy="168" r="4.2"/>
+<path class="a-rd" style="stroke-width:2.8" d="M569,163.8 V36.5 A9,9 0 0 1 587,36.5 V203.4"/>
+<path class="h-rd" d="M587,212 L580,202.9 L594,202.9 Z"/>
+<path class="h-rd" d="M569,85.6 L562,94.7 L576,94.7 Z"/>
+<circle class="go" cx="617" cy="168" r="4.2"/>
+<path class="a-rd" style="stroke-width:2.8" d="M617,163.8 V36.5 A9,9 0 0 1 635,36.5 V203.4"/>
+<path class="h-rd" d="M635,212 L628,202.9 L642,202.9 Z"/>
+<path class="h-rd" d="M617,85.6 L610,94.7 L624,94.7 Z"/>
+<rect class="lost" x="511" y="214" width="38" height="50" rx="4"/>
+<path class="xx" style="stroke-width:3.6" d="M519.4,222.4 L540.6,255.6 M540.6,222.4 L519.4,255.6"/>
+<rect class="lost" x="559" y="214" width="38" height="50" rx="4"/>
+<path class="xx" style="stroke-width:3.6" d="M567.4,222.4 L588.6,255.6 M588.6,222.4 L567.4,255.6"/>
+<rect class="xu" x="607" y="214" width="38" height="50" rx="4"/>
+<path class="pot" d="M618,251 H634 L631.5,259 H620.5 Z"/>
+<path class="stem" style="stroke-width:2" d="M626,251 V232"/>
+<circle class="petal" cx="626" cy="223.8" r="3.6"/>
+<circle class="petal" cx="630.9" cy="227.4" r="3.6"/>
+<circle class="petal" cx="629.1" cy="233.2" r="3.6"/>
+<circle class="petal" cx="622.9" cy="233.2" r="3.6"/>
+<circle class="petal" cx="621.1" cy="227.4" r="3.6"/>
+<circle class="eye" cx="626" cy="229" r="2.4"/>
+<text class="rd b" x="501" y="72" text-anchor="end">多出的三部，被拉回十五楼</text>
+<text x="501" y="106" text-anchor="end">有满载的，也有人少的</text>
+<text class="b" x="76" y="152" text-anchor="start">十二部一起往下</text>
+<path class="brk" d="M79,278 V285 H501 V278"/>
+<path class="brk-r" d="M511,278 V285 H597 V278"/>
+<text class="tl b" x="290" y="316" text-anchor="middle">下到九楼，就只有九部安全</text>
+<text class="rd b" x="554" y="316" text-anchor="middle">人不见了</text>
+<line class="lead" x1="626" y1="272" x2="626" y2="322"/>
+<text class="br" x="690" y="350" text-anchor="end"><tspan class="b">徐获那部</tspan>：带着十三楼的花，没事</text>
+</svg></div><div class="mech-n"><svg xmlns="http://www.w3.org/2000/svg" class="u0012n" viewBox="0 0 340 233" width="340" height="233" role="img" aria-labelledby="u0012n-t u0012n-d">
+<title id="u0012n-t">下到第几层，就只有几部电梯安全</title>
+<desc id="u0012n-d">小花红红大楼的剖面示意，只画十五楼、十楼、九楼三层和用到的十二部电梯，十一到十四楼省略。十楼下九楼那一轮，十二部电梯一起往下：九部径直下到九楼，安全，正好是楼层数。多出的三部先被拉回十五楼，有满载的，也有人少的，再落回九楼：其中两部的人不见了，徐获那部带着十三楼的花，没事。下到第几层，就只有几部电梯安全，多出几部，就有几部随机遇袭，跟坐了多少人无关。</desc>
+<style>
+.u0012n{--_ink:var(--ink,#e9dfc9);--_mu:var(--muted,#8b8578);--_pa:var(--paper,#0e1014);--_br:var(--brass,#c9a45c);--_rd:var(--oxblood,#8f3b2e);--_tl:var(--verdigris,#6e9883);--_rdT:color-mix(in srgb,var(--_rd) 62%,var(--_ink));--_bo:.16}
+@media (prefers-color-scheme:light){.u0012n:root{--_ink:var(--ink,#2a2620);--_mu:var(--muted,#6f675c);--_pa:var(--paper,#f2ece0);--_br:var(--brass,#85621f);--_rd:var(--oxblood,#8f3b2e);--_tl:var(--verdigris,#3d6e62);--_rdT:var(--_rd);--_bo:.12}}
+:root[data-theme=light] .u0012n{--_ink:var(--ink,#2a2620);--_mu:var(--muted,#6f675c);--_pa:var(--paper,#f2ece0);--_br:var(--brass,#85621f);--_rd:var(--oxblood,#8f3b2e);--_tl:var(--verdigris,#3d6e62);--_rdT:var(--_rd);--_bo:.12}
+:root[data-theme=dark] .u0012n{--_ink:var(--ink,#e9dfc9);--_mu:var(--muted,#8b8578);--_pa:var(--paper,#0e1014);--_br:var(--brass,#c9a45c);--_rd:var(--oxblood,#8f3b2e);--_tl:var(--verdigris,#6e9883);--_rdT:color-mix(in srgb,var(--_rd) 62%,var(--_ink));--_bo:.16}
+.u0012n:root{background:var(--_pa)}
+.u0012n text{font-family:var(--sans,"Microsoft YaHei","PingFang SC",sans-serif);font-size:15px;fill:var(--_ink);stroke:none}
+.u0012n [text-anchor=start]{text-anchor:start}.u0012n [text-anchor=middle]{text-anchor:middle}.u0012n [text-anchor=end]{text-anchor:end}
+.u0012n .b{font-weight:700}
+.u0012n .br{fill:var(--_br)}
+.u0012n .rd{fill:var(--_rdT)}
+.u0012n .tl{fill:var(--_tl)}
+.u0012n .slab{stroke:var(--_mu);stroke-width:1.2;stroke-opacity:.6}
+.u0012n .dot{fill:var(--_mu)}
+.u0012n .go{fill:var(--_ink)}
+.u0012n .safe{fill:var(--_tl);fill-opacity:.38;stroke:var(--_tl);stroke-width:2}
+.u0012n .door-s{stroke:var(--_tl);stroke-width:1.6}
+.u0012n .lost{fill:none;stroke:var(--_rdT);stroke-width:2}
+.u0012n .xx{fill:none;stroke:var(--_rdT);stroke-linecap:round}
+.u0012n .xu{fill:var(--_br);fill-opacity:calc(var(--_bo)*1.2);stroke:var(--_br);stroke-width:2.4}
+.u0012n .pot{fill:var(--_br)}
+.u0012n .stem{fill:none;stroke:var(--_br);stroke-linecap:round}
+.u0012n .petal{fill:var(--_br)}
+.u0012n .eye{fill:var(--_pa)}
+.u0012n .a-tl{stroke:var(--_tl);fill:none;stroke-linecap:round}
+.u0012n .h-tl{fill:var(--_tl)}
+.u0012n .a-rd{stroke:var(--_rdT);fill:none;stroke-linecap:round;stroke-linejoin:round}
+.u0012n .h-rd{fill:var(--_rdT)}
+.u0012n .brk{fill:none;stroke:var(--_tl);stroke-width:1.6}
+.u0012n .brk-r{fill:none;stroke:var(--_rdT);stroke-width:1.6}
+.u0012n .lead{stroke:var(--_br);stroke-width:1.4}
+</style>
+<line class="slab" x1="34" y1="16" x2="338" y2="16"/>
+<line class="slab" x1="34" y1="112" x2="338" y2="112"/>
+<line class="slab" x1="34" y1="171" x2="338" y2="171"/>
+<text class="b" x="34" y="21.1" text-anchor="end">15楼</text>
+<text class="b" x="34" y="117.1" text-anchor="end">10楼</text>
+<text class="b" x="34" y="176.1" text-anchor="end">9楼</text>
+<circle class="dot" cx="20" cy="46" r="1.7"/>
+<circle class="dot" cx="20" cy="56" r="1.7"/>
+<circle class="dot" cx="20" cy="66" r="1.7"/>
+<circle class="go" cx="52" cy="112" r="2.6"/>
+<line class="a-tl" style="stroke-width:1.8" x1="52" y1="116.6" x2="52" y2="133.3"/>
+<path class="h-tl" d="M52,138 L48,132.8 L56,132.8 Z"/>
+<rect class="safe" x="42" y="140" width="20" height="28" rx="3"/>
+<line class="door-s" x1="52" y1="144" x2="52" y2="164"/>
+<circle class="go" cx="76" cy="112" r="2.6"/>
+<line class="a-tl" style="stroke-width:1.8" x1="76" y1="116.6" x2="76" y2="133.3"/>
+<path class="h-tl" d="M76,138 L72,132.8 L80,132.8 Z"/>
+<rect class="safe" x="66" y="140" width="20" height="28" rx="3"/>
+<line class="door-s" x1="76" y1="144" x2="76" y2="164"/>
+<circle class="go" cx="100" cy="112" r="2.6"/>
+<line class="a-tl" style="stroke-width:1.8" x1="100" y1="116.6" x2="100" y2="133.3"/>
+<path class="h-tl" d="M100,138 L96,132.8 L104,132.8 Z"/>
+<rect class="safe" x="90" y="140" width="20" height="28" rx="3"/>
+<line class="door-s" x1="100" y1="144" x2="100" y2="164"/>
+<circle class="go" cx="124" cy="112" r="2.6"/>
+<line class="a-tl" style="stroke-width:1.8" x1="124" y1="116.6" x2="124" y2="133.3"/>
+<path class="h-tl" d="M124,138 L120,132.8 L128,132.8 Z"/>
+<rect class="safe" x="114" y="140" width="20" height="28" rx="3"/>
+<line class="door-s" x1="124" y1="144" x2="124" y2="164"/>
+<circle class="go" cx="148" cy="112" r="2.6"/>
+<line class="a-tl" style="stroke-width:1.8" x1="148" y1="116.6" x2="148" y2="133.3"/>
+<path class="h-tl" d="M148,138 L144,132.8 L152,132.8 Z"/>
+<rect class="safe" x="138" y="140" width="20" height="28" rx="3"/>
+<line class="door-s" x1="148" y1="144" x2="148" y2="164"/>
+<circle class="go" cx="172" cy="112" r="2.6"/>
+<line class="a-tl" style="stroke-width:1.8" x1="172" y1="116.6" x2="172" y2="133.3"/>
+<path class="h-tl" d="M172,138 L168,132.8 L176,132.8 Z"/>
+<rect class="safe" x="162" y="140" width="20" height="28" rx="3"/>
+<line class="door-s" x1="172" y1="144" x2="172" y2="164"/>
+<circle class="go" cx="196" cy="112" r="2.6"/>
+<line class="a-tl" style="stroke-width:1.8" x1="196" y1="116.6" x2="196" y2="133.3"/>
+<path class="h-tl" d="M196,138 L192,132.8 L200,132.8 Z"/>
+<rect class="safe" x="186" y="140" width="20" height="28" rx="3"/>
+<line class="door-s" x1="196" y1="144" x2="196" y2="164"/>
+<circle class="go" cx="220" cy="112" r="2.6"/>
+<line class="a-tl" style="stroke-width:1.8" x1="220" y1="116.6" x2="220" y2="133.3"/>
+<path class="h-tl" d="M220,138 L216,132.8 L224,132.8 Z"/>
+<rect class="safe" x="210" y="140" width="20" height="28" rx="3"/>
+<line class="door-s" x1="220" y1="144" x2="220" y2="164"/>
+<circle class="go" cx="244" cy="112" r="2.6"/>
+<line class="a-tl" style="stroke-width:1.8" x1="244" y1="116.6" x2="244" y2="133.3"/>
+<path class="h-tl" d="M244,138 L240,132.8 L248,132.8 Z"/>
+<rect class="safe" x="234" y="140" width="20" height="28" rx="3"/>
+<line class="door-s" x1="244" y1="144" x2="244" y2="164"/>
+<circle class="go" cx="262.5" cy="112" r="2.6"/>
+<path class="a-rd" style="stroke-width:2" d="M262.5,109.4 V23 A5.5,5.5 0 0 1 273.5,23 V133"/>
+<path class="h-rd" d="M273.5,138 L269.3,132.5 L277.7,132.5 Z"/>
+<path class="h-rd" d="M262.5,56.3 L258.3,61.8 L266.7,61.8 Z"/>
+<circle class="go" cx="286.5" cy="112" r="2.6"/>
+<path class="a-rd" style="stroke-width:2" d="M286.5,109.4 V23 A5.5,5.5 0 0 1 297.5,23 V133"/>
+<path class="h-rd" d="M297.5,138 L293.3,132.5 L301.7,132.5 Z"/>
+<path class="h-rd" d="M286.5,56.3 L282.3,61.8 L290.7,61.8 Z"/>
+<circle class="go" cx="310.5" cy="112" r="2.6"/>
+<path class="a-rd" style="stroke-width:2" d="M310.5,109.4 V23 A5.5,5.5 0 0 1 321.5,23 V133"/>
+<path class="h-rd" d="M321.5,138 L317.3,132.5 L325.7,132.5 Z"/>
+<path class="h-rd" d="M310.5,56.3 L306.3,61.8 L314.7,61.8 Z"/>
+<rect class="lost" x="258" y="140" width="20" height="28" rx="3"/>
+<path class="xx" style="stroke-width:2.4" d="M262.4,144.4 L273.6,163.6 M273.6,144.4 L262.4,163.6"/>
+<rect class="lost" x="282" y="140" width="20" height="28" rx="3"/>
+<path class="xx" style="stroke-width:2.4" d="M286.4,144.4 L297.6,163.6 M297.6,144.4 L286.4,163.6"/>
+<rect class="xu" x="306" y="140" width="20" height="28" rx="3"/>
+<path class="pot" d="M311.4,160.5 H320.6 L319.2,165.1 H312.8 Z"/>
+<path class="stem" style="stroke-width:1.2" d="M316,160.5 V150.4"/>
+<circle class="petal" cx="316" cy="145.7" r="2.1"/>
+<circle class="petal" cx="318.9" cy="147.8" r="2.1"/>
+<circle class="petal" cx="317.8" cy="151.1" r="2.1"/>
+<circle class="petal" cx="314.2" cy="151.1" r="2.1"/>
+<circle class="petal" cx="313.1" cy="147.8" r="2.1"/>
+<circle class="eye" cx="316" cy="148.7" r="1.4"/>
+<text class="rd b" x="254.5" y="46" text-anchor="end">多出的三部，被拉回十五楼</text>
+<text x="254.5" y="68" text-anchor="end">有满载的，也有人少的</text>
+<text class="b" x="42" y="102" text-anchor="start">十二部一起往下</text>
+<path class="brk" d="M42,177 V182 H254 V177"/>
+<path class="brk-r" d="M258,177 V182 H302 V177"/>
+<text class="tl b" x="140" y="204" text-anchor="middle">下到九楼，就只有九部安全</text>
+<text class="rd b" x="280" y="204" text-anchor="middle">人不见了</text>
+<line class="lead" x1="316" y1="174" x2="316" y2="209"/>
+<text class="br" x="338" y="226" text-anchor="end"><tspan class="b">徐获那部</tspan>：带着十三楼的花，没事</text>
+</svg></div></div></figure><h3 class="act" data-ch="203">超载的那一部</h3><p class="cv-prose an" data-ch="203">九楼，赌输的戴文谦把下一层交给徐获安排。有人嚷着回十三楼多搬些花。戴文谦擦着眼镜说不保险：大家都藏起来，那东西找不到目标，所有人就又成了目标，只能提前选好一个。徐获说，那就造一个。十五楼下十四楼那回，被挑走的正是超载的那一部，除了电梯数，超载可能也会招来袭击。戴文谦另有个更省事的办法：“每一层留下十三个人，或者杀掉十三个人”，剩下的人自然能平安到一楼。</p><p class="cv-prose an" data-ch="204">照规则，下八楼只有八部安全，九楼的人坐满八部还多出四个。徐获的办法是让一部电梯多装这四个人，超载当靶子，别的电梯照常坐满，不必留下谁。可这一部谁也不肯进。跟徐获作对的胡茬玩家铁哥头一个说不进，徐获只回了戴文谦一句：“反正你和你的朋友进去就行了。”戴文谦的笑容没了。徐获点了他和同伴、蒋艺华，又凑上几名玩家，一共八个，空位靠自愿补，十四楼替徐获说过话的中年女人带头站了出来。</p><p class="cv-prose an" data-ch="205">凌晨四点，这部电梯门一关就被猛地往上拉，快到十五楼时，厢顶连灯一起收开了。徐获把盾架在头顶，涌下来的却是水一样的透明黏液，转眼灌满电梯，把人一个个封住往上拖。他把一块斧头碎片含进嘴里，双手拱在口鼻前留一点空，觉出自己被拖进管道，飞快地往下滑。</p><p class="cv-prose an" data-ch="206">他划开外壳钻出来，人已经在一座巨大的玻璃花房里，裹着他的是一片大叶子。花房中央立着一株食人花，模样和电梯井里那种一样，个头大出十几倍，叶片上挂满白色的茧，有的里面是人骨，有的人化了一半。从电梯里失踪的那些人也在里面，都死透了。</p><p class="cv-prose an" data-ch="207">徐获猜，楼层和电梯里都装着感应设备，用来清点人数，被拉上十五楼的人，就成了管道里这株食人花的养分。他和戴文谦从茧里往外救人，已有人闷死。密丛里尽是变异动物，一行人逃进一间“假日小屋”，开了高亮灯才逼退它们。超载电梯里的十七个人，只剩下七个。</p><h3 class="act" data-ch="211">封死的窗户</h3><p class="cv-prose an" data-ch="211">八楼上，剩下的人在商量下一层留谁。铁哥一伙要定规矩挑人去死，护着普通人的女玩家谷雨顶了回去：照这样，到一楼只会剩下十三个人。大治提议从窗外走，抄起台灯扔了出去，楼下“砰”的一声，再没动静，铁哥他们看到了希望。到了七楼，他们就逼普通人爬窗下去探路。推搡中有人摔了出去，食人花随即破窗而入，一口气拖走七八个人，活着的只好躲进电梯井。</p><p class="cv-prose an" data-ch="212">徐获在花房里就起了疑：这栋楼也许整个裹在那株食人花里。它忽然朝大楼涌去，他们趁乱跑回楼里，徐获顺着电梯井爬上十三楼。外墙上食人花疯狂乱砸，十三楼的窗户却全封死了，它挤不进来。逃进电梯井的人陆续爬上来，铁哥也在其中。戴文谦早警告过别打外墙的主意，这回拧断了他的脖子。活下来的不足五十人。</p><p class="cv-prose an" data-ch="215">可十三楼自己也有毒。九楼那回，铁哥几人上来搬花，被金色粉末呛得涕泪横流，花房那株食人花的根上就沾着这种粉。戴文谦猜，根茎是顺着十三楼特有的通风管道钻进来的。徐获留在十三楼的手机录下了那一幕：通风口往外喷粉，正是夜里十点到凌晨四点之间。他判断，除了这个时段，十三楼暂时可以躲。此后众人白天躲在这里，夜里下到该在的楼层。</p><p class="cv-prose an" data-ch="218">最后一天，铁哥的同伙又带人溜出楼翻东西。黄昏时，楼下传来惨叫和兽吼。下午四点那趟电梯冲上十三楼，载来一群比楼里凶得多的变异动物。徐获拉下事先接好的电闸，众人把备好的水泼进电梯，电梯冒着火花直坠下去。混战过后刚喘口气，通风口的挡板又颤了起来，徐获脸色一变：爬过来的是食人花。众人从一部卡在半道的电梯爬上十五楼，躲进中间的办公室。</p><p class="cv-prose an" data-ch="218">深夜，混战里被咬烂双腿的一个玩家死了，将近两百人只剩二十多个。守在他身边的女玩家陈书说，早知道这样，还不如照电梯规则减少人数。徐获答：“不是到了一楼就绝对安全。”整栋楼血手印最多的电梯门，就在他们此刻躲着的十五楼。</p><h3 class="act" data-ch="204">根是红的</h3><p class="cv-prose an" data-ch="204">游戏背景里说，郝教授办的小花红红科研基地“得名于它培育出的第一株变异植物”，奇怪的是，那株植物开的花并不是红色。十一楼一具化开的尸体旁有本笔记，最后一页夹着一片风干的紫色花瓣。蒋艺华在十三楼一间玻璃房里见过这种小花，掩在别的紫花底下。她看得出能量值，别的紫花都有二十多，唯独它只有一点。徐获收起花瓣，九楼那回又上十三楼把那盆花带了下来，游戏只给了一句说明：“不明植物：没有名字，没有分类”。</p><p class="cv-prose an" data-ch="207">花房小屋里有张照片，一个中年男人和半人高的食人花站在一起，背后写着“与小花红红留影”。同行的玩家认定楼名就来自这种食人花，蒋艺华却笑郝教授是色盲：食人花明明是裸色的。</p><p class="cv-prose an" data-ch="219">七楼翻倒的推车里，只有那盆紫色小花埋在泥里没折，徐获拿塑料袋把它重新种好，蒋艺华这才看见它的根是红的。凌晨四点前，他蒙着口鼻回到十三楼，地上铺了一层金色粉末，通风管道被十多条根茎扎穿，翻倒的盆栽几乎全枯了。塑料袋里的小花沾了不少毒粉，却没有死。众人在黑暗里等的就是四点，他刚提起袋子，通关提示正好来了。</p><p class="cv-prose an" data-ch="219">回到家，画女（一个从画里出来的女人，靠打字说话）说她见过一样的花，只是“别人的花叶子都是红色的”。徐获觉得，楼名说的也许是这株花。他把它种进通关奖励的“营养小红盆”，花根上的红色，已经比在楼里时少了一截。</p></section><section id="recap" class="cv fgroup"><h2 class="sign cv-sign">经过速览</h2><p class="cv-prose an" data-ch="185">徐获在雨里追一个想强卖他花的卖花姑娘和她的壮汉同伴，自己又被悬赏抓他的旧邻居郑良一伙追着，绕着环道跑了很久。</p><p class="cv-prose an" data-ch="191">马路上忽然起雾，一群人连人带车被吸进小花红红大楼，下楼的头一程，十四楼的吸血蜘蛛就咬死了四十七个人。</p><p class="cv-prose an" data-ch="215">九楼往下，徐获带人坐进故意超载的那部电梯，被拖进楼后的玻璃花房，逃进一间小屋后，他没要进化剂，只拿了几支植物营养剂，又把分到的解毒剂打给了一个受伤的普通女人。</p><p class="cv-prose an" data-ch="218">最后一夜，藏在普通人里、带头分食物的玩家康弘被变异动物咬烂双腿，没能熬到天亮。</p><p class="cv-prose an" data-ch="218">卖花姑娘蒋艺华的同伴大治被一串想活命的人拖向电梯井，她冲下面说了句“先生，买束花吧”，那几人像被定住似的僵了一下，大治趁机用卡牌变出老虎，把人全顶了下去。</p><p class="cv-prose an" data-ch="219">凌晨四点前通关后，徐获回到家，刚把那盆花放上阳台，官方的吴组长就打来电话：这次本该出来的玩家，少了两个。</p></section><section id="cast" class="cv fgroup"><h2 class="sign cv-sign">人物</h2><div class="pp-grid"><div class="pp" data-ch="185"><div class="pp-early" data-until="218"><b class="pp-name"><a href="../people.html?upto=219#person-%E9%83%91%E8%89%AF">郑良</a>、<a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a></b><p class="pp-id">徐获的旧邻居，谷雨的同伴。</p><p class="pp-id">从京市来的大明星，也是玩家。</p><ul class="pp-ties"><li data-ch="190"><span class="text"><a href="../people.html?upto=219#person-%E9%83%91%E8%89%AF">郑良</a> → 救命 → <a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span></li><li data-ch="209"><span class="text">铁哥 — 两派 — <a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span></li><li data-ch="214"><span class="text"><a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a> — 合作 — <a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a></span></li><li data-ch="217"><span class="text"><a href="../people.html?upto=219#person-%E9%83%91%E8%89%AF">郑良</a> — 旧仇·并肩 — <a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a></span></li></ul></div><div data-ch="218"><b class="pp-name"><a href="../people.html?upto=219#person-%E9%83%91%E8%89%AF">郑良</a>、<a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a></b><p>自由玩家组织的人，郑良悬赏追徐获，谷雨开车追在后面，一起被吸进大楼；谷雨后来带人护着普通人。两人都撑到了最后一夜。</p></div></div><div class="pp" data-ch="187"><div class="pp-early" data-until="212"><b class="pp-name">铁哥</b><p class="pp-id">谷雨他们组织里的胡茬玩家，进了大楼就要找徐获算账；他用铁片撬开电梯门，被电梯井里伸出的肉色吸盘裹住了头，众人合力才把他拉出来。</p><ul class="pp-ties"><li data-ch="203"><span class="text">铁哥 — 一伙 — 张彪</span></li><li data-ch="209"><span class="text">铁哥 — 两派 — <a href="../people.html?upto=219#person-%E8%B0%B7%E9%9B%A8">谷雨</a></span></li><li data-ch="212"><span class="text"><a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a> → 拧断脖子 → 铁哥</span></li></ul></div><div data-ch="212"><b class="pp-name">铁哥</b><p>组织里的胡茬玩家，一路与徐获作对，带着自己那一派商量每层挑人去死，又逼人从窗外探路，引来了破窗的食人花。被戴文谦拧断脖子。</p></div></div><div class="pp" data-ch="187"><div class="pp-early" data-until="218"><b class="pp-name">嘴角带痣的玩家</b><p class="pp-id">组织里嘴角带痣的玩家，附和铁哥，说他们有十多个人，副本只要待九十个小时，碰上变异动物也对付得了；普通人求玩家别丢下他们，他说玩家没有义务保护他们。</p><ul class="pp-ties"><li data-ch="203"><span class="text">铁哥 — 一伙 — 张彪</span></li></ul></div><div data-ch="218"><b class="pp-name">张彪</b><p>组织里嘴角带痣的玩家。任务要人在楼里待满九十小时，他却和光头玩家两次带人溜出大楼找食物，第二次引来一群凶猛的异种追上十三楼；他被咬伤肩膀，撑到了最后一夜。</p></div></div><div class="pp" data-ch="190"><div class="pp-early" data-until="218"><b class="pp-name"><span data-until="194">戴文谦</span><a data-ch="194" href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a></b><p class="pp-id">组织里较年长的眼镜玩家；徐获走进电梯时，他也走进了另一部，说从电梯下去还有活路，被逼到跳楼就只有死了。</p><p class="pp-id" data-ch="194">郑良那伙人里较年长的眼镜玩家，冷静狠辣；玻璃瓶里的药剂能让变异动物迟钝。</p><ul class="pp-ties"><li data-ch="198"><span class="text"><a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a> — 同伴 — 孙茂</span></li><li data-ch="212"><span class="text"><a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a> → 拧断脖子 → 铁哥</span></li><li data-ch="215"><span class="text"><a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a> — 打赌·互相牵制 — <a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a></span></li></ul></div><div data-ch="218"><b class="pp-name"><a href="../people.html?upto=219#person-%E6%88%B4%E6%96%87%E8%B0%A6">戴文谦</a></b><p>组织里较年长的眼镜玩家，冷静狠辣，与徐获打赌电梯、合作对付食人花；他说眼下加入国家队最明智，徐获猜他想先争取个好条件。他撑到了最后一夜。</p></div></div><div class="pp" data-ch="192"><div class="pp-early" data-until="218"><b class="pp-name">卖花姑娘和壮汉同伴</b><p class="pp-id">被徐获一路追上、截住的卖花姑娘和她的壮汉同伴，跟他一起被卷进了副本；她讨了徐获的饮料给同伴喝，又塞给他三颗能量胶囊赔罪。</p><ul class="pp-ties"><li data-ch="197"><span class="text"><a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a> — 化敌为友 — 蒋艺华</span></li><li data-ch="218"><span class="text">蒋艺华 — 同伙 — 大治</span></li></ul></div><div data-ch="218"><b class="pp-name">蒋艺华、大治</b><p>设伏徐获的卖花姑娘和她的外国壮汉同伴，后来跟着徐获钻电梯井。她能看见能量值，他的纸牌能变出猛兽；她随徐获挤进了超载电梯，他留在楼里，两人都熬过了最后一夜。</p></div></div><div class="pp" data-ch="188"><div class="pp-early" data-until="213"><b class="pp-name">魏彬</b><p class="pp-id">组织里的眼镜玩家，众人商量怎么防备时，他提议把电梯门封起来，又贴着电梯缝使劲闻了闻，说至少里面没有毒气。</p><ul class="pp-ties"><li data-ch="204"><span class="text">魏彬 → 试毒气 → <a href="../people.html?upto=219#person-%E5%BE%90%E8%8E%B7">徐获</a></span></li></ul></div><div data-ch="213"><b class="pp-name">魏彬</b><p>谷雨一派的眼镜玩家，对毒气有耐受力，进了超载电梯，后来跟戴文谦走绿门受了重伤。此后原文没再提到他。</p></div></div><div class="pp" data-ch="189"><div class="pp-early" data-until="218"><b class="pp-name">康弘</b><p class="pp-id">背着背包的中年人，劝被卷进来的普通人别乱走、别乱碰东西，又带头把大家带进来的食物归拢起来分。</p><ul class="pp-ties"><li data-ch="218"><span class="text">陈书 → 救命 → 康弘</span></li></ul></div><div data-ch="218"><b class="pp-name">康弘</b><p>带着普通人归拢食物的中年人，被徐获点破是隐藏的<a class="term" href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B" title="杀过人的玩家，肩后编号是黑色。">黑色玩家</a>，自愿进超载电梯。双腿被异种咬烂，死在十五楼。</p></div></div><div class="pp" data-ch="189"><div class="pp-early" data-until="218"><b class="pp-name">高挑的女人</b><p class="pp-id">和普通人待在一起的高挑女人，自称登山运动员，体力好，分食物时不要自己那份，请康弘多给身边哺乳期的妈妈一点。</p><ul class="pp-ties"><li data-ch="218"><span class="text">陈书 → 救命 → 康弘</span></li></ul></div><div data-ch="218"><b class="pp-name">陈书</b><p>自称登山运动员的高挑女子，被徐获点破是隐藏的E级<a class="term" href="../world.html#world-%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B" title="既没吃过人也没杀过人的玩家，肩后编号是白色。">白色玩家</a>，和谷雨等人一起护着普通人。她撑到了最后一夜。</p></div></div><div class="pp" data-ch="189"><div class="pp-early" data-until="218"><b class="pp-name">有钱小姑娘</b><p class="pp-id">被卷进大楼的普通人小姑娘，求玩家们千万别丢下他们，说她家很有钱；她跑到徐获面前，说只要能保她出去，给一千万、两千万都行，之后一直跟在他身后。</p></div><div data-ch="218"><b class="pp-name">有钱小姑娘</b><p>一开始就说要花一两千万请徐获保她出去的普通人。她活到了最后，还说出去后想当玩家。</p></div></div></div></section><section id="relations" class="cv fgroup"><h2 class="sign cv-sign">关系</h2><p class="legend"><span data-ch="190"><i style="border-color:var(--rel-ally)"></i>同伴</span><span data-ch="209"><i style="border-color:var(--rel-enemy)"></i>冲突</span><span data-ch="212"><i style="border-color:var(--rel-kill)"></i>杀死</span><span data-ch="215"><i style="border-color:var(--rel-other)"></i>其他往来</span><span data-ch="190">→ 箭头从做事的一方指向承受的一方</span></p><div class="cv-graph"><svg viewBox="0 0 900 560" role="img" aria-label="关系图"><defs>
 <marker id="cv-arrow-ally" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-ally)"/></marker>
 <marker id="cv-arrow-enemy" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-enemy)"/></marker>
 <marker id="cv-arrow-kill" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rel-kill)"/></marker>
@@ -922,7 +1180,7 @@ a.end-board:focus-visible { outline:2px solid var(--amber); outline-offset:6px; 
   var box = doc.getElementById('wdzx-upto'), clear = doc.getElementById('wdzx-clear'), banner = doc.getElementById('wdzx-banner');
   var status = doc.getElementById('wdzx-status'), note = doc.getElementById('wdzx-note');
   var me = doc.getElementById('wdzx-me'), tools = doc.getElementById('wdzx-tools');   // the phone rail's button and what it opens
-  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('max') || Infinity;
+  var off = doc.body.dataset.progress === 'off', reach = +box.getAttribute('data-reach') || Infinity;
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function put(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
   function valid(n) { return n >= 1 && n <= reach; }
@@ -1076,13 +1334,17 @@ a.end-board:focus-visible { outline:2px solid var(--amber); outline-offset:6px; 
     if (mode === 'chapter' && n === mine && !query) { fill(); return; }
     set('chapter', n);
   }
+  function typed() {   // the box as a chapter's digits: full-width ones as ASCII, spaces and a 第…章 around them dropped
+    return box.value.replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/\s+/g, '').replace(/^第/, '').replace(/章$/, '');
+  }
   function commit() {   // blur or Enter
-    var text = box.value.trim(), n = Number(text), bad = box.validity && box.validity.badInput;
-    if (!bad && !text) {   // emptied: the saved chapter shows in grey, the box red
+    var raw = box.value.trim(), text = typed(), n = Number(text);
+    if (!raw) {   // emptied: the saved chapter shows in grey, the box red
       if (mode === 'chapter') { box.placeholder = mine; refuse('删空不会清除进度'); } else fill();
       return;
     }
-    if (bad || !(n >= 1) || n !== Math.floor(n)) { refuse(text ? '“' + text + '”不是章号' : '这不是章号'); return; }
+    if (!/^\d+$/.test(text) || !(n >= 1)) { refuse('“' + raw + '”不是章号'); return; }
     if (n > reach) {
       if (n >= 10000 || n > reach + 50) { ask(n, text); return; }
       set(LATEST);
@@ -1091,22 +1353,33 @@ a.end-board:focus-visible { outline:2px solid var(--amber); outline-offset:6px; 
     }
     take(n);
   }
-  box.addEventListener('change', commit);   // blur, Enter, the arrows: a chapter typed digit by digit is taken whole
+  function whole() { try { box.setSelectionRange(0, box.value.length); } catch (e) { box.select(); } }   // iOS ignores select()
+  box.addEventListener('change', commit);   // blur or Enter: a chapter typed digit by digit is taken whole
   box.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') { commit(); box.select(); }   // what is typed next replaces it too
+    if (e.key === 'Enter') { commit(); whole(); }   // what is typed next replaces it too
     else if (e.key === 'Escape' && box.value !== (mode === 'chapter' ? String(mine) : '')) {   // Esc: what was typed goes
       e.stopPropagation(); if (asking || box.classList.contains('bad')) { asking = false; note.hidden = true; }
-      fill(); box.select();
+      fill(); whole();
+    } else if ((e.key === 'ArrowUp' || e.key === 'ArrowDown') && !(e.altKey || e.ctrlKey || e.metaKey || e.shiftKey)) {
+      var t = typed(), at = /^\d+$/.test(t) && +t >= 1 ? +t : mode === 'chapter' ? mine : mode === LATEST ? reach + 1 : 0;
+      var to = at + (e.key === 'ArrowUp' ? 1 : -1);   // a chapter on or back, as the number box stepped; with nothing set the
+      e.preventDefault();   // arrows start nothing, and from 已追平 ↓ goes to the last chapter
+      if (at && to >= 1 && to <= reach && isFinite(to)) { box.value = to; commit(); whole(); }
     }
   });
-  var focusing = false;   // the box selects its value as it takes the focus; the click that gave it would put the caret back
+  var focusing = false;   // the box selects its value as it takes the focus; the click or tap that gave it would put the caret back
   box.addEventListener('mousedown', function () { focusing = doc.activeElement !== box; });
-  box.addEventListener('focus', function () { box.select(); });
+  box.addEventListener('focus', function () {
+    var v = box.value; whole();
+    [0, 150].forEach(function (ms) {   // iOS Safari puts the caret where the finger was after this event: select once more
+      setTimeout(function () { if (doc.activeElement === box && box.value === v) whole(); }, ms);
+    });
+  });
   box.addEventListener('mouseup', function (e) { if (focusing) e.preventDefault(); focusing = false; });
   box.addEventListener('input', function () {   // typing: nothing taken yet, the red mark and the question go; the box back at
     mark('');   // the saved value (a card's 按进度收起 sends 'input') applies it again
     if (asking) { asking = false; note.hidden = true; }
-    if (box.value === (mode === 'chapter' ? String(mine) : '') && !(box.validity && box.validity.badInput)) apply();
+    if (box.value === (mode === 'chapter' ? String(mine) : '')) apply();
   });
   clear.addEventListener('click', function () { set('none'); });
   function toolsOpen(on) {   // phones: the row of the box and the switches under the rail
